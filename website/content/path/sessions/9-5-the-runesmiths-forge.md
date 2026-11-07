@@ -1,477 +1,394 @@
 ---
 editorial: true
 title: The Runesmith's Forge
-subtitle: TypeScript Conversion and Design Doc
-hook: "A reviewed TypeScript migration and a capstone architecture decision record. Freeze working behavior and identify public contracts."
+subtitle: TypeScript conversion and design doc
+hook: "The guild hall works and has tests. Today you convert it to TypeScript in place, one boundary at a time, with the Unit 7 suite as the proof that nothing changed, and you record why the capstone will not get the same treatment."
 read: 60
-artifact: "A reviewed TypeScript migration and a capstone architecture decision record"
+artifact: "hall-api converted to TypeScript on a merged branch, with src/ compiled to dist/, the Unit 7 tests passing, and ADR-2 in the capstone's docs/system-design.md"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html
+  - https://www.typescriptlang.org/tsconfig/module.html
+  - https://www.typescriptlang.org/docs/handbook/declaration-merging.html
+  - https://mongoosejs.com/docs/typescript.html
+  - https://expressjs.com/en/guide/error-handling.html
+  - https://nodejs.org/api/cli.html#--env-file-if-existsconfig
 say:
-  - "Baseline: Freeze working behavior and identify public contracts."
-  - "Migrate: Type one boundary at a time with strict checking."
-  - "Explain: Connect the implementation to an architecture decision."
+  - "Freeze the behavior first: the tests from Unit 7 are the baseline."
+  - "Rename, then type one boundary at a time; a rename commit has no behavior in it."
+  - "Every any that survives has a name and a reason, or it is not finished."
 ---
 
 ## The hook
 
-Welcome to the Forge. This is build day. For four sessions you have studied the ancient runes of TypeScript, survived the trials of data structures and algorithms, and mapped the grand architecture of scalable systems. Today you put it all together. You are going to take a real JavaScript project you built in a previous unit and convert it to TypeScript. You are going to type your React components, your Express routes, your Mongoose models. And you are going to finalize your system design document.
+The hall's `app.js` is a few hundred lines you wrote in Unit 4 and tested in Unit 7. It knows what a message looks like, what a holding is, and that `req.userId` exists after `requireUser`, but it knows those things the way you do, by memory. Today the compiler learns them too. You convert `hall-api` to TypeScript in place: a `tsconfig.json` built for CommonJS, `server.js` and `app.js` moved into `src/`, types on the models, the routes, and the middleware, and a `dist/` folder that `node` runs exactly as it ran the old files.
 
-This is not a lecture-heavy session. This is a working session. I will walk you through the conversion process step by step, show you the common patterns for typing React and Express, and then you are on your own with support. By the end of today, you will have a TypeScript project that compiles with zero errors and a system design document that shows you can think at scale. These two artifacts together prove something important: you can write production-quality code AND think about architecture. That is what makes a technical co-founder.
+The rule for the whole session is that behavior does not change. The Unit 7 suite ran green before the branch and runs green after it, against the same routes and the same test database. A migration that changes a status code has smuggled a product change under a wall of renamed files. The forge turns the same metal into a stronger shape; it does not forge a different sword. At the end you add a second decision record to the capstone's design document explaining the choice you are about to make for Unit 10: the capstone is written in JavaScript, and TypeScript stays optional there.
 
-Let us fire up the forge.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The smith does not test the new blade on a stranger. He tests it on the cut he already knows.*
 
 ## The idea
 
-### Create a TypeScript Migration of an Existing JavaScript Project
-You will convert an existing JavaScript project to TypeScript, applying proper type annotations, interfaces, and configuration to produce a fully typed, compiling codebase alongside a system design document.
+A migration has three stages. Baseline: freeze the working behavior and list the public contracts, which for the hall are twelve routes, their status codes, and their JSON bodies, already written down in `HALL.md` and enforced by `tests/`. Migrate: rename and then type one boundary at a time with strict checking on, fixing what the compiler finds and investigating each finding rather than silencing it. Explain: connect the result to an architecture decision, so the next person knows why the server is typed and the capstone is not. The [migration guide](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html) describes the same stages in the compiler's words.
 
-**Enabling Objectives:**
-- Configure tsconfig.json for a full-stack project (React frontend + Express backend)
-- Create TypeScript interfaces for all data models, API request/response shapes, and component props
-- Type Express routes, middleware, and Mongoose models using TypeScript
-- Type React components including props interfaces, state types, event handlers, and hooks
-- Write a system design document that includes architecture diagrams, scaling strategy, and technology justifications
+The compiler's findings are evidence, not obstacles. Under `strict`, a reported "possibly undefined" means one of three things: the absence is real and the code must handle it, the absence is impossible and a check upstream should say so where the compiler can see it, or the type is wrong. Each one is a decision. A non-null assertion or an `any` skips the decision and keeps the risk. The forge is finished when the holes that remain are named, not when `tsc` exits quietly.
 
-**You should be able to:**
-- Convert a JavaScript project to TypeScript with zero compilation errors
-- Write a system design document suitable for a technical co-founder portfolio
-- Produce architecture diagrams that communicate system structure clearly
-
----
-
-**The TypeScript Conversion Process**
-
-Converting a JavaScript project to TypeScript is a systematic process. Do not try to type everything at once. Follow this order:
-
-```
-Step 1: Setup
-  - Install TypeScript and type definitions
-  - Create tsconfig.json
-  - Rename files from .js/.jsx to .ts/.tsx
-
-Step 2: Fix compilation errors in one migrated module (keep strict checking enabled)
-  - Add basic type annotations to fix the most obvious errors
-  - Use unknown at untrusted boundaries, then narrow with runtime checks
-
-Step 3: Type your data models first
-  - Create interfaces for your database models
-  - Create interfaces for API request/response shapes
-  - These types flow through your entire application
-
-Step 4: Type your backend
-  - Express route handlers
-  - Middleware
-  - Database queries
-
-Step 5: Type your frontend
-  - React component props
-  - State types
-  - Event handlers
-
-Step 6: Enable strict mode
-  - Set strict: true in tsconfig.json
-  - Fix all remaining errors
-  - Replace any remaining 'any' types with proper types
-```
-
-**Setting Up tsconfig for a Full-Stack Project**
-
-Backend tsconfig (Express + Node):
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ES2020"],
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "declaration": true,
-    "sourceMap": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
-}
-```
-
-Frontend tsconfig (React with Vite or CRA):
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
-}
-```
-
-Required type definition packages:
-
-```bash
-# Backend
-npm install --save-dev @types/node @types/express @types/cors @types/morgan
-
-# Frontend (if using CRA or manual setup)
-npm install --save-dev @types/react @types/react-dom
-
-# Database
-npm install --save-dev @types/mongoose  # if using Mongoose < v7 (v7+ has built-in types)
-
-# Testing
-npm install --save-dev @types/jest
-```
-
-**Typing Express Routes and Middleware**
-
-```typescript
-import express, { Request, Response, NextFunction } from "express";
-
-// Define your request/response types
-interface CreateUserRequest {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface UserResponse {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: Date;
-}
-
-interface ApiError {
-  message: string;
-  status: number;
-}
-
-// Typed route handler
-const createUser = async (
-  req: Request<{}, UserResponse, CreateUserRequest>,
-  res: Response<UserResponse | ApiError>
-): Promise<void> => {
-  try {
-    const { name, email, password } = req.body;
-
-    // Validation
-    if (!name || !email || !password) {
-      res.status(400).json({ message: "All fields required", status: 400 });
-      return;
-    }
-
-    // Create user (database call)
-    const user = await User.create({ name, email, password });
-
-    res.status(201).json({
-      id: user._id.toString(),
-      name: user.name,
-      email: user.email,
-      createdAt: user.createdAt
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", status: 500 });
-  }
-};
-
-// Typed middleware
-interface AuthRequest extends Request {
-  userId?: string;
-}
-
-const authMiddleware = (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-): void => {
-  const token = req.headers.authorization?.split(" ")[1];
-
-  if (!token) {
-    res.status(401).json({ message: "No token provided", status: 401 });
-    return;
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
-    req.userId = decoded.userId;
-    next();
-  } catch {
-    res.status(401).json({ message: "Invalid token", status: 401 });
-  }
-};
-
-// Typed route params
-interface PostParams {
-  id: string;
-}
-
-const getPost = async (
-  req: Request<PostParams>,
-  res: Response
-): Promise<void> => {
-  const { id } = req.params; // TypeScript knows id is string
-  const post = await Post.findById(id);
-
-  if (!post) {
-    res.status(404).json({ message: "Post not found" });
-    return;
-  }
-
-  res.json(post);
-};
-```
-
-**Typing Mongoose Models**
-
-```typescript
-import mongoose, { Schema, Document, Model } from "mongoose";
-
-// Define the interface for your document
-interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  avatar?: string;
-  role: "user" | "admin" | "moderator";
-  createdAt: Date;
-  updatedAt: Date;
-  comparePassword(candidatePassword: string): Promise<boolean>;
-}
-
-// Define the schema
-const userSchema = new Schema<IUser>(
-  {
-    name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, required: true, minlength: 6 },
-    avatar: { type: String },
-    role: {
-      type: String,
-      enum: ["user", "admin", "moderator"],
-      default: "user"
-    }
-  },
-  { timestamps: true }
-);
-
-// Add methods with types
-userSchema.methods.comparePassword = async function (
-  candidatePassword: string
-): Promise<boolean> {
-  return bcrypt.compare(candidatePassword, this.password);
-};
-
-// Create and export the typed model
-const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);
-export default User;
-```
-
-**Typing React Components**
-
-```tsx
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
-
-// Props interface
-interface ProfileCardProps {
-  name: string;
-  email: string;
-  avatar?: string;
-  bio: string;
-  isOnline: boolean;
-  onEdit: (field: string, value: string) => void;
-  onDelete: () => void;
-}
-
-// Typed functional component
-const ProfileCard: React.FC<ProfileCardProps> = ({
-  name,
-  email,
-  avatar,
-  bio,
-  isOnline,
-  onEdit,
-  onDelete
-}) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editValue, setEditValue] = useState<string>("");
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setEditValue(e.target.value);
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    onEdit("bio", editValue);
-    setIsEditing(false);
-  };
-
-  return (
-    <div className="profile-card">
-      <img src={avatar || "/default-avatar.png"} alt={name} />
-      <h2>{name}</h2>
-      <p>{email}</p>
-      <span className={isOnline ? "online" : "offline"}>
-        {isOnline ? "Online" : "Offline"}
-      </span>
-      {isEditing ? (
-        <form onSubmit={handleSubmit}>
-          <input value={editValue} onChange={handleChange} />
-          <button type="submit">Save</button>
-        </form>
-      ) : (
-        <p onClick={() => setIsEditing(true)}>{bio}</p>
-      )}
-      <button onClick={onDelete}>Delete</button>
-    </div>
-  );
-};
-
-export default ProfileCard;
-```
-
-```tsx
-// Typing hooks: useState with complex types
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  author: string;
-  createdAt: string;
-}
-
-const Feed: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchPosts = async (): Promise<void> => {
-      try {
-        const response = await fetch("/api/posts");
-        if (!response.ok) throw new Error("Failed to fetch");
-        const data: Post[] = await response.json();
-        setPosts(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Unknown error");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
-  return (
-    <div>
-      {posts.map((post) => (
-        <article key={post.id}>
-          <h2>{post.title}</h2>
-          <p>{post.content}</p>
-          <small>By {post.author} on {post.createdAt}</small>
-        </article>
-      ))}
-    </div>
-  );
-};
-```
+What you should be able to draw on a napkin: tests green on `main`; a branch; `git mv` into `src/`; a tsconfig for CommonJS with `rootDir` and `outDir`; types from the inside out, models, then middleware, then handlers, then the two files that export and listen; `npm run build` to `dist/`; tests pointed at `dist/`; green again; merge; one decision record.
 
 ![](diagram:session-9-5/fig1-model)
 
-### Choose a migration boundary with a reason
+### Why this tsconfig differs from the practice project
 
-Begin with a module that has a clear contract and useful tests. A domain calculation, API response parser, or service interface is a better first target than renaming every file at once. Capture the current behavior and note known defects separately. A migration should not accidentally redefine the product because the compiler made one representation easier to express.
+`typescript-practice` is an ES module project that Node can run without compiling. The hall is a CommonJS project, `require` and `module.exports`, started with `node --env-file=.env server.js`, deployed in Unit 6 the same way, and tested by Jest through `require('../app')`. Keeping it CommonJS keeps every one of those contracts. The [module page](https://www.typescriptlang.org/tsconfig/module.html) explains the setting: `"module": "commonjs"` makes the compiler emit `require` calls from `import` statements, and `esModuleInterop` makes `import express from 'express'` work with a package that exports a function the CommonJS way.
 
-List the module's inputs, outputs, side effects, and consumers. Identify where data enters from the network, storage, or user input. Those values require runtime validation even after their internal representation is typed. Distinguish a type declaration from a parser. The former helps the compiler reason; the latter examines actual values. Keep both responsibilities visible in the migrated design.
+That choice has a consequence for how the hall runs. Node's type stripping does not turn `import` into `require`, so a CommonJS `.ts` file written with `import` cannot be run with `node src/server.ts`. The hall always compiles: `npm run build` runs `tsc`, `dist/server.js` is what `node` starts, and `dist/app.js` is what the tests require. A build step is a small price for keeping Unit 6 and Unit 7 untouched, and it is the same build step Railway runs when it sees a `build` script.
 
-### Use compiler feedback as investigation
+`rootDir` is `src` and `outDir` is `dist`, so `src/app.ts` becomes `dist/app.js`, and the first move of the migration is `git mv` of the two files into `src/`. The test files stay in `tests/` as JavaScript. They are the baseline, and the baseline does not get edited beyond one path.
 
-When strict checking reports a possible undefined value, inspect whether absence is legitimate. If it is, model and handle it. If it is not, move the guarantee to a boundary where it can be established. A non-null assertion may occasionally express a real invariant, but it should not become the default way to silence errors. Each escape hatch deserves a reason and a follow-up if it represents temporary debt.
+### Types from the inside out
 
-Convert shared contracts before duplicating them across client and server. Shared types can reduce naming mismatches, but they do not replace versioning or validation between independently deployed services. A browser can still send old or malicious data. Keep server checks authoritative. If your build configuration differs between environments, separate configuration files rather than forcing incompatible settings into one universal file.
+Models first, because their types flow everywhere. Mongoose's [TypeScript page](https://mongoosejs.com/docs/typescript.html) recommends a plain interface for the document's fields and `new Schema<User>(...)`, not an interface that extends `Document`. References are `Types.ObjectId`. A literal union for `kind` matches the schema's `enum` and lets the compiler refuse `'scroll'` before Mongoose does. `mongoose.model<User>('User', userSchema)` returns a typed model, so `UserModel.findOne({ email })` resolves to a hydrated document with `name`, `email`, and `passwordHash` known.
 
-### Keep changes reviewable
+Middleware next. `requireUser` sets `req.userId`, and Express's `Request` type has no such field. Adding it is declaration merging, from the [declaration merging page](https://www.typescriptlang.org/docs/handbook/declaration-merging.html): a file `src/express.d.ts` declares `namespace Express { interface Request { userId?: string } }` inside `declare global`, and every `Request` in the project gains the optional field. It is optional because it is absent until the middleware runs. Handlers mounted behind `requireUser` read it through a tiny helper that throws a 401 if it is missing, which is a check the compiler can see, instead of `req.userId!`, which is a promise it cannot.
 
-Make a small sequence of commits or clearly separated patches: configuration, one module conversion, consumer updates, and validation tests. Avoid mixing a large behavior rewrite with the type migration unless the task explicitly requires it. A reviewer should be able to distinguish a type improvement from a product change. Run the existing behavior tests after each meaningful slice.
+`jwt.verify` returns `string | JwtPayload`, and `payload.sub` is `string | undefined`. That is the library telling you the truth: a token's subject is not guaranteed. The middleware narrows both before it trusts the id. `req.body` is typed `any` by Express, which is also the truth: the parser gives you whatever the client sent. The handlers keep the `typeof` checks they already had, pulled into two helpers, `readString` and `readAmount`, so `any` stops at the first line of each handler.
 
-Document compiler and runtime commands for manual setup. If the required TypeScript toolchain is not installed, mark compiler execution pending and do not infer success from syntax coloring in the editor. The browser checkpoint in this lesson checks a runtime concept only. Your final local submission should include actual compiler output once you have installed and run the toolchain yourself.
+Errors last. The hall's handlers threw `Error` objects with a `status` stuck on; `Error` has no `status` in the type, so the fix is a small `HttpError` class with a numeric `status`. The error handler takes `err: unknown`, because anything can be thrown, and narrows with `instanceof`. The [Express error-handling guide](https://expressjs.com/en/guide/error-handling.html) still applies: four parameters, mounted last, and Express 5 forwards a rejected promise on its own.
 
-### Write one architecture decision record
+### The seam that stays JavaScript
 
-Choose a decision you actually made: where validation lives, whether the client and server share types, or why a service remains inside the monolith. State the context, alternatives, decision, consequences, and a condition that would trigger reconsideration. A decision record is not a list of technologies. It explains why the chosen structure fits the current constraints.
-
-Trace a concrete request through the architecture diagram and the implementation. Name the entry point, validation boundary, authorization check, persistence call, and response model. If the diagram shows a queue that the code does not use, remove it or mark it explicitly as a future option. The document must describe the system you built, with future ideas clearly separated.
-
-### Review with a change scenario
-
-Ask a peer how the system would handle a new optional field or a new status value. Which files change? Which tests fail? Which external contract needs versioning? This exercise reveals whether the types clarify the architecture or merely add syntax. Update the design record with one limitation discovered during review. The finished artifact combines code, evidence, and explanation in a form another developer can maintain.
+The decision for Unit 10 is made here, in the open. The capstone is scaffolded in [10-1](/path/10-1-barrier-magic/) as CommonJS JavaScript, the same shape as `hall-api` before today, with the user model, register, login, and `requireUser` copied from the hall as the pattern. TypeScript stays optional in the capstone. The reasons go into ADR-2: four sessions of Unit 10 add Stripe, an AI feature, hardening, and a deploy, and every one of those has JavaScript examples in its official docs that you can paste and run without a build; the conversion you do today proves you can type a working server later, on your own, when the capstone is stable; and a build step on the capstone is a decision the capstone's design document should record when its owner wants it, not inherit by accident. If you want the capstone in TypeScript anyway, the recipe is this session, applied in Unit 12 after the tests exist.
 
 ## The demonstration
 
-**Live Conversion: Express API Route**
+Everything happens in `~/projects/hall-api`, with `mongod` running on `127.0.0.1:27017` and no hall process running. Baseline first.
 
-Convert one real Express route from JavaScript to TypeScript, in this order:
+```bash
+cd ~/projects/hall-api
+git switch main
+git status
+npm test
+```
 
-1. Rename the file from `.js` to `.ts`
-2. Add imports with types
-3. Create interfaces for request/response shapes
-4. Add type annotations to route handlers
-5. Fix compilation errors
-6. Run `tsc --noEmit` to verify
+The working tree is clean and Jest prints its `Tests:` line with every test passing. Write that line down; it is the number you must see again. Then the branch and the tools.
 
-**Live Conversion: React Component**
+```bash
+git switch -c typescript
+npm install --save-dev typescript @types/node@24 @types/express @types/cors @types/bcrypt @types/jsonwebtoken
+```
 
-Convert one React component from `.jsx` to `.tsx`:
+Mongoose ships its own types, so there is no `@types/mongoose`; the package by that name is a frozen stub from years ago, and installing it breaks the real types. Now the config, written by hand rather than from `tsc --init`, because the generated file targets a different kind of project:
 
-1. Rename the file
-2. Create a props interface
-3. Add types to useState hooks
-4. Type event handlers
-5. Fix any remaining errors
+```json
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["src"]
+}
+```
 
-### Runnable checkpoint: a small model
+The rename, with no behavior in it:
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+```bash
+mkdir src
+git mv app.js src/app.ts
+git mv server.js src/server.ts
+printf 'dist/\n' >> .gitignore
+git commit -am "Move app and server into src as TypeScript (no behavior change)"
+```
+
+`npx tsc --noEmit` now prints a page of errors. That page is the work list, and it is shorter than it looks: the same three fixes repeat. Here is each kind once. First the augmentation, `src/express.d.ts`:
+
+```ts
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string;
+    }
+  }
+}
+
+export {};
+```
+
+The `export {}` makes the file a module so `declare global` is allowed. Then the top of `src/app.ts`: `require` lines become imports, and the schemas get interfaces.
+
+```ts
+import express from 'express';
+import type { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import mongoose, { Schema, Types } from 'mongoose';
+
+const app = express();
+const pageOrigin = process.env.PAGE_ORIGIN || 'http://localhost:5173';
+
+app.use(cors({ origin: pageOrigin }));
+app.use(express.json());
+
+interface User {
+  name: string;
+  email: string;
+  passwordHash: string;
+}
+
+interface Message {
+  sender: Types.ObjectId;
+  recipient: Types.ObjectId;
+  body: string;
+}
+
+type ItemKind = 'potion' | 'weapon' | 'armor';
+
+interface Item {
+  name: string;
+  kind: ItemKind;
+}
+
+interface Holding {
+  owner: Types.ObjectId;
+  item: Types.ObjectId;
+  qty: number;
+}
+
+const userSchema = new Schema<User>({
+  name: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  passwordHash: { type: String, required: true }
+});
+
+const UserModel = mongoose.model<User>('User', userSchema);
+```
+
+The other three schemas take `Schema<Message>`, `Schema<Item>`, and `Schema<Holding>` the same way, with their fields unchanged, and `holdingSchema.index({ owner: 1, item: 1 }, { unique: true })` stays exactly as it was. The models are renamed `UserModel`, `MessageModel`, `ItemModel`, `HoldingModel` so the interface and the model do not fight over one name; the registered Mongoose name, `'User'`, does not change, which matters because `tests/helpers.js` looks it up by that string.
+
+Next the helpers that stop `any` and name the errors, placed above the middleware:
+
+```ts
+class HttpError extends Error {
+  status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+}
+
+function currentUser(req: Request): string {
+  if (!req.userId) throw new HttpError(401, 'missing token');
+  return req.userId;
+}
+
+function isDuplicateKey(err: unknown): boolean {
+  return typeof err === 'object' && err !== null && 'code' in err && (err as { code?: unknown }).code === 11000;
+}
+
+function jwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET is required');
+  return secret;
+}
+
+function readString(body: unknown, key: string): string {
+  if (typeof body !== 'object' || body === null) return '';
+  const value = (body as Record<string, unknown>)[key];
+  return typeof value === 'string' ? value : '';
+}
+
+function readAmount(body: unknown): number | null {
+  if (typeof body !== 'object' || body === null) return null;
+  const amount = (body as Record<string, unknown>).amount;
+  return typeof amount === 'number' && Number.isInteger(amount) && amount >= 1 ? amount : null;
+}
+```
+
+`readString(req.body, 'email')` replaces the `req.body && typeof req.body.email === 'string' ? ... : ''` that every handler repeated. Same check, same result, one place. Now the middleware, which is where the token's truth gets narrowed:
+
+```ts
+function requireUser(req: Request, res: Response, next: NextFunction): void {
+  const header = req.get('authorization') || '';
+  const parts = header.split(' ');
+  if (parts.length !== 2 || parts[0] !== 'Bearer' || parts[1] === '') {
+    res.status(401).json({ error: 'missing token' });
+    return;
+  }
+  try {
+    const payload = jwt.verify(parts[1], jwtSecret(), { audience: 'guild' });
+    if (typeof payload === 'string' || typeof payload.sub !== 'string') {
+      res.status(401).json({ error: 'bad token' });
+      return;
+    }
+    req.userId = payload.sub;
+    next();
+  } catch {
+    res.status(401).json({ error: 'bad token' });
+  }
+}
+```
+
+The JavaScript version wrote `return res.status(401).json(...)`. A handler typed as returning `void` cannot return the response object, so the pattern becomes two lines: send, then `return`. Same bytes on the wire. Every handler goes through that change, and it is the most common edit of the day. One full handler, `register`, with the duplicate-key branch narrowed:
+
+```ts
+async function register(req: Request, res: Response): Promise<void> {
+  const name = readString(req.body, 'name').trim();
+  const email = readString(req.body, 'email').trim().toLowerCase();
+  const password = readString(req.body, 'password');
+  if (name === '' || email === '' || password.length < 8) {
+    res.status(400).json({ error: 'name, email and a password of 8 or more characters' });
+    return;
+  }
+  const passwordHash = await bcrypt.hash(password, 12);
+  try {
+    const user = await UserModel.create({ name, email, passwordHash });
+    res.status(201).json({ id: String(user._id), name: user.name, email: user.email });
+  } catch (err) {
+    if (isDuplicateKey(err)) {
+      res.status(409).json({ error: 'email already registered' });
+      return;
+    }
+    throw err;
+  }
+}
+```
+
+And one handler with a route parameter, `readMessage`, where `Request<{ id: string }>` types `req.params.id`:
+
+```ts
+async function readMessage(req: Request<{ id: string }>, res: Response): Promise<void> {
+  const message = await MessageModel.findById(req.params.id).populate('sender', 'name');
+  if (!message) {
+    res.status(404).json({ error: 'not found' });
+    return;
+  }
+  if (String(message.recipient) !== String(req.userId)) {
+    res.status(403).json({ error: 'forbidden' });
+    return;
+  }
+  res.json(message);
+}
+```
+
+The pack's `spend` and `credit` keep their conditional update and their upsert unchanged; their signatures become `spend(ownerId: string, itemId: string, amount: number | null)`, throwing `new HttpError(400, ...)` for a bad amount and `new HttpError(409, 'not enough')` when the filter matches nothing, and `credit(ownerId: Types.ObjectId, itemId: Types.ObjectId, amount: number)`. The `give` handler builds `new Types.ObjectId(currentUser(req))` once and passes `item._id`, which is already an `ObjectId`, so the compiler stops you from mixing a string id into an update that wants the real type. `transfer` loads the item before it debits, the way `give` already did, and then passes `item._id` to `credit`. The error handler at the bottom and the export:
+
+```ts
+app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+  if (res.headersSent) return next(err);
+  const status = err instanceof HttpError ? err.status : err instanceof Error && err.name === 'CastError' ? 400 : 500;
+  const message = err instanceof Error ? err.message : 'server error';
+  res.status(status).json({ error: status === 500 ? 'server error' : message });
+});
+
+export = app;
+```
+
+`export = app` is the TypeScript spelling of `module.exports = app`, and it is the line that keeps `require('../dist/app')` in the tests returning the app itself. `src/server.ts` imports it with `esModuleInterop` and reads the environment with the checks the compiler now insists on:
+
+```ts
+import mongoose from 'mongoose';
+import app from './app';
+
+async function main(): Promise<void> {
+  const uri = process.env.MONGODB_URI;
+  if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET is required');
+  if (!uri) throw new Error('MONGODB_URI is required');
+  await mongoose.connect(uri);
+  const port = Number(process.env.PORT || 4100);
+  app.listen(port, () => {
+    console.log('guild hall on ' + port);
+  });
+}
+
+main().catch((err: unknown) => {
+  console.error(err);
+  process.exit(1);
+});
+```
+
+`npx tsc --noEmit` is now silent. The scripts in `package.json` gain a build, a start that points at `dist/`, and a `pretest` so `npm test` always tests what was just compiled; your existing `test` line stays as it is.
+
+```json
+{
+  "scripts": {
+    "build": "tsc",
+    "start": "node --env-file-if-exists=.env dist/server.js",
+    "pretest": "npm run build",
+    "test": "node --env-file=.env.test node_modules/jest/bin/jest.js"
+  }
+}
+```
+
+`--env-file-if-exists`, from the [Node CLI reference](https://nodejs.org/api/cli.html#--env-file-if-existsconfig), reads `.env` on your machine and does nothing on Railway, where the variables are injected and the file does not exist. Inside an npm script, `tsc` resolves to the local install, so `npm run build` needs no `npx`. The last edit is the one path in the tests: in every file under `tests/`, `require('../app')` becomes `require('../dist/app')`. VS Code's search and replace across the folder does it in one pass. The helpers, the setup, and the assertions do not change.
+
+```bash
+npm test
+```
+
+The build runs first, prints nothing, and Jest prints the same `Tests:` line you wrote down on `main`. That is the baseline holding. Start the hall once and prove the surface from outside:
+
+```bash
+npm start
+```
+
+In a second terminal, `curl -i http://localhost:4100/api/inbox` answers `401` with `{"error":"missing token"}`, which is `requireUser` in `dist/app.js` doing what `app.js` did. Stop it with Ctrl-C. Commit in slices, so the history reads as a migration: the config and install, the rename, the types, the scripts and test path.
+
+```bash
+git add -A
+git commit -m "Type models, middleware and handlers; build to dist; tests on dist"
+git switch main
+git merge typescript
+git push
+```
+
+If the hall is deployed from Unit 6, two more lines: on Railway, the builder runs `npm run build` when the script exists and then `npm start`, so the next deploy picks up the change with no settings edit, and the deploy log shows `tsc` running; on the VPS, `deploy.sh` runs `npm run build` after `npm ci`, and the pm2 script path becomes `dist/server.js`.
+
+Here is a small model you can run here. It is the boundary ledger in plain JavaScript: four places outside data enters the hall, which of them the types cover, and the one a type cannot check. It proves that a typed boundary still needs a check that runs, and that a rename changes a path and nothing else. It does not compile anything; `npm test` in `hall-api` is the proof the migration kept its behavior.
 
 ```js run=checkpoint-9-5
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const boundaries = [{name: 'request', typed: true, validated: true}, {name: 'provider', typed: true, validated: false}];
-const unsafe = boundaries.filter(b => !b.typed || !b.validated);
-check(unsafe.length === 1 && unsafe[0].name === 'provider', 'Types alone do not validate runtime input');
+
+const boundaries = [
+  { name: 'register body', typed: true, validated: true },
+  { name: 'token payload', typed: true, validated: true },
+  { name: 'Mongo document', typed: true, validated: true },
+  { name: 'PORT from the environment', typed: true, validated: false }
+];
+
+const unsafe = boundaries.filter((b) => !b.validated);
+check(unsafe.length === 1 && unsafe[0].name === 'PORT from the environment', 'Types alone do not validate runtime input');
+
+function readPort(env) {
+  const raw = env.PORT;
+  if (raw === undefined) return 4100;
+  const port = Number(raw);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) {
+    throw new Error('PORT must be an integer between 1 and 65535, got ' + JSON.stringify(raw));
+  }
+  return port;
+}
+
+check(readPort({}) === 4100 && readPort({ PORT: '4100' }) === 4100, 'a checked boundary accepts the good value');
+let message = '';
+try { readPort({ PORT: 'forty-one hundred' }); } catch (err) { message = err.message; }
+check(message.startsWith('PORT must be'), 'Explain the rejected or incomplete case');
+
+const renamed = ['app.js', 'server.js'].map((f) => f.replace(/\.js$/, '.ts'));
+check(renamed.join(',') === 'app.ts,server.ts', 'a rename is a path change, not a behavior change');
+
 console.log('ok: checkpoint-9-5');
 ```
 
@@ -481,179 +398,56 @@ console.log('ok: checkpoint-9-5');
 
 ### Mass rename hides defects
 
-A single commit renames two hundred files, reformats them, and changes a condition in the middle. Review cannot see the condition. Split the work. One change for the rename, with no behavior in it, so the diff is paths. A separate change for the formatting, if you must. Then the behavior change, small enough to read. A migration that mixes those will ship a logic bug under a wall of green "renamed" lines, and the person who finds it will be you, in production.
+One commit renames the files, reformats them, converts every handler, and changes a status code in the middle. The symptom is a review that cannot find the behavior change in four hundred green lines, and a test that went red for a reason nobody can locate. The cause is mixing a rename with a rewrite.
+
+Split the work. One commit for the move into `src/`, with no edits inside the files, so the diff is paths. One commit per boundary after that: models, middleware, handlers, scripts. Run `npm test` after each. When a test goes red, the slice that made it red is small enough to read, and the fix is usually a `return` that went missing when `return res.status(...)` became two lines.
 
 ### Any used as an escape hatch
 
-The migration is "done" and `any` is scattered through the files that were annoying, so the compiler is quiet for the wrong reason. `any` is a hole you opted into. Keep a list of the remaining ones and a reason next to each, in the code. Prefer `unknown` and a check. A count of `any` that only goes up is not a migration. It is the old JavaScript with extra syntax. The forge is finished when the holes that remain are named, not when the command exits without an error.
+The migration is "done" and `any` is scattered through the files that were annoying, so the compiler is quiet for the wrong reason. The symptom is `npx tsc --noEmit` silent and a handler that still crashes on a body with the wrong shape. The cause is a hole you opted into to make an error go away.
+
+Search the project for `: any` and ` as `. Each one gets a reason in a comment next to it or gets replaced with `unknown` and a check. `req.body` is the one `any` you did not write, and the two `read` helpers are what fence it off. A count of `any` that only goes up is not a migration. It is the old JavaScript with extra syntax.
 
 ### Design diverges from code
 
-The diagram shows a queue between the API and the mailer, and the code calls the mailer directly in the route. Both artifacts exist. They describe different systems. Pick one request and walk it through the diagram and then through the code, naming each hop. Where they disagree, change one of them today. An architecture document that does not match the branch is fiction, and fiction is what you will trust during the next incident unless you have done this walk recently.
+`docs/system-design.md` shows a queue between the API and the mailer, and the code calls the mailer in the route. The symptom is two artifacts that describe two different systems, and an incident where you trust the wrong one. The cause is a document written once and never walked.
+
+Pick one request. Trace it through section 4 of the design, then through `src/app.ts`, naming every hop. Where they disagree, change one of them today, and add the date to the Changes line. A design that matches the branch is a tool. One that does not is fiction, and it is the fiction you will reach for at the worst time.
 
 ## Your turn
 
-Take ten minutes.
-The forge is hot. Step away, cool down, and prepare for the final push. When we return, you convert your own project.
+The conversion of your own `hall-api`, in the same order as the demonstration. Run `npm test` after the steps that say so, and expect the same `Tests:` line every time.
 
-**Guided Conversion: Your First File**
+1. `cd ~/projects/hall-api && git switch main && npm test`. Write down the `Tests:` line. Then `git switch -c typescript` and install `typescript`, `@types/node@24`, `@types/express`, `@types/cors`, `@types/bcrypt`, and `@types/jsonwebtoken` as development dependencies.
+2. Write the eleven-line `tsconfig.json` from the demonstration. `git mv app.js src/app.ts` and `git mv server.js src/server.ts`, add `dist/` to `.gitignore`, and commit with the message that says no behavior changed. `npx tsc --noEmit` prints a list of errors; count them and write the number down.
+3. Add `src/express.d.ts`. Convert the `require` lines to imports, write the four interfaces, and type the four schemas and models. Run `npx tsc --noEmit` and read a shorter list.
+4. Add `HttpError`, `currentUser`, `isDuplicateKey`, `jwtSecret`, `readString`, and `readAmount`. Convert `requireUser`, then every handler, turning each `return res.status(...)` into a send and a bare `return`. `npx tsc --noEmit` is silent when this step is done.
+5. End `src/app.ts` with `export = app`, write `src/server.ts`, add the `build`, `start`, and `pretest` scripts, and change `require('../app')` to `require('../dist/app')` in every file under `tests/`. Run `npm test`; the `Tests:` line matches step 1.
+6. `npm start`, then `curl -i http://localhost:4100/api/inbox` in another terminal and read `401` and `{"error":"missing token"}`. Ctrl-C. Commit the remaining slices, merge into `main`, push.
+7. Break it twice: in `requireUser`, delete only the `typeof payload.sub !== 'string'` half of the check. It still compiles, because `userId` is optional and `sub` is `string | undefined`; the compiler let the uncertainty through, and `currentUser` is now the only thing standing between a token with no subject and a handler, answering 401 at runtime. Then delete the `typeof payload === 'string'` half as well. Now `npx tsc --noEmit` refuses, because `payload` may be a plain string and a string has no `sub`. Put both halves back. Then grep for `: any` and ` as ` and write the list for the quest.
 
-Pick one file from your project and convert it. Start with a model or a utility, not the most tangled component.
-
-**Success Criteria for this exercise:**
-- One file fully converted to TypeScript
-- All types explicitly defined (no `any`)
-- File compiles with `tsc --noEmit --strict`
+If `npm test` fails with `Cannot find module '../dist/app'`, the build did not run: check that the script is named `pretest` exactly, and run `npm run build` by hand once to see the compiler's output.
 
 ## The quest
 
-**Independent Lab: Full Project Conversion**
-
-This is the main work session. You have 90 minutes to convert as much of your project as possible.
-
-**Conversion Checklist:**
-- [ ] tsconfig.json created and configured
-- [ ] Type definition packages installed
-- [ ] Data model interfaces created (at least 3)
-- [ ] At least 2 Express route files converted to TypeScript
-- [ ] At least 2 React component files converted to TypeScript
-- [ ] At least 1 use of generics somewhere in your codebase
-- [ ] Project compiles with `tsc --noEmit` (zero errors)
-
-**System Design Document Finalization:**
-If your TypeScript conversion is in good shape, spend the remaining time finalizing your system design document:
-- [ ] Architecture diagram is clear and complete
-- [ ] All components are labeled and explained
-- [ ] Scaling strategy is documented
-- [ ] At least 3 bottlenecks identified with mitigation strategies
-- [ ] Technology choices are justified
-
-**Errors worth expecting:**
-- Third-party libraries without type definitions
-- Complex generic types with React hooks
-- Typing middleware chains in Express
-- Mongoose model typing quirks
-
-### Review the artifact
-
-Your deliverable is **A reviewed TypeScript migration and a capstone architecture decision record**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
-### Unit project: completion contract
-
-### Unit Project: "The Runesmith's Forge: TypeScript Conversion and System Design"
-
-**Quest Arc:** The ancient Runesmith's Forge has been dormant for centuries. Its fires have gone cold, its inscriptions faded. But you have learned the old language. You have survived the trials. Now you must prove your mastery by translating existing spells (your JavaScript code) into the more powerful runic language (TypeScript), forging them into something stronger, more reliable, and more resilient. And you must draw the architectural blueprints for a kingdom-scale system, proving you can think beyond a single castle and plan for an empire. Only those who complete both tasks earn the Runesmith's mark.
-
-### Project Overview
-
-Convert an existing JavaScript project (from Unit 5, 6, 7, or 8) to TypeScript AND produce a system design document that demonstrates architectural thinking. This project combines the practical skill of TypeScript migration with the strategic skill of system design.
-
-### Technical Requirements
-
-**TypeScript Conversion (Boss Clear - 70 points):**
-- [ ] Project has a properly configured `tsconfig.json` with `strict: true`
-- [ ] All required `@types/*` packages are installed
-- [ ] At least 5 TypeScript interfaces defined for data models
-- [ ] At least 3 Express route handler files converted to TypeScript with typed Request/Response
-- [ ] At least 3 React component files converted to TypeScript with props interfaces
-- [ ] All `useState` hooks have explicit type annotations
-- [ ] Event handlers are properly typed (ChangeEvent, FormEvent, MouseEvent)
-- [ ] Mongoose models have TypeScript interfaces (IUser, IPost, etc.)
-- [ ] At least 1 use of generics (generic function, generic class, or generic utility type)
-- [ ] At least 1 discriminated union or type guard
-- [ ] Project compiles with `tsc --noEmit` with zero errors
-- [ ] No use of `any` (except with a `// TODO: type this properly` comment and justification)
-
-**System Design Document (Epic Loot - 20 points):**
-- [ ] Architecture diagram showing all major components (client, server, database, cache, third-party services)
-- [ ] Written description of each component and its responsibility
-- [ ] Database schema overview (collections/tables and relationships)
-- [ ] Scaling strategy document addressing 1K, 10K, and 100K user scenarios
-- [ ] Identification of 3+ potential bottlenecks with mitigation strategies
-- [ ] Technology choice justifications (why this database, why this framework, why this hosting)
-- [ ] At least 1 page of written analysis (minimum 500 words)
-
-**Algorithm Analysis (Legendary - 10 points):**
-- [ ] Analysis of 3+ algorithm problems with full TypeScript solutions
-- [ ] Each solution includes Big O time and space complexity analysis
-- [ ] At least 2 different algorithm patterns demonstrated (frequency counter, two pointers, sliding window, binary search, divide and conquer)
-- [ ] At least 1 problem includes both a brute-force and optimized solution with explanation of the improvement
-- [ ] All algorithm solutions compile with TypeScript strict mode
-
-### Skill Points Rubric
-
-**Boss Clear (70 points) - TypeScript Conversion:**
-
-| Criteria | Points |
-|----------|--------|
-| tsconfig.json properly configured with strict mode | 5 |
-| 5+ interfaces for data models | 10 |
-| 3+ Express routes typed (Request, Response, middleware) | 10 |
-| 3+ React components typed (props, state, events) | 10 |
-| Mongoose models with TypeScript interfaces | 10 |
-| At least 1 generic usage | 5 |
-| At least 1 type guard or discriminated union | 5 |
-| Zero compilation errors with tsc --noEmit | 10 |
-| No untyped `any` usage | 5 |
-
-**Epic Loot (20 points) - System Design Document:**
-
-| Criteria | Points |
-|----------|--------|
-| Architecture diagram (clear, complete, labeled) | 5 |
-| Component descriptions and responsibilities | 3 |
-| Scaling strategy (1K to 100K users) | 4 |
-| Bottleneck identification and mitigation | 4 |
-| Technology justifications | 2 |
-| Written analysis quality and depth | 2 |
-
-**Legendary (10 points) - Algorithm Analysis:**
-
-| Criteria | Points |
-|----------|--------|
-| 3+ algorithm problems with TypeScript solutions | 4 |
-| Big O analysis for each solution | 3 |
-| Brute-force vs. optimized comparison for at least 1 problem | 3 |
-
-### Submission Requirements
-
-1. Push your TypeScript-converted project to GitHub
-2. Include `SYSTEM_DESIGN.md` in the repo root with embedded or linked diagrams
-3. Include `ALGORITHM_ANALYSIS.md` with your algorithm solutions and analysis
-4. Ensure `npm install && tsc --noEmit` runs successfully (provide instructions in README)
-5. Due date: Before Unit 10, Session 1
-
----
-
 ![](diagram:session-9-5/fig3-evidence)
+
+The deliverable is two things. The merged `typescript` branch in `hall-api`, with `src/`, `dist/` ignored, the three scripts, the tests on `dist/`, and a short "TypeScript" section in the README stating the build and start commands and the one path change in the tests. And ADR-2 in `~/projects/<capstone-name>/docs/system-design.md`, as section 11 under the numbering from last session, titled "ADR-2: the capstone is JavaScript; TypeScript stays optional", with the context, the options, the decision, the consequences, and a revisit condition, written in your words from the idea section. Add a dated line to the Changes list and bump the version to 1.1.
+
+Evidence to keep:
+
+- The `Tests:` line from `main` before the branch and from `main` after the merge, identical.
+- The count of compiler errors after the rename and the sentence "npx tsc --noEmit is silent" with the date.
+- The commit list of the branch, in slices, with the rename commit containing no edits inside the files.
+- The list of every `any` and every `as` left in `src/`, each with its reason, or the sentence "none beyond req.body".
+- The `401` curl line against `dist/`, and ADR-2's revisit condition.
+
+The hall is now the reference for a typed Express server you own end to end. The capstone will be JavaScript, by a decision you wrote down, and when the day comes to type it, this page is the recipe.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The SOLID sheet names what the interfaces and the `read` helpers did for the handlers today, the digital-mansion primer is the long form of the design document you have now written twice, and the trade-offs sheet is the vocabulary for ADR-2's consequences section.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Complete the system design document homework from Session 9.4. Choose a JavaScript project from a previous unit (Unit 5 or 6 recommended) that you will convert to TypeScript. Have the project repo cloned and ready.
-**Materials:** An existing JavaScript project (React + Express recommended), TypeScript documentation, tsconfig reference, type definition packages (@types/*).
-
-**Assignment: Complete TypeScript Conversion and System Design Document**
-- **Objective:** Finish converting your project to TypeScript and polish your system design document
-- **Tasks:**
-  1. Complete the TypeScript conversion of your chosen project
-  2. Ensure `tsc --noEmit --strict` passes with zero errors
-  3. Finalize your system design document with architecture diagrams
-  4. Write a brief README section explaining the TypeScript migration process you followed
-  5. Analyze 3 algorithm problems you encountered during the course and document their Big O complexity
-- **Submission:** Push the completed TypeScript project and system design document to your GitHub repo
-- **Due:** Before Unit 10 begins
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html)
+Next session starts Unit 10 at [10-1](/path/10-1-barrier-magic/): the capstone's code begins in `~/projects/<capstone-name>`, as CommonJS JavaScript with Express, Mongoose, and a Vite client, with the hall's user model, register, login, and `requireUser` copied in as the pattern, then hardened with input validation and secrets handling. Reread your `requireUser` in `src/app.ts` once, because the first thing 10-1 does is copy the JavaScript version of it. Stop the hall if it is running; nothing stays up between sessions. You arrive with `hall-api` typed and green on `main`, `docs/system-design.md` at version 1.1 with two decision records, and the capstone repository holding only `docs/`, which is exactly what 10-1 expects.

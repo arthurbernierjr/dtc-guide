@@ -1,507 +1,225 @@
 ---
 editorial: true
 title: Grand Architecture
-subtitle: System Design Fundamentals
-hook: "A system design document with estimates, failure paths, and explicit tradeoffs. Define users, operations, and quality needs."
+subtitle: System design fundamentals
+hook: "Your product spec says what the capstone does. Today you write the document that says how it will hold up: a workload you estimated, boxes you can defend, one request traced through them, one failure walked through, and one decision recorded with its reasons."
 read: 60
-artifact: "A system design document with estimates, failure paths, and explicit tradeoffs"
+artifact: "docs/system-design.md in the capstone repository, with a workload estimate, an architecture diagram, a traced request, a failure walkthrough, a scaling plan, and a named decision record"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
+  - https://docs.railway.com/
+  - https://railway.com/pricing
+  - https://www.mongodb.com/docs/manual/indexes/
+  - https://www.mongodb.com/docs/manual/replication/
   - https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/
+  - https://adr.github.io/
 say:
-  - "Requirements: Define users, operations, and quality needs."
-  - "Architecture: Assign responsibilities and data ownership."
-  - "Tradeoffs: Explain capacity, failure, and consistency choices."
+  - "Start from the workload: who does what, how often, and what happens at peak."
+  - "One process and one database until a measured pressure says otherwise."
+  - "A cache is a second copy of the truth; say who owns the first one and when the second expires."
 ---
 
 ## The hook
 
-Welcome to the Grand Architecture session. You have built full-stack applications. You have deployed them. They work. But here is the question nobody has asked you yet: what happens when your app gets popular? What happens when you go from 100 users to 10,000 to 100,000? Does your single Express server handle that? Does your single MongoDB instance survive? Does your React app stay fast when the API takes 3 seconds to respond because the database is choking?
+The guild hall is one Node process on port 4100, one MongoDB, and a folder of static files, and in Unit 6 that shape went on the internet behind Nginx. It handles you and your test accounts without effort. The question this session asks is the one you have not had to answer yet: what happens at a thousand users, and at a hundred thousand? Which box fills up first, what do you add, and what does adding it cost in complexity and money?
 
-System design is how you answer those questions before they become emergencies. It is how you plan infrastructure that scales. It is how technical co-founders earn their title. And yes, it is what gets asked in senior engineering interviews. But forget the interview for a second. System design is what separates a weekend project from a real business. If you cannot explain how your system handles scale, you do not have a product. You have a prototype.
+System design is answering that in writing, before the pressure arrives, with numbers you chose and can revise. Today you read `docs/product-spec.md` from Unit 8 with a different eye, estimate the workload it implies, draw the smallest architecture that serves it, trace one request through the drawing, walk one failure through it, and record one decision with its alternatives. The result is `docs/system-design.md` in your capstone repository, and it is the plan Unit 10 builds from and the document Unit 11 hands to anyone who asks whether the thing can scale.
 
-Today we cover load balancing, caching, database scaling, message queues, microservices, and the CAP theorem. Then we walk through two complete system design exercises: a URL shortener and a social media feed. By the end of this session, you will be able to draw an architecture diagram for any web application and explain every component in it.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *A castle is not strong because it has many walls. It is strong because the builder knew which wall the river would test first.*
 
 ## The idea
 
-### Evaluate System Design Tradeoffs for Web Application Architecture
-You will evaluate architectural tradeoffs including load balancing, caching, database scaling, and service decomposition to design web applications that handle growth.
+Begin with the workload, not with a diagram. Who uses the product, what do they do, how often, and which operations matter most? A public catalog that is read ten thousand times for every write is a different system from a booking page where every action is a write that must not be lost. Count the reads and writes per user per day from the user stories in `docs/user-stories.md`, multiply by the users you expect at launch and at a hundred times launch, divide by the seconds in a day, and multiply by a peak factor, because traffic is not flat. The numbers do not need to be precise. They need to be stated, so that a reviewer can challenge a number instead of an adjective, and so that you can see which component becomes the first concern when an assumption changes by ten times.
 
-**Enabling Objectives:**
-- Diagram client-server architecture and explain the request-response lifecycle at scale
-- Compare load balancing strategies (round robin, least connections, IP hash) and explain when to use each
-- Evaluate caching strategies (in-memory, Redis, CDN) and identify cache invalidation challenges
-- Analyze database scaling approaches (vertical vs horizontal, read replicas, sharding) and their tradeoffs
-- Compare monolithic and microservice architectures and explain when each is appropriate
-- Apply the CAP theorem to evaluate distributed system tradeoffs
+Separate what the system does from how well it must do it. Booking a seat is a functional requirement. Keeping one member's bookings invisible to another is a security requirement. Answering a page in under half a second is a performance requirement. Surviving a restart without losing a paid booking is a durability requirement. Each important requirement should point at a mechanism in the design and at an observation that would confirm it, a test, a log line, a metric. A requirement with no mechanism is a wish.
 
-**You should be able to:**
-- Draw a system architecture diagram for a web application
-- Explain how to scale a web application from 100 to 100,000 users
-- Evaluate architectural decisions and articulate their tradeoffs
+Then draw the boxes and say who owns what. Client, edge, application, database, and the external services you depend on. Label the arrows with the operation and the protocol. For every record, name the component allowed to change it. A diagram with many boxes and no ownership rules cannot say what happens when two requests race for the last seat, and that is the question the diagram exists to answer. Start with a modular monolith: one deployable process with clear internal boundaries, one database, and a note on where a split would go if a measured pressure ever justified it.
 
-**Why System Design Matters for Founders**
-
-Three reasons you need this:
-1. **Investor conversations:** "How does your system handle 100x growth?" You need a real answer.
-2. **Hiring engineers:** If you cannot read an architecture diagram, you cannot evaluate technical hires.
-3. **Cost control:** Bad architecture burns money. A system that scales efficiently costs 10x less to run than one that does not.
-
-The mental model: system design is about identifying bottlenecks before they happen and choosing tradeoffs intentionally.
-
-**Client-Server Architecture at Scale**
-
-At its simplest, your app is:
-
-```
-[Browser/Client] --> [Server (Express)] --> [Database (MongoDB)]
-```
-
-This works for 100 users. Here is what breaks at scale:
-
-```
-Problem 1: Single server handles all requests
-  - One server can handle ~1000-5000 concurrent connections
-  - At 10,000 users, requests start queuing and timing out
-
-Problem 2: Single database handles all reads and writes
-  - MongoDB can handle ~10,000 operations/sec on good hardware
-  - At 100,000 users doing frequent reads, the database becomes the bottleneck
-
-Problem 3: No caching
-  - Every request hits the database, even for data that rarely changes
-  - The same user profile gets fetched 1000 times per minute
-
-Problem 4: No fault tolerance
-  - If your one server crashes, your entire app goes down
-  - If your one database crashes, all data access stops
-```
-
-The scaled version:
-
-```
-                    [Load Balancer]
-                   /      |       \
-            [Server 1] [Server 2] [Server 3]
-                   \      |       /
-                    [Cache (Redis)]
-                        |
-              [Primary Database]
-             /          |         \
-    [Read Replica] [Read Replica] [Read Replica]
-```
-
-Every component we add solves a specific problem. Let us go through each one.
-
-**Load Balancing**
-
-A load balancer distributes incoming requests across multiple servers. If one server can handle 5,000 users, three servers behind a load balancer can handle 15,000.
-
-Load balancing strategies:
-
-```
-Round Robin:
-  Request 1 -> Server A
-  Request 2 -> Server B
-  Request 3 -> Server C
-  Request 4 -> Server A  (cycles back)
-  Simple, fair, does not consider server load.
-
-Least Connections:
-  Send each request to the server with the fewest active connections.
-  Better for uneven workloads (some requests take longer than others).
-
-IP Hash:
-  Hash the client's IP address to determine which server handles it.
-  Same client always hits the same server (useful for session affinity).
-  Problem: if that server goes down, those users lose their sessions.
-
-Weighted Round Robin:
-  Like round robin, but servers have different weights.
-  Server A (weight 3): gets 3x more traffic than Server C (weight 1).
-  Useful when you have servers with different hardware specs.
-```
-
-Real-world tools: AWS ALB (Application Load Balancer), Nginx, HAProxy, Cloudflare.
-
-Health checks: the load balancer pings each server every few seconds. If a server stops responding, it gets removed from the pool automatically. This is how you get fault tolerance.
-
-**Caching Strategies**
-
-Caching stores frequently accessed data in fast memory so you do not hit the database every time.
-
-```
-Without cache:
-  User requests profile -> Server queries database -> Returns data
-  Every single time. 100 requests = 100 database queries.
-
-With cache:
-  User requests profile -> Server checks cache -> Found! Returns cached data
-  First request: cache miss, query database, store in cache
-  Next 99 requests: cache hit, return from memory instantly
-  100 requests = 1 database query + 99 cache hits
-```
-
-Types of caching:
-
-```
-In-Memory Cache (on the server):
-  - Stored in the application's memory (Node.js process)
-  - Fastest possible (no network hop)
-  - Lost when server restarts
-  - Not shared between multiple servers
-  - Good for: single-server apps, small datasets
-
-Redis (external cache):
-  - Separate server dedicated to caching
-  - Shared between all your application servers
-  - Persists across server restarts (optional)
-  - Supports data structures (strings, lists, sets, sorted sets)
-  - Sub-millisecond response times
-  - Good for: multi-server apps, session storage, real-time leaderboards
-
-CDN (Content Delivery Network):
-  - Caches static assets (images, CSS, JS) at edge locations worldwide
-  - User in Tokyo gets assets from a Tokyo server, not your US server
-  - Reduces latency dramatically for static content
-  - Services: CloudFront, Cloudflare, Vercel Edge
-  - Good for: static files, pre-rendered pages, media
-```
-
-The hardest problem in caching: cache invalidation. When the underlying data changes, you need to update or remove the cached version. Strategies:
-
-```
-TTL (Time to Live):
-  - Cache expires after N seconds/minutes
-  - Simple but data can be stale during TTL window
-  - Good for: data that does not need to be real-time (user profiles, product listings)
-
-Write-Through:
-  - When data is written to the database, also update the cache
-  - Cache is always fresh
-  - Adds latency to writes
-  - Good for: data that is read frequently and written occasionally
-
-Cache-Aside (Lazy Loading):
-  - On read: check cache first, if miss, read from database and populate cache
-  - On write: update database, invalidate (delete) the cache entry
-  - Most common pattern
-  - Good for: general purpose caching
-```
-
-**Database Scaling**
-
-Vertical scaling vs. horizontal scaling:
-
-```
-Vertical Scaling (Scale Up):
-  - Get a bigger, faster server
-  - More RAM, more CPU, faster disk
-  - Simple: no code changes needed
-  - Limited: there is a maximum server size
-  - Expensive: big servers cost disproportionately more
-  - Single point of failure remains
-
-Horizontal Scaling (Scale Out):
-  - Add more servers
-  - Distribute data and load across them
-  - Complex: requires code changes and coordination
-  - Unlimited: keep adding servers as needed
-  - Cost-effective: commodity hardware
-  - Fault tolerant: one server going down does not kill everything
-```
-
-Read replicas:
-
-```
-[Client] -> [Load Balancer]
-                |
-          [Primary DB] ----replicates-to---> [Read Replica 1]
-              (writes)                        [Read Replica 2]
-                                              [Read Replica 3]
-                                                (reads)
-
-- All writes go to the primary database
-- Reads are distributed across replicas
-- If your app is 90% reads (most apps are), this is a massive improvement
-- Tradeoff: slight lag between write and replica update (eventual consistency)
-```
-
-Database sharding:
-
-```
-Shard by user ID:
-  Users 1-1,000,000     -> Database Shard A
-  Users 1,000,001-2,000,000  -> Database Shard B
-  Users 2,000,001-3,000,000  -> Database Shard C
-
-Each shard is a complete database that holds a subset of the data.
-Queries only hit the relevant shard, so each one handles less load.
-
-Tradeoff: cross-shard queries are expensive or impossible.
-  "Get all users" now requires querying every shard.
-  Joins across shards do not work.
-
-When to shard: when a single database cannot handle your data volume
-  or query load even with read replicas.
-```
-
-**Message Queues and Async Processing**
-
-Some tasks should not block the user's request. If a user signs up, do not make them wait while you send a welcome email, resize their profile picture, and notify their friends. Put those tasks in a queue and process them in the background.
-
-```
-Synchronous (blocking):
-  User signs up -> Send email -> Resize image -> Notify friends -> Return response
-  Total time: 3 seconds. User waits for all of it.
-
-Asynchronous (with queue):
-  User signs up -> Add tasks to queue -> Return response immediately (200ms)
-  Background workers:
-    Worker 1: Send email
-    Worker 2: Resize image
-    Worker 3: Notify friends
-  User gets instant response, tasks complete in the background.
-```
-
-Real-world message queues: RabbitMQ, AWS SQS, Redis (with Bull/BullMQ), Kafka (for streaming).
-
-Use cases: email sending, image processing, data aggregation, webhook delivery, report generation, search index updates.
-
-**Microservices vs. Monolith**
-
-```
-Monolith:
-  One codebase, one deployment, one database.
-  +------------------------------------------+
-  | Auth | Users | Products | Orders | Payments |
-  +------------------------------------------+
-  |            Single Database               |
-  +------------------------------------------+
-
-  Pros: simple to develop, simple to deploy, simple to debug
-  Cons: one bug can crash everything, scaling is all-or-nothing,
-        large codebase becomes hard to manage
-
-Microservices:
-  Separate services, separate deployments, separate databases.
-  [Auth Service]  [User Service]  [Product Service]
-       |               |               |
-  [Auth DB]       [User DB]       [Product DB]
-
-  Pros: independent scaling, independent deployment, team autonomy
-  Cons: network complexity, distributed debugging, eventual consistency
-```
-
-When to use which:
-
-```
-Start with a monolith if:
-  - You are a small team (1-5 engineers)
-  - You are still figuring out your product
-  - You want to move fast and iterate
-  - You are building an MVP or early-stage startup
-
-Consider microservices if:
-  - You have 20+ engineers working on the same codebase
-  - Different parts of your system have different scaling needs
-  - You need independent deployment cycles
-  - You have experienced monolith pain (long deploy times, merge conflicts)
-
-The founder's rule: "Start with a monolith. Split into microservices
-  when the pain of the monolith exceeds the complexity of microservices."
-```
-
-**CAP Theorem (brief)**
-
-In a distributed system, you can only guarantee two of three properties:
-- **Consistency:** Every read returns the most recent write
-- **Availability:** Every request gets a response (even if it might be stale)
-- **Partition Tolerance:** The system works even if network communication between nodes fails
-
-In practice, network partitions happen, so you are really choosing between consistency and availability:
-- **CP systems** (Consistent + Partition Tolerant): banking systems, inventory management. Better to reject a request than return wrong data.
-- **AP systems** (Available + Partition Tolerant): social media feeds, shopping carts. Better to return slightly stale data than return nothing.
+What you should be able to draw on a napkin: a workload in requests per second at launch and at a hundred times launch; one process, one database, one static client, on Railway; the external services with a line each; one request traced through; one failure walked through; and the first box you would change, with the number that would make you change it. Requirements, architecture, tradeoffs.
 
 ![](diagram:session-9-4/fig1-model)
 
-### Begin with a workload, not a diagram collection
+### The shape you already run, and what each added box is for
 
-Ask what users do, how often they do it, and which operations matter most. A read-heavy public catalog differs from a collaborative editor or a payment ledger. Estimate requests, storage, and peak behavior using stated assumptions. The numbers do not need false precision; they need to expose whether a design choice is plausible. If an assumption changes by ten times, identify which component becomes the first concern.
+The capstone starts the way the hall runs: a browser loads a static Vite build, calls one Express API, and the API talks to one MongoDB. On Railway, which [6-4](/path/6-4-opening-the-world-gate/) introduced and which is where this capstone deploys in Unit 10, that is one service for the API, one for the static client, and a MongoDB add-on, with Railway's own proxy in front doing TLS and routing. The [Railway docs](https://docs.railway.com/) describe the pieces; the shape is the hall's shape with the Nginx box replaced by a managed one.
 
-Separate functional requirements from quality requirements. Creating a quest is a capability. Keeping another user's private quest inaccessible is a security requirement. Serving a result within a target latency is a performance requirement. Recovering after a server failure is an availability concern. A useful design document connects each important requirement to a mechanism and an observation that could verify it.
+Every box beyond that solves a specific, nameable problem. A load balancer spreads requests across several copies of the API so one process is not the limit, and it only helps once the API is stateless, which yours is, because the token carries the identity and the database carries everything else. Read replicas take the read traffic off the primary; MongoDB's [replication](https://www.mongodb.com/docs/manual/replication/) gives durability first and read scaling second, with the tradeoff that a replica can lag the primary by a moment. A cache keeps a hot read in memory so the database does not answer the same question a thousand times a minute. A queue moves slow work, an email, an image resize, a webhook, out of the request so the user is not waiting on it, at the cost of a second process that can crash and must not lose or duplicate the job. A CDN puts static files near the user. Each of these is a correct answer to a question. Write the question before you add the box.
 
-### Draw boundaries and ownership
+Numbers about how much one process or one database can take are only true for one machine, one workload, and one day. Treat any figure you read as illustrative and replace it with one you measured: the hall's `GET /api/inbox` under a small load test from Unit 7 is a better capacity number for your design than any table on the internet. An index is the first scaling tool and the cheapest: the [indexes page](https://www.mongodb.com/docs/manual/indexes/) is the difference between a collection scan and a tree walk, the same difference you measured last session between `includes` and a `Set`.
 
-Show the client, edge or proxy, application, database, and external dependencies. Label arrows with operations and protocols where that helps. State which component owns each record and which is allowed to mutate it. A diagram with many boxes but no ownership rules cannot explain what happens when two requests race. Start with a modular monolith unless an actual requirement justifies additional deployment boundaries.
+### Monolith first, with the seam marked
 
-For a write, trace validation, authorization, persistence, and response. For an asynchronous side effect, explain when work is queued and what happens if the worker crashes. A message queue does not make duplicate delivery disappear. Consumers may need idempotency and durable progress tracking. The architecture should describe recovery behavior, not merely the happy-path route.
+A design with five services, three queues, and no users has five deploys, three retry policies, and a distributed debugging problem it did not need. One process with internal modules, `auth`, `bookings`, `payments`, each owning its collections and exposing a few functions, gives you the boundary without the network. When a real pressure arrives, a module that needs its own scaling, a team that needs to ship apart, a failure domain you can name, the seam is already drawn. Until then the monolith is the correct architecture, and the design document says so in a sentence rather than apologizing for it.
 
-### Caches create a second representation
+The one split worth making early is the static client from the API, which you already have: two Railway services, one serving files and one serving JSON. They scale differently and fail differently, and the split costs nothing but a CORS origin.
 
-Choose a cache because a measured or expected read path benefits from it. Identify the source of truth, cache key, expiry, invalidation policy, and stale-data tolerance. A cached profile name and a cached payment entitlement have different consequences when outdated. Do not use a single cache policy for all data simply because one library makes it convenient.
+### Caches, queues, and the second copy of the truth
 
-A cache miss can cause many simultaneous requests to hit the database. Consider request coalescing, bounded concurrency, or staggered expiry where the workload warrants them. A cache outage should have a defined fallback that does not instantly overwhelm the origin. The simplest learning design may omit caching entirely and document the threshold that would justify adding it.
+A cache is a second representation of data whose first representation lives in the database. The moment you add one you owe four answers: what is the source of truth, what is the cache key, how long may the cached value lie, and what event removes it. A cached workshop description that is five minutes stale is harmless. A cached "seats remaining" that is five minutes stale sells the same seat twice. The policy depends on the record, not on the library. The simplest correct design for a launch is no cache at all and a sentence naming the read that would justify one and the number that would trigger it.
 
-### Failure changes the consistency conversation
+A queue has the same shape of obligation. Work put on a queue may be delivered twice or not at all, depending on the queue and on what crashed when. The consumer must be idempotent, able to run the same job twice without double effect, and the design must say what happens to a job whose worker died halfway. Stripe's webhook in Unit 10 is exactly this: an event that may arrive more than once, matched against a record so the second arrival is a no-op. If your design shows a queue, it shows the idempotency key too, or it does not show the queue.
 
-The CAP theorem concerns choices during network partitions in a distributed system; it is not a menu where every database permanently picks any two desirable properties. Explain the actual failure you are considering and the behavior users will see. Can a read be stale? Can a write be rejected temporarily? Which invariant must never be violated? Concrete answers are more useful than labels.
+### Failure, consistency, and the words that mean something
 
-Set timeouts for remote calls and bound retries. Retries can amplify overload, so use backoff, jitter, and operation-specific idempotency. Record latency distributions and error rates rather than only averages. The design artifact should include one failure walkthrough, one capacity estimate, and one deferred alternative with a reason. That makes the design reviewable without pretending the first version must solve every future scale problem.
+The CAP theorem says that during a network partition a distributed store must choose between answering with possibly stale data and refusing to answer. It is not a menu where a database picks two of three forever, and for a single MongoDB it barely applies. What applies is the ordinary question: for each important read, can it be stale, and for each important write, can it be refused temporarily? A booking count can be a few seconds stale on a public page. A payment confirmation cannot be lost. Write those sentences and you have done the consistency section.
+
+Every remote call needs a timeout, and every retry needs a limit and a delay that grows with jitter, because a thousand clients retrying at the same instant is the outage, not the recovery. The [AWS builders' library article on timeouts, retries, and backoff](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/) is the reference to cite; the version for your design is one paragraph that names the call, the timeout, the retry count, and the backoff. Then walk one failure through the diagram end to end: the database restarts for thirty seconds during a booking. What does the user see, what does the API log, what is in the database afterwards, and what did the design do to make that acceptable?
+
+### One decision, recorded
+
+An architecture decision record is a short named section: the context, the options considered, the decision, the consequences, and the condition that would make you revisit it. The format on [adr.github.io](https://adr.github.io/) is the common one; this course keeps the records inside `docs/system-design.md` under their own headings rather than in separate files, so the document stays one page a reviewer can read top to bottom. The first record is almost always "one process, one database, on Railway, with these seams." Write it with the alternatives you rejected, because the rejected alternatives are what make the decision reviewable.
 
 ## The demonstration
 
-Take ten minutes.
-Architecture is a lot of concepts. Let them settle. When we return, we design real systems.
+One capstone, from the spec to the finished document. The sample is a booking app for a pottery studio's workshops, called Kilnbook, specified in Unit 8 the way yours was; your capstone differs, and the moves are the same. The user stories say: a member browses upcoming workshops, books a seat, pays, and gets a confirmation; the studio owner creates workshops, sets the seat count, and sees who is coming; a workshop description can be drafted by the AI feature from a few notes.
 
-**System Design Walkthrough 1: URL Shortener**
+Workload first. Say two hundred members at launch, each visiting twice a week and making about twenty requests per visit, mostly reads, with one booking write per week. That is roughly `200 × 2 × 20 / 7` requests a day, around eleven hundred, which is a hundredth of a request per second on average. Peak is the Sunday evening when the new schedule goes up; call it eight times average. At a hundred times launch, twenty thousand members, the average is about one request per second and the peak around eight. Storage: a booking row is a few hundred bytes, a workshop row about the same; at a hundred times launch, with one booking per member per week, that is about a million rows a year, under a gigabyte. Those are planning numbers chosen from the stories, not measurements, and the document says so. The conclusion they support is specific: one Node process and one MongoDB are not the bottleneck at any size this document considers; the first real pressure is correctness under concurrent booking of the last seat, not throughput.
 
-Let us design a service like bit.ly. Walk through the full process.
-
-**Requirements:**
-- Shorten a long URL to a short one (e.g., mysite.com/abc123)
-- Redirect short URL to original URL
-- Track click analytics (count, referrer, timestamp)
-- Handle 100 million URLs, 1 billion redirects per month
-
-**Architecture:**
-
-```
-[Client] -> [Load Balancer] -> [API Servers (x3)]
-                                    |
-                              [Redis Cache]
-                                    |
-                              [Database]
-                              (URL mappings)
-
-Endpoints:
-  POST /api/shorten  { url: "https://very-long-url.com/..." }
-    -> Returns { shortUrl: "https://short.ly/abc123" }
-
-  GET /:shortCode
-    -> 301 Redirect to original URL
-    -> Log analytics event to queue
-
-  GET /api/analytics/:shortCode
-    -> Returns click count, recent clicks, referrers
-```
-
-**Key Design Decisions:**
-
-```typescript
-// Generating short codes:
-// Option 1: Counter-based (Base62 encoding)
-function generateShortCode(id: number): string {
-  const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let code = "";
-  while (id > 0) {
-    code = chars[id % 62] + code;
-    id = Math.floor(id / 62);
-  }
-  return code.padStart(6, "0");
-}
-
-// Option 2: Random generation with collision check
-function generateRandomCode(): string {
-  const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let code = "";
-  for (let i = 0; i < 7; i++) {
-    code += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return code;
-}
-// 62^7 = 3.5 trillion possible codes. Collision is rare but must be handled.
-```
-
-Why cache matters here: redirects (GET /:shortCode) are 99% of traffic. Cache the most popular URLs in Redis. Cache hit = no database query. Most popular URLs get accessed millions of times.
-
-Analytics: do NOT write to the database on every redirect. Put analytics events in a message queue (Redis/SQS). A background worker processes them in batches.
-
-**System Design Walkthrough 2: Social Media Feed**
-
-Design a simplified Twitter/X feed system.
-
-**Requirements:**
-- Users can post messages (280 chars)
-- Users can follow other users
-- Each user has a personalized feed (posts from people they follow, newest first)
-- Handle 10 million users, average 200 follows per user
-
-**The core challenge:** generating the feed. Two approaches:
-
-```
-Fan-Out on Write (Push Model):
-  When User A posts, immediately push that post to the feed
-  cache of every follower.
-
-  User A posts -> For each of A's 1000 followers:
-    Add post to follower's feed cache
-
-  Pros: Reading the feed is instant (just read the cache)
-  Cons: Writing is expensive (celebrity with 10M followers = 10M writes)
-
-Fan-Out on Read (Pull Model):
-  When a user opens their feed, query the database for recent posts
-  from everyone they follow.
-
-  User opens feed -> Get list of followed users -> Query recent posts
-    from each -> Merge and sort by timestamp -> Return top N
-
-  Pros: Writing is simple (just one database write)
-  Cons: Reading is slow (must query and merge from many sources)
-
-Hybrid Approach (what Twitter actually does):
-  - Regular users: fan-out on write (push to followers' caches)
-  - Celebrities (>10K followers): fan-out on read (query on demand)
-  - This balances write cost and read speed
-```
-
-**Architecture:**
-
-```
-[Client App]
-    |
-[Load Balancer]
-    |
-[API Gateway]
-   / | \
-[Post     [Feed      [User
-Service]  Service]   Service]
-   |         |          |
-[Post DB] [Redis     [User DB]
-          Feed Cache]
-   |
-[Message Queue]
-   |
-[Feed Worker] -> Pushes posts to follower feed caches
-```
-
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+The model you can run here does the same arithmetic for a thousand and a hundred thousand daily users. It proves that the estimate depends on the peak factor and on the stated inputs, and nothing else. It does not measure capacity; a load test against your deployed API in Unit 10 is that measurement.
 
 ```js run=checkpoint-9-4
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const dailyUsers = 10000, readsPerUser = 20, peakMultiplier = 8;
-const averageRps = dailyUsers * readsPerUser / 86400;
-const peakRps = averageRps * peakMultiplier;
-check(peakRps > averageRps, 'Peak assumption matters');
-check(Math.ceil(peakRps) === 19, 'Illustrative workload estimate');
-console.log({averageRps, peakRps, assumption: 'synthetic planning inputs, not measured capacity'});
+
+function estimate(assumptions) {
+  const requestsPerDay = assumptions.dailyUsers * assumptions.requestsPerUser;
+  const averageRps = requestsPerDay / 86400;
+  const peakRps = averageRps * assumptions.peakMultiplier;
+  const storagePerYearMb = (assumptions.dailyUsers * assumptions.writesPerUser * assumptions.bytesPerWrite * 365) / 1e6;
+  return { averageRps, peakRps, storagePerYearMb };
+}
+
+const launch = estimate({ dailyUsers: 1000, requestsPerUser: 20, peakMultiplier: 8, writesPerUser: 2, bytesPerWrite: 500 });
+check(launch.peakRps > launch.averageRps, 'Peak assumption matters');
+check(Math.ceil(launch.peakRps) === 2 && Math.round(launch.storagePerYearMb) === 365, 'Illustrative workload estimate');
+
+const grown = estimate({ dailyUsers: 100000, requestsPerUser: 20, peakMultiplier: 8, writesPerUser: 2, bytesPerWrite: 500 });
+check(Math.ceil(grown.peakRps) === 186, 'a hundred times the users is under two hundred requests a second at peak');
+
+console.log({ launch, grown, note: 'planning inputs you chose, not measured capacity' });
 console.log('ok: checkpoint-9-4');
 ```
+
+Now the document itself, written into `~/projects/kilnbook/docs/system-design.md`. This is the filled example; the empty template is in Your turn.
+
+```markdown
+# Kilnbook: system design
+
+Version 1.0, written from docs/product-spec.md v1.0. Changes to this document get a dated line at the bottom.
+
+## 1. What the system must do
+
+Functional: members browse upcoming workshops, book a seat, pay by card, and receive a confirmation;
+the owner creates and edits workshops with a seat count and sees the attendee list; the owner can
+ask for a drafted description from notes.
+
+Quality: a member never sees another member's bookings (security); a workshop never sells more seats
+than it has (correctness under concurrency); a paid booking is never lost (durability); the workshop
+list answers in under 500 ms at peak (performance); the site is back within minutes after a
+process restart (availability).
+
+## 2. Workload estimate (planning inputs, not measurements)
+
+| Input | Launch | 100× |
+|---|---|---|
+| Members | 200 | 20,000 |
+| Visits per member per week | 2 | 2 |
+| Requests per visit | 20 | 20 |
+| Average requests/s | 0.01 | 1.3 |
+| Peak factor | 8 | 8 |
+| Peak requests/s | 0.1 | 11 |
+| Booking writes per week | 200 | 20,000 |
+| Rows per year (bookings) | 10,000 | 1,000,000 |
+| Storage per year | under 10 MB | under 1 GB |
+
+Conclusion: throughput is not the first problem at either size. The first problem is two members
+booking the last seat at the same moment.
+
+## 3. Architecture
+
+    browser (Vite static build, Railway service "web")
+        |  HTTPS, JSON, Bearer token
+    Express API (Node 24, Railway service "api", one process)
+        |  Mongoose
+    MongoDB (Railway add-on, one primary)
+        |
+    external: Stripe (Checkout + webhook), Anthropic API (description drafts)
+
+Ownership: the API is the only writer to MongoDB. Stripe owns payment state; the API records what
+Stripe reports through the signed webhook. The AI feature reads workshop notes and writes nothing.
+
+## 4. One request, traced
+
+POST /api/bookings { workshopId } with a member token.
+1. requireUser verifies the token and sets req.userId.
+2. The handler validates workshopId as a string and loads the workshop.
+3. One conditional update: find the workshop where seatsTaken < seatCount and increment seatsTaken;
+   if no document matches, answer 409 "workshop is full". This is the hall's conditional debit.
+4. Insert the booking { member, workshop, status: "pending" } and create a Stripe Checkout session.
+5. Answer 201 with the Checkout URL. The booking becomes "paid" only when the webhook arrives.
+
+## 5. One failure, walked through
+
+MongoDB restarts for 30 seconds while bookings are being made. The API's Mongoose calls fail with
+a connection error; the error handler answers 503 with { error: "try again in a moment" }; the
+client shows that sentence and keeps the form. No seat was incremented without its booking,
+because step 3 and step 4 run in that order and a failed step 4 is followed by a compensating
+decrement. A webhook that arrives during the outage is retried by Stripe; the handler is
+idempotent on the Stripe event id, so the retry completes the booking once.
+
+Timeouts: 5 s on Stripe and Anthropic calls, no retry inside a request; the client may retry a
+GET, never a POST without a fresh form. Mongoose uses its default server selection timeout.
+
+## 6. Data model
+
+User { name, email unique, passwordHash, role: member | owner }
+Workshop { title, startsAt, seatCount, seatsTaken, notes, description } indexed on startsAt
+Booking { member -> User, workshop -> Workshop, status: pending | paid | cancelled, stripeSessionId }
+  unique on (member, workshop)
+PaymentEvent { stripeEventId unique, type, receivedAt }
+
+## 7. Scaling plan
+
+At launch: as drawn. At 10×: add an index on Booking.member for the "my bookings" page; nothing
+else. At 100×: measure first; the expected first move is a second API instance behind Railway's
+load balancing, which the stateless token design already allows, then a read-heavy cache for the
+workshop list with a 60 s expiry, deleted on any workshop edit. Not before a measurement.
+
+## 8. Cost
+
+Two Railway services plus the MongoDB add-on at the usage-based plan on https://railway.com/pricing;
+the numbers change, so the plan name and the link are recorded here rather than a figure. Stripe
+takes a per-transaction fee. The AI feature is metered per token and capped in code at a daily
+budget.
+
+## 9. ADR-1: one process, one database, on Railway
+
+Context: a two-person product with an estimated peak under a dozen requests a second at 100×.
+Options: (a) one Express process and one MongoDB on Railway; (b) separate services for auth,
+bookings, and payments; (c) a serverless function per route with a hosted database.
+Decision: (a), with modules auth/, workshops/, bookings/, payments/ inside one process and one
+collection per module.
+Consequences: one deploy, one log, one place to debug; a single process is a single failure
+domain, mitigated by Railway restarts and by stateless requests; a split later is a module
+boundary, not a rewrite.
+Revisit when: a measured peak passes 50 requests/s, or the AI feature's latency starts to hold
+booking requests, in which case the AI route moves to its own service first.
+
+## 10. Deferred alternatives
+
+A queue for confirmation email: not now, because the email is sent by the webhook handler and a
+failure there is retried by Stripe. A CDN for the static build: Railway's edge serves it; revisit
+if the client bundle grows past a few hundred kilobytes.
+
+Changes: 2026-11-07 first version.
+```
+
+Read section 4 against section 3. Every hop in the trace is a box or an arrow in the drawing, and the one mechanism the quality requirements depend on, the conditional update in step 3, is named rather than assumed. Section 5 is the part most design documents skip, and it is the part a reviewer reads first, because it shows whether the author has thought about the system when it is not working. Section 9 is the decision record, inside the document, with the alternatives written down and a revisit condition that is a number.
 
 ## Where it breaks
 
@@ -509,129 +227,107 @@ console.log('ok: checkpoint-9-4');
 
 ### Premature microservices
 
-The design has five services, three queues, and no users. Every feature now needs a deploy dance and a failure mode that a single process would not have had. Start with the smallest thing you can run: one application, one database, a boundary in the code where a split could later go. Extract a service when a real pressure shows up, a load you measured, a team that needs to ship apart, a failure domain you can name. A diagram of services is not an architecture. It is a guess about scale you have not seen.
+The design has five services, three queues, and no users. The symptom is a diagram you cannot run on your laptop and a feature that needs four deploys. The cause is designing for a scale you have not seen, with boxes borrowed from a company whose problems you do not have.
+
+Start with the smallest thing you can deploy: one process, one database, modules with clear ownership inside the process. Mark the seam where a split would go. Extract a service when a real pressure shows up, a load you measured, a team that needs to ship apart, a failure domain you can name. Until then the drawing has three boxes and the document says why.
 
 ### Cache becomes authority
 
-The cache says the quest is open and the database says it was completed an hour ago. Some reader trusted the cache. Decide which store is the source of truth, how long a cached value may lie, and what event deletes it. A cache without an invalidation story will serve the stale value with confidence, which is worse than being slow. If you cannot say what happens on write, you do not have a cache yet. You have a second database that drifts.
+The cache says the workshop has a seat and the database says it sold out an hour ago, and a reader trusted the cache. The symptom is two users with a confirmation for the same seat, or a page that shows a booking the user just cancelled. The cause is a cache with no owner, no expiry, and no invalidation event, which is a second database that drifts.
+
+For each cached value, write the source of truth, the key, how long it may lie, and what deletes it. If you cannot answer the last one, you do not have a cache yet. For anything that gates money or a scarce resource, read the database; cache the description, not the count.
 
 ### Scale claim lacks numbers
 
-The design says it "scales" and does not say to how many requests, of what size, with what data growth. Add an estimate you can check: requests per minute, rows per year, the read you think is hot. State the assumption in the same sentence. An architecture review can challenge a number. It cannot challenge an adjective. If you have no traffic yet, say the number you want the first design to survive, and the number at which you would revisit it.
+The document says the design "scales" and does not say to what. The symptom is a review where nobody can disagree because nothing was claimed. The cause is an adjective where a number belongs.
+
+Add the estimate: requests per second at launch and at a hundred times launch, rows per year, the one read you think is hot, and the assumption behind each in the same sentence. State the number at which you would revisit the first decision. A review can challenge a number. It cannot challenge "scales well."
 
 ## Your turn
 
-Take ten minutes.
-System design is big-picture thinking. Let your mind rest and synthesize what you have learned.
+Everything happens in your capstone repository, `~/projects/<capstone-name>`, which has held `docs/` since Unit 8.
 
-**Guided Exercise: Design a Chat Application**
+1. `cd ~/projects/<capstone-name> && ls docs` and read `product-spec.md` and `user-stories.md` once more, with a pen, marking every read and every write a user performs.
+2. Copy this into `docs/system-design.md` and fill it in. The headings are the ten sections from the demonstration; keep them, because [9-5](/path/9-5-the-runesmiths-forge/) adds a second decision record under the same numbering.
 
-Work through this out loud, one decision at a time, and write down the decision you almost skipped.
+   ```markdown
+   # <Capstone name>: system design
 
-**Requirements:** Real-time messaging between users. Group chats. Message history. Read receipts. Online status.
+   Version 1.0, written from docs/product-spec.md v1.0.
 
-Walk through each component together:
-1. What protocol for real-time? (WebSockets vs. polling vs. SSE)
-2. How to store messages? (Database choice, schema design)
-3. How to handle group chats efficiently?
-4. How to show online/offline status?
-5. How to scale WebSocket connections across multiple servers?
+   ## 1. What the system must do
+   Functional: ...
+   Quality: ... (one sentence each for security, correctness, durability, performance, availability)
 
-```
-Key Architecture Decisions:
+   ## 2. Workload estimate (planning inputs, not measurements)
+   | Input | Launch | 100× |
+   |---|---|---|
+   | Users | | |
+   | Visits per user per week | | |
+   | Requests per visit | | |
+   | Average requests/s | | |
+   | Peak factor | | |
+   | Peak requests/s | | |
+   | Writes per week | | |
+   | Rows per year | | |
+   | Storage per year | | |
+   Conclusion: ...
 
-Real-time: WebSockets for persistent connections
-  - Each server holds WebSocket connections for N users
-  - When User A sends message to User B:
-    - If User B is connected to the same server: deliver directly
-    - If User B is on a different server: use Redis Pub/Sub to route
+   ## 3. Architecture
+   (text diagram: client, API, database, external services, with the protocol on each arrow)
+   Ownership: ...
 
-Message Storage:
-  - Store messages in database (MongoDB or PostgreSQL)
-  - Use message queue for delivery guarantees
-  - Cache recent messages per chat room in Redis
+   ## 4. One request, traced
+   (the most important write, step by step, naming the validation, the authorization, the
+   persistence, and the response)
 
-Scaling WebSockets:
-  - Use Redis Pub/Sub or a dedicated message broker
-  - Each server subscribes to channels for its connected users
-  - Load balancer uses sticky sessions (IP hash) for WebSocket connections
+   ## 5. One failure, walked through
+   (what the user sees, what is logged, what is in the database afterwards, and why that is acceptable)
+   Timeouts and retries: ...
 
-Read Receipts:
-  - When user reads a message, send an update via WebSocket
-  - Store "last read" timestamp per user per chat
-  - Calculate unread count: messages after "last read" timestamp
-```
+   ## 6. Data model
+   (one line per collection, with refs, indexes, and unique constraints)
 
-**Success Criteria:**
-- You can draw the architecture diagram with all major components
-- You can explain why WebSockets are used instead of HTTP polling
-- You can describe how messages get routed between servers
+   ## 7. Scaling plan
+   At launch: ... At 10×: ... At 100×: ... Not before a measurement.
+
+   ## 8. Cost
+   (plan names and links, not figures)
+
+   ## 9. ADR-1: <the decision>
+   Context: ... Options: ... Decision: ... Consequences: ... Revisit when: ...
+
+   ## 10. Deferred alternatives
+   ...
+
+   Changes: <date> first version.
+   ```
+3. Fill section 2 first, with your own inputs, and run the arithmetic in the checkpoint above with your numbers by changing the two `estimate` calls. Paste the resulting `peakRps` values into the table.
+4. Draw section 3 as text. Every box is something you will actually deploy in Unit 10: the Vite build, the Express API, MongoDB, Stripe, the Anthropic API. Nothing else unless section 2 forced it.
+5. Trace the write from your top user story in section 4, naming the conditional update if the story involves a scarce thing, the way the hall's `spend` did.
+6. Walk the database-restart failure in section 5 and write the timeout for every external call.
+7. Write ADR-1 with at least two rejected options and a numeric revisit condition. Commit: `git add docs/system-design.md && git commit -m "Add system design v1.0"` and push.
+
+If section 2 produces a peak above a few dozen requests a second at launch, check the inputs before you check the architecture. Most first estimates are off by a factor of ten in the pessimistic direction, and the fix is a sentence about which input you doubt, not a load balancer.
 
 ## The quest
 
-**Independent Lab: Design Your Capstone Architecture**
-
-This is the most important exercise in this session. You are designing the architecture for YOUR capstone project or a project of your choosing.
-
-**Requirements:**
-1. Draw a complete architecture diagram including:
-   - Client application(s)
-   - Load balancer (if applicable)
-   - API server(s)
-   - Database(s)
-   - Cache layer (if applicable)
-   - Any third-party services (auth, email, payment, etc.)
-2. For each component, write 2-3 sentences explaining:
-   - What it does
-   - Why you chose it
-   - How it would scale
-3. Identify the top 3 potential bottlenecks in your system
-4. For each bottleneck, describe how you would address it
-5. Estimate the cost of running your architecture at 1,000 users vs. 100,000 users
-
-**Stretch Goals:**
-- Add a message queue for at least one async workflow
-- Design a caching strategy with specific TTLs for different data types
-- Create a data flow diagram showing how a single user request travels through your system
-
-### Review the artifact
-
-Your deliverable is **A system design document with estimates, failure paths, and explicit tradeoffs**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-9-4/fig3-evidence)
+
+The deliverable is `docs/system-design.md`, version 1.0, committed and pushed in the capstone repository, with all ten sections filled and the diagram readable as plain text in the file. It is the document Unit 10 builds against, and 10-4's security audit and first deploy refer back to sections 3, 5, and 8.
+
+Evidence to keep:
+
+- The workload table with your inputs and the two `peakRps` numbers you computed, and the sentence under it naming which input you are least sure of.
+- The traced request in section 4, in which every step corresponds to a box or an arrow in section 3.
+- The failure walkthrough in section 5, with a timeout written for every external call.
+- ADR-1 with two rejected options and a revisit condition that is a number.
+- The commit hash of the version you pushed, in the Changes line at the bottom.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The interview-framework sheet is this document compressed into forty-five minutes out loud, the back-of-the-envelope sheet is the arithmetic from section 2 with the reference numbers you should treat as starting guesses, and the caching sheet is the four questions you owe before any cache goes in the drawing.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Read about client-server architecture. Review how your full-stack projects from Units 5-8 are structured (frontend, backend, database). Think about what would happen if your app suddenly had 100,000 users.
-**Materials:** Whiteboard or diagramming tool (draw.io, Excalidraw, or Miro), system design reference sheet, architecture diagram templates.
-
-**Assignment: System Design Document**
-- **Objective:** Write a 1-2 page system design document for your capstone project
-- **Tasks:**
-  1. Architecture diagram (use draw.io, Excalidraw, or even hand-drawn and photographed)
-  2. Component descriptions (what each piece does and why)
-  3. Database schema overview (main collections/tables and their relationships)
-  4. Scaling strategy (what you would do at 1K, 10K, and 100K users)
-  5. Technology justifications (why Express vs. other frameworks, why MongoDB vs. PostgreSQL, etc.)
-  6. Identify and address the top 3 potential bottlenecks
-- **Stretch Goals:**
-  - Add a cost estimate using AWS/Vercel/Railway pricing
-  - Include a sequence diagram for one critical user flow
-  - Research and document one alternative architecture and explain why you did not choose it
-- **Submission:** Add to your capstone repository as `SYSTEM_DESIGN.md` with embedded or linked diagrams
-- **Due:** Before Session 9.5
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/)
+Next session returns to code: the guild hall's API is converted to TypeScript in place, with the Unit 7 tests as the baseline that must stay green, and a second decision record goes into the document you just wrote, explaining why the capstone itself stays in JavaScript. Reread section 4 of your design once, because the conversion session asks you to trace the same kind of request through typed code. Nothing is running between sessions; the hall's server is stopped, and the design is a file. You arrive with `docs/system-design.md` v1.0 pushed and the `hall-api` repository from Unit 7 clean, with `npm test` passing.

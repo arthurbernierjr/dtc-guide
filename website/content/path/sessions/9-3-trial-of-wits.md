@@ -1,710 +1,235 @@
 ---
 editorial: true
 title: Trial of Wits
-subtitle: Algorithm Patterns and Whiteboard Practice
-hook: "Algorithm solutions with invariants, edge cases, and comparative complexity. Work a small input by hand."
+subtitle: Algorithm patterns and whiteboard practice
+hook: "A pattern is not a trick to memorize. It is what the structure of the input allows. Today you write the slow version first, keep it as the oracle, and let it prove that the fast version you wrote next gives the same answers."
 read: 60
-artifact: "Algorithm solutions with invariants, edge cases, and comparative complexity"
+artifact: "Algorithm solutions in typescript-practice, each with a brute-force oracle, a written invariant, boundary tests, and a measured comparison of the two versions"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+  - https://nodejs.org/api/test.html
+  - https://nodejs.org/api/perf_hooks.html
 say:
-  - "Example: Work a small input by hand."
-  - "Invariant: State what remains true during each step."
-  - "Proof: Check termination, correctness, and resource growth."
+  - "Work a small input by hand before you write a loop."
+  - "The invariant is the sentence that is true at the top of every iteration."
+  - "The slow version is the definition; the fast one is only right when they agree."
 ---
 
 ## The hook
 
-Welcome to the Trial of Wits. The Trial of Blades tested your ability to build weapons. This trial tests your ability to use them. Today is algorithm day. Two pointers. Sliding window. Frequency counters. Binary search. Sorting algorithms. Recursion. These are the patterns that show up in 90 percent of technical interviews, and more importantly, they are the patterns that let you solve real engineering problems efficiently.
+Last session you measured an `includes` loop going from a millisecond to six seconds and replaced it with a `Set`. That replacement has a name, the frequency counter, and it is one of a handful of moves that turn a nested loop into a single pass when the input has the right shape. Two pointers, sliding window, binary search, divide and conquer, memoized recursion. People call them patterns and teach them as a list. The list is the least useful part. What matters is the condition under which each one is safe, because applied without its condition a pattern produces an elegant wrong answer.
 
-Here is what most bootcamp graduates get wrong about algorithms. They think algorithms are an academic exercise with no practical value. That is dead wrong. When you need to find duplicates in a user database, you use a frequency counter. When you need to search through sorted data, you use binary search. When you need to process a stream of incoming data, you use a sliding window. These are not interview tricks. These are engineering tools.
+Today you solve problems the way you will solve them at a whiteboard and in a code review: understand the input, write the obvious slow version, state what makes it slow, then write the fast version with its invariant beside the loop and a test that runs both on the same generated cases. The slow version is not wasted. It is the oracle. By the end you have a file of solutions in `~/projects/typescript-practice`, each with two implementations, a sentence that stays true inside the loop, and a measurement showing which one you would ship and at what size it starts to matter.
 
-By the end of this session, you will have solved 10 algorithm problems using established patterns. You will have a whiteboard problem-solving framework you can use in any interview. And you will understand recursion well enough to explain it to someone else, which is the real test of understanding.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *A trial of wits is not won by knowing the answer. It is won by knowing how you would check one.*
 
 ## The idea
 
-### Analyze Algorithm Efficiency Using Big O Notation
-You will analyze the time and space complexity of algorithms using Big O notation and select appropriate solutions based on performance requirements.
+Every pattern is a consequence of a structure in the input. A frequency counter works because membership in a `Map` or `Set` is expected constant time, so counting things once replaces comparing every pair. Two pointers work when the input is sorted, or when moving one boundary can never throw away a valid answer. A sliding window works when the property of a contiguous range can be updated as one element enters and one leaves, which for a sum means the values are not negative. Binary search works when the answer space is ordered, so one comparison discards half of it. Memoization works when a subproblem's result depends only on its arguments, so a repeated call can be answered from a table. Say the condition out loud before you pick the pattern. If you cannot say it, you do not have the pattern yet; you have its name.
 
-**Enabling Objectives:**
-- Define Big O notation and explain what it measures (growth rate, not exact time)
-- Identify the time complexity of code containing loops, nested loops, recursive calls, and divide-and-conquer patterns
-- Compare common complexity classes (O(1), O(log n), O(n), O(n log n), O(n^2), O(2^n)) and rank them by efficiency
-- Analyze space complexity by tracking memory allocation relative to input size
-- Evaluate algorithm tradeoffs between time complexity, space complexity, and code readability
+The method is the same for every problem, and it is worth doing in writing until it is reflex. Understand: what are the inputs, the output, and the cases at the edge, empty, one element, all the same, a match at each end. Match: which structure in the input makes which pattern safe. Plan: the slow version in two sentences, then the fast one. Implement: the slow version first, because it is the definition of correct. Review: walk one small input by hand through the fast version and watch the invariant hold. Evaluate: time and space for both, and the size at which the difference matters. Interviewers ask for this sequence out loud. Code reviewers ask for it in the commit message. The whiteboard and the pull request are the same exercise.
 
-**You should be able to:**
-- Look at a function and determine its Big O time and space complexity
-- Explain why an O(n) solution is preferable to an O(n^2) solution at scale
-- Choose between algorithmic approaches based on performance characteristics
+An invariant is a sentence that is true at the top of every iteration of a loop. For a sliding window that tracks a sum: `sum` is the total of `nums[left]` through `nums[right]` inclusive. For binary search over a half-open interval: the answer, if it exists, is at an index in `[lo, hi)`. For a frequency counter after the first pass: each count equals the number of times that key appeared. Write the sentence as a comment above the loop. Then check three things: it is true before the loop starts, each iteration keeps it true, and when the loop ends it gives you the answer. Most off-by-one errors are a loop whose invariant was never written down, so nobody noticed that `right` was inclusive in one line and exclusive in the next.
 
-### Apply Core Data Structures to Solve Programming Problems
-You will implement and apply stacks, queues, linked lists, hash tables, and trees to solve programming problems, selecting the appropriate data structure based on the problem's requirements.
-
-**Enabling Objectives:**
-- Implement a generic Stack class with push, pop, peek, and isEmpty operations in TypeScript
-- Implement a generic Queue class with enqueue, dequeue, and front operations in TypeScript
-- Build a singly linked list with append, prepend, remove, find, and reverse methods in TypeScript
-- Explain how hash tables work (hashing, collisions, chaining) and use Map and Set effectively
-- Describe binary tree structure, traversal orders, and when trees are used in real systems
-- Apply algorithm patterns (two pointers, sliding window, frequency counter, divide and conquer) to solve problems efficiently
-
-**You should be able to:**
-- Build data structures from scratch using TypeScript generics
-- Select the right data structure for a given problem based on operation complexity
-- Solve algorithm problems using established patterns
-
-**The UMPIRE Problem-Solving Framework**
-
-Before we write a single line of code, you need a framework for approaching any problem. Interviewers care as much about your process as your answer. The UMPIRE method:
-
-- **U - Understand:** Read the problem. Ask clarifying questions. What are the inputs? What are the outputs? What are the edge cases? Can the array be empty? Can numbers be negative?
-- **M - Match:** What pattern does this problem match? Two pointers? Sliding window? Hash map? Sorting?
-- **P - Plan:** Write pseudocode. Outline your approach step by step BEFORE writing code.
-- **I - Implement:** Now write the actual code. Follow your plan.
-- **R - Review:** Walk through your code with a test case. Check for off-by-one errors, edge cases, and typos.
-- **E - Evaluate:** What is the Big O time and space complexity? Can you optimize it?
-
-This framework works for whiteboard interviews, take-home challenges, and real engineering problems. Use it every time.
-
-**Pattern 1: Frequency Counter**
-
-The frequency counter pattern uses an object or Map to count occurrences. It eliminates the need for nested loops, converting O(n^2) solutions to O(n).
-
-When to use it: anagrams, duplicate detection, character counting, comparing two datasets.
-
-```typescript
-// Problem: Check if two strings are anagrams
-// "listen" and "silent" are anagrams (same letters, different order)
-
-// SLOW approach: O(n^2) - sort both and compare
-function areAnagramsSlow(str1: string, str2: string): boolean {
-  return str1.split("").sort().join("") === str2.split("").sort().join("");
-  // Sorting is O(n log n), which is fine but we can do better
-}
-
-// FAST approach: O(n) - frequency counter
-function areAnagrams(str1: string, str2: string): boolean {
-  if (str1.length !== str2.length) return false;
-
-  const freq: Record<string, number> = {};
-
-  // Count characters in str1
-  for (const char of str1) {
-    freq[char] = (freq[char] || 0) + 1;
-  }
-
-  // Subtract characters from str2
-  for (const char of str2) {
-    if (!freq[char]) return false;
-    freq[char]--;
-  }
-
-  return true;
-}
-
-// Time: O(n), Space: O(n)
-console.log(areAnagrams("listen", "silent")); // true
-console.log(areAnagrams("hello", "world"));   // false
-```
-
-```typescript
-// Problem: Find the first non-repeating character in a string
-function firstUniqueChar(str: string): string | null {
-  const freq = new Map<string, number>();
-
-  // Count frequencies
-  for (const char of str) {
-    freq.set(char, (freq.get(char) || 0) + 1);
-  }
-
-  // Find first character with count 1
-  for (const char of str) {
-    if (freq.get(char) === 1) return char;
-  }
-
-  return null;
-}
-
-// Time: O(n), Space: O(n)
-console.log(firstUniqueChar("aabccbde")); // "d"
-console.log(firstUniqueChar("aabb"));     // null
-```
-
-```typescript
-// Problem: Given an array of numbers, find two numbers that sum to a target
-function twoSum(nums: number[], target: number): [number, number] | null {
-  const seen = new Map<number, number>(); // value -> index
-
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    if (seen.has(complement)) {
-      return [seen.get(complement)!, i];
-    }
-    seen.set(nums[i], i);
-  }
-
-  return null;
-}
-
-// Time: O(n), Space: O(n)
-console.log(twoSum([2, 7, 11, 15], 9));  // [0, 1] (2 + 7 = 9)
-console.log(twoSum([3, 2, 4], 6));       // [1, 2] (2 + 4 = 6)
-```
-
-**Pattern 2: Two Pointers**
-
-The two pointers pattern uses two index variables that move toward each other (or in the same direction) through an array. It is typically used on sorted arrays or linked lists.
-
-When to use it: pair sum on sorted array, palindrome checking, removing duplicates from sorted array, container with most water.
-
-```typescript
-// Problem: Check if a string is a palindrome
-function isPalindrome(str: string): boolean {
-  let left = 0;
-  let right = str.length - 1;
-
-  while (left < right) {
-    if (str[left] !== str[right]) return false;
-    left++;
-    right--;
-  }
-
-  return true;
-}
-
-// Time: O(n), Space: O(1)
-console.log(isPalindrome("racecar")); // true
-console.log(isPalindrome("hello"));   // false
-```
-
-```typescript
-// Problem: Given a SORTED array, find two numbers that sum to a target
-function twoSumSorted(nums: number[], target: number): [number, number] | null {
-  let left = 0;
-  let right = nums.length - 1;
-
-  while (left < right) {
-    const sum = nums[left] + nums[right];
-
-    if (sum === target) return [left, right];
-    if (sum < target) left++;    // Need a bigger sum, move left pointer right
-    else right--;                 // Need a smaller sum, move right pointer left
-  }
-
-  return null;
-}
-
-// Time: O(n), Space: O(1) -- better than the hash map version for sorted arrays!
-console.log(twoSumSorted([1, 2, 3, 4, 6], 6)); // [1, 3] (2 + 4 = 6)
-```
-
-```typescript
-// Problem: Remove duplicates from a sorted array in place
-// Return the new length (array is modified in place)
-function removeDuplicates(nums: number[]): number {
-  if (nums.length === 0) return 0;
-
-  let slow = 0; // Points to the last unique element
-
-  for (let fast = 1; fast < nums.length; fast++) {
-    if (nums[fast] !== nums[slow]) {
-      slow++;
-      nums[slow] = nums[fast];
-    }
-  }
-
-  return slow + 1; // Length of unique elements
-}
-
-// Time: O(n), Space: O(1)
-const arr = [1, 1, 2, 2, 3, 4, 4, 5];
-const newLength = removeDuplicates(arr);
-console.log(arr.slice(0, newLength)); // [1, 2, 3, 4, 5]
-```
-
-**Pattern 3: Sliding Window**
-
-The sliding window pattern maintains a "window" that slides across data. It converts nested loop problems (O(n^2)) into single-pass solutions (O(n)).
-
-When to use it: maximum sum subarray, longest substring without repeating characters, smallest subarray with a given sum.
-
-```typescript
-// Problem: Find the maximum sum of any contiguous subarray of size k
-function maxSubarraySum(arr: number[], k: number): number | null {
-  if (arr.length < k) return null;
-
-  // Calculate sum of first window
-  let windowSum = 0;
-  for (let i = 0; i < k; i++) {
-    windowSum += arr[i];
-  }
-
-  let maxSum = windowSum;
-
-  // Slide the window: add next element, remove first element
-  for (let i = k; i < arr.length; i++) {
-    windowSum = windowSum + arr[i] - arr[i - k];
-    maxSum = Math.max(maxSum, windowSum);
-  }
-
-  return maxSum;
-}
-
-// Time: O(n), Space: O(1)
-console.log(maxSubarraySum([1, 4, 2, 10, 2, 3, 1, 0, 20], 4)); // 24 (2+3+1+0+20? No: 10+2+3+1=16? Actually: let me recalc)
-// Window sums: [1+4+2+10]=17, [4+2+10+2]=18, [2+10+2+3]=17, [10+2+3+1]=16, [2+3+1+0]=6, [3+1+0+20]=24
-// Answer: 24
-```
-
-```typescript
-// Problem: Find the longest substring without repeating characters
-function longestUniqueSubstring(str: string): number {
-  const charSet = new Set<string>();
-  let left = 0;
-  let maxLength = 0;
-
-  for (let right = 0; right < str.length; right++) {
-    // Shrink window from left while duplicate exists
-    while (charSet.has(str[right])) {
-      charSet.delete(str[left]);
-      left++;
-    }
-
-    charSet.add(str[right]);
-    maxLength = Math.max(maxLength, right - left + 1);
-  }
-
-  return maxLength;
-}
-
-// Time: O(n), Space: O(min(n, alphabet_size))
-console.log(longestUniqueSubstring("abcabcbb")); // 3 ("abc")
-console.log(longestUniqueSubstring("bbbbb"));    // 1 ("b")
-console.log(longestUniqueSubstring("pwwkew"));   // 3 ("wke")
-```
-
-```typescript
-// Problem: Find the smallest subarray with sum >= target
-function minSubarrayLen(target: number, nums: number[]): number {
-  let left = 0;
-  let sum = 0;
-  let minLen = Infinity;
-
-  for (let right = 0; right < nums.length; right++) {
-    sum += nums[right];
-
-    while (sum >= target) {
-      minLen = Math.min(minLen, right - left + 1);
-      sum -= nums[left];
-      left++;
-    }
-  }
-
-  return minLen === Infinity ? 0 : minLen;
-}
-
-// Time: O(n), Space: O(1)
-console.log(minSubarrayLen(7, [2, 3, 1, 2, 4, 3])); // 2 ([4, 3])
-console.log(minSubarrayLen(11, [1, 1, 1, 1, 1]));    // 0 (impossible)
-```
-
-**Recursion Fundamentals**
-
-Recursion is when a function calls itself. Every recursive function needs a base case (when to stop) and a recursive case (when to call itself with a smaller problem).
-
-```typescript
-// Classic example: Factorial
-// 5! = 5 * 4 * 3 * 2 * 1 = 120
-function factorial(n: number): number {
-  // Base case: stop when n is 0 or 1
-  if (n <= 1) return 1;
-
-  // Recursive case: n * factorial of (n-1)
-  return n * factorial(n - 1);
-}
-
-// Call stack visualization:
-// factorial(5)
-//   5 * factorial(4)
-//     4 * factorial(3)
-//       3 * factorial(2)
-//         2 * factorial(1)
-//           return 1        <- base case hit
-//         return 2 * 1 = 2
-//       return 3 * 2 = 6
-//     return 4 * 6 = 24
-//   return 5 * 24 = 120
-
-console.log(factorial(5));  // 120
-console.log(factorial(10)); // 3628800
-```
-
-```typescript
-// Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...
-// Each number is the sum of the two before it
-
-// NAIVE recursive: O(2^n) - exponentially slow!
-function fibNaive(n: number): number {
-  if (n <= 1) return n;
-  return fibNaive(n - 1) + fibNaive(n - 2);
-}
-
-// MEMOIZED recursive: O(n) - cache previous results
-function fibMemo(n: number, memo: Map<number, number> = new Map()): number {
-  if (n <= 1) return n;
-  if (memo.has(n)) return memo.get(n)!;
-
-  const result = fibMemo(n - 1, memo) + fibMemo(n - 2, memo);
-  memo.set(n, result);
-  return result;
-}
-
-// ITERATIVE: O(n) time, O(1) space - the best for this problem
-function fibIterative(n: number): number {
-  if (n <= 1) return n;
-
-  let prev = 0;
-  let curr = 1;
-
-  for (let i = 2; i <= n; i++) {
-    const next = prev + curr;
-    prev = curr;
-    curr = next;
-  }
-
-  return curr;
-}
-
-console.log(fibIterative(10)); // 55
-console.log(fibIterative(20)); // 6765
-```
+What you should be able to draw on a napkin: a small input worked by hand, the sentence that stays true inside the loop, and a check of termination, correctness, and growth. Example, invariant, proof. The code is the last thing you write and the easiest thing to fix.
 
 ![](diagram:session-9-3/fig1-model)
 
-### A pattern is a consequence of structure
+### The oracle
 
-Two pointers work when moving a boundary can eliminate possibilities without losing a valid answer. A sliding window works when the property of a contiguous range can be updated as elements enter and leave. Binary search requires an ordered or monotonic decision space. Memorizing these names without their conditions leads to elegant-looking wrong answers. Start by explaining the input structure that makes the chosen movement safe.
+The slow version is usually two nested loops or a sort followed by a scan. It is easy to read and easy to get right, and that is its value. Keep it in the same file, with `Slow` on the end of its name. Then write one test that generates a few hundred small random inputs, runs both versions, and asserts they agree. When they disagree, the fast one is wrong until you can explain the case, because the slow one is the definition. The test will find the case you did not think of, usually an empty array or a run of equal values, and it will print the input that broke, which is more than a hand-picked example ever gives you.
 
-Write a brute-force solution first when it clarifies the contract. It can serve as an oracle for small inputs while you develop an optimized version. Generate or enumerate short cases and compare both results. The slow version need not ship to production to be valuable. It gives you independent evidence that an optimization preserved behavior rather than merely producing the expected answer for one demonstration.
+Deterministic randomness matters for a test that runs on another machine. A tiny linear congruential generator with a fixed seed produces the same four hundred cases every time, so a failure is reproducible from the seed alone. `Math.random` is fine while you explore and wrong for a test you commit.
 
-### State an invariant in ordinary language
+### Frequency counter, two pointers, window
 
-For binary search with a half-open interval, every possible answer remains between the lower bound and the exclusive upper bound. For a frequency counter, each stored count equals the number of occurrences processed so far. For a sliding window, the maintained state describes exactly the current interval. Write the invariant beside the loop, then check initialization, preservation, and termination.
+A frequency counter is a `Map` from value to count, or a `Set` when you only need membership. Anagrams: count the characters of one string, subtract the characters of the other, and refuse the moment a count would go below zero. Two sum on an unsorted array: for each number, check whether the complement is already in the map, then add the number. Both are O(n) time and O(n) space, replacing an O(n²) pair comparison. The space is the price; name it.
 
-Off-by-one errors become easier to diagnose when interval conventions are explicit. Do not mix an inclusive right boundary with a length calculation designed for an exclusive one. Test an empty input, one element, a match at each end, and a missing value. For duplicate values, decide whether any match, the first match, or the last match is required. Those are different contracts and may require different boundary updates.
+Two pointers is two indexes walking an array under a rule that guarantees nothing valid is skipped. On a sorted array, a pair that sums to a target can be found with `left` at the start and `right` at the end: if the sum is too small, only moving `left` up can help, because `right` already holds the largest remaining value. That sentence is the proof, and it depends on the sort. A slow and a fast pointer over the same array is the shape for removing duplicates in place from sorted input, and for reversing a linked list with `previous`, `current`, and `next`, which you wrote last session.
 
-### Sorting changes the problem and sometimes the input
+A sliding window is a contiguous range that grows at the right and shrinks at the left, with some state updated incrementally. For the shortest run whose sum reaches a target, extend `right` and add; while the sum is at least the target, record the length and shrink from the left. This is O(n) because each index enters the window once and leaves once. It is only correct when shrinking the window cannot increase the sum, which means every value is at least zero. Write that condition in the function's comment. With negative numbers the window pattern gives wrong answers, confidently, and the oracle test is how you find out.
 
-Sorting can enable two pointers or make duplicates adjacent, but it adds a cost and may change the original array. If the caller expects the input preserved, copy it before sorting or document mutation as part of the contract. In JavaScript, supply a comparator for numeric ordering; the default ordering is based on string representations. Test negative numbers and multi-digit values so the mistake is visible.
+### Binary search and the half-open interval
 
-Some sliding-window techniques assume nonnegative values or a monotonic condition. If negative values are allowed, shrinking the window may not predictably reduce the sum. Do not generalize a solution beyond its assumptions. Write those assumptions in the function contract and include a counterexample that shows why they matter. Recognizing when a pattern does not apply is part of mastering it.
+Binary search finds a position in an ordered array by halving. The version worth memorizing is the lower bound: the first index whose value is at least the target, over a half-open interval `[lo, hi)`. `lo` starts at 0, `hi` at the length, and the loop runs while `lo < hi`. `mid` is `lo + floor((hi - lo) / 2)`. If `values[mid] < target`, the answer is to the right, so `lo = mid + 1`. Otherwise `mid` might be the answer, so `hi = mid`. When the loop ends, `lo` is the first position where the target would fit. On an empty array it returns 0. On a target past the end it returns the length. On duplicates it returns the first one. One function answers "is it here," "where does it go," and "where does the run start," which is why this is the form to keep.
 
-### Explain recursion as state and progress
+The reason for the half-open convention is that `hi = mid` and `lo = mid + 1` can never skip an index or loop forever, and the empty interval is `lo === hi`, a condition you can read. Mixing an inclusive `right` with a length computation written for an exclusive one is the classic off-by-one, and it survives small tests because a few inputs happen to work.
 
-Every recursive call needs a smaller or otherwise advancing problem and a base case. Draw the call tree for a tiny input and identify repeated subproblems. Memoization can avoid repeated work when the subproblem result depends only on its key. A key that omits relevant state can produce fast but incorrect answers. Include the recursion stack in space analysis and consider iterative alternatives when depth can grow large.
+### Sorting, and what it costs
 
-In whiteboard practice, communicate the contract, examples, baseline, improvement, and tradeoffs. Pause to test your own code before declaring it finished. The final artifact should include at least one solution with a written invariant, a set of boundary cases, and a comparison to a simpler baseline. Clear reasoning is more transferable than memorizing a final implementation.
+Sorting enables patterns: two pointers needs it, duplicates become adjacent after it. It costs O(n log n) and it may change the caller's array, since `sort` works in place. Copy first if the caller expects the input preserved, or use `toSorted`. And pass a comparator. The default order on the [sort page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) compares strings, so `[10, 9, 1].sort()` gives `[1, 10, 9]`. `(a, b) => a - b` is the comparator for numbers. Test with negatives and with multi-digit values so the mistake has somewhere to show up.
+
+The sort you call is V8's TimSort, stable, O(n log n), with O(n) auxiliary space in the worst case. Merge sort is the one to understand because it is the cleanest divide and conquer: split, sort each half, merge, with O(n) extra space. Quicksort partitions around a pivot and is O(n log n) on average and O(n²) in the worst case; the version that allocates two new arrays per level uses O(n) space, and only the in-place partition gets down to O(log n) stack. Bubble sort is O(n²) and exists to be recognized, not used.
+
+### Recursion as state and progress
+
+A recursive function needs a base case and a call on a smaller problem. Draw the call tree for a small input and count the repeated subproblems. Naive Fibonacci calls itself twice per level and is O(2ⁿ); the same function with a `Map` memo is O(n), because each argument is computed once. The memo key must include everything the result depends on, or the cache hands back a fast wrong answer. The recursion stack is memory too: a function that recurses `n` deep uses O(n) space whether or not it allocates anything, and in Node that stack overflows somewhere around ten thousand frames. When depth can be large, the iterative version with an explicit stack or two variables is the one to ship.
 
 ## The demonstration
 
-Take ten minutes.
-The Trial of Wits pauses. Rest your mind. These patterns need time to settle. When we return, we tackle sorting algorithms and binary search.
+One problem end to end, in `~/projects/typescript-practice`. The shortest contiguous run of non-negative numbers whose sum reaches a target: `minSubarrayLen(7, [2, 3, 1, 2, 4, 3])` is `2`, for the run `[4, 3]`, and `minSubarrayLen(11, [1, 1, 1, 1, 1])` is `0`, meaning no such run.
 
-**Sorting Algorithms**
+Understand first. Input: a target and an array of numbers that are at least zero. Output: a length, or `0` when no run reaches the target. Edge cases: an empty array gives `0`; a single element equal to the target gives `1`; a target larger than the whole sum gives `0`. Match: contiguous range, sum updated incrementally, values non-negative, so a sliding window. Plan: the slow version tries every start, extends until the sum reaches the target, and keeps the best length. The fast version keeps one window.
 
-Why learn sorting? JavaScript has `Array.sort()`, but understanding HOW sorting works teaches you divide-and-conquer thinking, helps you analyze performance, and shows up in interviews constantly.
+`src/patterns.ts`, both versions:
 
-**Bubble Sort: The Simplest (and Slowest) Sort**
-
-```typescript
-// Bubble Sort: repeatedly swap adjacent elements if they are in the wrong order
-// Time: O(n^2), Space: O(1)
-function bubbleSort(arr: number[]): number[] {
-  const result = [...arr]; // Do not mutate the original
-  const n = result.length;
-
-  for (let i = 0; i < n - 1; i++) {
-    let swapped = false;
-
-    for (let j = 0; j < n - i - 1; j++) {
-      if (result[j] > result[j + 1]) {
-        // Swap
-        [result[j], result[j + 1]] = [result[j + 1], result[j]];
-        swapped = true;
+```ts
+// Sliding window: the shortest contiguous run whose sum reaches the target.
+// Only valid when every number is >= 0 (shrinking the window never raises the sum).
+export function minSubarrayLenSlow(target: number, nums: number[]): number {
+  let best = Infinity;
+  for (let start = 0; start < nums.length; start += 1) {
+    let sum = 0;
+    for (let end = start; end < nums.length; end += 1) {
+      sum += nums[end];
+      if (sum >= target) {
+        best = Math.min(best, end - start + 1);
+        break;
       }
     }
-
-    // Optimization: if no swaps happened, array is already sorted
-    if (!swapped) break;
   }
-
-  return result;
+  return best === Infinity ? 0 : best;
 }
 
-console.log(bubbleSort([64, 34, 25, 12, 22, 11, 90]));
-// [11, 12, 22, 25, 34, 64, 90]
-```
-
-**Merge Sort: Divide and Conquer**
-
-```typescript
-// Merge Sort: divide array in half, sort each half, merge them back
-// Time: O(n log n), Space: O(n)
-function mergeSort(arr: number[]): number[] {
-  // Base case: array of 0 or 1 elements is already sorted
-  if (arr.length <= 1) return arr;
-
-  // Divide: split array in half
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid));
-  const right = mergeSort(arr.slice(mid));
-
-  // Conquer: merge the sorted halves
-  return merge(left, right);
-}
-
-function merge(left: number[], right: number[]): number[] {
-  const result: number[] = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-
-  // Compare elements from both arrays and take the smaller one
-  while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex] <= right[rightIndex]) {
-      result.push(left[leftIndex]);
-      leftIndex++;
-    } else {
-      result.push(right[rightIndex]);
-      rightIndex++;
-    }
-  }
-
-  // Add remaining elements (one side will be empty)
-  return result.concat(left.slice(leftIndex), right.slice(rightIndex));
-}
-
-console.log(mergeSort([38, 27, 43, 3, 9, 82, 10]));
-// [3, 9, 10, 27, 38, 43, 82]
-```
-
-**Quick Sort: The Fast Pragmatic Choice**
-
-```typescript
-// Quick Sort: pick a pivot, partition around it, recurse on each side
-// Time: O(n log n) average, O(n^2) worst case, Space: O(log n)
-function quickSort(arr: number[]): number[] {
-  // Base case
-  if (arr.length <= 1) return arr;
-
-  // Pick pivot (using last element for simplicity)
-  const pivot = arr[arr.length - 1];
-  const left: number[] = [];
-  const right: number[] = [];
-
-  // Partition: elements smaller than pivot go left, larger go right
-  for (let i = 0; i < arr.length - 1; i++) {
-    if (arr[i] <= pivot) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
-    }
-  }
-
-  // Recurse on both sides and combine
-  return [...quickSort(left), pivot, ...quickSort(right)];
-}
-
-console.log(quickSort([10, 7, 8, 9, 1, 5]));
-// [1, 5, 7, 8, 9, 10]
-```
-
-Sorting algorithm comparison:
-
-```
-+---------------+----------+----------+----------+--------+
-| Algorithm     | Best     | Average  | Worst    | Space  |
-+---------------+----------+----------+----------+--------+
-| Bubble Sort   | O(n)     | O(n^2)   | O(n^2)   | O(1)   |
-| Merge Sort    | O(nlogn) | O(nlogn) | O(nlogn) | O(n)   |
-| Quick Sort    | O(nlogn) | O(nlogn) | O(n^2)   | O(logn)|
-| JS .sort()    | O(nlogn) | O(nlogn) | O(nlogn) | O(logn)|
-+---------------+----------+----------+----------+--------+
-
-When to use which:
-- Bubble Sort: never in production, but great for learning
-- Merge Sort: guaranteed O(n log n), good for linked lists, stable
-- Quick Sort: fastest in practice for arrays, used by many languages
-- JS .sort(): use this in production! It uses TimSort (hybrid merge/insertion)
-```
-
-**Binary Search**
-
-Binary search finds an element in a SORTED array by repeatedly cutting the search space in half. It is O(log n), which means searching 1 million items takes about 20 steps instead of 1 million.
-
-```typescript
-// Standard binary search: find index of target in sorted array
-function binarySearch(arr: number[], target: number): number {
+export function minSubarrayLen(target: number, nums: number[]): number {
+  // Invariant: sum is the total of nums[left .. right] inclusive, and every
+  // window that ends before right has already been measured.
   let left = 0;
-  let right = arr.length - 1;
-
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-
-    if (arr[mid] === target) return mid;       // Found it!
-    if (arr[mid] < target) left = mid + 1;     // Target is in right half
-    else right = mid - 1;                       // Target is in left half
-  }
-
-  return -1; // Not found
-}
-
-// Time: O(log n), Space: O(1)
-const sorted = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19];
-console.log(binarySearch(sorted, 7));  // 3 (index)
-console.log(binarySearch(sorted, 12)); // -1 (not found)
-```
-
-```typescript
-// Binary search variation: find the first occurrence of a value
-function findFirstOccurrence(arr: number[], target: number): number {
-  let left = 0;
-  let right = arr.length - 1;
-  let result = -1;
-
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-
-    if (arr[mid] === target) {
-      result = mid;        // Found one, but keep looking left for earlier ones
-      right = mid - 1;
-    } else if (arr[mid] < target) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
+  let sum = 0;
+  let best = Infinity;
+  for (let right = 0; right < nums.length; right += 1) {
+    sum += nums[right];
+    while (sum >= target) {
+      best = Math.min(best, right - left + 1);
+      sum -= nums[left];
+      left += 1;
     }
   }
-
-  return result;
+  return best === Infinity ? 0 : best;
 }
-
-console.log(findFirstOccurrence([1, 2, 2, 2, 3, 4, 5], 2)); // 1 (first index of 2)
 ```
 
-```typescript
-// Binary search variation: find insert position
-function searchInsert(nums: number[], target: number): number {
-  let left = 0;
-  let right = nums.length - 1;
+Review by hand with `7` and `[2, 3, 1, 2, 4, 3]`. `right` at 0: sum 2. At 1: 5. At 2: 6. At 3: 8, which reaches 7; best is 4, shrink, sum 6, `left` 1. At 4: 10; best 4, shrink to 7, best 4, shrink to 4, `left` 3. At 5: 7; best 3, shrink to 3, `left` 4. Done. Best is 3? Trace it again, slowly: at `right` 4 the window is indexes 1 to 4, `[3, 1, 2, 4]`, sum 10, length 4; shrink to `[1, 2, 4]`, sum 7, length 3, best 3; shrink to `[2, 4]`, sum 6, stop. At `right` 5 the window is `[2, 4, 3]`, sum 9, length 3; shrink to `[4, 3]`, sum 7, length 2, best 2; shrink to `[3]`, sum 3, stop. Best is 2. The first pass through that trace was wrong, and the second was right, which is the point of tracing: the invariant said the window is `left` to `right` inclusive, and the mistake was shrinking one step too few. A hand trace that disagrees with itself is a hand trace worth doing twice.
 
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
+Evaluate: the slow version is O(n²) time in the worst case, when no run reaches the target and every start scans to the end, and O(1) space. The fast version is O(n) time, because `left` and `right` each advance at most `n` times, and O(1) space. Now the oracle test, `tests/patterns.test.ts`, with a seeded generator so the cases are the same on every machine:
 
-    if (nums[mid] === target) return mid;
-    if (nums[mid] < target) left = mid + 1;
-    else right = mid - 1;
+```ts
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { minSubarrayLen, minSubarrayLenSlow } from '../src/patterns.ts';
+
+let seed = 7;
+function random(limit: number): number {
+  seed = (seed * 1103515245 + 12345) % 2147483648;
+  return seed % limit;
+}
+
+test('the fast version agrees with the slow one on 500 generated arrays', () => {
+  for (let round = 0; round < 500; round += 1) {
+    const nums = Array.from({ length: random(12) }, () => random(10));
+    const target = 1 + random(30);
+    assert.equal(minSubarrayLen(target, nums), minSubarrayLenSlow(target, nums), JSON.stringify({ target, nums }));
   }
+});
 
-  return left; // Where target would be inserted
-}
-
-console.log(searchInsert([1, 3, 5, 6], 5)); // 2 (exists at index 2)
-console.log(searchInsert([1, 3, 5, 6], 2)); // 1 (would insert at index 1)
-console.log(searchInsert([1, 3, 5, 6], 7)); // 4 (would insert at end)
+test('boundaries: empty, single, impossible', () => {
+  assert.equal(minSubarrayLen(7, []), 0);
+  assert.equal(minSubarrayLen(7, [7]), 1);
+  assert.equal(minSubarrayLen(11, [1, 1, 1, 1, 1]), 0);
+  assert.equal(minSubarrayLen(7, [2, 3, 1, 2, 4, 3]), 2);
+});
 ```
 
-**Divide and Conquer Pattern**
+`npm test` prints the pass count two higher than before. The third argument to `assert.equal` is the message, so a disagreement prints the exact `target` and `nums` that caused it. Break the fast version once: change `while (sum >= target)` to `if (sum >= target)`. The boundary test still passes on three of its four cases. The oracle test fails and prints an input where the window needed to shrink twice. Put the `while` back.
 
-Divide and conquer breaks a problem into smaller subproblems, solves each one, then combines the results. Merge sort and binary search both use this pattern.
+Then measure, because the growth claim is a claim. Add `src/bench-search.ts` for the binary search you will write in Your turn, timing ten thousand lookups against a linear scan at three sizes:
 
-```typescript
-// Problem: Find the maximum element using divide and conquer
-function findMaxDC(arr: number[], left: number = 0, right: number = arr.length - 1): number {
-  // Base case: one element
-  if (left === right) return arr[left];
+```ts
+import { lowerBound } from './patterns.ts';
 
-  // Divide
-  const mid = Math.floor((left + right) / 2);
-
-  // Conquer
-  const leftMax = findMaxDC(arr, left, mid);
-  const rightMax = findMaxDC(arr, mid + 1, right);
-
-  // Combine
-  return Math.max(leftMax, rightMax);
+function linearBound(values: number[], target: number): number {
+  let i = 0;
+  while (i < values.length && values[i] < target) i += 1;
+  return i;
 }
 
-// Time: O(n), Space: O(log n) for call stack
-console.log(findMaxDC([3, 1, 4, 1, 5, 9, 2, 6])); // 9
-```
-
-```typescript
-// Problem: Count occurrences of a value in a sorted array
-// Uses binary search (divide and conquer) to find first and last occurrence
-function countOccurrences(arr: number[], target: number): number {
-  function findBound(isFirst: boolean): number {
-    let left = 0;
-    let right = arr.length - 1;
-    let result = -1;
-
-    while (left <= right) {
-      const mid = Math.floor((left + right) / 2);
-
-      if (arr[mid] === target) {
-        result = mid;
-        if (isFirst) right = mid - 1;  // Keep searching left
-        else left = mid + 1;            // Keep searching right
-      } else if (arr[mid] < target) {
-        left = mid + 1;
-      } else {
-        right = mid - 1;
-      }
-    }
-
-    return result;
-  }
-
-  const first = findBound(true);
-  if (first === -1) return 0;
-  const last = findBound(false);
-  return last - first + 1;
+for (const n of [1_000, 10_000, 100_000]) {
+  const values = Array.from({ length: n }, (_, i) => i * 2);
+  const targets = Array.from({ length: 10_000 }, (_, i) => (i * 7919) % (n * 2));
+  let start = performance.now();
+  let a = 0;
+  for (const t of targets) a += linearBound(values, t);
+  const linearMs = performance.now() - start;
+  start = performance.now();
+  let b = 0;
+  for (const t of targets) b += lowerBound(values, t);
+  const binaryMs = performance.now() - start;
+  console.log(`n = ${String(n).padStart(6)}  linear ${linearMs.toFixed(1).padStart(8)} ms  binary ${binaryMs.toFixed(1).padStart(6)} ms  agree ${a === b}`);
 }
-
-// Time: O(log n), Space: O(1)
-console.log(countOccurrences([1, 2, 2, 2, 3, 4, 5], 2)); // 3
-console.log(countOccurrences([1, 2, 2, 2, 3, 4, 5], 6)); // 0
 ```
 
-### Runnable checkpoint: a small model
+Once `lowerBound` exists, `node src/bench-search.ts` prints, on the machine this page was written on:
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+```text
+n =   1000  linear      2.1 ms  binary    4.7 ms  agree true
+n =  10000  linear     11.4 ms  binary    1.7 ms  agree true
+n = 100000  linear    326.1 ms  binary    1.7 ms  agree true
+```
+
+Read the first line before the last. At a thousand elements the linear scan wins, because the engine was still warming up and because a short scan is cheap. At a hundred thousand the scan is two hundred times slower and the binary search has not moved. The `agree` column is the oracle again, inline: the two functions summed the same answers over ten thousand lookups. Growth and a stopwatch, side by side, which is the evidence this session wants.
+
+Here is a small model you can run here: the lower-bound search in plain JavaScript, plus a linear oracle and three hundred seeded cases. It proves the boundary behavior and the agreement. It does not measure anything; the timings above are only true on your machine, from `node src/bench-search.ts`.
 
 ```js run=checkpoint-9-3
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
+
 function lowerBound(values, target) {
-  let lo = 0, hi = values.length;
+  let lo = 0;
+  let hi = values.length;
   while (lo < hi) {
     const mid = lo + Math.floor((hi - lo) / 2);
-    if (values[mid] < target) lo = mid + 1; else hi = mid;
+    if (values[mid] < target) lo = mid + 1;
+    else hi = mid;
   }
   return lo;
 }
+
 check(lowerBound([], 3) === 0, 'Empty interval');
 check(lowerBound([1, 3, 3, 7], 3) === 1, 'First matching boundary');
 check(lowerBound([1, 3, 7], 9) === 3, 'Insertion at the end');
+
+function lowerBoundSlow(values, target) {
+  let i = 0;
+  while (i < values.length && values[i] < target) i += 1;
+  return i;
+}
+
+let seed = 7;
+function random(limit) {
+  seed = (seed * 1103515245 + 12345) % 2147483648;
+  return seed % limit;
+}
+
+let steps = 0;
+for (let round = 0; round < 300; round += 1) {
+  const values = Array.from({ length: random(9) }, () => random(10)).sort((a, b) => a - b);
+  const target = random(12);
+  if (lowerBound(values, target) !== lowerBoundSlow(values, target)) {
+    throw new Error('disagree on ' + JSON.stringify({ values, target }));
+  }
+  steps += 1;
+}
+check(steps === 300, 'fast and slow agree on 300 generated cases');
+
 console.log('ok: checkpoint-9-3');
 ```
 
@@ -714,343 +239,128 @@ console.log('ok: checkpoint-9-3');
 
 ### Pattern chosen too soon
 
-You reach for a sliding window, or dynamic programming, because the chapter is about that pattern, and the input does not have the structure the pattern needs. You then spend the hour fitting the problem to the tool. Write the brute-force version first, including its cost, and write down the constraint that makes it too slow: sorted input, a bound on the values, overlapping subproblems you can name. The pattern is the consequence of that constraint. A pattern chosen because it was next on the syllabus produces a solution you cannot repair when the constraint is different.
+You reach for a sliding window because the problem says "subarray," and the array has negative numbers. The symptom is a function that passes your hand-picked examples and fails the oracle on an input with a `-3` in it. The cause is a pattern applied without its condition: shrinking the window was supposed to lower the sum, and a negative value makes that false.
+
+Write the slow version first, including its cost. Then write the one sentence that makes it too slow and the one structural fact that would make a faster version safe: sorted input, non-negative values, a bounded alphabet, overlapping subproblems. The pattern is the consequence of that fact. If the fact is absent, the fast version is a different problem, and the honest answer is the slow one plus a note on the size at which it stops being acceptable.
 
 ### Off-by-one boundary
 
-The loop handles the middle and drops the first element, or it reads one past the end. You defined the window as "up to `right`" and then wrote `right` as exclusive in one place and inclusive in another. State the interval in the code, in words, next to the loop: `left` inclusive, `right` exclusive, empty when `left === right`. Test the empty input, the single element, and the pair. Those three catch more off-by-ones than a long random case, because the bug lives in the boundary you have not named.
+The loop handles the middle and drops the first element, or reads one past the end and compares against `undefined`. The symptom is a wrong answer only on inputs of length zero, one, or two, or when the match is at either end. The cause is an interval whose convention was never written: `right` is inclusive on one line and exclusive on the next, or `hi` is the last index in one branch and the length in another.
+
+State the interval in a comment next to the loop: `left` inclusive, `right` exclusive, empty when `left === right`. Then test the empty input, the single element, the pair, and a match at each end. Those five cases catch more off-by-ones than a hundred random ones, because the bug lives at the boundary you never named. If the oracle test is already in place, it prints the shortest failing input, which is almost always one of those five.
 
 ### Optimization changes behavior
 
-The faster version passes the tests you wrote for it and disagrees with the slow version on an input you did not write down. Speed is not correctness. Keep the brute-force function and run both on the same cases, including the ones at the boundary. When they disagree, the faster one is wrong until you can explain the case, because the slow one is the definition. Delete the slow one only after that comparison has survived the cases you were afraid of, not before.
+The fast version passes the tests you wrote for it and disagrees with the slow version on an input you did not write down. The symptom is a green test file and a wrong answer in production. The cause is that the tests were written from the fast version's point of view, with inputs chosen to show it working.
+
+Keep the slow function. Run both on the same generated cases, with a seed, and assert they agree. When they differ, the fast one is wrong until you can explain the case, because the slow one is the definition. Delete the oracle only after the comparison has survived the cases you were afraid of, and even then, consider leaving it in the file under its `Slow` name with the measurement that justified replacing it.
 
 ## Your turn
 
-Take ten minutes.
-Rest your mind. Algorithm practice is mentally intense. Stretch, hydrate, and prepare for the guided problem-solving session.
+In `~/projects/typescript-practice`, extend `src/patterns.ts` and `tests/patterns.test.ts`. Run `npm test` after each step.
 
-**Guided Whiteboard Practice**
+1. Add `lowerBound(values: number[], target: number): number` over a half-open interval, as described in the idea section, with the invariant as a comment. Tests: `lowerBound([], 3)` is `0`, `lowerBound([1, 3, 3, 7], 3)` is `1`, `lowerBound([1, 3, 7], 9)` is `3`. Then run `node src/bench-search.ts` and keep the three lines.
+2. Add `areAnagrams(a: string, b: string): boolean` with a `Map<string, number>`, returning `false` early on a length mismatch and the moment a count would go below zero. `areAnagrams('listen', 'silent')` is `true`; `areAnagrams('aab', 'abb')` is `false`; two empty strings are `true`. Write `areAnagramsSlow` as sort-and-compare, O(n log n), and an oracle test over generated strings from a three-letter alphabet.
+3. Add `pairWithSum(sorted: number[], target: number): [number, number] | null` with two pointers. `pairWithSum([1, 2, 3, 4, 6], 6)` is `[1, 3]`; an empty array gives `null`. The oracle is the nested loop over every pair; generate arrays, sort them with a numeric comparator, and compare. Then feed the fast version an unsorted array on purpose and watch the oracle test fail, which is the sort condition proving it matters. Remove that case.
+4. Add `fibMemo(n: number, memo = new Map<number, number>()): number`. `fibMemo(10)` is `55`, `fibMemo(50)` is `12586269025`. Write `fibSlow` without the memo and time both at `n = 30` with `performance.now()` in a scratch file you do not commit; the slow one takes long enough to notice, the memoized one does not.
+5. Run `[10, 9, 1].sort()` in `node` once and write the result in a comment above `areAnagramsSlow`. Every sort in this file passes a comparator from now on.
+6. Run `npx tsc --noEmit` and read silence, then `npx tsc` and `node dist/bench-search.js`, and confirm the compiled program prints the same `agree true` lines.
 
-We will solve three problems together using the UMPIRE method. For each problem, we will go through every step out loud.
-
-**Problem 1: Valid Anagram (Frequency Counter)**
-
-```typescript
-// UNDERSTAND: Given two strings, determine if one is an anagram of the other
-// Input: two strings. Output: boolean.
-// Edge cases: empty strings (true), different lengths (false)
-
-// MATCH: Frequency counter pattern - count characters in both strings
-
-// PLAN:
-// 1. If lengths differ, return false
-// 2. Create a frequency map from string 1
-// 3. Subtract frequencies using string 2
-// 4. If any frequency goes negative, return false
-
-// IMPLEMENT:
-function validAnagram(s: string, t: string): boolean {
-  if (s.length !== t.length) return false;
-
-  const charCount: Record<string, number> = {};
-
-  for (const char of s) {
-    charCount[char] = (charCount[char] || 0) + 1;
-  }
-
-  for (const char of t) {
-    if (!charCount[char]) return false;
-    charCount[char]--;
-  }
-
-  return true;
-}
-
-// REVIEW: Walk through with "anagram" and "nagaram"
-// charCount after s: {a:3, n:1, g:1, r:1, m:1}
-// Processing t: n(ok), a(ok), g(ok), a(ok), r(ok), a(ok), m(ok)
-// All pass, return true
-
-// EVALUATE: Time O(n), Space O(n) where n is string length
-```
-
-**Problem 2: Maximum Subarray (Kadane's Algorithm)**
-
-```typescript
-// UNDERSTAND: Find the contiguous subarray with the largest sum
-// Input: array of numbers (can be negative). Output: maximum sum number.
-// Edge cases: all negative numbers (return the largest), single element
-
-// MATCH: This is Kadane's algorithm - a sliding window variant
-
-// PLAN:
-// 1. Track current running sum and max sum seen so far
-// 2. At each element, choose: start new subarray or extend current one
-// 3. Update max if current sum exceeds it
-
-// IMPLEMENT:
-function maxSubArray(nums: number[]): number {
-  let currentSum = nums[0];
-  let maxSum = nums[0];
-
-  for (let i = 1; i < nums.length; i++) {
-    // Either extend the current subarray or start a new one
-    currentSum = Math.max(nums[i], currentSum + nums[i]);
-    maxSum = Math.max(maxSum, currentSum);
-  }
-
-  return maxSum;
-}
-
-// REVIEW: Walk through [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-// i=1: curr=max(1, -2+1)=1, max=1
-// i=2: curr=max(-3, 1-3)=-2, max=1
-// i=3: curr=max(4, -2+4)=4, max=4
-// i=4: curr=max(-1, 4-1)=3, max=4
-// i=5: curr=max(2, 3+2)=5, max=5
-// i=6: curr=max(1, 5+1)=6, max=6
-// i=7: curr=max(-5, 6-5)=1, max=6
-// i=8: curr=max(4, 1+4)=5, max=6
-// Answer: 6 (subarray [4, -1, 2, 1])
-
-// EVALUATE: Time O(n), Space O(1)
-console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4])); // 6
-```
-
-**Problem 3: Reverse a Linked List (Two Pointers)**
-
-```typescript
-// UNDERSTAND: Reverse a singly linked list in place
-// Input: head of linked list. Output: new head (originally the tail).
-// Edge cases: empty list (null), single node (return as is)
-
-// MATCH: Two pointers (three actually: prev, current, next)
-
-// PLAN:
-// 1. Initialize prev = null, current = head
-// 2. While current exists:
-//    a. Save next = current.next
-//    b. Point current.next to prev (reverse the link)
-//    c. Move prev to current
-//    d. Move current to next
-// 3. Return prev (new head)
-
-// IMPLEMENT:
-function reverseLinkedList<T>(head: ListNode<T> | null): ListNode<T> | null {
-  let prev: ListNode<T> | null = null;
-  let current = head;
-
-  while (current !== null) {
-    const next = current.next;  // Save next
-    current.next = prev;         // Reverse the link
-    prev = current;              // Move prev forward
-    current = next;              // Move current forward
-  }
-
-  return prev; // prev is now the new head
-}
-
-// REVIEW: Walk through 1 -> 2 -> 3 -> null
-// Step 1: prev=null, curr=1, next=2. 1->null. prev=1, curr=2
-// Step 2: prev=1, curr=2, next=3. 2->1. prev=2, curr=3
-// Step 3: prev=2, curr=3, next=null. 3->2. prev=3, curr=null
-// Result: 3 -> 2 -> 1 -> null. Correct!
-
-// EVALUATE: Time O(n), Space O(1)
-```
+If a generated test prints a failing input you cannot explain, shrink it by hand: remove one element at a time until it passes, and the last element you removed is the case your invariant does not cover.
 
 ## The quest
 
-**Independent Algorithm Practice**
-
-Solve as many of these as you can. Use the UMPIRE method for each one. Write your solutions in TypeScript. Include Big O analysis in comments.
-
-**Problem 1: Contains Duplicate**
-Given an integer array, return true if any value appears at least twice.
-
-```typescript
-function containsDuplicate(nums: number[]): boolean {
-  const seen = new Set<number>();
-  for (const num of nums) {
-    if (seen.has(num)) return true;
-    seen.add(num);
-  }
-  return false;
-}
-// Time: O(n), Space: O(n)
-```
-
-**Problem 2: Merge Two Sorted Arrays**
-Given two sorted arrays, merge them into one sorted array.
-
-```typescript
-function mergeSortedArrays(arr1: number[], arr2: number[]): number[] {
-  const result: number[] = [];
-  let i = 0;
-  let j = 0;
-
-  while (i < arr1.length && j < arr2.length) {
-    if (arr1[i] <= arr2[j]) {
-      result.push(arr1[i]);
-      i++;
-    } else {
-      result.push(arr2[j]);
-      j++;
-    }
-  }
-
-  return result.concat(arr1.slice(i), arr2.slice(j));
-}
-// Time: O(n + m), Space: O(n + m)
-```
-
-**Problem 3: Move Zeroes**
-Given an array, move all 0s to the end while maintaining relative order of non-zero elements.
-
-```typescript
-function moveZeroes(nums: number[]): void {
-  let insertPos = 0;
-
-  // Move all non-zero elements to the front
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] !== 0) {
-      nums[insertPos] = nums[i];
-      insertPos++;
-    }
-  }
-
-  // Fill remaining positions with 0
-  while (insertPos < nums.length) {
-    nums[insertPos] = 0;
-    insertPos++;
-  }
-}
-// Time: O(n), Space: O(1)
-```
-
-**Problem 4: Valid Parentheses**
-Given a string containing just '(', ')', '{', '}', '[', ']', determine if the input string is valid.
-
-```typescript
-function isValid(s: string): boolean {
-  const stack: string[] = [];
-  const pairs: Record<string, string> = {
-    ")": "(",
-    "}": "{",
-    "]": "["
-  };
-
-  for (const char of s) {
-    if (char === "(" || char === "{" || char === "[") {
-      stack.push(char);
-    } else {
-      if (stack.length === 0 || stack.pop() !== pairs[char]) {
-        return false;
-      }
-    }
-  }
-
-  return stack.length === 0;
-}
-// Time: O(n), Space: O(n)
-```
-
-**Problem 5: Best Time to Buy and Sell Stock**
-Given an array of prices where prices[i] is the price on day i, find the maximum profit from one buy and one sell.
-
-```typescript
-function maxProfit(prices: number[]): number {
-  let minPrice = Infinity;
-  let maxProfit = 0;
-
-  for (const price of prices) {
-    if (price < minPrice) {
-      minPrice = price;
-    } else {
-      maxProfit = Math.max(maxProfit, price - minPrice);
-    }
-  }
-
-  return maxProfit;
-}
-// Time: O(n), Space: O(1)
-console.log(maxProfit([7, 1, 5, 3, 6, 4])); // 5 (buy at 1, sell at 6)
-```
-
-**Problem 6: Rotate Array**
-Given an array, rotate it to the right by k steps.
-
-```typescript
-function rotate(nums: number[], k: number): void {
-  k = k % nums.length; // Handle k > array length
-
-  function reverseSection(start: number, end: number): void {
-    while (start < end) {
-      [nums[start], nums[end]] = [nums[end], nums[start]];
-      start++;
-      end--;
-    }
-  }
-
-  // Reverse entire array, then reverse first k and last n-k
-  reverseSection(0, nums.length - 1);
-  reverseSection(0, k - 1);
-  reverseSection(k, nums.length - 1);
-}
-// Time: O(n), Space: O(1)
-```
-
-**Stretch Problems:**
-- Implement a function to find the kth largest element in an unsorted array
-- Write a function that groups anagrams together from an array of strings
-- Implement a recursive solution for generating all permutations of a string
-
-### Review the artifact
-
-Your deliverable is **Algorithm solutions with invariants, edge cases, and comparative complexity**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-9-3/fig3-evidence)
+
+The deliverable is `src/answers.ts`, six functions each with a `Slow` oracle beside it, `tests/answers.test.ts` with one seeded agreement test and one expected-outputs test, and `ALGORITHMS.md` describing each solution in the six-step form from the idea section: the inputs and edge cases, the matched pattern and its condition, the plan, the invariant as written in the code, the hand trace of one small input, and the time and space of both versions. Statements and expected outputs only; the answer key is at the end of this page.
+
+1. **Contains duplicate.** `containsDuplicate([1, 2, 3, 1])` is `true`; `[]` is `false`. Fast: a `Set`. Slow: every pair.
+2. **Merge two sorted arrays.** `mergeSorted([1, 4, 9], [2, 3, 10])` is `[1, 2, 3, 4, 9, 10]`. Fast: two pointers, O(n + m). Slow: concatenate and sort with a comparator.
+3. **Move zeroes.** `moveZeroes` rearranges in place so `[0, 1, 0, 3, 12]` becomes `[1, 3, 12, 0, 0]`, order of the non-zero values preserved. Fast: a write index, O(1) extra space. Slow: filter the non-zeroes and append the zeroes into a new array.
+4. **Balanced brackets.** `isBalanced('([]{})')` is `true`, `isBalanced('(]')` is `false`, `isBalanced('')` is `true`, and any character outside the six brackets makes it `false`. Fast: your `Stack` or an array. Slow: repeatedly delete `()`, `[]`, and `{}` until nothing changes, then check for an empty string.
+5. **Best single trade.** `maxProfit([7, 1, 5, 3, 6, 4])` is `5`, buying at 1 and selling at 6; `[7, 6, 4, 3, 1]` is `0`. Fast: one pass tracking the lowest price so far. Slow: every buy day against every later sell day.
+6. **Rotate right.** `rotateRight(nums, k)` in place: `[1, 2, 3, 4, 5, 6, 7]` by `3` becomes `[5, 6, 7, 1, 2, 3, 4]`; an empty array stays empty for any `k`; `k` larger than the length wraps. Fast: three reversals, O(1) extra space. Slow: pop and unshift `k` times into a copy.
+
+Evidence to keep:
+
+- The `ℹ pass` and `ℹ fail` lines from `npm test`, with the agreement test running at least four hundred seeded rounds.
+- `ALGORITHMS.md` with six entries, each naming the condition that makes its pattern safe and the input size at which the slow version stops being acceptable, from a measurement you ran or a growth argument you wrote.
+- The three lines from `node src/bench-search.ts`.
+- One sentence per problem on which boundary case the oracle test found before you did, or the sentence "none, and here are the five boundary cases I had already written".
+
+Push to `typescript-practice`. The comparison habit, slow beside fast and a seeded test between them, is the one to carry into the capstone when a query gets clever.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The which-pattern-when sheet is the table of conditions this session kept asking you to say out loud, and the two-pointers and sliding-window sheets are the two patterns whose conditions are easiest to forget, each with the inputs that break them.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Complete Session 9.2 homework (data structure implementations). Review recursion basics. Practice writing functions on paper or a whiteboard (not in an IDE) for at least 20 minutes.
-**Materials:** Whiteboard or paper, TypeScript environment, timer for practice problems, UMPIRE problem-solving framework reference card.
+Next session leaves the editor for a document: the system design of your capstone, written from `docs/product-spec.md` with a workload estimate, a diagram you can defend, a failure walkthrough, and one recorded decision. Reread `COMPLEXITY.md` and `ALGORITHMS.md` once, because the estimate you will write is the same growth argument applied to users and requests instead of array elements. Nothing is running between sessions. You arrive with the six answers tested, the bench lines kept, and the capstone repository from Unit 8 ready to receive one more file under `docs/`.
 
-**Assignment: Algorithm Arena**
-- **Objective:** Practice algorithm patterns and build confidence with whiteboard-style problems
-- **Tasks:**
-  1. Solve at least 5 of the following problems using TypeScript (with UMPIRE method comments):
-     - Two Sum (frequency counter / hash map)
-     - Reverse a string in place (two pointers)
-     - Maximum subarray sum of size k (sliding window)
-     - Merge sort implementation (divide and conquer)
-     - Binary search on a sorted array (divide and conquer)
-     - Check if a string is a palindrome (two pointers)
-     - Find the missing number in an array of 1 to n (math / XOR)
-     - Implement a function to flatten a nested array (recursion)
-  2. For each solution, include:
-     - A comment explaining the pattern used
-     - Time complexity analysis
-     - Space complexity analysis
-  3. Write at least one solution on paper or a whiteboard first, then type it up
-- **Stretch Goals:**
-  - Solve 3 medium-difficulty problems on LeetCode using the patterns from today
-  - Implement an in-place quicksort (partitioning without extra arrays)
-  - Write a memoized recursive solution and explain why memoization helps
-- **Submission:** Push to your GitHub repo in the `algorithm-practice/` folder
-- **Due:** Before Session 9.4
+### The answer key, for after you have tried
 
----
+Compare against yours; if yours passes the same seeded test, keep it and write down the difference.
 
-### Manual verification and further reading
+```ts
+export function containsDuplicate(nums: number[]): boolean {
+  const seen = new Set<number>();
+  for (const n of nums) {
+    if (seen.has(n)) return true;
+    seen.add(n);
+  }
+  return false;
+}
 
-- [Official reference 1](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+export function mergeSorted(a: number[], b: number[]): number[] {
+  const out: number[] = [];
+  let i = 0;
+  let j = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] <= b[j]) { out.push(a[i]); i += 1; } else { out.push(b[j]); j += 1; }
+  }
+  return out.concat(a.slice(i), b.slice(j));
+}
+
+export function moveZeroes(nums: number[]): void {
+  let insertAt = 0;
+  for (let i = 0; i < nums.length; i += 1) {
+    if (nums[i] !== 0) { nums[insertAt] = nums[i]; insertAt += 1; }
+  }
+  while (insertAt < nums.length) { nums[insertAt] = 0; insertAt += 1; }
+}
+
+export function isBalanced(s: string): boolean {
+  const closers: Record<string, string> = { ')': '(', ']': '[', '}': '{' };
+  const stack: string[] = [];
+  for (const ch of s) {
+    if (ch === '(' || ch === '[' || ch === '{') stack.push(ch);
+    else if (ch in closers) { if (stack.pop() !== closers[ch]) return false; }
+    else return false;
+  }
+  return stack.length === 0;
+}
+
+export function maxProfit(prices: number[]): number {
+  let lowest = Infinity;
+  let best = 0;
+  for (const price of prices) {
+    if (price < lowest) lowest = price;
+    else best = Math.max(best, price - lowest);
+  }
+  return best;
+}
+
+export function rotateRight(nums: number[], k: number): void {
+  if (nums.length === 0) return;
+  const shift = k % nums.length;
+  const reverse = (start: number, end: number): void => {
+    while (start < end) { [nums[start], nums[end]] = [nums[end], nums[start]]; start += 1; end -= 1; }
+  };
+  reverse(0, nums.length - 1);
+  reverse(0, shift - 1);
+  reverse(shift, nums.length - 1);
+}
+```
+
+The oracles are the nested loop, `a.concat(b).sort((x, y) => x - y)`, `filter` plus `filter`, the replace-until-stable loop, the two-day nested loop, and `k` rounds of `pop` and `unshift` on a copy. The one that bites is `rotateRight` with an empty array: `k % 0` is `NaN`, and the early return is the fix.

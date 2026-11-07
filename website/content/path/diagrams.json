@@ -1718,8 +1718,8 @@
   "session-9-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 9.1: The working model. Unknown: External data begins without trusted structure. Narrow: Runtime checks establish the required shape. Typed: Internal functions operate on a deliberate contract.",
-    "caption": "The working model: Unknown → Narrow → Typed",
+    "alt": "Three stages left to right: Unknown, where external data such as JSON arrives without a trusted shape; Narrow, where a check that actually runs establishes the fields; Typed, where internal functions work on the resulting contract.",
+    "caption": "The working model: unknown at the edge, a narrowing check that runs, typed functions inside. The compiler guarantees the inside; the parser guarantees the edge.",
     "props": {
       "session": "9.1",
       "title": "The working model",
@@ -1744,8 +1744,8 @@
   "session-9-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 9.1: Diagnose the failure. Assertion hides bad data: Validate unknown values before narrowing. Any spreads silently: Use explicit boundary types and inspect inference. Compile success mistaken for runtime safety: Test the emitted behavior too.",
-    "caption": "Diagnose the failure: Assertion hides bad data → Any spreads silently → Compile success mistaken for runtime safety",
+    "alt": "Three diagnoses side by side: an assertion that hides bad data points at a check that should have run; an any that spreads silently points at the boundary where unknown belonged; a clean compile mistaken for runtime safety points at a test on the branch the types made feel impossible.",
+    "caption": "Diagnose the failure: an as where a check belonged, an any that turned checking off downstream, or a silent compiler trusted for a boundary it never saw.",
     "props": {
       "session": "9.1",
       "title": "Diagnose the failure",
@@ -1770,8 +1770,8 @@
   "session-9-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 9.1: evidence to collect. Checkpoint assertion: Runtime validation succeeds Boundary assertion: Invalid union member rejected Manual handoff: A strict TypeScript module with validated external input and explicit domain types",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts that runtime validation succeeds on a good object; the boundary assertion shows an invalid union member is rejected; the manual hand-off is the typescript-practice project compiling clean with its parser tests green.",
+    "caption": "Evidence: the browser model proves the parser's shape; npx tsc --noEmit and npm test in your own project prove the artifact.",
     "props": {
       "session": "9.1",
       "title": "Prove the handoff",
@@ -1796,8 +1796,8 @@
   "session-9-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 9.2: The working model. Operation: Identify the frequent reads and writes. Structure: Choose representation for those operations. Growth: Explain how time and memory scale with input.",
-    "caption": "The working model: Operation → Structure → Growth",
+    "alt": "Three steps left to right: Operation, naming the frequent reads and writes the program performs; Structure, choosing the representation that makes those operations cheap; Growth, stating how time and memory scale with input and measuring it.",
+    "caption": "The working model: name the operation, choose the structure for it, then state and measure how the cost grows.",
     "props": {
       "session": "9.2",
       "title": "The working model",
@@ -1822,8 +1822,8 @@
   "session-9-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 9.2: Diagnose the failure. Big O treated as a stopwatch: Separate growth from constants and input size. Queue uses repeated shift: Track the head index or use another representation. Hash lookup called guaranteed constant: State average-case assumptions and collision behavior.",
-    "caption": "Diagnose the failure: Big O treated as a stopwatch → Queue uses repeated shift → Hash lookup called guaranteed constant",
+    "alt": "Three diagnoses side by side: Big O treated as a stopwatch points at measuring at the real input size; a queue built on repeated shift points at a head index and an invariant about the dead prefix; a hash lookup called guaranteed constant points at saying expected and naming the keys.",
+    "caption": "Diagnose the failure: growth cited where a measurement was needed, a one-word method hiding an O(n) loop, or a constant-time promise that was really an average.",
     "props": {
       "session": "9.2",
       "title": "Diagnose the failure",
@@ -1848,8 +1848,8 @@
   "session-9-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 9.2: evidence to collect. Checkpoint assertion: FIFO first Boundary assertion: Interleaved order Manual handoff: Typed data structures with operation tests and time/space analysis",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts FIFO order on the first dequeue; the boundary assertion checks interleaved enqueue and dequeue order; the manual hand-off is the typed structures with sequence tests, the pasted benchmark, and a complexity table whose rows point at lines of code.",
+    "caption": "Evidence: the browser model proves the queue's order; the benchmark and COMPLEXITY.md in your project prove the growth claims on your own machine.",
     "props": {
       "session": "9.2",
       "title": "Prove the handoff",
@@ -1874,8 +1874,8 @@
   "session-9-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 9.3: The working model. Example: Work a small input by hand. Invariant: State what remains true during each step. Proof: Check termination, correctness, and resource growth.",
-    "caption": "The working model: Example → Invariant → Proof",
+    "alt": "Three steps left to right: Example, working a small input by hand; Invariant, writing the sentence that stays true at the top of every loop iteration; Proof, checking termination, correctness against the slow version, and how time and space grow.",
+    "caption": "The working model: trace a small input, write the invariant beside the loop, then prove termination, agreement with the oracle, and the growth.",
     "props": {
       "session": "9.3",
       "title": "The working model",
@@ -1900,8 +1900,8 @@
   "session-9-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 9.3: Diagnose the failure. Pattern chosen too soon: Start from constraints and a brute-force baseline. Off-by-one boundary: Define inclusive or exclusive intervals explicitly. Optimization changes behavior: Run the same cases against both solutions.",
-    "caption": "Diagnose the failure: Pattern chosen too soon → Off-by-one boundary → Optimization changes behavior",
+    "alt": "Three diagnoses side by side: a pattern chosen too soon points at writing the brute-force baseline and naming the input structure that makes a faster version safe; an off-by-one boundary points at stating the interval convention and testing empty, single, pair, and matches at each end; an optimization that changes behavior points at running both versions on the same seeded cases.",
+    "caption": "Diagnose the failure: a pattern without its condition, an interval never written down, or a fast version tested only from its own point of view.",
     "props": {
       "session": "9.3",
       "title": "Diagnose the failure",
@@ -1926,8 +1926,8 @@
   "session-9-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 9.3: evidence to collect. Checkpoint assertion: Empty interval Boundary assertion: First matching boundary Manual handoff: Algorithm solutions with invariants, edge cases, and comparative complexity",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts the lower-bound search handles an empty interval; the boundary assertion finds the first matching index among duplicates; the manual hand-off is the solutions file with an oracle per problem, seeded agreement tests, and a measured comparison.",
+    "caption": "Evidence: the browser model proves the search's boundaries and its agreement with a linear oracle; your seeded tests and bench lines prove the same for every problem in the set.",
     "props": {
       "session": "9.3",
       "title": "Prove the handoff",
@@ -1952,8 +1952,8 @@
   "session-9-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 9.4: The working model. Requirements: Define users, operations, and quality needs. Architecture: Assign responsibilities and data ownership. Tradeoffs: Explain capacity, failure, and consistency choices.",
-    "caption": "The working model: Requirements → Architecture → Tradeoffs",
+    "alt": "Three steps left to right: Requirements, defining the users, their operations, and the quality needs; Architecture, assigning responsibilities and data ownership to a small set of components; Tradeoffs, explaining capacity, failure, and consistency choices with numbers.",
+    "caption": "The working model: a workload and its quality requirements, the smallest architecture that owns each record, and the tradeoffs stated with numbers.",
     "props": {
       "session": "9.4",
       "title": "The working model",
@@ -1978,8 +1978,8 @@
   "session-9-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 9.4: Diagnose the failure. Premature microservices: Start with the simplest deployable architecture. Cache becomes authority: Define source of truth and invalidation. Scale claim lacks numbers: Estimate workload and state assumptions.",
-    "caption": "Diagnose the failure: Premature microservices → Cache becomes authority → Scale claim lacks numbers",
+    "alt": "Three diagnoses side by side: premature microservices point at starting with one deployable process and marking the seam; a cache that becomes the authority points at naming the source of truth and the invalidation event; a scale claim without numbers points at estimating the workload and stating the assumption in the same sentence.",
+    "caption": "Diagnose the failure: boxes borrowed from a scale you have not seen, a second copy of the truth with no owner, or an adjective where a number belongs.",
     "props": {
       "session": "9.4",
       "title": "Diagnose the failure",
@@ -2004,8 +2004,8 @@
   "session-9-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 9.4: evidence to collect. Checkpoint assertion: Peak assumption matters Boundary assertion: Illustrative workload estimate Manual handoff: A system design document with estimates, failure paths, and explicit tradeoffs",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts the peak factor changes the estimate; the boundary assertion reproduces an illustrative workload number from stated inputs; the manual hand-off is docs/system-design.md with a traced request, a failure walkthrough, a scaling plan, and a named decision record.",
+    "caption": "Evidence: the browser model proves the estimate follows from the inputs you chose; the committed design document is verified by reading one request through both the diagram and the plan.",
     "props": {
       "session": "9.4",
       "title": "Prove the handoff",
@@ -2030,8 +2030,8 @@
   "session-9-5/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 9.5: The working model. Baseline: Freeze working behavior and identify public contracts. Migrate: Type one boundary at a time with strict checking. Explain: Connect the implementation to an architecture decision.",
-    "caption": "The working model: Baseline → Migrate → Explain",
+    "alt": "Three stages left to right: Baseline, freezing working behavior with the existing tests and listing the public contracts; Migrate, typing one boundary at a time under strict checking with a build to dist; Explain, connecting the typed server to a recorded architecture decision.",
+    "caption": "The working model: tests green before the branch, types added boundary by boundary with the same tests green after, and a decision record that says why.",
     "props": {
       "session": "9.5",
       "title": "The working model",
@@ -2056,8 +2056,8 @@
   "session-9-5/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 9.5: Diagnose the failure. Mass rename hides defects: Migrate in reviewable slices. Any used as an escape hatch: Track and justify remaining unsafe boundaries. Design diverges from code: Trace a real request through both artifacts.",
-    "caption": "Diagnose the failure: Mass rename hides defects → Any used as an escape hatch → Design diverges from code",
+    "alt": "Three diagnoses side by side: a mass rename that hides defects points at migrating in reviewable slices with a pure rename commit first; any used as an escape hatch points at listing and justifying every remaining unsafe boundary; a design that diverges from the code points at tracing one real request through both the document and the branch.",
+    "caption": "Diagnose the failure: a rewrite hidden inside a rename, holes opened to silence the compiler, or a design document nobody has walked against the code.",
     "props": {
       "session": "9.5",
       "title": "Diagnose the failure",
@@ -2082,8 +2082,8 @@
   "session-9-5/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 9.5: evidence to collect. Checkpoint assertion: Types alone do not validate runtime input Boundary assertion: Explain the rejected or incomplete case Manual handoff: A reviewed TypeScript migration and a capstone architecture decision record",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts that types alone do not validate runtime input; the boundary assertion explains the rejected environment value; the manual hand-off is the merged TypeScript branch with the Unit 7 tests passing on dist and ADR-2 in the capstone's design document.",
+    "caption": "Evidence: the browser model proves a typed boundary still needs a running check; npm test on the merged branch and the 401 from dist prove the migration kept its behavior.",
     "props": {
       "session": "9.5",
       "title": "Prove the handoff",

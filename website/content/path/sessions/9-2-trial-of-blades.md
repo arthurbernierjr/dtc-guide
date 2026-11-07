@@ -1,603 +1,251 @@
 ---
 editorial: true
 title: Trial of Blades
-subtitle: Arrays, Objects, Big O, and Core Data Structures
-hook: "Typed data structures with operation tests and time/space analysis. Identify the frequent reads and writes."
+subtitle: Arrays, objects, Big O, and core data structures
+hook: "A lookup that takes a millisecond at a thousand rows takes six seconds at a hundred thousand. Today you measure that on your own machine, learn to say why, and build the three structures that make the shape of the growth a choice instead of a surprise."
 read: 60
-artifact: "Typed data structures with operation tests and time/space analysis"
+artifact: "A typed Stack, Queue, and LinkedList in typescript-practice with sequence tests, a benchmark you ran, and a complexity table whose claims match the code"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
+  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift
   - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+  - https://developer.mozilla.org/en-US/docs/Web/API/Performance/now
+  - https://nodejs.org/api/test.html
 say:
-  - "Operation: Identify the frequent reads and writes."
-  - "Structure: Choose representation for those operations."
-  - "Growth: Explain how time and memory scale with input."
+  - "Big O is the shape of growth, not a stopwatch; measure the stopwatch too."
+  - "Name the operation first, then pick the structure that makes it cheap."
+  - "Every claim in the complexity table points at a line in the code."
 ---
 
 ## The hook
 
-Welcome to the Trial of Blades. Every warrior needs to know their weapons. A sword is great for close combat, useless at range. A bow is great at range, slow up close. Data structures are the same way. An array is perfect for some problems and terrible for others. Today you learn which weapon to draw for which fight.
+The guild hall's inbox is a `find` on an indexed field, and it is fast because MongoDB keeps a tree beside the collection. In memory you have no such help. `names.includes(name)` walks the whole array every time, and a loop that calls it for every name walks the array once per name. At a thousand names that is a millisecond. At a hundred thousand it is seconds, on the same machine, with the same code. Nothing broke. The shape of the work grew faster than the input.
 
-Your app stores data. How you store it determines whether your app responds in 1 millisecond or 10 seconds. At 100 users, it does not matter. At 100,000 users, it is the difference between success and a crash. When an investor asks "Can your system handle scale?" they are really asking "Do you understand data structures and performance?" After today, your answer is yes.
+Today you learn to see that shape before you run the code, and to measure it after. The vocabulary is Big O, which describes how work grows with input size and deliberately ignores everything else. The tools are the structures you already use without naming them, arrays and `Map` and `Set`, plus three you build yourself in `~/projects/typescript-practice`: a stack, a queue, and a linked list. Each comes with a test that pushes it through a sequence, a line in a table that says how it grows, and a benchmark that shows the table was telling the truth.
 
-We are covering Big O notation, then building stacks, queues, and linked lists from scratch in TypeScript. By the end of this session, you will know the performance characteristics of every data structure you use and you will have built three of them with your own hands.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *A blade is not good or bad. It is good for one cut and wrong for another. Learn which cut you are making.*
 
 ## The idea
 
-### Analyze Algorithm Efficiency Using Big O Notation
-You will analyze the time and space complexity of algorithms using Big O notation and select appropriate solutions based on performance requirements.
+Start from the operation, not the structure. Before you choose an array or a map, write down what the program does most often to the data: look up by key, scan everything in order, add at the end, remove from the front, find the most recent. Each structure makes some of those cheap and others expensive, and the trade is the whole decision. An array gives you order and index access and makes removal from the front expensive. A `Map` gives you lookup by key and makes "the fifth one" meaningless. A stack gives you the most recent item and nothing else. Naming a structure before naming the operation is how you end up with a queue built on `shift()`.
 
-**Enabling Objectives:**
-- Define Big O notation and explain what it measures (growth rate, not exact time)
-- Identify the time complexity of code containing loops, nested loops, recursive calls, and divide-and-conquer patterns
-- Compare common complexity classes (O(1), O(log n), O(n), O(n log n), O(n^2), O(2^n)) and rank them by efficiency
-- Analyze space complexity by tracking memory allocation relative to input size
-- Evaluate algorithm tradeoffs between time complexity, space complexity, and code readability
+Big O is the language for the trade. It describes how the amount of work grows as the input grows, and it throws away constants and small terms on purpose. O(1) means the work does not depend on the size: reading `items[3]`, `map.get(key)`, `array.push`. O(n) means the work grows in step with the size: `includes`, `find`, a loop over everything. O(n²) means a loop inside a loop over the same data, so ten times the input is a hundred times the work. O(log n) means each step halves what is left, which is why binary search over a million sorted numbers takes about twenty comparisons. O(n log n) is the cost of sorting by comparison, which no comparison sort beats.
 
-**You should be able to:**
-- Look at a function and determine its Big O time and space complexity
-- Explain why an O(n) solution is preferable to an O(n^2) solution at scale
-- Choose between algorithmic approaches based on performance characteristics
+What Big O does not say matters as much. It does not say how long anything takes. A linear scan of fifty items beats a hash lookup that first has to build the hash. It does not say what `n` is unless you do: for the inbox, `n` is messages to one recipient, not messages in the collection. And it describes the dominant term only, so two algorithms that are both O(n) can differ by a factor of fifty. The claim "this is O(1)" is a claim about shape. The claim "this is fast" needs a measurement with a number and a size attached.
 
-### Apply Core Data Structures to Solve Programming Problems
-You will implement and apply stacks, queues, linked lists, hash tables, and trees to solve programming problems, selecting the appropriate data structure based on the problem's requirements.
+Space has the same vocabulary. A function that keeps one counter is O(1) space. A function that copies the array is O(n) space. A recursive function that goes `n` levels deep uses O(n) stack, which is a kind of memory you do not see until it overflows. Trading space for time is the most common optimization there is: `hasDuplicates` with a `Set` is O(n) time and O(n) space; the nested loop is O(n²) time and O(1) space. Neither is right in general. The one with the memory is right when `n` is large enough that the square hurts, which is the number you measure.
 
-**Enabling Objectives:**
-- Implement a generic Stack class with push, pop, peek, and isEmpty operations in TypeScript
-- Implement a generic Queue class with enqueue, dequeue, and front operations in TypeScript
-- Build a singly linked list with append, prepend, remove, find, and reverse methods in TypeScript
-- Explain how hash tables work (hashing, collisions, chaining) and use Map and Set effectively
-- Describe binary tree structure, traversal orders, and when trees are used in real systems
-- Apply algorithm patterns (two pointers, sliding window, frequency counter, divide and conquer) to solve problems efficiently
-
-**You should be able to:**
-- Build data structures from scratch using TypeScript generics
-- Select the right data structure for a given problem based on operation complexity
-- Solve algorithm problems using established patterns
-
-**Why Data Structures Matter**
-
-Real-world motivation: your app stores data. How you store it determines whether your app responds in 1 millisecond or 10 seconds. At 100 users, it does not matter. At 100,000 users, it is the difference between success and a crash.
-
-The founder angle: when an investor asks "Can your system handle scale?" they are really asking "Do you understand data structures and performance?"
-
-**Big O Notation - The Universal Language of Performance**
-
-What is Big O? It describes how the runtime of an algorithm grows as the input grows. It is not about exact milliseconds. It is about the shape of the growth curve.
-
-The common Big O complexities visualized:
-
-```
-Performance (time) vs Input Size (n)
-
-         |
-  Time   |  O(n!)  /
-         |        /
-         |  O(2^n)/
-         |      /
-         |  O(n^2)
-         |    /
-         |  O(n log n)
-         |  /
-         | O(n)
-         |/_____________ O(log n)
-         |______________ O(1)
-         +----------------------------
-                Input Size (n)
-```
-
-**O(1) - Constant Time:** Same speed regardless of input size.
-
-```typescript
-// O(1) examples:
-function getFirstElement<T>(arr: T[]): T | undefined {
-  return arr[0]; // Always one operation, no matter array size
-}
-
-function isEven(n: number): boolean {
-  return n % 2 === 0; // Always one operation
-}
-
-// Accessing an object property by key
-const heroData = { name: "Arthur", level: 42 };
-const nameVal = heroData.name; // O(1) - direct access
-
-// Accessing an array by index
-const items = ["sword", "shield", "potion"];
-const firstItem = items[0]; // O(1) - direct access
-```
-
-**O(log n) - Logarithmic Time:** Cuts the problem in half each step. Very fast.
-
-```typescript
-// O(log n) example: Binary Search
-// Only works on SORTED arrays
-function binarySearch(arr: number[], target: number): number {
-  let left = 0;
-  let right = arr.length - 1;
-
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-
-    if (arr[mid] === target) return mid;
-    if (arr[mid] < target) left = mid + 1;
-    else right = mid - 1;
-  }
-
-  return -1; // Not found
-}
-
-// For an array of 1,000,000 items:
-// Linear search: up to 1,000,000 checks
-// Binary search: up to 20 checks (log2(1,000,000) ~ 20)
-// That is the power of O(log n)
-```
-
-**Why founders should care: Big O is a line item on your cloud bill.** This is not academic. Every comparison your code makes costs compute, and compute costs money. Watch how the gap grows:
-
-| Dataset Size | Linear Search (max checks) | Binary Search (max checks) |
-|--------------|---------------------------|----------------------------|
-| 100 | 100 | 7 |
-| 1,000 | 1,000 | 10 |
-| 100,000 | 100,000 | 17 |
-| 10,000,000 | 10,000,000 | 24 |
-
-Now put startup numbers on it. Say your product takes off: 500 million page views a year, each triggering 20 searches against a 230-million-record dataset, at a (realistic cloud-scale) cost of roughly $0.000000000327 per record touched:
-
-- **Linear search:** ~115 million records touched per search on average → about **$376,000,000 per year** in compute
-- **Binary search:** ~28 records touched per search (log₂ of 230M) → about **$92 per year**
-
-Three hundred seventy-six million dollars versus ninety-two dollars, for the same feature, decided by one algorithm choice. The numbers are illustrative, but the principle is real and it is why database indexes exist (they are what lets the database binary-search instead of table-scan). When your app feels slow and your cloud bill looks scary, the first question is always: "where am I doing O(n) work that could be O(log n) or O(1)?"
-
-**O(n) - Linear Time:** Time grows proportionally to input size.
-
-```typescript
-// O(n) examples:
-function findMax(arr: number[]): number {
-  let max = arr[0];
-  for (let i = 1; i < arr.length; i++) { // Visits every element once
-    if (arr[i] > max) max = arr[i];
-  }
-  return max;
-}
-
-function sumArray(arr: number[]): number {
-  let total = 0;
-  for (const num of arr) { // Visits every element once
-    total += num;
-  }
-  return total;
-}
-
-// Array.includes(), Array.indexOf(), Array.find()
-// All O(n) because they might check every element
-```
-
-**O(n log n) - Linearithmic Time:** Typical of efficient sorting algorithms.
-
-```typescript
-// O(n log n) example: JavaScript's built-in sort
-const numbers = [38, 27, 43, 3, 9, 82, 10];
-numbers.sort((a, b) => a - b); // O(n log n)
-
-// O(n log n) is the theoretical best for comparison-based sorting
-```
-
-**O(n^2) - Quadratic Time:** Nested loops. Gets slow fast.
-
-```typescript
-// O(n^2) example: checking for duplicates with nested loops
-function hasDuplicatesSlow(arr: number[]): boolean {
-  for (let i = 0; i < arr.length; i++) {         // n iterations
-    for (let j = i + 1; j < arr.length; j++) {   // n iterations
-      if (arr[i] === arr[j]) return true;
-    }
-  }
-  return false;
-}
-// 100 items: ~5,000 comparisons
-// 1,000 items: ~500,000 comparisons
-// 10,000 items: ~50,000,000 comparisons
-
-// O(n) version using a Set:
-function hasDuplicatesFast(arr: number[]): boolean {
-  const seen = new Set<number>();
-  for (const num of arr) {
-    if (seen.has(num)) return true;  // O(1) lookup
-    seen.add(num);                    // O(1) insert
-  }
-  return false;
-}
-// 10,000 items: ~10,000 operations. Night and day difference.
-```
-
-**Space Complexity:** Same idea, but for memory usage.
-
-```typescript
-// O(1) space: uses fixed amount of memory
-function sumInPlace(arr: number[]): number {
-  let total = 0; // One variable, regardless of array size
-  for (const num of arr) total += num;
-  return total;
-}
-
-// O(n) space: memory grows with input
-function doubleArray(arr: number[]): number[] {
-  const result: number[] = []; // New array of same size
-  for (const num of arr) result.push(num * 2);
-  return result;
-}
-```
-
-Big O cheat sheet for common operations:
-
-```
-+------------------+--------+--------+--------+--------+
-| Data Structure   | Access | Search | Insert | Delete |
-+------------------+--------+--------+--------+--------+
-| Array            | O(1)   | O(n)   | O(n)*  | O(n)*  |
-| Object/Hash Map  | O(1)   | O(n)** | O(1)   | O(1)   |
-| Set              | -      | O(1)   | O(1)   | O(1)   |
-| Map              | O(1)   | O(n)** | O(1)   | O(1)   |
-| Stack            | O(n)   | O(n)   | O(1)   | O(1)   |
-| Queue            | O(n)   | O(n)   | O(1)   | O(1)   |
-| Linked List      | O(n)   | O(n)   | O(1)***| O(1)***|
-| Binary Search    | O(logn)| O(logn)| O(logn)| O(logn)|
-|   Tree (balanced)|        |        |        |        |
-+------------------+--------+--------+--------+--------+
-* Array insert/delete at END is O(1) (push/pop), at START is O(n)
-** Search by VALUE is O(n), lookup by KEY is O(1)
-*** O(1) if you already have a reference to the node
-```
-
-Memorize this table. It shows up in interviews, it shows up in architecture decisions, and it shows up when your CEO asks why the dashboard takes 30 seconds to load.
+What you should be able to draw on a napkin: a column of operations the program performs most, a structure chosen to make the top one cheap, and one line per operation saying how its cost grows. Then one measurement at three sizes that confirms the shape. The table and the benchmark are two views of the same claim.
 
 ![](diagram:session-9-2/fig1-model)
 
-### Choose a structure from the operations
+### What an array actually costs
 
-A stack supports last-in-first-out behavior, which fits undo history and nested traversal. A queue supports first-in-first-out behavior, which fits work scheduling and breadth-first search. An array provides indexed access and compact iteration. A map associates keys with values. Naming a fashionable structure is less useful than listing the operations the application performs most often and choosing a representation that supports them.
+An array is a contiguous list with an index. `items[i]` is O(1). `push` and `pop` at the end are O(1), amortized, because the engine keeps spare room and occasionally copies into a bigger block. `includes`, `indexOf`, and `find` are O(n), because they may look at every element before giving up. `unshift` and `shift` are O(n), because every remaining element moves one slot; the [shift page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift) says so in its first paragraph. `splice` in the middle is O(n) for the same reason. `sort` with a comparator is O(n log n).
 
-For each structure, write invariants. A stack's top is the most recently pushed item that has not been removed. A queue returns items in insertion order. A linked list's tail has no successor, and its recorded length matches the number of reachable nodes. Tests should check those properties after several operations, not only on a newly created instance.
+The trap is the method whose name sounds cheap. `shift()` is one word and one call, and the bill is proportional to what is left. A queue built on `shift()` pays that bill on every dequeue, so draining a queue of `n` items costs O(n²). At a hundred items it is invisible. At a hundred thousand it is half a second, measured below. Read the method's cost, not its length.
 
-### Complexity describes growth under assumptions
+`Set` and `Map` are the structures for membership and lookup by key. `set.has(value)` and `map.get(key)` are expected O(1): the engine hashes the key and jumps to a bucket. "Expected" is the honest word, because a hash can collide and a bucket can hold more than one entry; for ordinary keys the average is constant, and that is what you cite. The [Map page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and [Set page](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set) are the reference. Prefer `Map` to a plain object when keys are not strings, when you need `.size`, or when you will add and delete a lot; use an object when the shape is fixed and you want JSON.
 
-An O(n) scan examines a number of elements proportional to input size. An O(log n) binary search repeatedly halves a sorted search interval. Big O does not tell you the exact duration on a particular machine, and it does not make every logarithmic implementation faster for tiny inputs. State what n represents and which operation you are analyzing. Building an index has a cost even if later lookups are cheap.
+### Stack, queue, list: the operation each one is for
 
-Space analysis includes auxiliary storage created by the algorithm. A copy of an array, a recursion stack, or a frequency map can grow with the input. Distinguish output space when that distinction matters, but state your convention. An algorithm that saves time by storing seen values makes a time-space tradeoff. That tradeoff should be explained, not hidden behind a single complexity label.
+A stack is last-in, first-out. `push` adds to the top, `pop` removes the top, `peek` reads it. Both are O(1) on an array, because the top is the end. Undo history, a call stack, matching brackets, and evaluating reverse Polish notation are stacks: the most recent thing is the next thing you need.
 
-### JavaScript operations have costs too
+A queue is first-in, first-out. `enqueue` adds to the back, `dequeue` removes the front. On a plain array the front is index zero, and removing it is the `shift()` trap. The fix is to keep a `head` index: `dequeue` reads `items[head]`, advances `head`, and never moves anything. The consumed slots stay behind the head until a compaction step copies the live part forward, which you do only when the dead prefix is at least half the array, so the copying is paid at most once per item on average. That is still O(1) amortized, and it comes with an invariant you have to state: live items are `items[head]` through the end, and `size` is `items.length - head`. Work queues, breadth-first search, and the print spool are queues.
 
-Repeatedly removing the first item of an array can require moving or reindexing remaining elements. A queue can instead keep a head index and periodically compact storage. That design needs its own invariant: active elements begin at the head, and consumed slots should not retain large objects indefinitely. A linked representation avoids some shifts but adds allocation and pointer overhead.
+A linked list is nodes that point to the next node. `prepend` is O(1). `append` is O(1) if you keep a `tail` pointer and O(n) if you walk from the head each time. `find` and `remove` by value are O(n), because you walk. Insert or remove at a node you already hold is O(1), which is the list's one real advantage over an array and the reason it is worth building once. Reversal in place is O(n) time and O(1) space with three pointers. You will rarely ship a linked list in application code. You will constantly read code that assumes you know what one is.
 
-Map and Set provide useful lookup abstractions, but describe performance with appropriate assumptions rather than claiming every implementation guarantees constant time for every input. Object keys also have semantics that differ from map keys. Choose the abstraction that matches the domain. If identifiers are strings and you need explicit key-value operations, a map often makes the intent clearer than a general object used as a dictionary.
+A binary search tree is the structure behind database indexes and sorted maps: left subtree smaller, right subtree larger, O(log n) search when balanced and O(n) when you insert sorted data into a naive one. This session names it so you recognize it; building one is a side exercise, not the quest.
 
-### Test sequences, not isolated methods
+### Tests check sequences, not single calls
 
-Push three items, pop one, push another, and drain the stack. Enqueue several items, dequeue one, enqueue another, and check the remaining order. Remove the head, middle, tail, and only node of a linked list. These sequences reveal broken invariants that a single append test misses. Include empty behavior and decide whether it returns undefined or throws a controlled error.
+A stack that passes "push one, pop one" can still be wrong. Push three, pop one, push one, drain, and check the order. A queue that passes "enqueue one, dequeue one" can still return items out of order after an interleave. A linked list that removes a middle node fine can lose its tail pointer when you remove the last node, and the bug appears on the next append. The tests that matter are sequences that cross the boundaries: empty, one, the head, the tail, the only node, and remove-then-add. Include the empty case and decide what it returns; `undefined` is the choice here, and the type `T | undefined` makes every caller handle it.
 
-For a simple performance exercise, count logical operations rather than relying only on wall-clock time. Compare a nested search with a map-based lookup as input grows. Then discuss the memory required by the map and the cost of constructing it. The artifact should include implementation, operation tests, an invariant explanation, and a complexity table whose claims match the actual code.
+Node's test runner from last session is enough. One file per structure, one `test` per sequence, `assert.deepEqual` on the array form of the structure after the sequence. If a test needs a dozen steps to reach the boundary, that is the test.
 
 ## The demonstration
 
-**Arrays, Objects, Sets, and Maps - Deep Dive**
+One worked example end to end: a queue, measured, in `~/projects/typescript-practice`. The project exists from last session; nothing new is installed.
 
-Arrays in TypeScript:
+First the naive version, in `src/queue.ts`, so you can watch it fail.
 
-```typescript
-const inventory: string[] = ["Sword", "Shield", "Potion"];
-
-// Access by index: O(1)
-const firstInv = inventory[0]; // "Sword"
-
-// Search (find, includes, indexOf): O(n)
-const hasShield = inventory.includes("Shield"); // true, checks up to n items
-
-// Push (add to end): O(1) amortized
-inventory.push("Bow");
-
-// Pop (remove from end): O(1)
-const last = inventory.pop(); // "Bow"
-
-// Unshift (add to start): O(n) - shifts every element!
-inventory.unshift("Helmet"); // ["Helmet", "Sword", "Shield", "Potion"]
-
-// Shift (remove from start): O(n) - shifts every element!
-inventory.shift(); // removes "Helmet"
-
-// Splice (insert/remove at index): O(n) - shifts elements after index
-inventory.splice(1, 0, "Dagger"); // Insert "Dagger" at index 1
-
-// KEY INSIGHT: Arrays are great for ordered data and index access.
-// They are BAD for frequent insertions/deletions at the beginning.
-```
-
-Sets and Maps:
-
-```typescript
-// Sets: collections of UNIQUE values with O(1) add/has/delete
-const visitedRooms = new Set<string>();
-visitedRooms.add("Entrance Hall");
-visitedRooms.add("Dark Corridor");
-visitedRooms.add("Entrance Hall"); // Duplicate ignored! Size is still 2
-
-// O(1) lookup - this is the killer feature
-visitedRooms.has("Dark Corridor"); // true
-
-// Removing duplicates from an array (common interview trick)
-const loot = ["Gold", "Sword", "Gold", "Potion", "Sword"];
-const uniqueLoot = [...new Set(loot)]; // ["Gold", "Sword", "Potion"]
-
-// Maps: like objects but with ANY key type and guaranteed order
-const bossDefeats = new Map<string, number>();
-bossDefeats.set("Dragon Lord", 3);  // O(1)
-bossDefeats.get("Dragon Lord");      // 3, O(1)
-bossDefeats.has("Dragon Lord");      // true, O(1)
-
-// Map vs Object:
-// Use Object: string keys, need JSON serialization
-// Use Map: non-string keys, need .size, need guaranteed iteration order
-```
-
-Take ten minutes.
-The Trial of Blades pauses. Sharpen your mind. Drink water. When we return, we forge our own data structures from scratch.
-
-**Stacks, Queues, and Linked Lists**
-
-Build all three structures yourself after you have seen each one fail once.
-
-Stack implementation:
-
-```typescript
-class Stack<T> {
+```ts
+export class Queue<T> {
   private items: T[] = [];
 
-  push(item: T): void {
+  enqueue(item: T): void {
     this.items.push(item);
   }
 
-  pop(): T | undefined {
-    if (this.isEmpty()) return undefined;
-    return this.items.pop();
+  dequeue(): T | undefined {
+    return this.items.shift();
+  }
+
+  get size(): number {
+    return this.items.length;
+  }
+}
+```
+
+It is correct. Every test you would write passes. Now measure it. `src/bench.ts` times four jobs at three sizes with `performance.now()`, which Node provides as a global, documented on the [Performance page](https://developer.mozilla.org/en-US/docs/Web/API/Performance/now). The first pair is `includes` against `Set.has`; the second pair is this queue against the one you are about to write.
+
+```ts
+import { Queue } from './queue.ts';
+
+function time(label: string, work: () => void): void {
+  const start = performance.now();
+  work();
+  const ms = performance.now() - start;
+  console.log(label.padEnd(34) + ms.toFixed(1).padStart(9) + ' ms');
+}
+
+for (const n of [1_000, 10_000, 100_000]) {
+  const numbers = Array.from({ length: n }, (_, i) => i);
+  const wanted = numbers.map((x) => x * 7 + 3);
+  console.log('n = ' + n);
+  time('  array.includes, n lookups', () => {
+    let hits = 0;
+    for (const w of wanted) if (numbers.includes(w)) hits += 1;
+  });
+  time('  Set.has, n lookups', () => {
+    const set = new Set(numbers);
+    let hits = 0;
+    for (const w of wanted) if (set.has(w)) hits += 1;
+  });
+  time('  shift() queue, n in n out', () => {
+    const arr: number[] = [];
+    for (const x of numbers) arr.push(x);
+    while (arr.length > 0) arr.shift();
+  });
+  time('  head-index Queue, n in n out', () => {
+    const q = new Queue<number>();
+    for (const x of numbers) q.enqueue(x);
+    while (q.size > 0) q.dequeue();
+  });
+}
+```
+
+`wanted` is built so most lookups miss, which is the expensive case for `includes`. Run it with `node src/bench.ts`. With the naive queue still in place, the last line of each block is the same as the `shift()` line above it, because it is the same code: on the machine this page was written on, 469 milliseconds at a hundred thousand. The first block's numbers are noisy, since the engine is still warming up; read the second and third.
+
+Now the real queue. Replace `src/queue.ts`:
+
+```ts
+export class Queue<T> {
+  private items: T[] = [];
+  private head = 0;
+
+  enqueue(item: T): void {
+    this.items.push(item);
+  }
+
+  dequeue(): T | undefined {
+    if (this.head === this.items.length) return undefined;
+    const item = this.items[this.head];
+    this.head += 1;
+    if (this.head * 2 >= this.items.length) {
+      this.items = this.items.slice(this.head);
+      this.head = 0;
+    }
+    return item;
   }
 
   peek(): T | undefined {
-    if (this.isEmpty()) return undefined;
-    return this.items[this.items.length - 1];
+    return this.items[this.head];
   }
 
-  isEmpty(): boolean {
-    return this.items.length === 0;
+  get size(): number {
+    return this.items.length - this.head;
   }
-
-  size(): number {
-    return this.items.length;
-  }
-
-  clear(): void {
-    this.items = [];
-  }
-
-  print(): void {
-    console.log("Stack (top -> bottom):", [...this.items].reverse());
-  }
-}
-
-// Practical example: balanced brackets checker
-function isBalanced(expression: string): boolean {
-  const stack = new Stack<string>();
-  const pairs: Record<string, string> = { ")": "(", "]": "[", "}": "{" };
-
-  for (const char of expression) {
-    if ("([{".includes(char)) {
-      stack.push(char);
-    } else if (char in pairs) {
-      if (stack.isEmpty() || stack.pop() !== pairs[char]) return false;
-    }
-  }
-  return stack.isEmpty();
 }
 ```
 
-Queue implementation (FIFO - First In, First Out):
+The invariant, written where the next reader will see it: live items are `items[head]` through the end; `head` never passes `items.length`; when the dead prefix reaches half the array, the live half is copied to a fresh array and `head` returns to zero. The copy is O(k) for `k` live items, and it happens only after at least `k` dequeues, so each item is copied at most about once. Run the benchmark again:
 
-```typescript
-class Queue<T> {
-  private items: T[] = [];
-
-  enqueue(item: T): void { this.items.push(item); }         // Add to back: O(1)
-  dequeue(): T | undefined { return this.items.shift(); }    // Remove from front: O(n)*
-  front(): T | undefined { return this.items[0]; }           // Peek at front: O(1)
-  isEmpty(): boolean { return this.items.length === 0; }     // Check empty: O(1)
-  size(): number { return this.items.length; }               // Get size: O(1)
-  // *O(n) because shift() moves every element. Use an object-based queue for O(1) dequeue.
-}
+```text
+n = 1000
+  array.includes, n lookups             0.6 ms
+  Set.has, n lookups                    0.1 ms
+  shift() queue, n in n out             0.1 ms
+  head-index Queue, n in n out          0.2 ms
+n = 10000
+  array.includes, n lookups            58.2 ms
+  Set.has, n lookups                    1.1 ms
+  shift() queue, n in n out             1.3 ms
+  head-index Queue, n in n out          0.6 ms
+n = 100000
+  array.includes, n lookups          5784.1 ms
+  Set.has, n lookups                    8.2 ms
+  shift() queue, n in n out           467.5 ms
+  head-index Queue, n in n out          3.8 ms
 ```
 
-Linked List implementation:
+Your numbers will differ. The ratios will not. `includes` went from 0.6 to 58 to 5784 milliseconds as `n` went up by ten each time: a hundredfold per step, which is the signature of n². `Set.has` went 0.1, 1.1, 8.2: roughly tenfold per step, which is linear in the number of lookups, each one constant. The `shift()` queue is quiet at a thousand and ten thousand, which is why nobody notices it, and then costs half a second at a hundred thousand, another n² curve. The head-index queue drains the same hundred thousand in under four milliseconds, more than a hundred times faster, and its three numbers grow in a straight line.
 
-```typescript
-class ListNode<T> {
-  value: T;
-  next: ListNode<T> | null;
-  constructor(value: T) {
-    this.value = value;
-    this.next = null;
-  }
-}
+The test, `tests/queue.test.ts`, checks a sequence that crosses the compaction boundary and the empty case:
 
-class LinkedList<T> {
-  head: ListNode<T> | null = null;
-  private length: number = 0;
+```ts
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { Queue } from '../src/queue.ts';
 
-  // Add to end: O(n) - must traverse to find the end
-  append(value: T): void {
-    const newNode = new ListNode(value);
-    if (!this.head) { this.head = newNode; }
-    else {
-      let current = this.head;
-      while (current.next) current = current.next;
-      current.next = newNode;
-    }
-    this.length++;
-  }
-
-  // Add to beginning: O(1)
-  prepend(value: T): void {
-    const newNode = new ListNode(value);
-    newNode.next = this.head;
-    this.head = newNode;
-    this.length++;
-  }
-
-  // Remove by value: O(n)
-  remove(value: T): boolean {
-    if (!this.head) return false;
-    if (this.head.value === value) {
-      this.head = this.head.next;
-      this.length--;
-      return true;
-    }
-    let current = this.head;
-    while (current.next) {
-      if (current.next.value === value) {
-        current.next = current.next.next;
-        this.length--;
-        return true;
-      }
-      current = current.next;
-    }
-    return false;
-  }
-
-  // Search: O(n)
-  find(value: T): ListNode<T> | null {
-    let current = this.head;
-    while (current) {
-      if (current.value === value) return current;
-      current = current.next;
-    }
-    return null;
-  }
-
-  // Reverse in place: O(n) time, O(1) space
-  reverse(): void {
-    let prev: ListNode<T> | null = null;
-    let current = this.head;
-    while (current) {
-      const next = current.next;
-      current.next = prev;
-      prev = current;
-      current = next;
-    }
-    this.head = prev;
-  }
-
-  toArray(): T[] {
-    const result: T[] = [];
-    let current = this.head;
-    while (current) { result.push(current.value); current = current.next; }
-    return result;
-  }
-
-  print(): void { console.log(this.toArray().join(" -> ") + " -> null"); }
-  getSize(): number { return this.length; }
-}
+test('a queue returns items in insertion order', () => {
+  const q = new Queue<string>();
+  q.enqueue('Bran');
+  q.enqueue('Sera');
+  assert.equal(q.dequeue(), 'Bran');
+  q.enqueue('Ivo');
+  assert.equal(q.dequeue(), 'Sera');
+  assert.equal(q.dequeue(), 'Ivo');
+  assert.equal(q.dequeue(), undefined);
+  assert.equal(q.size, 0);
+});
 ```
 
-Trees (conceptual): Binary Search Tree has left < parent < right. Gives O(log n) search when balanced. The DOM is a tree. React's virtual DOM is a tree. Database indexes use B-trees. You will encounter trees everywhere, but implementing them from scratch is less common than understanding when they are used.
+`npm test` prints `ℹ pass 1` more than it did before, and `npx tsc --noEmit` stays silent. Commit the queue, the bench, and the test. The naive version is in the commit before it, which is the comparison you want in the history.
 
-**Side Quest (Optional): Build a Binary Search Tree**
-
-If interviews are on your horizon, BSTs come up often enough that building one once is worth the hour. The invariant: every node's left subtree holds smaller values, the right subtree holds larger ones. That invariant is what makes search O(log n) — every comparison discards half the remaining tree, exactly like binary search on an array.
-
-```typescript
-class TreeNode {
-  constructor(
-    public value: number,
-    public left: TreeNode | null = null,
-    public right: TreeNode | null = null
-  ) {}
-}
-
-class BinarySearchTree {
-  root: TreeNode | null = null;
-
-  insert(value: number): void {
-    const node = new TreeNode(value);
-    if (!this.root) { this.root = node; return; }
-    let current = this.root;
-    while (true) {
-      if (value < current.value) {
-        if (!current.left) { current.left = node; return; }
-        current = current.left;
-      } else {
-        if (!current.right) { current.right = node; return; }
-        current = current.right;
-      }
-    }
-  }
-
-  search(value: number): boolean {
-    let current = this.root;
-    while (current) {
-      if (value === current.value) return true;
-      current = value < current.value ? current.left : current.right;
-    }
-    return false;
-  }
-
-  // In-order traversal visits values in SORTED order - the classic BST party trick
-  inOrder(node: TreeNode | null = this.root, result: number[] = []): number[] {
-    if (node) {
-      this.inOrder(node.left, result);
-      result.push(node.value);
-      this.inOrder(node.right, result);
-    }
-    return result;
-  }
-}
-
-const bst = new BinarySearchTree();
-[50, 30, 70, 20, 40, 60, 80].forEach(v => bst.insert(v));
-bst.search(40);   // true
-bst.inOrder();    // [20, 30, 40, 50, 60, 70, 80] - sorted!
-```
-
-Two things to know for interviews: (1) the O(log n) guarantee only holds when the tree is *balanced* — insert sorted data into a naive BST and it degenerates into a linked list with O(n) search, which is why production systems use self-balancing variants (AVL, red-black) and databases use B-trees; (2) in-order traversal of a BST produces sorted output, a favorite interview question.
-
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Here is a small model you can run here: the head-index queue in plain JavaScript, plus a count of how many element moves `shift()` would make to drain a queue of `n`. It proves the order and the shape of the growth. It does not measure anything; the timings are only true on your machine, from `node src/bench.ts`.
 
 ```js run=checkpoint-9-2
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
+
 class Queue {
   constructor() { this.items = []; this.head = 0; }
-  enqueue(value) { this.items.push(value); }
+  enqueue(item) { this.items.push(item); }
   dequeue() {
     if (this.head === this.items.length) return undefined;
-    const value = this.items[this.head]; this.items[this.head++] = undefined;
-    if (this.head === this.items.length) { this.items = []; this.head = 0; }
-    return value;
+    const item = this.items[this.head];
+    this.head += 1;
+    if (this.head * 2 >= this.items.length) {
+      this.items = this.items.slice(this.head);
+      this.head = 0;
+    }
+    return item;
   }
+  get size() { return this.items.length - this.head; }
 }
-const q = new Queue(); q.enqueue('a'); q.enqueue('b');
-check(q.dequeue() === 'a', 'FIFO first'); q.enqueue('c');
-check(q.dequeue() === 'b' && q.dequeue() === 'c', 'Interleaved order');
-check(q.dequeue() === undefined, 'Empty queue');
+
+const q = new Queue();
+q.enqueue('Bran');
+q.enqueue('Sera');
+check(q.dequeue() === 'Bran', 'FIFO first');
+q.enqueue('Ivo');
+check(q.dequeue() === 'Sera' && q.dequeue() === 'Ivo', 'Interleaved order');
+check(q.dequeue() === undefined && q.size === 0, 'Empty queue');
+
+function countShiftMoves(n) {
+  let moves = 0;
+  for (let remaining = n; remaining > 0; remaining -= 1) moves += remaining - 1;
+  return moves;
+}
+check(countShiftMoves(10) === 45 && countShiftMoves(100) === 4950, 'shift moves grow with the square of n');
+
 console.log('ok: checkpoint-9-2');
 ```
 
@@ -607,168 +255,126 @@ console.log('ok: checkpoint-9-2');
 
 ### Big O treated as a stopwatch
 
-You throw out an O(n) solution for an O(1) one and the program gets slower. Big O describes how the work grows as the input grows. It does not describe the constant work, the memory, or the size you actually have. A linear scan of fifty items is cheaper than a clever structure you rebuild on every call. Ask how big the input is, measure the operation you care about, and then decide. Cite the growth when you are comparing what happens at ten times the size. Do not cite it as a timing result you never measured.
+You replace an O(n) scan with an O(1) structure and the program gets slower. The symptom is a benchmark that goes the wrong way after an optimization you were sure of. The cause is that Big O describes growth and you changed a case where growth was not the problem: fifty items, scanned once, are cheaper than building a `Set` of fifty items to look up one of them. Or the constant hiding inside the O(1) is large, like a hash of a long string.
+
+Ask how big `n` actually is, in this program, today. Measure the operation you care about at that size and at ten times that size. If the slow version is fine at ten times, keep the simple one and write down the size at which you would revisit. Cite Big O when you compare what happens as the input grows. Do not cite it as a timing result you never took.
 
 ### Queue uses repeated shift
 
-The queue is an array and every dequeue is `shift()`, which moves every later element. It looks O(1) and it is O(n) per dequeue, so a queue of n items costs O(n²). The bug is quiet at ten items and obvious at ten thousand. Keep a head index and ignore the slots you have already taken, or use a structure with a cheap pop from the front. When you do, state what you do about the empty prefix growing without bound. A correct big-O claim includes the representation, not just the name of the data type.
+A queue backed by `shift()` passes every test and then takes half a second to drain at a hundred thousand items. The symptom is a program that is fine in development and slow with real data, and a profiler that blames a one-word method. The cause is that `shift()` moves every remaining element, so a queue of `n` costs O(n²) to drain. Nothing in the code looks like a nested loop. The loop is inside the method.
+
+Keep a head index, or use a structure with a cheap pop from the front. State what happens to the dead prefix: compact at half, or cap the array, or accept growth and say so. A correct Big O claim names the representation, not just the word queue. "A queue is O(1) to dequeue" is true of the abstract type and false of this array.
 
 ### Hash lookup called guaranteed constant
 
-You say the lookup is O(1) as if that were a promise. It is an average, under a hash that spreads keys evenly. A hostile or unlucky set of keys collides, and the bucket becomes a list. JavaScript's `Map` is the right tool for this course, and its lookup is expected constant time for ordinary keys. Say "expected" or "average." If you are defending a design against an input an attacker chooses, collision behavior is part of the design, not a footnote.
+The table says `Map.get` is O(1) as if that were a promise, and a reviewer asks what happens when the keys collide. The symptom is a claim you cannot defend. The cause is a missing word: hash lookup is expected constant time under a hash that spreads keys evenly, and a hostile or unlucky key set turns a bucket into a list.
+
+Write "expected O(1)" or "average O(1)" in the table, and say what the keys are. For ordinary application keys, ids and names, the average is what you will see and `Map` is the right tool. If you are designing against input an attacker chooses, collision behavior is part of the design and belongs in the system design document two sessions from now, not in a footnote.
 
 ## Your turn
 
-Take ten minutes.
-The trial pauses. Rest your blade arm. The final challenge of this session awaits.
+Everything happens in `~/projects/typescript-practice`, beside the queue. Run `npm test` after every step; the pass count only goes up.
 
-**Exercise 1: Implement a Battle Queue**
+1. Write `src/stack.ts`: a generic `Stack<T>` with `push`, `pop`, `peek`, and a `size` getter, backed by an array with the top at the end. Every operation is O(1); write that as a comment at the top of the file. `tests/stack.test.ts` pushes three, pops one, pushes one, and drains, asserting the order `'d', 'b', 'a'` for pushes of `a, b, c, d` with `c` popped early, then asserts `pop()` on the empty stack is `undefined`.
+2. Write `src/linked-list.ts`: a `ListNode<T>` with `value` and `next`, written as explicit fields and a constructor, not as parameter properties, because Node's type stripping refuses those. A `LinkedList<T>` with `head`, a private `tail`, a private `count`, and the methods `append` (O(1) with the tail pointer), `prepend`, `find(predicate)`, `remove(value)`, `reverse()`, `toArray()`, and a `size` getter. `remove` must fix the tail when it removes the last node.
+3. Write `tests/linked-list.test.ts` with the sequence from the idea section: append 1 through 4, remove the head, the middle, the tail, then append and confirm the new node lands after the surviving tail; remove down to empty, append once more, and check `toArray()` is `[7]` and `size` is `1`. A second test reverses `a, b, c`, appends `d`, and expects `['c', 'b', 'a', 'd']`. The tail bug in step 2 fails exactly this line.
+4. Run `node src/bench.ts` once more and paste the output into a new file `COMPLEXITY.md`, under the heading "Measured on my machine". Below it, write a table with one row per operation you implemented: structure, operation, time, space, and the line of code the claim points at. `dequeue` is "O(1) amortized, src/queue.ts compaction at half". `append` is "O(1), tail pointer".
+5. Run `npx tsc --noEmit`. Silence. Then `npx tsc` and `node dist/bench.js` to confirm the compiled program gives the same ratios.
+6. Break the list once: remove the line in `remove` that reassigns `tail`, run `npm test`, and read the failing assertion. It is the append-after-tail-removal line, not the removal line. Put it back. That is the sequence test earning its keep.
 
-**Objective:** Build a turn-based battle system using a Queue.
-
-```typescript
-interface Combatant {
-  name: string;
-  health: number;
-  attack: number;
-  defense: number;
-  speed: number;
-}
-
-class BattleQueue {
-  private queue: Queue<Combatant> = new Queue<Combatant>();
-
-  addCombatant(combatant: Combatant): void {
-    this.queue.enqueue(combatant);
-  }
-
-  nextTurn(): Combatant | undefined {
-    const combatant = this.queue.dequeue();
-    if (combatant && combatant.health > 0) {
-      this.queue.enqueue(combatant); // Re-add if alive
-    }
-    return combatant;
-  }
-
-  isOver(): boolean {
-    return this.queue.size() <= 1;
-  }
-}
-
-// Test it:
-const battle = new BattleQueue();
-battle.addCombatant({ name: "Arthur", health: 100, attack: 25, defense: 15, speed: 10 });
-battle.addCombatant({ name: "Goblin King", health: 80, attack: 20, defense: 10, speed: 8 });
-battle.addCombatant({ name: "Dark Mage", health: 60, attack: 35, defense: 5, speed: 12 });
-```
-
-**Success Criteria:**
-- Queue correctly cycles through combatants
-- Dead combatants are removed from the cycle
-- Battle ends when 0 or 1 combatants remain alive
-
-**Time Estimate:** 20 minutes
-
-**Exercise 2: Linked List Operations**
-
-**Objective:** Practice linked list operations by building a browser history feature.
-
-```typescript
-class BrowserHistory {
-  private history: LinkedList<string> = new LinkedList<string>();
-  private currentIndex: number = -1;
-
-  visit(url: string): void {
-    this.history.append(url);
-    this.currentIndex++;
-  }
-
-  back(): string | undefined {
-    if (this.currentIndex <= 0) return undefined;
-    this.currentIndex--;
-    return this.getNodeAt(this.currentIndex);
-  }
-
-  forward(): string | undefined {
-    if (this.currentIndex >= this.history.getSize() - 1) return undefined;
-    this.currentIndex++;
-    return this.getNodeAt(this.currentIndex);
-  }
-
-  private getNodeAt(index: number): string | undefined {
-    const arr = this.history.toArray();
-    return arr[index];
-  }
-
-  current(): string | undefined {
-    return this.getNodeAt(this.currentIndex);
-  }
-}
-```
-
-**Success Criteria:**
-- Can visit pages and navigate back and forward
-- Back returns undefined at the beginning
-- Forward returns undefined at the end
-
-**Time Estimate:** 15 minutes
+If `npm test` reports a file it cannot import, check that the relative path from `tests/` ends in `.ts`. The runner executes files from disk, and the compiler is the only thing that rewrites extensions.
 
 ## The quest
 
-**Independent Lab: Data Structure Challenge Set**
-
-Solve these problems using the data structures you built today. For each solution, add a comment with the Big O time and space complexity.
-
-1. **Stack Challenge:** Write a function that evaluates a simple math expression in Reverse Polish Notation (e.g., "3 4 + 2 *" = 14). Use a Stack.
-2. **Queue Challenge:** Simulate a print queue where 5 documents arrive with different page counts. Process them FIFO and log each document as it prints.
-3. **Linked List Challenge:** Implement a `removeDuplicates()` method that removes duplicate values from a linked list.
-4. **Set Challenge:** Given two arrays, write a function that returns elements that appear in both arrays (intersection) using a Set for O(n) performance.
-
-**Stretch Goals:**
-- Implement a `DoublyLinkedList<T>` with `previous` pointers
-- Implement a `PriorityQueue<T>` that dequeues by priority value
-- Add an iterator to your LinkedList (implement `[Symbol.iterator]()`)
-
-### Review the artifact
-
-Your deliverable is **Typed data structures with operation tests and time/space analysis**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-9-2/fig3-evidence)
+
+The deliverable is a challenge set in `src/challenges.ts`, solved with the structures you built, with a test file that proves each one and a complexity line above each function. Statements and expected outputs only; the answer key is at the end of this page, after you have tried.
+
+1. **Reverse Polish notation.** `evaluateRpn(tokens: string[]): number` evaluates `['3', '4', '+', '2', '*']` to `14`, using your `Stack<number>`. Operators are `+ - * /`. Throw on a malformed expression such as `['+']`.
+2. **Print queue.** `runPrintQueue(jobs: { name: string; pages: number }[]): string[]` enqueues every job into your `Queue`, dequeues them in order, and returns one line per job in the form `Bran: 3 pages`. Five jobs in, five lines out, same order.
+3. **Remove duplicates from a list.** Add `removeDuplicates(): void` to `LinkedList<T>`, keeping the first occurrence of each value, so `1, 2, 1, 3, 2` becomes `[1, 2, 3]` and `size` is `3`. O(n) time with a `Set`, and the tail still correct afterwards.
+4. **Intersection.** `intersection(a: number[], b: number[]): number[]` returns the values present in both, each once, in the order they appear in `a`. `[1, 2, 2, 3]` and `[2, 3, 4]` give `[2, 3]`. O(n + m) with a `Set`; write the O(n·m) nested-loop version too, under the name `intersectionSlow`, and have one test assert they agree on ten generated pairs.
+
+Evidence to keep:
+
+- `npm test` output with the `ℹ pass` count, which should now be at least nine.
+- `COMPLEXITY.md` with the measured block and the table, one row per method, each row naming its line of code.
+- The commit history showing the naive queue before the head-index queue, so the benchmark comparison is reproducible from the repository alone.
+- A sentence in `COMPLEXITY.md` saying which `n` your bench proved the shape at, and which `n` you have not tested.
+
+Push to the `typescript-practice` repository. Next session's algorithm files reuse the stack and the list, so leave the names as they are.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The Big O sheet is the growth vocabulary in one page, the spatial complexity sheet is the half of the table you are most likely to leave blank, and the arrays pattern sheet is a catalogue of the array operations whose costs you just measured.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Complete Session 9.1 homework. Review array methods (map, filter, reduce, push, pop, shift, unshift, splice). Read the Big O Cheat Sheet at bigocheatsheet.com.
-**Materials:** TypeScript development environment, whiteboard or drawing tool for diagramming data structures, Big O reference card.
+Next session is algorithms: the patterns that turn an O(n²) loop into O(n) when the input has the right structure, and the habit of keeping the slow version as an oracle to check the fast one. Reread your `COMPLEXITY.md` and the `includes` row of the benchmark, because the first pattern, the frequency counter, is that row turned into a technique. Nothing is running between sessions. You arrive with the three structures tested, the challenge set solved, and the bench output pasted, and the next session's files go in the same `src`.
 
-**Assignment: Data Structure Dungeon**
-- **Objective:** Implement all three core data structures and solve problems with them
-- **Tasks:**
-  1. Implement a `Stack<T>` class with full TypeScript types (if you did not finish during the session)
-  2. Implement a `Queue<T>` class with full TypeScript types
-  3. Implement a `LinkedList<T>` class with `append`, `prepend`, `remove`, `find`, `reverse`, and `print` methods
-  4. Solve the following problems:
-     - Use a Stack to check if a string of brackets `()[]{}` is balanced
-     - Use a Queue to simulate a print queue (3 documents, process one at a time)
-     - Use a LinkedList to implement a browser history (back/forward navigation)
-  5. For each solution, add a comment with the Big O time complexity
-- **Stretch Goals:**
-  - Implement a `DoublyLinkedList<T>` with `previous` pointers
-  - Implement a `PriorityQueue<T>` that dequeues by priority value
-  - Add an iterator to your LinkedList (implement `[Symbol.iterator]()`)
-- **Submission:** Push to your GitHub repo in the `typescript-practice/` folder
-- **Due:** Before Session 9.3
+### The answer key, for after you have tried
 
----
+Compare, do not copy. If yours differs and passes the same tests, keep yours and write down why.
 
-### Manual verification and further reading
+```ts
+import { Stack } from './stack.ts';
+import { Queue } from './queue.ts';
 
-- [Official reference 1](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+// O(n) time, O(n) space: every token is pushed at most once.
+export function evaluateRpn(tokens: string[]): number {
+  const stack = new Stack<number>();
+  for (const token of tokens) {
+    if (token === '+' || token === '-' || token === '*' || token === '/') {
+      const right = stack.pop();
+      const left = stack.pop();
+      if (left === undefined || right === undefined) throw new Error('malformed expression at ' + token);
+      stack.push(token === '+' ? left + right : token === '-' ? left - right : token === '*' ? left * right : left / right);
+    } else {
+      const value = Number(token);
+      if (Number.isNaN(value)) throw new Error('not a number: ' + token);
+      stack.push(value);
+    }
+  }
+  const result = stack.pop();
+  if (result === undefined || stack.size !== 0) throw new Error('malformed expression');
+  return result;
+}
+
+// O(n) time, O(n) space for the queue and the output.
+export function runPrintQueue(jobs: { name: string; pages: number }[]): string[] {
+  const queue = new Queue<{ name: string; pages: number }>();
+  for (const job of jobs) queue.enqueue(job);
+  const lines: string[] = [];
+  let job = queue.dequeue();
+  while (job !== undefined) {
+    lines.push(job.name + ': ' + job.pages + ' pages');
+    job = queue.dequeue();
+  }
+  return lines;
+}
+
+// O(n + m) time, O(min(n, m)) space.
+export function intersection(a: number[], b: number[]): number[] {
+  const inB = new Set(b);
+  const seen = new Set<number>();
+  const out: number[] = [];
+  for (const value of a) {
+    if (inB.has(value) && !seen.has(value)) {
+      seen.add(value);
+      out.push(value);
+    }
+  }
+  return out;
+}
+
+// O(n * m) time, O(1) extra space: the oracle.
+export function intersectionSlow(a: number[], b: number[]): number[] {
+  const out: number[] = [];
+  for (const value of a) {
+    if (b.includes(value) && !out.includes(value)) out.push(value);
+  }
+  return out;
+}
+```
+
+`removeDuplicates` on the list walks with `previous` and `current`, keeps a `Set` of seen values, unlinks a node whose value was seen, decrements `count`, and sets `tail` to `previous` whenever the unlinked node was the tail. The three places people forget are the count, the tail, and advancing `current` without advancing `previous` after an unlink.

@@ -993,10 +993,10 @@
         "SYS-03"
       ],
       "sideQuestWhy": [
-        "Apply unknown to this lesson's artifact: External data begins without trusted structure.",
-        "Apply narrow to this lesson's artifact: Runtime checks establish the required shape."
+        "The parser you wrote checks that an id is a string; the next check it needs is that the string has a shape, and the regex sheet is how you say what shape without a second pass of ifs.",
+        "An interface is a contract a caller can depend on without reading the implementation, which is the dependency-inversion idea in the SOLID sheet; read it to put a name on what Quest and Chest<T> already do."
       ],
-      "hook": "A strict TypeScript module with validated external input and explicit domain types. External data begins without trusted structure."
+      "hook": "JavaScript lets a typo ride all the way to production. Today you add a compiler that refuses, build a parser that turns unknown JSON into a type you can trust, and learn the two ways Node 24 runs a .ts file."
     },
     {
       "id": "9.2",
@@ -1012,11 +1012,11 @@
         "ALG-19"
       ],
       "sideQuestWhy": [
-        "Apply operation to this lesson's artifact: Identify the frequent reads and writes.",
-        "Apply structure to this lesson's artifact: Choose representation for those operations.",
-        "Apply growth to this lesson's artifact: Explain how time and memory scale with input."
+        "The Big O sheet is the growth vocabulary on one page; read it after you have pasted your bench output, so each class on the sheet has a number from your machine beside it.",
+        "Space is the column of the complexity table most people leave blank; the spatial complexity sheet is the half of the trade a Set makes when it replaces includes.",
+        "The arrays pattern sheet catalogues the operations whose costs you just measured; read it to see which array methods hide a loop the way shift does."
       ],
-      "hook": "Typed data structures with operation tests and time/space analysis. Identify the frequent reads and writes."
+      "hook": "A lookup that takes a millisecond at a thousand rows takes six seconds at a hundred thousand. Today you measure that on your own machine, learn to say why, and build the three structures that make the shape of the growth a choice instead of a surprise."
     },
     {
       "id": "9.3",
@@ -1032,11 +1032,11 @@
         "ALG-22"
       ],
       "sideQuestWhy": [
-        "Apply example to this lesson's artifact: Work a small input by hand.",
-        "Apply invariant to this lesson's artifact: State what remains true during each step.",
-        "Apply proof to this lesson's artifact: Check termination, correctness, and resource growth."
+        "The which-pattern-when sheet is the table of conditions this session kept asking you to say out loud before choosing a pattern; use it to check the condition column of your ALGORITHMS.md.",
+        "Two pointers only works under a rule that guarantees nothing valid is skipped, usually a sort; the two-pointers sheet lists the inputs that break it, which are the cases your oracle test should generate.",
+        "The sliding-window sheet shows the window with negative numbers, the input that makes the pattern give a confident wrong answer; read it before you decide a problem is a window problem."
       ],
-      "hook": "Algorithm solutions with invariants, edge cases, and comparative complexity. Work a small input by hand."
+      "hook": "A pattern is not a trick to memorize. It is what the structure of the input allows. Today you write the slow version first, keep it as the oracle, and let it prove that the fast version you wrote next gives the same answers."
     },
     {
       "id": "9.4",
@@ -1052,11 +1052,11 @@
         "SYS-C06"
       ],
       "sideQuestWhy": [
-        "Apply requirements to this lesson's artifact: Define users, operations, and quality needs.",
-        "Apply architecture to this lesson's artifact: Assign responsibilities and data ownership.",
-        "Apply tradeoffs to this lesson's artifact: Explain capacity, failure, and consistency choices."
+        "The interview-framework sheet is this document compressed into forty-five minutes out loud; after you have written section 4, try saying it in five, and notice which hop you cannot defend.",
+        "The back-of-the-envelope sheet holds the reference numbers behind section 2; treat them as starting guesses to replace with your own inputs, and cite the ones you kept.",
+        "The caching sheet is the four questions you owe before a cache goes in section 3: the source of truth, the key, how long it may lie, and what deletes it."
       ],
-      "hook": "A system design document with estimates, failure paths, and explicit tradeoffs. Define users, operations, and quality needs."
+      "hook": "Your product spec says what the capstone does. Today you write the document that says how it will hold up: a workload you estimated, boxes you can defend, one request traced through them, one failure walked through, and one decision recorded with its reasons."
     },
     {
       "id": "9.5",
@@ -1072,11 +1072,11 @@
         "ALG-03"
       ],
       "sideQuestWhy": [
-        "Apply baseline to this lesson's artifact: Freeze working behavior and identify public contracts.",
-        "Apply migrate to this lesson's artifact: Type one boundary at a time with strict checking.",
-        "Apply explain to this lesson's artifact: Connect the implementation to an architecture decision."
+        "The read helpers and the HttpError class gave each handler one responsibility and one error type; the SOLID sheet is the vocabulary for saying why that made the handlers easier to type.",
+        "The digital-mansion primer is the long form of the design document you have now written twice; read it to see where ADR-2 sits in a full system description.",
+        "ADR-2 has a consequences section, and the trade-offs sheet is the vocabulary for writing it as costs and benefits rather than preferences."
       ],
-      "hook": "A reviewed TypeScript migration and a capstone architecture decision record. Freeze working behavior and identify public contracts."
+      "hook": "The guild hall works and has tests. Today you convert it to TypeScript in place, one boundary at a time, with the Unit 7 suite as the proof that nothing changed, and you record why the capstone will not get the same treatment."
     },
     {
       "id": "10.1",
