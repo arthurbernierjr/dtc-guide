@@ -682,6 +682,19 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
+  "/path/9-4-trial-of-patience/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) · first-wave pass",
+    "docs": [
+      "https://nodejs.org/api/test.html",
+      "https://nodejs.org/api/assert.html",
+      "https://nodejs.org/api/perf_hooks.html",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set"
+    ],
+    "exec": "ran",
+    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
+  },
   "/path/9-5-grand-architecture/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
@@ -3095,13 +3108,13 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://dev.mysql.com/doc/",
-      "https://cassandra.apache.org/doc/latest/",
+      "https://www.mongodb.com/docs/",
       "https://nginx.org/en/docs/",
       "https://www.haproxy.org/#docs",
       "https://docs.docker.com/",
       "https://kubernetes.io/docs/",
-      "https://prometheus.io/docs/",
-      "https://grafana.com/docs/"
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching",
+      "https://datatracker.ietf.org/doc/html/rfc8446"
     ],
     "exec": "n/a",
     "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."

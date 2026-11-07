@@ -2,7 +2,7 @@
   "_comment": "The diagram ledger, machine-readable twin of DESIGN-REFERENCE-RESPAWN.md §R10. Key = <set>/<file>; the build expects <file>-wide.png (1600×900) and <file>-tall.png (900×1200) under build/assets/diagrams/<set>/. A referenced figure with no alt text fails the build.",
   "path/path-map": {
     "composition": "PathMap",
-    "alt": "The complete curriculum: twenty-two weeks, sixty-four published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
+    "alt": "The complete curriculum: twenty-two weeks, sixty-five published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
     "caption": "The route: 22 weeks, three acts, the flag marks the latest written session."
   },
   "session-3-1/fig1-three-containers": {
@@ -2025,6 +2025,88 @@
         ]
       ],
       "artifact": "Algorithm solutions with invariants, edge cases, and comparative complexity"
+    }
+  },
+  "session-9-4/fig1-model": {
+    "composition": "CurriculumDiagram",
+    "fig": 1,
+    "alt": "Four steps left to right: Restate, writing one sentence that names the inputs, the output, and what may change; Brute force, writing the definition as code and keeping it as the oracle; Pattern, naming the fast version from the tell in the restatement rather than from a list; Prove, writing the invariant before the loop, running the seeded comparison, and benching both versions.",
+    "caption": "The working model: restate until the tell shows, write the brute force and keep it, name the pattern from the tell, then prove it with an invariant, a seeded oracle, and a bench.",
+    "props": {
+      "session": "9.4",
+      "title": "The working model",
+      "mode": "flow",
+      "nodes": [
+        [
+          "Restate",
+          "One sentence: what goes in, what comes out, what may change."
+        ],
+        [
+          "Brute force",
+          "The definition as code; keep it as the oracle."
+        ],
+        [
+          "Pattern",
+          "Named from the tell in the restatement, not from a list."
+        ],
+        [
+          "Prove",
+          "Invariant before the loop, seeded oracle, then the bench."
+        ]
+      ],
+      "artifact": "Six solved problems, each with an oracle, a prediction, an invariant, and a bench line"
+    }
+  },
+  "session-9-4/fig2-diagnosis": {
+    "composition": "CurriculumDiagram",
+    "fig": 2,
+    "alt": "Three diagnoses side by side: a pattern applied too soon, such as sorting the prices or using a window on negative numbers, points at underlining the dropped word in the restatement and testing the input that broke it; an off-by-one at the boundary, such as a dropped merge tail or k modulo zero, points at writing each bound as a sentence and testing empty, one, two, and both ends; an optimisation that changes behaviour, such as an unstable merge or reordered non-zeroes, points at saying what must be preserved and comparing whole outputs with deepEqual.",
+    "caption": "Diagnose the failure: a pattern chosen from a word instead of a fact, a bound never written as a sentence, or a faster version that quietly changed what the restatement promised.",
+    "props": {
+      "session": "9.4",
+      "title": "Diagnose the failure",
+      "mode": "diagnosis",
+      "nodes": [
+        [
+          "Pattern applied too soon",
+          "Sorting the prices or windowing negatives: underline the dropped word in the restatement and test the input that broke it."
+        ],
+        [
+          "Off-by-one at the boundary",
+          "A dropped tail, k % 0, a loop that starts on the buy day: write each bound as a sentence and test empty, one, two, and both ends."
+        ],
+        [
+          "Optimisation changes behaviour",
+          "A stable merge made unstable, non-zeroes reordered: say what must be preserved and compare whole outputs with deepEqual."
+        ]
+      ],
+      "artifact": "Six solved problems, each with an oracle, a prediction, an invariant, and a bench line"
+    }
+  },
+  "session-9-4/fig3-evidence": {
+    "composition": "CurriculumDiagram",
+    "fig": 3,
+    "alt": "Evidence in three parts: six green tests, meaning npm test with the pass count up by twelve and fail at zero, every seeded test running at least four hundred rounds; the bench lines kept from node src/bench-profit.ts, showing the slow column growing sixteen times per four times the input while the fast column stays flat and agree is true; and the boundary report, one sentence per problem naming the case the oracle found first, or stating that it found none and listing the five boundary cases already written.",
+    "caption": "Evidence: the browser model proves the two pairs agree with their oracles on seeded cases; your own npm test, bench lines, and boundary report prove the same for all six problems.",
+    "props": {
+      "session": "9.4",
+      "title": "Prove the handoff",
+      "mode": "evidence",
+      "nodes": [
+        [
+          "Six green tests",
+          "npm test with pass up by twelve, fail 0, every seeded test at 400 rounds or more"
+        ],
+        [
+          "Bench lines kept",
+          "node src/bench-profit.ts: slow x16 per x4 input, fast flat, agree true"
+        ],
+        [
+          "Boundary report",
+          "One sentence per problem: the case the oracle found first, or none and the five cases already written"
+        ]
+      ],
+      "artifact": "Six solved problems, each with an oracle, a prediction, an invariant, and a bench line"
     }
   },
   "session-9-5/fig1-model": {

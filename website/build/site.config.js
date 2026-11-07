@@ -24,7 +24,7 @@ module.exports = {
   marquee: ['RESPAWNED', 'SUPER CODER', 'IN A WORLD WITH AI', 'THE PATH', 'SIDE QUESTS', 'BIG POPPA CODE'],
   // The path is the spine of the site; it sits before the library tracks in the nav and footer.
   path: { id: 'path', num: '00', title: 'The Path', nav: 'Path', url: '/path/', icon: 'flag',
-    blurb: 'Twenty-two weeks, sixty-four sessions. Each session points at its side quests.' },
+    blurb: 'Twenty-two weeks, sixty-five sessions. Each session points at its side quests.' },
   sections: [
     { id: 'algorithms', num: '01', title: 'Algorithms', url: '/algorithms/', icon: 'hash',
       blurb: 'Big O, sorting, searching, recursion, and the interview patterns.' },

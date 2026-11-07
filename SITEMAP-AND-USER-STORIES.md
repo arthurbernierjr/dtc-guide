@@ -1,11 +1,11 @@
 # I Respawned As A Super Coder In A World With AI — the path & library: Sitemap & User Stories
 
-**Total pages: 301.** Every reachable HTML page on the site is listed below with an ID, a URL, a source, the facts the build must reproduce, a user story and acceptance criteria. If a page is not in this document it must not exist; if it is listed, it must exist. `npm test` compares the generated `public/` tree against this document's URL list in both directions and fails on any difference.
+**Total pages: 302.** Every reachable HTML page on the site is listed below with an ID, a URL, a source, the facts the build must reproduce, a user story and acceptance criteria. If a page is not in this document it must not exist; if it is listed, it must exist. `npm test` compares the generated `public/` tree against this document's URL list in both directions and fails on any difference.
 
 ## Counts by section
 
 - Global: 4
-- The Path: 65
+- The Path: 66
 - Algorithms: 28
 - Data Structures: 17
 - Practice: 29
@@ -15,7 +15,7 @@
 - Security: 12
 - Mindset: 3
 - Atelier: 11
-- **Total: 301**
+- **Total: 302**
 
 ## Counting rules
 
@@ -45,18 +45,18 @@
 ## Template acceptance criteria
 
 ### T-HOME
-- Hero (DESIGN-REFERENCE-RESPAWN §R4): the cover lockup as the H1 (`I RESPAWNED AS A` mono yellow · `SUPER CODER` Clash 700 green · `IN A WORLD WITH` mono yellow · the mark: *Magic* in Fraunces italic struck through in red with `AI` in Clash 700 yellow written over its corner), signature line, computed mono tagline `ONE PATH · 64 SESSIONS · {n} SIDE QUESTS`, two pills (**Start the path** → PATH-00, **Browse the library** → `#tracks`), five stats (pages · sessions · exercises · languages · patterns); on the right the save-point card for the latest written session (large stamp, week/day, title, hook, **Continue**, `{written} of 64 written`). No gate, no audio, no sticker, no disc.
+- Hero (DESIGN-REFERENCE-RESPAWN §R4): the cover lockup as the H1 (`I RESPAWNED AS A` mono yellow · `SUPER CODER` Clash 700 green · `IN A WORLD WITH` mono yellow · the mark: *Magic* in Fraunces italic struck through in red with `AI` in Clash 700 yellow written over its corner), signature line, computed mono tagline `ONE PATH · 65 SESSIONS · {n} SIDE QUESTS`, two pills (**Start the path** → PATH-00, **Browse the library** → `#tracks`), five stats (pages · sessions · exercises · languages · patterns); on the right the save-point card for the latest written session (large stamp, week/day, title, hook, **Continue**, `{written} of 65 written`). No gate, no audio, no sticker, no disc.
 - Sections in this order: 00 The path (route strip: 18 week cells with unit-coloured bars, three session dots each, one flag on the latest written week, act legend, **Latest: n.n Title →**) · 01 Side quests (8 track cards with live counts) · 02 Which pattern when (31 rows, filterable) · 03 Naive vs Optimal (one pair) · 04 Languages (13 tiles) · 05 Mindset quote break · Marquee · Footer.
 - Reveal/float motion only here; all of it off under `prefers-reduced-motion`.
 
 ### T-PATH
-- Landing header: eyebrow `00 / THE PATH`, H1 "The path", editorial intro, **Start with Session n.n** pill to the first written session, chip `22 weeks · 64 sessions · {written} written`.
+- Landing header: eyebrow `00 / THE PATH`, H1 "The path", editorial intro, **Start with Session n.n** pill to the first written session, chip `22 weeks · 65 sessions · {written} written`.
 - The path map figure (`/assets/diagrams/path/path-map-wide.png` 1600×900, `-tall.png` 900×1200 via `<picture>`), act legend; the "Not yet written" swatch appears only while unpublished sessions remain.
 - The twelve units as a list (number, title, topics, artifact), then act dividers and 22 week blocks `id="week-N"`, three session cards each: a **written** card (medium stamp, day, linked title, hook, chips `n min read · n diagrams · n side quests`) or the designed **empty** card (dashed `--faint` outline, `NOT YET WRITTEN · RESPAWNS HERE`, "Side quests that cover this ground today:" with up to three library chips, or "No side quests yet."). Every one of the 62 sessions renders a card; counts are never typed in.
 - Pager = next → first written session.
 
 ### T-SESSION
-- 3-column doc layout; the sidebar tree is the path by week (small stamps; unwritten sessions listed unlinked; `{written}/64 WRITTEN`).
+- 3-column doc layout; the sidebar tree is the path by week (small stamps; unwritten sessions listed unlinked; `{written}/65 WRITTEN`).
 - Above the eyebrow: the chapter opener (large stamp + Fraunces italic *In a world with ~~Magic~~ AI, chapter n.n.*) — the only strike outside the logo.
 - Eyebrow `THE PATH · WEEK n · {DAY} · UNIT n · ACT {I|II|III}`; H1 = Title; lede = subtitle; chips `n min read · n diagrams · n side quests · n runnable`; glance card keys WEEK · UNIT · ACT · BEFORE · AFTER · ARTIFACT · READ.
 - Body H2s exactly, in order: The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session. "Where it breaks" renders inside `.callout.dont`, "Your turn" inside `.callout.turn`; single-italic-paragraph blockquotes are `blockquote.story` pull quotes.
@@ -141,12 +141,12 @@ flowchart TB
   pathx --> path_w14["Week 14 · 3 written (PATH-7-2, PATH-7-3, PATH-7-4)"]
   pathx --> path_w15["Week 15 · 3 written (PATH-8-1, PATH-8-2, PATH-8-3)"]
   pathx --> path_w16["Week 16 · 3 written (PATH-8-4, PATH-9-1, PATH-9-2)"]
-  pathx --> path_w17["Week 17 · 3 written (PATH-9-3, PATH-9-5, PATH-9-6)"]
-  pathx --> path_w18["Week 18 · 3 written (PATH-10-1, PATH-10-2, PATH-10-3)"]
-  pathx --> path_w19["Week 19 · 3 written (PATH-10-4, PATH-11-1, PATH-11-2)"]
-  pathx --> path_w20["Week 20 · 3 written (PATH-11-3, PATH-11-4, PATH-12-1)"]
-  pathx --> path_w21["Week 21 · 3 written (PATH-12-2, PATH-12-3, PATH-12-4)"]
-  pathx --> path_w22["Week 22 · 1 written (PATH-12-5)"]
+  pathx --> path_w17["Week 17 · 3 written (PATH-9-3, PATH-9-4, PATH-9-5)"]
+  pathx --> path_w18["Week 18 · 3 written (PATH-9-6, PATH-10-1, PATH-10-2)"]
+  pathx --> path_w19["Week 19 · 3 written (PATH-10-3, PATH-10-4, PATH-11-1)"]
+  pathx --> path_w20["Week 20 · 3 written (PATH-11-2, PATH-11-3, PATH-11-4)"]
+  pathx --> path_w21["Week 21 · 3 written (PATH-12-1, PATH-12-2, PATH-12-3)"]
+  pathx --> path_w22["Week 22 · 2 written (PATH-12-4, PATH-12-5)"]
   home --> alg["/algorithms/ (ALG-00) · 28 pages"]
   alg --> alg_analysis["Analysis · 5"]
   alg --> alg_sorting["Sorting · 7"]
@@ -200,11 +200,11 @@ flowchart TB
 | G-03 | `/credits/` | Sources, licenses & attribution | — | T-CREDITS | `content/credits.md (editorial)` | Brian Holt / Frontend Masters — CC BY-NC 4.0 (content), Apache-2.0 (code), modi… · Stephen Grider / AlgoCasts via arthurbernierjr fork — GPL-3.0, verbatim, SHA 30… · Everything else — Arthur Bernier Jr (Big Poppa Code), original material, all rights reserved, bio + https://bigpoppacode.io/ |
 | G-04 | `/404.html (served for any unknown path)` | Page not found | — | T-404 | `content/404.md (editorial)` | Express catch-all returns status 404 with this page · Shows search box + the 8 section links |
 
-### The Path — 65 page(s)
+### The Path — 66 page(s)
 
 | ID | URL | Title | Group | Template | Source | Key facts |
 |---|---|---|---|---|---|---|
-| PATH-00 | `/path/` | The path | — | T-PATH | `content/path/path.json + build/assets/diagrams/path/` | Weeks: 22 · Sessions: 64 · One card per session; empty cards for unwritten sessions · Path map wide + tall |
+| PATH-00 | `/path/` | The path | — | T-PATH | `content/path/path.json + build/assets/diagrams/path/` | Weeks: 22 · Sessions: 65 · One card per session; empty cards for unwritten sessions · Path map wide + tall |
 | PATH-1-1 | `/path/1-1-welcome-to-the-new-world/` | Welcome to the New World | Week 1 | T-SESSION | `content/path/sessions/1-1-welcome-to-the-new-world.md (editorial)` | Session: 1.1 · Week 1 · Tuesday · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 2 · Terminals: 7 · Words: ≥ 2400 |
 | PATH-1-2 | `/path/1-2-your-status-screen/` | Your Status Screen | Week 1 | T-SESSION | `content/path/sessions/1-2-your-status-screen.md (editorial)` | Session: 1.2 · Week 1 · Wednesday · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 2 · Terminals: 6 · Words: ≥ 2400 |
 | PATH-1-3 | `/path/1-3-save-points-and-respawns/` | Save Points and Respawns | Week 1 | T-SESSION | `content/path/sessions/1-3-save-points-and-respawns.md (editorial)` | Session: 1.3 · Week 1 · Saturday · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 3 · Terminals: 9 · Words: ≥ 2400 |
@@ -254,21 +254,22 @@ flowchart TB
 | PATH-9-1 | `/path/9-1-ancient-runes/` | Ancient Runes | Week 16 | T-SESSION | `content/path/sessions/9-1-ancient-runes.md (editorial)` | Session: 9.1 · Week 16 · Wednesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
 | PATH-9-2 | `/path/9-2-trial-of-blades/` | Trial of Blades | Week 16 | T-SESSION | `content/path/sessions/9-2-trial-of-blades.md (editorial)` | Session: 9.2 · Week 16 · Saturday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
 | PATH-9-3 | `/path/9-3-trial-of-wits/` | Trial of Wits | Week 17 | T-SESSION | `content/path/sessions/9-3-trial-of-wits.md (editorial)` | Session: 9.3 · Week 17 · Tuesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-9-5 | `/path/9-5-grand-architecture/` | Grand Architecture | Week 17 | T-SESSION | `content/path/sessions/9-5-grand-architecture.md (editorial)` | Session: 9.5 · Week 17 · Wednesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-9-6 | `/path/9-6-the-runesmiths-forge/` | The Runesmith's Forge | Week 17 | T-SESSION | `content/path/sessions/9-6-the-runesmiths-forge.md (editorial)` | Session: 9.6 · Week 17 · Saturday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-1 | `/path/10-1-barrier-magic/` | Barrier Magic | Week 18 | T-SESSION | `content/path/sessions/10-1-barrier-magic.md (editorial)` | Session: 10.1 · Week 18 · Tuesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-2 | `/path/10-2-sealed-gates/` | Sealed Gates | Week 18 | T-SESSION | `content/path/sessions/10-2-sealed-gates.md (editorial)` | Session: 10.2 · Week 18 · Wednesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-3 | `/path/10-3-binding-the-great-spirits/` | Binding the Great Spirits | Week 18 | T-SESSION | `content/path/sessions/10-3-binding-the-great-spirits.md (editorial)` | Session: 10.3 · Week 18 · Saturday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-4 | `/path/10-4-warding-the-kingdom/` | Warding the Kingdom | Week 19 | T-SESSION | `content/path/sessions/10-4-warding-the-kingdom.md (editorial)` | Session: 10.4 · Week 19 · Tuesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-11-1 | `/path/11-1-rallying-the-villagers/` | Rallying the Villagers | Week 19 | T-SESSION | `content/path/sessions/11-1-rallying-the-villagers.md (editorial)` | Session: 11.1 · Week 19 · Wednesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-11-2 | `/path/11-2-the-noble-houses/` | The Noble Houses | Week 19 | T-SESSION | `content/path/sessions/11-2-the-noble-houses.md (editorial)` | Session: 11.2 · Week 19 · Saturday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-11-3 | `/path/11-3-the-royal-court/` | The Royal Court | Week 20 | T-SESSION | `content/path/sessions/11-3-the-royal-court.md (editorial)` | Session: 11.3 · Week 20 · Tuesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-11-4 | `/path/11-4-war-council/` | War Council | Week 20 | T-SESSION | `content/path/sessions/11-4-war-council.md (editorial)` | Session: 11.4 · Week 20 · Wednesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-12-1 | `/path/12-1-sprint-1-foundation/` | Sprint 1 — Foundation | Week 20 | T-SESSION | `content/path/sessions/12-1-sprint-1-foundation.md (editorial)` | Session: 12.1 · Week 20 · Saturday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-12-2 | `/path/12-2-sprint-2-build/` | Sprint 2 — Build | Week 21 | T-SESSION | `content/path/sessions/12-2-sprint-2-build.md (editorial)` | Session: 12.2 · Week 21 · Tuesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-12-3 | `/path/12-3-sprint-3-harden/` | Sprint 3 — Harden | Week 21 | T-SESSION | `content/path/sessions/12-3-sprint-3-harden.md (editorial)` | Session: 12.3 · Week 21 · Wednesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-12-4 | `/path/12-4-sprint-4-polish/` | Sprint 4 — Polish | Week 21 | T-SESSION | `content/path/sessions/12-4-sprint-4-polish.md (editorial)` | Session: 12.4 · Week 21 · Saturday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-12-5 | `/path/12-5-coronation-day/` | Coronation Day | Week 22 | T-SESSION | `content/path/sessions/12-5-coronation-day.md (editorial)` | Session: 12.5 · Week 22 · Tuesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-9-4 | `/path/9-4-trial-of-patience/` | Trial of Patience | Week 17 | T-SESSION | `content/path/sessions/9-4-trial-of-patience.md (editorial)` | Session: 9.4 · Week 17 · Wednesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-9-5 | `/path/9-5-grand-architecture/` | Grand Architecture | Week 17 | T-SESSION | `content/path/sessions/9-5-grand-architecture.md (editorial)` | Session: 9.5 · Week 17 · Saturday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-9-6 | `/path/9-6-the-runesmiths-forge/` | The Runesmith's Forge | Week 18 | T-SESSION | `content/path/sessions/9-6-the-runesmiths-forge.md (editorial)` | Session: 9.6 · Week 18 · Tuesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-1 | `/path/10-1-barrier-magic/` | Barrier Magic | Week 18 | T-SESSION | `content/path/sessions/10-1-barrier-magic.md (editorial)` | Session: 10.1 · Week 18 · Wednesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-2 | `/path/10-2-sealed-gates/` | Sealed Gates | Week 18 | T-SESSION | `content/path/sessions/10-2-sealed-gates.md (editorial)` | Session: 10.2 · Week 18 · Saturday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-3 | `/path/10-3-binding-the-great-spirits/` | Binding the Great Spirits | Week 19 | T-SESSION | `content/path/sessions/10-3-binding-the-great-spirits.md (editorial)` | Session: 10.3 · Week 19 · Tuesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-4 | `/path/10-4-warding-the-kingdom/` | Warding the Kingdom | Week 19 | T-SESSION | `content/path/sessions/10-4-warding-the-kingdom.md (editorial)` | Session: 10.4 · Week 19 · Wednesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-11-1 | `/path/11-1-rallying-the-villagers/` | Rallying the Villagers | Week 19 | T-SESSION | `content/path/sessions/11-1-rallying-the-villagers.md (editorial)` | Session: 11.1 · Week 19 · Saturday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-11-2 | `/path/11-2-the-noble-houses/` | The Noble Houses | Week 20 | T-SESSION | `content/path/sessions/11-2-the-noble-houses.md (editorial)` | Session: 11.2 · Week 20 · Tuesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-11-3 | `/path/11-3-the-royal-court/` | The Royal Court | Week 20 | T-SESSION | `content/path/sessions/11-3-the-royal-court.md (editorial)` | Session: 11.3 · Week 20 · Wednesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-11-4 | `/path/11-4-war-council/` | War Council | Week 20 | T-SESSION | `content/path/sessions/11-4-war-council.md (editorial)` | Session: 11.4 · Week 20 · Saturday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-12-1 | `/path/12-1-sprint-1-foundation/` | Sprint 1 — Foundation | Week 21 | T-SESSION | `content/path/sessions/12-1-sprint-1-foundation.md (editorial)` | Session: 12.1 · Week 21 · Tuesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-12-2 | `/path/12-2-sprint-2-build/` | Sprint 2 — Build | Week 21 | T-SESSION | `content/path/sessions/12-2-sprint-2-build.md (editorial)` | Session: 12.2 · Week 21 · Wednesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-12-3 | `/path/12-3-sprint-3-harden/` | Sprint 3 — Harden | Week 21 | T-SESSION | `content/path/sessions/12-3-sprint-3-harden.md (editorial)` | Session: 12.3 · Week 21 · Saturday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-12-4 | `/path/12-4-sprint-4-polish/` | Sprint 4 — Polish | Week 22 | T-SESSION | `content/path/sessions/12-4-sprint-4-polish.md (editorial)` | Session: 12.4 · Week 22 · Tuesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-12-5 | `/path/12-5-coronation-day/` | Coronation Day | Week 22 | T-SESSION | `content/path/sessions/12-5-coronation-day.md (editorial)` | Session: 12.5 · Week 22 · Wednesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
 
 ### Algorithms — 28 page(s)
 
@@ -560,7 +561,7 @@ Each page = its template criteria + the global criteria + the specific items bel
   - Cover lockup text exactly: I RESPAWNED AS A / SUPER CODER / IN A WORLD WITH / ~~Magic~~ AI (the strike is a drawn red stroke, AI is written over the corner; accessible name "I respawned as a super coder in a world with magic, crossed out, corrected to AI")
   - Signature: — the respawn guide, by Big Poppa Code
   - Tagline: ONE PATH · 62 SESSIONS · {n} SIDE QUESTS (n = pages in this document minus the four Global pages and the Path pages)
-  - Stats: 299 pages · 64 sessions · 26 exercises · 9 languages · 23 patterns (computed at build; build fails if the registry count differs)
+  - Stats: 299 pages · 65 sessions · 26 exercises · 9 languages · 23 patterns (computed at build; build fails if the registry count differs)
   - Save-point card: the latest written session (stamp, `WEEK n · DAY`, title, hook, **Continue**, `{written} of 62 written`)
   - Route strip: 22 week cells, one flag, act legend, **Latest: n.n Title →**
   - Side quests grid: 9 cards (Algorithms 28 · Data Structures 17 · Practice 29 · Languages 68 · System Design 40 · Design Patterns 24 · Security 12 · Mindset 3 · Atelier 11)
@@ -618,15 +619,15 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PATH · **Section:** The Path · **Group:** — · **Source:** `content/path/path.json + build/assets/diagrams/path/` · **License:** Yours
 - **Story:** As a beginner who wants to be told what to do next, I want the whole 22-week route on one page with every session in order, so I can see where I am, what is written, and which side quests cover the ground that is not written yet.
 - **Facts the build must reproduce:**
-  - Weeks: 22 · Sessions: 64
+  - Weeks: 22 · Sessions: 65
   - Three acts: I Foundation (Units 1–4, weeks 1–10, green) · II The cheat skill (Units 5–8, weeks 11–16, yellow) · III The kingdom (Units 9–12, weeks 16–22, red)
   - Twelve units listed with title, topics and artifact, from `content/path/path.json`
-  - One session card per session (64); written cards link to the session, empty cards say NOT YET WRITTEN · RESPAWNS HERE and list up to three side quests from path.json
+  - One session card per session (65); written cards link to the session, empty cards say NOT YET WRITTEN · RESPAWNS HERE and list up to three side quests from path.json
   - Path map: `/assets/diagrams/path/path-map-wide.png` + `-tall.png`, flag on the latest written session
   - Pager: next → first written session
 - **Acceptance:**
   - [ ] G1–G14 and T-PATH
-  - [ ] Exactly 64 session cards, `64 − written` of them empty; every week block has `id="week-N"` so the home route strip and the session pager can link to it
+  - [ ] Exactly 65 session cards, `65 − written` of them empty; every week block has `id="week-N"` so the home route strip and the session pager can link to it
   - [ ] Every written card's chips (read minutes, diagrams, side quests) come from the rendered session, never typed in
 
 #### PATH-1-1 · `/path/1-1-welcome-to-the-new-world/` — Welcome to the New World
@@ -1570,11 +1571,30 @@ Each page = its template criteria + the global criteria + the specific items bel
   - [ ] The checkpoint passes valid and invalid cases without network access or new toolchains
   - [ ] Verification distinguishes the browser model from local, deployed, and provider checks
 
+#### PATH-9-4 · `/path/9-4-trial-of-patience/` — Trial of Patience
+- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 17 · **Source:** `content/path/sessions/9-4-trial-of-patience.md (editorial)` · **License:** Yours
+- **Story:** As a learner in Unit 9, I want to learn Attacking a Problem You Have Not Seen, so I can produce six solved problems in typescript-practice, each with a brute-force oracle, a prediction written before the run, an invariant written before the loop, a seeded agreement test, and a boundary report.
+- **Facts the build must reproduce:**
+  - Session: 9.4 · Week 17 · Wednesday · Unit 9
+  - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
+  - Diagrams: 3
+  - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
+  - Side quests: 3
+  - Side quests, in order: ALG-05 · ALG-21 · ALG-22
+  - Words: ≥ 2400
+  - Runnable demos: one deterministic checkpoint; local services and external integrations require separate manual verification
+  - Artifact: Six solved problems in typescript-practice, each with a brute-force oracle, a prediction written before the run, an invariant written before the loop, a seeded agreement test, and a boundary report
+- **Acceptance:**
+  - [ ] G1–G14 and T-SESSION
+  - [ ] All eight teaching beats, three responsive diagrams, guided practice, independent work, and manual setup guidance are present
+  - [ ] The checkpoint passes valid and invalid cases without network access or new toolchains
+  - [ ] Verification distinguishes the browser model from local, deployed, and provider checks
+
 #### PATH-9-5 · `/path/9-5-grand-architecture/` — Grand Architecture
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 17 · **Source:** `content/path/sessions/9-5-grand-architecture.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to complete System Design Fundamentals, so I can produce a system design document with estimates, failure paths, and explicit tradeoffs.
 - **Facts the build must reproduce:**
-  - Session: 9.5 · Week 17 · Wednesday · Unit 9
+  - Session: 9.5 · Week 17 · Saturday · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1590,10 +1610,10 @@ Each page = its template criteria + the global criteria + the specific items bel
   - [ ] Verification distinguishes the browser model from local, deployed, and provider checks
 
 #### PATH-9-6 · `/path/9-6-the-runesmiths-forge/` — The Runesmith's Forge
-- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 17 · **Source:** `content/path/sessions/9-6-the-runesmiths-forge.md (editorial)` · **License:** Yours
+- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 18 · **Source:** `content/path/sessions/9-6-the-runesmiths-forge.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to complete TypeScript Conversion and Design Doc, so I can produce a reviewed typescript migration and a capstone architecture decision record.
 - **Facts the build must reproduce:**
-  - Session: 9.6 · Week 17 · Saturday · Unit 9
+  - Session: 9.6 · Week 18 · Tuesday · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1612,7 +1632,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 18 · **Source:** `content/path/sessions/10-1-barrier-magic.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete OWASP, Input Validation, and Secrets Management, so I can produce a threat model, validated server boundaries, and a secrets-handling checklist.
 - **Facts the build must reproduce:**
-  - Session: 10.1 · Week 18 · Tuesday · Unit 10
+  - Session: 10.1 · Week 18 · Wednesday · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1631,7 +1651,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 18 · **Source:** `content/path/sessions/10-2-sealed-gates.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete Stripe, Paid APIs, Webhooks, and Rate Limits, so I can produce a sandbox checkout and verified, durable payment-event processing design.
 - **Facts the build must reproduce:**
-  - Session: 10.2 · Week 18 · Wednesday · Unit 10
+  - Session: 10.2 · Week 18 · Saturday · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1647,10 +1667,10 @@ Each page = its template criteria + the global criteria + the specific items bel
   - [ ] Verification distinguishes the browser model from local, deployed, and provider checks
 
 #### PATH-10-3 · `/path/10-3-binding-the-great-spirits/` — Binding the Great Spirits
-- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 18 · **Source:** `content/path/sessions/10-3-binding-the-great-spirits.md (editorial)` · **License:** Yours
+- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 19 · **Source:** `content/path/sessions/10-3-binding-the-great-spirits.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete LLM APIs, Safe Integration, and Cost Control, so I can produce a server-side ai feature with bounded input, output, cost, and evaluation cases.
 - **Facts the build must reproduce:**
-  - Session: 10.3 · Week 18 · Saturday · Unit 10
+  - Session: 10.3 · Week 19 · Tuesday · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1669,7 +1689,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 19 · **Source:** `content/path/sessions/10-4-warding-the-kingdom.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete Add Payments and AI to Your Capstone, so I can produce a capstone security and integration release packet with explicit go/no-go criteria.
 - **Facts the build must reproduce:**
-  - Session: 10.4 · Week 19 · Tuesday · Unit 10
+  - Session: 10.4 · Week 19 · Wednesday · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1688,7 +1708,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 19 · **Source:** `content/path/sessions/11-1-rallying-the-villagers.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Crowdfunding, Community Rounds, and Pre-Sales, so I can produce a funding-options brief and a hypothetical pre-sale fulfillment model.
 - **Facts the build must reproduce:**
-  - Session: 11.1 · Week 19 · Wednesday · Unit 11
+  - Session: 11.1 · Week 19 · Saturday · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1704,10 +1724,10 @@ Each page = its template criteria + the global criteria + the specific items bel
   - [ ] Verification distinguishes the browser model from local, deployed, and provider checks
 
 #### PATH-11-2 · `/path/11-2-the-noble-houses/` — The Noble Houses
-- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 19 · **Source:** `content/path/sessions/11-2-the-noble-houses.md (editorial)` · **License:** Yours
+- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 20 · **Source:** `content/path/sessions/11-2-the-noble-houses.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Angel Investors, SAFEs, and Term Sheets, so I can produce a fictional cap table, safe scenario analysis, and term-sheet questions.
 - **Facts the build must reproduce:**
-  - Session: 11.2 · Week 19 · Saturday · Unit 11
+  - Session: 11.2 · Week 20 · Tuesday · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1726,7 +1746,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 20 · **Source:** `content/path/sessions/11-3-the-royal-court.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Venture Capital, Pitch Decks, and the Raise, so I can produce a venture-fit assessment, evidence-backed pitch narrative, and fundraising process map.
 - **Facts the build must reproduce:**
-  - Session: 11.3 · Week 20 · Tuesday · Unit 11
+  - Session: 11.3 · Week 20 · Wednesday · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1745,7 +1765,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 20 · **Source:** `content/path/sessions/11-4-war-council.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Pitch Deck and Financial Narrative Workshop, so I can produce a complete fictional pitch deck narrative and auditable financial model.
 - **Facts the build must reproduce:**
-  - Session: 11.4 · Week 20 · Wednesday · Unit 11
+  - Session: 11.4 · Week 20 · Saturday · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1761,10 +1781,10 @@ Each page = its template criteria + the global criteria + the specific items bel
   - [ ] Verification distinguishes the browser model from local, deployed, and provider checks
 
 #### PATH-12-1 · `/path/12-1-sprint-1-foundation/` — Sprint 1 — Foundation
-- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 20 · **Source:** `content/path/sessions/12-1-sprint-1-foundation.md (editorial)` · **License:** Yours
+- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 21 · **Source:** `content/path/sessions/12-1-sprint-1-foundation.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Core Features and Architecture, so I can produce a capstone foundation with one complete vertical slice and an architecture record.
 - **Facts the build must reproduce:**
-  - Session: 12.1 · Week 20 · Saturday · Unit 12
+  - Session: 12.1 · Week 21 · Tuesday · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1783,7 +1803,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 21 · **Source:** `content/path/sessions/12-2-sprint-2-build.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Feature Completion and Integration, so I can produce a feature-complete core journey with integration and recovery evidence.
 - **Facts the build must reproduce:**
-  - Session: 12.2 · Week 21 · Tuesday · Unit 12
+  - Session: 12.2 · Week 21 · Wednesday · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1802,7 +1822,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 21 · **Source:** `content/path/sessions/12-3-sprint-3-harden.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Testing, Security, and Deployment, so I can produce a tested release candidate with a security review and deployment recovery drill.
 - **Facts the build must reproduce:**
-  - Session: 12.3 · Week 21 · Wednesday · Unit 12
+  - Session: 12.3 · Week 21 · Saturday · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1818,10 +1838,10 @@ Each page = its template criteria + the global criteria + the specific items bel
   - [ ] Verification distinguishes the browser model from local, deployed, and provider checks
 
 #### PATH-12-4 · `/path/12-4-sprint-4-polish/` — Sprint 4 — Polish
-- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 21 · **Source:** `content/path/sessions/12-4-sprint-4-polish.md (editorial)` · **License:** Yours
+- **Template:** T-SESSION · **Section:** The Path · **Group:** Week 22 · **Source:** `content/path/sessions/12-4-sprint-4-polish.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Final Touches and Presentation Prep, so I can produce a polished release, timed demo script, and tested presentation fallback.
 - **Facts the build must reproduce:**
-  - Session: 12.4 · Week 21 · Saturday · Unit 12
+  - Session: 12.4 · Week 22 · Tuesday · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1840,7 +1860,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 22 · **Source:** `content/path/sessions/12-5-coronation-day.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Demo Day, Launch, and Your Next Quest, so I can produce a final capstone handoff, demo retrospective, and measurable next-step plan.
 - **Facts the build must reproduce:**
-  - Session: 12.5 · Week 22 · Tuesday · Unit 12
+  - Session: 12.5 · Week 22 · Wednesday · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
