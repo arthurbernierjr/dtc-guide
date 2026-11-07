@@ -1092,11 +1092,11 @@
         "SEC-11"
       ],
       "sideQuestWhy": [
-        "Apply boundary to this lesson's artifact: Identify untrusted input and protected resources.",
-        "Apply control to this lesson's artifact: Validate, authorize, and limit each operation.",
-        "Apply evidence to this lesson's artifact: Test abuse cases and record useful security events."
+        "Broken access control is the one failure no validation chain can fix, because the clean payload came from the wrong person; read the IDOR and deny-by-default sections and then look at every route in the capstone that reads an id from the URL.",
+        "Injection is the category the $gt login body belongs to; read the NoSQL section with rejectOperators open beside it and the SQL section so the pattern has a name outside Mongo.",
+        "The quick reference is the glossary for the threat model's rows; read the IDOR, NoSQL injection, and JWT entries tonight and keep the page open while you fill in docs/threat-model.md."
       ],
-      "hook": "A threat model, validated server boundaries, and a secrets-handling checklist. Identify untrusted input and protected resources."
+      "hook": "The capstone gets its first line of code today, copied from the hall you already trust, and then it gets a barrier: every body validated into a shape you chose, headers Helmet sets for you, a limiter on the login door, and a process that refuses to start without its secrets."
     },
     {
       "id": "10.2",
@@ -1112,11 +1112,11 @@
         "SEC-08"
       ],
       "sideQuestWhy": [
-        "Apply checkout to this lesson's artifact: Server chooses the approved price and account.",
-        "Apply event to this lesson's artifact: Verify the signature over the original body.",
-        "Apply entitlement to this lesson's artifact: Apply a durable, idempotent state transition."
+        "Idempotency is the proper name for claim-then-flip: read the sheet with routes/webhooks.js open and say which write is the claim, which is the conditional transition, and why a retry after a crash between them is still safe.",
+        "Rate limiting on the checkout route is about what key a limiter should count once there is more than one process; read the token-bucket section and note in docs/payments.md that today's counter is per process.",
+        "Software or data integrity failures is the OWASP category an unsigned webhook belongs to, and the trusting-client-state section is the success URL that unlocked access; read both before you fill in the webhook row of the threat model."
       ],
-      "hook": "A sandbox checkout and verified, durable payment-event processing design. Server chooses the approved price and account."
+      "hook": "The capstone takes its first payment today, in test mode, on a checkout page Stripe hosts. Your server picks the price, Stripe sends a signed event, and an order flips from pending to paid exactly once, no matter how many times the same event arrives."
     },
     {
       "id": "10.3",
@@ -1132,11 +1132,11 @@
         "SYS-C22"
       ],
       "sideQuestWhy": [
-        "Apply input to this lesson's artifact: Authenticate, validate, and minimize context.",
-        "Apply generation to this lesson's artifact: Use a configured model with time and token limits.",
-        "Apply output to this lesson's artifact: Validate the result and preserve a useful fallback."
+        "Insecure design is the category a feature that lets model output grant a role belongs to; read the business-logic and double-spend sections and compare the budget's conditional write with the race they describe.",
+        "Rate limiting is the second limiter the AI routes get next session, keyed by user rather than address; read the sheet now so the keyGenerator choice is a decision and not a default.",
+        "Observability is how you will answer what the feature cost last week without opening the provider's dashboard; read the correlation-id section and decide which id every ai log line should carry."
       ],
-      "hook": "A server-side AI feature with bounded input, output, cost, and evaluation cases. Authenticate, validate, and minimize context."
+      "hook": "The capstone gets its one AI feature today: a route that sends a bounded document to Claude from the server, streams the answer back over SSE, treats the document as data rather than orders, and reserves a slice of the user's daily token budget before it spends a single one."
     },
     {
       "id": "10.4",
@@ -1152,11 +1152,11 @@
         "SYS-C22"
       ],
       "sideQuestWhy": [
-        "Apply inventory to this lesson's artifact: List protected assets and paid operations.",
-        "Apply exercise to this lesson's artifact: Test success, abuse, retry, and outage paths.",
-        "Apply release to this lesson's artifact: Resolve blockers and document remaining limitations."
+        "The quick reference is the glossary for the audit's Inventory and Must rows; walk its entries against your routes once more before you write GO at the bottom.",
+        "Idempotency is the Must row about duplicates said properly; reread the trade-offs section and write in Known gaps what the claim does not cover, such as refunds and async_payment_failed.",
+        "Observability turns railway logs from a scroll into a question you can ask; read the correlation-id section and make every webhook and ai log line carry an id you can search for."
       ],
-      "hook": "A capstone security and integration release packet with explicit go/no-go criteria. List protected assets and paid operations."
+      "hook": "Today the capstone goes live. You write the security audit with a piece of evidence beside every line, put a second limiter and an off switch on the AI routes, and deploy the API, the page, and a database to Railway so that from next session on the capstone is a URL and not a folder."
     },
     {
       "id": "11.1",

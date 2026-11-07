@@ -2108,8 +2108,8 @@
   "session-10-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 10.1: The working model. Boundary: Identify untrusted input and protected resources. Control: Validate, authorize, and limit each operation. Evidence: Test abuse cases and record useful security events.",
-    "caption": "The working model: Boundary → Control → Evidence",
+    "alt": "Three boxes in a row, read left to right: Boundary, name the untrusted input and the asset behind it; Control, validate into a trusted shape, authorize the operation, and limit the door; Evidence, send the abuse request with curl and record the status.",
+    "caption": "The working model: find the boundary, put the control on it, then prove the control with a request you ran and wrote down.",
     "props": {
       "session": "10.1",
       "title": "The working model",
@@ -2134,8 +2134,8 @@
   "session-10-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 10.1: Diagnose the failure. Sanitization replaces authorization: Check identity and ownership on every protected operation. Secrets committed: Rotate the secret and remove exposure paths. Audit fix breaks behavior: Review dependency changes and rerun relevant tests.",
-    "caption": "Diagnose the failure: Sanitization replaces authorization → Secrets committed → Audit fix breaks behavior",
+    "alt": "Three diagnoses side by side: a clean payload from the wrong account succeeding points at a missing ownership filter; a key found in git history points at rotating first and cleaning second; a route that breaks after npm audit fix points at reading the report and rerunning the curls before committing the lockfile.",
+    "caption": "Diagnose the failure: sanitization is not authorization, a committed secret is rotated before it is deleted, and an audit fix is tested before it is trusted.",
     "props": {
       "session": "10.1",
       "title": "Diagnose the failure",
@@ -2160,8 +2160,8 @@
   "session-10-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 10.1: evidence to collect. Checkpoint assertion: Allowed field normalized Boundary assertion: Privilege field excluded Manual handoff: A threat model, validated server boundaries, and a secrets-handling checklist",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts that matchedData keeps the allowed field normalized and drops the role key; the boundary assertion shows the $gt body and the eleventh login refused; the manual hand-off is docs/threat-model.md with a dated curl beside every control.",
+    "caption": "Evidence: the browser model proves the trusted-shape rule; the 201 without role, the 400 on $gt, the 429 on the eleventh attempt, and the FATAL line are verified on your own machine.",
     "props": {
       "session": "10.1",
       "title": "Prove the handoff",
@@ -2186,8 +2186,8 @@
   "session-10-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 10.2: The working model. Checkout: Server chooses the approved price and account. Event: Verify the signature over the original body. Entitlement: Apply a durable, idempotent state transition.",
-    "caption": "The working model: Checkout → Event → Entitlement",
+    "alt": "Three boxes in a row, read left to right: Checkout, the server creates the session with the price id from the environment and the account from the token; Event, Stripe posts a signed event that the raw-body route verifies; Entitlement, the event id is claimed, then the order flips from pending to paid once.",
+    "caption": "The working model: the server chooses the price and the account, the signed event is the proof, and the claim-then-flip order makes a retry harmless.",
     "props": {
       "session": "10.2",
       "title": "The working model",
@@ -2212,8 +2212,8 @@
   "session-10-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 10.2: Diagnose the failure. Success URL unlocks access: Wait for server-confirmed paid state. Duplicate event repeats work: Persist event identity with the business update. Delayed payment grants early access: Check payment state and handle asynchronous outcomes.",
-    "caption": "Diagnose the failure: Success URL unlocks access → Duplicate event repeats work → Delayed payment grants early access",
+    "alt": "Three diagnoses side by side: access granted when the browser reaches the success URL points at the status route reading the stored order instead; a duplicate delivery doing the work twice points at claiming the event id before the order update; a completed but unpaid session unlocking the feature points at branching on payment_status rather than event type.",
+    "caption": "Diagnose the failure: the redirect is a receipt screen, the duplicate finds the claim, and completed is not paid.",
     "props": {
       "session": "10.2",
       "title": "Diagnose the failure",
@@ -2238,8 +2238,8 @@
   "session-10-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 10.2: evidence to collect. Checkpoint assertion: Paid event grants modeled entitlement Boundary assertion: Duplicate has no second effect Manual handoff: A sandbox checkout and verified, durable payment-event processing design",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts a paid event flips the modeled order; the boundary assertion shows the same event applied twice leaves one claim and one flip; the manual hand-off is the Stripe CLI showing 200 then the resend logging duplicate, with countDocuments equal to one before and after a restart.",
+    "caption": "Evidence: the browser model proves the transition rule; the CLI's 200, the resend's duplicate line, Sera's 403, and the 400 on a wrong secret are verified with your own Stripe account.",
     "props": {
       "session": "10.2",
       "title": "Prove the handoff",
@@ -2264,8 +2264,8 @@
   "session-10-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 10.3: The working model. Input: Authenticate, validate, and minimize context. Generation: Use a configured model with time and token limits. Output: Validate the result and preserve a useful fallback.",
-    "caption": "The working model: Input → Generation → Output",
+    "alt": "Three boxes in a row, read left to right: Input, authenticate, check the purchase, validate the size, and wrap the document as data; Generation, reserve the worst case, call one configured model with a token ceiling and a timeout, settle to the real usage; Output, validate the reply and render it as text with a fallback when it is empty.",
+    "caption": "The working model: bound the input, reserve before the call, and treat the reply as untrusted text.",
     "props": {
       "session": "10.3",
       "title": "The working model",
@@ -2290,8 +2290,8 @@
   "session-10-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 10.3: Diagnose the failure. Prompt injection changes authority: Keep retrieved text separate from trusted instructions. Budget checked after spending: Reserve a worst-case allowance before the call. Model output trusted as code: Validate and require appropriate authorization for actions.",
-    "caption": "Diagnose the failure: Prompt injection changes authority → Budget checked after spending → Model output trusted as code",
+    "alt": "Three diagnoses side by side: instructions inside a document changing what the app does points at keeping the document inside tags and never letting code act on the reply; a budget counted after the call points at reserving the worst case in one conditional write first; a reply handed to eval or rendered as HTML points at validating it like a request body and rendering text.",
+    "caption": "Diagnose the failure: the document is data, the reservation comes before the call, and the reply is never a command.",
     "props": {
       "session": "10.3",
       "title": "Diagnose the failure",
@@ -2316,8 +2316,8 @@
   "session-10-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 10.3: evidence to collect. Checkpoint assertion: Reserve before work Boundary assertion: Reject an over-budget request Manual handoff: A server-side AI feature with bounded input, output, cost, and evaluation cases",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts the ledger reserves before work and settles to the real usage; the boundary assertion shows an over-budget request refused without a call; the manual hand-off is docs/ai-feature.md with the six-row evaluation set, the usage sum matching the aiusages row, and the 429 from a budget of nine hundred.",
+    "caption": "Evidence: the browser model proves the reserve-then-settle rule; the real reply, the hostile paragraph's summary, the 429, and the stream's done event are verified with your own key.",
     "props": {
       "session": "10.3",
       "title": "Prove the handoff",
@@ -2342,8 +2342,8 @@
   "session-10-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 10.4: The working model. Inventory: List protected assets and paid operations. Exercise: Test success, abuse, retry, and outage paths. Release: Resolve blockers and document remaining limitations.",
-    "caption": "The working model: Inventory → Exercise → Release",
+    "alt": "Three boxes in a row, read left to right: Inventory, list every asset, every operation, and the actor allowed to perform it; Exercise, send the success, abuse, retry, and outage requests as each actor with curl and inspect state after each failure; Release, decide the blockers before the review, deploy to Railway, and record the live URL and the decision in the audit.",
+    "caption": "The working model: inventory the doors, try each one as each actor, then release only when every Must has evidence.",
     "props": {
       "session": "10.4",
       "title": "The working model",
@@ -2368,8 +2368,8 @@
   "session-10-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 10.4: Diagnose the failure. Paid feature bypassed: Enforce entitlement at the server operation. AI outage blocks core product: Provide a bounded fallback and feature switch. Checklist has no evidence: Attach a test result or review note to each claim.",
-    "caption": "Diagnose the failure: Paid feature bypassed → AI outage blocks core product → Checklist has no evidence",
+    "alt": "Three diagnoses side by side: a paid route answering an unpaid token points at putting requirePaid on the router where the work happens; a provider outage taking the whole page down points at the timeout, the 502 on that route alone, and the AI_ENABLED switch; an audit of ticks with empty evidence cells points at naming the command, the step, and the date beside every claim.",
+    "caption": "Diagnose the failure: enforce the gate at the operation, let the assistant fail without the product, and attach evidence to every tick.",
     "props": {
       "session": "10.4",
       "title": "Diagnose the failure",
@@ -2394,8 +2394,8 @@
   "session-10-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 10.4: evidence to collect. Checkpoint assertion: A critical integration gap blocks release Boundary assertion: Explain the rejected or incomplete case Manual handoff: A capstone security and integration release packet with explicit go/no-go criteria",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts that one failing Must blocks the modeled release; the boundary assertion explains the rejected row and the pass with no evidence; the manual hand-off is the live URL answering 200 with Helmet's headers, the Railway log line paid=1 from a purchase on the live site, and docs/security-audit.md with a dated release decision.",
+    "caption": "Evidence: the browser model proves the go/no-go rule; the live health check, the production webhook delivery, and the actor matrix are verified against the deployed capstone.",
     "props": {
       "session": "10.4",
       "title": "Prove the handoff",

