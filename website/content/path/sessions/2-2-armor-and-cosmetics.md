@@ -35,7 +35,7 @@ The skeleton is up. Headers, sections, articles, a form, a footer, all named, al
 
 CSS, Cascading Style Sheets, is that slate. It is a separate language from HTML. HTML says what a region is. CSS says how it looks: color, type, space, a line around a card, what a link does when a pointer rests on it. Every site you have ever admired is a skeleton with a careful stylesheet on top, and the careful part is not a talent. It is a small system. A rule names its targets and lists its orders. When two orders disagree, the cascade picks a winner by a procedure you can do on paper. Once that procedure is boring, you can style anything, because a style that "does not work" has stopped being a haunting and become one of three checks.
 
-By the end of today the about page from the homework wears real armor: a dark header, cards, type you chose, colors that live in one place so changing one changes all of them. You will also have a potion shop, built from nothing, with the same system. The stages on this page cannot contain a `<style>` tag, because this lesson's own rules forbid one, so the scripts apply the same declarations as inline styles and then measure what the browser actually did. That is a worse way to write CSS, and the page will show you why, and then you will not write it that way in the file.
+By the end of today the about page from last session's quest wears real armor: a dark header, cards, type you chose, colors that live in one place so changing one changes all of them. You will also have a potion shop, built from nothing, with the same system. The stages on this page cannot contain a `<style>` tag, because this lesson's own rules forbid one, so the scripts apply the same declarations as inline styles and then measure what the browser actually did. That is a worse way to write CSS, and the page will show you why, and then you will not write it that way in the file.
 
 ## The idea
 
@@ -132,13 +132,13 @@ Then the number that bites. By default, `width: 300px` is the content only. Padd
 
 The star is the universal selector. It matches everything, including the `::before` and `::after` boxes you have not met yet, which is why they are named. Put it at the top so you never have to think about the other contract again.
 
-Two more words, because they explain why a `span` will not take a width. **Block** elements (`p`, the headings, `section`, `header`, `div`) stretch to fill the line and start on a new one. **Inline** elements (`span`, `a`, `strong`, `em`) sit in the line and ignore `width`, `height`, and vertical margin. **Inline-block** sits in the line and accepts a width. `display: none` removes the element from the layout entirely, as if it were not in the tree. You will measure all three of these in the box stage, so the definitions have numbers under them.
+Two more words, because they explain why a `span` will not take a width. **Block** elements (`p`, the headings, `section`, `header`, `div`) stretch to fill the line and start on a new one. **Inline** elements (`span`, `a`, `strong`, `em`) sit in the line and ignore `width`, `height`, and vertical margin. **Inline-block** sits in the line and accepts a width. `display: none` removes the element from the layout entirely, as if it were not in the tree. You will measure inline and inline-block in the box stage, so the definitions have numbers under them.
 
 > **Note:** Three sentences to retire before the file. *Margin and padding are the same kind of space*: padding is inside and painted, margin is outside and empty. *If it does not apply, add !important*: it lost on specificity or it never matched, and DevTools will say which. *An id and a class are interchangeable ways to style*: an id is ten classes strong and can exist only once, so a color hung on an id is a color you will have to fight.
 
 ## The demonstration
 
-Three stages, matching the three fights: painting a page, refereeing a conflict, and measuring a box. The CSS you save is in the blocks. The stages apply those declarations as inline styles, on purpose, so you can see an inline style beat the lesson page's own rules for the stage. That victory is the 1000 you are not going to use in `style.css`.
+Three stages, matching the three fights: painting a page, refereeing a conflict, and measuring a box. The CSS you save is in the blocks. The stages apply those declarations as inline styles, on purpose, so you can see an inline style beat the lesson page's own rules for the stage. That victory is the inline column, the one you are not going to use in `style.css`.
 
 **Walkthrough 1: dress the about page.** In `html-css-foundations`, next to `about-me.html`, create `style.css`. In the head of the HTML, after the viewport line, add the link. Then this is the file. It is the curriculum's page, with the colors pulled forward into custom properties so the second exercise is a change and not a rewrite. Read it once before you type it, against Fig 4: every selector is aimed at a region you already built.
 
@@ -261,7 +261,7 @@ A few lines that do more work than they look. `header h1` is a descendant select
 
 `img { max-width: 100%; height: auto }` stops a portrait from blowing out the card. The height follows the width, so the picture does not stretch.
 
-The stage is that page's body. Press **Run live** and watch the defaults get replaced. Then read the two lines about the heading: before the script paints it, the heading does not inherit the header's white, because this page's stage stylesheet sets a heading color directly, and a direct rule beats inheritance. `header h1` in the file is that same repair.
+The stage is that page's body. Press **Run live** and watch the defaults get replaced. Then read the two lines about the heading: before the script paints it, the heading keeps this lesson page's own heading color rather than taking one from the header, because a rule that names the heading directly beats anything it would inherit, and the two numbers differ even if both look pale on a dark panel. `header h1` in the file is that same repair, with white.
 
 ```html stage=armor
 <header>
@@ -364,7 +364,7 @@ p { color: green; }                 /* (0, 0, 1) */
 
 Open DevTools, inspect the paragraph, and read the Styles panel from top to bottom. The id is applied. The class and the element are struck through. Take the id off the element and the class wins. Take the class off and the element wins. Put `!important` on the green, watch it beat the id, and then delete it and feel relieved.
 
-The stage runs the same fight against this page's real stylesheet. `.muted` and `.lose` are both single classes, so they tie, and `.lose` comes later in the file, so the line is red. The third line carries `.win` and `.lose`, and `.lose` is later than `.win` too, so it is red as well: same column, source order, no mystery. Then an inline style beats the class. Then `!important` beats the inline style. Then the script takes the inline style away and the class returns, which is the cascade being reversible, as long as you did not paint yourself into `!important`.
+The stage runs the same fight against this page's real stylesheet. `.muted` and `.lose` are both single classes, so they tie, and `.lose` comes later in this page's own stylesheet, so the line is red. The third line carries `.win` and `.lose`, and `.lose` is later than `.win` too, so it is red as well: same column, source order, no mystery. Then an inline style beats the class. Then `!important` beats the inline style. Then the script takes the inline style away and the class returns, which is the cascade being reversible, as long as you did not paint yourself into `!important`.
 
 ```html stage=specificity
 <p class="muted">A class, and nothing stronger.</p>
@@ -515,7 +515,7 @@ Work in `html-css-foundations`, Live Server on, DevTools open. The stylesheet is
 
 **Exercise 1: a playground (20 minutes).** `css-playground.html` linked to `playground.css`. At least six different elements: headings, paragraphs, a link, a list, an image, a blockquote. At least one element selector, at least three class selectors, at least one descendant selector. Each of those elements carries at least three properties. The universal border-box reset is the first rule in the file. The page should be obviously not the browser's defaults: if a stranger can tell you wrote CSS, it passes. Checkpoint: inspect one element and point at your rule in the Styles panel. If it is not there, it is check one or check two.
 
-**Exercise 2: fonts and variables (20 minutes).** On `about-me.html`, add the Google Fonts links and move the palette into `:root` if the file you typed does not have it yet. At least five custom properties, used with `var()` everywhere a color or a font or a spacing step repeats. Headings in one family, body in the other. Checkpoint: in DevTools, change `--color-accent` and watch every use of it move, without editing another line. Then look at a heading's computed font and read your family name, not the fallback.
+**Exercise 2: fonts and variables (20 minutes).** On `about-me.html`, add the Google Fonts links, then add `--font-heading` and `--font-body` to the `:root` you already have in `style.css`, and switch `body` and the headings to them. At least five custom properties, used with `var()` everywhere a color or a font or a spacing step repeats. Headings in one family, body in the other. Checkpoint: in DevTools, change `--color-accent` and watch every use of it move, without editing another line. Then look at a heading's computed font and read your family name, not the fallback.
 
 **The potion shop (the rest of the session).** `potion-shop.html` and `potion-shop.css`. HTML first, all of it, then CSS. The requirements:
 
@@ -553,7 +553,7 @@ Before Session 2.3, pushed to `html-css-foundations`:
 - `css-playground.html` meeting the selector counts.
 - `potion-shop.html` and `potion-shop.css` meeting the ten requirements, with no inline styles, validated by the three checks rather than by hope.
 
-Read the [Flexbox guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) once, twenty minutes, and bookmark it. Read the [Grid guide](https://css-tricks.com/snippets/css/complete-guide-grid/) the same way. Then play [Flexbox Froggy](https://flexboxfroggy.com/) through the first fifteen levels. You are not learning a new language there. You are building the reflex for the property that puts things in a row, which is the entire next session. The frogs are the homework because the columns you have now, cards stacked down the page, are about to stop being enough.
+Read the [Flexbox guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) once, twenty minutes, and bookmark it. Read the [Grid guide](https://css-tricks.com/snippets/css/complete-guide-grid/) the same way. Then play [Flexbox Froggy](https://flexboxfroggy.com/) through the first fifteen levels. You are not learning a new language there. You are building the reflex for the property that puts things in a row, which is the entire next session. The frogs are on the list because the columns you have now, cards stacked down the page, are about to stop being enough.
 
 Budget two to three hours if the shop did not get finished. Push before you close the laptop.
 
@@ -567,7 +567,7 @@ Finish the frogs. If a level stalls you, say the sentence out loud: which axis, 
 
 Spend ten minutes in DevTools on a site you think looks expensive. Inspect the header. Find the rule that sets its background, and notice whether it is a class, and how many of the rules under it are struck through. You are reading a cascade someone else is winning. Then change one padding, live, and reload to watch it snap back, because DevTools does not write your file. The file is still the only place a decision survives.
 
-Next time: Formation Magic. Flexbox for a row or a column, grid for both at once, and the page rearranging itself when the window gets narrow. The armor you made today does not get replaced. It gets arranged. Bring the potion shop; the cards are about to sit next to each other.
+Next time: Formation Magic. Flexbox for a row or a column, grid for both at once, and the page rearranging itself when the window gets narrow. The armor you made today does not get replaced. It gets arranged. Keep the potion shop open next session; its cards are about to sit next to each other.
 
 > **Say:** "A rule is a selector and a list of declarations, and it lives in a file the head links to. When two rules disagree, compare the columns from the left: inline, then id, then class, then element. A tie goes to whichever rule comes later in the file. !important is how you stop being able to fix it. Padding is inside the box and gets painted; margin is outside and does not; width includes both once border-box is on. Style with classes. An id is for a link target and for a script, not for a color."
 

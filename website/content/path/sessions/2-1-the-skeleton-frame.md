@@ -4,7 +4,7 @@ title: The Skeleton Frame
 subtitle: Semantic HTML and How the Web Works
 hook: "Everything you have built so far is a black screen and white text. Today the work becomes something a person can see. A web page is a file a server sends because a browser asked, and HTML is the language that file is written in: a skeleton of named regions, not a programming language, and not a pile of boxes."
 read: 60
-artifact: "A repository called html-css-foundations with four real pages: index.html, the adventure log; elements.html, every text element you will use this unit; a contact form whose labels focus their fields; and the Adventurer's Guild board, with quests, a members list, a join form and a table, committed and pushed"
+artifact: "A repository called html-css-foundations with seven real pages: index.html, the adventure log; elements.html, every text element you will use this unit; form-demo.html, a contact form whose labels focus their fields; blog-post.html and registration.html; guild.html, the Adventurer's Guild board, with quests, a members list, a join form and a table; and about-me.html, the plain page the next session dresses, committed and pushed"
 diagrams:
   - fig1-request-cycle
   - fig2-document-anatomy
@@ -108,7 +108,7 @@ The rule you apply while writing, every time: is there an element whose name is 
 
 ## The demonstration
 
-Three stages, matching the three files you will have in your repository by the end of the hour. Each stage is the body of the file, rendered, and the script under it prints the tree. The files themselves are the blocks above each stage: those are what you save, complete with the doctype and the head. The stages omit one thing on purpose. This lesson page already has its single `h1`, so where your file says `h1` the stage says `h2`. On your machine, the page title is `h1`. That is the only difference, and the scripts say so when they run.
+Three walkthrough stages, one per file: `index.html`, `elements.html`, `form-demo.html`. Each stage is the body of the file, rendered, and the script under it prints the tree. The files themselves are the blocks above each stage: those are what you save, complete with the doctype and the head. The stages omit one thing on purpose. This lesson page already has its single `h1`, so where your file says `h1` the stage says `h2`. On your machine, the page title is `h1`. That is the only difference, and the scripts say so when they run.
 
 Before the first file, the four shapes in Fig 4, because every line you are about to type is one of them.
 
@@ -116,7 +116,22 @@ Before the first file, the four shapes in Fig 4, because every line you are abou
 
 A pair, a void element, or an opening tag carrying attributes. Plus the outline rule, which Fig 4 puts under them because it is the rule people violate while thinking about font sizes. You have one `h1`, the page. Sections are `h2`. Things inside a section are `h3`. You do not skip from `h2` to `h4` because you wanted the `h3` size to be smaller; size is the stylesheet's decision, and it is the entire subject of the next session. Today the level means the depth, and the browser's default sizes are good enough to see the depth while you work.
 
-**Walkthrough 1: the adventure log.** In your `html-css-foundations` repository, create `index.html` and type this. Do not paste it over a file the editor generated until you have typed the boilerplate once yourself.
+Before the first file, the place it lives. Nothing earlier on the path made this folder, so make it now, in the terminal, the way Session 1.4 made `quest-log`. Every project from here on sits under `~/projects`, one repository per folder, never one inside another.
+
+```bash
+mkdir -p ~/projects
+cd ~/projects
+mkdir html-css-foundations
+cd html-css-foundations
+git init
+gh repo create html-css-foundations --public --source=. --remote=origin
+```
+
+`git init` prints `Initialized empty Git repository in /home/you/projects/html-css-foundations/.git/`, and `gh repo create` answers with two ticks: `Created repository YOU/html-css-foundations on GitHub` and `Added remote git@github.com:YOU/html-css-foundations.git`. There is nothing to push yet; the first push comes at the end of Your turn, and because the repository is new it is `git push -u origin main` once, and a bare `git push` after that. Open the folder in VS Code with `code .`.
+
+One tool to install, and this is the session that installs it. Open the Extensions panel in VS Code (Ctrl+Shift+X, or Cmd+Shift+X on a Mac), search for **Live Server**, pick the one whose identifier is `ritwickdey.LiveServer`, and press Install. It serves whichever folder is open at `http://127.0.0.1:5500/` and reloads the browser every time you save, which is how you will watch every page in this unit.
+
+**Walkthrough 1: the adventure log.** In `html-css-foundations`, create `index.html` and type this. Do not paste it over a file the editor generated until you have typed the boilerplate once yourself.
 
 ```html
 <!DOCTYPE html>
@@ -172,7 +187,7 @@ A pair, a void element, or an opening tag carrying attributes. Plus the outline 
 
 Read the tree before you read the pixels. `header` holds the name and the `nav`. The navigation is a list, because it is a list: three places to go, in an order. Each link's `href` is `#about`, `#quests`, `#contact`, and each section has the matching `id`. That is an anchor. Clicking it scrolls to the element with that id, on the same page, with no request at all. `main` wraps the three sections and nothing else; the header and the footer are outside it, because they are not the unique content of this page. Each quest is an `article` with an `h3`, one level under the section's `h2`. `<strong>` is importance, and a screen reader can emphasise it. `<b>` is only a visual bold, with no importance attached, and you will almost never want it. `<em>` is stress, the word you would say louder. `<i>` is only italic, for a taxonomical name or a thought, and it is not emphasis.
 
-The image is the one line people ship wrong. `src` is the address of the file, relative to this HTML file, so `portrait.png` means "the png sitting next to index.html". `alt` is the text that stands in for the image when it cannot be seen: a reader with images off, a screen reader, a failed request. It describes the picture, it does not repeat the caption, and it is empty (`alt=""`) only when the image carries no information at all, a decoration. An image with no `alt` attribute at all is unfinished. On your machine, use a real file. The stage cannot request one from another site, so it carries a small drawing inside the address itself, which is a fine trick and not how you will normally do it.
+The image is the one line people ship wrong. `src` is the address of the file, relative to this HTML file, so `portrait.png` means "the png sitting next to index.html". `alt` is the text that stands in for the image when it cannot be seen: a reader with images off, a screen reader, a failed request. It describes the picture, it does not repeat the caption, and it is empty (`alt=""`) only when the image carries no information at all, a decoration. An image with no `alt` attribute at all is unfinished. On your machine, use a real file: copy any image you own into the folder and name it `portrait.png`, or change `src` to the name of the file you have. If you have no picture you want to use yet, make one: any image editor, a canvas of about 320 by 160, filled with one solid colour, saved as `portrait.png`. A placeholder you made is a real file, it loads, and it is yours to replace later. The stage cannot request one from another site, so it carries a small drawing inside the address itself, which is a fine trick and not how you will normally do it.
 
 ```html stage=adventure-log
 <header>
@@ -232,7 +247,7 @@ console.log("ok: adventure-log");
 
 Press **Run live** and read the console against the file. `header`, then `h2`, then `nav`, then a `ul` of three `li`, each holding an `a`. Then `main`, three `section`s, the quests section holding two `article`s. Then `footer`. That printout is the document outline, and it is the same one a screen reader's heading list builds. Count the `main` elements. There is one. Read the alt text, which is present, which is the whole test.
 
-On your machine, save the file and open it. The fastest way, once you have the Live Server extension from Session 1.1, is to right-click the file and choose **Open with Live Server**. It serves the folder and reloads the browser when you save. Opening the file directly, by double-clicking it, also works for a page with no server logic, and the address will start with `file://`. Either way you should see the heading, the three links, and the links should jump. Then right-click the page and choose **View Page Source**. That is the file the browser received, exactly what you typed. Keep that gesture. Every site you admire is readable this way, and reading real source is how this skeleton stops being theory.
+On your machine, save the file and open it. The fastest way, with the Live Server extension you just installed, is to right-click the file and choose **Open with Live Server**. It serves the folder and reloads the browser when you save. Opening the file directly, by double-clicking it, also works for a page with no server logic, and the address will start with `file://`. Either way you should see the heading, the three links, and the links should jump. Then right-click the page and choose **View Page Source**. That is the file the browser received, exactly what you typed. Keep that gesture. Every site you admire is readable this way, and reading real source is how this skeleton stops being theory.
 
 **Walkthrough 2: one of everything.** `elements.html` is your reference sheet. Build it, keep it, and add to it when you meet a new element. The file's head is the boilerplate you now know, with the title `HTML Elements Reference`. The body is this.
 
@@ -464,7 +479,7 @@ console.log("groups:", document.querySelectorAll("fieldset").length);
 console.log("ok: contact-form");
 ```
 
-Run it. Six labels, six matches, none of them `NOTHING`. Three required controls. Two groups. Then use the form with your hands. Click the words "Full name", not the box: the cursor lands in the box, because `for` and `id` agree. Press **Send message** with the name empty. The browser refuses, in its own words, and the request is never sent. That message is not yours to write and not yours to style today. Fill it badly, an email with no `@`, and it refuses again, because `type="email"` is a check as well as a keyboard. Fill it properly and press send. On your own file the address bar becomes the request: `form-demo.html?name=Arthur&email=you%40example.com&...`, each `name` attribute turned into a field. On this lesson page the reload is stopped, and the panel tells you it was stopped, because navigating away would throw the lesson out. The `method` here is `get` so you can see that query string. A form that creates or changes something uses `post`, and the place it sends to is a server you have not built yet. The `action` is that place. `#` means "right here", which is the right target for a form whose only job today is to prove the wiring.
+Run it. Seven labels, seven matches, none of them `NOTHING`. Three required controls. Two groups. Then use the form with your hands. Click the words "Full name", not the box: the cursor lands in the box, because `for` and `id` agree. Press **Send message** with the name empty. The browser refuses, in its own words, and the request is never sent. That message is not yours to write and not yours to style today. Fill it badly, an email with no `@`, and it refuses again, because `type="email"` is a check as well as a keyboard. Fill it properly and press send. On your own file the address bar becomes the request: `form-demo.html?name=Arthur&email=you%40example.com&...`, each `name` attribute turned into a field. On this lesson page the reload is stopped, and the panel tells you it was stopped, because navigating away would throw the lesson out. The `method` here is `get` so you can see that query string. A form that creates or changes something uses `post`, and the place it sends to is a server you have not built yet. The `action` is that place. `#` means "right here", which is the right target for a form whose only job today is to prove the wiring.
 
 The rest of the vocabulary, once, so it is in your hands. `placeholder` is a hint that disappears as soon as someone types, so it is not a label; a label stays. `fieldset` and `legend` group controls and give the group a name, which a screen reader announces on entry. `select` and `option` are the dropdown, and the `value` of an option is what gets sent, which can differ from the words shown. `textarea` is many lines. `type="checkbox"` is on or off, and its text is a label *after* it, wired the same way. `type="radio"` is a choice of one within a group, and the group is every radio that shares a `name`. `type="reset"` restores the form to how it was when the page loaded, and it is the button you put second, in a quieter colour, once you have colours. `required` is the attribute that arms the browser's refusal. The `div` around each pair is the case div is for: a hook so the label and the control can stack, with no meaning of its own.
 
@@ -491,7 +506,7 @@ This stage is four mistakes at once. Run it and read what the browser actually b
 const block = document.querySelector("div");
 console.log("the div's parent is the stage, not the paragraph:", block.parentElement === document.body);
 console.log("the paragraph's text is:", JSON.stringify(document.querySelector("p").textContent));
-console.log("empty paragraphs left behind by the stray close tag:", document.querySelectorAll("p").length);
+console.log("paragraphs in the tree now, one of them empty, left behind by the stray close tag:", document.querySelectorAll("p").length);
 console.log("list items the browser closed for you:", document.querySelectorAll("li").length);
 console.log("img alt:", JSON.stringify(document.querySelector("img").getAttribute("alt")), "(empty claims the image is decorative; this red block is not)");
 const label = document.querySelector("label");
@@ -513,7 +528,7 @@ When a page misbehaves, look at the tree you have rather than the text you typed
 
 ## Your turn
 
-Work in `html-css-foundations`, the repository from the pre-work. Live Server on, browser next to the editor, and save constantly. The stages above are the reference; these files are yours.
+Work in `~/projects/html-css-foundations`, the repository you made before Walkthrough 1. Live Server on, browser next to the editor, and save constantly. The stages above are the reference; these files are yours.
 
 **Exercise 1: a blog post (20 minutes).** Create `blog-post.html`. It needs a `header` with the site name as the `h1` and a `nav` of at least three links, built as a list. A `main` containing one `article`. Inside the article: an `h2` title, a paragraph naming the author and the date, at least two paragraphs of real content, an image with an `alt` that describes it, and a list. An `aside` with an `h2` of "Related posts" and a list of three links. A `footer` with a copyright line. Use the boilerplate from Fig 2, including the viewport. Checkpoint: open View Page Source and point at each of those elements out loud. If you cannot find one, it is not there, whatever the painted page suggests.
 
@@ -553,10 +568,10 @@ When it holds together, ship it the way Session 1.4 taught you.
 git add .
 git status
 git commit -m "Add the guild board and the session 2.1 pages"
-git push
+git push -u origin main
 ```
 
-`git status` before the commit, always, so you see the files you are about to save and not a stray portrait you did not mean to include. The message says what the save adds.
+`git status` before the commit, always, so you see the files you are about to save and not a stray portrait you did not mean to include. The message says what the save adds. The `-u origin main` is for this first push only, because the repository is new and Git does not yet know where `main` goes; Git answers `* [new branch] main -> main`, and from then on a bare `git push` is enough.
 
 ## The quest
 
@@ -566,7 +581,7 @@ Before Session 2.2, have all of this pushed to `html-css-foundations`:
 - `elements.html`, your reference, committed so you can diff it later when you add to it.
 - `blog-post.html` and `registration.html`, meeting the checkpoints, including a query string you have actually seen in the address bar.
 - `guild.html`, meeting all ten requirements, validated, with the table and the form working.
-- `about-me.html`, the homework: a header with your name, a nav of placeholder links, a section of at least two paragraphs about you, a section listing five skills or interests as a list, one image, a footer. Semantic elements throughout. No CSS yet. The plainness is the point. You are about to learn exactly how much of what you see on the web is not HTML.
+- `about-me.html`, the page the next session dresses: a header with your name, a nav of placeholder links, a section of at least two paragraphs about you, a section listing five skills or interests as a list, one image, a footer. Semantic elements throughout. No CSS yet. The plainness is the point. You are about to learn exactly how much of what you see on the web is not HTML.
 
 Budget two to three hours if the guild board did not get finished in the sitting. Push before you stop, so the work is not living on one machine again.
 
@@ -580,9 +595,9 @@ Read the [CSS first steps guide](https://developer.mozilla.org/en-US/docs/Learn_
 
 Spend ten minutes on a site you respect. Right-click, View Page Source, and find the `header`, the `nav`, the `main`. Then Inspect, and watch the tree. You will see semantic elements doing the jobs you used today, and you will see divs, and with a little practice you can tell which divs are earning their place.
 
-Install Live Server if the pre-work did not stick. And type the boilerplate from memory, once, into an empty file, before you open the next session. If you stall, it is Fig 2, and it is short.
+Check that Live Server still opens a page when you right-click it; if the extension did not stick, install it again from the Extensions panel. And type the boilerplate from memory, once, into an empty file, before you open the next session. If you stall, it is Fig 2, and it is short.
 
-Next time: Armor and Cosmetics. Selectors, the cascade, specificity, the box model, colour and type. The guild board is going to look like you meant it. Bring the HTML, and do not restyle it by changing the structure. The structure is done.
+Next time: Armor and Cosmetics. Selectors, the cascade, specificity, the box model, colour and type. The guild board is going to look like you meant it. Keep the HTML as it is; next session restyles it without changing the structure. The structure is done.
 
 > **Say:** "A page is a response: the browser asks, a server sends a file, the browser builds a tree and paints it. HTML is markup, not a programming language: it names structure, it does not decide anything. Head is for the browser and header is for the reader; a page has exactly one main. Use the element that names the content; div and span are what you use when nothing semantic fits. A label's for and an input's id are the same string, or the form fails the people who need it most."
 

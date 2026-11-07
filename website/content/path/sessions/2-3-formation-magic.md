@@ -131,14 +131,14 @@ The string is the picture. Repeating `header` across the first row makes the hea
 ```css
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 1.5rem;
 }
 ```
 
 ![](diagram:session-2-3/fig3-auto-fit)
 
-As many 280-pixel columns as will fit, each one growing to share the row, and the next card moving down when another 280 will not. `auto-fit` collapses tracks that have no card, so two cards on a wide screen grow to fill the row. `auto-fill` keeps the empty tracks, so two cards stay 280-ish and the rest of the row is blank columns. For a card grid you want `auto-fit`. You will feel the difference the first time a single card stretches the full width and you did not expect it; that is fit, doing what it was told.
+As many 280-pixel columns as will fit, each one growing to share the row, and the next card moving down when another 280 will not. Fig 3 draws the plain form, `minmax(280px, 1fr)`, and that is the one to say out loud. The `min(280px, 100%)` wrapped around the minimum is the guard for a phone: a plain 280 cannot shrink, so on a viewport narrower than 280 plus the container's padding the one column a phone gets is wider than the phone, and the page grows a horizontal scrollbar. `min()` takes the smaller of its two values, so the minimum is 280 where there is room for 280 and the full width of the container where there is not. `auto-fit` collapses tracks that have no card, so two cards on a wide screen grow to fill the row. `auto-fill` keeps the empty tracks, so two cards stay 280-ish and the rest of the row is blank columns. For a card grid you want `auto-fit`. You will feel the difference the first time a single card stretches the full width and you did not expect it; that is fit, doing what it was told.
 
 Which one, then. A navigation bar, a centered hero, a cluster of badges in a row: flex. The skeleton of the page, equal columns that stay equal, a region that must sit in a particular cell: grid. A wrapping row of cards can be either; the `auto-fit` line is grid, and it is the one to reach for. The honest answer is both, on the same page. Grid decides where the regions are. Flex decides how the things inside a region line up. Fig 5, in the demonstration, is that sentence drawn.
 
@@ -384,7 +384,7 @@ console.log("ok: navbar");
 ```css
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
     gap: 1.5rem;
 }
 
@@ -444,7 +444,7 @@ console.log("container 300px, columns on the first row:", columns());
 console.log("ok: cards");
 ```
 
-**Walkthrough 3: the holy grail, measured.** The file is `holy-grail.html`. Five regions, one parent, the areas from Fig 2. On your machine the parent is `min-height: 100vh` and each region has its own background so the shape is obvious. The stage is the same shape in a shorter frame, and the script checks the two facts that matter: the header is as wide as the page, and the nav's right edge meets the main's left edge.
+**Walkthrough 3: the holy grail, measured.** The file is `holy-grail.html`, and building it is Exercise 1; the stage here only proves the shape. Five regions, one parent, the areas from Fig 2, and the CSS is the named-areas block from the idea, the one with `.page-header { grid-area: header; }` and its four siblings. On your machine the parent is `min-height: 100vh` and each region has its own background so the shape is obvious. The stage is the same shape in a shorter frame, and the script checks the two facts that matter: the header is as wide as the page, and the nav's right edge meets the main's left edge.
 
 ```html stage=grail
 <div id="page">
@@ -526,7 +526,7 @@ console.log("ok: broken");
 
 **Tracks without a grid.** `grid-template-columns: 1fr 1fr` on a block does nothing you can see. The property is waiting for `display: grid`, the same way `justify-content` waits for `display: flex`. The third line is `false`. The fourth, after the switch, is `true`. Inspect the element. If the grid badge is missing in the Styles panel, you have not turned the system on.
 
-**A scrollbar you did not mean.** `100vw` includes the width and then the vertical scrollbar takes some of it back, and the page grows sideways. A fixed `200px` sidebar plus a `1fr` column is safe. A row of nav links with `flex-wrap: nowrap` and no query is not, once the phone arrives. Drag the window to 320 pixels wide before you call a layout done. If it scrolls sideways, something has a width that cannot shrink: a long word, an image without `max-width: 100%`, a `min-width` larger than the screen, or a track whose minimums add past the viewport. `minmax` is the usual cure. So is letting the sidebar drop under the story, which is what the 768 query is for.
+**A scrollbar you did not mean.** `100vw` includes the width and then the vertical scrollbar takes some of it back, and the page grows sideways. A fixed `200px` sidebar plus a `1fr` column is safe. A row of nav links with `flex-wrap: nowrap` and no query is not, once the phone arrives. Drag the window to 320 pixels wide before you call a layout done. If it scrolls sideways, something has a width that cannot shrink: a long word, an image without `max-width: 100%`, a `min-width` larger than the screen, or a track whose minimum cannot shrink, which is what a bare `minmax(280px, 1fr)` is on a 320-pixel phone with padding on either side. `min(280px, 100%)` inside the `minmax` is the usual cure. So is letting the sidebar drop under the story, which is what the 768 query is for.
 
 **`fr` of nothing.** A single column of `1fr` inside a parent whose width is the content, which is also `1fr`, can collapse to zero in some nestings. Give the page a width it can resolve: the body is already the viewport. If a grid collapses, the parent has no definite width. Set one, or stop nesting a fractional track inside an indefinite one.
 
@@ -534,23 +534,23 @@ console.log("ok: broken");
 
 ## Your turn
 
-`html-css-foundations`, Live Server on, the device toolbar open (Ctrl+Shift+M, or the icon of a phone in the DevTools corner). Drag the width as you go. A layout you have not watched resize is a layout you have not finished.
+`html-css-foundations`, Live Server on, the device toolbar open (Cmd+Shift+M on a Mac, Ctrl+Shift+M everywhere else, or the icon of a phone in the DevTools corner). Drag the width as you go. A layout you have not watched resize is a layout you have not finished.
 
 **Exercise 1: the holy grail (20 minutes).** `holy-grail.html` and `holy-grail.css`. A parent with five children: header, nav, main, aside, footer. Desktop is Fig 2: `200px 1fr 200px`, three rows `auto 1fr auto`, the areas string from the idea, `min-height: 100vh`, a gap, and a distinct background on each region so you can see the cells. The nav holds a list of at least four links. The main holds a heading and two paragraphs. The aside holds a short list of news. Checkpoint: the footer sits at the bottom of the viewport when the main is only two lines, which is the `1fr` row doing its job.
 
-**Exercise 2: the same page, three widths (20 minutes).** Replace the desktop-only template with the mobile-first stack from the idea. Under 768, one column, in the order header, nav, main, aside, footer. At 768, nav on the left spanning the main and the aside, header and footer across both columns. At 1024, the full grail. No horizontal scrollbar at 320, at 800, or at 1400. Text still readable. Checkpoint: drag slowly through 768 and 1024 and name, out loud, which query just started applying.
+**Exercise 2: the same page, three widths (20 minutes).** Replace the desktop-only template with the mobile-first stack from the idea. Under 768, one column, in the order header, nav, main, aside, footer. At 768, nav on the left spanning the main and the aside, header and footer across both columns. At 1024, the full grail. No horizontal scrollbar at 320, at 768, or at 1024. Text still readable. Checkpoint: drag slowly through 768 and 1024 and name, out loud, which query just started applying.
 
 **The formation drill (the rest of the session).** `formation.html` and `formation.css`. A portfolio of quests you have actually finished in this path: the journal, the quest log, the dotfiles, the guild board, the about page, the potion shop. Six cards minimum.
 
 1. A navigation bar in flex: the name on the left, the links on the right, from 768 up. Below that, both stack and center.
 2. A hero, centered on both axes, `min-height: 50vh`, one sentence and your name.
-3. A grid of at least six cards, `repeat(auto-fit, minmax(280px, 1fr))`.
+3. A grid of at least six cards, `repeat(auto-fit, minmax(min(280px, 100%), 1fr))`, so requirement 9 holds without a query.
 4. Each card is a flex column. The title, one sentence, a reward or a status, and the status pinned to the bottom with `margin-top: auto`.
 5. A footer with centered text.
 6. At least two `min-width` queries. The nav stack can be one of them, written as the base rather than as an override.
 7. Spacing in `rem`. One `clamp()` on the hero heading.
 8. Custom properties for the colors and the font, from last session.
-9. No horizontal scrollbar from 320 pixels up. Check it.
+9. No horizontal scrollbar from 320 pixels up. Check it at 320, 768, and 1024.
 10. An image anywhere on the page has `max-width: 100%` and an `alt`.
 
 Stretch, in order. A row of skill badges that is itself a flex wrap. `position: sticky; top: 0` on the nav, so it stays put while the cards scroll; give it a background or the cards will show through. A hover on the cards that changes the border color, not the layout, so nothing jumps. Named areas for the page around the grid, so the hero, the grid, and the footer are cells. A "back to top" link in the footer pointing at the header's id.
@@ -570,7 +570,8 @@ Before Session 2.4, on `html-css-foundations`:
 
 - `layout-demo.html`, the bar and the wrapping card grid.
 - `holy-grail.html`, correct at the three widths, footer at the bottom of a short page.
-- `formation.html`, the ten requirements, checked at 320, 768, and 1200.
+- `formation.html`, the ten requirements, checked at 320, 768, and 1024.
+- `potion-shop.html`: the three cards in a `repeat(auto-fit, minmax(min(280px, 100%), 1fr))` grid instead of a stack, checked at 320. One rule on the container that holds the cards, and the cards sit next to each other.
 - `about-me.html` responsive: a flex or a grid where a column used to be, and at least one `min-width` query. It has to look meant on a phone.
 
 Play [Grid Garden](https://cssgridgarden.com/) through. The frogs were flex. The garden is grid, and the properties it drills are the ones in Fig 2. Then read the [transitions guide](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_transitions/Using_CSS_transitions) and the [BEM overview](https://css-tricks.com/bem-101/). Transitions are how a hover stops being a snap. BEM is how a stylesheet stays readable once more than one person, including you next month, has to find a rule. Both are the next session. Twenty-five minutes for the two readings.

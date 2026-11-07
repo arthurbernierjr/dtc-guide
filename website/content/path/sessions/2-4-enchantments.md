@@ -35,7 +35,7 @@ The skeleton is named, the armor is on, and the formation holds when the window 
 
 > *The enchanter did not add a new bone. She put a breath in the ones already there. The clasp rose a finger's width when a hand came near, and settled when the hand left. A lantern at the gate turned, not because anyone wound it, but because turning was what it had been told to do, stop after stop, and then again. The people who preferred the room still got the room still. The enchantment knew when to be quiet.*
 
-Today is that breath. **Transitions** move one value to another when something changes, usually a hover. **Transforms** move, turn, and scale the paint without shoving the layout. **Keyframe animations** are a list of stops that can run on their own: a spinner, a fade-in, a pulse. Then two pieces of craft that keep the motion from becoming a mess. **Images** have to fit the frames the grid made, on purpose, with `object-fit` and `aspect-ratio`. **BEM** is a way of naming classes so a card's title cannot collide with a nav's title, and so every selector stays a single class. Last session you learned that specificity fights are optional. BEM is how you decline them.
+Today is that breath. **Transitions** move one value to another when something changes, usually a hover. **Transforms** move, turn, and scale the paint without shoving the layout. **Keyframe animations** are a list of stops that can run on their own: a spinner, a fade-in, a pulse. Then two pieces of craft that keep the motion from becoming a mess. **Images** have to fit the frames the grid made, on purpose, with `object-fit` and `aspect-ratio`. **BEM** is a way of naming classes so a card's title cannot collide with a nav's title, and so every selector stays a single class. In Session 2.2 you learned that specificity fights are optional. BEM is how you decline them.
 
 You will also learn when not to move. Some people get sick from motion. A query, `prefers-reduced-motion`, is how the page agrees to be still for them. It is not optional polish. It is part of the enchantment being polite.
 
@@ -138,7 +138,7 @@ A **block** is a component that means something alone: `.quest-card`, `.navbar`,
 
 ![](diagram:session-2-4/fig4-bem)
 
-The element name repeats the block. That looks long the first afternoon and saves you the first time two components both want a class called `.title`. `.quest-card__title` cannot collide with `.navbar__title` because they are different strings. You do not write `.quest-card .title` anymore. The descendant was only doing the job the longer name does in the open, and the descendant was two elements of specificity, which is how last session's fights started. A BEM class is one class. The column stays at one. A modifier is a second class on the same element, still one column, and source order or the order you wrote the two rules decides the rest. You already know how to referee that.
+The element name repeats the block. That looks long the first afternoon and saves you the first time two components both want a class called `.title`. `.quest-card__title` cannot collide with `.navbar__title` because they are different strings. You do not write `.quest-card .title` anymore. The descendant was only doing the job the longer name does in the open, and the descendant was two classes of specificity, `(0, 2, 0)`, which is how the fights in Session 2.2 started. A BEM class is one class. The column stays at one. A modifier is a second class on the same element, still one column, and source order or the order you wrote the two rules decides the rest. You already know how to referee that.
 
 The HTML carries both the block and the modifier: `class="quest-card quest-card--featured"`. The modifier does not replace the block. It adds. The element does not include the modifier of the block in its own name unless the element itself varies: `.quest-card__title` is the title of every card, featured or not. `.quest-card__badge--legendary` is a badge that has a legendary version.
 
@@ -160,7 +160,7 @@ Two files for two screens is `srcset` and `sizes`, or a `<picture>` with a `<sou
 
 ## The demonstration
 
-The file is `enchantments-demo.html` and `enchantments-demo.css`. The head is the boilerplate, the viewport, and the stylesheet link. Skip the Google Fonts line unless you want it. The body is a workshop: a row of buttons, a spinner, a card. BEM from the first class.
+The file is `enchantments.html` and `enchantments.css`, the same workshop the rest of the session finishes; what follows is its first third. The head is the boilerplate, the viewport, and the stylesheet link. Skip the Google Fonts line unless you want it. The body is a workshop: a row of buttons, a spinner, a card. BEM from the first class.
 
 **The buttons.** Rest, hover, pressed. The transition lives on `.btn`. The destinations live on `:hover` and `:active`. Modifiers only change color.
 
@@ -205,7 +205,7 @@ The file is `enchantments-demo.html` and `enchantments-demo.css`. The head is th
 }
 ```
 
-Set the duration to `2s` once, hover, and watch the curve. Then put it back. `ease`, `linear`, and `ease-out` on that slow one are the three paces. The stage runs the lift as a real CSS transition and asks the browser how many animations that transition became. Then it settles, so you can hover the card yourself. The listeners are only here. In the file, `:hover` is the whole mechanism.
+Set the duration to `2s` once, hover, and watch the curve. Then put it back. `ease`, `linear`, and `ease-out` on that slow one are the three paces. The stage runs the lift as a real CSS transition and asks the browser how many animations that transition became. Then it settles, so you can hover the card yourself. If your system has reduced motion on, the stage says so and the card stays put, which is the right answer. The listeners are only here. In the file, `:hover` is the whole mechanism.
 
 ```html stage=lift
 <article id="card">
@@ -239,10 +239,11 @@ if (!reduced) requestAnimationFrame(() => {
   });
 });
 if (!reduced) setTimeout(() => { card.style.transform = "translateY(0px)"; }, 700);
+if (reduced) console.log("reduced motion is on, so the card does not lift");
 console.log("ok: lift");
 ```
 
-**The spinner.** Two stops, linear, forever. The dots are one animation and three delays. This is also where BEM shows up in the names: `.spinner-dots` is the block, `.spinner-dots__dot` is the element.
+**The spinner.** Two stops, linear, forever. The dots are one animation and three delays. This is also where BEM shows up in the names: `.spinner-dots` is the block, `.spinner-dots__dot` is the element. In the HTML the ring is one empty `<div class="spinner"></div>`, and the dots are `<div class="spinner-dots">` holding three empty `<span class="spinner-dots__dot"></span>`.
 
 ```css
 @keyframes spin {
@@ -259,12 +260,35 @@ console.log("ok: lift");
     animation: spin 0.8s linear infinite;
 }
 
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40%           { transform: scale(1); }
+}
+
+.spinner-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.spinner-dots__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00a868;
+    animation: bounce 1.4s ease-in-out infinite;
+}
+
+.spinner-dots__dot:nth-child(1) { animation-delay: -0.32s; }
+.spinner-dots__dot:nth-child(2) { animation-delay: -0.16s; }
+.spinner-dots__dot:nth-child(3) { animation-delay: 0s; }
+
 @media (prefers-reduced-motion: reduce) {
-    .spinner { animation: none; }
+    .spinner,
+    .spinner-dots__dot { animation: none; }
 }
 ```
 
-The query is the polite part. A reader who has asked the operating system for less motion gets a still ring. The information was never in the spinning. The stage does the same check: if reduced motion is on, it does not leave the ring turning.
+`bounce` has three stops, not two, and the middle one is where each dot is at full size; the three `:nth-child` delays start each dot at a different point in the same cycle, which is the negative delay from the idea doing its job. The query is the polite part. A reader who has asked the operating system for less motion gets a still ring. The information was never in the spinning. The stage does the same check: if reduced motion is on, it does not leave the ring turning.
 
 ```html stage=spin
 <div id="ring"></div>
@@ -317,7 +341,33 @@ console.log("classes:", names.size, "· each one is a single class, specificity 
 console.log("ok: bem");
 ```
 
-The underline on a nav link, for the lab, is the one place a pseudo-element earns its keep. `.navbar__link` is `position: relative`. Its `::after` is an empty bar, `position: absolute`, a height of 2 pixels, full width, `transform: scaleX(0)`, origin on the left. The hover sets `scaleX(1)`. The transition is on `transform`. The bar grows from the left. No extra element in the HTML. No width being animated.
+The underline on a nav link is the one place a pseudo-element earns its keep, and it needs two things this unit has not used yet. The first is `position`. An element with `position: relative` stays exactly where the layout put it, and becomes the box that its positioned children measure from. A child with `position: absolute` is lifted out of the flow and placed by `top`, `right`, `bottom` and `left` against the nearest positioned ancestor, which is why the link gets `relative`: without it the bar would measure from the page. The second is `content`. A `::before` or `::after` is a box the stylesheet invents, and it does not exist until the rule gives it `content`, even an empty string; leave `content: ""` out and nothing is drawn, whatever else you set. The whole rule:
+
+```css
+.navbar__link {
+    position: relative;
+    text-decoration: none;
+}
+
+.navbar__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: #00a868;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+}
+
+.navbar__link:hover::after {
+    transform: scaleX(1);
+}
+```
+
+The `::after` is an empty bar, full width, two pixels tall, sitting just under the text, painted at `scaleX(0)`, so it is there and invisible. The hover sets `scaleX(1)`. The transition is on `transform`. The bar grows from the left because the origin is the left. No extra element in the HTML. No width being animated.
 
 ## Where it breaks
 
@@ -373,7 +423,7 @@ This is the rare `!important` that is earning its place: it has to beat duration
 
 `html-css-foundations`. Live Server. Hover with the mouse, and then turn on reduced motion in the rendering panel of DevTools and hover again.
 
-**Exercise 1: one card (20 minutes).** `animated-card.html`. A `.quest-card` centered with flex, `max-width: 350px`. Transition `transform` and `box-shadow` over `0.3s ease`. Hover lifts it `translateY(-8px)` and adds a green-tinted shadow. The title transitions its color, and `.quest-card:hover .quest-card__title` is the rule that changes it, so the color moves when the card is hovered, not only when the title is. The button has its own hover. Every class is BEM. Badge, description, footer, reward. Checkpoint: the card under it, if you add a second, does not jump.
+**Exercise 1: one card (20 minutes).** `animated-card.html`. A `.quest-card` centered with flex, `max-width: 350px`. Transition `transform` and `box-shadow` over `0.3s ease`. Hover lifts it `translateY(-8px)` and adds a green-tinted shadow. The title transitions its color, and `.quest-card:hover .quest-card__title` is the rule that changes it, so the color moves when the card is hovered, not only when the title is. That selector is two classes, `(0, 2, 0)`, and it is the one allowed exception to one-class selectors: a state on the block reaching an element. The button has its own hover. Every class is BEM. Badge, description, footer, reward. Checkpoint: the card under it, if you add a second, does not jump.
 
 **Exercise 2: the hero (20 minutes).** `animated-hero.html`. A section, `min-height: 100vh`, centered on both axes. `@keyframes fade-in-up` from opacity 0 and `translateY(16px)` to opacity 1 and no translation. The title plays it once, `0.8s`, `forwards`. The subtitle plays it with `animation-delay: 0.3s`. Its base `opacity: 0` keeps it hidden during the delay; `forwards` keeps the final visible state after the animation. [`both`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-fill-mode) can instead apply the first keyframe during the delay and keep the last one afterward. The call to action pulses, `scale(1)` to `scale(1.05)` and back, `2s`, `ease-in-out`, `infinite`, and also changes background on hover. BEM: `.hero__title`, `.hero__subtitle`, `.hero__cta`. The link's `href` can be `#top` if the section has `id="top"`.
 
@@ -382,7 +432,7 @@ This is the rare `!important` that is earning its place: it has to beat duration
 1. At least three buttons: primary, secondary, outline. Hover changes color, shadow, and transform. Active presses back down. Durations between `0.15s` and `0.4s`.
 2. A card with the lift from exercise 1, BEM all the way through.
 3. A spinner made only of CSS. A ring, or three dots with staggered negative delays. `@keyframes` with more than two stops somewhere on the page, the pulse counts.
-4. A navigation whose underlines grow with `::after` and `scaleX`, from 0 to 1, origin on the left.
+4. A navigation whose underlines grow with `::after` and `scaleX`, from 0 to 1, origin on the left, the rule from the end of the demonstration.
 5. One image in a frame: `aspect-ratio: 16 / 9`, `object-fit: cover`, `width: 100%`, an `alt` that describes that image.
 6. `prefers-reduced-motion` at the bottom, so the spinner and the pulse stop.
 7. The page still works at 320 pixels. The button row wraps. Nothing scrolls sideways.
@@ -390,7 +440,7 @@ This is the rare `!important` that is earning its place: it has to beat duration
 
 Stretch, in this order. A tooltip that fades in, positioned, not a title attribute. A card that turns over with `rotateY(180deg)` and `backface-visibility: hidden`, which is fiddlier than it looks and a good hour. The reduced-motion query you already have, checked in DevTools rather than assumed. An accordion is optional and is the one place a `max-height` transition is the usual hack. Know that it is a hack.
 
-Ship it, and if the potion shop from 2.2 is still in generic class names, rename it in the same commit or the next one. The homework is that rename plus two motions on `about-me.html`.
+Ship it, and if the potion shop from 2.2 is still in generic class names, rename it in the same commit or the next one. The last two quest items are that rename plus two motions on `about-me.html`.
 
 ```bash
 git add .
@@ -410,7 +460,7 @@ Before Session 2.5, pushed:
 
 Read the [GitHub Pages](https://pages.github.com/) overview, ten minutes. The next session puts a page on the internet at a URL, and the reading is how that URL gets made. Read the [accessibility overview](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility), the opening only. You have been doing pieces of it since the alt text and the labels. The overview is the list those pieces belong to.
 
-A short preview, because Unit 4 will hand it to you whether or not you go looking. SCSS is CSS with a compiler in front of it. Variables written `$primary`, selectors nested inside selectors, and mixins, which are reusable blocks that take arguments. Browsers never see SCSS. A compiler emits the CSS. Everything you wrote this unit is already valid SCSS, so a file can be renamed and adopted one component at a time. Nesting feels like the descendant selectors BEM just got you out of. Keep it to two or three levels, or the emitted CSS comes back more specific than you wanted. Native custom properties already cover the variables. Mixins are the part CSS still does not have. You do not need this for the workshop. You will recognize it when a codebase hands it to you.
+A short preview, because a codebase will hand it to you one day whether or not you go looking. SCSS is CSS with a compiler in front of it. Variables written `$primary`, selectors nested inside selectors, and mixins, which are reusable blocks that take arguments. Browsers never see SCSS. A compiler emits the CSS. Everything you wrote this unit is already valid SCSS, so a file can be renamed and adopted one component at a time. Nesting feels like the descendant selectors BEM just got you out of. Keep it to two or three levels, or the emitted CSS comes back more specific than you wanted. Native custom properties already cover the variables. Mixins are the part CSS still does not have. You do not need this for the workshop. You will recognize it when a codebase hands it to you.
 
 ## Side quests
 
@@ -422,7 +472,7 @@ Turn reduced motion on, reload the workshop, and confirm the spinner is still. T
 
 Then open a site you think is polished and hover one button slowly enough to see the duration. Guess it. Check in the Styles panel. You will usually be within a tenth of a second, and that calibration is the skill. The rest is knowing which property is allowed to travel.
 
-Next time: the character sheet. One landing page that uses the skeleton, the armor, the formation, and a little of today's motion, and then it goes on the internet with GitHub Pages. Bring a picture of yourself or a mark you are willing to publish, and a sentence about what you are building. The enchantments stay small. The page is the point.
+Next time: the character sheet. One landing page that uses the skeleton, the armor, the formation, and a little of today's motion, and then it goes on the internet with GitHub Pages. Have ready a picture of yourself or a mark you are willing to publish, and a sentence about what you are building. The enchantments stay small. The page is the point.
 
 > **Say:** "A transition is the trip between two values of one property. Name the property, the duration, and the curve. A transform paints the element somewhere else and leaves its layout box where it was. Keyframes are a list of stops that can run on their own, and forwards means stay on the last stop. Cover fills the frame and crops. Contain keeps every pixel and leaves bars. Two underscores mean part of. Two hyphens mean a version of. Every selector stays one class."
 
