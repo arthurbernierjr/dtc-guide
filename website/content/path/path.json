@@ -1243,10 +1243,10 @@
         "SYS-04"
       ],
       "sideQuestWhy": [
-        "Apply scope to this lesson's artifact: Choose one user and one valuable journey.",
-        "Apply foundation to this lesson's artifact: Connect client, server, and persistence."
+        "SOLID gives you the words for the question you asked of every box in the architecture record today: what breaks if this is deleted, and what is it the only thing responsible for.",
+        "The system-design primer is where the client, server, and persistence boundaries you reconciled against the live URL were first drawn, and it is the sheet to reread before you defend each one on demo day."
       ],
-      "hook": "A capstone foundation with one complete vertical slice and an architecture record. Choose one user and one valuable journey."
+      "hook": "Your capstone already exists, already runs, and is already deployed. Sprint 1 is the day you stop guessing which Must-haves are finished and prove it, one slice at a time, against the plan you wrote in Unit 8."
     },
     {
       "id": "12.2",
@@ -1262,11 +1262,11 @@
         "SYS-C02"
       ],
       "sideQuestWhy": [
-        "Apply build to this lesson's artifact: Implement the prioritized user outcomes.",
-        "Apply integrate to this lesson's artifact: Connect real boundaries through explicit contracts.",
-        "Apply recover to this lesson's artifact: Handle empty, invalid, pending, and failed states."
+        "The service module you wrapped around the AI and Stripe calls, returning your own shape with four fixtures behind it, is the Adapter pattern with its name on.",
+        "The FLOW table and the transition function are the State pattern reduced to a lookup, and the sheet shows what to do when four states become nine.",
+        "The REST, GraphQL, and gRPC comparison is the longer answer to why your route returns { summary } instead of the provider's payload, and what the contract between client and server is for."
       ],
-      "hook": "A feature-complete core journey with integration and recovery evidence. Implement the prioritized user outcomes."
+      "hook": "The Must-haves agree with the plan. Sprint 2 builds the Should-haves that survived the cut and gives the core flow one status string that decides what every button does, so a double click, a failed save, and an empty list each do exactly one thing."
     },
     {
       "id": "12.3",
@@ -1282,11 +1282,11 @@
         "SYS-C04"
       ],
       "sideQuestWhy": [
-        "Apply candidate to this lesson's artifact: Freeze a known revision for review.",
-        "Apply harden to this lesson's artifact: Exercise risks and fix reproducible failures.",
-        "Apply recover to this lesson's artifact: Verify deployment, backups, and rollback."
+        "The vulnerability quick reference is the longer list behind the five requests you sent today as the wrong user, with the names reviewers use for each one.",
+        "Observability is what to read before you decide what broken will mean on the live URL once nobody is watching the terminal, which the handoff in 12-5 will ask you to write down.",
+        "Availability and the nines turns your three recovery numbers, backup age, restore time, and data at risk, into the language a reviewer expects for them."
       ],
-      "hook": "A tested release candidate with a security review and deployment recovery drill. Freeze a known revision for review."
+      "hook": "No new features today. Sprint 3 freezes one commit, runs the whole test tree against exactly that commit, attacks the ownership rules with a second account, restores a backup somewhere disposable, and redeploys with the path you already own."
     },
     {
       "id": "12.4",
@@ -1301,10 +1301,10 @@
         "PAT-20"
       ],
       "sideQuestWhy": [
-        "Apply polish to this lesson's artifact: Fix friction in the core user journey.",
-        "Apply rehearse to this lesson's artifact: Tell the problem, show the product, explain the decision."
+        "Grit is for the hour when you have watched yourself say um nine times on the rehearsal take and want to skip the second read-through.",
+        "The State sheet is the reason the four sentences on every screen were a lookup on the existing status string instead of four new booleans."
       ],
-      "hook": "A polished release, timed demo script, and tested presentation fallback. Fix friction in the core user journey."
+      "hook": "The candidate is live. Sprint 4 hunts bugs as a stranger, gives every screen its loading, empty, and success sentences, adds the 404 page, writes a README someone can run from, and records the five-minute demo for the first time so you can watch it back before it counts."
     },
     {
       "id": "12.5",
@@ -1320,11 +1320,11 @@
         "SYS-C22"
       ],
       "sideQuestWhy": [
-        "Apply demonstrate to this lesson's artifact: Show the outcome with evidence and honest limits.",
-        "Apply handoff to this lesson's artifact: Package setup, operations, and known issues.",
-        "Apply continue to this lesson's artifact: Choose the next learning or product experiment."
+        "Knowing what you are talking about is the standard the five written answers are held to: each one points at a file, or it is a belief rather than a thing you built.",
+        "Grit is for the week after the crown, when the streak has no audience and the experiment in docs/next-quest.md has a date on it.",
+        "Observability is what the who-watches-it line in the handoff grows into if the product stays live and a stranger signs up next month."
       ],
-      "hook": "A final capstone handoff, demo retrospective, and measurable next-step plan. Show the outcome with evidence and honest limits."
+      "hook": "Twenty-one weeks after the blinking cursor, you record the demo that counts on the live URL, answer the five questions a reviewer would ask, score your own capstone against a hundred points, and hand the product to the person who will run it next: you."
     }
   ]
 }

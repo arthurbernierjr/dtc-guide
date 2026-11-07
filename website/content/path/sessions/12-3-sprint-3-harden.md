@@ -1,9 +1,9 @@
 ---
 editorial: true
 title: Sprint 3 — Harden
-subtitle: Testing, Security, and Deployment
-hook: "A tested release candidate with a security review and deployment recovery drill. Freeze a known revision for review."
-read: 60
+subtitle: Freeze a candidate, test it, try to break it, back it up, ship it
+hook: "No new features today. Sprint 3 freezes one commit, runs the whole test tree against exactly that commit, attacks the ownership rules with a second account, restores a backup somewhere disposable, and redeploys with the path you already own."
+read: 55
 artifact: "A tested release candidate with a security review and deployment recovery drill"
 diagrams:
   - fig1-model
@@ -12,162 +12,279 @@ diagrams:
 docs:
   - https://owasp.org/Top10/2025/
   - https://playwright.dev/docs/best-practices
+  - https://www.mongodb.com/docs/database-tools/mongodump/
+  - https://www.mongodb.com/docs/database-tools/mongorestore/
+  - https://www.mongodb.com/docs/database-tools/installation/installation/
+  - https://github.com/express-rate-limit/express-rate-limit
 say:
-  - "Candidate: Freeze a known revision for review."
-  - "Harden: Exercise risks and fix reproducible failures."
-  - "Recover: Verify deployment, backups, and rollback."
+  - "Evidence belongs to a commit. A green run with no sha is a rumor."
+  - "Headers are configuration. A security review is a request you sent as the wrong user."
+  - "A backup you have not restored is a file you hope is a backup."
 ---
 
 ## The hook
 
-Your product works. Every feature, every flow, every page. You have a functional full stack application. Now the question is: how do you make it bulletproof? How do you take it from "it works on my machine" to "it works on the internet for anyone, securely, reliably, under load"?
+Sprint 2 ended with the journey walkable and the core flow obeying a table. Today you do not add anything. You pick one commit, give it a name, and spend the day trying to prove it is not good enough: the Jest and Supertest files from Unit 7 run against it, the Playwright journey runs against it, a second account tries to read the first account's records, and the rate limiter and Helmet are checked with a request rather than by reading the file they were configured in. Whatever survives that is the release candidate.
 
-Sprint 3 is about three things: test it, secure it, deploy it. You are going to write tests that prove your app works the way you think it does. You are going to harden it against the OWASP Top 10 vulnerabilities you learned about in Unit 10. And you are going to push it to a real server with HTTPS so that anyone on the planet can type a URL and use your product. This is the session where your app becomes real. Not "localhost real." Internet real.
+Then the part no earlier unit made you do. You take a backup of the deployed database with `mongodump`, restore it into a disposable database on your own machine with `mongorestore`, and read a record back. Only after that do you redeploy, with the `deploy.sh` from 6-4 or `railway up` from the Railway path in 6-4, and roll back once on purpose so the rollback is a thing you have done rather than a thing you assume. By the end the live URL runs the candidate, and `docs/release-candidate.md` names the sha every piece of evidence was collected against.
 
-Think of this as forging armor. Your product is the weapon you have been crafting across four sprints. The tests are the chain mail that catches bugs before they reach your users. The security measures are the ward spells that keep attackers out. And deployment is planting your flag on the mountaintop so the whole world can see what you built. Let's forge the armor.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The armor is tested by the smith striking it, not by the knight admiring it.*
 
 ## The idea
 
-### Evaluate and harden an application through testing, security review, and production deployment
-**You will:**
-- Write meaningful unit, integration, and end-to-end tests using Jest, Supertest, and Playwright
-- Conduct a security audit implementing input validation, rate limiting, security headers, CORS configuration, and secrets management
-- Deploy the application to a production environment with HTTPS, process management, and environment variable configuration
-- Identify and fix bugs, edge cases, and UI inconsistencies through systematic quality assurance
+A release candidate is a commit with a name. `git tag rc-1` on the commit you intend to ship gives you a fixed point that every test run, every curl, and every screenshot refers back to. The alternative is the thing most people do: test a working tree with uncommitted edits, deploy the branch an hour later with two more edits in it, and wonder next week which of those two trees the green run described. A report that does not name its revision is a rumor about some other tree. Today the sha is written at the top of the evidence file before any evidence is collected.
 
-**You will be able to:**
-- Write and run a test suite with at least 5 passing tests covering critical user flows
-- Apply Helmet.js, express-rate-limit, and input validation to protect against OWASP Top 10 vulnerabilities
-- Deploy a full stack application to a VPS, Vercel, or Railway with HTTPS and a custom domain
-- Perform a systematic bug hunt and polish pass to bring the application to presentation quality
+The second idea is that security is reviewed by operating the app wrongly on purpose. Helmet from 10-1 sets headers, and `curl -I` shows them in three seconds. That is a configuration check. A security review is a second account, created with the seed script, sending a direct request for the first account's record by id. Either the route answers 404 or 403, or it answers 200 and you have the most important bug of the week. You do the same with a field the client never sends, such as `owner` or `isPro` in a request body, and with an expired token. Headers are the easy screenshot. Ownership is the thing a reviewer will try first.
 
----
+The third idea is recovery. Your capstone has a database with the fixture account and whatever real sign-ups you collected since 10-4. A backup is a copy of it that exists somewhere else. A restore is proof that the copy can be read. Those are different facts, and only the second one matters on the day you need it. The drill is to dump the live database, restore it into a database with a different name on your local MongoDB from 4-4, count the records, and time the whole thing. Then you know what a bad day costs: the age of the newest backup, plus the minutes the restore took.
 
-**Sprint Review: Demo Your Functional App**
+The fourth idea is that deployment is already solved. The server, Nginx site, pm2 app, and certificate from 6-4 exist, or the Railway project from the same session does. Redeploying is one command on either path. The thing you have not rehearsed is the step backwards: checking out the previous tag, deploying it, confirming the public journey still works, and coming forward again. A rollback you have performed once under no pressure is a procedure. One you have only read about is a hope.
 
-**Key Points:**
-- Click the whole path on the deployed URL before you change anything
-- Focus on: does the core flow work? Can a user actually USE this product?
-- Celebrate: "You have a working full stack app. Most people never get here."
-- Sprint 3 is about making it bulletproof and putting it on the internet
-
-**Sprint 3 Planning**
-
-**Key Points:**
-- Today's three missions: Test it. Secure it. Deploy it.
-- Review your Sprint 3 backlog
-- Prioritize: deployment is the minimum. Tests and security are what separate a toy from a product.
-
-**Common Misconceptions:**
-- "I do not have time to write tests." You do not have time NOT to write tests. Even 5 passing tests give you confidence and demonstrate professionalism.
-- "Security is for big companies." Attackers scan every public URL. Your app will be probed within hours of deployment.
-- "I will deploy later." Deployment is non-negotiable for demo day. If it is not on the internet, it is not a product.
-
----
+Napkin version: tag the candidate; run every test against the tag and write the sha on the output; attack ownership and mass assignment with a second account; dump, restore elsewhere, count, time it; redeploy with the path you have; roll back once and come forward; put every result in one file with the sha at the top.
 
 ![](diagram:session-12-3/fig1-model)
 
-### Freeze the candidate before judging it
+### Freezing, and what counts as a fix
 
-Identify the revision under review and stop adding optional features to it. A moving target makes test evidence ambiguous: a passing run from yesterday may not describe today's code. Keep necessary fixes small and rerun the checks affected by each fix. Record the final candidate identifier in the release packet so reviewers can connect code, build, and evidence.
+`git status --short` prints nothing, `git log --oneline -1` prints the commit, `git tag rc-1` names it, `git push origin rc-1` sends the name to GitHub. From here, a fix that is needed to pass a test goes in as a new commit and the tag moves: `git tag -f rc-1` and `git push -f origin rc-1`, and the sha at the top of the evidence file changes with it. Every check affected by the fix runs again. A fix that is not needed to pass a test waits until Sprint 4. The temptation is to "quickly also" rename a button while a test is running. The button rename does not change the sha the test already saw, which is exactly the problem.
 
-Use the risk-based test plan from Unit 7. Cover the core calculation or transformation with unit tests, route validation and ownership with integration tests, and the main user journey with a browser test. Add manual checks where automation does not answer the question. Do not inflate the report by counting many assertions that all exercise the same behavior.
+### The test tree you already have
 
-### Investigate failures at the correct layer
+Unit 7 left your capstone with `tests/` for Jest and Supertest and `e2e/` for Playwright, a `jest.config.js` that ignores `e2e/`, a `playwright.config.js` whose `webServer` starts the API on 3000 and the client on 5173, and a workflow in `.github/workflows/test.yml`. Those files have not run against the Sprint 2 code. Today they do, with the sha in the output.
 
-A timeout in a browser test may reveal a slow dependency, an unstable locator, an unawaited transition, or an actual application bug. Preserve the trace and diagnose before adding a longer sleep. A database failure may reveal configuration, connection lifecycle, or invalid data. A reproducible defect report names the environment, fixture, steps, expected result, and observed result.
+```bash
+cd ~/projects/<capstone-name>/server
+git rev-parse --short HEAD
+npm test 2>&1 | tee ../docs/evidence/12-3-jest.txt
+```
 
-Prioritize defects by their effect on the user and system. Data loss, unauthorized access, exposed secrets, and broken core actions are release blockers. A minor visual inconsistency can be tracked without pretending it has the same severity. Make the release decision explicit and keep unresolved issues visible. A deadline does not change the behavior of a vulnerability.
+```text
+a9f3c1d
+PASS tests/auth.test.js
+PASS tests/entries.test.js
+FAIL tests/draft.test.js
+  ● POST /api/entries/draft › returns a summary
+    expect(received).toBe(expected)
+    Expected: 200
+    Received: 502
+Tests: 1 failed, 11 passed, 12 total
+```
 
-### Review security through operations
+That failure is real and it is a good one. The test was written in Unit 7 against the provider route; Sprint 2 put an adapter in front of it, and the test environment has no `DRAFT_MODE`. Set `DRAFT_MODE=normal` in `tests/setup.js` next to `NODE_ENV=test`, and the fixture answers. That is a test-environment fix, so it is allowed, and it is a commit that moves the tag. A test that is simply wrong about the current contract is rewritten; a test that found a bug gets the bug fixed. Those are the only two outcomes. Deleting a failing test to get green is the third outcome, and it is the one that makes the whole file a rumor.
 
-Use two accounts to test ownership. Attempt to set fields the client normally hides. Verify that invalid tokens and expired sessions fail predictably. Inspect public assets for secrets and confirm server logs do not print credentials. Check that paid or privileged operations enforce their rules on the server. Headers and dependency scans help, but they do not replace these business-logic checks.
+The browser test is the journey from 12-2 as the fixture account. Run it from the repository root, where `playwright.config.js` lives:
 
-Review deployment configuration with secrets redacted. Confirm internal services are not unnecessarily exposed, required environment variables are present, and the application runs with appropriate permissions. Verify HTTPS and certificate renewal separately from local tests. A secure local configuration does not prove the deployed host has the same boundaries.
+```bash
+cd ~/projects/<capstone-name>
+npx playwright test 2>&1 | tee docs/evidence/12-3-e2e.txt
+```
 
-### Rehearse recovery with disposable data
+```text
+Running 3 tests using 1 worker
+  ✓ e2e/core-flow.spec.js:5 sign in, create an entry, see it after reload (4.1s)
+  ✓ e2e/core-flow.spec.js:21 a failed save keeps the draft (2.3s)
+  ✓ e2e/auth.spec.js:4 wrong password shows an error (1.2s)
+3 passed (9.4s)
+```
 
-Restore a backup into a separate disposable database and check representative records. Do not overwrite the active application database as a rehearsal. Record the backup's age and the amount of data that could be lost under the chosen recovery policy. A backup file existing on disk is not the same as a successful restore.
+If your `e2e/` has only the home-page spec from 7-3, write `e2e/core-flow.spec.js` now; the journey you walked by hand in 12-2 is the script, step for step. One browser test of the real path outranks ten that check a heading exists.
 
-Exercise a code rollback using a harmless revision change and confirm the public journey afterward. Explain how schema changes affect rollback. If a migration cannot be reversed safely, document the forward recovery plan. The final packet includes test results, security findings, deployment smoke evidence, and recovery instructions. Any unavailable toolchain or external-service check remains explicitly pending for manual execution.
+### The review that sends requests
+
+Seed a second account and try the things a stranger would try. The seed script from 12-1 can take an email argument, or you can register through the route. With two tokens, `$A` for `demo@example.com` and `$B` for `other@example.com`:
+
+```bash
+ID=$(curl -s -H "Authorization: Bearer $A" http://localhost:3000/api/entries | node -p 'JSON.parse(require("fs").readFileSync(0))[0]._id')
+curl -s -i -H "Authorization: Bearer $B" http://localhost:3000/api/entries/$ID | head -1
+curl -s -i -X DELETE -H "Authorization: Bearer $B" http://localhost:3000/api/entries/$ID | head -1
+```
+
+```text
+HTTP/1.1 404 Not Found
+HTTP/1.1 404 Not Found
+```
+
+Two 404s is the correct answer: the route filters by `owner` as well as `_id`, so a record that is not yours does not exist as far as you are concerned. A 200 on the first line means the `findById` forgot the owner. A 204 on the second line means the delete did. Both are release blockers; both are one-line fixes that move the tag.
+
+Mass assignment next. Send a field the form never sends:
+
+```bash
+curl -s -i -H "Authorization: Bearer $B" -H 'Content-Type: application/json' \
+  -d '{"title":"Mine now","body":"x","owner":"'$OWNER_A'","isPro":true}' \
+  http://localhost:3000/api/entries | head -1
+```
+
+Then read the created record back as `$B` and confirm `owner` is B's id and no `isPro` landed anywhere. The 12-1 route builds the document from named fields, so the extra keys are ignored. If your route does `Entry.create(req.body)`, this is where it stops doing that.
+
+Then the two configuration checks, done as requests rather than by reading `app.js`:
+
+```bash
+curl -s -I https://YOUR-DOMAIN/api/health | grep -i -E 'strict-transport|x-content-type|content-security|ratelimit'
+```
+
+```text
+content-security-policy: default-src 'self';...
+strict-transport-security: max-age=31536000; includeSubDomains
+x-content-type-options: nosniff
+ratelimit-policy: 100;w=900
+ratelimit: limit=100, remaining=99, reset=899
+```
+
+The `ratelimit` headers come from `express-rate-limit`. Version 7 renamed `max` to `limit`; `max` still works with a deprecation note, and the standard header format is opt-in. If your 10-1 code still reads `max`, update it while you are here:
+
+```js
+const rateLimit = require('express-rate-limit');
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false
+});
+
+app.use('/api', apiLimiter);
+```
+
+An expired token is the last request: take a token you saved two hours ago from a previous session, or sign one with a one-second expiry in a Node one-liner using your `JWT_SECRET`, and confirm `/api/me` answers 401 with `{ "error": "..." }` rather than 500 with a stack. Every request and its first line goes into the evidence file.
+
+### The drill: dump, restore elsewhere, count, time
+
+`mongodump` and `mongorestore` ship in the MongoDB Database Tools, a separate download from the server you installed in 4-4. The [installation page](https://www.mongodb.com/docs/database-tools/installation/installation/) has one section per operating system. `mongodump --version` printing a version is the check that it is installed.
+
+The dump runs wherever the live database is reachable. On the VPS from 6-x, that is on the server itself, as the `deploy` user, because the database listens on `127.0.0.1` only. On Railway, the MongoDB service's connection string is in the service's variables, and the tools connect from your laptop. Either way, `MONGODB_URI` is the same value the running app uses, with the database name in it, and the dump folder is named for the candidate:
+
+```bash
+mkdir -p backups
+mongodump --uri="$MONGODB_URI" --out="backups/rc-1-$(date +%Y%m%d)"
+```
+
+```text
+2026-11-07T10:12:01.883+0000  writing capstone.users to backups/rc-1-20261107/capstone/users.bson
+2026-11-07T10:12:01.901+0000  done dumping capstone.users (4 documents)
+2026-11-07T10:12:01.904+0000  writing capstone.entries to backups/rc-1-20261107/capstone/entries.bson
+2026-11-07T10:12:01.918+0000  done dumping capstone.entries (23 documents)
+```
+
+Add `backups/` to `.gitignore` immediately. A dump holds password hashes and whatever your users typed; it never enters the repository. If the dump ran on the VPS, bring it down with `scp -r deploy@YOUR-DOMAIN:~/backups/rc-1-20261107 ./backups/`.
+
+The restore goes into your local MongoDB from 4-4, into a database with a different name, so the live data is never touched by a rehearsal. `--nsFrom` and `--nsTo` do the renaming:
+
+```bash
+time mongorestore --nsFrom='capstone.*' --nsTo='capstone_restore.*' backups/rc-1-20261107
+```
+
+```text
+2026-11-07T10:14:33.120+0000  restoring capstone_restore.users from backups/rc-1-20261107/capstone/users.bson
+2026-11-07T10:14:33.188+0000  restoring capstone_restore.entries from backups/rc-1-20261107/capstone/entries.bson
+2026-11-07T10:14:33.402+0000  27 document(s) restored successfully. 0 document(s) failed to restore.
+
+real    0m0.41s
+```
+
+Without `--uri`, `mongorestore` talks to `localhost:27017`, which is the only database you want it talking to during a drill. Then the read-back, which is the actual evidence:
+
+```bash
+mongosh capstone_restore --quiet --eval 'db.users.countDocuments() + " users, " + db.entries.countDocuments() + " entries"'
+```
+
+```text
+4 users, 23 entries
+```
+
+The counts match the dump. Open one entry and confirm the fields are the ones your model expects; a restore from a dump made by a newer tool against an older server fails here rather than at the count. Write down three numbers: when the dump was taken, how long the restore took, and how old the newest record in it is. That is your recovery policy in plain words: "if the database disappears, I lose at most N hours and I am back in M minutes." `mongosh capstone_restore --eval 'db.dropDatabase()'` when you are done, so the next drill starts clean.
+
+### Redeploy with the path you have, then step back once
+
+If the capstone lives on the VPS from 6-4:
+
+```bash
+ssh deploy@YOUR-DOMAIN
+cd ~/<capstone-name>
+git fetch --tags
+git checkout rc-1
+./deploy.sh
+```
+
+`deploy.sh` is the script you wrote in [6-4](/path/6-4-opening-the-world-gate/): pull, install, restart the pm2 app, rebuild the client. The only change today is checking out the tag instead of `main`, so the server runs the sha the evidence names.
+
+If the capstone lives on Railway, the same session's "The same app on Railway" section is the path: from the repository root on the candidate commit, `railway up` builds and deploys that tree, and `railway logs` shows the listening line. A project connected to the GitHub repository deploys on push instead; pushing the tag's commit to `main` is the same action.
+
+Either way, the smoke test is the journey on the public URL as the fixture account, in a private window, plus the phone: open the URL on your phone over mobile data, not your Wi-Fi, and walk the core flow once. That is the nearest thing to "someone else's network" you can produce alone, and it catches the CORS origin and the mixed-content error that `localhost` never shows.
+
+Then the rollback. Check out the previous tag, or `rc-1~1` if this is the first one, deploy it the same way, reload the public URL, and confirm the journey still works on the older code. Come forward to `rc-1` and deploy again. The whole loop is ten minutes, and the sentence you can now write is "I have rolled this app back and forward on the live URL." If the candidate changed the schema, write down which fields the older code cannot read; that is the one case where a rollback is not free.
 
 ## The demonstration
 
-**Live Coding Walkthrough 1: Writing Tests**
+One worked example, end to end, on the capstone from the last two sprints. Stop any other server first.
 
-**Setup:** Open a working Express app with models and routes. Have Jest and Supertest installed.
-
-**Steps:**
-1. Set up test directory structure:
+```bash
+cd ~/projects/<capstone-name>
+git status --short
+git log --oneline -1
+git tag rc-1 && git push origin rc-1
+mkdir -p docs/evidence
+printf '# Release candidate rc-1\n\nsha: %s\ndate: %s\n' "$(git rev-parse --short HEAD)" "$(date -I)" > docs/release-candidate.md
 ```
-tests/
-├── unit/
-│   └── models/
-│       └── user.test.js
-├── integration/
-│   └── routes/
-│       └── resources.test.js
-└── e2e/
-    └── userFlow.spec.js
+
+```text
+a9f3c1d sprint 2: S1 assistant draft behind adapter
+Total 0 (delta 0), reused 0 (delta 0)
+To github.com:YOU/<capstone-name>.git
+ * [new tag]         rc-1 -> rc-1
 ```
-2. Write 2 unit tests for a model method or utility function (Jest)
-3. Write 2 integration tests for API endpoints (Supertest)
-4. Write 1 E2E test for a critical user flow (Playwright)
-5. Run all tests and confirm they pass
 
-**Where you should be:** You see the full test setup process and understand the difference between unit, integration, and E2E tests in the context of their own apps.
+Jest first, as above. The draft test fails on 502, `DRAFT_MODE=normal` goes into `tests/setup.js`, the run goes green, and the fix is committed with `git tag -f rc-1 && git push -f origin rc-1`. The sha in `docs/release-candidate.md` is updated by hand, and Jest runs once more so the file holds the output from the new sha, not the old one.
 
-**Live Coding Walkthrough 2: Security Review and Deployment**
+Playwright next, from the root, three passes. The two outputs are already in `docs/evidence/` because of `tee`.
 
-**Setup:** Show security packages being installed and configured.
+Then the review. Seed the second account, collect `$A` and `$B` the way 12-1 collected a token, send the four requests, paste first lines. On this capstone the delete came back 204 as the wrong user: the handler used `findByIdAndDelete(req.params.id)`. Changed to `findOneAndDelete({ _id: req.params.id, owner: req.user.userId })`, which returns `null` for someone else's record, and the handler answers 404 on `null`. Commit, move the tag, rerun `tests/entries.test.js`, add a test for the cross-account delete so this cannot come back.
 
-**Steps:**
-1. Install and configure Helmet:
-```javascript
-const helmet = require('helmet');
-app.use(helmet());
-```
-2. Add rate limiting:
-```javascript
-const rateLimit = require('express-rate-limit');
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100
-});
-app.use('/api/', limiter);
-```
-3. Quick review of the security checklist: input validation, secrets management, CORS, XSS prevention, NoSQL injection prevention
+Then the drill, exactly as above, with the three numbers written in the file: dump taken 10:12, restore 0.41 seconds, newest record 14 hours old. Then the deploy: `ssh`, `git checkout rc-1`, `./deploy.sh`, journey in a private window, journey on the phone. Then the rollback to `rc-1~1` and back. Then `curl -I` against the public URL for the headers.
 
-**Where you should be:** You understand the minimal security configuration required for production.
-
-**Watch for this:**
-- If the tests will not start, fix the setup before you write another assertion. That is the usual blocker.
-- Follow the official deploy guide for the platform you actually chose.
-- Deployment is where most problems happen. Be prepared to troubleshoot environment variables, build scripts, and database connections.
-
-Take ten minutes. *(overlap with walkthrough end; adjust as needed)*
-
----
-
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Here is a small model you can run here. It checks evidence the way the release file should be read: every required check must come from the candidate sha, a restore only counts when the counts match, and a cross-account read is only safe when the answer was not 200. It does not run your tests, dump your database, or touch your server; it models the rules you applied by hand.
 
 ```js run=checkpoint-12-3
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const evidence = [{revision: 'r2', check: 'unit', passed: true}, {revision: 'r1', check: 'browser', passed: true}];
-const required = ['unit', 'browser'];
-const complete = required.every(name => evidence.some(e => e.revision === 'r2' && e.check === name && e.passed));
-check(!complete, 'Passing evidence from another revision does not qualify the candidate');
+
+const candidate = 'a9f3c1d';
+const required = ['unit', 'browser', 'ownership', 'restore'];
+
+function qualifies(evidence, sha) {
+  return required.every(function (name) {
+    return evidence.some(function (e) { return e.sha === sha && e.check === name && e.passed; });
+  });
+}
+
+const stale = [
+  { sha: 'a9f3c1d', check: 'unit', passed: true },
+  { sha: '7d02f1b', check: 'browser', passed: true },
+  { sha: 'a9f3c1d', check: 'ownership', passed: true },
+  { sha: 'a9f3c1d', check: 'restore', passed: true }
+];
+check(!qualifies(stale, candidate), 'Passing evidence from another revision does not qualify the candidate');
+
+const fresh = stale.map(function (e) { return Object.assign({}, e, { sha: candidate }); });
+check(qualifies(fresh, candidate), 'the same checks on the candidate sha qualify it');
+
+function restoreOk(dumped, restored) {
+  return Object.keys(dumped).every(function (name) { return restored[name] === dumped[name]; });
+}
+check(restoreOk({ users: 4, entries: 23 }, { users: 4, entries: 23 }), 'a restore counts when every collection matches');
+check(!restoreOk({ users: 4, entries: 23 }, { users: 4, entries: 0 }), 'an empty collection after restore is a failed drill');
+
+function ownershipSafe(statusAsOtherUser) {
+  return statusAsOtherUser === 404 || statusAsOtherUser === 403;
+}
+check(ownershipSafe(404) && !ownershipSafe(200), 'a cross-account read must not answer 200');
+
+function limiterConfig(opts) {
+  return typeof opts.limit === 'number' && opts.legacyHeaders === false;
+}
+check(limiterConfig({ windowMs: 900000, limit: 100, standardHeaders: 'draft-7', legacyHeaders: false }), 'the limiter uses limit, not max');
+
 console.log('ok: checkpoint-12-3');
 ```
 
@@ -177,178 +294,53 @@ console.log('ok: checkpoint-12-3');
 
 ### Tests target a different revision
 
-The report is green and the deploy is a newer commit, or an older one, than the report. You tested a working tree with local changes and deployed what was on the branch. Record the commit id in the test output and deploy that id. A report that does not name its revision is a rumor about some other tree. When a later failure shows up, you need to know whether the test ever saw the code that is running.
+The evidence file says green, the live URL fails on the second step of the journey, and the deploy log shows a sha that is not in the file. The cause is testing a working tree and deploying a branch, or moving the tag after a fix without rerunning what the fix touched. The fix is procedural: `git status --short` prints nothing before every run, the sha goes at the top of the file before the first command, and every `git tag -f` is followed by rerunning the checks that saw the changed files. If you cannot say which sha a line of output came from, that line is not evidence; delete it and run it again.
 
 ### Security review only checks headers
 
-Helmet is on, the headers look right, and any logged-in user can still read another user's record. Headers matter and they are the easy part to screenshot. The review has to try the business rules: a second account, a direct request, a missing owner check, an id in the URL that is not yours. Write down one request you sent and the status you got back. A header dump with no attempted abuse is a configuration check, not a security review.
+Helmet is on, the `curl -I` output is pasted, and any signed-in user can delete any record by id. The cause is reviewing configuration instead of behavior; headers are visible in one command, ownership takes two accounts and four requests. The fix is the request list in this session: read, delete, and update someone else's record by id as the other account; send `owner` and a privilege field in a body; use an expired token. Paste the first line of each response. A review without an attempted abuse is a screenshot of settings, and a reviewer will send the first request themselves.
 
 ### Backup assumed usable
 
-You have a backup job and you have never restored it. The dump is empty, or it is from a version you cannot read, or the restore instructions skip a step that lived in your head. Restore into a disposable database and read a row back. Time the restore. Write the command down. A backup you have not restored is a file you hope is a backup. The day you need it is a bad day to learn the command.
+There is a cron line or a dashboard toggle that says "backups: on," and nobody has ever restored one. The dump is empty because the URI pointed at the wrong database, or it was made by a tool version the server refuses, or the folder is on the same disk that just failed. The cause is confusing the existence of a file with the ability to read it. The fix is the drill, done today and written down: restore into a renamed database on another machine, count every collection, open one record, time it. Then the recovery policy is a sentence with numbers in it, and the next drill has something to compare against.
 
 ## Your turn
 
-**Guided Practice 1: The Test Forge**
+In `~/projects/<capstone-name>`, clean tree, nothing running except what each step starts.
 
-**Prompt:** Write a meaningful test suite for your capstone.
+1. `git status --short` prints nothing. `git tag rc-1 && git push origin rc-1`. Create `docs/release-candidate.md` with the sha and date on the first lines.
+2. Run `npm test` in `server/` with `tee` into `docs/evidence/12-3-jest.txt`. For each failure decide: test wrong about the contract, or bug found. Fix accordingly, commit, `git tag -f rc-1`, update the sha, rerun. Stop when the last line reads `Tests: 0 failed`.
+3. Run `npx playwright test` from the root with `tee` into `docs/evidence/12-3-e2e.txt`. If `e2e/` has no core-flow spec, write it from the 12-2 walk first. The last line reads `N passed`.
+4. Seed a second account. Send the read, delete, and update for the first account's record as the second account; send a body with `owner` and a privilege field; send an expired token to `/api/me`. Paste each command's first response line into the file. Every cross-account answer is 404 or 403; the extra fields never land; the expired token gets 401 with a JSON body.
+5. `curl -I` the public URL and paste the Helmet and `ratelimit` headers. If your limiter still says `max`, change it to `limit` with `standardHeaders: 'draft-7'` and `legacyHeaders: false`.
+6. Install the Database Tools if `mongodump --version` fails. Dump the live database into `backups/rc-1-<date>`, add `backups/` to `.gitignore`, restore with `--nsFrom`/`--nsTo` into `<db>_restore` locally, count with `mongosh`, open one record. Write the three numbers in the file. Drop the restore database.
+7. Redeploy the tag with `./deploy.sh` over ssh or `railway up`, walk the journey in a private window and on your phone over mobile data. Roll back to the previous tag, walk it, come forward, walk it again. Write the three sentences.
 
-**Instructions:**
-1. Create the test directory structure (unit, integration, e2e)
-2. Write 2 unit tests for a model method or utility function
-3. Write 2 integration tests for API endpoints using Supertest
-4. Write 1 E2E test for your most important user flow using Playwright
-5. Run all tests and make sure they pass
-
-**Success Criteria:** `npm test` runs without failures. At least 5 tests pass.
-**Time:** 30 minutes
-
-**Checkpoints:**
-- At 10 minutes: test directory structure created and at least one test file exists
-- At 20 minutes: unit tests and at least one integration test passing
-- At 30 minutes: all 5 tests passing when running `npm test`
-
-**Guided Practice 2: The Security Audit**
-
-**Prompt:** Harden your application against common attacks.
-
-**Instructions:**
-1. Install and configure Helmet.js
-2. Add rate limiting to your API routes
-3. Review every form and API endpoint for input validation
-4. Verify that no secrets are committed to GitHub (check .env, check git log)
-5. Set CORS to only allow your frontend domain in production
-
-**Success Criteria:** Helmet headers visible in browser DevTools. Rate limiting active. No secrets in git history.
-**Time:** 25 minutes
-
-**Checkpoints:**
-- At 10 minutes: Helmet and rate-limit packages installed and configured
-- At 20 minutes: input validation added to at least one critical endpoint
-- At 25 minutes: CORS configured and secrets verified clean
-
-**Guided Practice 3: The Launch**
-
-**Prompt:** Deploy your app and verify it works in production.
-
-**Instructions:**
-
-Option A: Deploy to VPS (using Unit 6 skills)
-1. SSH into your server
-2. Pull latest code from GitHub
-3. Install dependencies
-4. Set up environment variables on the server
-5. Configure Nginx reverse proxy
-6. Set up PM2 for process management
-7. Configure SSL with Let's Encrypt
-
-Option B: Deploy to Vercel/Railway (for simpler apps)
-1. Connect GitHub repository
-2. Configure environment variables
-3. Deploy with one click
-4. Set up custom domain
-
-**After deployment:**
-1. Open the deployed URL in a browser
-2. Run through the complete user flow on the live version
-3. Share the URL with a classmate and have them test it
-
-**Success Criteria:** App is live at a real URL. All features work in production. Someone else can use it.
-**Time:** 35 minutes
-
-**Checkpoints:**
-- At 15 minutes: deployment initiated and environment variables set
-- At 25 minutes: app accessible at deployment URL
-- At 35 minutes: core user flow tested and verified in production
-
-Take ten minutes.
-
----
+If `mongorestore` says `0 document(s) restored`, the dump folder path is one level off: point it at the folder that contains the database folder, not at the database folder itself.
 
 ## The quest
 
-**Independent Lab: Stripe, LLM, Domain, and Final Integration**
-
-**Objectives:**
-- Integrate Stripe payments and/or LLM features (if applicable)
-- Configure custom domain with HTTPS
-- Complete any remaining testing or security tasks
-
-**Requirements:**
-1. If your app has payments: integrate Stripe (Unit 10 patterns)
-   - Stripe Checkout or Payment Intents
-   - Test with Stripe test mode keys
-   - Webhook for payment confirmation (if needed)
-2. If your app has AI features: integrate LLM API (Unit 10 patterns)
-   - Server-side API calls only (never expose API keys to frontend)
-   - Cost control (set max tokens, rate limit AI endpoints)
-   - Graceful fallback if API is unavailable
-3. If neither applies: use this time on additional features or polish
-4. Point your custom domain to your deployed app (if applicable)
-5. Verify HTTPS is working (green lock in browser)
-6. Test the full URL: does yourapp.com load your product?
-
-**Hints:**
-- For Stripe, use test mode keys during development. Never use live keys until you are certain the flow works.
-- For LLM integration, set sensible max_tokens limits to avoid runaway costs.
-- If no custom domain, ensure the deployment URL works perfectly.
-
-**Stretch Goals:**
-- Set up a CI/CD pipeline (GitHub Actions) to run tests on every push
-- Add monitoring or logging (basic error tracking)
-- Set up a staging environment separate from production
-- Add database backups
-
-**Submission:** Deployed URL, plus screenshot of passing tests
-
-**End-of-Sprint Review**
-- Status check: Is your app deployed? Can you share a URL?
-- If YES: you have a live product on the internet. Let that sink in.
-- If NO: tonight's homework is to get deployed. This is non-negotiable for demo day.
-- Commit and push everything
-- Preview Sprint 4: "Tomorrow we polish, rehearse, and prepare to present. Demo day is next session."
-
-### Review the artifact
-
-Your deliverable is **A tested release candidate with a security review and deployment recovery drill**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-12-3/fig3-evidence)
+
+The deliverable is `docs/release-candidate.md`: the sha at the top, and under it, in order, the Jest and Playwright outputs, the security requests with their first lines, the backup drill with its three numbers, the deploy and rollback sentences, and a "Known issues" list of anything you found and chose not to fix before Sprint 4, each with a severity and a reproduction.
+
+Evidence to keep:
+
+- `docs/release-candidate.md` with every section filled against one sha.
+- `docs/evidence/12-3-jest.txt` and `docs/evidence/12-3-e2e.txt`, each from the final sha.
+- `docs/evidence/12-3-headers.txt` from `curl -I` against the public URL.
+- `docs/evidence/12-3-phone.png`, a screenshot from your phone on mobile data showing the core screen on the live URL.
+- The tag `rc-1` on GitHub pointing at the sha in the file.
+- A test added for every bug the review found, so each one has a line in the Jest output that proves it stays fixed.
+
+The live URL now runs `rc-1`. Sprint 4 polishes on top of it and tags `rc-2`; demo day records against whichever tag is live then.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The vulnerability quick reference is the longer list behind the five requests you sent today, the observability sheet is what to read before deciding what "broken" will mean once the app is live without you watching it, and the availability sheet turns your three recovery numbers into the language reviewers use for them.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Sessions 12.1 and 12.2 completed. Core product is functional (all features working end to end). Deployment environment ready (VPS from Unit 6, or Vercel/Railway account). Sprint 2 homework finished.
-**Materials:** Working capstone repo, Jest/Supertest/Playwright installed (or ready to install), Helmet.js and express-rate-limit packages, deployment platform credentials, SSL certificate tools, custom domain DNS access
+Sprint 4 is the last build session: a bug hunt in a private window and on the phone, a 404 page, loading and empty and success states on every screen that lacks them, a README someone can run from, and the recorded rehearsal of the five-minute demo. Before then, install nothing new and change nothing on `main`; write down, as you use the live URL over the next days, every rough edge you notice, with the screen it happened on. That list is Tuesday's first hour. Reread the deck in `docs/pitch-deck/` from 11-4 and mark every slide whose screenshot no longer matches the product.
 
-**Assignment: Sprint 3 Continuation**
-- **Objective:** Your app should be deployed, tested, and secured by the start of Sprint 4.
-- **Tasks:**
-  1. Ensure deployment is stable (app stays up, no crashes)
-  2. Add any remaining tests
-  3. Fix any security issues identified during the audit
-  4. Complete Stripe/LLM integration if applicable
-  5. Push all changes to GitHub and redeploy
-- **Submission:** Deployed URL, plus screenshot of passing tests
-- **Time Estimate:** 3-4 hours
-- **Due:** Before Session 12.4
-
-**Stretch Goals (Optional):**
-- Set up a CI/CD pipeline (GitHub Actions) to run tests on every push
-- Add monitoring or logging (basic error tracking)
-- Set up a staging environment separate from production
-- Add database backups
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://owasp.org/Top10/2025/)
-- [Official reference 2](https://playwright.dev/docs/best-practices)
+Nothing stays running on your machine. The live URL runs `rc-1` and keeps running; that is what the drill was for.

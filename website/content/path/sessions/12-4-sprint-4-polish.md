@@ -1,9 +1,9 @@
 ---
 editorial: true
 title: Sprint 4 — Polish
-subtitle: Final Touches and Presentation Prep
-hook: "A polished release, timed demo script, and tested presentation fallback. Fix friction in the core user journey."
-read: 60
+subtitle: Bug hunt, the small states, a README you can run from, and the rehearsal take
+hook: "The candidate is live. Sprint 4 hunts bugs as a stranger, gives every screen its loading, empty, and success sentences, adds the 404 page, writes a README someone can run from, and records the five-minute demo for the first time so you can watch it back before it counts."
+read: 55
 artifact: "A polished release, timed demo script, and tested presentation fallback"
 diagrams:
   - fig1-model
@@ -12,150 +12,239 @@ diagrams:
 docs:
   - https://www.w3.org/WAI/tutorials/forms/labels/
   - https://www.w3.org/WAI/tutorials/page-structure/
+  - https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/404
+  - https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes
+  - https://obsproject.com/
 say:
-  - "Polish: Fix friction in the core user journey."
-  - "Rehearse: Tell the problem, show the product, explain the decision."
-  - "Fallback: Prepare honest evidence for a network or service failure."
+  - "Fix the dead end before the font. A beautiful screen that loses the record is worse than a plain one that keeps it."
+  - "The demo is a script with a known account and known records. Live randomness is a bug you scheduled."
+  - "A recording is evidence of a past run. Say so when you play it."
 ---
 
 ## The hook
 
-Your app is deployed. It is tested. It is secured. Anyone on Earth can open a browser and use your product right now. Let that sink in. You built something real. You deployed it to the internet. You are already in the top 1% of people who say they want to build something.
+`rc-1` is live, tested, attacked, backed up, and rolled back once. Sprint 4 is the last day you change code, and the rule is the opposite of Sprint 2: nothing new, only better. You open the live URL as a person who has never seen it, on a laptop and on a phone, and you write down everything that made you pause. You fix the three that matter most, each with a before and after screenshot. Then every screen gets the sentences it is missing: what it says while loading, what it says when there is nothing, what it says when the save landed, and what it says when the URL is wrong.
 
-Sprint 4 is your final build session. This is not about adding new features. This is about making what you have shine. Bug fixes. Edge cases. UI polish. Loading states. Favicon. Page titles. All the little details that separate "a project" from "a product." And then, in the second half, we shift gears entirely. We practice your demo. You are going to rehearse your 5-minute presentation, get feedback from a partner, adjust your flow, and record a Loom video that serves as both a backup for demo day and a portfolio artifact you can share forever.
+The second half is a different kind of work. The five-minute demo that 12-5 collects gets written as a script with timestamps, rehearsed aloud against a timer, and recorded once today on the deployed URL with the fixture account. You watch it back. You will hear yourself say "um, let me just" at the exact moment the spinner was longer than you remembered, and that is why today's take is a rehearsal and not the one that counts. By the end the README runs from a fresh clone, the deck matches the product, `rc-2` is tagged and live, and `docs/demo-script.md` has a line for every thirty seconds.
 
-Tomorrow is Coronation Day. The Final Boss fight. You did not come this far to only come this far. Let's make sure you are ready.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *Polish is not the shine. It is removing the burr that catches the hand.*
 
 ## The idea
 
-### Apply professional presentation skills to deliver a compelling live product demonstration
-**You will:**
-- Structure a 5-minute live demo with a clear narrative arc covering problem, solution, features, tech stack, and call to action
-- Rehearse the demo with peers, incorporate feedback, and develop contingency plans for technical failures
-- Record a professional demo video as both a backup and a portfolio artifact
-- Finalize a pitch deck and README documentation for presentation and review
+Polish is ordered by what it costs the user, not by what it costs you. The order is: dead ends, then wrong answers, then missing feedback, then layout, then decoration. A dead end is a screen the user cannot leave or a button that does nothing. A wrong answer is a total, a count, or a label that lies. Missing feedback is a save with no confirmation or a list with no empty sentence. Layout is the wrap, the overflow, and the button under the thumb. Decoration is the font and the shadow. A sprint that starts at the bottom of that list and runs out of time has polished a dead end.
 
-**You will be able to:**
-- Deliver a polished, confident 5-minute live product demo to an audience of peers
-- Answer impromptu questions about product decisions, technical architecture, and future plans
-- Recover gracefully from technical failures during a live demonstration
-- Produce a portfolio-ready demo video, pitch deck, and comprehensive README
+The bug hunt is done as a stranger, which means a private window, the fixture account, a screen you did not design on, and a list of deliberate abuses: a title of four hundred characters, a body with `<b>` and an emoji in it, a double click on every button that sends something, the back button after a save, a protected URL pasted into a window with no session, and the Wi-Fi switched off between typing and saving. Each one is thirty seconds. Each one is a thing a real person will do in the first week, usually by accident.
 
----
+Every screen has four sentences, and they are not decorations. Loading: a short line or a skeleton, never a blank. Empty: what this screen will hold and the one action that puts something in it. Success: what just happened, in the past tense, with the thing's name in it. Error: what failed and what to press. The `status` string from 12-2 already decides which one shows; today is checking that every list and every form has all four written, in words a person would say.
 
-**Sprint Review: Show Your Deployed App**
+Two things live outside the app's screens and still belong to it. The 404: a path nobody mounted. The API already answers `{ "error": "not found" }` from the 404 middleware you wrote in 4-2; the client needs a page for the same event, because a pasted URL with a typo lands in the browser, not in curl. And the README: the first screen a reviewer sees, and the one that decides whether they can run the thing. A README is tested by cloning the repository into a new folder and following it with no memory.
 
-**Key Points:**
-- Open the deployed URL yourself, in a fresh window
-- Quick round: "My app is live at [URL] and here is what it does"
-- Identify any deployment issues (fix them FIRST before anything else)
-- Celebrate: "You have a deployed product on the internet."
+The demo is a script. It uses the fixture account, the three seeded records, and a path you have walked fifty times. It does not create a record with a random name, does not call the real provider for the first time on camera, and does not depend on the one list being empty. The timeline fits in four and a half minutes, so a slow load does not push the ending off the edge. The recording is evidence of a past run, and when you play it instead of clicking live, you say that.
 
-**Sprint 4 Planning**
-
-**Key Points:**
-- Today is about polish and presentation
-- Two tracks: first half = fix and polish, second half = rehearse and record
-- Identify your top 3 bugs or UI issues to fix
-- Update your Kanban board one last time
-
-**Bug Fix Priority Matrix:**
-- Fix immediately: anything that crashes the app or blocks the core user flow
-- Fix today: visual issues on the pages you will demo live
-- Fix if time allows: edge cases that only happen with unusual input
-- Skip for now: "nice to have" features that are not in MVP
-
----
+Napkin version: hunt as a stranger, fix three dead ends with before and after, write the four sentences on every screen, add the 404 page and a favicon and titles, make the README run from a fresh clone, retake the deck's screenshots, write the script with timestamps, record it once, watch it, tag `rc-2`, deploy.
 
 ![](diagram:session-12-4/fig1-model)
 
-### Polish removes friction from the outcome
+### The hunt, as a list
 
-Walk through the core journey as a first-time visitor. Can you identify the product's purpose, find the primary action, understand a form, and recover from an error? Fix confusing labels, missing feedback, inconsistent spacing, and broken navigation in that order of impact. A new animation is less valuable than a clear save confirmation when the user currently cannot tell whether their work persisted.
+Copy this into `docs/polish-log.md` and fill it in as you go:
 
-Use realistic content and accessibility checks. Long titles should wrap, empty states should offer a next action, and errors should identify the relevant field. Test keyboard focus and narrow screens. Respect reduced-motion preferences. The polish sprint is a chance to improve the experience, but it should not be the first time you discover structural accessibility problems.
+```markdown
+## Bug hunt — <date>, against rc-1 on https://YOUR-DOMAIN
 
-### Build the demo around one story
+| # | Screen | What I did | What happened | Cost (dead end / wrong / feedback / layout / decoration) | Fix? |
+|---|---|---|---|---|---|
+| 1 | | | | | yes / later |
 
-Introduce the user and the problem in a few sentences. Show the core workflow using a prepared synthetic account and known records. Explain the outcome before discussing the stack. The audience needs to understand why the product matters before it can appreciate an implementation choice. Choose one technical decision worth explaining and connect it to a visible benefit or risk.
+## Fixed this sprint
 
-Time the presentation aloud. A script that fits on a page can still take too long when you include loading, transitions, and audience reaction. Remove secondary features before rushing the main story. Keep a clear ending: what works, what you learned, and what comes next. Do not imply that a classroom prototype has operational guarantees you have not established.
+### Fix 1 — <one line>
+Before: docs/evidence/12-4-fix1-before.png
+After: docs/evidence/12-4-fix1-after.png
+Change: <file and the one-sentence description>
+```
 
-### Prepare the environment deliberately
+A filled row:
 
-Reset the synthetic demo data and verify the account immediately before rehearsal. Confirm the deployed revision, network connection, and external-service mode. Close unrelated tabs and notifications that could reveal private information. Keep secrets out of the terminal and provider dashboard views you intend to show. A public demo should use purpose-made fixtures, not a real user's records.
+```markdown
+| 3 | Dashboard | Pasted /dashboard into a window with no session | Blank white page, console says cannot read properties of null | dead end | yes |
+| 7 | Entry form | 400-character title | Title overflows the card on the phone, save works | layout | later |
+```
 
-Have a fallback that demonstrates the same outcome. A short recording, screenshots, or a local fixture mode can preserve the explanation during a network outage. Label it honestly when used. A recording is evidence of a prior run, not proof that the live service is currently available. Practice switching to the fallback so an interruption does not consume the entire presentation.
+Row 3 is a fix today. Row 7 is a fix if the three dead ends are done, otherwise it goes in Known issues. The log is the deliverable, not the fixes; a reviewer reading it learns what you found and what you chose, which is the judgment they are grading.
 
-### Rehearse questions as well as clicks
+### The 404 page and the two kinds of not-found
 
-Ask a peer to challenge the architecture, security boundary, and next milestone. Answer from the implementation and evidence. If you do not know, state the uncertainty and how you would investigate it. Avoid inventing scale numbers or claiming a model is always correct. The ability to explain limits is part of professional judgment.
+The API's 404 is JSON because its clients are programs. The client's 404 is a page because its clients are people. If your capstone uses React Router, the page is the last `<Route path="*">`. If it does not, and you have kept to the 4-10 shape of one `App` switching on state, the page is the branch for a `window.location.pathname` that none of your screens claim. Either way it has three things: a sentence that says the page does not exist, a link to the dashboard, and the same header as every other screen, so the user still knows where they are.
 
-Finish with a release checklist and a demo checklist kept separate. The release checklist concerns product behavior and operations. The demo checklist concerns fixtures, timing, narrative, and fallback. Passing one does not imply passing the other. The artifact includes the polished candidate, timed script, rehearsal notes, and fallback evidence, all tied to the same known revision.
+```jsx
+export default function NotFound() {
+  return (
+    <main>
+      <h1>There is no page here</h1>
+      <p>The address may be mistyped, or the entry it pointed at was removed.</p>
+      <p><a href="/">Back to your entries</a></p>
+    </main>
+  );
+}
+```
+
+On the VPS, Nginx's `try_files $uri /index.html` from 6-4 is what lets a deep link reach the client at all; on Railway the static serving does the same. The test is pasting `https://YOUR-DOMAIN/nothing-here` into a fresh window and seeing your page, not Nginx's.
+
+### Titles, favicon, and the four sentences
+
+`client/index.html` has a `<title>` that still says the Vite default on many capstones. Change it to the product's name. Add a favicon: a 32-pixel PNG in `client/public/`, linked with `<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">`. These are two minutes and they are the first two pixels a reviewer sees in the tab bar.
+
+The four sentences are a pass over every component that fetches or sends. For each one, find the `status` and read the branch for each value aloud. If a branch renders nothing, write the sentence. If a branch renders the raw error object, write the sentence. The success sentence after a save names the thing: `Saved "Scout the ridge"`. The empty sentence names the action: `No entries yet. Write your first one above.` The loading sentence is short and does not apologize. The error sentence ends with what to press.
+
+### The README someone can run from
+
+```markdown
+# <Product name>
+
+One sentence: who it is for and what they get.
+
+Live: https://YOUR-DOMAIN — sign in with demo@example.com / demo-pass-1 to try it.
+
+## Run it locally
+
+Requires Node 24 or newer and a local MongoDB on 27017.
+
+    git clone git@github.com:YOU/<capstone-name>.git
+    cd <capstone-name>/server
+    cp .env.example .env     # fill in every value
+    npm install
+    npm run seed
+    node --env-file=.env server.js
+
+In a second terminal:
+
+    cd <capstone-name>/client
+    npm install
+    npm run dev
+
+## Test it
+
+    cd server && npm test
+    npx playwright test        # from the repository root
+
+## Deploy it
+
+See docs/release-candidate.md for the candidate, the backup drill, and the rollback.
+
+## Environment variables
+
+| Name | Used for |
+|---|---|
+| MONGODB_URI | the database |
+| JWT_SECRET | signing tokens |
+| ... | ... |
+
+## What is not finished
+
+Three bullets, honest, from docs/release-candidate.md's Known issues.
+```
+
+The test of the README is the clone. `git clone` into `~/projects/readme-check`, follow the file with no memory, and note every step where you had to know something the file did not say. Delete the folder afterwards. The README is done when the clone runs the seed and the journey without a question.
+
+### The script and the take
+
+The script has a line per thirty seconds and a total under four and a half minutes:
+
+```text
+0:00  Name, product name, one sentence of who it is for.
+0:15  The problem, in the persona's words from the empathy map in docs/research.md.
+0:30  Screen share begins on the live URL, signed in as the fixture account.
+0:45  The core flow: create the record, show it, reload, it is still there.
+1:30  Feature two: the Should-have that makes the core flow worth it.
+2:30  Feature three, or the failure path: switch the Wi-Fi off, save, show the draft survive, switch it on, retry.
+3:30  Under the hood: one sentence of stack, one decision you made and why.
+4:00  What is next: the one experiment from docs/next-quest.md, or the next Should-have.
+4:30  The URL, the fixture credentials, thank you. Stop.
+```
+
+The failure path at 2:30 is the strongest thing you can show, because every reviewer has seen a thousand happy paths and ten that recover. Rehearse it twice before recording, because the moment the Wi-Fi comes back is the moment the retry has to land.
+
+Recording tools you already have: on macOS, QuickTime Player's File menu has New Screen Recording; on Windows, the Game Bar opens with the Windows key and G and records the active window; on Linux, and on either of the others if you want a cursor highlight, [OBS Studio](https://obsproject.com/) is free and records to a file. Loom is fine if you already have an account; check its plan page for the length cap before you depend on it. The file goes nowhere near the repository; it is large and it is not code. Upload it unlisted to a video host you already use, or keep it as a file for now, and put the link in the README under "Demo" once 12-5 has the final take.
 
 ## The demonstration
 
-**Live Coding Walkthrough: Bug Fixing and UI Polish Patterns**
+One worked example, on the capstone from the last three sprints, in order. Nothing is running at the start.
 
-**Setup:** Open a deployed app in an incognito browser window. Have DevTools open.
+The hunt first, on the live URL, in a private window, with the phone beside the laptop. Twenty minutes, ten rows in the log. Three are dead ends: the blank page on a protected route with no session; the Save button on the draft screen doing nothing when the adapter returns an empty summary, because the component branches on `summary.length` and the empty fixture never set `summary`; and the entry page after a delete, which stays on a record that no longer exists until you click away.
 
-**Steps:**
-1. Walk through systematic bug hunting:
-   - What happens with very long text input?
-   - What happens if a user double-clicks a submit button?
-   - What happens with special characters in input?
-   - What happens on a slow connection?
-   - What happens if the user is not logged in and tries to access a protected page?
-2. Demonstrate UI polish techniques:
-   - Adding a loading spinner for async operations
-   - Adding an empty state message ("No items yet. Create your first one!")
-   - Adding a success toast or confirmation after actions
-   - Setting favicon and page title
-   - Adding a custom 404 page
-3. Show the 5-minute demo structure:
-```
-[0:00] "Hi, I'm [name], and I built [product name]."
-[0:15] "The problem is [problem statement]."
-[0:30] "Here's how [product name] solves it." [START SCREEN SHARE]
-[0:45] [Show the core user flow - the ONE thing your app does best]
-[1:30] [Feature 1 walkthrough]
-[2:30] [Feature 2 walkthrough]
-[3:30] "Under the hood, this is built with [tech stack - keep it brief]."
-[4:00] "What's next: [future plans / call to action]."
-[4:30] "You can try it right now at [URL]. Thanks!"
-[5:00] [END - Q&A begins]
+Fix one: the protected screen checks for a token before it renders and shows the sign-in screen when there is none, which is the same `status` branch as everything else: `signedOut` is a state, not an exception.
+
+Fix two: the draft route already throws a 502 on an empty summary because `normalize` from 12-2 does; the component was reading `data.summary.length` before checking `status === 'error'`. Reorder the branches so the error sentence renders first.
+
+Fix three: after a 204 from the delete, the parent removes the record from the list and switches the view back to the list. Before and after screenshots of each, named as the log says, and three commits named for the fix.
+
+Then the sentences. Four components had a loading branch that returned `null`. Each one now returns a one-line paragraph. The list's empty branch said `No data`, which is a database word; it now says what to do. Then `index.html`'s title and a favicon, which is a two-minute diff. Then the 404 page, tested with a pasted URL on the phone.
+
+Then the README, tested with a clone:
+
+```bash
+cd ~/projects
+git clone git@github.com:YOU/<capstone-name>.git readme-check
+cd readme-check/server
+cp .env.example .env
 ```
 
-**Where you should be:** You understand the specific polish items to fix and the exact structure for their demo.
+The first question the file did not answer: what goes in `JWT_SECRET`? Any long random string, and the README now says so, with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` as the way to make one. The second: `npm run seed` failed because `.env` had no `MONGODB_URI`; the README now shows the local value, `mongodb://127.0.0.1:27017/capstone`. The third run of the clone had no questions. `rm -rf ~/projects/readme-check`.
 
-**Watch for this:**
-- Ask someone else to use the app and report what broke. Fresh eyes catch what you have stopped seeing.
-- Remember that the demo should show fewer features done well, not many features rushed. Less is more.
-- Write the opening line and say it out loud before you touch the slides.
+Then the deck. Every slide with a screenshot was taken in Unit 11 against the 10-4 build; they are retaken from the polished live URL at 1440 wide, dropped into `docs/pitch-deck/` under the same file names, and the slide that promised a feature the cut removed in 12-1 now describes the Should-have you shipped instead. The deck tells the truth about the product behind it.
 
-Take ten minutes.
+Then the script, written, then read aloud against a timer twice. The first read was five minutes and twenty seconds; feature three was cut to the failure path alone, and the second read was four minutes and ten. Then the take: `npm run seed` against the live database first so the three records are the known three, private window, signed in, recording on, script beside the screen. Four minutes and twenty-five seconds. Watched back once. Note from the watch: the reload at 0:45 took three seconds and the narration went quiet; next time, say what the reload proves while it happens.
 
----
+Then the tag and the deploy, the same way as 12-3:
 
-### Runnable checkpoint: a small model
+```bash
+cd ~/projects/<capstone-name>
+git status --short
+git tag rc-2 && git push origin rc-2
+```
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Over ssh, `git fetch --tags && git checkout rc-2 && ./deploy.sh`; or `railway up` from the tag. Journey in a private window, journey on the phone. `docs/release-candidate.md` gets a second section headed `rc-2` with the sha, and the Jest and Playwright runs against it, because three fixes touched components the browser test walks.
+
+Here is a small model you can run here. It times the script the way the rehearsal did and triages a bug list the way the log does. It proves that the timeline leaves room inside five minutes and that dead ends sort ahead of decoration. It does not record anything or open your live URL; the timer and the private window are yours.
 
 ```js run=checkpoint-12-4
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const demo = [{section: 'problem', seconds: 45}, {section: 'journey', seconds: 150}, {section: 'decision', seconds: 45}, {section: 'next', seconds: 30}];
-const total = demo.reduce((sum, part) => sum + part.seconds, 0);
+
+const script = [
+  { at: 0, section: 'problem', seconds: 45 },
+  { at: 45, section: 'journey', seconds: 150 },
+  { at: 195, section: 'decision', seconds: 45 },
+  { at: 240, section: 'next', seconds: 30 }
+];
+const total = script.reduce(function (sum, part) { return sum + part.seconds; }, 0);
 check(total === 270, 'Four-and-a-half minute rehearsal');
 check(total <= 300, 'Leave room inside a five-minute slot');
+check(script.every(function (part, i) {
+  return i === 0 || part.at === script[i - 1].at + script[i - 1].seconds;
+}), 'each section starts where the previous one ends');
+
+const COST = { 'dead end': 0, wrong: 1, feedback: 2, layout: 3, decoration: 4 };
+const found = [
+  { id: 7, cost: 'layout' },
+  { id: 3, cost: 'dead end' },
+  { id: 9, cost: 'decoration' },
+  { id: 5, cost: 'feedback' },
+  { id: 4, cost: 'dead end' }
+];
+const ordered = found.slice().sort(function (a, b) { return COST[a.cost] - COST[b.cost]; });
+check(ordered[0].cost === 'dead end' && ordered[1].cost === 'dead end', 'dead ends are fixed before anything else');
+check(ordered[ordered.length - 1].cost === 'decoration', 'decoration is last');
+
+const sentences = { loading: 'Loading your entries', empty: 'No entries yet. Write your first one above.', success: 'Saved "Scout the ridge"', error: 'Could not save. Press Save to retry.' };
+check(Object.keys(sentences).length === 4 && Object.values(sentences).every(function (s) { return s.length > 0; }), 'every screen has four sentences');
+
+function label(kind) { return kind === 'live' ? 'live' : 'recording of an earlier run'; }
+check(label('recording') !== 'live', 'a fallback is labelled as a fallback');
+
 console.log('ok: checkpoint-12-4');
 ```
 
@@ -165,164 +254,53 @@ console.log('ok: checkpoint-12-4');
 
 ### Cosmetics hide core defects
 
-The spacing is perfect and the save still fails when the title is empty. Polish on a broken path makes the broken path look intentional, so you stop noticing it. Fix the blocking behavior first: the error, the dead end, the wrong total. Then spend the time on type, spacing, and motion. A reviewer can forgive a plain screen that works. They cannot use a beautiful screen that loses the record. Decoration is what you do after the path survives its own edge cases.
+The spacing is perfect, the font is right, and the save still fails on an empty title with a blank screen. Polish on a broken path makes the broken path look intentional, so you stop seeing it, and the reviewer sees it first. The cause is starting at the bottom of the cost list because decoration is pleasant and dead ends are not. The fix is the log's cost column and its order: no layout or decoration row is touched while a dead end or a wrong answer is open. A plain screen that keeps the record is forgivable. A beautiful one that loses it is not usable.
 
 ### Demo relies on live randomness
 
-The demo creates a brand-new record with a random name, the network stalls, and you are standing in front of a spinner you did not rehearse. Use a prepared scenario: a known account, a known record, a fixture you can reset. Randomness and a live third party are ways for the demo to invent a new bug at the worst minute. If you want to show a live call, show it after the scripted path has already landed, and have the backup ready before you start.
+The demo creates a record with whatever name comes to mind, the adapter is in `provider` mode for the first time that day, and the recording has forty seconds of a spinner you did not rehearse. The cause is treating the demo as a use of the app instead of a script. The fix is the fixture account, the seed run before recording, a known record name, the provider shown only after the scripted path has landed, and the failure path rehearsed with the Wi-Fi toggle until the retry lands every time. Randomness is a bug you scheduled for the worst minute.
 
 ### Backup presented as live
 
-The live call fails, you switch to the recording, and you keep narrating it as if it were happening now. Say what it is. A recording, a fixture, a staging environment. The audience can respect a fallback. They cannot un-hear a claim that the click they just saw was live. Label the evidence in the sentence before you press play. The recovery is the professional part. The mislabel is the part that undoes the trust.
+The live call fails during the take, you switch to yesterday's recording of it working, and you narrate it as if it were happening now. The cause is embarrassment, and the fix is one sentence spoken before the switch: "this is a recording of the same step from earlier today." A reviewer can respect a fallback and will not forgive a claim the video cannot support. The label is the professional part. The recovery is the thing being demonstrated.
 
 ## Your turn
 
-**Guided Practice 1: The Bug Hunt**
+In `~/projects/<capstone-name>`, against the live `rc-1`, with a phone beside you.
 
-**Prompt:** Find and fix at least 3 bugs or UI issues in your deployed app.
+1. Create `docs/polish-log.md` from the template. Hunt for twenty minutes in a private window and on the phone, with the abuse list from the idea section. At least ten rows, each with a cost.
+2. Fix the three highest-cost rows. For each: before screenshot, change, after screenshot, commit named for the fix. Verify each fix in a fresh private window and on the phone before you call it done.
+3. Walk every component that fetches or sends and write the four sentences. Grep for `return null` inside a `status` branch; each hit becomes a sentence.
+4. Add the 404 page, set `<title>` to the product name, add a favicon. Paste `https://YOUR-DOMAIN/nothing-here` on the phone after deploy and see your page.
+5. Rewrite the README from the template. Clone into `~/projects/readme-check`, follow it with no memory, fix the file for every question, repeat until a clone has no questions. Delete the folder.
+6. Retake every screenshot in `docs/pitch-deck/` from the polished live URL. Change any slide that describes a feature the cut removed.
+7. Write `docs/demo-script.md` with a line per thirty seconds, under four and a half minutes. Read it aloud against a timer twice. Seed, record once, watch it back, write three notes at the bottom of the script.
+8. `git tag rc-2`, push, deploy with your existing path, walk the journey in a private window and on the phone. Rerun Jest and Playwright and add an `rc-2` section to `docs/release-candidate.md`.
 
-**Instructions:**
-1. Open your deployed app in an incognito window
-2. Go through every page and every feature as if you are a new user
-3. Write down every issue you find (broken layout, missing validation, unclear text, etc.)
-4. Fix the top 3 most impactful issues
-5. Have a classmate verify the fixes
-
-**Success Criteria:** At least 3 issues identified and fixed. Classmate confirms fixes work.
-**Time:** 25 minutes
-
-**Checkpoints:**
-- At 10 minutes: issues list created with at least 3 items
-- At 20 minutes: at least 2 fixes implemented
-- At 25 minutes: fixes deployed and verified by a classmate
-
-**Guided Practice 2: The Polish Pass**
-
-**Prompt:** Add professional-level UI polish to your app.
-
-**Instructions:**
-1. Add a loading spinner or skeleton for at least one async operation
-2. Add an empty state message for at least one list/collection view
-3. Add a success toast or message after a create/update/delete operation
-4. Add a custom 404 page
-5. Set the favicon and page title
-
-**Success Criteria:** App feels polished. No raw loading states or empty screens.
-**Time:** 25 minutes
-
-**Guided Practice 3: Documentation and README**
-
-**Prompt:** Finalize your project documentation.
-
-**Instructions:**
-1. Update README.md with:
-   - Project name and description
-   - Screenshot or GIF of the app
-   - Tech stack list
-   - Setup instructions (how to run locally)
-   - Environment variables needed
-   - API documentation (if applicable)
-   - Live demo link
-   - Author information
-2. Finalize your pitch deck from Unit 11
-3. Make any last updates based on what you actually built (vs what you planned)
-
-**Success Criteria:** README is comprehensive. Pitch deck reflects the actual product.
-**Time:** 20 minutes
-
----
+If the recording is over five minutes, cut feature three before you cut the failure path. The failure path is the part reviewers remember.
 
 ## The quest
 
-**Independent Lab: The Dress Rehearsal**
-
-**Objectives:**
-- Structure and practice your 5-minute live demo
-- Get feedback from a peer and refine your presentation
-- Record a Loom demo video as a backup and portfolio artifact
-
-**Requirements:**
-1. Write your opening line and the one user flow you will demo live
-2. Structure your demo using the 5-minute format:
-   - 0:00-0:30: Who you are and what the problem is (the hook)
-   - 0:30-1:30: Show the product (live demo of the core flow)
-   - 1:30-3:30: Walk through key features (2-3 features max)
-   - 3:30-4:30: Tech stack and architecture overview (brief)
-   - 4:30-5:00: What is next / call to action
-3. Pair up with a classmate and deliver your full 5-minute demo + 2-minute Q&A
-4. Receive feedback:
-   - Was the problem clear?
-   - Did the demo flow smoothly?
-   - Was anything confusing?
-   - Did anything break?
-5. Adjust your demo based on feedback
-6. Record a Loom (or similar) video of your demo (under 5 minutes)
-7. Share the Loom link in the class channel
-8. Do one final run-through of your demo on the deployed version
-9. Redeploy with all latest changes
-
-**Hints:**
-- Have a backup plan. Know what to do if something breaks during the live demo. ("Let me show you this other feature while that loads...")
-- Speak slowly and clearly. Nervousness makes people speed up.
-- Close all unnecessary tabs and notifications before recording.
-- The Loom video serves triple duty: backup if live demo breaks, portfolio artifact, and practice run.
-
-**Stretch Goals:**
-- Add analytics (basic page view tracking)
-- Create a landing page for your product (separate from the app itself)
-- Write a blog post about what you built and what you learned
-- Post about your project on social media (X/Twitter, LinkedIn)
-
-**Submission:** Come to Session 12.5 ready to present. Loom video link shared.
-
-**Final Deployment Check**
-- Redeploy with all latest changes
-- Verify the deployed version has all fixes and polish
-- Do one final run-through of your demo on the deployed version
-- Commit and push everything
-- "Tomorrow is Coronation Day. You did not come this far to only come this far. See you at the arena."
-
-### Review the artifact
-
-Your deliverable is **A polished release, timed demo script, and tested presentation fallback**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-12-4/fig3-evidence)
+
+The deliverable is `docs/demo-script.md` with its timestamps, the three notes from watching the rehearsal take, and a line at the top naming the tag it was recorded against. Beside it, `docs/polish-log.md` with its ten rows and three fixed entries.
+
+Evidence to keep:
+
+- `docs/polish-log.md` with the hunt table and three "Fixed this sprint" entries, each with `docs/evidence/12-4-fixN-before.png` and `-after.png`.
+- The 404 page component, the `<title>`, and the favicon in `client/public/`, in one commit.
+- The README, with a sentence in the polish log saying how many clone runs it took to have no questions.
+- Retaken screenshots in `docs/pitch-deck/` under their original names.
+- `docs/demo-script.md` with the timeline and the three notes.
+- The rehearsal recording as a file or an unlisted link, referenced from the script, labelled as the rehearsal take.
+- The tag `rc-2` live on the URL, with its section in `docs/release-candidate.md`.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The grit sheet is for the hour when you have watched yourself say "um" nine times and want to skip the second take, and the State sheet is the reason the four sentences were a lookup on `status` rather than four new booleans.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Sessions 12.1-12.3 completed. App deployed and accessible via URL. Tests passing. Security measures implemented. Pitch deck draft from Unit 11 ready. Sprint 3 homework finished.
-**Materials:** Deployed capstone app, pitch deck (Google Slides or PowerPoint), Loom account (or similar screen recording tool), timer for demo practice, notepad for feedback
+Coronation Day is Wednesday, and it is yours alone: the final take of the demo on the live `rc-2`, the written Q&A, the self-scored rubric, the handoff packet in `docs/demo-day.md`, and a README and a post that say exactly what you built and no more. Before then, read the three notes at the bottom of your script once a day and do one more timed read-through; do not re-record yet. Open your 8-1 `docs/research.md` and pick the one person among P0 through P3 who said the thing your product does; their words open the final take.
 
-**Assignment: Final Preparations**
-- **Objective:** Be 100% ready for Coronation Day.
-- **Tasks:**
-  1. Do one final test of your deployed app (every feature, every page)
-  2. Review your pitch deck one more time
-  3. Practice your demo out loud at least twice (time yourself)
-  4. Make sure your Loom video is recorded and the link works
-  5. Get a good night's sleep
-- **Submission:** Come to Session 12.5 ready to present
-- **Time Estimate:** 1-2 hours
-- **Due:** Before Session 12.5
-
-**Stretch Goals (Optional):**
-- Add analytics (basic page view tracking)
-- Create a landing page for your product (separate from the app itself)
-- Write a blog post about what you built and what you learned
-- Post about your project on social media (X/Twitter, LinkedIn)
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.w3.org/WAI/tutorials/forms/labels/)
-- [Official reference 2](https://www.w3.org/WAI/tutorials/page-structure/)
+Nothing runs on your machine between now and then. The live URL runs `rc-2`. Do not deploy anything else before the take; the recording and the tag must agree.

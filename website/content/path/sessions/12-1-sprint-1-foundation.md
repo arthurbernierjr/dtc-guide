@@ -1,215 +1,297 @@
 ---
 editorial: true
 title: Sprint 1 — Foundation
-subtitle: Core Features and Architecture
-hook: "A capstone foundation with one complete vertical slice and an architecture record. Choose one user and one valuable journey."
-read: 60
+subtitle: Reconcile the plan with the app that already runs
+hook: "Your capstone already exists, already runs, and is already deployed. Sprint 1 is the day you stop guessing which Must-haves are finished and prove it, one slice at a time, against the plan you wrote in Unit 8."
+read: 55
 artifact: "A capstone foundation with one complete vertical slice and an architecture record"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
-  - https://www.typescriptlang.org/docs/handbook/
   - https://react.dev/learn/thinking-in-react
+  - https://mongoosejs.com/docs/guide.html
+  - https://nodejs.org/api/cli.html#--env-fileconfig
+  - https://expressjs.com/en/guide/error-handling.html
+  - https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects
 say:
-  - "Scope: Choose one user and one valuable journey."
-  - "Foundation: Connect client, server, and persistence."
-  - "Proof: Demonstrate the slice with a reproducible fixture."
+  - "A Must-have is done when it works on the deployed URL, not when the route exists."
+  - "A slice is form, route, validation, persistence, and the refresh that agrees."
+  - "The fixture account is the one the demo will use, so seed it on purpose."
 ---
 
 ## The hook
 
-This is it. The final arc. The last five sessions of your 18-week isekai journey from "what is a terminal?" to "here is my deployed, tested, secured, revenue-ready product and here is the pitch deck to fund it." Everything you have learned, every skill you have leveled up, every late night debugging session, every moment you wanted to quit but did not. It all converges here.
+Week 20. Twenty-one weeks ago you opened a terminal for the first time. Today you open `~/projects/<capstone-name>`, and it is not empty. It has the research with its empathy map, the user stories, the sprint plan, and the product spec from Unit 8 in `docs/`, and a GitHub Projects board whose Sprint 1 column has never been emptied. It has the architecture record from 9-4. It has sign-in, a Stripe test checkout from 10-2, an AI feature from 10-3, Helmet and a rate limiter and validators from 10-1, tests shaped the way Unit 7 taught them, and it has been live on a real URL since 10-4. The final unit does not start from scratch. It finishes.
 
-You know that moment in every great anime when the protagonist walks into the final arena? The music swells. The crowd goes quiet. Every ally they have made along the way is watching. Every technique they have learned is about to be tested in one climactic battle. Naruto vs. Pain. Deku vs. Shigaraki. Goku vs. Frieza. Luffy vs. Kaido. This is YOUR version of that moment. You are walking into the arena. And the Final Boss? It is a live demo in front of real people. But unlike those anime characters, you are not fighting alone, and you already have every weapon you need.
+That sentence hides the real problem. You have been adding to this app for twelve weeks, and the honest answer to "which Must-haves are done?" is a shrug. Some of them work on the deployed URL. Some work on your laptop and nowhere else. Some have a route and no screen. Some have a screen that saves and then forgets on refresh. Sprint 1 turns the shrug into a table, picks the Must-have that is furthest from done, and finishes it as one complete slice: a form, a route, validation, a saved record, and the refresh that shows it. By the end of the session the plan and the app agree, and you have written down, once, what demo day actually asks of you.
 
-Unit 12 is not a lecture unit. It is a build unit. Four sprint sessions where you construct your capstone product from the ground up, using every single tool in your arsenal. Then one final session, the Coronation, where you stand up in front of your peers and show the world what you built. A live demo. A real pitch. A launched product. You came into this program as a civilian. You leave as a builder, a founder, and someone who can ship software. Let's go build something legendary. Let's finish this.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *You already crossed the river. Sprint 1 is turning around and counting the stones you stepped on.*
 
 ## The idea
 
-### Create a production-ready full stack web application through iterative sprint-based development
-**You will:**
-- Initialize a project repository with proper folder structure, environment configuration, version control, and development scripts
-- Design and implement database schemas using MongoDB/Mongoose modeling patterns with relationships, indexes, and seed data
-- Build an Express backend with routing architecture, middleware stack, authentication scaffolding, and CRUD operations
-- Construct a React frontend with component architecture, routing, state management, responsive design, and API integration
-- Integrate third-party APIs and external services including payment processing and/or LLM-powered features
+Unit 8 left you with four files in `docs/`: `research.md` with the interview logs for P0 through P3 and the combined empathy map, `user-stories.md`, `sprint-plan.md`, and `product-spec.md` at v1.1, revised before this session. The spec sorts your stories into Must, Should, Could, and Won't. The sprint plan slices them into four sprints mapped to the four sessions of this unit, each with hours, capacity, and slack, and its Sprint 1 scope reads "models and seed, auth, one resource end to end, pages stubbed." Most of that happened in Units 9 and 10, which is why today is a reconciliation rather than a build. The plan was a prediction. Twelve weeks later the app is the fact. Sprint 1 is reconciliation: for every Must-have, you find out which of four states it is in, and you write that state down next to the story. Deployed and working. Working locally only. Partly built. Not started. Nothing else counts as a status. "Mostly done" is not one of the four, because a reviewer cannot click on "mostly."
 
-**You will be able to:**
-- Plan and execute four development sprints using a Kanban board and backlog prioritization
-- Scaffold a complete MERN project from scratch with both client and server running concurrently
-- Implement full CRUD operations across the entire stack with proper error handling
-- Build responsive, polished user interfaces with loading states, empty states, and error feedback
-- Integrate at least one external service (Stripe, OpenAI/Claude, Google Maps, etc.) securely
+The second idea is the vertical slice. A feature is complete when one user action travels the whole way: a form the user can reach, a route that receives it, validation that rejects the bad case, a record that lands in MongoDB, and a reload that shows the saved record. Five parts. If any one is missing, the slice is not finished, however good the other four look. The most common missing part is the last one. The form sends, the UI updates, you move on, and nobody refreshes the page. On refresh the record is gone, because the client updated its own state and the route returned 500 behind it.
 
----
+The third idea is that a sprint is a list you can finish. Unit 8 taught capacity. The number of sessions in this unit is four, and each one is a sprint of one working day plus whatever evenings you give it. A Must-have list that needs ten of those days does not fit. Sprint 1 is where you cut, and the rule for cutting is coherence: the kept pieces must belong to one path a person can walk from sign-in to the valuable outcome your empathy map named. A sign-in with no feature behind it plus a checkout with no product in front of it is two fragments, not an MVP.
 
-**Capstone Kickoff: This Is Real**
-
-Welcome to the final unit. This is the culmination.
-
-**Key Points:**
-- Review the capstone requirements: deployed, tested, secured, presented
-- Set expectations: four build sprints, then demo day
-- Announce the demo day format: 5-minute demo + 2-minute Q&A
-- Say what you are building, in one sentence, before you open the editor
-- Isekai moment: "You have spent the whole series leveling up. Now you walk into the final dungeon. The difference? You are ready."
-
-**Sprint Planning: Review Your Product Spec**
-
-**Key Points:**
-- Pull up your product spec from Unit 8
-- Identify your MVP features (Must Have vs Should Have vs Could Have)
-- Create a sprint backlog for Sprint 1 (what MUST be done today)
-- Set up a simple Kanban board (GitHub Projects, Trello, or even sticky notes)
-- Prioritize ruthlessly: what is the smallest version of this product that works?
-
-**Sprint Planning Tips:**
-- Start with your Unit 8 product spec. Do NOT redesign your product now.
-- Focus on Must Have features only during Sprint 1 and 2. Should Have comes in Sprint 3/4.
-- If a feature takes more than 2 hours and is not core, cut it. Ship the MVP.
-- Use AI tools for boilerplate, not for architecture decisions. You decide what to build, AI helps you build it faster.
-
-**Two planning artifacts before you write code (30 minutes, not 3 days):**
-- **Wireframes:** Rough sketches of your main screens — boxes and labels on paper or in a free tool like Excalidraw. Wireframes force decisions ("wait, where does the user see their history?") while changes still cost seconds instead of hours. One sketch per major page is enough.
-- **An Entity-Relationship Diagram (ERD):** A boxes-and-arrows sketch of your data models and how they relate: `User —owns→ Project —contains→ Task`. Every arrow becomes a Mongoose reference or embedded document, and drawing it now surfaces the awkward questions ("can a task belong to two projects?") before they become schema rewrites. Ten minutes on an ERD saves days of refactoring.
-- Keep both in your repo (a `/docs` folder or photos in the README). They double as demo-day assets: planning artifacts signal professionalism to interviewers and investors alike.
-- Organize your Kanban board into three lists at minimum: **Icebox** (someday ideas — banished so they stop tempting you), **Current/MVP** (this sprint), **Completed** (your growing trophy shelf).
-
-**Common Misconceptions:**
-- "I need to build every feature I planned." No. You need to build the MVP. Cut scope ruthlessly.
-- "I should redesign my product spec now that I know more." Resist this urge. Build what you planned. Iterate after launch.
-- "Using AI tools is cheating." Using AI to scaffold boilerplate is strategic. Use it for setup, not for architecture decisions you do not understand.
-
----
+Napkin version: open the spec, grade every Must-have into one of four states, pick the worst one, finish it as a five-part slice with a seeded account, and update the plan so it describes the app. Then write the demo-day contract.
 
 ![](diagram:session-12-1/fig1-model)
 
-### Define the smallest capstone that still delivers value
+### The four states, and how to find them without lying
 
-Write one sentence naming the user, problem, and outcome. Then describe the shortest journey that produces that outcome. A capstone is not stronger because it includes every technology from the course. It is stronger when its decisions fit the problem and the core journey works reliably. Choose a scope you can build, test, deploy, and explain within the remaining sessions.
+You grade a Must-have by using it, not by reading the code. Open the deployed URL in a private window with no session. Walk the story the way the user story is written: "As a signed-in member, I can create a listing and see it on my dashboard." If you can do that on the live URL, it is **deployed**. If the live URL fails and `localhost` succeeds, it is **local**. If a route exists but the screen does not, or the screen exists but the route 404s, it is **partial**. If nothing exists, it is **missing**.
 
-Divide features into required for the core journey, useful after the core works, and deliberately deferred. Keep the first category small. Authentication, payments, or AI may be important for your chosen product, but do not add them only to decorate the architecture. If a course requirement calls for an integration, choose one that serves a real part of the journey and document its failure behavior.
+The private window matters. Your normal browser has a token in `sessionStorage` from 10-4 and a cached bundle. A fresh window is the first-time user, and the first-time user is the one the demo video will show.
 
-### Establish the repository as the shared memory
+Write the result into `docs/sprint-plan.md` under a new heading. Copy this into the file and fill it in:
 
-Create a clear README with the product goal, manual prerequisites, environment variable names, run commands, and test commands. Commit an example configuration without secret values. Record the runtime versions you choose after manual installation. A future reviewer should not need your terminal history to start the project. Keep setup instructions accurate as the implementation changes.
+```markdown
+## Sprint 1 — status on <date>, deployed commit <short sha>
 
-Use a small architecture record to explain the client, server, database, and external boundaries. Name the source of truth for each important piece of data. Choose a schema that supports the first slice, and avoid speculative abstractions for features you may never build. A simple module boundary with a clear contract is easier to extend than an elaborate framework whose purpose is unclear.
+| Story (Must) | State | Evidence | Missing part |
+|---|---|---|---|
+| | deployed / local / partial / missing | what you clicked and what happened | form / route / validation / persistence / refresh |
+```
 
-### Deliver one vertical slice before expanding
+A filled row looks like this:
 
-A foundation slice should accept a user action, validate it, persist the result, and display the saved state after refresh. Use a synthetic account and fixture. Observe each boundary with the browser network panel and application logs. The slice proves that the components cooperate; separate Hello World screens do not. Record the exact behavior as acceptance criteria.
+```markdown
+| M1 Sign in with email and password | deployed | logged in as demo@example.com on https://YOUR-DOMAIN, /api/me returned my id | none |
+| M2 Create an entry and see it after reload | partial | POST /api/entries returns 201 locally; dashboard shows it until refresh, then empty | refresh |
+| M3 Upgrade with test checkout | local | Stripe test card works on localhost; live URL returns 500 (webhook secret missing) | persistence |
+```
 
-Include one failure path in the slice. If saving fails, preserve the draft and explain the error. If validation rejects the input, leave stored data unchanged. If the user is not authorized, deny the operation on the server. These early boundaries establish patterns the rest of the capstone will copy. Fix them now before duplication makes the mistake expensive.
+The last column is the one that makes the table useful. "Partial" tells you nothing. "Partial, missing refresh" tells you where the bug is: the client is painting its own state and the server is not returning what it saved.
 
-### Make the next sprint easier to review
+### What a slice has to prove
 
-End with a small backlog ordered by dependencies and value. Each item should have a visible outcome and a test idea. Identify the largest uncertainty and a short experiment to resolve it. If an external provider is needed, create a fixture-based adapter so progress does not depend entirely on live credentials or availability.
+Walk the five parts for one story and keep a finger on each.
 
-The foundation review asks four questions: can someone start the project from the README, can the core slice be demonstrated, can the architecture be explained, and are the next steps small enough to finish? Attach evidence rather than answering only yes. The artifact is a working base with an honest plan, not a promise that all future complexity has already been solved.
+The **form** is a controlled component in `client/src`, the shape you built in 4-10. It holds a draft, it has a button, and it calls a function in the parent when it has a trimmed, non-empty value. The **route** is an Express handler mounted under `/api`, behind the bearer-token middleware from 4-8 and 10-1, in `server/`. **Validation** runs on the server with the `express-validator` chains from 10-1, and it answers 400 with `{ "error": "..." }`, the body shape every route has used since 4-11. **Persistence** is a Mongoose `create` or `save` on a model that has an `owner` field set from `req.user`, never from the body. The **refresh** is `GET /api/<resource>` filtered by `owner`, called from an effect on mount, so a reload paints what the database holds and not what the client remembers.
+
+The failure path is the sixth thing, and it is part of the slice. If the save fails, the draft stays in the field and the error is visible. If validation rejects the input, nothing is written. If the user is signed out, the route answers 401 before it touches the database. You built each of these once in Unit 4 and again in Unit 10. Today you check that your capstone's most important story has all of them, on the deployed URL, not on a diagram.
+
+### Folders, ports, and the two halves
+
+For this unit, `server/` is the Express half and `client/` is the Vite React half of `~/projects/<capstone-name>`, which is the layout 6-4's deploy script expects. If your capstone keeps the API at the repository root, drop the `cd server` from the commands and nothing else changes. The API listens on port 3000, the port it has used since 10-1. The Vite dev server is 5173. The hall-api on 4100 is a different project, and only one server runs at a time: stop anything else with Ctrl-C in its terminal before you start the capstone.
+
+Secrets live in `server/.env`, read by `node --env-file=.env server.js`, the way 4-5 taught, or through `dotenv` if you took the library option in 10-1. Either way, the names in `.env` are the names the deploy needs, and the deploy has no way to read your laptop. That is why this sprint commits `server/.env.example`: the same keys, empty values, so the README can say "copy this and fill it in" and mean it.
+
+### The fixture account is a product decision
+
+Every demo, every test, and every screenshot in this unit uses one account you create on purpose. Pick `demo@example.com` with a password you write in the README's development section, because this account never exists in a real user's hands. Seed it with a script, not by hand, so a fresh database on a fresh machine gets the same account and the same three or four records. `scripts/seed.js` connects with the same `MONGODB_URI` the server uses, deletes the fixture account's records, and re-creates them. It never touches other accounts. Re-running it is how you reset before a recording.
+
+### The demo-day contract, written once
+
+Demo day in this path is a solo event, and here is what it asks of you, so every later sprint is aimed at the same target. In 12-5 you deliver four things: a recorded five-minute demo of the deployed URL using the fixture account; a written Q&A, five questions a reviewer would ask, answered from your implementation; a self-scored 100-point rubric; and a handoff packet in `docs/demo-day.md` another developer could operate from. The pitch deck from 11-4 and the financial narrative sit next to those, updated to the product you actually shipped. Nothing on that list requires an audience in a room. All of it requires the app to work on the live URL.
 
 ## The demonstration
 
-**Live Coding Walkthrough: Repository and Project Setup**
+One worked example, on a capstone whose Must-have M2 is "a signed-in member creates an entry and sees it after reload." Your resource has a different name. The shape of the work is the same.
 
-**Setup:** Open terminal and VS Code. Have MongoDB Atlas dashboard ready.
+Start in the repository and look at what is actually there before touching anything.
 
-**Steps:**
-1. Initialize Git repository with proper .gitignore
-2. Set up folder structure:
+```bash
+cd ~/projects/<capstone-name>
+git status --short
+git log --oneline -5
+ls docs
 ```
-capstone/
-├── client/          # React frontend
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   ├── context/
-│   │   └── utils/
-│   └── package.json
-├── server/          # Express backend
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   ├── config/
-│   └── package.json
-├── .env.example
-├── .gitignore
-└── README.md
-```
-3. Configure environment variables (.env files with .env.example template)
-4. Set up development scripts (npm run dev for both client and server)
-5. Install core dependencies
 
-**Quick Reference - Express Server Setup:**
-```javascript
+```text
+ M client/src/App.jsx
+a41c9e2 deploy: production webhook url
+7d02f1b ai: timeout fallback
+...
+board-sprint-1.png  pitch-deck  product-spec.md  research.md  sprint-plan.md  user-stories.md
+```
+
+A modified file you do not remember is the first finding. Read the diff, then commit it or `git checkout -- client/src/App.jsx`. Sprint 1 starts from a clean tree, because the deployed commit is the thing you are grading against, and a dirty tree is a tree nobody deployed.
+
+Open the private window and grade. For M2 on the live URL: sign in as `demo@example.com`, create an entry, watch it appear, press reload. It is gone. Now the same on `localhost`. Stop any other server with Ctrl-C, then:
+
+```bash
+cd ~/projects/<capstone-name>/server
+node --env-file=.env server.js
+```
+
+```text
+listening on 3000
+mongo connected
+```
+
+In a second terminal, the route by hand, with a token from the login route.
+
+```bash
+TOKEN=$(curl -s -H 'Content-Type: application/json' \
+  -d '{"email":"demo@example.com","password":"demo-pass-1"}' \
+  http://localhost:3000/api/login | node -p 'JSON.parse(require("fs").readFileSync(0)).token')
+curl -s -i -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"title":"First entry","body":"It works on my machine"}' \
+  http://localhost:3000/api/entries
+```
+
+```text
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+
+{"_id":"6726...","title":"First entry","body":"It works on my machine","owner":"6701..."}
+```
+
+Then the read-back that the refresh depends on:
+
+```bash
+curl -s -H "Authorization: Bearer $TOKEN" http://localhost:3000/api/entries
+```
+
+```text
+[]
+```
+
+There it is. The create works and the list is empty. That is a partial slice with the persistence or refresh part missing, and the grade in the table is `partial`. Open the router. The `GET` handler filters by `owner: req.user.id`, and the `POST` handler saved `owner: req.user.userId`. Two names for the same claim, one from the 4-8 middleware and one from the 10-2 rename warning you read and did not apply everywhere. The list filter never matches. Pick one name, `req.user.userId` if that is what your middleware sets, and use it in both handlers.
+
+```js
+// server/routes/entries.js
 const express = require('express');
-const cors = require('cors');
+const { body, validationResult } = require('express-validator');
+const Entry = require('../models/entry');
+const auth = require('../middleware/auth');
+
+const router = express.Router();
+
+router.get('/', auth, async (req, res) => {
+  const entries = await Entry.find({ owner: req.user.userId }).sort({ createdAt: -1 });
+  res.json(entries);
+});
+
+router.post(
+  '/',
+  auth,
+  body('title').trim().isLength({ min: 1, max: 120 }),
+  body('body').trim().isLength({ max: 5000 }),
+  async (req, res) => {
+    const problems = validationResult(req);
+    if (!problems.isEmpty()) {
+      res.status(400).json({ error: problems.array()[0].msg || 'invalid entry' });
+      return;
+    }
+    const entry = await Entry.create({
+      title: req.body.title,
+      body: req.body.body,
+      owner: req.user.userId
+    });
+    res.status(201).json(entry);
+  }
+);
+
+module.exports = router;
+```
+
+If your capstone uses `import` and `export` because you followed 10-2's ES module files, the lines are the same with that syntax. Restart, run the two curls again, and the second one returns an array with one entry. Now the browser: reload the dashboard and the entry is there. The refresh agrees. The slice is complete, and the table row changes from `partial` to `local`.
+
+It becomes `deployed` only after the fix is live, and that is 12-3's job, not today's. Today you commit it and note it. The seed script comes next, because the fix is useless without an account to demonstrate it with.
+
+```js
+// server/scripts/seed.js
 const mongoose = require('mongoose');
-require('dotenv').config();
+const bcrypt = require('bcrypt');
+const User = require('../models/user');
+const Entry = require('../models/entry');
 
-const app = express();
+async function main() {
+  await mongoose.connect(process.env.MONGODB_URI);
+  const email = 'demo@example.com';
+  await User.deleteOne({ email: email });
+  const user = await User.create({
+    email: email,
+    passwordHash: await bcrypt.hash('demo-pass-1', 10)
+  });
+  await Entry.deleteMany({ owner: user._id });
+  await Entry.create([
+    { title: 'Scout the ridge', body: 'Three hours, clear sky.', owner: user._id },
+    { title: 'Copy the map', body: 'The west edge is torn.', owner: user._id },
+    { title: 'Relieve Ivo', body: 'He has been on the wall since dawn.', owner: user._id }
+  ]);
+  console.log('seeded ' + email + ' with 3 entries');
+  await mongoose.disconnect();
+}
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Routes
-app.use('/api/resources', require('./routes/resources'));
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB error:', err));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+main().catch(function (err) {
+  console.error(err.message);
+  process.exit(1);
+});
 ```
 
-**Quick Reference - React API Service:**
-```javascript
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
-export const fetchResources = async () => {
-  const response = await fetch(`${API_URL}/resources`);
-  if (!response.ok) throw new Error('Failed to fetch');
-  return response.json();
-};
+```bash
+cd ~/projects/<capstone-name>/server
+node --env-file=.env scripts/seed.js
 ```
 
-**Outcome:** Both client and server start without errors. README exists. .env.example is committed (but .env is gitignored).
+```text
+seeded demo@example.com with 3 entries
+```
 
-**Watch for this:**
-- Confirm the setup yourself before the next step. Everything else sits on it.
-- Common pitfall: forgetting to add .env to .gitignore before the first commit.
-- If you are using Vite, environment variables the frontend can read must start with `VITE_`.
+Add `"seed": "node --env-file=.env scripts/seed.js"` to the `scripts` in `server/package.json` so the README can say `npm run seed`. Then the example env file:
 
-Take ten minutes.
+```dotenv
+# server/.env.example — copy to server/.env and fill in every value
+PORT=3000
+MONGODB_URI=
+JWT_SECRET=
+PAGE_ORIGIN=http://localhost:5173
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+ANTHROPIC_API_KEY=
+```
 
----
+Only the keys your server actually reads. Grep for `process.env.` in `server/` and make the list match. A key the README promises and the code never reads is a lie that costs a reviewer twenty minutes.
 
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Here is a small model you can run here. It grades a status table the way the session does and checks a slice the way the demonstration did. It proves that the grading rules are mechanical and that a save without a refresh is not a finished slice. It does not open your repository, hit your deploy, or know your stories, so the real table is still yours to fill.
 
 ```js run=checkpoint-12-1
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const slice = {form: true, route: true, validation: true, persistence: true, refresh: false};
-const incomplete = Object.keys(slice).filter(key => !slice[key]);
+
+const STATES = ['deployed', 'local', 'partial', 'missing'];
+
+function grade(row) {
+  if (row.live) return 'deployed';
+  if (row.localOk) return 'local';
+  if (row.route || row.screen) return 'partial';
+  return 'missing';
+}
+
+const stories = [
+  { id: 'M1', title: 'sign in', live: true, localOk: true, route: true, screen: true },
+  { id: 'M2', title: 'create entry, see after reload', live: false, localOk: false, route: true, screen: true },
+  { id: 'M3', title: 'upgrade with test checkout', live: false, localOk: true, route: true, screen: true },
+  { id: 'M4', title: 'export ledger', live: false, localOk: false, route: false, screen: false }
+];
+
+const graded = stories.map(function (s) { return { id: s.id, state: grade(s) }; });
+check(graded.every(function (g) { return STATES.indexOf(g.state) !== -1; }), 'every story lands in one of four states');
+check(graded[0].state === 'deployed' && graded[3].state === 'missing', 'live wins over local, nothing built is missing');
+
+const order = { missing: 0, partial: 1, local: 2, deployed: 3 };
+const worst = graded.slice().sort(function (a, b) { return order[a.state] - order[b.state]; })[0];
+check(worst.id === 'M4', 'the sprint starts with the Must-have furthest from done');
+
+const slice = { form: true, route: true, validation: true, persistence: true, refresh: false };
+const incomplete = Object.keys(slice).filter(function (key) { return !slice[key]; });
 check(incomplete.length === 1 && incomplete[0] === 'refresh', 'A visual save is not yet a complete slice');
+
+const fixed = Object.assign({}, slice, { refresh: true });
+check(Object.keys(fixed).every(function (key) { return fixed[key]; }), 'a slice with the refresh is complete');
+
+const owners = { post: 'userId', get: 'userId' };
+check(owners.post === owners.get, 'the create and the list read the same claim');
+
 console.log('ok: checkpoint-12-1');
 ```
 
@@ -219,143 +301,51 @@ console.log('ok: checkpoint-12-1');
 
 ### Skeleton mistaken for progress
 
-The repo has folders for components, routes, models, and tests, and no user can do anything yet. The skeleton feels like a start. It is a filing system. Finish one action end to end, however ugly: create an account, save one record, see it after a reload. That slice will force the real decisions the folders were hiding, including auth, the shape of the data, and the error the form shows. A complete narrow path is progress. A complete directory tree is a promise.
+The repository has `controllers/`, `services/`, `hooks/`, and `context/`, and the status table has four rows of `partial`. Folders feel like work because they took an afternoon. They are a filing system, and a filing system does not answer a user story. The cause is building horizontally: a route for every resource, then a model for every resource, then a screen for every resource, with no story finished at any point. The fix is vertical. Pick one Must-have and carry it through all five parts before you touch a second one. The ugliest complete slice outranks the cleanest set of stubs, because the slice is what the demo shows and the stubs are what the demo cannot.
 
 ### Too many must-haves
 
-Every idea from the last eleven units is on the sprint list, and the week can hold two of them. You start five and finish zero, and the demo is a tour of half-wired screens. Pick one coherent minimum a person can finish, and write the rest down as not this sprint. Coherent means the kept pieces belong to the same path. A login with no app behind it, plus a payment button with no checkout, is two fragments. One finished path is the sprint.
+The spec has nine Musts and three sprints left. You grade honestly and five rows say `partial`. The cause is that Unit 8's MoSCoW was written before you knew how long anything takes, and it was never revised. The fix is a cut, made on paper, today. Keep the Musts that belong to the one path from sign-in to the outcome in your empathy map. Move the rest to Should and write the reason in the sprint plan. Coherent is the test: if a kept Must cannot be reached from another kept Must by a user clicking, one of them is a fragment and should move. A fragment finished is less valuable than a path finished.
 
 ### Architecture copied without need
 
-The app has a queue, a cache, and a microservice because a diagram you admired had them. You cannot say what breaks if you delete each one, which means you do not know what it is for. Start without it. Add a piece when you can name the pressure it relieves and the failure it adds. Each dependency is a thing you will debug at one in the morning. Justify it in a sentence next to the decision, or leave it out of this version.
+The 9-4 record has a queue, a cache, and a second service, and you cannot say what fails if each one is deleted. The cause is a diagram admired in a side quest and reproduced without a pressure to relieve. The fix is a sentence per box: what it is for, what breaks without it, what it costs to run. A box without a sentence comes out of the record and out of the code before the sprint ends. The architecture record is supposed to explain the app that exists. It is not a wish list, and demo day will ask you to defend every box on it.
 
 ## Your turn
 
-**Guided Practice 1: The Schema Forge**
+Work in `~/projects/<capstone-name>`. Stop any other server first.
 
-**Prompt:** Design and implement your database models using Unit 4 patterns.
+1. Clean the tree. Run `git status --short`. If anything prints, read the diff and commit it or discard it. `git log --oneline -1` is your current commit; write the short sha at the top of the status table.
+2. Grade every Must-have in a private window on the live URL, then on `localhost`. Add the Sprint 1 status table to `docs/sprint-plan.md` with one row per Must. Every row has one of the four states and, if not `deployed`, the missing part by name.
+3. Cut. If more than three rows are `partial` or `missing`, move Musts to Should until one coherent path remains. Record each move in the sprint plan with one sentence of reason, and move the matching cards on the GitHub Projects board from 8-2: `deployed` rows go to Done, the row you are about to finish goes to In Progress, everything else waits in Backlog or Sprint 1.
+4. Pick the row furthest from done and finish its slice. Run the two curls from the demonstration against your own route, with your own resource name. The read-back after the create must list the record. In the browser, create one and reload. It must still be there.
+5. Write `server/scripts/seed.js` for `demo@example.com` and at least three records. Add `npm run seed`. Run it twice. The second run prints the same line and the database does not grow.
+6. Commit `server/.env.example` with every key your server reads and nothing it does not. Confirm `.env` is in `.gitignore` with `git check-ignore server/.env`, which prints the path if it is ignored and nothing if it is not.
+7. Open your 9-4 architecture record. For every box, add one sentence of what it is for. Delete boxes that get no sentence.
 
-**Instructions:**
-1. Identify all data entities your app needs (users, products, posts, etc.)
-2. Write Mongoose schemas with proper types, required fields, and defaults
-3. Add at least one relationship (reference or embed)
-4. Create a seed data script that populates the database with test data
-5. Run the seed script and verify data in MongoDB Compass or Atlas
-
-**Success Criteria:** Models are created. Seed script runs. Data appears in the database.
-**Time:** 30 minutes
-
-**Checkpoints:**
-- Checkpoint: at least one schema file exists, with its fields defined
-- At 20 minutes: relationships between models should be established (embedded documents or ObjectId references)
-- At 30 minutes: seed script has run and data is visible in MongoDB
-
-**Watch for this:** Common pitfall is over-engineering the schema. Start simple and iterate later. Two to three models is enough for Sprint 1.
-
-**Guided Practice 2: Core Backend**
-
-**Prompt:** Build the Express server with routing architecture, middleware, and basic CRUD endpoints.
-
-**Instructions:**
-1. Express server with middleware stack (cors, body-parser, morgan)
-2. At least 2 route files connected
-3. Basic CRUD endpoints for primary resource
-4. Error handling middleware
-5. Connect to MongoDB (Atlas or local)
-6. Test endpoints with Thunder Client or curl
-
-**Success Criteria:** Server starts. At least one route returns data from MongoDB. Error handling middleware catches errors.
-**Time:** 30 minutes
-
-**Checkpoints:**
-- At 10 minutes: Express server starts with middleware configured
-- At 20 minutes: at least one GET endpoint returns data from the database
-- At 30 minutes: basic CRUD (Create and Read minimum) working and tested
-
-**Watch for this:** Use RTTPOC prompts to generate boilerplate routes if helpful, but you have to be able to explain what each line does.
-
-Take ten minutes.
-
----
+If a `GET` after a `POST` comes back empty, you are in the demonstration's bug. Print `req.user` in both handlers and compare the key names before you touch the model.
 
 ## The quest
 
-**Independent Lab: The First Connection**
-
-**Objectives:**
-- Get the React frontend running with routing and component architecture
-- Connect the frontend to the backend and verify the full data loop
-- Set up authentication scaffolding (if applicable)
-
-**Requirements:**
-1. React app with React Router and at least 3 page components stubbed out
-2. Navigation component with working links
-3. Basic layout structure with consistent styling
-4. Connect to backend API and successfully fetch and display data
-5. Set up state management (Context API or similar)
-6. If your app requires auth: set up JWT or session-based auth with registration and login endpoints, protected route middleware, and frontend auth context
-7. If your app does NOT require auth: use auth time on additional core features
-8. Commit and push everything to GitHub
-
-**Hints:**
-- Use AI tools to scaffold component files if it saves time, but understand the structure
-- Test the full loop: React fetches from Express, Express queries MongoDB, data returns to React and renders
-- Add a proxy setting or use full URLs to avoid CORS issues during development
-
-**Stretch Goals:**
-- Set up environment-based configuration (development vs production)
-- Add input validation to your API endpoints using Joi or express-validator
-- Write your first test file (even if it just tests that the server starts)
-
-**Submission:** GitHub repo link with updated README. Both client and server should start without errors.
-
-**End-of-Sprint Review**
-- Quick standup: what did you get done? What is blocked?
-- Commit and push everything to GitHub
-- Update your Kanban board
-- Preview Sprint 2 goals: "Tomorrow we finish features and integrate everything"
-- Homework reminder: keep building tonight
-
-### Review the artifact
-
-Your deliverable is **A capstone foundation with one complete vertical slice and an architecture record**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-12-1/fig3-evidence)
+
+The deliverable is the Sprint 1 section of `docs/sprint-plan.md`, with the status table filled from the live URL and the sprint's one finished slice recorded under it. Under the table, write the demo-day contract in your own words: the four things 12-5 collects and the URL and account the demo will use.
+
+Evidence to keep in the repository:
+
+- `docs/sprint-plan.md` with the Sprint 1 status table, the commit sha it was graded against, and every cut explained.
+- The two curl commands and their output for the finished slice, pasted under the table as a `text` block.
+- A screenshot named `docs/evidence/12-1-refresh.png` of the dashboard after a reload, showing the record you created.
+- `server/scripts/seed.js`, `npm run seed` in `server/package.json`, and `server/.env.example`.
+- The updated architecture record with one sentence per box.
+- One commit with a message that names the story: `sprint 1: finish M2 create-and-reload slice`.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+SOLID is the vocabulary for the "what breaks if I delete this" question you just asked of every box, and the system-design primer is where the client, server, and persistence boundaries you reconciled today were first drawn.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** All of Units 1-11 completed. Product spec and sprint plan from Unit 8 finalized. Pitch deck draft from Unit 11 ready. Development environment fully configured (Node.js, MongoDB, VS Code, Git, deployment tools). Domain name purchased if using custom domain.
-**Materials:** Product spec from Unit 8, pitch deck from Unit 11, GitHub account, MongoDB Atlas account, VS Code, terminal, Kanban board tool (GitHub Projects, Trello, or sticky notes)
+Sprint 2 builds the Should-haves that survived the cut, and it gives the core flow an explicit state machine so a double click, a failed save, and an empty list each do one predictable thing. Before then, finish the rows that were `local` and not `deployed` if the fix is small, and leave the deploy itself for 12-3. Read [Reacting to Input with State](https://react.dev/learn/reacting-to-input-with-state) once more with your form open; next session the `status` string from 4-10 grows into the thing that decides what the button does.
 
-**Assignment: Sprint 1 Continuation**
-- **Objective:** Continue building your capstone. You should arrive at Sprint 2 with core architecture complete.
-- **Tasks:**
-  1. Complete all database models and seed data
-  2. Finish core backend routes (all CRUD operations for at least one resource)
-  3. Complete authentication flow (if applicable)
-  4. Stub out all major React components and pages
-  5. Push all work to GitHub with meaningful commit messages
-- **Submission:** GitHub repo link with updated README
-- **Time Estimate:** 3-4 hours
-- **Due:** Before Session 12.2
-
-**Stretch Goals (Optional):**
-- Set up environment-based configuration (development vs production)
-- Add input validation to your API endpoints using Joi or express-validator
-- Write your first test file (even if it just tests that the server starts)
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.typescriptlang.org/docs/handbook/)
-- [Official reference 2](https://react.dev/learn/thinking-in-react)
+Nothing stays running between sessions. Stop the server with Ctrl-C. Your deployed URL stays up on its own, which is the point of having one.

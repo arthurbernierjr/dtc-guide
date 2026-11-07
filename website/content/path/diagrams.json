@@ -2732,8 +2732,8 @@
   "session-12-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 12.1: The working model. Scope: Choose one user and one valuable journey. Foundation: Connect client, server, and persistence. Proof: Demonstrate the slice with a reproducible fixture.",
-    "caption": "The working model: Scope → Foundation → Proof",
+    "alt": "Three-step flow for Sprint 1: Scope, grading each Must-have against the live URL; Foundation, finishing one vertical slice through client, server, and database; Proof, a reload that shows the saved record for a seeded fixture account.",
+    "caption": "Sprint 1 in three moves: grade the Must-haves on the live URL, finish one slice end to end, prove it with a reload as the fixture account.",
     "props": {
       "session": "12.1",
       "title": "The working model",
@@ -2758,8 +2758,8 @@
   "session-12-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 12.1: Diagnose the failure. Skeleton mistaken for progress: Complete one real user action end to end. Too many must-haves: Choose a coherent minimum and defer extras. Architecture copied without need: Explain each dependency and boundary.",
-    "caption": "Diagnose the failure: Skeleton mistaken for progress → Too many must-haves → Architecture copied without need",
+    "alt": "Three Sprint 1 failures with their fixes: a folder skeleton mistaken for progress, fixed by finishing one user action end to end; too many Must-haves, fixed by cutting to one coherent path; architecture copied without need, fixed by one sentence of purpose per box.",
+    "caption": "Where Sprint 1 goes wrong: stubs instead of a slice, a Must list the sprint cannot hold, and boxes in the architecture nobody can defend.",
     "props": {
       "session": "12.1",
       "title": "Diagnose the failure",
@@ -2784,8 +2784,8 @@
   "session-12-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 12.1: evidence to collect. Checkpoint assertion: A visual save is not yet a complete slice Boundary assertion: Explain the rejected or incomplete case Manual handoff: A capstone foundation with one complete vertical slice and an architecture record",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for Sprint 1: the browser checkpoint grades a status table and refuses a save without a refresh; the boundary case explains a rejected or incomplete slice; the manual handoff is the status table, the seeded fixture account, and the architecture record in the repository.",
+    "caption": "What counts: the checkpoint models the grading rules, the boundary case names the missing part, and the repository holds the table, the seed script, and the record.",
     "props": {
       "session": "12.1",
       "title": "Prove the handoff",
@@ -2810,8 +2810,8 @@
   "session-12-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 12.2: The working model. Build: Implement the prioritized user outcomes. Integrate: Connect real boundaries through explicit contracts. Recover: Handle empty, invalid, pending, and failed states.",
-    "caption": "The working model: Build → Integrate → Recover",
+    "alt": "Three-step flow for Sprint 2: Build, finishing the surviving Should-haves as full slices; Integrate, moving each provider behind an adapter with a fixed response shape; Recover, giving every form and list explicit idle, pending, saved, error, empty, and loading states.",
+    "caption": "Sprint 2 in three moves: build the Should-haves that survived the cut, put every provider behind an adapter, and make every state on the core flow explicit.",
     "props": {
       "session": "12.2",
       "title": "The working model",
@@ -2836,8 +2836,8 @@
   "session-12-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 12.2: Diagnose the failure. Features work only separately: Run the complete journey after each integration. Optimistic UI loses data: Reconcile with server results and preserve drafts. Provider dependency blocks progress: Use fixtures and keep a manual smoke test.",
-    "caption": "Diagnose the failure: Features work only separately → Optimistic UI loses data → Provider dependency blocks progress",
+    "alt": "Three Sprint 2 failures with their fixes: features that work only when visited separately, fixed by walking the whole journey after each change; optimistic UI that throws away the draft on failure, fixed by clearing the draft only on success; a provider outage or missing key that blocks the build, fixed by fixtures behind the adapter.",
+    "caption": "Where Sprint 2 goes wrong: parts tested instead of the journey, a draft lost on failure, and a build that stops because a provider did.",
     "props": {
       "session": "12.2",
       "title": "Diagnose the failure",
@@ -2862,8 +2862,8 @@
   "session-12-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 12.2: evidence to collect. Checkpoint assertion: Duplicate submission does not start another transition Boundary assertion: Failure has a recovery route Manual handoff: A feature-complete core journey with integration and recovery evidence",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for Sprint 2: the browser checkpoint drives the transition table and shows a duplicate send does nothing and a failure has a retry; the boundary case is the error branch of the adapter; the manual handoff is the rewritten form, the fixtures, and screenshots at 375 and 1440 pixels.",
+    "caption": "What counts: the checkpoint proves the table's rules, the adapter's error modes prove the boundary, and the repository holds the form, the fixtures, and the two-width screenshots.",
     "props": {
       "session": "12.2",
       "title": "Prove the handoff",
@@ -2888,8 +2888,8 @@
   "session-12-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 12.3: The working model. Candidate: Freeze a known revision for review. Harden: Exercise risks and fix reproducible failures. Recover: Verify deployment, backups, and rollback.",
-    "caption": "The working model: Candidate → Harden → Recover",
+    "alt": "Three-step flow for Sprint 3: Candidate, tagging one commit and writing its sha on every piece of evidence; Harden, running the test tree and sending cross-account requests against that sha; Recover, dumping the live database, restoring it into a disposable local database, redeploying, and rolling back once.",
+    "caption": "Sprint 3 in three moves: freeze one sha, test and attack exactly that sha, then prove the backup restores and the deploy rolls back.",
     "props": {
       "session": "12.3",
       "title": "The working model",
@@ -2914,8 +2914,8 @@
   "session-12-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 12.3: Diagnose the failure. Tests target a different revision: Record the exact candidate identifier. Security review only checks headers: Test ownership and business rules. Backup assumed usable: Restore a disposable copy and verify it.",
-    "caption": "Diagnose the failure: Tests target a different revision → Security review only checks headers → Backup assumed usable",
+    "alt": "Three Sprint 3 failures with their fixes: tests that ran against a different revision, fixed by recording the sha before any run; a security review that only reads headers, fixed by sending ownership and mass-assignment requests as a second account; a backup assumed usable, fixed by restoring into a renamed database and counting every collection.",
+    "caption": "Where Sprint 3 goes wrong: evidence without a sha, a header dump mistaken for a review, and a backup nobody has restored.",
     "props": {
       "session": "12.3",
       "title": "Diagnose the failure",
@@ -2940,8 +2940,8 @@
   "session-12-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 12.3: evidence to collect. Checkpoint assertion: Passing evidence from another revision does not qualify the candidate Boundary assertion: Explain the rejected or incomplete case Manual handoff: A tested release candidate with a security review and deployment recovery drill",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for Sprint 3: the browser checkpoint rejects passing evidence from another revision and a restore whose counts do not match; the boundary case is a cross-account request that must not answer 200; the manual handoff is the release-candidate file with Jest, Playwright, security, drill, and rollback sections against one sha.",
+    "caption": "What counts: the checkpoint models the evidence rules, the cross-account request is the boundary, and docs/release-candidate.md holds every result under one sha.",
     "props": {
       "session": "12.3",
       "title": "Prove the handoff",
@@ -2966,8 +2966,8 @@
   "session-12-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 12.4: The working model. Polish: Fix friction in the core user journey. Rehearse: Tell the problem, show the product, explain the decision. Fallback: Prepare honest evidence for a network or service failure.",
-    "caption": "The working model: Polish → Rehearse → Fallback",
+    "alt": "Three-step flow for Sprint 4: Polish, hunting bugs as a stranger and fixing dead ends before decoration; Rehearse, writing a timestamped five-minute script and recording one take on the live URL; Fallback, labelling any recording played in place of a live step as a recording.",
+    "caption": "Sprint 4 in three moves: fix what costs the user most, rehearse a scripted demo against a timer, and prepare an honestly labelled fallback.",
     "props": {
       "session": "12.4",
       "title": "The working model",
@@ -2992,8 +2992,8 @@
   "session-12-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 12.4: Diagnose the failure. Cosmetics hide core defects: Resolve blocking behavior before decoration. Demo relies on live randomness: Use a controlled synthetic scenario. Backup presented as live: Label recorded or simulated evidence clearly.",
-    "caption": "Diagnose the failure: Cosmetics hide core defects → Demo relies on live randomness → Backup presented as live",
+    "alt": "Three Sprint 4 failures with their fixes: cosmetics that hide a dead end, fixed by ordering the bug log by user cost; a demo that depends on live randomness, fixed by the seeded fixture account and a known record; a fallback presented as live, fixed by saying the word recording before pressing play.",
+    "caption": "Where Sprint 4 goes wrong: polishing a broken path, improvising on camera, and narrating a recording as if it were live.",
     "props": {
       "session": "12.4",
       "title": "Diagnose the failure",
@@ -3018,8 +3018,8 @@
   "session-12-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 12.4: evidence to collect. Checkpoint assertion: Four-and-a-half minute rehearsal Boundary assertion: Leave room inside a five-minute slot Manual handoff: A polished release, timed demo script, and tested presentation fallback",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for Sprint 4: the browser checkpoint totals a four-and-a-half minute script and sorts dead ends ahead of decoration; the boundary case is a script that must leave room inside five minutes; the manual handoff is the polish log with before and after screenshots, the README that runs from a clone, and the rehearsal take.",
+    "caption": "What counts: the checkpoint times the script and ranks the bugs, the five-minute slot is the boundary, and the repository holds the log, the README, and the rehearsal recording.",
     "props": {
       "session": "12.4",
       "title": "Prove the handoff",
@@ -3044,8 +3044,8 @@
   "session-12-5/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 12.5: The working model. Demonstrate: Show the outcome with evidence and honest limits. Handoff: Package setup, operations, and known issues. Continue: Choose the next learning or product experiment.",
-    "caption": "The working model: Demonstrate → Handoff → Continue",
+    "alt": "Three-step flow for Coronation Day: Demonstrate, the final recorded take on the live URL with the limits said aloud; Handoff, the packet in docs/demo-day.md with the release sha, variable names, commands, backup drill, known issues, and watcher; Continue, one experiment with a number and a date in docs/next-quest.md.",
+    "caption": "Coronation Day in three moves: show the outcome with its limits, hand the product to the person who will run it, and choose one experiment that can fail.",
     "props": {
       "session": "12.5",
       "title": "The working model",
@@ -3070,8 +3070,8 @@
   "session-12-5/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 12.5: Diagnose the failure. Launch treated as the end: Assign maintenance and follow-up responsibilities. Feedback becomes an unranked wish list: Separate defects, needs, and suggestions. Portfolio overclaims: Describe your contribution and verification accurately.",
-    "caption": "Diagnose the failure: Launch treated as the end → Feedback becomes an unranked wish list → Portfolio overclaims",
+    "alt": "Three Coronation Day failures with their fixes: launch treated as the end, fixed by naming who watches the live URL and how often; feedback left as an unranked wish list, fixed by binning each comment as defect, need, or suggestion; a portfolio that overclaims, fixed by linking every README sentence to its evidence and listing the unfinished items beside the finished ones.",
+    "caption": "Where Coronation Day goes wrong: no watcher after launch, feedback nobody ranked, and a README the repository cannot support.",
     "props": {
       "session": "12.5",
       "title": "Diagnose the failure",
@@ -3096,8 +3096,8 @@
   "session-12-5/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 12.5: evidence to collect. Checkpoint assertion: Continuation is a deliberate deliverable Boundary assertion: Explain the rejected or incomplete case Manual handoff: A final capstone handoff, demo retrospective, and measurable next-step plan",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for Coronation Day: the browser checkpoint finds the one missing handoff field and zeroes rubric lines without evidence; the boundary case is an experiment with no number, which cannot fail and so is not a plan; the manual handoff is docs/demo-day.md, docs/next-quest.md, the final take, the release, and the README.",
+    "caption": "What counts: the checkpoint models the packet and the rubric, a plan without a number is the boundary, and the repository holds the take, the packet, the experiment, and the release.",
     "props": {
       "session": "12.5",
       "title": "Prove the handoff",
