@@ -255,3 +255,83 @@ Every new session fills its rows in this table before it ships (the file names, 
 ### R10.1 Completed curriculum figures
 
 Sessions 2.5 and 4.1–12.5 each include three authored figures: working model, failure diagnosis, and handoff evidence. `website/content/path/diagrams.json` stores their complete labels, captions, alt text, and input props. `diagrams/src/CurriculumDiagram.tsx` provides responsive flow, diagnosis, and evidence layouts using the existing frame and typography. Each figure is rendered at 1600×900 and 900×1200 by `node diagrams/scripts/render-curriculum.cjs` using the installed browser. No toolchain download is required. The path map now marks all 54 sessions as written.
+
+
+## R12 · The learner's ledger (added 2026-11-07)
+
+The single source of truth for every name a session may use. A session that disagrees is wrong and gets edited to match.
+
+disagrees is wrong and gets edited to match.
+
+### Where things live
+- Every project folder from Unit 2 on lives in `~/projects/` (created by the Unit 1 dotfiles `setup.sh`; 2-1 says so
+  explicitly and creates it if missing: `mkdir -p ~/projects`).
+- One repo per project; `git init` only inside its own folder (never nested inside another repo).
+- Only ONE server runs at a time unless a session says otherwise. Each session that starts a server first says:
+  "Stop the previous server with Ctrl-C in its terminal." Ports are still distinct so a forgotten server fails loudly.
+
+### Tools, installed once, by name
+| When | What | How (official source only) |
+|---|---|---|
+| 1-1 | Git, Node (24 LTS or newer, via the official installer or `nvm`; never `apt install nodejs`), VS Code with the `code` command | nodejs.org/en/download, git-scm.com, code.visualstudio.com |
+| 1-4 | GitHub account, SSH key, `gh` CLI | github.com, cli.github.com |
+| 2-1 | VS Code **Live Server** extension (ritwickdey.LiveServer) | marketplace; 2-1 installs it, nothing earlier does |
+| 4-1 | `curl` (present on macOS/WSL/Linux; say so) | — |
+| 4-4 | MongoDB Community Server + `mongosh`, local, port 27017 | mongodb.com/docs/manual/installation (one link per OS); Atlas is NOT used before Unit 6 |
+| 4-5 | `.env` files read with Node's built-in `node --env-file=.env server.js` (no dotenv package until 10-1 mentions it as the library alternative) | nodejs.org docs `--env-file` |
+| 4-8 | curl is the API-testing tool of the path; Postman is optional ("if you prefer a GUI") with a link | — |
+| 7-x | Jest, Supertest, Playwright, GitHub Actions | official docs |
+
+Every `require`/`import` of a package has an `npm install <pkg>` line in the same session before first use:
+4-1 express · 4-5 mongoose · 4-6 method-override · 4-8 bcrypt jsonwebtoken · 4-11 cors · (React/Vite via `npm create vite@latest`).
+
+### Unit 1
+Folders exactly as the sessions name them: `~/isekai-camp`, `~/dev-environment-practice`, `~/filesystem-quest`,
+`~/explorers-journal`, `~/branch-quest`, `~/quest-log` (pushed), `~/dotfiles` (pushed, public). The dotfiles ship BOTH a
+`.zshrc` (zsh prompt syntax) and a `.bashrc` (bash prompt syntax); `setup.sh` links whichever shell the machine uses
+(macOS → zsh, WSL/Ubuntu → bash). `setup.sh` also creates `~/projects`.
+
+### Unit 2
+- `~/projects/html-css-foundations` — created in 2-1 "Your turn" step 1 (`mkdir`, `git init`, `gh repo create`), NOT
+  assumed from pre-work. Holds every Unit 2 practice page. Stylesheet names as the sessions give them.
+- `~/projects/landing-page` → GitHub repo `landing-page`, GitHub Pages at `https://USER.github.io/landing-page/`
+  (2-5; sibling of html-css-foundations, never inside it). Files: `index.html`, `style.css`, `README.md`, images.
+- Reference build: https://github.com/arthurbernierjr/dtc-landing (note: it names its stylesheet `styles.css` and
+  carries a tiny Express `server.js` because it is also deployed on Railway; the page is the same idea).
+
+### Unit 3
+- `~/projects/js-fundamentals` — named in 3-1 "Your turn" step 1 (before any file is written). All Unit 3 practice
+  files live here; `quest-log.html` is deployed from it on Pages.
+- `~/projects/memory-game` → repo `memory-game`, GitHub Pages (3-5). Files `index.html`, `style.css`, `app.js`, `README.md`.
+  Reference build: the `/game/` folder of https://github.com/arthurbernierjr/dtc-landing.
+- `<script src="app.js" defer></script>` is shown in full the first time a .js file is linked (3-4).
+
+### Unit 4 (the party of four)
+| Sessions | Folder (under ~/projects) | Port | Database | Models | Notes |
+|---|---|---|---|---|---|
+| 4-1 … 4-8 | `guild-door` | 3000 | `guild` | Quest{title, status enum open/done/failed, hero unique sparse}; User{name unique, passwordHash} | 4-1 names the folder as THE project (the demo folder is `guild-door` too). 4-6 moves the JSON router to `/api/quests` BEFORE mounting HTML at `/quests`. |
+| 4-9, 4-10 | `primer` | 5173 (Vite) | — | — | `npm create vite@latest primer -- --template react`; `export default function App`. |
+| 4-11 | `slate-api` + `slate-client` | 3000 + 5173 | `slate` | User{email unique, passwordHash}; Todo{title, done, owner} | NEW small API, built the same way as the courier (4-7); says so. Stop guild-door first. `.env` with MONGODB_URI=mongodb://127.0.0.1:27017/slate, JWT_SECRET, PAGE_ORIGIN=http://localhost:5173. sessionStorage key `slateToken`. The switch from `name` (4-8) to `email` and from the fixture's `id` to Mongo's `_id` is stated as deliberate. |
+| 4-12 | `spellbook-api` + `spellbook-client` | 4000 + 5173 | `spellbook` | + Spell{name, school, level, owner} | Stop the slate first (both terminals). CORS origin `http://localhost:5173` stated. |
+| 4-13 | `oaths` | 3000 | `oaths` | Adventurer, Party, Membership | Stop the spellbook first. |
+| 4-14 | `hall-api` + `hall-client` | 4100 + 5173 | `guildhall` | User{name, email unique, passwordHash}, Message{sender, recipient, body}, Item, Holding | **This is the guild hall: the Unit 4 artifact.** CORS origin `http://localhost:5173`. Reference build: https://github.com/arthurbernierjr/dtc-guild-hall, live at https://guild-hall-production.up.railway.app/ (the example repo is updated to match 4-14's routes, names, and env vars). |
+
+Error bodies are `{ "error": "..." }` from 4-11 on (4-1…4-8 use `{ "message": "..." }`; 4-11 says the key changes and why).
+
+### Units 5–12
+- "Project 2", "your MERN app", "your-mern-project", "the Unit 4 project" → **"your guild hall"**, folders
+  `~/projects/hall-api` and `~/projects/hall-client`, port 4100, database `guildhall`, deployed in Unit 6 at
+  `https://YOUR-DOMAIN` (Nginx in front of hall-api on 4100; hall-client built to static files).
+- The capstone (Units 8–12) is **"your capstone"** with a learner-chosen folder `~/projects/<capstone-name>`; sessions
+  use `<capstone-name>` literally where a path is needed.
+- Unit 8 artifacts: `~/projects/<capstone-name>/docs/` holds `research.md`, `empathy-map.md`, `user-stories.md`,
+  `sprint-plan.md`; Units 9–12 refer to these file names.
+- Week numbers are taken from path.json (5-1 is week 10, not "seven weeks in").
+
+### Voice and structure (for rewrites)
+- Second person, present tense, one learner. No "we", no "the class", no "students", no "instructor", no timers.
+- Hook = 1–3 sentences of the session's promise in the voice of 4-2's hook; frontmatter `hook` and path.json `hook` identical.
+- Every noun introduced before it is used; every "you already…" true per this ledger.
+- "Your turn" = numbered steps with the exact command and the exact expected output line.
+- "The quest" = one deliverable + the evidence list (file names, a URL, a screenshot name).
+- "Before next session" = what to do, where the next session starts, and one sentence saying what will still be running.
