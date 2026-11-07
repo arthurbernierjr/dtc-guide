@@ -66,11 +66,19 @@ A 502 from Nginx means "I accepted the client's connection and could not get a g
 
 ## The demonstration
 
-Two SSH sessions to the droplet, both as `deploy`; call them Terminal A and Terminal B. The laptop terminal is a third window. Everything today happens on the server except the curls marked laptop.
+Two SSH sessions to the droplet, both as `deploy`; call them Terminal A and Terminal B. The laptop terminal is a third window. Everything today happens on the server except the curls marked laptop. Where you are at the start of today:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · nothing running
+server A    ssh deploy@YOUR_DROPLET_IP · /home/deploy/hall-api and hall-client cloned · only sshd listening
+server B    second ssh session, same user · used for curl and logs
+browser     http://YOUR_DROPLET_IP · spins and gives up, nothing on port 80 yet
+```
 
 Install and look, in Terminal A:
 
 ```bash
+# server, Terminal A
 sudo apt update
 sudo apt install -y nginx
 systemctl status nginx --no-pager
@@ -84,9 +92,10 @@ systemctl status nginx --no-pager
 
 `active (running)` and `enabled` are the two words to read. From the laptop, `curl -I http://203.0.113.10` prints `HTTP/1.1 200 OK` and a `Server: nginx/1.24.0 (Ubuntu)` header, and a browser shows the welcome page. Port 80 went from a spinner to a page because a process now listens on it.
 
-The directory the hall will eventually live in, with ownership that lets you write and Nginx read:
+The directory the hall will eventually live in, with ownership that lets you write and Nginx read, still in Terminal A:
 
 ```bash
+# server, Terminal A
 sudo install -d -o deploy -g www-data -m 0750 /var/www/hall-client
 nano /var/www/hall-client/index.html
 ```
@@ -109,6 +118,7 @@ nano /var/www/hall-client/index.html
 `install -d` makes the directory owned by `deploy` with group `www-data`, which is the user Nginx runs as. Mode `0750` lets the group read and traverse, and keeps everyone else out. You write the file as yourself, no `sudo`. The site file:
 
 ```bash
+# server, Terminal A
 sudo nano /etc/nginx/sites-available/hall
 ```
 
@@ -130,6 +140,7 @@ server {
 Enable it and retire the default:
 
 ```bash
+# server, Terminal A
 sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /etc/nginx/sites-available/hall /etc/nginx/sites-enabled/hall
 sudo nginx -t
@@ -143,9 +154,10 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 
 Reload the browser tab: your heading. Nginx is serving a directory you own. That is the static half of the final shape, and in 6-4 the Vite build lands in that same directory.
 
-Now a process to stand behind it. Not the hall yet, because the hall needs a database; a forty-line Express app whose only purpose is to be an upstream:
+Now a process to stand behind it. Not the hall yet, because the hall needs a database; a forty-line Express app whose only purpose is to be an upstream, in Terminal A:
 
 ```bash
+# server, Terminal A
 mkdir -p ~/test-app && cd ~/test-app
 npm init -y
 npm install express
@@ -182,6 +194,7 @@ app.listen(port, () => {
 `port` reads `process.env.PORT` so an ecosystem file can set it later. The 404 handler echoes the path Express saw, which is the instrument for the trailing-slash lesson. Start it in Terminal A, and it holds that terminal:
 
 ```bash
+# server, Terminal A
 node server.js
 ```
 
@@ -192,6 +205,7 @@ listening on 3000
 In Terminal B, prove the upstream on its own, then prove the firewall from the laptop:
 
 ```bash
+# server, Terminal B
 curl -s http://127.0.0.1:3000/health
 ```
 
@@ -202,6 +216,7 @@ curl -s http://127.0.0.1:3000/health
 From the laptop, `curl -m 5 http://203.0.113.10:3000/health` prints `curl: (28) Connection timed out after 5001 milliseconds`. Port 3000 is not in the UFW list, so the outside cannot reach the process, and that is the design. Now the proxy, in Terminal B:
 
 ```bash
+# server, Terminal B
 sudo nano /etc/nginx/sites-available/hall
 ```
 
@@ -234,12 +249,14 @@ server {
 ```
 
 ```bash
+# server, Terminal B
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
 From the laptop:
 
 ```bash
+# laptop
 curl -i http://203.0.113.10/api/ping
 ```
 
@@ -263,9 +280,10 @@ HTTP/1.1 404 Not Found
 
 Express told you what it received: `/ping`. The `/api/` prefix was replaced by `/`. Put the slash back, test, reload, and the 200 returns. That is the Wrong path diagnosis, seen once with your own instrument.
 
-Now the process manager. In Terminal A, Ctrl-C the running app; the laptop curl now returns `502 Bad Gateway`, and `sudo tail -n 2 /var/log/nginx/error.log` shows `connect() failed (111: Connection refused) while connecting to upstream`. Remember that line. Then:
+Now the process manager. In Terminal A, Ctrl-C the running app; the laptop curl now returns `502 Bad Gateway`, and `sudo tail -n 2 /var/log/nginx/error.log` shows `connect() failed (111: Connection refused) while connecting to upstream`. Remember that line. Then, in Terminal A:
 
 ```bash
+# server, Terminal A
 sudo npm install -g pm2
 cd ~/test-app
 pm2 start server.js --name test-app
@@ -282,9 +300,10 @@ pm2 list
 
 The laptop curl is 200 again, and Terminal A is free, because pm2 owns the process now. `pm2 logs test-app --lines 5` shows the `listening on 3000` line in the out log. Close Terminal A entirely and curl again: still 200. The shell is gone and the process is not.
 
-Boot, in the correct order:
+Boot, in the correct order, in Terminal B, the session you still have:
 
 ```bash
+# server, Terminal B
 pm2 startup
 ```
 
@@ -297,13 +316,15 @@ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -
 Copy the printed line, yours, not this one, and run it. It writes a systemd unit called `pm2-deploy`. Then:
 
 ```bash
+# server, Terminal B
 pm2 save
 sudo reboot
 ```
 
-`pm2 save` prints `[PM2] Saving the process list to /home/deploy/.pm2/dump.pm2`. The reboot drops your sessions. Wait thirty seconds, `ssh deploy@203.0.113.10`, and:
+`pm2 save` prints `[PM2] Saving the process list to /home/deploy/.pm2/dump.pm2`. The reboot drops your sessions. Wait thirty seconds, `ssh deploy@203.0.113.10` from the laptop, call that session Terminal A again, and:
 
 ```bash
+# server, Terminal A, a fresh session after the reboot
 pm2 list
 uptime
 ```
@@ -313,6 +334,7 @@ uptime
 Finally, the process definition as a file, so the next person does not need to remember a command line:
 
 ```bash
+# server, Terminal A
 nano ~/test-app/ecosystem.config.js
 ```
 
@@ -335,6 +357,7 @@ module.exports = {
 ```
 
 ```bash
+# server, Terminal A
 cd ~/test-app
 pm2 delete test-app
 pm2 start ecosystem.config.js
@@ -446,6 +469,13 @@ The block you wrote is a reverse proxy in the narrowest sense, and the three log
 
 ## Before next session
 
-Leave everything running. The droplet now carries Nginx on port 80 and pm2 holding `test-app` on 3000, and both come back after a reboot. Close your SSH sessions with `exit`. Nothing runs on the laptop.
+Leave everything running. The droplet now carries Nginx on port 80 and pm2 holding `test-app` on 3000, and both come back after a reboot. Close your SSH sessions with `exit`. Nothing runs on the laptop. State at close:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · docs/runbook.md pushed · nothing running
+server A    ssh deploy@YOUR_DROPLET_IP · Nginx on 80 serving /var/www/hall-client · test-app on 3000 under pm2 · closed with exit
+server B    closed with exit
+browser     http://YOUR_DROPLET_IP · your under-construction heading
+```
 
 Next session the IP gets a name. You register a domain, point an A record at `YOUR_DROPLET_IP`, change `server_name` to that name, and let certbot fetch a Let's Encrypt certificate so the address bar shows `https://`. Have a payment method ready for the registrar; prices vary by ending, and the session teaches you where to read the renewal price before you buy. Read the Let's Encrypt "how it works" page from next session's docs list once, just enough to know what a challenge is. The session starts on the laptop, at a registrar's search box.

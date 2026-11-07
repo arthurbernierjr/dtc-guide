@@ -24,7 +24,7 @@ say:
 
 In every isekai there is a scene where a wealthy noble says, "I see potential in you. I will fund your quest, for a share of the treasure." That is an angel. They are not lending gold. They are buying a piece of a kingdom that does not exist yet, and the document that decides how big a piece is six pages long and written so that founders sign it without reading. Today you read it. You take the thesis paragraph from last session, the one that said what you would still own, and you turn that claim into share counts.
 
-By the end of the session you can run a post-money SAFE conversion by hand and in a small model here, four times with four different inputs, and get the same answers as the page. You know why "the investor owns 10 percent" is true the day before a priced round and false the day after. And you have read a one-page fictional term sheet with five things wrong in it, found at least four, and decided for each one whether you would negotiate or walk away. The cap table for your own capstone is the quest.
+By the end of the session you can run a post-money SAFE conversion by hand and in a small model here, four times with four different inputs, and get the same answers as the page. You know why "the investor owns 10 percent" is true the day before a priced round and false the day after. And you have read a one-page fictional term sheet with five unusual terms in it, found the four that hurt you, named the one that is odd but harmless and said why, and decided for each harmful one whether you would negotiate or walk away. The cap table for your own capstone is the quest.
 
 > *The noble smiles and slides the parchment across the table. The numbers are small. The definitions are on page four.*
 
@@ -125,7 +125,7 @@ Total           13,333,333  100.00
 
 After two rounds, 80 became 60. Sixty percent of a $12M company is $7.2M on paper; eighty percent of a company that could not hire was worth whatever it was worth. Dilution is the price of growth, and the only question is whether what you bought with it was worth more than the slice.
 
-Now the sentence most pages leave out. Suppose the Series A also requires a 10 percent option pool, measured after the round, created as part of it. Under the post-money SAFE form, that new pool is excluded from the capitalization the SAFE converts against, which in practice means the SAFE holder, the founders, and the co-founder all get diluted by the pool together. The Series A still owns 16.67 percent; the pool owns 10; the other 73.33 is shared by the three existing holders in their old ratio. The founder's 72 percent of 73.33 is 52.8 percent, not 60. The pool cost you 7.2 points. That is why the pool is a negotiated term, not a footnote.
+Now the sentence most pages leave out. Suppose the Series A also requires a 10 percent option pool, measured after the round, created as part of it. Under the post-money SAFE form, that new pool is excluded from the capitalization the SAFE converts against, which in practice means the SAFE holder, the founders, and the co-founder all get diluted by the pool together. The Series A still owns 16.67 percent; the pool owns 10; the other 73.33 is shared by the three existing holders in their old ratio. The founder's 72 percent (8,000,000 of the 11,111,111 pre-round shares) of 73.33 is 52.8 percent, not 60. The pool cost you 7.2 points (60 minus 52.8, both percentages of the post-round total). That is why the pool is a negotiated term, not a footnote.
 
 Here is the same arithmetic as a small model you can run here. It proves that a post-money SAFE converts to investment over cap before the round, that the priced round and a pool dilute everyone, and that the share counts add up. It does not prove anything about a real instrument; the definitions in the actual document decide the real number, and a lawyer reads those with you.
 
@@ -193,7 +193,7 @@ You tell someone the company is worth $5M because that is the cap. The cause is 
 
 ### Simple percentage treated as final ownership
 
-You divide the check by the cap, announce 90 percent, and put it in the thesis paragraph. The cause is stopping at stage 2: the next round, the option pool, and any other SAFEs are not in that sentence, and the order of those events decides the answer. The fix is a stage 3 on the same cap table before you quote a number to a co-founder or an investor. In the demonstration, 90 became 60 and then 52.8 without any term being unusual. A percentage that ignores the later events describes a different company from the one you will run.
+You divide the check by the cap, announce 90 percent, and put it in the thesis paragraph. The cause is stopping at stage 2: the next round, the option pool, and any other SAFEs are not in that sentence, and the order of those events decides the answer. The fix is a stage 3 on the same cap table before you quote a number to a co-founder or an investor. In the demonstration, the two founders' combined 90 percent after the SAFE became 75 after the Series A and 66 with the pool; your own 80 became 72, then 60, then 52.8, without any term being unusual. Say which total a percentage is a share of, every time. A percentage that ignores the later events describes a different company from the one you will run.
 
 ### SAFE called ordinary debt
 
@@ -233,7 +233,7 @@ Open a terminal in the capstone repo.
    node -e "const s = 500000 / 5000000, a = 2000000 / 12000000; console.log((1 - s) * (1 - a))"
    ```
 
-   Prints `0.75`. Ninety percent of 83.33 percent is 75 percent.
+   Prints `0.75`. Ninety percent (the founder's share after the SAFE) of 83.33 percent (1 minus the Series A's 2 of the $12M post-money) is 75 percent.
 
 5. Copy this into `docs/cap-table.md` and fill it in for your capstone with made-up but stated inputs. Pick your own cap and round size; the demonstration's numbers are the example, not the answer.
 
@@ -326,7 +326,7 @@ Open a terminal in the capstone repo.
 
 ![](diagram:session-11-2/fig3-evidence)
 
-One deliverable: `docs/cap-table.md`, complete, with the term-sheet read filled in. Here is the term sheet. It is fictional; the company, the investor, and every number are made up, and five of its terms are red flags. Read it cold before you look at the answer key further down.
+One deliverable: `docs/cap-table.md`, complete, with the term-sheet read filled in. Here is the term sheet. It is fictional; the company, the investor, and every number are made up, and five of its terms are unusual. Four of them hurt you. One is odd and does you no harm. Read it cold before you look at the answer key further down, find the four, and decide which one is the harmless one.
 
 ```markdown
 # TERM SHEET (non-binding, fictional)
@@ -363,24 +363,29 @@ Expenses:          company pays Investor's legal fees up to $40,000 at closing
 Governing law:     Delaware
 ```
 
-For each term you think is unusual, write one sentence in the "Term sheet read" section of `docs/cap-table.md`: what it does to you in a low-value sale, in the next round, and in a disagreement, and then one word, negotiate or walk. Find at least four of the five before reading on.
+For each term you think is unusual, write one sentence in the "Term sheet read" section of `docs/cap-table.md`: what it does to you in a low-value sale, in the next round, and in a disagreement, and then one word, negotiate or walk. For the one you decide is harmless, write why instead of a decision. Find the four harmful terms before reading on.
 
 ### Answer key, read after
 
-- **3x participating liquidation preference.** In a $6M sale the investor takes $1.5M first, then shares the rest as if they also held common. Standard is 1x non-participating: their money back or their percentage, not both. Negotiate to 1x non-participating; if they will not move, walk, because this term alone can leave founders with little in a modest exit.
-- **Full ratchet anti-dilution.** If any later round prices lower, their shares reprice to that lower price in full, and the founders absorb all of it. Standard is broad-based weighted average. Negotiate; it is commonly conceded.
-- **Two of three board seats to the investor.** You keep a majority of the shares and lose control of the company's decisions. Early boards are usually two founders and one investor, or two founders, one investor, one independent. Negotiate hard; a seed investor insisting on board control is a walk for most founders.
-- **Re-vesting all founder shares from closing.** The years you already worked are erased. Normal is to credit earned vesting and apply a schedule only to the unvested remainder. Negotiate; credit for time served is standard.
-- **No pro rata rights.** Unusual and slightly odd, but not harmful to you; it means they are not promised a place in the next round. Not a flag to fight.
+- **Harmful.** 3x participating liquidation preference. In a $6M sale the investor takes $1.5M first (3 × their $500,000), then takes their 10 percent (of the $5M post-money) of the remaining $4.5M as if they also held common. Standard is 1x non-participating: their money back or their percentage, not both. Negotiate to 1x non-participating; if they will not move, walk, because this term alone can leave founders with little in a modest exit.
+- **Harmful.** Full ratchet anti-dilution. If any later round prices lower, their shares reprice to that lower price in full, and the founders absorb all of it. Standard is broad-based weighted average. Negotiate; it is commonly conceded.
+- **Harmful.** Two of three board seats to the investor. You keep a majority of the shares and lose control of the company's decisions. Early boards are usually two founders and one investor, or two founders, one investor, one independent. Negotiate hard; a seed investor insisting on board control is a walk for most founders.
+- **Harmful.** Re-vesting all founder shares from closing. The years you already worked are erased. Normal is to credit earned vesting and apply a schedule only to the unvested remainder. Negotiate; credit for time served is standard.
+- **Benign.** No pro rata rights. This is the odd one. Pro rata is a right the investor usually asks for, so leaving it out is unusual, but it only means they are not promised a place in the next round. It costs you nothing. If you fought it you would be negotiating against yourself.
 
-The monthly information rights are normal for a board member. The protective provisions list is on the long side; "hiring or firing of any officer" is worth a question. The $40,000 expense cap is high for a round this size and is negotiable. The 10 percent pool inside the pre-money is exactly the dilution the demonstration measured; ask for the pool to be sized to the hiring plan.
+Four more terms are worth a sentence in your read, though none of them is one of the five.
+
+- **Benign.** Monthly information rights. Normal for a board member; a monthly close is good discipline anyway.
+- **Negotiable.** The protective provisions list is on the long side, and "hiring or firing of any officer" is control without a vote; ask for it to come out.
+- **Negotiable.** The $40,000 expense cap is high for a round this size; $10,000 to $15,000 is more usual at seed, and the number moves when asked.
+- **Negotiable.** The 10 percent pool inside the pre-money (10 percent of the $5M post-money total, carved out of the founders' side before the investor's price is set) is exactly the dilution the demonstration measured; ask for the pool to be sized to the hiring plan.
 
 Evidence that the quest is done:
 
 - Three stages in `docs/cap-table.md` with share counts, derived percentages, and a 100 at the bottom of each.
 - The four scenario answers match the lines printed in Your turn.
 - The fundraising plan paragraph names the ownership after both rounds and says whether you accept it.
-- At least four red flags found before the key, each with a negotiate-or-walk decision and a one-sentence reason.
+- The four harmful terms found before the key, each with a negotiate-or-walk decision and a one-sentence reason, and the harmless one named with the reason it is harmless.
 - Committed and pushed.
 
 ```bash

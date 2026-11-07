@@ -119,7 +119,7 @@ export default function EntryForm(props) {
 }
 ```
 
-`disabled` on the button is a courtesy. The `if (next === status) return;` line is the guarantee, and it holds even when the user presses Enter twice faster than React repaints. On `failure`, `draft` is untouched, so the paragraph of text the user typed is exactly where they left it. `props.onSave` is the parent's function, which calls the API and throws on a non-2xx, which is the next piece.
+`disabled` on the button is a courtesy. The `if (next === status) return;` line is the guarantee, and it holds even when the user presses Enter twice faster than React repaints. On `failure`, `draft` is untouched, so the paragraph of text the user typed is exactly where they left it. Read `onFormSend` for the retry path, because it is easy to miss that it sends anything. In `error`, the form's submit fires `retry`, the table moves the state to `pending`, and then `send()` runs: the same function, the same `props.onSave(draft)`, the same fetch, with the draft that survived. There is no separate retry request. `retry` is the permission; `send()` is the request. `props.onSave` is the parent's function, which calls the API and throws on a non-2xx, which is the next piece.
 
 ### The error body is a string
 
@@ -142,11 +142,11 @@ A 500 never leaks `err.message`, because a Mongoose cast error or a provider sta
 
 ```js
 // client/src/lib/api.js
-const API = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+import { apiBase, getToken } from '../api';
 
 export async function request(path, options) {
-  const token = sessionStorage.getItem('token');
-  const res = await fetch(API + path, Object.assign({}, options, {
+  const token = getToken();
+  const res = await fetch(apiBase + path, Object.assign({}, options, {
     headers: Object.assign(
       { 'Content-Type': 'application/json' },
       token ? { Authorization: 'Bearer ' + token } : {},
@@ -160,7 +160,7 @@ export async function request(path, options) {
 }
 ```
 
-Keep the `sessionStorage` key your capstone already uses; the name here is illustrative. One wrapper, so a missing token and a 500 produce messages in the same place and the machine never sees a raw `TypeError`.
+`apiBase` and `getToken` come from `client/src/api.js`, the file 10-1 wrote. `apiBase` is `VITE_API_BASE` with `http://localhost:3000` as the development fallback, and the empty value 10-4 put in `client/.env.production` means same origin, so the built page calls the host it was served from. `getToken` reads `capstoneToken` from `sessionStorage`, so the key is named in one file and this wrapper never spells it. Paths start with `/api`, the way they did for `api()` in 10-1: `request('/api/entries', { method: 'POST', body: JSON.stringify(draft) })`. One wrapper, so a missing token and a 500 produce messages in the same place and the machine never sees a raw `TypeError`.
 
 ### An adapter with four fixtures
 
@@ -209,7 +209,7 @@ One worked example, continuing the capstone from Sprint 1: the core flow is "cre
 Start by walking the journey before changing anything, as the fixture account, on `localhost`, with the network panel open.
 
 ```bash
-cd ~/projects/<capstone-name>/server
+cd ~/projects/<capstone-name>/api
 npm run seed
 node --env-file=.env server.js
 ```
@@ -217,7 +217,6 @@ node --env-file=.env server.js
 ```text
 seeded demo@example.com with 3 entries
 listening on 3000
-mongo connected
 ```
 
 In a second terminal, the client:
@@ -240,7 +239,7 @@ Now the failure path. Stop the server with Ctrl-C, type a title and body, press 
 Request failed with 0
 ```
 
-That is `fetch` rejecting with a `TypeError` on a refused connection, which the wrapper turns into a message, which the machine turns into `error`. The draft is still in the fields. Start the server again, press Save, and the `retry` event moves through `pending` to `saved`. Write those three observations down; they are this session's evidence.
+That is `fetch` rejecting with a `TypeError` on a refused connection, which the wrapper turns into a message, which the machine turns into `error`. The draft is still in the fields. Start the server again, press Save, and the `retry` event moves through `pending` to `saved`. The proof that `retry` sent a request is in the Network tab: a second `POST /api/entries` row appears the moment you press Save, with `201` beside it, where the first row shows `(failed)`; the API terminal prints the same `POST /api/entries` from 10-1's logger. Write those three observations down; they are this session's evidence.
 
 Then the adapter. Write `api/services/draft.js` and the four fixtures, mount the route, and run it by hand in each mode.
 

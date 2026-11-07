@@ -27,7 +27,9 @@
       "https://www.gnu.org/software/bash/manual/bash.html",
       "https://www.gnu.org/software/coreutils/manual/html_node/index.html",
       "https://explainshell.com",
-      "https://code.visualstudio.com/docs/editor/command-line",
+      "https://code.visualstudio.com/docs/configure/command-line",
+      "https://nodejs.org/en/download",
+      "https://git-scm.com",
       "https://brew.sh",
       "https://learn.microsoft.com/en-us/windows/wsl/install"
     ],
@@ -144,7 +146,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+      "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site",
+      "https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages",
+      "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility",
+      "https://webaim.org/resources/contrastchecker/",
+      "https://developer.chrome.com/docs/lighthouse/overview",
+      "https://squoosh.app/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -185,7 +192,7 @@
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions"
     ],
     "exec": "ran",
-    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 4 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
+    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 6 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
   "/path/3-4-casting-on-the-world/": {
     "date": "2026-11-07",
@@ -233,7 +240,8 @@
       "https://expressjs.com/en/starter/hello-world.html",
       "https://expressjs.com/en/guide/routing.html",
       "https://expressjs.com/en/guide/using-middleware.html",
-      "https://expressjs.com/en/guide/error-handling.html"
+      "https://expressjs.com/en/guide/error-handling.html",
+      "https://expressjs.com/en/5x/api.html#res.json"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -255,7 +263,9 @@
     "docs": [
       "https://www.mongodb.com/docs/manual/introduction/",
       "https://www.mongodb.com/docs/manual/core/document/",
-      "https://www.mongodb.com/docs/manual/core/databases-and-collections/"
+      "https://www.mongodb.com/docs/manual/core/databases-and-collections/",
+      "https://www.mongodb.com/docs/manual/installation/",
+      "https://www.mongodb.com/docs/mongodb-shell/install/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -268,7 +278,8 @@
       "https://mongoosejs.com/docs/guide.html",
       "https://mongoosejs.com/docs/validation.html",
       "https://mongoosejs.com/docs/queries.html",
-      "https://mongoosejs.com/docs/models.html"
+      "https://mongoosejs.com/docs/models.html",
+      "https://nodejs.org/api/cli.html#--env-fileconfig"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -304,7 +315,8 @@
       "https://github.com/kelektiv/node.bcrypt.js#readme",
       "https://github.com/auth0/node-jsonwebtoken#readme",
       "https://expressjs.com/en/guide/writing-middleware.html",
-      "https://mongoosejs.com/docs/validation.html"
+      "https://mongoosejs.com/docs/validation.html",
+      "https://www.postman.com/downloads/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -387,7 +399,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+      "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations",
+      "https://claude.com/pricing",
+      "https://mongoosejs.com/docs/api/model.html"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -396,7 +412,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview"
+      "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+      "https://platform.claude.com/docs/en/build-with-claude/context-windows",
+      "https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations",
+      "https://mongoosejs.com/docs/api/model.html",
+      "https://support.claude.com/en/articles/9517075-what-are-projects"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -405,8 +425,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://code.claude.com/docs/en/overview",
-      "https://docs.cursor.com/"
+      "https://code.claude.com/docs/en/setup",
+      "https://code.claude.com/docs/en/quickstart",
+      "https://code.claude.com/docs/en/memory",
+      "https://cursor.com/docs/agent/overview",
+      "https://cursor.com/docs/rules",
+      "https://git-scm.com/docs/git-clean"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -415,7 +439,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://code.claude.com/docs/en/overview"
+      "https://code.claude.com/docs/en/common-workflows",
+      "https://code.claude.com/docs/en/checkpointing",
+      "https://code.claude.com/docs/en/memory",
+      "https://cursor.com/docs/agent/overview",
+      "https://git-scm.com/docs/git-restore",
+      "https://mongoosejs.com/docs/api/model.html"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -424,8 +453,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://nodejs.org/en/about/previous-releases",
-      "https://documentation.ubuntu.com/server/how-to/security/firewalls/"
+      "https://docs.digitalocean.com/products/droplets/how-to/create/",
+      "https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/",
+      "https://man.openbsd.org/sshd_config",
+      "https://documentation.ubuntu.com/server/how-to/security/firewalls/",
+      "https://github.com/nodesource/distributions",
+      "https://nodejs.org/en/about/previous-releases"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -434,8 +467,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://nginx.org/en/docs/http/ngx_http_proxy_module.html",
-      "https://pm2.keymetrics.io/docs/usage/quick-start/"
+      "https://nginx.org/en/docs/beginners_guide.html",
+      "https://nginx.org/en/docs/http/ngx_http_core_module.html#location",
+      "https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass",
+      "https://pm2.keymetrics.io/docs/usage/quick-start/",
+      "https://pm2.keymetrics.io/docs/usage/startup/",
+      "https://pm2.keymetrics.io/docs/usage/application-declaration/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -444,8 +481,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
+      "https://letsencrypt.org/how-it-works/",
       "https://letsencrypt.org/docs/challenge-types/",
-      "https://eff-certbot.readthedocs.io/en/stable/using.html"
+      "https://eff-certbot.readthedocs.io/en/stable/using.html",
+      "https://nginx.org/en/docs/http/server_names.html",
+      "https://www.namecheap.com/support/knowledgebase/article.aspx/319/2237/how-can-i-set-up-an-a-address-record-for-my-domain/",
+      "https://docs.digitalocean.com/products/networking/dns/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -454,8 +495,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://nginx.org/en/docs/",
-      "https://www.mongodb.com/docs/manual/security/"
+      "https://www.mongodb.com/docs/atlas/getting-started/",
+      "https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/",
+      "https://nodejs.org/api/cli.html#--env-fileconfig",
+      "https://vite.dev/guide/env-and-mode",
+      "https://pm2.keymetrics.io/docs/usage/application-declaration/",
+      "https://docs.railway.com/quick-start"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -465,7 +510,11 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://jestjs.io/docs/getting-started",
-      "https://jestjs.io/docs/expect"
+      "https://jestjs.io/docs/using-matchers",
+      "https://jestjs.io/docs/expect",
+      "https://jestjs.io/docs/setup-teardown",
+      "https://jestjs.io/docs/mock-functions",
+      "https://jestjs.io/docs/configuration"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -474,8 +523,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://github.com/ladjs/supertest",
-      "https://jestjs.io/docs/setup-teardown"
+      "https://github.com/forwardemail/supertest#readme",
+      "https://jestjs.io/docs/configuration",
+      "https://jestjs.io/docs/setup-teardown",
+      "https://jestjs.io/docs/asynchronous",
+      "https://mongoosejs.com/docs/connections.html",
+      "https://nodejs.org/api/cli.html#--env-fileconfig"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -484,8 +537,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
+      "https://playwright.dev/docs/intro",
+      "https://playwright.dev/docs/writing-tests",
+      "https://playwright.dev/docs/locators",
+      "https://playwright.dev/docs/test-webserver",
       "https://playwright.dev/docs/best-practices",
-      "https://docs.github.com/en/actions"
+      "https://docs.github.com/en/actions/writing-workflows/quickstart"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -495,7 +552,11 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://jestjs.io/docs/cli",
-      "https://playwright.dev/docs/test-reporters"
+      "https://jestjs.io/docs/configuration#collectcoveragefrom-array",
+      "https://playwright.dev/docs/test-reporters",
+      "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request",
+      "https://cli.github.com/manual/gh_pr_create",
+      "https://www.artillery.io/docs"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -504,7 +565,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.gov.uk/service-manual/user-research/using-in-depth-interviews"
+      "https://www.gov.uk/service-manual/user-research/using-in-depth-interviews",
+      "https://www.gov.uk/service-manual/user-research/getting-users-consent-for-research",
+      "https://www.gov.uk/service-manual/user-research/find-user-research-participants",
+      "https://momtestbook.com/",
+      "https://cli.github.com/manual/gh_repo_create"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -513,7 +578,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.scrumguides.org/scrum-guide.html"
+      "https://www.atlassian.com/agile/project-management/user-stories",
+      "https://www.agilealliance.org/glossary/invest/",
+      "https://www.intercom.com/blog/rice-simple-prioritization-for-product-managers/",
+      "https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project",
+      "https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields/about-single-select-fields",
+      "https://cli.github.com/manual/gh_issue_create"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -522,7 +592,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://scrumguides.org/scrum-guide.html"
+      "https://scrumguides.org/scrum-guide.html",
+      "https://agilemanifesto.org/",
+      "https://www.atlassian.com/agile/project-management/estimation",
+      "https://www.atlassian.com/agile/scrum/sprint-planning",
+      "https://www.atlassian.com/agile/scrum/retrospectives",
+      "https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields/about-text-and-number-fields"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -531,7 +606,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.gov.uk/service-manual/user-research/analyse-a-research-session"
+      "https://www.gov.uk/service-manual/user-research/analyse-a-research-session",
+      "https://www.gov.uk/service-manual/user-research/using-in-depth-interviews",
+      "https://www.gov.uk/service-manual/user-research/getting-users-consent-for-research",
+      "https://scrumguides.org/scrum-guide.html",
+      "https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -540,8 +619,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
+      "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html",
       "https://www.typescriptlang.org/docs/handbook/2/narrowing.html",
-      "https://www.typescriptlang.org/tsconfig/strict.html"
+      "https://www.typescriptlang.org/docs/handbook/2/generics.html",
+      "https://www.typescriptlang.org/tsconfig/strict.html",
+      "https://nodejs.org/api/typescript.html",
+      "https://nodejs.org/api/test.html"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -550,7 +633,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map"
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Performance/now",
+      "https://nodejs.org/api/test.html"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -559,7 +646,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+      "https://nodejs.org/api/test.html",
+      "https://nodejs.org/api/perf_hooks.html"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -568,7 +659,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/"
+      "https://docs.railway.com/",
+      "https://railway.com/pricing",
+      "https://www.mongodb.com/docs/manual/indexes/",
+      "https://www.mongodb.com/docs/manual/replication/",
+      "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
+      "https://adr.github.io/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -577,7 +673,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html"
+      "https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html",
+      "https://www.typescriptlang.org/tsconfig/module.html",
+      "https://www.typescriptlang.org/docs/handbook/declaration-merging.html",
+      "https://mongoosejs.com/docs/typescript.html",
+      "https://expressjs.com/en/guide/error-handling.html",
+      "https://nodejs.org/api/cli.html#--env-file-if-existsconfig"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -587,7 +688,11 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
-      "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html"
+      "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+      "https://express-validator.github.io/docs/",
+      "https://helmetjs.github.io/",
+      "https://express-rate-limit.mintlify.app/",
+      "https://nodejs.org/api/cli.html#--env-fileconfig"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -596,8 +701,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
+      "https://docs.stripe.com/checkout/quickstart",
       "https://docs.stripe.com/webhooks",
-      "https://docs.stripe.com/checkout/fulfillment"
+      "https://docs.stripe.com/checkout/fulfillment",
+      "https://docs.stripe.com/stripe-cli",
+      "https://docs.stripe.com/testing",
+      "https://expressjs.com/en/5x/api.html#express.raw"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -606,8 +715,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://platform.claude.com/docs/en/models/overview",
-      "https://platform.claude.com/docs/en/about-claude/pricing"
+      "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://platform.claude.com/docs/en/build-with-claude/streaming",
+      "https://github.com/anthropics/anthropic-sdk-typescript",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events",
+      "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -616,8 +729,12 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
+      "https://docs.railway.com/guides/cli",
+      "https://docs.railway.com/guides/variables",
+      "https://docs.railway.com/guides/public-networking",
       "https://docs.stripe.com/webhooks",
-      "https://owasp.org/Top10/2025/"
+      "https://owasp.org/Top10/2025/",
+      "https://www.mongodb.com/docs/atlas/getting-started/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -626,7 +743,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding"
+      "https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding",
+      "https://www.sec.gov/resources-small-businesses/small-business-compliance-guides/regulation-crowdfunding-small-entity-compliance-guide-issuers",
+      "https://www.kickstarter.com/help/handbook",
+      "https://docs.stripe.com/payments/checkout",
+      "https://www.ycombinator.com/safe"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -635,7 +756,10 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.ycombinator.com/safe"
+      "https://www.ycombinator.com/safe",
+      "https://www.ycombinator.com/documents",
+      "https://www.sec.gov/resources-small-businesses",
+      "https://www.angellist.com/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -644,7 +768,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.ycombinator.com/library/4b-how-to-pitch-your-company"
+      "https://www.ycombinator.com/library/4b-how-to-pitch-your-company",
+      "https://www.ycombinator.com/library/2u-how-to-build-your-seed-round-pitch-deck",
+      "https://support.google.com/docs/answer/2763168",
+      "https://www.ycombinator.com/safe",
+      "https://www.sec.gov/resources-small-businesses"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -654,6 +782,9 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://www.ycombinator.com/library/4b-how-to-pitch-your-company",
+      "https://support.apple.com/guide/quicktime-player/record-your-screen-qtp97b08e666/mac",
+      "https://obsproject.com/",
+      "https://www.loom.com/pricing",
       "https://www.sec.gov/resources-small-businesses"
     ],
     "exec": "ran",
@@ -663,8 +794,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.typescriptlang.org/docs/handbook/",
-      "https://react.dev/learn/thinking-in-react"
+      "https://react.dev/learn/thinking-in-react",
+      "https://mongoosejs.com/docs/guide.html",
+      "https://nodejs.org/api/cli.html#--env-fileconfig",
+      "https://expressjs.com/en/guide/error-handling.html",
+      "https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -674,7 +808,10 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://react.dev/learn/managing-state",
-      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status"
+      "https://react.dev/learn/reacting-to-input-with-state",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status",
+      "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries",
+      "https://mongoosejs.com/docs/validation.html"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -684,7 +821,13 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
-      "https://playwright.dev/docs/best-practices"
+      "https://playwright.dev/docs/best-practices",
+      "https://jestjs.io/docs/configuration",
+      "https://github.com/forwardemail/supertest#readme",
+      "https://www.mongodb.com/docs/database-tools/mongodump/",
+      "https://www.mongodb.com/docs/database-tools/mongorestore/",
+      "https://www.mongodb.com/docs/database-tools/installation/installation/",
+      "https://github.com/express-rate-limit/express-rate-limit"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -694,7 +837,10 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://www.w3.org/WAI/tutorials/forms/labels/",
-      "https://www.w3.org/WAI/tutorials/page-structure/"
+      "https://www.w3.org/WAI/tutorials/page-structure/",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/404",
+      "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+      "https://obsproject.com/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
@@ -703,7 +849,11 @@
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://www.gov.uk/service-manual/agile-delivery/running-your-service-in-live"
+      "https://www.gov.uk/service-manual/agile-delivery/running-your-service-in-live",
+      "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
+      "https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository",
+      "https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/pinning-items-to-your-profile",
+      "https://keepachangelog.com/en/1.1.0/"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."

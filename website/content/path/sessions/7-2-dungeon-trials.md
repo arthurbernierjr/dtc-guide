@@ -387,6 +387,8 @@ Snapshots:   0 total
 Time:        1.9 s
 ```
 
+Fourteen is the example suite's count: six claims in `auth.test.js` and eight in `messages.test.js`. If you added claims of your own, yours is higher. The check is zero failed, which Jest shows by leaving `failed` off the line. The dojo from 7-1 is a separate repository and never counts here.
+
 Read the four statuses inside `reading one letter by id`. They are the four lines from `HALL.md`, and now they run every time you type one command. The last test's `sender` assertion uses `toMatchObject` because the inbox populates the sender down to a name; if your inbox populates differently, the test is the place to notice, not the place to hide it.
 
 Now the sabotage round, which is the whole reason the suite exists. Open `app.js`, find `readMessage`, and comment out the recipient comparison, the `if` that answers 403. Run `npm test`. Two tests go red, the stranger and the sender, with `Expected: 403, Received: 200`. That is the mail leak, caught in under two seconds, by a file. Put the comparison back. Green. Commit.
@@ -466,9 +468,9 @@ In `~/projects/hall-api`, on `add-tests`, with `mongod` running and the hall sto
 1. Split `server.js` into `app.js` and `server.js` as shown. Start the hall once with `npm start` and confirm the terminal prints `listening on 4100`. Curl `/api/items` with a token to see the twelve routes still answer. Stop it with Ctrl-C.
 2. `npm install --save-dev jest supertest`, then add the `test` script, `.env.test`, `jest.config.js`, and `tests/setup.js`. Run `npm test` with no test files yet; Jest prints `No tests found, exiting with code 1`, which is correct.
 3. Temporarily set `TEST_MONGODB_URI` in `.env.test` to the real `guildhall` name and run `npm test` with any one test file in place. The run must stop with `TEST_MONGODB_URI must name a database ending in _test, got guildhall`. Put `guildhall_test` back. That refusal is the evidence the guard works.
-4. Add `tests/helpers.js`, `tests/auth.test.js`, and `tests/messages.test.js`. `npm test` ends with `Tests: 14 passed, 14 total`.
+4. Add `tests/helpers.js`, `tests/auth.test.js`, and `tests/messages.test.js`. `npm test` ends with `Tests: 14 passed, 14 total`, or a higher count with no `failed` if you wrote extra claims.
 5. Comment out the recipient check in `readMessage`, run, and confirm exactly two tests fail with `Expected: 403` and `Received: 200`. Restore it. Screenshot that red run as `leak-caught.png`.
-6. Write `tests/pack.test.js` from the count evidence in `HALL.md`. One `beforeEach` signs Bran up and seeds the catalog through `POST /api/items/seed` with his token. Then: `GET /api/items` returns three items and no item has a `qty` property; `POST /api/pack/give` twice for lamp oil, amounts 2 and 1, leaves one holding with `qty` 3 in `GET /api/pack`, with `item.kind` equal to `potion`; `POST /api/pack/spend` with amount 50 answers 409 and the holding still reads 3; `POST /api/pack/give` with amount 0 answers 400. The suite should end at `Tests: 18 passed, 18 total`.
+6. Write `tests/pack.test.js` from the count evidence in `HALL.md`. One `beforeEach` signs Bran up and seeds the catalog through `POST /api/items/seed` with his token. Then: `GET /api/items` returns three items and no item has a `qty` property; `POST /api/pack/give` twice for lamp oil, amounts 2 and 1, leaves one holding with `qty` 3 in `GET /api/pack`, with `item.kind` equal to `potion`; `POST /api/pack/spend` with amount 50 answers 409 and the holding still reads 3; `POST /api/pack/give` with amount 0 answers 400. The suite should end at `Tests: 18 passed, 18 total`: the fourteen from step 4 plus these four. Higher is fine if you kept extra claims; the check is that no `failed` appears on the line.
 7. Sabotage the spend: remove `qty: { $gte: amount }` from the filter in `spend`. Run. The 409 test goes red and the holding reads a negative number in the failure output. Restore it.
 8. Commit on `add-tests` and push: `git push -u origin add-tests`.
 

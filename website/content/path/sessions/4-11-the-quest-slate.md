@@ -159,11 +159,17 @@ Walk two accounts. Sera registers and receives a token whose `sub` is her id. Sh
 async function onCreate(event) {
   event.preventDefault();
   setNotice('');
-  const response = await fetch(apiBase + '/api/todos', {
-    method: 'POST',
-    headers: bearerHeaders(token, true),
-    body: JSON.stringify({ title: draft })
-  });
+  let response;
+  try {
+    response = await fetch(apiBase + '/api/todos', {
+      method: 'POST',
+      headers: bearerHeaders(token, true),
+      body: JSON.stringify({ title: draft })
+    });
+  } catch (err) {
+    setNotice('not saved');
+    return;
+  }
   if (!response.ok) {
     setNotice('not saved');
     return;
@@ -175,9 +181,9 @@ async function onCreate(event) {
 }
 ```
 
-`response.ok` is true for 200 through 299. 201 is inside that range. 400, 401, 404, and 500 are not. The notice `saved` is on the far side of that check, and so is the `concat`. There is no optimistic row. Optimistic UI is a later refinement you earn by being able to roll it back. This session's bug is the row that claims success before the server has agreed. Keep the draft on failure so the person can edit and send again without retyping the whole line.
+`response.ok` is true for 200 through 299. 201 is inside that range. 400, 401, 404, and 500 are not. There are two different failures here, and the `try` is for the second one. A response with `ok` false means the server answered and said no. No response at all means `fetch` rejected, because the API is stopped or the network is down, and without the `try` that rejection is unhandled and the notice never changes. Both failures land on the same notice, `not saved`, and both keep the draft. The notice `saved` is on the far side of that check, and so is the `concat`. There is no optimistic row. Optimistic UI is a later refinement you earn by being able to roll it back. This session's bug is the row that claims success before the server has agreed. Keep the draft on failure so the person can edit and send again without retyping the whole line.
 
-`DELETE` often returns 204 and an empty body. `response.ok` is still the check. `response.json()` on an empty body throws, which you would then display as a failure after a success. For 204, check `ok` and skip the parser. Remove the id from local state only after that check. If the 204 never comes, the row stays.
+`DELETE` often returns 204 and an empty body. `response.ok` is still the check. `response.json()` on an empty body throws, which you would then display as a failure after a success. For 204, check `ok` and skip the parser. The same `try` wraps the delete, so a rejected `fetch` is `not deleted` rather than an unhandled error. Remove the id from local state only after that check. If the 204 never comes, the row stays.
 
 The login form and the board are two renders of one parent. The parent holds `token`. When `token` is empty, it returns the login and register forms. When `token` is set, it returns the board. You do not need a router for that. A register handler posts to `/api/register`, and on 201 it can either ask the person to log in or, if you also return a token from register, store it the same way login does. Returning a token from register is a convenience. It is not a different security model. The password still goes through `bcrypt.hash` on the way into the user document, and `bcrypt.compare` on login, the seal from the previous session. The cost factor you already chose is the one to keep using. Do not drop it to make the demo feel faster.
 
@@ -392,11 +398,17 @@ function TodoBoard(props) {
   async function onCreate(event) {
     event.preventDefault();
     setNotice('');
-    const response = await fetch(apiBase + '/api/todos', {
-      method: 'POST',
-      headers: bearerHeaders(props.token, true),
-      body: JSON.stringify({ title: draft })
-    });
+    let response;
+    try {
+      response = await fetch(apiBase + '/api/todos', {
+        method: 'POST',
+        headers: bearerHeaders(props.token, true),
+        body: JSON.stringify({ title: draft })
+      });
+    } catch (err) {
+      setNotice('not saved');
+      return;
+    }
     if (!response.ok) {
       setNotice('not saved');
       return;
@@ -408,10 +420,16 @@ function TodoBoard(props) {
   }
 
   async function onDelete(id) {
-    const response = await fetch(apiBase + '/api/todos/' + id, {
-      method: 'DELETE',
-      headers: bearerHeaders(props.token, false)
-    });
+    let response;
+    try {
+      response = await fetch(apiBase + '/api/todos/' + id, {
+        method: 'DELETE',
+        headers: bearerHeaders(props.token, false)
+      });
+    } catch (err) {
+      setNotice('not deleted');
+      return;
+    }
     if (!response.ok) {
       setNotice('not deleted');
       return;

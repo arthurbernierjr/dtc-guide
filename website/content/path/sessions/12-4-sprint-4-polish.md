@@ -37,7 +37,7 @@ The bug hunt is done as a stranger, which means a private window, the fixture ac
 
 Every screen has four sentences, and they are not decorations. Loading: a short line or a skeleton, never a blank. Empty: what this screen will hold and the one action that puts something in it. Success: what just happened, in the past tense, with the thing's name in it. Error: what failed and what to press. The `status` string from 12-2 already decides which one shows; today is checking that every list and every form has all four written, in words a person would say.
 
-Two things live outside the app's screens and still belong to it. The 404: a path nobody mounted. The API already answers `{ "error": "not found" }` from the 404 middleware you wrote in 4-2; the client needs a page for the same event, because a pasted URL with a typo lands in the browser, not in curl. And the README: the first screen a reviewer sees, and the one that decides whether they can run the thing. A README is tested by cloning the repository into a new folder and following it with no memory.
+Two things live outside the app's screens and still belong to it. The 404: a path nobody mounted. The API already answers `{ "error": "no such path" }` from the 404 middleware at the end of `api/app.js` from 10-1; the client needs a page for the same event, because a pasted URL with a typo lands in the browser, not in curl. And the README: the first screen a reviewer sees, and the one that decides whether they can run the thing. A README is tested by cloning the repository into a new folder and following it with no memory.
 
 The demo is a script. It uses the fixture account, the three seeded records, and a path you have walked fifty times. It does not create a record with a random name, does not call the real provider for the first time on camera, and does not depend on the one list being empty. The timeline fits in four and a half minutes, so a slow load does not push the ending off the edge. The recording is evidence of a past run, and when you play it instead of clicking live, you say that.
 
@@ -186,11 +186,11 @@ Then the README, tested with a clone:
 ```bash
 cd ~/projects
 git clone git@github.com:YOU/<capstone-name>.git readme-check
-cd readme-check/server
+cd readme-check/api
 cp .env.example .env
 ```
 
-The first question the file did not answer: what goes in `JWT_SECRET`? Any long random string, and the README now says so, with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` as the way to make one. The second: `npm run seed` failed because `.env` had no `MONGODB_URI`; the README now shows the local value, `mongodb://127.0.0.1:27017/capstone`. The third run of the clone had no questions. `rm -rf ~/projects/readme-check`.
+The first question the file did not answer: what goes in `JWT_SECRET`? Any long random string, and the README now says so, with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` as the way to make one. The second: `npm run seed` failed because `.env` had no `MONGODB_URI`; the README now shows the local value, `mongodb://127.0.0.1:27017/<capstone-name>`, the same one 10-1 put in `api/.env`. The third run of the clone had no questions. `rm -rf ~/projects/readme-check`.
 
 Then the deck. Every slide with a screenshot was taken in Unit 11 against the 10-4 build; they are retaken from the polished live URL at 1440 wide, dropped into the Google Slides deck linked from `docs/pitch-deck.md` in place of the old ones, `docs/pitch-deck.pdf` is exported again, and the slide that promised a feature the cut removed in 12-1 now describes the Should-have you shipped instead. The deck tells the truth about the product behind it.
 

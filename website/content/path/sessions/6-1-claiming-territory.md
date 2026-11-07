@@ -78,11 +78,19 @@ Port 4100, where the hall will listen, is not in the list. That is deliberate. T
 
 ## The demonstration
 
-One droplet, start to finish, from a laptop that has already done Unit 1. The commands marked laptop run in your own terminal. The commands marked server run inside an SSH session. The prompt tells you which: your laptop prompt is the one from your dotfiles, and the server prompt says `root@yourname-server` or `deploy@yourname-server`.
+One droplet, start to finish, from a laptop that has already done Unit 1. The commands marked laptop run in your own terminal. The commands marked server run inside an SSH session. The prompt tells you which: your laptop prompt is the one from your dotfiles, and the server prompt says `root@yourname-server` or `deploy@yourname-server`. Where you are at the start of today:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · nothing running
+server A    not yet · becomes ssh root@YOUR_DROPLET_IP, the first terminal, once the droplet exists
+server B    not yet · becomes ssh deploy@YOUR_DROPLET_IP, the second terminal that proves each step
+browser     DigitalOcean console · the create form, then the droplet's Access tab
+```
 
 Before the console, the key. On the laptop:
 
 ```bash
+# laptop
 ls -la ~/.ssh
 cat ~/.ssh/id_ed25519.pub
 ```
@@ -94,6 +102,7 @@ In the DigitalOcean console: Create, Droplets. Region nearest you. Image Ubuntu 
 First login, from the laptop:
 
 ```bash
+# laptop
 ssh root@203.0.113.10
 ```
 
@@ -110,6 +119,7 @@ That question appears exactly once per address. Your laptop has never spoken to 
 On the server, as root:
 
 ```bash
+# server A, the root session
 apt update && apt upgrade -y
 adduser deploy
 usermod -aG sudo deploy
@@ -121,6 +131,7 @@ rsync --archive --chown=deploy:deploy ~/.ssh /home/deploy
 Now the second terminal. Open a new terminal window on the laptop and leave the root session alone:
 
 ```bash
+# laptop, a second terminal window: it becomes server B
 ssh deploy@203.0.113.10
 sudo whoami
 ```
@@ -133,6 +144,7 @@ root
 The prompt reads `deploy@yourname-server:~$`, and `sudo whoami` prints `root`. That line is the one that allows the next step. Back in the root session, lock the daemon down:
 
 ```bash
+# server A, the root session
 cat /etc/ssh/sshd_config.d/50-cloud-init.conf
 nano /etc/ssh/sshd_config
 ```
@@ -148,6 +160,7 @@ PubkeyAuthentication yes
 Save with Ctrl-O, Enter, Ctrl-X. Then remove the drop-in if it contradicted you, test, restart, and ask the daemon what it believes:
 
 ```bash
+# server A, the root session
 rm -f /etc/ssh/sshd_config.d/50-cloud-init.conf
 sshd -t
 systemctl restart ssh
@@ -164,6 +177,7 @@ passwordauthentication no
 The firewall, from the `deploy` session:
 
 ```bash
+# server B, the deploy session
 sudo ufw allow OpenSSH
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
@@ -192,6 +206,7 @@ To                         Action      From
 Default deny incoming, three openings. Your session is still alive because the first rule was `OpenSSH`. Now Node and git:
 
 ```bash
+# server B, the deploy session
 curl -fsSL https://deb.nodesource.com/setup_24.x -o nodesource_setup.sh
 sudo -E bash nodesource_setup.sh
 sudo apt install -y nodejs git
@@ -211,6 +226,7 @@ Your patch numbers will differ; the `v24` is what matters, and it must match the
 Now the repos. This is the step older notes skipped: 4-14 ended with a commit, not a push, and the AI feature from Unit 5 was merged on a branch on your laptop. Both repos have to be on GitHub before the server can have them. On the laptop:
 
 ```bash
+# laptop
 cd ~/projects/hall-api
 git status
 git check-ignore .env
@@ -225,6 +241,7 @@ gh repo create hall-client --public --source=. --push
 Back on the server, as `deploy`:
 
 ```bash
+# server B, the deploy session
 cd ~
 git clone https://github.com/YOUR_GITHUB_USER/hall-api.git
 git clone https://github.com/YOUR_GITHUB_USER/hall-client.git
@@ -350,6 +367,13 @@ The named account and the sudo group are authentication and authorization in the
 
 ## Before next session
 
-Leave the droplet running; it is the one machine on the path that stays up between sessions from now on. Nothing is listening on it yet except `sshd`, and that is correct. Close every SSH session with `exit` when you are done. On the laptop nothing is running.
+Leave the droplet running; it is the one machine on the path that stays up between sessions from now on. Nothing is listening on it yet except `sshd`, and that is correct. Close every SSH session with `exit` when you are done. On the laptop nothing is running. State at close:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · both pushed to GitHub · nothing running
+server A    ssh deploy@YOUR_DROPLET_IP · /home/deploy/hall-api and hall-client cloned · only sshd listening · closed with exit
+server B    closed with exit · not needed until 6-2
+browser     DigitalOcean console · droplet running · nothing else open
+```
 
 Next session installs Nginx on this server, puts a page on port 80 that a browser anywhere can open at `http://YOUR_DROPLET_IP`, and then stands Nginx in front of a Node process on a loopback port, which is the shape the hall will use. Read the Nginx beginner's guide in next session's docs list once before you arrive, just the part about `server` and `location` blocks. Bring the IP and the `deploy` login; the session starts with `ssh deploy@YOUR_DROPLET_IP`.

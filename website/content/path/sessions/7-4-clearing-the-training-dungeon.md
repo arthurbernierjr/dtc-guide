@@ -194,6 +194,8 @@ Test Suites: 5 passed, 5 total
 Tests:       26 passed, 26 total
 ```
 
+Twenty-six is the example suite's count, and the ledger is this: fourteen from the accounts and letters files of 7-2, four from the pack file in 7-2's steps, four from `tests/errors.test.js` in 7-2's quest, and four from today's models file. If you kept claims of your own, yours is higher. The check is zero failed, which Jest shows by leaving `failed` off the line. The three Playwright journeys from 7-3 run under their own command and are not in this count, and the dojo from 7-1 is a separate repository that never was.
+
 If the last test fails with `Received: undefined` for the code, the unique index did not exist when the second insert ran; confirm `await mongoose.syncIndexes()` is in `tests/setup.js` and that the holding schema still declares the compound index.
 
 ### Reading coverage

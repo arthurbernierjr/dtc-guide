@@ -286,8 +286,8 @@
         "Rest, hover, and pressed are three states of one button, and each state has its own declarations. The transition is only the trip between them. Read the intent. The class diagram is that idea pointed at a control instead of a quest card.",
         "A block is a tree of named parts: the card contains a badge, a title, a description, a reward. The composite page is a tree where a part and a whole are addressed the same way. Read the intent and look at the first picture. Fig 4 on this session is that tree with the names written on it.",
         "object-fit and a shared aspect ratio are how the gift-site galleries stay even when the photographs do not. Read Pictures and crop six images on purpose.",
-        "The loader, the marquee, and the scroll reveal are the motion from this session, written as classes. Reduced motion turns them off. Read Motion and add one reveal.",
-        "The gate, the cursor, and the mute button are the same idea: the stylesheet holds the look, the script only adds a class. The cursor is limited to a fine pointer. Read that page before you hide the real cursor."
+        "The loader, the marquee, and the scroll reveal are the motion from this session, written as classes. Reduced motion turns them off. Read Motion and add one reveal. The CSS half is for now; the part that toggles classes with a script waits for Session 3.4.",
+        "The gate, the cursor, and the mute button are the same idea: the stylesheet holds the look, the script only adds a class. The cursor is limited to a fine pointer. Read the CSS half now and build the static shell; the click, focus, and sound half is a Session 3.4 return trip."
       ]
     },
     {

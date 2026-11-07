@@ -64,7 +64,14 @@ Certificates last ninety days. certbot installs a systemd timer, `certbot.timer`
 
 ## The demonstration
 
-One domain, start to finish. The laptop is where you buy, where you `dig`, and where you check the lock. The server is where `server_name` changes and certbot runs. The session writes the name as `YOUR-DOMAIN`; substitute yours everywhere, including in the `www` form.
+One domain, start to finish. The laptop is where you buy, where you `dig`, and where you check the lock. The server is where `server_name` changes and certbot runs. The session writes the name as `YOUR-DOMAIN`; substitute yours everywhere, including in the `www` form. Where you are at the start of today:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · nothing running · dig installed today if missing
+server A    ssh deploy@YOUR_DROPLET_IP · Nginx on 80 · /api/ proxied to test-app on 3000 under pm2
+server B    not needed today · one server session is enough
+browser     the registrar's search box, then its DNS panel · http://YOUR_DROPLET_IP still shows the heading
+```
 
 At the registrar: search for the name, add it, decline the add-ons, enable the free privacy option, pay. In the domain's DNS panel, which Namecheap calls Advanced DNS, delete any parking records the registrar created, then add two:
 
@@ -77,6 +84,7 @@ CNAME  www    YOUR-DOMAIN       Automatic
 `@` means the bare name. The CNAME value is the bare name, not the IP; if the panel insists on a trailing dot, `YOUR-DOMAIN.` is the same thing written fully. Save. On the laptop, within a few minutes:
 
 ```bash
+# laptop
 dig +short YOUR-DOMAIN A
 dig +short www.YOUR-DOMAIN A
 dig @1.1.1.1 +short YOUR-DOMAIN A
@@ -94,6 +102,7 @@ The first line is your droplet. The second query prints two lines because `www` 
 On the server, name the block:
 
 ```bash
+# server, Terminal A
 sudo nano /etc/nginx/sites-available/hall
 ```
 
@@ -104,12 +113,14 @@ server_name YOUR-DOMAIN www.YOUR-DOMAIN;
 ```
 
 ```bash
+# server, Terminal A
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-Install certbot and its Nginx plugin, and run it for both names:
+Install certbot and its Nginx plugin, and run it for both names, still on the server:
 
 ```bash
+# server, Terminal A
 sudo apt update
 sudo apt install -y certbot python3-certbot-nginx
 sudo certbot --nginx -d YOUR-DOMAIN -d www.YOUR-DOMAIN
@@ -142,6 +153,7 @@ Congratulations! You have successfully enabled HTTPS on https://YOUR-DOMAIN and 
 Read the file it changed:
 
 ```bash
+# server, Terminal A
 cat /etc/nginx/sites-available/hall
 ```
 
@@ -195,6 +207,7 @@ server {
 Your `location` blocks are exactly where you left them. The first block now listens on 443 with the certificate; the second block is the 80-to-443 redirect, with a 404 for any host name it was not asked to serve. Now the checks, from the laptop:
 
 ```bash
+# laptop
 curl -I http://YOUR-DOMAIN
 curl -sI https://YOUR-DOMAIN | head -n 1
 curl -s https://YOUR-DOMAIN/api/ping
@@ -208,9 +221,10 @@ HTTP/2 200
 {"pong":true,"path":"/api/ping","from":"198.51.100.23"}
 ```
 
-The 301 is the second block. The `HTTP/2 200` is the first, over TLS. The JSON is the test app from 6-2, reached through the proxy, over HTTPS, without Express knowing anything about certificates. Read the certificate itself:
+The 301 is the second block. The `HTTP/2 200` is the first, over TLS. The JSON is the test app from 6-2, reached through the proxy, over HTTPS, without Express knowing anything about certificates. Read the certificate itself, still on the laptop:
 
 ```bash
+# laptop
 openssl s_client -connect YOUR-DOMAIN:443 -servername YOUR-DOMAIN < /dev/null 2>/dev/null | openssl x509 -noout -subject -issuer -dates
 ```
 
@@ -221,9 +235,10 @@ notBefore=Nov 14 15:40:12 2026 GMT
 notAfter=Feb 12 15:40:11 2027 GMT
 ```
 
-Ninety days between the two dates. The issuer name changes as Let's Encrypt rotates intermediates; `O=Let's Encrypt` is the part to read. Now the mismatch, on purpose:
+Ninety days between the two dates. The issuer name changes as Let's Encrypt rotates intermediates; `O=Let's Encrypt` is the part to read. Now the mismatch, on purpose, from the laptop:
 
 ```bash
+# laptop
 curl https://203.0.113.10
 ```
 
@@ -236,6 +251,7 @@ Same server, same certificate, wrong name. The certificate covers `YOUR-DOMAIN` 
 Last, renewal, on the server:
 
 ```bash
+# server, Terminal A
 sudo certbot renew --dry-run
 systemctl list-timers certbot.timer --no-pager
 ```
@@ -352,6 +368,13 @@ The resolver walk you traced is the library's DNS sheet in miniature, and a cert
 
 ## Before next session
 
-Leave everything running. The droplet now answers `https://YOUR-DOMAIN` with a certificate that renews itself, Nginx proxies `/api/` to the test app on 3000, and pm2 holds that app across reboots. Close your SSH sessions. Nothing runs on the laptop.
+Leave everything running. The droplet now answers `https://YOUR-DOMAIN` with a certificate that renews itself, Nginx proxies `/api/` to the test app on 3000, and pm2 holds that app across reboots. Close your SSH sessions. Nothing runs on the laptop. State at close:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · docs/domain.md pushed · nothing running
+server A    ssh deploy@YOUR_DROPLET_IP · Nginx on 80 and 443 for YOUR-DOMAIN · /api/ proxied to test-app on 3000 under pm2 · closed with exit
+server B    closed with exit
+browser     https://YOUR-DOMAIN · the heading with a lock
+```
 
 Next session is the one the unit has been building toward: the guild hall goes live at that name. You create a MongoDB Atlas account and a free cluster inside the session, because Unit 4 used a MongoDB on your laptop and the droplet has no database at all. You write the hall's `.env` on the server, start `hall-api` under pm2 with Node reading that file, build `hall-client` with Vite, copy the build into `/var/www/hall-client`, and point `location /api/` at port 4100. Reread 4-14's `.env` paragraph before you arrive so the five variable names are fresh. The session starts on the laptop, in `~/projects/hall-client`, with one line of code to change.

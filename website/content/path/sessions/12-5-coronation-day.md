@@ -124,7 +124,7 @@ The Stripe line sits in the second band only because a capstone with no paid fea
 - URL: https://YOUR-APP.up.railway.app
 - Fixture account: demo@example.com (password in README's development section)
 - Environment variables (names only; values live in the Railway service's variables, or in api/.env on the VPS host):
-  MONGODB_URI, JWT_SECRET, PAGE_ORIGIN, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, ANTHROPIC_API_KEY, DRAFT_MODE
+  PORT, MONGODB_URI, JWT_SECRET, PAGE_ORIGIN, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRICE_ID, ANTHROPIC_API_KEY, AI_MODEL, AI_DAILY_TOKEN_BUDGET, AI_ENABLED, DRAFT_MODE, NODE_ENV
 - Run: see README "Run it locally"
 - Test: cd api && npm test; npx playwright test from the root
 - Deploy: git fetch --tags, git checkout <tag>, railway up (10-4); on the VPS instead: ssh deploy@YOUR-DOMAIN, cd ~/<capstone-name>, git fetch --tags, git checkout <tag>, ./deploy.sh
@@ -152,7 +152,7 @@ One worked example, the whole day in order, on the capstone from the four sprint
 Seed the live database first, with the fixture account and the three records, the same way as every recording:
 
 ```bash
-cd ~/projects/<capstone-name>/server
+cd ~/projects/<capstone-name>/api
 MONGODB_URI='<the live connection string, pasted for this command only>' node scripts/seed.js
 ```
 

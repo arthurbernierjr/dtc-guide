@@ -101,7 +101,7 @@ SOM:     3,000 paying accounts in three years = $432,000 per year
 
 Say the SOM out loud. Four hundred thousand dollars a year is a good business and not a venture outcome, and the market slide is where that becomes visible. The strong version of this slide says so and shows the adjacent segment, teams, that would change the count. The weak version says "the project management market is $7.1B."
 
-**Slide 6, business model.** Free tier, one project. Pro at $12 a month, unlimited projects and the AI planner. Team at $29 per seat, planned. Current, hypothetical: 500 free users, 47 Pro subscribers, $564 MRR. Target: 3,000 Pro subscribers, $36K MRR, by month 18. Under it, the unit economics: CAC $40 through content and small ads, ARPU $12 a month, ten-month average retention, so LTV $120 and a 3:1 ratio. All hypothetical, all labeled.
+**Slide 6, business model.** Free tier, one project. Pro at $12 a month, unlimited projects and the AI planner. Team at $29 per seat, planned. Current, hypothetical: 500 free users, 47 Pro subscribers, $564 MRR. Target: 3,000 Pro subscribers, $36K MRR, by month 18. Under it, the unit economics: CAC $40 through content and small ads, ARPU $12 a month, ten-month average retention, so LTV $120 (12 × 10) and a 3:1 ratio (120 ÷ 40). All hypothetical, all labeled.
 
 **Slide 7, traction.** Numbers, not adjectives. Total users, active users, paying users, MRR, growth rate, each as its own line. 47 paying from 31 a month earlier is a 52 percent month-over-month jump on a very small base, and the slide says both halves of that sentence. If you are pre-revenue, show the waitlist, the pilots with dates, the letters of intent, separately.
 
@@ -216,10 +216,12 @@ Raising $500K to reach 3,000 Pro subscribers and cash-flow break-even in 18 mont
 - 15% reserve
 
 ## Path to profitability
-At the current cost base of $900 per month, break-even is 75 Pro customers
-(75 x $12 = $900). At the funded cost base of about $26,000 per month, it is
-2,234 Pro customers (26,000 / (12 x 0.97)). The month that happens comes from
-the cash model, not from this page.
+At the current cost base of $900 per month, break-even is 78 Pro customers
+(900 / (12 x 0.97), rounded up; the processor keeps 3%). At a funded cost base of about
+$26,000 per month (a $26,000 base before the marketing step-ups), it is
+2,234 Pro customers (26,000 / (12 x 0.97)). The cost base steps up as marketing
+does, so next session recomputes break-even per step from the cash model, and
+the month it happens comes from that model, not from this page.
 ```
 
 Here is a small model you can run here. It proves the fund arithmetic, the ARR multiplication, and the bottom-up market shape. It does not prove that any of these inputs is true; the sources you attach in the file do that, or fail to.

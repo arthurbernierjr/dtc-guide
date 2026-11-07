@@ -45,7 +45,7 @@ Napkin version: open the spec, grade every Must-have into one of four states, pi
 
 You grade a Must-have by using it, not by reading the code. Open the deployed URL in a private window with no session. Walk the story the way the user story is written: "As a signed-in member, I can create a listing and see it on my dashboard." If you can do that on the live URL, it is **deployed**. If the live URL fails and `localhost` succeeds, it is **local**. If a route exists but the screen does not, or the screen exists but the route 404s, it is **partial**. If nothing exists, it is **missing**.
 
-The private window matters. Your normal browser has a token in `sessionStorage` from 10-4 and a cached bundle. A fresh window is the first-time user, and the first-time user is the one the demo video will show.
+The private window matters. Your normal browser has `capstoneToken` in `sessionStorage` from 10-1 and a cached bundle. A fresh window is the first-time user, and the first-time user is the one the demo video will show.
 
 Write the result into `docs/sprint-plan.md` under a new heading. Copy this into the file and fill it in:
 
@@ -71,7 +71,7 @@ The last column is the one that makes the table useful. "Partial" tells you noth
 
 Walk the five parts for one story and keep a finger on each.
 
-The **form** is a controlled component in `client/src`, the shape you built in 4-10. It holds a draft, it has a button, and it calls a function in the parent when it has a trimmed, non-empty value. The **route** is an Express handler mounted under `/api`, behind the bearer-token middleware from 4-8 and 10-1, in `api/`. **Validation** runs on the server with the `express-validator` chains from 10-1, and it answers 400 with `{ "error": "..." }`, the body shape every route has used since 4-11. **Persistence** is a Mongoose `create` or `save` on a model that has an `owner` field set from `req.user`, never from the body. The **refresh** is `GET /api/<resource>` filtered by `owner`, called from an effect on mount, so a reload paints what the database holds and not what the client remembers.
+The **form** is a controlled component in `client/src`, the shape you built in 4-10. It holds a draft, it has a button, and it calls a function in the parent when it has a trimmed, non-empty value. The **route** is an Express handler mounted under `/api`, behind the bearer-token middleware from 4-8 and 10-1, in `api/`. **Validation** runs on the server with the `express-validator` chains from 10-1, and it answers 400 with `{ "error": "..." }`, the body shape every route has used since 4-11. **Persistence** is a Mongoose `create` or `save` on a model that has an `owner` field set from `req.userId`, never from the body. The **refresh** is `GET /api/<resource>` filtered by `owner`, called from an effect on mount, so a reload paints what the database holds and not what the client remembers.
 
 The failure path is the sixth thing, and it is part of the slice. If the save fails, the draft stays in the field and the error is visible. If validation rejects the input, nothing is written. If the user is signed out, the route answers 401 before it touches the database. You built each of these once in Unit 4 and again in Unit 10. Today you check that your capstone's most important story has all of them, on the deployed URL, not on a diagram.
 
@@ -90,6 +90,8 @@ Every demo, every test, and every screenshot in this unit uses one account you c
 Demo day in this path is a solo event, and here is what it asks of you, so every later sprint is aimed at the same target. In 12-5 you deliver four things: a recorded five-minute demo of the deployed URL using the fixture account; a written Q&A, five questions a reviewer would ask, answered from your implementation; a self-scored 100-point rubric; and a handoff packet in `docs/demo-day.md` another developer could operate from. The pitch deck from 11-4 and the financial narrative sit next to those, updated to the product you actually shipped. Nothing on that list requires an audience in a room. All of it requires the app to work on the live URL.
 
 ## The demonstration
+
+Carried over from Unit 10, and assumed by every command in this unit: the capstone is `~/projects/<capstone-name>` with `api/` and `client/` side by side. `api/app.js` exports `{ app }`, and `api/server.js` connects to Mongo and listens, printing `listening on 3000`. Every module in `api/` exports an object, so a `require` takes braces: `{ User }` from `api/models/user.js`, `{ requireUser }` from `api/middleware/require-user.js`, `{ validateRequest }` from `api/middleware/validate.js`, `{ router }` from each file in `api/routes/`. `requireUser` sets `req.userId`, one name, set in one place. On the client, `client/src/api.js` exports `apiBase`, read from `VITE_API_BASE` with `http://localhost:3000` as the development fallback; 10-4 set it to the empty string for production, which means same origin. The same file keeps the token in `sessionStorage` under the key `capstoneToken`, the capstone's version of 4-11's `slateToken`, behind `getToken`, `setToken`, and `clearToken`. `api/.env` holds the names 10-4 deployed: `PORT`, `MONGODB_URI`, `JWT_SECRET`, `PAGE_ORIGIN`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRICE_ID`, `ANTHROPIC_API_KEY`, `AI_MODEL`, `AI_DAILY_TOKEN_BUDGET`, `AI_ENABLED`, and `NODE_ENV`. The fixture account is `demo@example.com`. Where your capstone uses a different name, the sprints still use the Unit 10 name, and you translate.
 
 One worked example, on a capstone whose Must-have M2 is "a signed-in member creates an entry and sees it after reload." Your resource has a different name. The shape of the work is the same.
 
@@ -124,7 +126,6 @@ node --env-file=.env server.js
 
 ```text
 listening on 3000
-mongo connected
 ```
 
 In a second terminal, the route by hand, with a token from the login route.
@@ -155,46 +156,38 @@ curl -s -H "Authorization: Bearer $TOKEN" http://localhost:3000/api/entries
 []
 ```
 
-There it is. The create works and the list is empty. That is a partial slice with the persistence or refresh part missing, and the grade in the table is `partial`. Open the router. The `GET` handler filters by `owner: req.user.id`, and the `POST` handler saved `owner: req.userId`. Two names for the same claim, one from the 4-8 middleware and one from the 10-2 rename warning you read and did not apply everywhere. The list filter never matches. Pick one name, `req.userId` if that is what your middleware sets, and use it in both handlers.
+There it is. The create works and the list is empty. That is a partial slice with the persistence or refresh part missing, and the grade in the table is `partial`. Open the router. The `GET` handler filters by `owner: req.user`, and the `POST` handler saved `owner: req.userId`. Two names for the same claim. `requireUser` has set `req.userId` since 4-8, and nothing on this path has ever set `req.user`, so the filter carries `undefined` and matches no saved entry. Pick the name the middleware sets, `req.userId`, and use it in both handlers. While the file is open, make it the shape 10-1 taught: a chain per field, `validateRequest` in front of the handler, and `matchedData` instead of `req.body`.
 
 ```js
 // api/routes/entries.js
 const express = require('express');
-const { body, validationResult } = require('express-validator');
-const Entry = require('../models/entry');
-const requireUser = require('../middleware/require-user');
+const { body, matchedData } = require('express-validator');
+const { Entry } = require('../models/entry');
+const { requireUser } = require('../middleware/require-user');
+const { validateRequest } = require('../middleware/validate');
 
 const router = express.Router();
+
+const entryRules = [
+  body('title').isString().trim().isLength({ min: 1, max: 120 }).withMessage('title is 1 to 120 characters'),
+  body('body').isString().trim().isLength({ max: 5000 }).withMessage('body is at most 5000 characters')
+];
 
 router.get('/', requireUser, async (req, res) => {
   const entries = await Entry.find({ owner: req.userId }).sort({ createdAt: -1 });
   res.json(entries);
 });
 
-router.post(
-  '/',
-  requireUser,
-  body('title').trim().isLength({ min: 1, max: 120 }),
-  body('body').trim().isLength({ max: 5000 }),
-  async (req, res) => {
-    const problems = validationResult(req);
-    if (!problems.isEmpty()) {
-      res.status(400).json({ error: problems.array()[0].msg || 'invalid entry' });
-      return;
-    }
-    const entry = await Entry.create({
-      title: req.body.title,
-      body: req.body.body,
-      owner: req.userId
-    });
-    res.status(201).json(entry);
-  }
-);
+router.post('/', requireUser, entryRules, validateRequest, async (req, res) => {
+  const { title, body } = matchedData(req);
+  const entry = await Entry.create({ title, body, owner: req.userId });
+  res.status(201).json(entry);
+});
 
-module.exports = router;
+module.exports = { router };
 ```
 
-The capstone is CommonJS, the way 10-1 scaffolded it, so `require` is the right spelling here. Restart, run the two curls again, and the second one returns an array with one entry. Now the browser: reload the dashboard and the entry is there. The refresh agrees. The slice is complete, and the table row changes from `partial` to `local`.
+The capstone is CommonJS, the way 10-1 scaffolded it, so `require` is the right spelling here, and every `require` takes braces because 10-1 exported objects, `{ Entry }` and `{ requireUser }`, not bare values. `api/models/entry.js` follows `user.js`: a schema with `title`, `body`, an `owner` of type `ObjectId` with `ref: 'User'`, timestamps, and `module.exports = { Entry }`. In `api/app.js` the router mounts beside the others: `const entries = require('./routes/entries');` at the top and `app.use('/api/entries', entries.router);` under `app.use('/api', auth.router);`. Restart, run the two curls again, and the second one returns an array with one entry. Now the browser: reload the dashboard and the entry is there. The refresh agrees. The slice is complete, and the table row changes from `partial` to `local`.
 
 It becomes `deployed` only after the fix is live, and that is 12-3's job, not today's. Today you commit it and note it. The seed script comes next, because the fix is useless without an account to demonstrate it with.
 
@@ -202,18 +195,22 @@ It becomes `deployed` only after the fix is live, and that is 12-3's job, not to
 // api/scripts/seed.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
-const Entry = require('../models/entry');
+const { User } = require('../models/user');
+const { Entry } = require('../models/entry');
 
 async function main() {
   await mongoose.connect(process.env.MONGODB_URI);
-  const email = 'demo@example.com';
-  await User.deleteOne({ email: email });
-  const user = await User.create({
-    email: email,
-    passwordHash: await bcrypt.hash('demo-pass-1', 10)
-  });
-  await Entry.deleteMany({ owner: user._id });
+  const email = process.argv[2] || 'demo@example.com';
+  const existing = await User.findOne({ email: email });
+  if (existing) {
+    await Entry.deleteMany({ owner: existing._id });
+  }
+  const passwordHash = await bcrypt.hash('demo-pass-1', 12);
+  const user = await User.findOneAndUpdate(
+    { email: email },
+    { name: 'Demo', email: email, passwordHash: passwordHash },
+    { new: true, upsert: true }
+  );
   await Entry.create([
     { title: 'Scout the ridge', body: 'Three hours, clear sky.', owner: user._id },
     { title: 'Copy the map', body: 'The west edge is torn.', owner: user._id },
@@ -229,6 +226,8 @@ main().catch(function (err) {
 });
 ```
 
+The order matters. The entries are deleted by the id the account already has, before anything touches the account, because a seed that deletes the user first and creates a new one gets a new `_id`, and the old entries are left behind under an id nothing can find. The upsert keeps the same `_id` across runs and only refreshes the hash, which is also why the token you fetched before a reseed still works. `name` is there because 10-1's schema requires it, and the optional email argument is what 12-3 uses to seed a second account. The script reads `MONGODB_URI` from `process.env` directly rather than through `config.js`, so it can run against a database with only that one variable set.
+
 ```bash
 cd ~/projects/<capstone-name>/api
 node --env-file=.env scripts/seed.js
@@ -241,14 +240,19 @@ seeded demo@example.com with 3 entries
 Add `"seed": "node --env-file=.env scripts/seed.js"` to the `scripts` in `api/package.json` so the README can say `npm run seed`. Then the example env file:
 
 ```dotenv
-# api/.env.example — copy to api/.env and fill in every value
+# api/.env.example: copy to api/.env and fill in every value
 PORT=3000
 MONGODB_URI=
 JWT_SECRET=
 PAGE_ORIGIN=http://localhost:5173
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
+STRIPE_PRICE_ID=
 ANTHROPIC_API_KEY=
+AI_MODEL=claude-haiku-5-5
+AI_DAILY_TOKEN_BUDGET=50000
+AI_ENABLED=true
+NODE_ENV=development
 ```
 
 Only the keys your server actually reads. Grep for `process.env.` in `api/` and make the list match. A key the README promises and the code never reads is a lie that costs a reviewer twenty minutes.
@@ -326,7 +330,7 @@ Work in `~/projects/<capstone-name>`. Stop any other server first.
 6. Commit `api/.env.example` with every key your server reads and nothing it does not. Confirm `.env` is in `.gitignore` with `git check-ignore api/.env`, which prints the path if it is ignored and nothing if it is not.
 7. Open your 9-4 architecture record. For every box, add one sentence of what it is for. Delete boxes that get no sentence.
 
-If a `GET` after a `POST` comes back empty, you are in the demonstration's bug. Print `req.user` in both handlers and compare the key names before you touch the model.
+If a `GET` after a `POST` comes back empty, you are in the demonstration's bug. Print `req.userId` in both handlers and compare the key names before you touch the model.
 
 ## The quest
 

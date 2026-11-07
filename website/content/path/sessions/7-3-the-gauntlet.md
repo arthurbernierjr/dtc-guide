@@ -262,7 +262,7 @@ git commit -m "Run the Jest suite on push"
 git push
 ```
 
-Open the repository on GitHub and click the Actions tab. A run is listed with your commit message. Click into it, then into the `api` job, and expand `npm test`. The output is the one you saw locally, ending in `Tests: 18 passed, 18 total`, with `tests connected to 127.0.0.1/guildhall_test` above it, printed by a machine in a data center that did not exist two minutes ago.
+Open the repository on GitHub and click the Actions tab. A run is listed with your commit message. Click into it, then into the `api` job, and expand `npm test`. The output is the one you saw locally, ending in `Tests: 18 passed, 18 total`, with `tests connected to 127.0.0.1/guildhall_test` above it, printed by a machine in a data center that did not exist two minutes ago. Eighteen is the example suite's count: fourteen from the accounts and letters files of 7-2 and four from the pack file. If you wrote `tests/errors.test.js` for 7-2's quest, yours is 22, and it is higher again if you kept claims of your own. The check is zero failed, which Jest shows by leaving `failed` off the line. The three browser journeys from today run under `npx playwright test` and never appear in this count.
 
 Then add the browser job. It needs both repositories, because the journey needs the client. The second `checkout` fetches `hall-client` into its own folder, so `cwd: '../hall-client'` in the Playwright config resolves the same way it does at home.
 
@@ -376,7 +376,7 @@ In `~/projects/hall-api`, on `add-tests`. Stop any running hall or client first;
 3. Open `hall-client` and check the three accessible names the journey needs: an input with `aria-label="Email"`, one with `aria-label="Password"`, a button whose text is `Log in`, a heading that says `Inbox`, and letters rendered as `<li>` items that include the sender's name. Add what is missing. These are product changes, and they are small.
 4. Write `e2e/inbox.spec.js` and run `npx playwright test`. The last line is `3 passed`. Run `npx playwright test --headed` once and watch it.
 5. Make the client show the sender's email instead of the name, run, and confirm the first test fails on `toContainText('Bran')`. Run `npx playwright show-report`, open the failed test, and find the screenshot. Put the name back. Save the screenshot as `wrong-sender.png`.
-6. Write the `api` job of `.github/workflows/test.yml`, commit, push, and open the Actions tab. The job is green and `npm test` ends in `Tests: 18 passed, 18 total`. If it is red, read the first failing step before you change anything.
+6. Write the `api` job of `.github/workflows/test.yml`, commit, push, and open the Actions tab. The job is green and `npm test` ends in `Tests: 18 passed, 18 total`, or your own higher count with no `failed` on the line. If it is red, read the first failing step before you change anything.
 7. Add the `e2e` job, push, and wait for both. Download `playwright-report` from the run summary and open it.
 8. Break the workflow on purpose: change `cache-dependency-path` to `package-lock.json` without the folder, push, and read the error `setup-node` prints about not finding the lockfile. Fix it, push, green. That red run is the one you will recognise for the rest of your career.
 

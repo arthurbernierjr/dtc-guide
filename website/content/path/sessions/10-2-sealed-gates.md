@@ -298,6 +298,8 @@ return (
 
 Hooks have to run on every render, so `useState` and `useEffect` for `paid` sit at the top of `App` with the others, not inside the `if (me)` branch; the fragment shows where the values are used. Run the client, log in as Bran, and click Buy access. The network panel shows `POST /api/payments/create-checkout-session` returning 201 with a URL, and the tab goes to `checkout.stripe.com`. Pay with the test card `4242 4242 4242 4242`, any future expiry, any three digits, any postcode; the full list is on the [testing page](https://docs.stripe.com/testing). The browser comes back to `/?checkout=success`. The page says `Thanks` and then, a moment later, `Access: paid`, because the status request found the order the webhook flipped.
 
+Sometimes the page asks before the event has landed. The redirect and the event travel on different paths, and the event can arrive a few seconds after the browser does. The order is still `pending`, `GET /api/payments/status` answers `{"paid":false}`, the page says `Access: not yet paid`, and the button is still there. That is correct, not a bug. Wait a moment and reload, or add a button beside the status line that calls `/api/payments/status` again. Do not have the page read `checkout=success` and say paid to cover the gap. The webhook is the only thing that flips the order, and the status route is the only thing the page trusts.
+
 Read the two terminals. The CLI printed `checkout.session.completed` with a `200` beside it. The API printed `webhook evt_... : order ... paid=1`. Now the evidence that matters. In the CLI's output, find that event id and replay it:
 
 ```bash

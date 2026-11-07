@@ -260,6 +260,8 @@ Snapshots:   0 total
 Time:        0.4 s
 ```
 
+Eight is the count for the eight claims above. If you wrote more, your number is higher, and that is fine. The check is zero failed, and Jest shows zero by leaving the word `failed` off the `Tests:` line entirely.
+
 Now make the two mistakes from the idea section, on purpose, so you have seen the messages. Change the last test to `expect(divide(10, 0)).toThrow()` without the arrow function and run again. The suite does not fail politely. It reports the test as failed with `Cannot divide by zero` thrown from inside the test body, because the throw happened before any matcher existed. Put the arrow back. Then add a temporary test, `expect({ hp: 100 }).toBe({ hp: 100 })`, and read the output: Jest says the values have the same structure but are not the same reference, and suggests `toEqual`. Delete the temporary test.
 
 ### Red, green, refactor, with money
@@ -457,7 +459,7 @@ Everything happens in `~/projects/testing-dojo`. Run `npm test` after every step
    module.exports = { capitalize, reverseString, isPalindrome, truncate, countWords };
    ```
 
-2. Write `utils/strings.test.js` with at least two claims per function, one normal and one edge: the empty string, a single character, a string of spaces, a non-string passed to `capitalize`. Use at least five different matchers from the sheet. `npm test` should end with `Tests: 23 passed, 23 total` or higher, counting the eight math claims and the five currency claims.
+2. Write `utils/strings.test.js` with at least two claims per function, one normal and one edge: the empty string, a single character, a string of spaces, a non-string passed to `capitalize`. Use at least five different matchers from the sheet. `npm test` should end with `Tests: 23 passed, 23 total` or higher, counting the eight math claims and the five currency claims. A different total is not a mistake if the line has no `failed` on it.
 3. Sabotage `isPalindrome` so it returns `true` unconditionally. Run. At least one strings test must be red. Restore it. If nothing went red, your palindrome cases only use palindromes; add `'guild hall'`.
 4. Write `utils/validators.test.js` first, for `isValidEmail`, with these five claims and three of your own.
 

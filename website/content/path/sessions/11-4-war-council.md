@@ -85,6 +85,17 @@ TaskForge, with last session's draft numbers, tested. First the assumptions shee
 | New subscribers per month | marketing / CAC | hypothetical | the channel is unproven |
 ```
 
+Break-even is a moving target in this plan, because the cost base steps up three times. Work it out per step before you read the model's output, so you know what each row has to clear. Each subscriber collects $12 × 0.97 = $11.64 a month after the processor's cut.
+
+```markdown
+| Months | Monthly cost base | Break-even Pro subscribers (cost / (12 x 0.97), rounded up) |
+|---|---|---|
+| 1 | $13,000 (founder, hosting, legal, $6K marketing; no engineer yet) | 1,117 |
+| 2-6 | $24,000 (the engineer starts) | 2,062 |
+| 7-12 | $28,000 (marketing steps to $10K) | 2,406 |
+| 13-18 | $34,000 (marketing steps to $16K) | 2,921 |
+```
+
 Then the model, as a file at `docs/runway.js`. Inputs at the top; nothing below them is a number you would have to hunt for.
 
 ```js
@@ -155,9 +166,9 @@ first cash-positive month: none
 subscribers at month 18: 2559
 ```
 
-Now read it against the deck. Slide 11 said "$500K reaches 3,000 Pro subscribers and cash-flow break-even in 18 months." The model says 2,559 subscribers at month 18 and a net of −$4,213 that month: close, not there, and still burning. Slide 10 said 500 subscribers at the end of year 1; the model says 1,454 at month 12, because the marketing budget on the assumptions sheet buys 150 to 250 new subscribers a month at a $40 CAC, and the slide was written before anyone did that multiplication. The narrative's path-to-profitability line said break-even at 2,234 subscribers; the model agrees on the count and says month 18 is not when it happens.
+Now read it against the deck. Slide 11 said "$500K reaches 3,000 Pro subscribers and cash-flow break-even in 18 months." The model says 2,559 subscribers at month 18 and a net of −$4,213 that month: close, not there, and still burning. Slide 10 said 500 subscribers at the end of year 1; the model says 1,454 at month 12, because the marketing budget on the assumptions sheet buys 150 to 250 new subscribers a month at a $40 CAC ($6,000 ÷ 40 through month 6, $10,000 ÷ 40 through month 12), and the slide was written before anyone did that multiplication. The narrative's path-to-profitability line said break-even at 2,234 subscribers. The model does not agree, and the reason is the denominator. That 2,234 was $26,000 divided by $11.64, and the model never has a $26,000 cost base after month 12; from month 13 the base is $34,000 (founder $5,000, hosting $1,200, legal $800, engineer $11,000, marketing $16,000), so break-even in that step is 2,921 subscribers, the last row of the table above. At 2,559 the model is 362 short, which is the −$4,213. The narrative's number was computed from a base the plan had already left behind, and that line changes along with the slide.
 
-Three honest ways to reconcile, and the one a listener respects is whichever you can defend. Change the slides to match the model: "roughly 2,500 Pro subscribers by month 18, cash-flow break-even around month 20, with over $240K of the raise still in the bank." Change an assumption with evidence: if the content channel measured a $30 CAC last month, put $30 on the sheet with the source and rerun. Or change the plan: start the $16K marketing step at month 10 and rerun, and accept the lower minimum cash. What you may not do is leave 3,000 on the slide and 2,559 in the model.
+Three honest ways to reconcile, and the one a listener respects is whichever you can defend. Change the slides to match the model: "roughly 2,500 Pro subscribers by month 18, cash-flow break-even in month 21, with over $240K of the raise still in the bank." (Run the model to 24 months to see it: the first month with a positive net is 21, at 2,950 subscribers against the $34,000 base.) Change an assumption with evidence: if the content channel measured a $30 CAC last month, put $30 on the sheet with the source and rerun. Or change the plan: start the $16K marketing step at month 10 and rerun, and accept the lower minimum cash. What you may not do is leave 3,000 on the slide and 2,559 in the model.
 
 Then the downside, one input at a time. CAC $60 instead of $40: subscribers at month 18 fall to about 1,700, lowest cash about $163K, still funded for all 18 months. Churn 15 percent instead of 10: about 2,050 subscribers, lowest cash about $205K. Both go in the narrative as scenarios, and the sentence under them is the one that matters: "The plan survives either miss with more than $160K in reserve; it does not survive both at once without cutting the month-13 marketing step." That sentence is what an investor is actually asking for when they ask about runway.
 

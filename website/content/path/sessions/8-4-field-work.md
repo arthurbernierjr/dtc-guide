@@ -39,7 +39,7 @@ Frequency is the number that matters, and it is small. "Three of three described
 
 ### The combined map and the insight page
 
-The empathy map from 8.1, filled from all three logs at once, with the participant id after each entry. Says is quotes. Thinks is inference and says so. Does is actions with a count. Feels is what you heard or saw. Then the insight page in six blocks: patterns, each with a count; pain points, each pointing at a row; surprises, the things you did not expect; opportunities, where a step could be removed or a status made visible; validated assumptions, with the rows that validated them; and invalidated assumptions, with the rows that broke them. If the last block is empty, you were asking leading questions or not listening, because an idea written before the interviews is never entirely right. Go back to the logs and find the row that disagrees with you. There is one.
+The empathy map from 8.1, filled from all three logs at once, with the participant id after each entry. Says is quotes. Thinks is inference and says so. Does is actions with a count. Feels is what you heard or saw. Then the insight page in six blocks: patterns, each with a count; pain points, each pointing at a row; surprises, the things you did not expect; opportunities, where a step could be removed or a status made visible; validated assumptions, with the rows that validated them; and invalidated assumptions, with the rows that broke them. The last block is rarely empty, because an idea written before the interviews is rarely entirely right, so read the logs once more for the row that disagrees with you before you decide it is. An empty invalidated block is allowed when it is honest. Then it carries one line: which assumption you are least sure of, what evidence would overturn it, and the next question you will ask to find out. An empty block with no such line is the dishonest case, because it says you checked nothing.
 
 ### One problem statement and two alternatives
 
@@ -313,7 +313,7 @@ The filled decision log for the ledger, which is the part people skip and the pa
 
 The walkthrough is two to three minutes of screen recording, any recorder you like, with the spec open, answering four questions in order: who it is for, the biggest pain point you found and its count, the MVP, and the Sprint 1 goal. Watch it back once. If you hear yourself describing a feature nobody in the log asked for, the spec has a hypothesis row that is not labelled. Put the link, or the file, under Links.
 
-Here is a small model you can run here. It proves that a story is evidence only when it cites participants who exist in the log, that a citation to a participant who is not in the log is demoted to hypothesis, that patterns are ranked by how many participants support them rather than by who asked loudest, that an insight page with no invalidated assumption is refused, and that a learning criterion decides pass or fail from results rather than from mood. It does not prove your three people were the right three; the sample-limits block is where you say that.
+Here is a small model you can run here. It proves that a story is evidence only when it cites participants who exist in the log, that a citation to a participant who is not in the log is demoted to hypothesis, that patterns are ranked by how many participants support them rather than by who asked loudest, that an insight page is honest when every assumption points at rows or carries the unresolved line with a next question, that an all-validated page with no such line is refused, and that a learning criterion decides pass or fail from results rather than from mood. It does not prove your three people were the right three; the sample-limits block is where you say that.
 
 ```js run=checkpoint-8-4
 function check(condition, message) {
@@ -349,11 +349,20 @@ const assumptions = [
   { text: 'tutors track per lesson', verdict: 'invalidated', rows: ['P2:1', 'P3:role'] },
   { text: 'a reminder text would help', verdict: 'invalidated', rows: ['P2:2', 'P3:2'] }
 ];
+function hasNextQuestion(a) {
+  return a.verdict === 'unresolved' && typeof a.next === 'string' && a.next.trim().length > 0;
+}
 function insightPageIsHonest(list) {
-  return list.some(function (a) { return a.verdict === 'invalidated'; }) && list.every(function (a) { return a.rows.length > 0; });
+  const cited = list.every(function (a) { return hasNextQuestion(a) || a.rows.length > 0; });
+  const challenged = list.some(function (a) { return a.verdict === 'invalidated' || hasNextQuestion(a); });
+  return cited && challenged;
 }
 check(insightPageIsHonest(assumptions), 'at least one assumption was broken, and every verdict points at rows');
-check(!insightPageIsHonest(assumptions.filter(function (a) { return a.verdict === 'validated'; })), 'an insight page with nothing invalidated is refused');
+const validatedOnly = assumptions.filter(function (a) { return a.verdict === 'validated'; });
+check(!insightPageIsHonest(validatedOnly), 'an all-validated page with no unresolved line is refused');
+const unresolved = { text: 'tutors would pay for this', verdict: 'unresolved', rows: [], next: 'What do you pay for today that does this job badly?' };
+check(insightPageIsHonest(validatedOnly.concat(unresolved)), 'an all-validated page with an unresolved line and a next question passes');
+check(!insightPageIsHonest(validatedOnly.concat(Object.assign({}, unresolved, { next: '' }))), 'an unresolved line without a next question does not count');
 
 const criterion = { needed: 2, of: 2, passIf: function (r) { return r.foundInUnder60s && !r.needHelp; } };
 function decide(results) {
@@ -386,11 +395,11 @@ The symptom is a Sprint 2 review that ends with "I think it went well" and no ch
 
 The ledger is done. Now yours, with whatever is in your log; if it is two interviews rather than three, the spec says two, and the third goes in when it lands.
 
-1. Read your P1 to P3 logs twice. On the second pass, in `docs/research.md`, add `## Combined empathy map` with an id after every entry and at least three entries per box, and `## Insights` with the six blocks: patterns with counts, pain points with rows, surprises, opportunities, validated assumptions with rows, invalidated assumptions with rows. The last block must have at least one line.
+1. Read your P1 to P3 logs twice. On the second pass, in `docs/research.md`, add `## Combined empathy map` with a participant id after every entry; a box with fewer than three entries says in one line why, for example that nobody said anything about feelings. Then `## Insights` with the six blocks: patterns with counts, pain points with rows, surprises, opportunities, validated assumptions with rows, invalidated assumptions with rows. The last block has at least one invalidated assumption, or the unresolved line described above.
 
 2. Write the problem statement in four parts and two alternatives, one of them not software, at the top of `docs/product-spec.md`, which you create now from the template.
 
-3. Open `docs/user-stories.md` and re-tag the source column of every story: `evidence: P1, P3` with ids that exist in your log, or `hypothesis`. Then write `## Backlog changes (8.4)` with every bucket move, addition, and deletion, each with its ids. Expect at least two changes; if you have none, go back to the invalidated assumptions and ask what story they break.
+3. Open `docs/user-stories.md` and re-tag the source column of every story: `evidence: P1, P3` with ids that exist in your log, or `hypothesis`. Then write `## Backlog changes (8.4)` with every bucket move, addition, and deletion, each with its ids. Expect at least two changes; if you have none, go back to the invalidated assumptions, or to the unresolved line, and ask what story they break.
 
 4. Open `docs/sprint-plan.md`, move the promoted and demoted stories, and re-check every total against its capacity. Keep the slack rows. Write any new story that does not fit as "first pull if slack survives". Update the board to match: cards relabelled, Sprint 1 unchanged unless a Must left it.
 
@@ -421,7 +430,7 @@ One deliverable: `docs/product-spec.md` version 1.0 in the capstone repo, pushed
 
 Evidence:
 
-- A combined empathy map with ids on every entry and an insight page where every pattern has a count and at least one assumption is marked invalidated with rows.
+- A combined empathy map with ids on every entry and an insight page where every pattern has a count and at least one assumption is marked invalidated with rows, or the unresolved line stands in its place.
 - A problem statement with a user, a context, an obstacle, and a consequence, and two alternatives, one of them not software.
 - A re-tagged `docs/user-stories.md` where every source is `evidence: P…` with ids that exist in the log, or `hypothesis`, and a change log with ids on every line.
 - A re-checked `docs/sprint-plan.md` where every sprint is at or under capacity with slack visible, and the board matching it.
@@ -439,7 +448,7 @@ Self-check before you call it done, one line each, honestly:
 | Prioritisation | Three to five Musts with reasons, two or more Won'ts, RICE on ten |
 | Plan | Four sprints with hours, capacity, slack, and goals; Sprint 1 in full |
 | Learning | A criterion written before any code, with an if-it-fails |
-| Honesty | At least one invalidated assumption and a sample-limits paragraph |
+| Honesty | An invalidated assumption or the unresolved line, and a sample-limits paragraph |
 | Privacy | `grep -ril` for any name in `docs/` prints nothing |
 
 ## Side quests

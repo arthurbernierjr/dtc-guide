@@ -134,7 +134,7 @@ The star is the universal selector. It matches everything, including the `::befo
 
 Two more words, because they explain why a `span` will not take a width. **Block** elements (`p`, the headings, `section`, `header`, `div`) stretch to fill the line and start on a new one. **Inline** elements (`span`, `a`, `strong`, `em`) sit in the line and ignore `width`, `height`, and vertical margin. **Inline-block** sits in the line and accepts a width. `display: none` removes the element from the layout entirely, as if it were not in the tree. You will measure inline and inline-block in the box stage, so the definitions have numbers under them.
 
-> **Note:** Three sentences to retire before the file. *Margin and padding are the same kind of space*: padding is inside and painted, margin is outside and empty. *If it does not apply, add !important*: it lost on specificity or it never matched, and DevTools will say which. *An id and a class are interchangeable ways to style*: an id is ten classes strong and can exist only once, so a color hung on an id is a color you will have to fight.
+> **Note:** Three sentences to retire before the file. *Margin and padding are the same kind of space*: padding is inside and painted, margin is outside and empty. *If it does not apply, add !important*: it lost on specificity or it never matched, and DevTools will say which. *An id and a class are interchangeable ways to style*: an id sits in a column to the left of every class, so no number of classes outranks it, and it can exist only once, so a color hung on an id is a color you will have to fight.
 
 ## The demonstration
 

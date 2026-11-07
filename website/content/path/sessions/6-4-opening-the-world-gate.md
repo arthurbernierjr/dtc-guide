@@ -38,7 +38,7 @@ A release is a set of inputs, not a folder you copied. The inputs are a source r
 
 ### The database the droplet does not have
 
-Unit 4 installed MongoDB Community Server on your laptop and the hall connected to `mongodb://127.0.0.1:27017/guildhall`. That address on the droplet means "this droplet," where nothing listens on 27017. Two honest options. Run MongoDB on the droplet itself, bound to loopback, which keeps the data on your machine and costs you a chunk of its 1 GB of memory. Or use MongoDB Atlas, the hosted service, whose free tier is enough for the hall and asks for nothing from the droplet except an outbound connection. This session takes Atlas as the one complete path and gives the droplet install as an aside, because a database you do not have to back up by hand is the right first database to run in public.
+Unit 4 installed MongoDB Community Server on your laptop and the hall connected to `mongodb://127.0.0.1:27017/guildhall`. That address on the droplet means "this droplet," where nothing listens on 27017. Two honest options. Run MongoDB on the droplet itself, bound to loopback, which keeps the data on your machine and costs you a chunk of its 1 GB of memory. Or use MongoDB Atlas, the hosted service, whose free tier is enough for the hall and asks for nothing from the droplet except an outbound connection. This session takes Atlas as the one complete path and gives the droplet install as an aside, because a managed database with its own firewall and its own users is the right first database to run in public. One limit is visible at the point of choice. The free tier takes no scheduled backups. You take your own with `mongodump`, and 12-3 practises exactly that.
 
 Atlas has three nouns, and the buttons move around them. A cluster is the server; you create a free one, called M0, in the region nearest your droplet. A database user is the account the hall logs in with; you create one named `hall` with a generated password and read-write access. The network access list is the firewall; you add your droplet's public IP and nothing else. "Allow access from anywhere" is a checkbox that exists for development on a laptop whose address changes, and it is the exact failure the diagnosis below calls Database exposed. If you rebuild the droplet, the IP changes and the list needs the new one; write that in the release notes.
 
@@ -70,7 +70,14 @@ Rollback has two meanings and the figure separates them. Rolling the code back i
 
 ## The demonstration
 
-Laptop first, then Atlas in a browser, then the server. Two SSH sessions as before, Terminal A and Terminal B. The example values use `203.0.113.10`, `YOUR-DOMAIN`, and `YOUR_GITHUB_USER`.
+Laptop first, then Atlas in a browser, then the server. Two SSH sessions as before, Terminal A and Terminal B. The example values use `203.0.113.10`, `YOUR-DOMAIN`, and `YOUR_GITHUB_USER`. Where you are at the start of today:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · nothing running · local hall-api on 4100 runs only while you test the client
+server A    ssh deploy@YOUR_DROPLET_IP · /home/deploy/hall-api and hall-client cloned, no .env · Nginx on 80 and 443 · test-app on 3000 under pm2
+server B    second ssh session, same user · used for curl against 127.0.0.1:4100
+browser     Atlas dashboard · https://YOUR-DOMAIN still shows the heading
+```
 
 On the laptop, in `~/projects/hall-client`, the one line and its env file:
 
@@ -86,6 +93,7 @@ VITE_API_URL=http://localhost:4100
 Save the second as `.env.development`. Run `npm run dev` and confirm the hall still logs in against your local `hall-api`; the base is read from the file now, and the network panel still shows requests to `localhost:4100`. Then build once locally to see the shape:
 
 ```bash
+# laptop, in ~/projects/hall-client
 npm run build
 ls dist dist/assets
 ```
@@ -122,6 +130,7 @@ If the password contains characters such as `@` or `:`, regenerate it until it d
 Terminal A, on the server:
 
 ```bash
+# server, Terminal A
 cd ~/hall-api
 git pull --ff-only
 node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
@@ -137,6 +146,7 @@ NODE_ENV=production
 ```
 
 ```bash
+# server, Terminal A
 chmod 600 .env
 ls -l .env
 node --env-file=.env server.js
@@ -150,6 +160,7 @@ listening on 4100
 `listening on 4100` with no `MongooseServerSelectionError` in the seconds after it is the first proof. A connection failure to Atlas does not stop the listen line; it arrives as a stack trace a few seconds later, and its usual cause is the network access list. Terminal B, prove the database by writing to it:
 
 ```bash
+# server, Terminal B
 curl -i -H 'Content-Type: application/json' \
   -d '{"name":"Bran","email":"bran@example.com","password":"a-long-passphrase"}' \
   http://127.0.0.1:4100/api/register
@@ -162,9 +173,10 @@ Content-Type: application/json; charset=utf-8
 {"name":"Bran","email":"bran@example.com"}
 ```
 
-A 201 means the document is in Atlas. Open the cluster's Collections tab if you like and see `guildhall.users` with one row. Ctrl-C the server in Terminal A. Now the process manager:
+A 201 means the document is in Atlas. Open the cluster's Collections tab if you like and see `guildhall.users` with one row. Ctrl-C the server in Terminal A. Now the process manager, in that same terminal:
 
 ```bash
+# server, Terminal A
 nano ~/hall-api/ecosystem.config.js
 ```
 
@@ -184,6 +196,7 @@ module.exports = {
 ```
 
 ```bash
+# server, Terminal A
 cd ~/hall-api
 pm2 delete test-app
 pm2 start ecosystem.config.js
@@ -210,6 +223,7 @@ Commit the ecosystem file to the repo from the laptop later, or now from the ser
 The client, in Terminal A:
 
 ```bash
+# server, Terminal A
 cd ~/hall-client
 git pull --ff-only
 npm install
@@ -233,7 +247,7 @@ assets  index.html  vite.svg
 
 No `sudo` on the copy, because 6-2 made `deploy` the owner of `/var/www/hall-client`. The `.prev` directory is created once and receives a copy of whatever was live before each release; that is the rollback target. If the build is killed on a 1 GB droplet, the alternative is to run `npm run build` on the laptop and `rsync -a --delete dist/ deploy@203.0.113.10:/var/www/hall-client/` from there; the result is the same directory.
 
-Nginx, two edits in the first block of `/etc/nginx/sites-available/hall`: the proxy port and the fallback:
+Nginx, still in Terminal A, with `sudo nano /etc/nginx/sites-available/hall`. Two edits in the first block: the proxy port and the fallback:
 
 ```nginx
     location /api/ {
@@ -254,12 +268,14 @@ Nginx, two edits in the first block of `/etc/nginx/sites-available/hall`: the pr
 ```
 
 ```bash
+# server, Terminal A
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
 The `listen 443 ssl` lines and the redirect block that certbot wrote stay exactly as they are. Now, from the laptop, the three curls that separate the layers:
 
 ```bash
+# laptop
 curl -sI https://YOUR-DOMAIN | head -n 3
 curl -i https://YOUR-DOMAIN/api/items
 curl -i https://YOUR-DOMAIN/api/nope
@@ -279,9 +295,10 @@ HTTP/2 404
 
 The first is the build, served by Nginx. The second is Express refusing an unauthenticated request, through the proxy, over TLS, with the JSON error shape from 4-11; the message text is whatever your `requireUser` says. The third proves the proxy block beats the fallback: an unknown API path gets Express's 404, not the page. If the third returns `200` and HTML, `/api/` is not reaching the proxy block.
 
-The journey, in a browser on the laptop first. `https://YOUR-DOMAIN` shows the hall's login. Register Sera through the form or with the curl from earlier against `https://YOUR-DOMAIN/api/register`. Seed the catalog once with any token, the way 4-14 did:
+The journey, in a browser on the laptop first. `https://YOUR-DOMAIN` shows the hall's login. Register Sera through the form or with the curl from earlier against `https://YOUR-DOMAIN/api/register`. Seed the catalog once with any token, the way 4-14 did, from the laptop:
 
 ```bash
+# laptop
 TOKEN=$(curl -s -H 'Content-Type: application/json' \
   -d '{"email":"bran@example.com","password":"a-long-passphrase"}' \
   https://YOUR-DOMAIN/api/login | sed 's/.*"token":"\([^"]*\)".*/\1/')
@@ -323,11 +340,12 @@ echo "api revision $(git -C "$API" rev-parse --short HEAD)"
 echo "client revision $(git -C "$CLIENT" rev-parse --short HEAD)"
 ```
 
-Save it as `deploy.sh`, `chmod +x deploy.sh`, commit, push. On the server, `cd ~/hall-api && git pull --ff-only && ./deploy.sh`. The last four lines are `page 200`, `api 401`, and two short hashes. Those hashes are the release. Write them in `docs/release.md` with the date. `npm ci` installs exactly the lockfile, which is the reproducibility the idea section promised; `--omit=dev` keeps test tooling off the server once Unit 7 adds it.
+Save it as `deploy.sh`, `chmod +x deploy.sh`, commit, push. The file is written on the laptop and runs on the server. In Terminal A, `cd ~/hall-api && git pull --ff-only && ./deploy.sh`. The last four lines are `page 200`, `api 401`, and two short hashes. Those hashes are the release. Write them in `docs/release.md` with the date. `npm ci` installs exactly the lockfile, which is the reproducibility the idea section promised; `--omit=dev` keeps test tooling off the server once Unit 7 adds it.
 
-The rollback drill, so it is rehearsed and not imagined. Change the hall's heading on the laptop, commit, push, run `./deploy.sh`, and see the new heading at the name. Now put the previous build back:
+The rollback drill, so it is rehearsed and not imagined. Change the hall's heading on the laptop, commit, push, run `./deploy.sh`, and see the new heading at the name. Now put the previous build back, in Terminal A:
 
 ```bash
+# server, Terminal A
 rsync -a --delete /var/www/hall-client.prev/ /var/www/hall-client/
 ```
 
@@ -338,6 +356,7 @@ Reload: the old heading. Log in as Sera: the letters are all there, including th
 The commands are real and they fit on one screen; the cost is memory and the responsibility for backups. On the server, following the Ubuntu install page in the docs list for the current major version, with 8.0 shown here:
 
 ```bash
+# server, Terminal A
 sudo apt-get install -y gnupg curl
 curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
@@ -354,6 +373,7 @@ grep bindIp /etc/mongod.conf
 The reference hall at [guild-hall-production.up.railway.app](https://guild-hall-production.up.railway.app/) is not on a droplet. It runs on Railway, where the machine, Nginx, pm2, and certbot are the platform's problem and yours is the code and its variables. If the VPS was the lesson and not the destination, this is the path you keep. Install the CLI with `npm install -g @railway/cli`, then, on the laptop:
 
 ```bash
+# laptop
 railway login
 cd ~/projects/hall-api
 railway init
@@ -470,6 +490,20 @@ The three logs and the restart counter you now read are the observability the li
 
 ## Before next session
 
-The hall is live and it stays live. The droplet carries Nginx on 80 and 443, pm2 holding `hall-api` on 4100, and a certificate that renews itself; Atlas holds the data. Nothing on the server changes unless you run `deploy.sh`. Close your SSH sessions. On the laptop nothing is running.
+The hall is live and it stays live. The droplet carries Nginx on 80 and 443, pm2 holding `hall-api` on 4100, and a certificate that renews itself; Atlas holds the data. Nothing on the server changes unless you run `deploy.sh`. Close your SSH sessions. On the laptop nothing is running. State at close:
+
+```text
+laptop      ~/projects/hall-api and ~/projects/hall-client · deploy.sh and docs/release.md pushed · nothing running
+server A    ssh deploy@YOUR_DROPLET_IP · Nginx on 80 and 443 · hall-api on 4100 under pm2 reading ~/hall-api/.env · test-app deleted · closed with exit
+server B    closed with exit
+browser     https://YOUR-DOMAIN · the hall's login · Atlas cluster holding guildhall
+```
+
+If you are stopping the course for a while, pause the bill on purpose instead of forgetting it. The 1 GB droplet from 6-1 is $6.00 a month at the time of writing, charged by the hour whether or not anyone visits, and the create page always shows the current number. A snapshot keeps the disk for $0.06 per GB per month at the time of writing, so you can destroy the droplet and bring the whole setup back later. The Atlas free cluster costs nothing, but Atlas pauses it after thirty days with no connections and emails you a week before; a paused cluster keeps its data and resumes with one click. The domain renews once a year at the renewal price you wrote in `docs/domain.md`, and a lapsed name goes back on the market.
+
+- Pause: on the droplet's page, Power, turn it off. Snapshots, name it `hall-<date>`, Take Snapshot, wait for it to finish. Destroy, Destroy this Droplet. The IP goes back to the pool.
+- Resume: Images, Snapshots, More, Create Droplet, same 1 GB size. The new droplet has a new IP, so update the A record at the registrar and the Atlas network access entry, and run `ssh-keygen -R OLD_IP` on the laptop. Then `ssh deploy@NEW_IP`, `pm2 list` shows `hall-api` online, and `sudo certbot renew --dry-run` still says `Congratulations`.
+- Atlas: nothing to pay. If the cluster shows Paused, click Resume and wait a minute. Take a `mongodump` before a long pause anyway, the way 12-3 does.
+- Domain: check the renewal date and that auto-renew is on in the registrar panel, with a card that will still be valid on that date.
 
 Unit 7 is about proving the hall works instead of believing it: unit tests with Jest, request tests against the real routes with Supertest, a browser test with Playwright, and a GitHub Actions workflow that runs them on every push. Those tests will target `/api/register`, `/api/login`, `/api/messages`, `/api/inbox`, `/api/items`, and `/api/pack`, the twelve routes you just shipped, against a `guildhall_test` database on your laptop, never against Atlas. Read the Jest getting-started page from 7-1's docs list before you arrive. The next session starts on the laptop, in `~/projects/hall-api`, with the live hall untouched.
