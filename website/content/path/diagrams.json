@@ -2,8 +2,8 @@
   "_comment": "The diagram ledger, machine-readable twin of DESIGN-REFERENCE-RESPAWN.md §R10. Key = <set>/<file>; the build expects <file>-wide.png (1600×900) and <file>-tall.png (900×1200) under build/assets/diagrams/<set>/. A referenced figure with no alt text fails the build.",
   "path/path-map": {
     "composition": "PathMap",
-    "alt": "The complete curriculum: twenty-one weeks, sixty-three published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
-    "caption": "The route: 21 weeks, three acts, the flag marks the latest written session."
+    "alt": "The complete curriculum: twenty-two weeks, sixty-four published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
+    "caption": "The route: 22 weeks, three acts, the flag marks the latest written session."
   },
   "session-3-1/fig1-three-containers": {
     "composition": "ManaContainers",
@@ -64,6 +64,84 @@
     "fig": 5,
     "alt": "Three panels titled costume one the forgotten word, costume two braces without return, and costume three map with a block body; each shows red code producing undefined or an array of undefined, then the green one-line fix producing 5, 8, and the array of names",
     "caption": "The missing return in its three costumes. A function with no return hands back undefined; braces make a block, so an arrow with braces needs the word."
+  },
+  "session-3-3/fig1-model": {
+    "composition": "CurriculumDiagram",
+    "fig": 1,
+    "alt": "Session 3.3: The working model. Unpack: braces on the left pull values out by name and three dots in a pattern gather the rest. Copy: spread or slice makes a new array one level deep, and an alias is no copy at all. Count: reduce with an empty object as the start and one line per pass.",
+    "caption": "The working model: Unpack → Copy → Count",
+    "props": {
+      "session": "3.3",
+      "title": "The working model",
+      "mode": "flow",
+      "nodes": [
+        [
+          "Unpack",
+          "Braces on the left pull values out by name; three dots in a pattern gather the rest."
+        ],
+        [
+          "Copy",
+          "Spread or slice makes a new array one level deep; an alias is no copy at all."
+        ],
+        [
+          "Count",
+          "reduce with an empty object as the start and one line per pass: counts[key] = (counts[key] || 0) + 1."
+        ]
+      ],
+      "artifact": "spellbook.js finished with all six queries and pushed to js-fundamentals, plus PROVING.md with your three worked answers"
+    }
+  },
+  "session-3-3/fig2-diagnosis": {
+    "composition": "CurriculumDiagram",
+    "fig": 2,
+    "alt": "Session 3.3: Diagnose the failure. Shared array: a second name was an alias and sort or push changed the one array both names share. Missing key: a pattern asked for a property the object does not have and got undefined, then NaN three lines later. Empty reduce: reduce with no starting value met an empty array and threw.",
+    "caption": "Diagnose the failure: Shared array · Missing key · Empty reduce",
+    "props": {
+      "session": "3.3",
+      "title": "Diagnose the failure",
+      "mode": "diagnosis",
+      "nodes": [
+        [
+          "Shared array",
+          "A second name was an alias, and sort or push changed the one array both names share. Copy before you mutate."
+        ],
+        [
+          "Missing key",
+          "A pattern asked for a property the object does not have and got undefined, then NaN three lines later. Match the real keys."
+        ],
+        [
+          "Empty reduce",
+          "reduce with no starting value met an empty array and threw. Pass a start, or guard the empty case."
+        ]
+      ],
+      "artifact": "spellbook.js finished with all six queries and pushed to js-fundamentals, plus PROVING.md with your three worked answers"
+    }
+  },
+  "session-3-3/fig3-evidence": {
+    "composition": "CurriculumDiagram",
+    "fig": 3,
+    "alt": "Session 3.3: What done looks like. Six queries: node spellbook.js prints every query on your ten spells and ends with undefined for pool.currentMana. Nothing mutated: spells.length is the same after every query and no TypeError appears. Proof on paper: PROVING.md holds the trace, the new query and the changed rule, and the trace matches what node printed.",
+    "caption": "What done looks like: Six queries · Nothing mutated · Proof on paper",
+    "props": {
+      "session": "3.3",
+      "title": "What done looks like",
+      "mode": "evidence",
+      "nodes": [
+        [
+          "Six queries",
+          "node spellbook.js prints every query on your ten spells and ends with undefined for pool.currentMana."
+        ],
+        [
+          "Nothing mutated",
+          "spells.length is the same after every query, and no TypeError appears anywhere above it."
+        ],
+        [
+          "Proof on paper",
+          "PROVING.md holds the trace, the new query and the changed rule, and the trace's final object matches what node printed."
+        ]
+      ],
+      "artifact": "spellbook.js finished with all six queries and pushed to js-fundamentals, plus PROVING.md with your three worked answers"
+    }
   },
   "session-3-5/fig1-file-and-tree": {
     "composition": "DomTree",

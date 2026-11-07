@@ -27,7 +27,7 @@ say:
 
 Pause the game for a second and look at what is in your bag.
 
-After two sessions you have variables, branches, functions that take functions, closures that remember, and the array methods that turn a list into another list. (Loops have appeared twice without an introduction; they get one below, before this session leans on them.) That is a real toolkit. If I handed you a spreadsheet of orc names and asked for the ones over level ten, sorted, you would be done before I finished the sentence.
+After three sessions you have variables, branches, functions that take functions, closures that remember, the array methods that turn a list into another list, and a finished spellbook that proved it. (Loops have appeared twice without an introduction; they get one below, before this session leans on them.) That is a real toolkit. If I handed you a spreadsheet of orc names and asked for the ones over level ten, sorted, you would be done before I finished the sentence.
 
 Now I hand you something different. Not a list of names. A *character*. She has a name, a class, hit points, a maximum, an attack stat, a bag of skills, and a flag that says whether she is still standing. She can take damage. She can heal. She can tell you how she is doing. Where does all of that live?
 
@@ -69,9 +69,9 @@ When you write `class Warrior extends Character`, you are adding one link to tha
 
 > **Say:** "An object is state plus behaviour. A class is the blueprint, an instance is the thing built from it. Methods live once, on the prototype, and instances reach them through the chain."
 
-One more tool before we build, because you will reach for it in the lab. A **factory function** is a plain function that builds and returns an object. No `class`, no `new`, no `this`. Combined with a closure from last session, a factory gives you something classes cannot give you as easily: state that is truly private, because it lives in the closure and nothing outside can touch it. The trade is that every object gets its own copy of each method (the card grid again, on purpose this time) and `instanceof` does not work. Use classes when you want many instances or inheritance; use a factory when you want a small object with a secret.
+One more tool before we build, because you will reach for it in the lab. A **factory function** is a plain function that builds and returns an object. No `class`, no `new`, no `this`. Combined with a closure from Session 3.2, a factory gives you something classes cannot give you as easily: state that is truly private, because it lives in the closure and nothing outside can touch it. The trade is that every object gets its own copy of each method (the card grid again, on purpose this time) and `instanceof` does not work. Use classes when you want many instances or inheritance; use a factory when you want a small object with a secret.
 
-And one tool the last two sessions used without naming it: the **loop**. A loop runs a block more than once, and JavaScript has three you will write constantly. The counting `for` runs a fixed number of times with a counter you control, `for (let i = 0; i < 3; i++)`, which you met in 3.2's closure bug. `for ... of` walks a list and hands you one element per pass with no counter at all, `for (const orc of orcs)`, which is what the `hpReport` demo in 3.1 used. `while` repeats as long as a condition holds and does not know in advance how many times that will be, which makes it the loop for a battle: `while (hero.isAlive && !monster.isDefeated)`. The one rule of `while` is that something inside the body must move the condition toward `false`, or the loop never ends and the tab freezes. The array methods from 3.2 replace most `for ... of` loops over a list; reach for a loop when you need a counter, an early `break`, or a condition that is not about an array.
+And one tool the last three sessions used without naming it: the **loop**. A loop runs a block more than once, and JavaScript has three you will write constantly. The counting `for` runs a fixed number of times with a counter you control, `for (let i = 0; i < 3; i++)`, which you met in 3.2's closure bug. `for ... of` walks a list and hands you one element per pass with no counter at all, `for (const orc of orcs)`, which is what the `hpReport` demo in 3.1 used. `while` repeats as long as a condition holds and does not know in advance how many times that will be, which makes it the loop for a battle: `while (hero.isAlive && !monster.isDefeated)`. The one rule of `while` is that something inside the body must move the condition toward `false`, or the loop never ends and the tab freezes. The array methods from 3.2, which you finished proving on the spellbook in 3.3, replace most `for ... of` loops over a list; reach for a loop when you need a counter, an early `break`, or a condition that is not about an array.
 
 ```js run=loops
 'use strict';
@@ -201,7 +201,7 @@ console.log(inventory.has('Sword'), inventory.has('Shield'));
 console.log('ok: inventory');
 ```
 
-`Object.entries` turns the inner object into an array of `[name, qty]` pairs, and from there it is last session's `map` and `join`. That is the pattern you will use for the rest of your life: objects hold the state, arrays carry it through a transformation.
+`Object.entries` turns the inner object into an array of `[name, qty]` pairs, and from there it is `map` from 3.2 and `join`. That is the pattern you will use for the rest of your life: objects hold the state, arrays carry it through a transformation.
 
 ### 3. The blueprint, and three classes built on it
 

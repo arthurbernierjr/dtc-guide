@@ -182,6 +182,19 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 5 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
+  "/path/3-3-the-proving-grounds/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) · first-wave pass",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Window/structuredClone",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"
+    ],
+    "exec": "ran",
+    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 6 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
+  },
   "/path/3-4-objects-and-orcs/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
@@ -3117,7 +3130,7 @@
       "https://developer.mozilla.org/en-US/docs/Web/HTTP"
     ],
     "exec": "n/a",
-    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 1 text/pseudocode/shell block(s) only; nothing executable."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 2 text/pseudocode/shell block(s) only; nothing executable."
   },
   "/system-design/concepts/api-gateway/": {
     "date": "2026-11-07",
@@ -3368,6 +3381,7 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://kafka.apache.org/documentation/",
+      "https://www.mongodb.com/docs/",
       "https://www.elastic.co/docs",
       "https://grpc.io/docs/",
       "https://prometheus.io/docs/",
@@ -3375,7 +3389,7 @@
       "https://opentelemetry.io/docs/"
     ],
     "exec": "n/a",
-    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 1 text/pseudocode/shell block(s) only; nothing executable."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 2 text/pseudocode/shell block(s) only; nothing executable."
   },
   "/system-design/concepts/proxies-forward-vs-reverse/": {
     "date": "2026-11-07",
@@ -3439,7 +3453,7 @@
       "https://docs.aws.amazon.com/dynamodb/"
     ],
     "exec": "n/a",
-    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 1 text/pseudocode/shell block(s) only; nothing executable."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 2 text/pseudocode/shell block(s) only; nothing executable."
   },
   "/system-design/concepts/unique-id-generation/": {
     "date": "2026-11-07",

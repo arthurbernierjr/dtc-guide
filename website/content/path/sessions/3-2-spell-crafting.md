@@ -4,7 +4,7 @@ title: Spell Crafting
 subtitle: Functions, Scope, Closures, and Array Methods
 hook: "Write the incantation once, name it, and cast it anywhere; then learn why some spells remember."
 read: 45
-artifact: "spellbook.js: ten spells, six query functions built on filter, map and reduce, and a closure-based mana pool"
+artifact: "spellbook.js: ten spells, a closure-based mana pool, and the first two query functions built on filter"
 diagrams:
   - fig1-three-spellings
   - fig2-scope-rings
@@ -15,7 +15,7 @@ docs:
   - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions
   - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
   - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
-  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring
+  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
   - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 say:
   - "a function is a named spell: write it once, cast it anywhere"
@@ -47,7 +47,7 @@ Four ideas again, and this time they stack: each one is built from the one befor
 
 ![](diagram:session-3-2/fig1-three-spellings)
 
-A **function declaration** starts with the word `function` and is **hoisted**: the whole thing is registered in the first pass you met last session, so you can call it on a line above the one where it is written. A **function expression** stores a function in a variable, usually a `const`; it is not hoisted, because the variable is in the temporal dead zone until its line. An **arrow function** is the short modern spelling: `(a, b) => a + b`. If the body is a single expression, it is returned without the word `return`. Arrows also have no `this` of their own, which matters a great deal next session and not at all today.
+A **function declaration** starts with the word `function` and is **hoisted**: the whole thing is registered in the first pass you met last session, so you can call it on a line above the one where it is written. A **function expression** stores a function in a variable, usually a `const`; it is not hoisted, because the variable is in the temporal dead zone until its line. An **arrow function** is the short modern spelling: `(a, b) => a + b`. If the body is a single expression, it is returned without the word `return`. Arrows also have no `this` of their own, which matters a great deal in Session 3.4 and not at all today.
 
 Which to use? Declarations for the named, top-level spells in a file. Arrows for everything you pass to something else: callbacks, the little transformers inside `map` and `filter`. Expressions when you need a function in a variable and want the long spelling for some reason, which is rare. **Default parameters** (`name = "Adventurer"`) fill in missing arguments. And the distinction you will trip on this week: `calculateDamage(25, 10)` with parentheses *casts* the spell and gives you `15`; `calculateDamage` without them *refers to* the spell itself, the scroll rather than the fire. You hand scrolls to `map`. You cast fire everywhere else.
 
@@ -73,11 +73,11 @@ This is not an advanced feature you will use someday. It happens every time an i
 
 > **Say:** "A function is a named spell: write it once, cast it anywhere. Lookups walk outward, never inward. A closure is a function carrying a backpack. Filter fewer, map the same, reduce to one, and never touch the original."
 
-One more toolset before we build, because it appears in every modern file you will read: three dots. **Destructuring** pulls values out of an object or array into named variables in one line: `const { name, level } = hero`. **Spread** (`...`) unpacks an array or object into a new one, which is the standard way to copy and combine without mutating: `{ ...baseStats, mp: 80 }`. **Rest** (`...`) packs leftover values into an array: `function partyUp(leader, ...members)`. Same dots, opposite jobs, and position decides: in a parameter list or on the left of `=` it gathers; everywhere else it spreads. The one caution is that spread copies a single level; nested objects are still shared, and the demo below shows exactly what that means.
+There is one more toolset that appears in every modern file you will read, the three dots that unpack an object or pack up leftover arguments, and it is deliberately not on this page. Four ideas is the right load for one session. The dots, the rules for copying an array without changing the original, and the counting pattern built on `reduce` get a page of their own in [Session 3.3](/path/3-3-the-proving-grounds/), where you also prove, on three small problems with no scaffolding, that today's four ideas are in your hands. One of them does appear once below, in the last Run block, and it is introduced the moment it shows up.
 
 ## The demonstration
 
-Six files, in the order you would write them at the desk. Press **Run** on each and read the output against the code.
+Five files, in the order you would write them at the desk. Press **Run** on each and read the output against the code.
 
 ### 1. One spell, three spellings
 
@@ -247,61 +247,9 @@ console.log('ok: closures');
 
 Part 4 is the most famous closure bug in the language, and it is worth a minute. The `for (let j = 0; j < 3; j++)` line is a counting loop: start `j` at 0, run the body while `j < 3`, add one after each pass; loops get their full introduction in 3.4, and this is the only one you need today. With `var`, there is one `i` for the whole loop, every arrow carries the same backpack, and by the time anyone opens it the loop has finished and `i` is `3`. With `let`, each pass through the loop gets its own `j`, so each arrow carries its own backpack with its own value. That is the actual reason `let` has the scoping rules it has. Part 5 is a closure wearing an object: three methods, one shared `currentMana`, and `pool.currentMana` from outside is `undefined` because the mana was never a property. That shape is the lab.
 
-### 4. Three dots
+### 4. Arrays, mutating and not, and the combo chain
 
-Destructuring, spread and rest, and the shallow-copy caution shown rather than described.
-
-```js run=unpack
-'use strict';
-// Destructuring: pull values out into named variables, in one line.
-const hero = { name: 'Aria', level: 12, class: 'Mage' };
-const { name, level } = hero;
-const { class: heroClass } = hero;          // rename: class is a reserved word
-const { guild = 'Unaffiliated' } = hero;    // default when the property is missing
-console.log(name, level, heroClass, guild);
-
-const loot = ['sword', 'shield', 'potion'];
-const [firstItem, secondItem] = loot;
-const [, , thirdItem] = loot;               // skip with empty slots
-console.log(firstItem, secondItem, thirdItem);
-
-// Destructuring in a parameter list: the function names what it needs.
-const describe = ({ name, level }) => `${name} (Lv.${level})`;
-console.log(describe(hero));
-
-// Spread unpacks: copy and combine without touching the original.
-const baseStats = { hp: 100, mp: 50 };
-const buffedStats = { ...baseStats, mp: 80 };
-const oldParty = ['Aria', 'Bron'];
-const newParty = [...oldParty, 'Cass'];
-console.log(baseStats, buffedStats);
-console.log(oldParty, newParty);
-
-// Rest packs: same three dots, opposite direction. Position decides.
-function partyUp(leader, ...members) {
-  return `${leader} leads a party of ${members.length}`;
-}
-console.log(partyUp('Aria', 'Bron', 'Cass', 'Dev'));
-const [mvp, ...benchwarmers] = ['Aria', 'Bron', 'Cass'];
-console.log(mvp, benchwarmers);
-
-// The caution: spread copies one level. Nested objects are still shared.
-const original = { name: 'Aria', gear: { weapon: 'staff' } };
-const copy = { ...original };
-copy.name = 'Bron';
-copy.gear.weapon = 'axe';
-console.log(original.name, '| but original.gear.weapon is now', original.gear.weapon);
-const deep = structuredClone(original);
-deep.gear.weapon = 'bow';
-console.log('after structuredClone, original keeps', original.gear.weapon);
-console.log('ok: unpack');
-```
-
-Read the last three lines of output slowly. Changing `copy.name` left `original.name` alone, because spread copied the top level. Changing `copy.gear.weapon` changed `original.gear.weapon` too, because `gear` is a nested object and both copies hold the same one. That is what **shallow** means, and it is the source of a bug you will meet in React in a few weeks. `structuredClone` makes the deep copy when you need one. The Objects side quest has the full table.
-
-### 5. Arrays, mutating and not, and the combo chain
-
-Everything from fig. 4, plus the frequency counter, which is the `reduce` you will write most.
+Everything from fig. 4: the mutating methods, the copying ones, and the four that take a function.
 
 ```js run=arrays
 'use strict';
@@ -352,22 +300,15 @@ const strongTotal = heroes
   .reduce((sum, p) => sum + p, 0);
 console.log('strong total:', strongTotal);
 
-// The frequency counter: the reduce pattern you will use for the rest of your life.
-const classCounts = heroes.reduce((counts, h) => {
-  counts[h.class] = (counts[h.class] || 0) + 1;
-  return counts;
-}, {});
-console.log(classCounts);
-
 // Highest with reduce, and the honest check that nothing was mutated.
 const strongest = heroes.reduce((best, h) => (h.power > best.power ? h : best));
 console.log('strongest:', strongest.name, '| heroes still has', heroes.length);
 console.log('ok: arrays');
 ```
 
-Two patterns to take away. The chain in `strongTotal` is fig. 4 line for line: five objects in, three after `filter`, three numbers after `map`, one number after `reduce`. Read it top to bottom like a sentence. And the **frequency counter**: `reduce` with an empty object as the starting value, and each pass does `counts[key] = (counts[key] || 0) + 1`. That one expression counts anything: classes, words, letters, votes. It appears in interviews, in analytics code, and in the Spell Book you are about to build. The `|| 0` is last session's logical operator earning its keep: the first time a class appears, `counts[h.class]` is `undefined`, which is falsy, so `0` steps in.
+Two patterns to take away. The chain in `strongTotal` is fig. 4 line for line: five objects in, three after `filter`, three numbers after `map`, one number after `reduce`. Read it top to bottom like a sentence. And the last `reduce`, `strongest`, is the comparison shape: the accumulator is not a running total but the best candidate so far, and each pass keeps either the candidate or the newcomer. Notice that it is the one `reduce` on the page without a starting value. It works here because `heroes` has five elements, so the first one becomes the starting candidate. On an empty array it would throw, which is costume five below. There is a third `reduce` shape, the one that counts how many of each kind there are, and it waits for Session 3.3 so that you can build it slowly with a prediction in front of you.
 
-### 6. The hero roster, shaped
+### 5. The hero roster, shaped
 
 Not a run block. This is the shape the second exercise asks for, so you can see the whole file before you write it.
 
@@ -383,7 +324,6 @@ const roster = [
 const getActiveHeroes = (r) => r.filter((h) => h.isActive);
 const getHeroNames = (r) => r.map((h) => h.name);
 const getTotalAttack = (r) => r.reduce((sum, h) => sum + h.attack, 0);
-const getClassBreakdown = (r) => r.reduce((c, h) => ({ ...c, [h.class]: (c[h.class] || 0) + 1 }), {});
 const findStrongest = (r) => r.reduce((best, h) => (h.attack > best.attack ? h : best));
 ```
 
@@ -442,7 +382,7 @@ Costume one is the plain forgotten word. Costume two is an arrow with braces: th
 
 Costumes four and five are relatives. `forEach` returns `undefined` by design, so assigning its result is always a mistake; if you want the results, you wanted `map`. `reduce` without a starting value uses the first element as the start, which works until the array is empty and then throws. Always pass the start.
 
-The last block is the opposite mistake, and it belongs here because it is the same family: not knowing what a method hands back. `sort` sorts the array *in place* and returns the same array, so `sortedWrong === levels` is `true` and your "original" is gone. Copy with spread first, then sort the copy. The Sorting side quest covers the comparator function and this trap in full.
+The last block is the opposite mistake, and it belongs here because it is the same family: not knowing what a method hands back. `sort` sorts the array *in place* and returns the same array, so `sortedWrong === levels` is `true` and your "original" is gone. Copy first, then sort the copy. The copy on that line is made with `[...base]`, and those three dots are **spread**: they unpack every element of `base` into a brand-new array literal, so `sortedRight` is a different array that happens to start with the same values. That is the only job spread does on this page. `base.slice()` would make the same copy with a method you already know. Session 3.3 gives the dots their full treatment, including the one case where this kind of copy is not enough. The Sorting side quest covers the comparator function and the mutation trap in full.
 
 That gives you the two-line rule for the week:
 
@@ -457,7 +397,7 @@ Two short builds before the quest, and the first one is a reading exercise.
 
 **1. Scope detective (10 minutes).** Below are five situations. For each, write down what prints or whether it throws, *before* you run it in the console. Then run it. (a) A `let` declared inside an `if` block, read after the block. (b) A `var` declared inside an `if` block, read after the block. (c) An inner function that increments an outer `let`, called twice, then the outer variable read. (d) A `const` arrow function called on the line above its declaration. (e) A `for` loop with `var i` pushing arrows into an array, then every arrow called. Four out of five correct is the bar. Every one of the five has appeared in a Run block on this page, so if you miss one, scroll up and find it.
 
-**2. The Hero Roster Manager (25 minutes).** In `hero-roster.js`, build an array of at least eight hero objects with `name`, `level`, `class`, `attack` and `isActive`. Write `getActiveHeroes` (filter), `getHeroNames` (map), `getTotalAttack` (reduce), `getClassBreakdown` (the frequency counter), `findStrongest` (reduce with a comparison), and a factory `createHero(name, level, cls, attack)` that defaults `isActive` to `true`. Use the factory to add two heroes, call every function, and log the results with labels. Demo 6 is the shape; fill it in and make it real. Success looks like: every function returns the right value, the breakdown object has one key per class, and `roster` is the same length after all your queries as before them, because none of them mutated it.
+**2. The Hero Roster Manager (25 minutes).** In `hero-roster.js`, build an array of at least eight hero objects with `name`, `level`, `class`, `attack` and `isActive`. Write `getActiveHeroes` (filter), `getHeroNames` (map), `getTotalAttack` (reduce), `findStrongest` (reduce with a comparison), and a factory `createHero(name, level, cls, attack)` that defaults `isActive` to `true`. Use the factory to add two heroes, call every function, and log the results with labels. Demo 5 is the shape; fill it in and make it real. Success looks like: every function returns the right value, `findStrongest` names the hero with the highest attack, and `roster` is the same length after all your queries as before them, because none of them mutated it.
 
 > **Tip:** After every array method, log the original array once. If it changed, you used a mutating method where you wanted a copying one.
 
@@ -465,16 +405,18 @@ Two short builds before the quest, and the first one is a reading exercise.
 
 > *You descend into the Arcane Library, a vast underground chamber lined floor to ceiling with glowing tomes. Each spell is catalogued by element, mana cost and destructive potential. The Head Librarian hands you a quill. "Organise this mess, apprentice. And while you are at it, build me a mana pool tracker. I am tired of running out mid-battle."*
 
-**The Spell Book.** Create `spellbook.js` and bring order to the Archives.
+**The Spell Book, part one.** Create `spellbook.js` in `~/projects/js-fundamentals` and bring order to the Archives. The book is finished over two sessions. Today it gets its spells, its mana pool, and its first two queries; Session 3.3 adds the other four and pushes the finished file.
 
-1. An array of at least ten spell objects with `name`, `element` (fire, ice, lightning, earth, dark, light), `manaCost`, `damage` and `level` (the level required to cast it).
-2. Six query functions, each one line if you can manage it: `getSpellsByElement(spells, element)` and `getAffordableSpells(spells, currentMana)` with `filter`; `getSpellNames(spells)` with `map`; `getTotalManaCost(spells)` with `reduce`; `getMostExpensiveSpell(spells)` with `reduce` and a comparison; `getElementBreakdown(spells)` with the frequency counter.
+1. An array of at least ten spell objects with `name`, `element` (fire, ice, lightning, earth, dark, light), `manaCost`, `damage` and `level` (the level required to cast it). Give every spell all five properties, spelled exactly the same way each time; the queries next session depend on it.
+2. The first two query functions, each one line if you can manage it: `getSpellsByElement(spells, element)` returns the spells of that element, and `getAffordableSpells(spells, currentMana)` returns the spells whose `manaCost` is at or below `currentMana`. Both use `filter`. Both hand back a new array and leave `spells` alone; log `spells.length` after calling them to prove it.
 3. A closure, `createManaPool(maxMana)`, that returns an object with `cast(manaCost)` (spends mana and returns what is left, or `"not enough mana!"`), `rest()` (restores to max) and `getStatus()` (current and max as a string). `currentMana` must be a variable in the closure, never a property on the object.
 4. Test the pool: cast three spells, check status, rest, check status again. Then prove the privacy: log `pool.currentMana` and show it is `undefined`.
 
-Hints that save an hour: write the spells first and log them, so every function has real data to run on; `reduce` for the most expensive spell starts with the first spell as the accumulator and keeps whichever has the higher `manaCost`; and if a query ever returns `[undefined, undefined, ...]`, you are wearing costume three.
+Hints that save an hour: write the spells first and log them, so every function has real data to run on; a `filter` callback is a question with a yes-or-no answer, so `(s) => s.element === element` is the whole body; and if a query ever returns `[undefined, undefined, ...]`, you are wearing costume three.
 
-Stretch goals, in order of difficulty: `castSpell(spellbook, spellName, manaPool)` that finds the spell, checks the pool, and either casts it and returns the damage or explains why not; a single chained expression that finds the average damage of all fire spells (`filter`, `map`, `reduce`, then divide); and a `levelUp` closure that tracks a character's level and reports which spells unlocked as it rises. Push to `js-fundamentals` when it runs clean.
+Run it with `node spellbook.js` from inside `~/projects/js-fundamentals`. The last lines should be the pool's casts, its status, its status again after `rest()`, and `undefined` for `pool.currentMana`. Commit it (`git add spellbook.js` and `git commit -m "spellbook: spells, mana pool, two queries"`) but do not worry about the push yet; the file is pushed when it is finished next session.
+
+Stretch goals, in order of difficulty: `castSpell(spellbook, spellName, manaPool)` that uses `getSpellsByElement` or a `filter` of its own to find the spell by name, checks the pool, and either casts it and returns the damage or explains why not; and a `levelUp` closure that tracks a character's level and reports which spells unlocked as it rises. Leave `map` and `reduce` queries for next session; they are the proving grounds.
 
 ## Side quests
 
@@ -484,13 +426,13 @@ Four pages in the library go deeper than one session can. Read them in this orde
 
 Three things, in this order.
 
-First, finish the Spell Book if it did not get done in the session. It is the artifact for this session, and Session 3.4 assumes `filter`, `map` and `reduce` are in your hands, not just in your notes.
+First, finish part one of the Spell Book if it did not get done in the session: ten spells, the mana pool, and the two `filter` queries, committed in `~/projects/js-fundamentals`. It is the artifact for this session, and Session 3.3 opens that exact file and adds to it. Nothing is running between sessions; `node` exits when the file ends.
 
 Second, write three arrow functions of your own in the console: one single-expression, one with braces and an explicit `return`, and one that returns an object literal in parentheses. Thirty seconds each, and costume two and three will never catch you again.
 
 Third, read MDN's [Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures) page, the whole thing. It is one of the best explanations on the web, and you now have the backpack picture to hang it on. When it reaches the loop example, you will recognise it.
 
-Session 3.4 is called Objects and Orcs. The `createManaPool` you wrote today is already an object with methods and private state; next session you meet the `class` keyword, which is the other way to build that, and the word `this`, which is why arrow functions were careful not to have one. The spells you catalogued are about to become characters that cast them.
+Session 3.3 is called [The Proving Grounds](/path/3-3-the-proving-grounds/), and it is a different kind of session: fewer new ideas, more of your own hands. It teaches the three dots this page skipped, the honest rules for copying, and the counting `reduce`, each with a prediction you write before you press Run. Then it hands you three small problems on your own spellbook with no scaffolding, and a slower route back here if they do not go well. The four remaining queries, `map`, `reduce`, the comparison `reduce` and the counter, finish the book there. Objects, the `class` keyword and the word `this` wait for Session 3.4, and `createManaPool` is already the shape they will explain.
 
 > **Say:** "A function is a named spell: write it once, cast it anywhere. Parentheses cast it; the bare name is the scroll. Lookups walk outward through the rings, never inward. A closure is a function carrying a backpack, and each call to the factory packs a new one. Filter fewer, map the same, reduce to one, and never touch the original. No `return` means `undefined`."
 
