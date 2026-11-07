@@ -11,7 +11,7 @@ docs:
   - https://github.com/launchbadge/sqlx
   - https://docs.rs/axum/0.8.9/axum/extract/struct.State.html
 exec: not run
-verified_note: "The same binary as the API page was built on Railway on 2026-11-07 with SQLx 0.9.0 features runtime-tokio, tls-rustls, and postgres. sqlx::migrate ran on boot and the turtles table answered the curl script. Runtime query_as was used, not the compile-time query_as! macro, so the image does not need a database during cargo build."
+verified_note: "Checked against the sqlx 0.9 docs and Axum's sqlx-postgres example on 2026-11-07: PgPoolOptions, State<PgPool>, runtime query_as with FromRow, fetch_optional for the 404, and sqlx migrate add and run from sqlx-cli. Nothing on this page was compiled or run. The todos crate on the API page is the one that was built and checked on Railway."
 changes:
   - "Diesel and rocket_sync_db_pools are gone. SQLx 0.9 speaks Postgres from async Rust, which is what Axum's own example uses."
   - "Migrations are SQL files applied with sqlx migrate run, not a schema.rs generated against a crate version fight."
@@ -168,4 +168,6 @@ Ok(StatusCode::NO_CONTENT)
 
 - [Axum's SQLx example](https://github.com/tokio-rs/axum/blob/main/examples/sqlx-postgres/src/main.rs)
 - [SQLx](https://github.com/launchbadge/sqlx)
-- Next page: CORS and a Railway deploy of this same binary
+- Next page: a fresh todos crate built with the same tools, with CORS and a Railway deploy
+
+The API page starts a fresh todos project with the same tools; this turtles project is the practice run.

@@ -169,8 +169,10 @@ curl -i http://localhost:3000/turtles/999
 
 The first is 201 with an id. The second is that row. The third is 404. If the third is 200 with zeros, `ErrNoRows` was ignored.
 
+The API page starts a fresh todos project with the same tools; this turtles project is the practice run.
+
 ## Resources to Learn More
 
 - [pgx](https://github.com/jackc/pgx) and [pgxpool](https://pkg.go.dev/github.com/jackc/pgx/v5/pgxpool)
 - [goose](https://github.com/pressly/goose)
-- Next page: the same handlers, deployed, with CORS for the frontend guides
+- Next page: a fresh todos project with the same tools, deployed on Railway with CORS for the frontend guides.

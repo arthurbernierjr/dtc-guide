@@ -2,7 +2,7 @@
 title: "Laravel: building and deploying an API"
 framework: Laravel
 version: "13.40"
-lede: "Build a todo API in Laravel 13 end to end — model, migration, seed, API resource controller, CORS — test it with Postman or curl, then deploy it with a Postgres database on Railway."
+lede: "Build a todo API in Laravel 13 — migration, model, API resource controller, JSON errors, CORS — test it with curl and the contract check, then deploy it with Postgres on Railway."
 updated_from: "the 2021 'Full Stack Build Part 1 - Building and Deploying an API' lesson (Laravel 8, Heroku)"
 verified: 2026-11-07
 docs:
@@ -10,21 +10,23 @@ docs:
   - https://laravel.com/docs/13.x/eloquent
   - https://laravel.com/docs/13.x/controllers
   - https://laravel.com/docs/13.x/routing
+  - https://laravel.com/docs/13.x/validation
+  - https://laravel.com/docs/13.x/errors
   - https://laravel.com/docs/13.x/eloquent-resources
   - https://laravel.com/docs/13.x/deployment
   - https://laravel.com/docs/13.x/configuration
   - https://docs.railway.com/guides/laravel
+  - https://docs.railway.com/guides/dockerfiles
   - https://docs.railway.com/guides/postgresql
-  - https://docs.railway.com/guides/pre-deploy-command
-exec: not run
-verified_note: "Deployed on Railway on 2026-11-07 from the Laravel 13.11 skeleton, which pulled framework 13.40. The index returned 200, create returned 201, show 200, a missing id was 404, update returned the row, delete returned 204, and the CORS preflight allowed http://localhost:5173. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-php-api."
+exec: ran
+verified_note: "Deployed to Railway on 2026-11-07 from commit b9ed53fc94b81593c02b6b7ee29f762b1fd0c4a0 of github.com/arthurbernierjr/dtc-php-api, live at https://api-production-2278d.up.railway.app; `node check.mjs https://api-production-2278d.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Railway built PHP 8.4.27, Composer 2.11.1, the laravel/laravel 13.11.0 skeleton and laravel/framework v13.40.0. Every whole-file block on this page is the file in that repo. No PHP toolchain ran on the build machine."
 changes:
-  - "Deployment rewritten for Railway: deploy from a GitHub repo, add a Postgres service, reference its `DATABASE_URL` as `DB_URL`, run migrations as a Pre-Deploy Command, generate a domain. Heroku's free tier ended in November 2022; the Procfile and `heroku-php-apache2` steps are gone."
-  - "Setup adds `php artisan install:api` (no `routes/api.php` without it since Laravel 11) and generates model, migration and API controller in one command: `php artisan make:model Todo -m --api`."
-  - "The table is `todos`, not `_todos_`, and the migration is named `create_todos_table` in snake_case, so Laravel pre-fills `Schema::create('todos', ...)` and the model needs no explicit table link."
-  - "The CORS section the original promised but never wrote is here: `HandleCors` is in Laravel's default middleware stack, `php artisan config:publish cors` exposes `config/cors.php`, and there is no package to install (the old `fruitcake/laravel-cors` is retired)."
-  - "`store`, `update` and `destroy` now return their responses (the originals built one and dropped it), take the model through route model binding so a bad id is a 404, validate input, and answer 201 / 204 where REST expects."
-  - "Testing shows the `curl` shape next to the Postman steps (and why `Content-Type`/`Accept: application/json` matter), and 'Resources to Learn More', empty in the original, links the 13.x docs plus the Railway guides used."
+  - "Aligned with the shared Todos contract: routes moved from `/api/todos` to `/todos` (`apiPrefix: ''`), validation errors answer 400 `{\"error\":...}` instead of 422 and missing rows 404 `{\"error\":\"not found\"}` as JSON, `created_at`/`updated_at` are hidden from every response, the list is ordered by id, `GET /health` was added, and CORS is `*` on every path."
+  - "Deployment rewritten for Railway: a Dockerfile builds the pinned Laravel skeleton and copies the lesson's files over it, and a `boot` script writes `.env` from Railway's Postgres variables, migrates and serves. Heroku's free tier ended in November 2022; the Procfile is gone."
+  - "Setup adds `php artisan install:api` (no `routes/api.php` without it since Laravel 11) and `php artisan make:model Todo -m --api` for model, migration and API controller at once; the table is `todos`, not `_todos_`."
+  - "The CORS section the original promised but never wrote is here: `HandleCors` ships with Laravel and `php artisan config:publish cors` exposes `config/cors.php`."
+  - "`store`, `update` and `destroy` now return their responses (the originals dropped them), use route model binding so a bad id is a 404, validate input, and answer 201 / 204."
+  - "Testing shows `curl` next to the Postman steps plus the `check.mjs` run; 'Resources to Learn More', empty in the original, links the 13.x docs and Railway guides."
 ---
 
 # Full Stack Build Part 1 - Building and Deploying an API
@@ -38,11 +40,25 @@ changes:
 - Testing an API
 - Deploying an API
 
+### The Todos contract
+
+| Request | Response |
+|---|---|
+| `GET /health` | 200 `{"ok":true}` |
+| `GET /todos` | 200 `[{id,subject,details}]` ordered by id |
+| `GET /todos/:id` | 200 the object, or 404 `{"error":"not found"}` |
+| `POST /todos` with `{subject,details}` | 201 the new object |
+| `PUT /todos/:id` with `{subject,details}` | 200 the updated object, or 404 |
+| `DELETE /todos/:id` | 204 with no body, or 404 |
+| blank or missing `subject` or `details` | 400 `{"error":"…"}` |
+
+Every backend guide on this site builds this same API, with no trailing slashes, objects that contain exactly `id`, `subject` and `details`, and CORS open to any origin so the four frontend guides can point at any of them. The finished example is [github.com/arthurbernierjr/dtc-php-api](https://github.com/arthurbernierjr/dtc-php-api), live at [api-production-2278d.up.railway.app](https://api-production-2278d.up.railway.app).
+
 ---
 
 ## Setup
 
-- Create a New Laravel Project `composer create-project laravel/laravel todoapi`
+- Create a New Laravel Project `composer create-project laravel/laravel:13.11.0 todoapi` (the skeleton the example's Dockerfile pins; Railway built PHP 8.4.27, Composer 2.11.1, framework v13.40.0)
 - cd into todoapi folder
 - test dev server `php artisan serve`
 - turn on API routing `php artisan install:api`
@@ -69,9 +85,19 @@ DB_PASSWORD=test5
 
 - one generator for the model, its migration and a model-bound API controller: `php artisan make:model Todo -m --api`
 
-- add the following fields to the table in the new `create_todos_table` migration under `database/migrations/`
+- replace the new `create_todos_table` migration under `database/migrations/` with this (your timestamp prefix will differ)
+
+`database/migrations/2026_11_07_000000_create_todos_table.php`
 
 ```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('todos', function (Blueprint $table) {
@@ -81,77 +107,105 @@ DB_PASSWORD=test5
             $table->timestamps();
         });
     }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('todos');
+    }
+};
 ```
 
 - `php artisan migrate`
 
+**WHY:** `timestamps()` stays — the three-key rule is a JSON rule, not a table rule; the model hides the two columns.
+
 #### Creating Our Model
 
-- edit `app/Models/Todo.php` to allow the fields through mass assignment
+- edit `app/Models/Todo.php`
+
+`app/Models/Todo.php`
 
 ```php
 <?php
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-// Allow fields to be used in create()/update() from a request
-#[Fillable(['subject', 'details'])]
 class Todo extends Model
 {
-    //
+    protected $fillable = ['subject', 'details'];
+
+    protected $hidden = ['created_at', 'updated_at'];
 }
 ```
 
-`Todo` maps to `todos` by convention (`#[Table('other_name')]` overrides it); `protected $fillable = [...]` is the older spelling and still works.
+`Todo` maps to `todos` by convention. `$fillable` is what `create()` and `update()` may take from a request; `$hidden` drops `created_at` and `updated_at` from every JSON response.
 
 ##### Seeding The Todos Table
 
-- edit `database/seeders/DatabaseSeeder.php`
+- optional, local only — the example repo has no seeder and `check.mjs` makes its own rows. For rows to look at, add `Todo::create(['subject' => 'Breakfast', 'details' => 'Eat Breakfast']);` to `run()` in `database/seeders/DatabaseSeeder.php`, then `php artisan db:seed`.
+
+##### Create our Routes and Controller
+
+- the controller already exists — `--api` above generated `app/Http/Controllers/TodoController.php`
+
+- replace `routes/api.php` (the `/user` route `install:api` left there needs a Sanctum token; it goes)
+
+`routes/api.php`
 
 ```php
 <?php
 
-namespace Database\Seeders;
+use App\Http\Controllers\TodoController;
+use Illuminate\Support\Facades\Route;
 
-use App\Models\Todo;
-use Illuminate\Database\Seeder;
+Route::get('/health', fn () => response()->json(['ok' => true]));
 
-class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
-    {
-        Todo::create(['subject' => 'Breakfast', 'details' => 'Eat Breakfast']);
-        Todo::create(['subject' => 'Lunch', 'details' => 'Eat Lunch']);
-        Todo::create(['subject' => 'Dinner', 'details' => 'Eat Dinner']);
-
-        $this->command->info('Todos Created!');
-    }
-}
+Route::apiResource('todos', TodoController::class)->where(['todo' => '[0-9]+']);
 ```
 
-- run `php artisan db:seed`
+`where(['todo' => '[0-9]+'])` means `GET /todos/abc` never reaches the controller — it falls through to the 404 handler below.
 
-- confirm the todos exist by going into the database CLI `php artisan db` and running the following query, `SELECT * FROM todos;`
+- now drop the `/api` prefix and make errors JSON in `bootstrap/app.php`
 
-##### Create our Routes and Controller
-
-- the controller already exists — `--api` above generated `app/Http/Controllers/TodoController.php` (otherwise: `php artisan make:controller TodoController --api --model=Todo`)
-
-- import the controller in `routes/api.php`
+`bootstrap/app.php`
 
 ```php
-use App\Http\Controllers\TodoController;
+<?php
+
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
+        apiPrefix: '',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        //
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->shouldRenderJsonWhen(fn () => true);
+
+        $exceptions->render(function (ValidationException $e, Request $request) {
+            return response()->json(['error' => $e->validator->errors()->first()], 400);
+        });
+
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            return response()->json(['error' => 'not found'], 404);
+        });
+    })->create();
 ```
 
-- add apiResources routes... `Route::apiResource('todos', TodoController::class);` (the `/user` route `install:api` left in the file needs a Sanctum token — ignore or delete it)
-
-- `php artisan route:list --path=todos` shows the five routes
+**WHY:** Laravel mounts `routes/api.php` under `/api`; `apiPrefix: ''` puts it at the root so the routes are `/todos`. `shouldRenderJsonWhen(fn () => true)` makes every error JSON even without an `Accept` header; a `ValidationException` (422 by default) becomes 400 with the first message under `error`; a `NotFoundHttpException` — unknown path, binding miss, `[0-9]+` miss — becomes `{"error":"not found"}` instead of an HTML page.
 
 #### Index Action
 
@@ -167,35 +221,42 @@ The Index Action
 ```php
     public function index(): JsonResponse
     {
-        $todos = Todo::all();
-        return response()->json($todos);
+        return response()->json(Todo::orderBy('id')->get());
     }
 ```
+
+`orderBy('id')` — the contract says ascending id; Postgres promises no order.
 
 #### Show Action
 
 ```php
     public function show(Todo $todo): JsonResponse
     {
-        // Route model binding loaded {todo}; a missing id is already a 404
         return response()->json($todo);
     }
 ```
+
+Route model binding loaded `{todo}`; a missing id is the `NotFoundHttpException` above.
 
 #### Store/Create action
 
 ```php
     public function store(Request $request): JsonResponse
     {
-        // Keep only the listed fields; invalid input answers 422
         $validated = $request->validate([
             'subject' => ['required', 'string', 'max:255'],
             'details' => ['required', 'string', 'max:255'],
         ]);
-        $todo = Todo::create($validated); // Create Todo
-        return response()->json($todo, 201); // Response: 201 Created
+
+        $todo = Todo::create($validated)->refresh();
+
+        return response()->json($todo, 201);
     }
 ```
+
+`validate()` keeps only the listed fields and throws for anything missing — including `"   "`, which the default `TrimStrings` and `ConvertEmptyStringsToNull` middleware turn into `null` first.
+
+**WHY `->refresh()`:** `create()` returns the model with attributes in assignment order — `subject`, `details`, `id` — while `GET /todos/:id` reads the row with `id` first. `check.mjs` compares the two as strings, so `refresh()` re-reads the row once and both serialize identically.
 
 #### Update Action
 
@@ -203,27 +264,34 @@ The Index Action
     public function update(Request $request, Todo $todo): JsonResponse
     {
         $validated = $request->validate([
-            'subject' => ['sometimes', 'required', 'string', 'max:255'],
-            'details' => ['sometimes', 'required', 'string', 'max:255'],
+            'subject' => ['required', 'string', 'max:255'],
+            'details' => ['required', 'string', 'max:255'],
         ]);
-        $todo->update($validated); // Update Todo
-        return response()->json($todo); // Response: the updated record
+
+        $todo->update($validated);
+
+        return response()->json($todo);
     }
 ```
+
+Both fields are `required` on update too, not `sometimes` — the contract sends the whole object on `PUT`, and an empty body must be a 400.
 
 #### Destroy Action
 
 ```php
     public function destroy(Todo $todo): Response
     {
-        $todo->delete(); // Delete Todo
-        return response()->noContent(); // Response: 204, nothing to send back
+        $todo->delete();
+
+        return response()->noContent();
     }
 ```
 
+`noContent()` is a 204 with an empty body; deleting the same id again is the same 404 as `show`. These five methods plus the `use` lines are the whole [`TodoController.php`](https://github.com/arthurbernierjr/dtc-php-api/blob/main/overlay/app/Http/Controllers/TodoController.php).
+
 #### Setting CORS Headers
 
-A frontend on another origin can only call this API if the responses carry CORS headers. Laravel does this out of the box: the `HandleCors` middleware is in the default middleware stack and allows every origin on `api/*`. Nothing to install — the `fruitcake/laravel-cors` package in old tutorials was folded into the framework. To tighten it for production, publish the config file and edit `allowed_origins`:
+A frontend on another origin can only call this API if the responses carry CORS headers. Laravel's `HandleCors` middleware is in the default stack — nothing to install. Its default config only covers `api/*`, which we just un-prefixed, so publish it and open it up:
 
 ```bash
 php artisan config:publish cors
@@ -232,94 +300,124 @@ php artisan config:publish cors
 `config/cors.php`
 
 ```php
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
-    // Replace '*' with your frontend's origins once you know them
-    'allowed_origins' => ['http://localhost:5173', 'https://your-frontend.example'],
+<?php
+
+return [
+    'paths' => ['*'],
+    'allowed_methods' => ['*'],
+    'allowed_origins' => ['*'],
+    'allowed_origins_patterns' => [],
+    'allowed_headers' => ['*'],
+    'exposed_headers' => [],
+    'max_age' => 0,
+    'supports_credentials' => false,
+];
 ```
 
-For today, the default `['*']` is fine.
+`paths` is `*` because the routes live at the root. `allowed_origins` `*` is right for the lesson, where any of the four frontend guides may call this API from any host; in a real product narrow it to your frontend's origin.
+
+The example's [`routes/web.php`](https://github.com/arthurbernierjr/dtc-php-api/blob/main/overlay/routes/web.php) swaps Laravel's welcome view for a small HTML page at `/` pointing to `/todos`.
 
 ## Testing the API
 
-- Head into Postman (or use `curl`) and test all the routes with the dev server running (`php artisan serve`)
+- With `php artisan serve` running, hit the routes from Postman or `curl`:
 
-- get request to /api/todos
+- get request to /health — 200 `{"ok":true}`; to /todos — 200, an array; to /todos/1 — 200 (or 404 `{"error":"not found"}` on an empty table)
 
-- get request to /api/todos/1
+- post request to /todos — 201; update request to /todos/4 — 200; delete request to /todos/4 — 204 (get request after: now a 404)
 
-- post request to /api/todos (get request after to confirm creation)
+- post request to /todos with `{}` — 400 `{"error":"The subject field is required."}`
 
-- update request to /api/todos/4 (get request after to confirm update)
-
-- delete request to /api/todos/4 (get request after to confirm deletion — it should now be a 404)
-
-The same with `curl` (`-X PUT` and `-X DELETE` follow the POST pattern):
+The same with `curl` (`-i` prints the status line):
 
 ```bash
-curl http://localhost:8000/api/todos
+curl -i http://localhost:8000/todos                      # 200
 
-curl -X POST http://localhost:8000/api/todos \
-  -H "Content-Type: application/json" -H "Accept: application/json" \
-  -d '{"subject": "Snack", "details": "Eat Snack"}'
+curl -i -X POST http://localhost:8000/todos \
+  -H "Content-Type: application/json" \
+  -d '{"subject": "Snack", "details": "Eat Snack"}'       # 201
+
+curl -i -X PUT http://localhost:8000/todos/4 \
+  -H "Content-Type: application/json" \
+  -d '{"subject": "Snack", "details": "Eat a Snack"}'     # 200
+
+curl -i -X DELETE http://localhost:8000/todos/4          # 204
+curl -i http://localhost:8000/todos/4                    # 404 {"error":"not found"}
 ```
 
-Without `Content-Type: application/json` Laravel doesn't parse the body; `Accept: application/json` makes validation errors come back as JSON (422) instead of a redirect.
+Without `Content-Type: application/json` Laravel doesn't parse the body, so you get a 400. `Accept: application/json` is no longer needed — `shouldRenderJsonWhen` answers JSON regardless.
+
+Run the contract check against your own deploy: `node check.mjs https://your-api.up.railway.app` (copy `check.mjs` from the example repo). All 16 lines should say PASS.
 
 ## Deploying the API
 
-Heroku's free tier ended in November 2022. [Railway](https://docs.railway.com/guides/laravel) detects a Laravel app, runs it behind php-fpm and Caddy, and gives you a Postgres service in the same project (Render and Fly.io work the same way with the same variables).
+Heroku's free tier ended in November 2022. [Railway](https://docs.railway.com/guides/laravel) can detect a Laravel app on its own, but the example repo gives it a [Dockerfile](https://docs.railway.com/guides/dockerfiles), so the build is exactly the Setup steps.
 
 ##### Preparing Your Project
 
-- print an app key for production: `php artisan key:generate --show` (secrets go into Railway's variables; `.env` stays git-ignored)
+- the repo is an overlay: this guide's files under `overlay/`, plus a `Dockerfile`, a `boot` script, `check.mjs` and a README. `vendor/` and `.env` are git-ignored.
+
+`Dockerfile`
+
+```dockerfile
+FROM php:8.4-cli-bookworm
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libpq-dev unzip git curl \
+ && docker-php-ext-install pdo_pgsql \
+ && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+ && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer create-project laravel/laravel:13.11.0 . --no-interaction --prefer-dist --no-dev \
+ && php artisan install:api --no-interaction
+COPY overlay/ ./
+COPY boot /usr/local/bin/boot
+RUN chmod +x /usr/local/bin/boot
+EXPOSE 8080
+CMD ["boot"]
+```
+
+[`boot`](https://github.com/arthurbernierjr/dtc-php-api/blob/main/boot) runs on every start: it copies `.env.example` to `.env`, sets `APP_ENV=production`, `APP_DEBUG=false` and the `DB_*` lines from the `PG*` variables Railway injects, runs `php artisan key:generate --force` (no sessions here, so a fresh key per boot is fine) and `php artisan migrate --force`, then `exec php artisan serve --host=0.0.0.0 --port="${PORT:-8080}"`.
+
+**WHY:** no Pre-Deploy Command, no manual migrate — the table is built on boot. `php artisan serve` is the development server, fine for a lesson API; a real product puts php-fpm behind nginx or Caddy.
 
 - commit and push your project up to GitHub
 
 ##### Preparing Railway
 
-- log in to [Railway](https://railway.com/), **New Project** → **Deploy from GitHub repo**, pick the `todoapi` repository
+- log in to [Railway](https://railway.com/), **New Project** → **Deploy from GitHub repo**, pick the repository. Railway sees the `Dockerfile` and builds with it.
 
-- on the project canvas, **+ New** → **Database** → **Add PostgreSQL**; the new service exposes `DATABASE_URL`
+- on the project canvas, **+ New** → **Database** → **Add PostgreSQL**; the new service exposes `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER` and `PGPASSWORD`
 
-- in your app service → **Variables** → **Raw Editor** add the minimum set (Laravel reads `DB_URL` as a full connection string, so the separate `DB_HOST`/`DB_USERNAME`/… aren't needed):
+- in your app service → **Variables** → **Raw Editor** add the five references `boot` reads (Railway injects `PORT`):
 
 ```env
-APP_ENV=production
-APP_KEY=base64:paste-the-key-from-key-generate-show
-APP_DEBUG=false
-APP_URL=https://your-service.up.railway.app
-LOG_CHANNEL=stderr
-DB_CONNECTION=pgsql
-DB_URL=${{Postgres.DATABASE_URL}}
-QUEUE_CONNECTION=database
+PGHOST=${{Postgres.PGHOST}}
+PGPORT=${{Postgres.PGPORT}}
+PGDATABASE=${{Postgres.PGDATABASE}}
+PGUSER=${{Postgres.PGUSER}}
+PGPASSWORD=${{Postgres.PGPASSWORD}}
 ```
 
-**WHY:** `${{Postgres.DATABASE_URL}}` is a Railway reference variable — it reads the URL off the Postgres service, so you never paste credentials. `APP_DEBUG=false` keeps stack traces out of error responses; `LOG_CHANNEL=stderr` sends logs to Railway's log view instead of a disk that is wiped on every deploy.
+**WHY:** `${{Postgres.PGHOST}}` is a Railway reference variable — it reads the value off the Postgres service, so you never paste credentials.
 
 ##### Connecting to Railway
 
-- in **Settings → Deploy**, set the **Pre-Deploy Command** so the schema is built before each release goes live (`--force` skips the production confirmation):
+- in **Settings → Networking** click **Generate Domain** and set the port to `8080` (what `boot` serves on)
 
-```bash
-php artisan migrate --force
-```
+- click **Deploy**; if the build fails, read the log — it's usually a missing variable
 
-- for the first deploy only, make it `php artisan migrate --force && php artisan db:seed --force`, then change it back — otherwise every deploy adds three more meals
+- check `/health` on your new domain, run `node check.mjs https://your-api.up.railway.app`, and your API is up — every push redeploys it, every boot migrates.
 
-- in **Settings → Networking** click **Generate Domain**; set `APP_URL` to match
-
-- click **Deploy**; if the build fails, read the log — it's almost always a missing variable
-
-- check `/up` (Laravel's built-in health route) on your new domain, then `/api/todos`
-
-- Your API should now be up and running! Every push to the repository redeploys it.
+- CORS is `*` for the lesson. Before a real frontend goes live, narrow `allowed_origins` in `config/cors.php` to that frontend's origin and push.
 
 ---
 
 ## Resources to Learn More
 
-- [Eloquent: API Resources](https://laravel.com/docs/13.x/eloquent-resources) — `make:resource TodoResource` to shape the JSON
-- [Routing: CORS](https://laravel.com/docs/13.x/routing#cors), [Deployment](https://laravel.com/docs/13.x/deployment) and [Sanctum](https://laravel.com/docs/13.x/sanctum) (the token auth `install:api` set up)
-- [Railway: Deploy a Laravel App](https://docs.railway.com/guides/laravel), [PostgreSQL](https://docs.railway.com/guides/postgresql), [Pre-deploy command](https://docs.railway.com/guides/pre-deploy-command)
+- [Validation](https://laravel.com/docs/13.x/validation) and [Error Handling](https://laravel.com/docs/13.x/errors) — the `render()` callbacks in `bootstrap/app.php`
+- [Eloquent: API Resources](https://laravel.com/docs/13.x/eloquent-resources) — `make:resource` once `$hidden` isn't enough
+- [Routing: CORS](https://laravel.com/docs/13.x/routing#cors), [Deployment](https://laravel.com/docs/13.x/deployment) and [Sanctum](https://laravel.com/docs/13.x/sanctum)
+- [Railway: Deploy a Laravel App](https://docs.railway.com/guides/laravel), [Dockerfiles](https://docs.railway.com/guides/dockerfiles), [PostgreSQL](https://docs.railway.com/guides/postgresql)
 
 ---

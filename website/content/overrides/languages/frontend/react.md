@@ -4,7 +4,7 @@ framework: React
 version: "19.3"
 lede: "Scaffold a React app with Vite, wire up React Router, fetch the todo list from your deployed API and build the list / show / create / edit / delete flow with hooks."
 updated_from: "the 2021 Create React App + react-router-dom walkthrough"
-verified: 2026-11-02
+verified: 2026-11-07
 docs:
   - https://react.dev/learn
   - https://react.dev/reference/react/useEffect
@@ -14,7 +14,7 @@ docs:
   - https://reactrouter.com/changelog
   - https://vite.dev/guide/
 exec: ran
-verified_note: "Scaffolded with create-vite 9.3 (react template), files copied in verbatim, `npm run build` succeeded with react 19.3.1 + react-router 8.5.1 + vite 8.3.5 on Node 24.13."
+verified_note: "Scaffolded with `npm create vite@latest` (create-vite 9.3.4, react template), the files below copied in verbatim, `npm run build` succeeded with react 19.3.1 + react-router 8.5.1 + vite 8.3.6 on Node 24.13. The result is deployed at https://dtc-react-production.up.railway.app (repo github.com/arthurbernierjr/dtc-react) pointed at the Python / Django REST framework API at https://api-production-02380.up.railway.app, and the list / create / edit / delete flow was exercised in a browser against it."
 changes:
   - "Create React App is gone (the React team stopped recommending it in 2025); the project is scaffolded with Vite (`npm create vite@latest`). The dev server is `npm run dev` on port 5173, not `npm start` on 3000."
   - "`react-router-dom` no longer exists as of React Router 8 (June 2026). Everything is imported from `react-router`."
@@ -24,15 +24,49 @@ changes:
   - "The edit screen is its own route, `/edit/:id`, instead of a `targetTodo` held in App state, so a page refresh on the edit screen still works."
   - "`milligram` and `reportWebVitals` were dropped; the API URL comes from an environment variable (`VITE_API_URL`) instead of a hard-coded Heroku host (Heroku's free tier ended in 2022)."
   - "HTTP methods are upper-case (`POST`, `PUT`, `DELETE`) and responses are checked with `response.ok` before parsing."
+  - "The API base URL is now the origin only (`VITE_API_URL=https://api-production-02380.up.railway.app`, no path, no trailing slash) and the code builds `${API}/todos` and `${API}/todos/${id}` itself, matching the shared Todos contract every backend guide serves. The 2021 version hard-coded a `/todos/` base with trailing slashes."
 ---
 
 # Frontend - React
 
 ## Prerequisites
 
-- A deployed Todos API from one of the [backend guides](/languages/). It must answer `GET /todos/` with a JSON array of `{ id, subject, details }` and accept `POST /todos/`, `PUT /todos/:id/` and `DELETE /todos/:id/`.
+- A deployed Todos API from one of the [backend guides](/languages/). Every backend guide serves the same contract, below.
 - Node.js 22.22 or newer (React Router 8's minimum; Node 24 is the current LTS).
 - A terminal and an editor. Nothing else is installed globally: `npm create` downloads the scaffolder on demand.
+
+### The Todos contract
+
+What every backend serves; no trailing slashes:
+
+| Request | Response |
+|---|---|
+| `GET /health` | `{"ok":true}` |
+| `GET /todos` | `[{id,subject,details}]` ordered by id |
+| `GET /todos/:id` | object or 404 `{"error":"not found"}` |
+| `POST /todos` `{subject,details}` | 201 object |
+| `PUT /todos/:id` `{subject,details}` | 200 object |
+| `DELETE /todos/:id` | 204 |
+| blank/missing fields | 400 `{"error":"…"}` |
+
+Objects contain exactly `id` (integer), `subject`, `details`. CORS allows any origin.
+
+### Pick any backend
+
+All eight are live and interchangeable:
+
+| Language | Framework | Repo | Live API |
+|---|---|---|---|
+| Python | Django REST framework | https://github.com/arthurbernierjr/dtc-python-api | https://api-production-02380.up.railway.app |
+| Ruby | Rails | https://github.com/arthurbernierjr/dtc-ruby-api | https://api-production-0197.up.railway.app |
+| Go | chi | https://github.com/arthurbernierjr/dtc-go-api | https://api-production-a3ab.up.railway.app |
+| Java | Spring Boot | https://github.com/arthurbernierjr/dtc-java-api | https://api-production-c419.up.railway.app |
+| C# | ASP.NET Core | https://github.com/arthurbernierjr/dtc-cs-api | https://api-production-efe3.up.railway.app |
+| PHP | Laravel | https://github.com/arthurbernierjr/dtc-php-api | https://api-production-2278d.up.railway.app |
+| Rust | Axum | https://github.com/arthurbernierjr/dtc-rust-api | https://api-production-da990.up.railway.app |
+| Dart | shelf | https://github.com/arthurbernierjr/dtc-dart-api | https://api-production-5f5ac.up.railway.app |
+
+Every one serves the same contract, so the `VITE_API_URL` variable below can point at any of them. Each repo ships a `check.mjs` you can run against your own deploy: `node check.mjs https://your-api.up.railway.app`.
 
 ## Setup
 
@@ -50,12 +84,14 @@ npm install
 npm install react-router
 ```
 
-- Tell the app where the API lives. Vite exposes any variable prefixed with `VITE_` to the browser through `import.meta.env`:
+- Tell the app where the API lives. Vite exposes any variable prefixed with `VITE_` to the browser through `import.meta.env`. The value is the API's origin only: no path, no trailing slash. The code adds `/todos` itself.
 
 ```env
 # .env.local  (git-ignored by the Vite template)
-VITE_API_URL=https://your-api.up.railway.app/todos/
+VITE_API_URL=https://api-production-02380.up.railway.app
 ```
+
+  For a deployed build, put the same line in a committed `.env.production` instead; Vite reads it during `npm run build`, and the URL is public, not a secret.
 
 - Start the dev server with `npm run dev` and open [http://localhost:5173](http://localhost:5173). You should see the Vite + React starter page.
 
@@ -143,8 +179,8 @@ import AllPosts from "./pages/AllPosts.jsx";
 import SinglePost from "./pages/SinglePost.jsx";
 import Form from "./pages/Form.jsx";
 
-// Read the API URL from .env.local (see Setup); fall back to a local server.
-const url = import.meta.env.VITE_API_URL ?? "http://localhost:8000/todos/";
+// Read the API origin from .env.local (see Setup); fall back to a local server.
+const API = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
 export default function App() {
   ////////////////////
@@ -198,8 +234,8 @@ Two details the React docs insist on: check `response.ok` before parsing, and us
 
 // Fetch the list of todos from the API
 async function getTodos() {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`GET ${url} failed: ${response.status}`);
+  const response = await fetch(`${API}/todos`);
+  if (!response.ok) throw new Error(`GET ${API}/todos failed: ${response.status}`);
   const data = await response.json();
   setPosts(data);
 }
@@ -211,7 +247,7 @@ async function getTodos() {
 // Load the list once when the app mounts
 useEffect(() => {
   let ignore = false;
-  fetch(url)
+  fetch(`${API}/todos`)
     .then((response) => response.json())
     .then((data) => {
       if (!ignore) setPosts(data);
@@ -351,7 +387,7 @@ const nullTodo = { subject: "", details: "" };
 
 // Functions
 async function addTodo(newTodo) {
-  await fetch(url, {
+  await fetch(`${API}/todos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newTodo),
@@ -387,7 +423,7 @@ The edit screen is the route `/edit/:id`. A small wrapper reads the id, finds th
 ```jsx
 // fragment: inside App(), with the other functions
 async function updateTodo(todo) {
-  await fetch(`${url}${todo.id}/`, {
+  await fetch(`${API}/todos/${todo.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(todo),
@@ -420,7 +456,7 @@ export default function EditForm({ posts, handleSubmit }) {
 
 Add an edit link to the single-post view.
 
-`src/pages/SinglePost.jsx`
+`src/pages/SinglePost.jsx` — fragment: the JSX inside the `div`
 
 ```jsx
 <h1>{post.subject}</h1>
@@ -444,7 +480,7 @@ Last piece: a delete function in `App`, passed to `SinglePost`, wired to a butto
 const navigate = useNavigate(); // at the top of App, with the other hooks
 
 async function deleteTodo(todo) {
-  await fetch(`${url}${todo.id}/`, { method: "DELETE" });
+  await fetch(`${API}/todos/${todo.id}`, { method: "DELETE" });
   await getTodos();
   navigate("/");
 }
@@ -503,8 +539,8 @@ import SinglePost from "./pages/SinglePost.jsx";
 import Form from "./pages/Form.jsx";
 import EditForm from "./pages/EditForm.jsx";
 
-// Read the API URL from .env.local (see Setup); fall back to a local server.
-const url = import.meta.env.VITE_API_URL ?? "http://localhost:8000/todos/";
+// Read the API origin from .env.local (see Setup); fall back to a local server.
+const API = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
 export default function App() {
   ////////////////////
@@ -524,14 +560,14 @@ export default function App() {
   // Functions
   //////////////
   async function getTodos() {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`GET ${url} failed: ${response.status}`);
+    const response = await fetch(`${API}/todos`);
+    if (!response.ok) throw new Error(`GET ${API}/todos failed: ${response.status}`);
     const data = await response.json();
     setPosts(data);
   }
 
   async function addTodo(newTodo) {
-    await fetch(url, {
+    await fetch(`${API}/todos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newTodo),
@@ -540,7 +576,7 @@ export default function App() {
   }
 
   async function updateTodo(todo) {
-    await fetch(`${url}${todo.id}/`, {
+    await fetch(`${API}/todos/${todo.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(todo),
@@ -549,7 +585,7 @@ export default function App() {
   }
 
   async function deleteTodo(todo) {
-    await fetch(`${url}${todo.id}/`, { method: "DELETE" });
+    await fetch(`${API}/todos/${todo.id}`, { method: "DELETE" });
     await getTodos();
     navigate("/");
   }
@@ -559,7 +595,7 @@ export default function App() {
   //////////////
   useEffect(() => {
     let ignore = false;
-    fetch(url)
+    fetch(`${API}/todos`)
       .then((response) => response.json())
       .then((data) => {
         if (!ignore) setPosts(data);
@@ -593,5 +629,9 @@ export default function App() {
 ```
 
 Full CRUD against your API, in React. Run `npm run build` and Vite writes a static `dist/` folder you can deploy anywhere.
+
+### The finished example
+
+The code on this page, built exactly as written, lives at [github.com/arthurbernierjr/dtc-react](https://github.com/arthurbernierjr/dtc-react) and runs at [dtc-react-production.up.railway.app](https://dtc-react-production.up.railway.app). It is pointed at the Python / Django REST framework API (`https://api-production-02380.up.railway.app`); to point it at any other backend from the table above, change `VITE_API_URL` in `.env.production` and rebuild.
 
 > Going further: React Router's **data mode** moves fetching into route `loader` and `action` functions so the list is loaded before the page renders and there is no "Loading…" moment. The declarative version above is the right first step; the [data mode guide](https://reactrouter.com/start/data/installation) is the next.

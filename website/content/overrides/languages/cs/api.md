@@ -1,30 +1,33 @@
 ---
 title: "ASP.NET Core: building and deploying an API"
+framework: "ASP.NET Core / Entity Framework Core"
 version: "10.0"
 editorial: true
-lede: "Build a /todos CRUD API with ASP.NET Core 10 controllers and EF Core 10 on Postgres, open it to a frontend with the CORS middleware, publish it, containerise it with the official .NET Dockerfile, and deploy it to Railway with the connection string coming from the environment."
+lede: "Build the /todos CRUD API with ASP.NET Core 10 controllers and EF Core 10 on Postgres, open it to any frontend with the CORS middleware, create its table on boot, and deploy it to Railway with a two-stage .NET Dockerfile and the connection string coming from the environment."
 updated_from: "the 2021 'Lab and Homework - MORE PETS' stub (77 words; .NET 5, Heroku)"
 verified: 2026-11-07
 docs:
   - https://learn.microsoft.com/aspnet/core/tutorials/first-web-api?view=aspnetcore-10.0
+  - https://learn.microsoft.com/aspnet/core/web-api/?view=aspnetcore-10.0
   - https://learn.microsoft.com/aspnet/core/security/cors?view=aspnetcore-10.0
   - https://learn.microsoft.com/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0
-  - https://learn.microsoft.com/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-10.0
   - https://learn.microsoft.com/dotnet/core/tools/dotnet-publish
   - https://learn.microsoft.com/dotnet/core/docker/build-container
   - https://learn.microsoft.com/dotnet/core/compatibility/containers/8.0/aspnet-port
+  - https://learn.microsoft.com/ef/core/managing-schemas/ensure-created
   - https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying
   - https://learn.microsoft.com/ef/core/cli/dotnet
-  - https://docs.railway.com/guides/aspnet-core
-exec: not run
-verified_note: "Deployed on Railway on 2026-11-07 with ASP.NET Core 10 and EF Core 10 against Postgres. Create returned 201, show 200, a missing id was 404, put updated the row, delete returned 204, and the styled index returned 200. The schema was created with EnsureCreated instead of a checked-in migration. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-cs-api."
+  - https://docs.railway.com/builds/dockerfiles
+  - https://railway.com/guides/aspnet-core
+exec: ran
+verified_note: "Deployed to Railway on 2026-11-07 from commit b92bc22109e1b904c3917137d35c9f6f8f1478de of github.com/arthurbernierjr/dtc-cs-api, live at https://api-production-efe3.up.railway.app; `node check.mjs https://api-production-efe3.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Every whole-file block on this page is the file in that repo. No .NET toolchain ran on the build machine; Railway built the image with .NET SDK 10.0.403, ASP.NET Core runtime 10.0.14 and Npgsql.EntityFrameworkCore.PostgreSQL 10.0.0."
 changes:
+  - "Aligned with the shared Todos contract: the `isComplete` field is gone so objects are exactly `id`, `subject` and `details`; blank or missing fields and malformed JSON answer 400 `{\"error\":…}` instead of the framework's ProblemDetails; 404s answer `{\"error\":\"not found\"}`; `/health` was added; CORS is open to any origin instead of a pinned origin list; and the `todos` table is created on boot with `CREATE TABLE IF NOT EXISTS` instead of `dotnet ef` migrations run by hand."
   - "The 2021 page was a 77-word homework stub (Dogs, Cats, Birds with CRUD, test in Postman). It is now a full build-and-deploy lesson mirroring the other API pages; the original lab is kept under 'Hungry for More?'."
-  - "Project is scaffolded with `dotnet new webapi --use-controllers` on .NET 10 LTS and uses the `Program.cs` builder pattern; packages are `Npgsql.EntityFrameworkCore.PostgreSQL` 10.x and `Microsoft.EntityFrameworkCore.Design`."
-  - "CORS is done with the built-in `AddCors`/`UseCors` (a named policy listing the frontend origins, `UseCors` placed before `UseAuthorization` as the docs require) rather than a third-party package."
-  - "Heroku's free tier ended in November 2022; deployment is written for Railway with a multi-stage Dockerfile (`mcr.microsoft.com/dotnet/sdk:10.0` → `mcr.microsoft.com/dotnet/aspnet:10.0`) taken from the official .NET container guide, which also works on Render and Fly.io."
-  - "The connection string is never in the image: locally it lives in `appsettings.Development.json`, in production it arrives as the `ConnectionStrings__TodoContext` environment variable built from Railway's Postgres reference variables."
-  - "Migrations are applied on deploy with `dotnet ef database update --connection …` against the host's database; the runtime-`Migrate()` shortcut is shown with the caveat from the EF Core docs."
+  - "Project is scaffolded with `dotnet new webapi --use-controllers` on .NET 10 LTS; the only package is `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.0."
+  - "CORS is done with the built-in `AddCors`/`UseCors` default policy, placed before the endpoints as the docs require, rather than a third-party package."
+  - "Heroku's free tier ended in November 2022; deployment is written for Railway with a two-stage Dockerfile (`mcr.microsoft.com/dotnet/sdk:10.0` → `mcr.microsoft.com/dotnet/aspnet:10.0`) after the official .NET container guide."
+  - "The connection string is never in the image or the repo: locally and in production it arrives as the `ConnectionStrings__TodoContext` environment variable, built on Railway from the Postgres reference variables."
 ---
 
 # Full Stack Build Part 1 - Building and Deploying an API
@@ -38,47 +41,70 @@ changes:
 - Testing an API
 - Deploying an API
 
+### The Todos contract
+
+| Request | Response |
+|---|---|
+| `GET /health` | 200 `{"ok":true}` |
+| `GET /todos` | 200 `[{id,subject,details}]` ordered by id |
+| `GET /todos/:id` | 200 the object, or 404 `{"error":"not found"}` |
+| `POST /todos` with `{subject,details}` | 201 the new object |
+| `PUT /todos/:id` with `{subject,details}` | 200 the updated object, or 404 |
+| `DELETE /todos/:id` | 204 with no body, or 404 |
+| blank or missing `subject` or `details` | 400 `{"error":"…"}` |
+
+Every backend guide on this site builds this same API: no trailing slashes, objects that contain exactly `id`, `subject` and `details`, and CORS open to any origin, so the four frontend guides can point at any of them. The finished example is [github.com/arthurbernierjr/dtc-cs-api](https://github.com/arthurbernierjr/dtc-cs-api), live at [api-production-efe3.up.railway.app](https://api-production-efe3.up.railway.app).
+
 ---
 
 ## Setup
+
+The example was built on Railway with .NET SDK 10.0.403, runs on ASP.NET Core 10.0.14, and uses `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.0, which pulls in EF Core 10. Any .NET 10 SDK on your machine will do.
 
 - Scaffold a fresh Web API project with controllers and step into it:
 
 ```bash
 dotnet new webapi --use-controllers -o todoapi
 cd todoapi
-dotnet new gitignore
 ```
 
-- Add EF Core's Postgres provider and the design-time package, and make sure the EF tools are installed:
+- The template ships a sample endpoint and a few files this page never reads. Delete `Controllers/WeatherForecastController.cs`, `WeatherForecast.cs`, both `appsettings*.json` files and the `Properties/` folder. The example repo contains only what you see on this page.
 
-```bash
-dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
-dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet tool install --global dotnet-ef
+- Replace the generated project file with this one. The only package is EF Core's Postgres provider:
+
+`todoapi.csproj`
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+  </ItemGroup>
+</Project>
+```
+
+`.gitignore`
+
+```text
+bin
+obj
+.env
 ```
 
 - Create a local database: `createdb tododb`
 
-- Put the local connection string in `appsettings.Development.json` (this file is for your machine; production gets the value another way, below):
+- Put the local connection string in your shell, not in a file. ASP.NET Core reads the environment variable `ConnectionStrings__TodoContext` (double underscore) as the configuration key `ConnectionStrings:TodoContext`, which is exactly what `Program.cs` asks for, so nothing changes in code between your laptop and production:
 
-`appsettings.Development.json`
-
-```json
-{
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "ConnectionStrings": {
-    "TodoContext": "Host=localhost;Port=5432;Database=tododb;Username=test5;Password=test5"
-  }
-}
+```bash
+export ConnectionStrings__TodoContext="Host=localhost;Port=5432;Database=tododb;Username=test5;Password=test5"
+dotnet restore
 ```
 
-- Test your dev server with `dotnet run` and open the printed `http://localhost:5xxx/weatherforecast`. Delete `Controllers/WeatherForecastController.cs` and `WeatherForecast.cs` once you have seen it work.
+**WHY** no `appsettings.Development.json`: it works, but it is one more place a password can end up in git.
 
 ## Creating the API
 
@@ -86,101 +112,120 @@ dotnet tool install --global dotnet-ef
 
 `Models/TodoItem.cs`
 
-```cs
+```csharp
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace todoapi.Models;
 
+[Table("todos")]
 public class TodoItem
 {
     public long Id { get; set; }
-    public string? Subject { get; set; }
-    public string? Details { get; set; }
-    public bool IsComplete { get; set; }
+
+    [Required]
+    public string Subject { get; set; } = "";
+
+    [Required]
+    public string Details { get; set; } = "";
 }
 ```
 
+- `[Table("todos")]` names the table; without it EF Core would call it `Todos` after the `DbSet` below.
+- `[Required]` on a string rejects `null`, `""` and whitespace-only values: the contract's "blank or missing" rule. The `= ""` default keeps the nullable analysis quiet.
+
 `Models/TodoContext.cs`
 
-```cs
+```csharp
 using Microsoft.EntityFrameworkCore;
 
 namespace todoapi.Models;
 
 public class TodoContext : DbContext
 {
-    public TodoContext(DbContextOptions<TodoContext> options) : base(options)
-    {
-    }
-
-    public DbSet<TodoItem> TodoItems => Set<TodoItem>();
+    public TodoContext(DbContextOptions<TodoContext> options) : base(options) { }
+    public DbSet<TodoItem> Todos => Set<TodoItem>();
 }
 ```
 
-#### Wiring up Program.cs — database, CORS, port
+#### Wiring up Program.cs — validation, database, CORS, port
 
 `Program.cs`
 
-```cs
+```csharp
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using todoapi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    // One 400 shape for every bad body: missing or blank fields and malformed JSON alike.
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var malformed = context.ModelState.Keys.Any(k => k == "" || k.StartsWith("$"));
+        return new BadRequestObjectResult(new
+        {
+            error = malformed ? "malformed JSON body" : "subject and details are required",
+        });
+    };
+});
 
-// Database: the connection string comes from configuration, never from code
 builder.Services.AddDbContext<TodoContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("TodoContext")));
 
-// CORS: which browser origins may call this API
-const string FrontendPolicy = "Frontend";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(FrontendPolicy, policy =>
-        policy.WithOrigins("http://localhost:5173", "https://my-frontend.example.com")
+    options.AddDefaultPolicy(policy =>
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
 
-// Hosts like Railway and Render tell the app which port to listen on through PORT
-var port = Environment.GetEnvironmentVariable("PORT");
-if (port is not null)
-{
-    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-}
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// Create the table on boot. Idempotent, so every deploy can run it.
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
+    var db = scope.ServiceProvider.GetRequiredService<TodoContext>();
+    db.Database.ExecuteSqlRaw(
+        "CREATE TABLE IF NOT EXISTS todos (\"Id\" bigserial PRIMARY KEY, \"Subject\" text NOT NULL, \"Details\" text NOT NULL)");
 }
 
-app.UseHttpsRedirection();
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.UseCors();
 
-app.UseCors(FrontendPolicy);   // must come before UseAuthorization and the endpoints
-
-app.UseAuthorization();
-
+app.MapGet("/health", () => Results.Ok(new { ok = true }));
 app.MapControllers();
+// Anything else under /todos (for example a non-numeric id) answers the contract's JSON 404.
+app.MapFallback("/todos/{*path}", () => Results.NotFound(new { error = "not found" }));
 
 app.Run();
 ```
 
-**WHY** CORS: browsers block JavaScript on `http://localhost:5173` from reading responses from `http://localhost:5xxx` unless the API says that origin is allowed. The middleware answers the preflight `OPTIONS` request and adds the `Access-Control-Allow-Origin` header. List origins **without a trailing slash** (`https://site.com/` never matches). While experimenting `policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()` is fine; lock it down before anyone real uses the API. Postman and `curl` ignore CORS entirely — if a request works there and fails in the browser console, CORS is the first suspect.
+Top to bottom:
 
-#### Make and Run Migrations
+- **Validation.** `[ApiController]` already validates the bound `TodoItem` and answers 400 on its own, but with a ProblemDetails body. `ConfigureApiBehaviorOptions` swaps in our own factory so every bad body gets the contract's `{"error": "..."}`. Malformed JSON shows up in `ModelState` under an empty key or a `$`-prefixed JSON path; anything else is a failed `[Required]`.
+- **Database.** The connection string comes from configuration, never from code: the environment variable from Setup locally, a service variable of the same name on Railway.
+- **CORS.** The default policy allows any origin, header and method. `app.UseCors()` applies it, placed before `MapControllers` so it can answer the preflight `OPTIONS` request.
+- **Port.** Hosts say where to listen through `PORT`; with nothing set it is 8080, the port the runtime image expects since .NET 8.
+- **Table on boot.** One idempotent `CREATE TABLE IF NOT EXISTS`, run once per start inside a scope (a `DbContext` is scoped). The quoted column names are the ones EF Core expects.
+- **Health and fallback.** `/health` is a one-line minimal endpoint; `MapFallback` catches `/todos/anything-not-numeric` so that 404 is JSON rather than the framework's empty response.
 
-```bash
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
+**WHY** CORS: browsers block JavaScript on `http://localhost:5173` from reading responses from `http://localhost:8080` unless the API says that origin is allowed. The middleware answers the preflight `OPTIONS` request and adds the `Access-Control-Allow-Origin` header. `AllowAnyOrigin()` is right for this lesson, where four frontend guides point at the same API; in a real product use `.WithOrigins("https://your-frontend.example.com")`, **without a trailing slash** (`https://site.com/` never matches). Postman and `curl` ignore CORS entirely: if a request works there and fails in the browser console, CORS is the first suspect.
+
+**WHY** not `EnsureCreated()` or migrations: `db.Database.EnsureCreated()` looks tempting, but it only creates the schema when the database has no tables at all, so once anything exists it silently does nothing, and it writes no migration history, so you cannot switch to migrations later without starting over. Migrations (`dotnet ef migrations add`, then `dotnet ef database update` or `Migrate()` at startup) are the tool for a real project; see [Applying migrations](https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying). For one table in a lesson, a `CREATE TABLE IF NOT EXISTS` that is safe on every boot is the smallest thing that works, and it needs no `dotnet ef` anywhere.
 
 #### Creating our Controller
 
 `Controllers/TodosController.cs`
 
-```cs
+```csharp
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using todoapi.Models;
@@ -192,143 +237,117 @@ namespace todoapi.Controllers;
 public class TodosController : ControllerBase
 {
     private readonly TodoContext _db;
+    public TodosController(TodoContext db) => _db = db;
 
-    public TodosController(TodoContext db)
-    {
-        _db = db;
-    }
-
-    // GET /todos
     [HttpGet]
-    public async Task<IEnumerable<TodoItem>> Index()
-    {
-        return await _db.TodoItems.OrderBy(t => t.Id).ToListAsync();
-    }
+    public async Task<IEnumerable<TodoItem>> Index() =>
+        await _db.Todos.OrderBy(t => t.Id).ToListAsync();
 
-    // GET /todos/5
-    [HttpGet("{id}")]
+    [HttpGet("{id:long}")]
     public async Task<ActionResult<TodoItem>> Show(long id)
     {
-        var todo = await _db.TodoItems.FindAsync(id);
-        if (todo is null)
-        {
-            return NotFound();
-        }
-        return todo;
+        var todo = await _db.Todos.FindAsync(id);
+        return todo is null ? NotFound(new { error = "not found" }) : todo;
     }
 
-    // POST /todos
     [HttpPost]
     public async Task<ActionResult<TodoItem>> Create(TodoItem todo)
     {
-        _db.TodoItems.Add(todo);
+        var item = new TodoItem { Subject = todo.Subject, Details = todo.Details };
+        _db.Todos.Add(item);
         await _db.SaveChangesAsync();
-        return CreatedAtAction(nameof(Show), new { id = todo.Id }, todo);
+        return CreatedAtAction(nameof(Show), new { id = item.Id }, item);
     }
 
-    // PUT /todos/5
-    [HttpPut("{id}")]
+    [HttpPut("{id:long}")]
     public async Task<ActionResult<TodoItem>> Update(long id, TodoItem todo)
     {
-        var existing = await _db.TodoItems.FindAsync(id);
-        if (existing is null)
-        {
-            return NotFound();
-        }
+        var existing = await _db.Todos.FindAsync(id);
+        if (existing is null) return NotFound(new { error = "not found" });
         existing.Subject = todo.Subject;
         existing.Details = todo.Details;
-        existing.IsComplete = todo.IsComplete;
         await _db.SaveChangesAsync();
         return existing;
     }
 
-    // DELETE /todos/5
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:long}")]
     public async Task<IActionResult> Destroy(long id)
     {
-        var todo = await _db.TodoItems.FindAsync(id);
-        if (todo is null)
-        {
-            return NotFound();
-        }
-        _db.TodoItems.Remove(todo);
+        var todo = await _db.Todos.FindAsync(id);
+        if (todo is null) return NotFound(new { error = "not found" });
+        _db.Todos.Remove(todo);
         await _db.SaveChangesAsync();
         return NoContent();
     }
 }
 ```
 
-Same shape as yesterday's turtles, deliberately: `[ApiController]` binds the JSON body to `TodoItem` and rejects bad JSON with a 400; `ActionResult<T>` lets each action return either data or a status code.
+Same shape as yesterday's turtles, deliberately:
+
+- `[ApiController]` binds the JSON body to `TodoItem` and validates it before the action runs, so by the time `Create` runs the fields are present.
+- `ActionResult<T>` lets each action return either data or a status code: `NotFound(new { error = "not found" })` is the JSON 404, `NoContent()` the empty 204.
+- `{id:long}` is a route constraint: `/todos/abc` matches none of these actions and falls through to the `MapFallback` in `Program.cs`.
+- `Create` copies `Subject` and `Details` into a fresh object so a client cannot pick its own `Id`; `CreatedAtAction` answers 201 with a `Location: /todos/<id>` header.
+- The JSON serializer camel-cases names by default, so `Subject` goes out as `subject`: the contract's shape with no extra configuration.
+
+#### The home page
+
+`UseDefaultFiles` and `UseStaticFiles` in `Program.cs` serve `wwwroot/index.html` at `/`, so a browser visiting the root sees a short page instead of a 404. Any HTML will do; copy the example repo's or write your own.
 
 ## Testing the API
 
-- Start the server with `dotnet run` (or `dotnet watch`)
-- In Postman, or with `curl`, create 3–4 todos with POST requests to `/todos` (body `{"subject": "...", "details": "..."}` as JSON, header `Content-Type: application/json`)
-- Get the full list with GET `/todos`
-- See one todo with GET `/todos/<id>`
-- Edit a todo with PUT `/todos/<id>` (send all fields; `isComplete: true` to tick it off)
-- Delete a todo with DELETE `/todos/<id>` — a 204 with no body
-- Check CORS: `curl -i http://localhost:5xxx/todos -H "Origin: http://localhost:5173"` shows `Access-Control-Allow-Origin: http://localhost:5173`; an origin not on the list gets no such header
+- Start the server with `dotnet run` (or `dotnet watch`). It listens on `http://localhost:8080` and creates the `todos` table on the way up.
+- In Postman, or with `curl`, create 3–4 todos with POST requests to `/todos` (body `{"subject": "...", "details": "..."}` as JSON, header `Content-Type: application/json`): **201** with the new object each time
+- GET `/todos` (**200**, an array ordered by id); GET `/todos/<id>` (**200**, or **404** `{"error":"not found"}`)
+- PUT `/todos/<id>` with both fields (**200** with the updated object); DELETE `/todos/<id>` (**204**, no body; a second time **404**)
+- Send `{"subject": "", "details": "x"}` or `{}` and expect **400** `{"error":"subject and details are required"}`
+- Check CORS: `curl -i http://localhost:8080/todos -H "Origin: http://localhost:5173"` shows `Access-Control-Allow-Origin: *`
 
 ```bash
-curl -X POST http://localhost:5xxx/todos \
+curl -i -X POST http://localhost:8080/todos \
   -H "Content-Type: application/json" \
   -d '{"subject": "Deploy", "details": "ship the API"}'
+# HTTP/1.1 201 Created  {"id":1,"subject":"Deploy","details":"ship the API"}
+
+curl -i -X POST http://localhost:8080/todos \
+  -H "Content-Type: application/json" \
+  -d '{"subject": "", "details": "x"}'
+# HTTP/1.1 400 Bad Request  {"error":"subject and details are required"}
+
+curl -i -X DELETE http://localhost:8080/todos/1
+# HTTP/1.1 204 No Content
+
+curl -i http://localhost:8080/todos/1
+# HTTP/1.1 404 Not Found  {"error":"not found"}
 ```
 
-Postman can also import `http://localhost:5xxx/openapi/v1.json` and build the whole collection for you.
+Run the contract check against your own deploy: `node check.mjs https://your-api.up.railway.app` (copy `check.mjs` from the example repo; it needs Node 18 or later and no packages). All 16 lines should say PASS.
 
 ## Deploying the API
 
-Any host that can build a Dockerfile works: **Railway** and **Render** have free-to-start tiers, **Fly.io** is the usual paid alternative. Railway's own builder (Railpack) does not support .NET yet, so a Dockerfile is required there — and the same Dockerfile works on Render and Fly.io.
-
-#### Publish
-
-`dotnet publish` compiles the app in Release mode into a folder you can run anywhere the .NET runtime exists:
-
-```bash
-dotnet publish -c Release -o out
-ConnectionStrings__TodoContext="Host=localhost;Port=5432;Database=tododb;Username=test5;Password=test5" dotnet out/todoapi.dll
-```
-
-The second line is exactly what a host does: run the published DLL with configuration coming from **environment variables**. `ConnectionStrings__TodoContext` (double underscore) is the environment-variable spelling of the `ConnectionStrings:TodoContext` key, so nothing changes in code between your laptop and production. Add `out/` to `.gitignore`.
+Any host that can build a Dockerfile works; this page uses **Railway**. Railway's own builder (Railpack) does not build .NET, so a Dockerfile is required there, and the same Dockerfile works on Render and Fly.io.
 
 #### Dockerfile
 
-Create `Dockerfile` and `.dockerignore` in the project folder (next to `todoapi.csproj`). This is the multi-stage layout from the official .NET container guide: the SDK image builds, the much smaller ASP.NET runtime image runs.
+Create `Dockerfile` in the project folder (next to `todoapi.csproj`). Two stages, after the official .NET container guide: the SDK image runs `dotnet publish` (Release build into a folder), the much smaller ASP.NET runtime image runs the published DLL with configuration coming from **environment variables**.
 
 `Dockerfile`
 
 ```dockerfile
-# Build stage: full SDK
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
-WORKDIR /app
+WORKDIR /src
+COPY . .
+RUN dotnet publish -c Release -o /out
 
-# Restore as a separate layer so it is cached until the csproj changes
-COPY *.csproj ./
-RUN dotnet restore
-
-# Build and publish a release
-COPY . ./
-RUN dotnet publish -c Release -o out
-
-# Runtime stage: ASP.NET Core runtime only
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
-COPY --from=build /app/out ./
+COPY --from=build /out .
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "todoapi.dll"]
 ```
 
-`.dockerignore`
-
-```text
-bin/
-obj/
-out/
-.git/
-```
-
-Two things to know about the runtime image: it runs as a non-root user, and since .NET 8 it listens on port **8080** (not 80). Test it locally if you have Docker:
+The runtime image runs as a non-root user and, since .NET 8, listens on port **8080** (not 80). `ASPNETCORE_URLS` and `EXPOSE` both say 8080 so a plain `docker run` works; when a host sets `PORT`, the `UseUrls` line in `Program.cs` wins and listens there instead. Test it locally if you have Docker:
 
 ```bash
 docker build -t todoapi .
@@ -338,29 +357,19 @@ docker run --rm -p 8080:8080 -e ConnectionStrings__TodoContext="Host=host.docker
 #### Railway
 
 - `git init`, commit, and push the project to a GitHub repository.
-- In Railway create a **New Project → Deploy from GitHub repo** and pick the repository. Railway detects the `Dockerfile` and builds it.
+- In Railway create a **New Project → Deploy from GitHub repo** and pick the repository. Railway sees the `Dockerfile` and builds it (the example's build used SDK 10.0.403).
 - Add a database: **+ New → Database → PostgreSQL**. The Postgres service exposes `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` and `DATABASE_URL`.
-- Open your API service → **Variables** and add these (the `${{Postgres.…}}` pieces are Railway *reference variables*, filled in from the database service — Npgsql wants `Key=Value` pairs rather than the `postgresql://` URL):
+- Open your API service → **Variables** and add this one variable, the only one the example service has. The `${{Postgres.…}}` pieces are Railway *reference variables*, filled in from the database service; Npgsql wants `Key=Value` pairs rather than the `postgresql://` URL:
 
 ```env
 ConnectionStrings__TodoContext=Host=${{Postgres.PGHOST}};Port=${{Postgres.PGPORT}};Database=${{Postgres.PGDATABASE}};Username=${{Postgres.PGUSER}};Password=${{Postgres.PGPASSWORD}}
-ASPNETCORE_FORWARDEDHEADERS_ENABLED=true
 ```
 
-`ASPNETCORE_FORWARDEDHEADERS_ENABLED` makes the app trust the `X-Forwarded-Proto` header Railway's proxy adds, so `UseHttpsRedirection` knows the request was already HTTPS. Railway injects `PORT` itself, which the `UseUrls` lines in `Program.cs` pick up (Railway's guide also accepts `ASPNETCORE_URLS` set as a variable instead).
+- **Settings → Networking → Generate Domain** gives you `https://<app>.up.railway.app`. Point it at port **8080**, the port the Dockerfile exposes (the example's domain targets 8080).
+- There is no migration step. The app runs `CREATE TABLE IF NOT EXISTS todos` every time it starts, so the first deploy creates the table and every later deploy finds it already there.
+- Test the deployed API: `curl https://<app>.up.railway.app/health`, then `node check.mjs https://<app>.up.railway.app`.
 
-- **Settings → Networking → Generate Domain** gives you `https://<app>.up.railway.app`.
-- Run the migrations against the production database. The runtime image has no SDK, so run them from your machine: on the Postgres service open **Settings → Networking → Public Access**, which creates a TCP proxy and a `DATABASE_PUBLIC_URL` variable (`postgresql://postgres:<password>@<host>:<port>/railway`). Rewrite it in Npgsql form and point `dotnet ef` at it:
-
-```bash
-dotnet ef database update --connection "Host=<host>;Port=<port>;Database=railway;Username=postgres;Password=<password>"
-```
-
-Repeat that whenever you add a migration. (The shortcut is `db.Database.Migrate()` at startup; the EF Core docs allow it for small single-instance apps and warn that several replicas starting at once can race. Fine for this project; prefer the explicit step for a real one.)
-
-- Test the deployed API in Postman: `https://<app>.up.railway.app/todos`, then add your deployed frontend's origin to `WithOrigins`, commit, and Railway redeploys.
-
-**Render** builds the same Dockerfile (Web Service → Docker), sets `PORT` for you and takes the same variables; build the connection string from the credentials of its Postgres. **Fly.io**: `fly launch` detects the Dockerfile; set `internal_port = 8080` in `fly.toml` and `fly secrets set ConnectionStrings__TodoContext=...`.
+CORS `*` is for the lesson, so any of the frontend guides can talk to your API from any origin. In a real product narrow it to the frontend's origin with `WithOrigins(...)` in `Program.cs`, commit, and Railway redeploys.
 
 ## Hungry for More?
 
@@ -370,18 +379,20 @@ You've created full CRUD for todos (and turtles yesterday). Give them some compa
 2. Cats
 3. Birds
 
-- Add additional properties, like a boolean `Adopted` — every model change is `dotnet ef migrations add <Name>` then `dotnet ef database update`, locally and on the deployed database.
-- Add a query-string filter to the list action: `GET /dogs?adopted=false` → `bool? adopted` parameter and a `.Where(...)` on the `DbSet`.
+- Each new model needs its own `DbSet` in `TodoContext` and its own `CREATE TABLE IF NOT EXISTS` in `Program.cs`. When that list gets long, switch to migrations: add `Microsoft.EntityFrameworkCore.Design`, install `dotnet-ef`, run `dotnet ef migrations add InitialCreate`, and put `db.Database.Migrate()` where the raw SQL was.
+- Add additional properties, like a boolean `Adopted`, and a query-string filter on the list action: `GET /dogs?adopted=false` → `bool? adopted` parameter and a `.Where(...)` on the `DbSet`.
 
 ---
 
 ## Resources to Learn More
 
 - [Tutorial: Create a web API with ASP.NET Core](https://learn.microsoft.com/aspnet/core/tutorials/first-web-api?view=aspnetcore-10.0) — controllers plus EF Core, the official version of this page
-- [Enable CORS in ASP.NET Core](https://learn.microsoft.com/aspnet/core/security/cors?view=aspnetcore-10.0) — policies, `WithOrigins`, credentials, middleware order
+- [Create web APIs with ASP.NET Core](https://learn.microsoft.com/aspnet/core/web-api/?view=aspnetcore-10.0) — `[ApiController]`, automatic 400 responses and `ConfigureApiBehaviorOptions`
+- [Enable CORS in ASP.NET Core](https://learn.microsoft.com/aspnet/core/security/cors?view=aspnetcore-10.0) — policies, `AllowAnyOrigin`, `WithOrigins`, middleware order
 - [Containerize a .NET app](https://learn.microsoft.com/dotnet/core/docker/build-container) — the Dockerfile above, explained line by line
-- [Configuration in ASP.NET Core](https://learn.microsoft.com/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0) — `appsettings.*.json`, environment variables, the `__` separator
-- [Applying migrations](https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying) — `database update`, SQL scripts, bundles, and the runtime `Migrate()` caveats
-- [Deploy an ASP.NET Core app on Railway](https://docs.railway.com/guides/aspnet-core) — Dockerfile requirement, `PORT`, domains
+- [Configuration in ASP.NET Core](https://learn.microsoft.com/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0) — environment variables and the `__` separator
+- [Create and drop APIs](https://learn.microsoft.com/ef/core/managing-schemas/ensure-created) — what `EnsureCreated` does and does not do
+- [Applying migrations](https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying) — the real-project path, with the runtime `Migrate()` caveats
+- [Deploy an ASP.NET Core app on Railway](https://railway.com/guides/aspnet-core) — Dockerfile requirement, `PORT`, domains
 
 ---

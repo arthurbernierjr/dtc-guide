@@ -1681,32 +1681,35 @@
     "note": "Executed end to end in a fresh venv: startproject/startapp, migrate, the Turtle model, makemigrations + migrate, every shell command in 'Using the Model' (create/all/get/save/delete), and the two views with GET/POST/PUT/DELETE requests through Django's test client. Ran on Django 5.2 LTS under Python 3.10 (the newest interpreter on the build machine); the model, migration and ORM calls here are unchanged in 6.1."
   },
   "/languages/python/api/": {
-    "date": "2026-11-02",
+    "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://www.django-rest-framework.org/tutorial/quickstart/",
       "https://www.django-rest-framework.org/api-guide/serializers/#modelserializer",
       "https://www.django-rest-framework.org/api-guide/viewsets/#modelviewset",
       "https://www.django-rest-framework.org/api-guide/routers/#defaultrouter",
+      "https://www.django-rest-framework.org/api-guide/exceptions/#custom-exception-handling",
       "https://www.django-rest-framework.org/api-guide/permissions/",
       "https://github.com/adamchainz/django-cors-headers#setup",
       "https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/",
       "https://docs.djangoproject.com/en/6.1/howto/deployment/wsgi/gunicorn/",
       "https://docs.djangoproject.com/en/6.1/ref/settings/#csrf-trusted-origins",
-      "https://whitenoise.readthedocs.io/"
+      "https://whitenoise.readthedocs.io/",
+      "https://docs.railway.com/guides/django"
     ],
     "exec": "ran",
-    "version": "6.1",
+    "version": "6.1.3",
     "changes": [
+      "Aligned with the shared Todos contract: `DefaultRouter(trailing_slash=False)` makes the paths `/todos` and `/todos/:id` (the old page had trailing slashes), `GET /health` answers `{\\\"ok\\\": true}`, the serializer rejects blank or whitespace-only `subject`/`details` with a 400, and a custom DRF exception handler shapes every error (400, 404, bad JSON) as `{\\\"error\\\": \\\"...\\\"}` instead of DRF's per-field dictionaries.",
       "`django-heroku` removed (unmaintained since 2018, incompatible with current Django). Production settings now read `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` and `DATABASE_URL` from environment variables, which is what every current host (Railway, Render, Fly.io, Heroku) provides.",
-      "Heroku's free tier ended in November 2022; the deploy section is written for any Procfile-style host and names Railway and Render as the free-to-start options.",
+      "Heroku's free tier ended in November 2022; the deploy section is written for Railway, which reads the same `Procfile`.",
       "Serializer switched from `HyperlinkedModelSerializer` to `ModelSerializer`, which is the right base class when `fields` lists `id` and no `url` — the hyperlinked variant only adds value when you expose `url` fields.",
-      "`runtime.txt` replaced by `.python-version` (what Heroku and Railway's current buildpacks read); static files served with WhiteNoise so the browsable API works in production.",
-      "CSRF middleware stays on: DRF's `SessionAuthentication` only enforces CSRF for logged-in browser sessions, so Postman and frontends work without disabling it.",
+      "`runtime.txt` replaced by `.python-version` (what Railway's Railpack builder reads); static files served with WhiteNoise so the Django admin works in production.",
+      "CSRF middleware stays on: DRF only enforces CSRF for logged-in browser sessions and this API has no authentication classes, so Postman and frontends work without disabling it.",
       "Postgres driver is `psycopg[binary]` (psycopg 3); install troubleshooting note updated accordingly."
     ],
     "override": "content/overrides/languages/python/api.md",
-    "note": "Deployed on Railway on 2026-11-07 with Django 6.1.3, Python 3.13, djangorestframework 3.18.3, django-cors-headers 4.9.0, and psycopg 3.3.8. POST, GET list, GET one, PUT, DELETE, a missing id 404, and a CORS preflight for http://localhost:5173 all passed against Postgres. The earlier local run was Django 5.2 on Python 3.10 and is not this proof. The project was removed after the curls. The repo is github.com/arthurbernierjr/dtc-python-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit 18c49b88fa38ff2c6aa11142ef560872d09a588a of github.com/arthurbernierjr/dtc-python-api, live at https://api-production-02380.up.railway.app; `node check.mjs https://api-production-02380.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Railway built Python 3.13.17, Django 6.1.3, DRF 3.18.3, django-cors-headers 4.9.0, gunicorn 26.2.0, psycopg 3.3.8, dj-database-url 3.1.2, whitenoise 6.12.0. Every whole-file block on this page is the file in that repo. No Python toolchain ran on the build machine."
   },
   "/languages/ruby/": {
     "date": "2026-11-07",
@@ -1828,23 +1831,25 @@
       "https://guides.rubyonrails.org/command_line.html",
       "https://guides.rubyonrails.org/configuring.html#configuring-a-database",
       "https://guides.rubyonrails.org/getting_started.html",
+      "https://guides.rubyonrails.org/action_controller_overview.html#rescue-from",
       "https://github.com/rails/rails/blob/8-1-stable/railties/lib/rails/generators/rails/scaffold_controller/templates/api_controller.rb.tt",
       "https://docs.railway.com/guides/rails",
       "https://github.com/cyu/rack-cors",
       "https://rubygems.org/gems/rack-cors"
     ],
-    "exec": "not run",
-    "version": "8.1",
+    "exec": "ran",
+    "version": "8.1.4.1",
     "changes": [
-      "Deployment rewritten for Railway (Heroku's free tier ended in November 2022): GitHub deploy, `RAILS_MASTER_KEY`, a Postgres service wired in through `DATABASE_URL`, and `bin/rails db:prepare` in the start command instead of a manual `db:migrate` from a dashboard console.",
-      "The hand-edited `production: url: <%= ENV['DATABASE_URL'] %>` step is gone — Rails merges `DATABASE_URL` into the production config on its own, and the 2021 snippet was mis-indented YAML anyway.",
+      "Aligned with the shared Todos contract: the scaffold's 422 validation responses and per-field error hashes became 400 with a single `error` string, a missing id answers 404 with the same shape instead of a Rails error page, `created_at`/`updated_at` are hidden by an `as_json` override so objects carry exactly `id`, `subject` and `details`, and `GET /health` was added.",
+      "Deployment rewritten for Railway (Heroku's free tier ended in November 2022): GitHub deploy from a short `Dockerfile`, a Postgres service wired in through `DATABASE_URL`, `SECRET_KEY_BASE` from `bin/rails secret`, and `bin/rails db:prepare` in `bin/boot` instead of a manual `db:migrate` from a dashboard console.",
+      "The 2021 `production: url: <%= ENV['DATABASE_URL'] %>` snippet was mis-indented YAML; the example keeps that line, correctly indented, inside the `production` block (Rails would also merge `DATABASE_URL` in on its own).",
       "The app is generated with `--skip-solid`: Rails 8's default production `database.yml` expects four Postgres databases (primary, cache, queue, cable) and `DATABASE_URL` only covers the first, which breaks `db:prepare` on a single hosted database.",
-      "The test checklist used `/todo/:id`; the scaffold's routes are `/todos/:id`. Each request is now shown as a `curl` command with the JSON body the controller expects.",
-      "Shows the controller the scaffold generates (Rails 8.1: `params.expect`, `:unprocessable_content`, `destroy!`) so the one-command API maps back to yesterday's hand-written one.",
-      "CORS section matches the rack-cors 3.0 README and the initializer Rails 8.1 generates (double quotes, `origins` list), with a note on tightening origins and the no-trailing-slash gotcha; resources now link official docs only."
+      "The test checklist used `/todo/:id`; the routes are `/todos/:id`. Each request is now shown as a `curl` command with the JSON body the controller expects and the status to expect, plus the `check.mjs` contract run.",
+      "Shows the controller the scaffold generates (Rails 8.1: `params.expect`, `destroy!`) and the edits that turn it into the contract's responses, so the one-command API maps back to yesterday's hand-written one.",
+      "CORS section matches rack-cors 3.0 and the initializer Rails 8.1 generates (double quotes, `origins` list), with a note on tightening origins and the no-trailing-slash gotcha; resources now link official docs only."
     ],
     "override": "content/overrides/languages/ruby/api.md",
-    "note": "A Rails 8.1.4.1 todos API was built on Railway on 2026-11-07 in the personal workspace. Create returned 201, show 200, patch updated the row, delete returned 204, and the id was 404 afterward. The process needs bin/rails, because the gem command only prints generator help outside an app, and Bundler.require so rack-cors loads. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-ruby-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit 136c7a01d5f670a2a9145815c4fb79609881dbdf of github.com/arthurbernierjr/dtc-ruby-api, live at https://api-production-0197.up.railway.app; `node check.mjs https://api-production-0197.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Railway built Ruby 3.4.12, Rails 8.1.4.1, Puma 6.6.1, pg 1.7.0, rack 3.2.8 and rack-cors 3.0.0. Every whole-file block on this page is the file in that repo. No Ruby toolchain ran on the build machine."
   },
   "/languages/go/": {
     "date": "2026-11-07",
@@ -1952,23 +1957,32 @@
     "note": "Pool setup, Query/QueryRow/Exec, and goose's SQL migration commands were checked against pgx v5 and goose v3 docs. Nothing was migrated or served."
   },
   "/languages/go/api/": {
-    "date": "2026-11-05",
+    "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
+      "https://go.dev/dl/",
+      "https://go.dev/doc/modules/managing-dependencies",
+      "https://github.com/go-chi/chi",
       "https://github.com/go-chi/cors",
       "https://pkg.go.dev/github.com/go-chi/cors",
+      "https://pkg.go.dev/github.com/jackc/pgx/v5/pgxpool",
+      "https://github.com/pressly/goose",
+      "https://pkg.go.dev/github.com/pressly/goose/v3",
       "https://docs.railway.com/",
-      "https://pkg.go.dev/github.com/jackc/pgx/v5/pgxpool"
+      "https://docs.railway.com/guides/dockerfiles",
+      "https://docs.railway.com/guides/postgresql",
+      "https://docs.railway.com/guides/variables"
     ],
-    "exec": "not run",
+    "exec": "ran",
     "version": "5.5.0",
     "changes": [
+      "Contract alignment: the page used to extend the turtles project at `/turtles/` with trailing slashes, a `name` and `age` body, a pinned `http://localhost:5173` origin, and a manual goose command after deploy; it now starts a fresh todos project that serves `/health` and `/todos` with no trailing slashes, rows of exactly `id`, `subject` and `details`, 400 JSON for a blank or missing field, CORS open to every origin, and goose running on boot.",
       "The Buffalo Dockerfile and the 2023 buffalo CLI base image are gone. The binary is a normal Go build. Railway builds it from the repo.",
       "CORS is github.com/go-chi/cors, mounted once, not headers copied onto each handler.",
-      "The listen address reads PORT, which is what Railway sets. Locally it falls back to 3000."
+      "The listen address reads PORT, which is what Railway sets. Locally it falls back to 8080."
     ],
     "override": "content/overrides/languages/go/api.md",
-    "note": "Built and curled on Railway on 2026-11-07: chi v5.5.0, pgx v5.12.0, goose v3.29.0, Go 1.27. Index, create 201, show, update, delete 204, missing 404, empty name 400, and the CORS preflight all passed. goose v3.29 does not compile on Go 1.25. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-go-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit f0956e84464055cc3c5ce00ee49ed309f51defa8 of github.com/arthurbernierjr/dtc-go-api, live at https://api-production-a3ab.up.railway.app; `node check.mjs https://api-production-a3ab.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Railway built the golang:1.27 image with chi v5.5.0, go-chi/cors v1.2.2, pgx v5.12.0, and goose v3.29.0. Every whole-file block on this page is the file in that repo. No Go toolchain ran on the build machine."
   },
   "/languages/java/": {
     "date": "2026-11-07",
@@ -2093,27 +2107,27 @@
       "https://docs.spring.io/spring-framework/reference/web/webmvc-cors.html",
       "https://docs.spring.io/spring-boot/reference/web/servlet.html",
       "https://docs.spring.io/spring-boot/reference/features/external-config.html",
-      "https://docs.spring.io/spring-boot/reference/actuator/endpoints.html",
+      "https://docs.spring.io/spring-boot/reference/io/validation.html",
+      "https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-advice.html",
       "https://docs.spring.io/spring-boot/how-to/deployment/cloud.html",
       "https://docs.spring.io/spring-boot/tutorial/first-application/index.html",
-      "https://docs.railway.com/guides/spring-boot",
+      "https://docs.railway.com/guides/dockerfiles",
       "https://docs.railway.com/guides/postgresql",
       "https://docs.railway.com/guides/variables",
-      "https://docs.railway.com/guides/healthchecks",
-      "https://railpack.com/languages/java"
+      "https://docs.railway.com/guides/healthchecks"
     ],
-    "exec": "not run",
+    "exec": "ran",
     "version": "4.1.2",
     "changes": [
-      "Heroku's free tier ended in November 2022 and `system.properties` is Heroku-specific; the deploy section is rewritten for Railway (build from the GitHub repo, managed Postgres, `RAILPACK_JDK_VERSION=25`, generated domain, `/actuator/health` as the health check) and the same settings work on Render or Fly.io.",
-      "`javax.persistence.*` is `jakarta.persistence.*` (Spring Boot 3+/Jakarta EE); the starter is `spring-boot-starter-webmvc`; Spring Boot Actuator is added for the health endpoint.",
-      "Database settings read Railway's `PGHOST`/`PGPORT`/`PGDATABASE`/`PGUSER`/`PGPASSWORD` variables through `${VAR:default}` placeholders, so one application.properties works locally and in production; the unnecessary Hibernate dialect line is gone and the file is fenced as `properties`, not `yaml`.",
-      "`@CrossOrigin` moved from every method to the class (Spring supports class-level CORS), with the global `WebMvcConfigurer` alternative shown for locking origins down before launch.",
-      "Bug fixed: `update` ignored a missing id and returned the whole list; show/update now 404 on a missing id, create returns 201 with the saved todo, delete returns 204. Entity fields are `private`, the id is a `Long` identity column, and the repository field is `private final todos` instead of a public `Todos`.",
-      "Testing is spelled out as curl commands next to the Postman steps; resources link Spring's CORS reference and Railway's docs instead of third-party blog posts."
+      "Aligned with the shared Todos contract: `/health` replaces `/actuator/health`, blank or missing `subject`/`details` are a 400 with a JSON body instead of a saved empty row, every 404 carries `{\\\"error\\\":\\\"not found\\\"}`, the list is ordered by id, CORS is one `WebMvcConfigurer` open to any origin instead of `@CrossOrigin`, and Railway builds the Maven multi-stage `Dockerfile` instead of Railpack with `RAILPACK_JDK_VERSION`.",
+      "Heroku's free tier ended in November 2022 and `system.properties` is Heroku-specific; the deploy section is rewritten for Railway (build from the GitHub repo via the Dockerfile, managed Postgres with reference variables, generated domain, `/health` as the health check) and the same Dockerfile works on Render or Fly.io.",
+      "`javax.persistence.*` is `jakarta.persistence.*` (Spring Boot 3+/Jakarta EE); the Boot 4 web starter is `spring-boot-starter-webmvc`; `spring-boot-starter-validation` is added for `@NotBlank` and `@Valid`.",
+      "Database settings read Railway's `PGHOST`/`PGPORT`/`PGDATABASE`/`PGUSER`/`PGPASSWORD` variables through `${VAR:default}` placeholders, so one application.properties works locally and in production; the unnecessary Hibernate dialect line is gone.",
+      "Bug fixed: `update` ignored a missing id and returned the whole list; show/update/delete now 404 on a missing id, create returns 201 with the saved todo, delete returns 204. Entity fields are `private`, the id is a `Long` identity column, and the repository field is `private final todos` instead of a public `Todos`.",
+      "Testing is spelled out as curl commands with expected status codes plus the shared `check.mjs` contract check; resources link Spring's and Railway's docs instead of third-party blog posts."
     ],
     "override": "content/overrides/languages/java/api.md",
-    "note": "Deployed on Railway on 2026-11-07 with Spring Boot 4.1.2 and Java 25. Health was UP. Create returned 201, show 200, a missing id was 404, put updated the row, delete returned 204. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-java-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit 3b566abcaec66552435a70bc616367e211e563b2 of github.com/arthurbernierjr/dtc-java-api, live at https://api-production-c419.up.railway.app; `node check.mjs https://api-production-c419.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Every whole-file block on this page is the file in that repo. No Java toolchain ran on the build machine."
   },
   "/languages/cs/": {
     "date": "2026-11-07",
@@ -2241,28 +2255,30 @@
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://learn.microsoft.com/aspnet/core/tutorials/first-web-api?view=aspnetcore-10.0",
+      "https://learn.microsoft.com/aspnet/core/web-api/?view=aspnetcore-10.0",
       "https://learn.microsoft.com/aspnet/core/security/cors?view=aspnetcore-10.0",
       "https://learn.microsoft.com/aspnet/core/fundamentals/configuration/?view=aspnetcore-10.0",
-      "https://learn.microsoft.com/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-10.0",
       "https://learn.microsoft.com/dotnet/core/tools/dotnet-publish",
       "https://learn.microsoft.com/dotnet/core/docker/build-container",
       "https://learn.microsoft.com/dotnet/core/compatibility/containers/8.0/aspnet-port",
+      "https://learn.microsoft.com/ef/core/managing-schemas/ensure-created",
       "https://learn.microsoft.com/ef/core/managing-schemas/migrations/applying",
       "https://learn.microsoft.com/ef/core/cli/dotnet",
-      "https://docs.railway.com/guides/aspnet-core"
+      "https://docs.railway.com/builds/dockerfiles",
+      "https://railway.com/guides/aspnet-core"
     ],
-    "exec": "not run",
+    "exec": "ran",
     "version": "10.0",
     "changes": [
+      "Aligned with the shared Todos contract: the `isComplete` field is gone so objects are exactly `id`, `subject` and `details`; blank or missing fields and malformed JSON answer 400 `{\\\"error\\\":…}` instead of the framework's ProblemDetails; 404s answer `{\\\"error\\\":\\\"not found\\\"}`; `/health` was added; CORS is open to any origin instead of a pinned origin list; and the `todos` table is created on boot with `CREATE TABLE IF NOT EXISTS` instead of `dotnet ef` migrations run by hand.",
       "The 2021 page was a 77-word homework stub (Dogs, Cats, Birds with CRUD, test in Postman). It is now a full build-and-deploy lesson mirroring the other API pages; the original lab is kept under 'Hungry for More?'.",
-      "Project is scaffolded with `dotnet new webapi --use-controllers` on .NET 10 LTS and uses the `Program.cs` builder pattern; packages are `Npgsql.EntityFrameworkCore.PostgreSQL` 10.x and `Microsoft.EntityFrameworkCore.Design`.",
-      "CORS is done with the built-in `AddCors`/`UseCors` (a named policy listing the frontend origins, `UseCors` placed before `UseAuthorization` as the docs require) rather than a third-party package.",
-      "Heroku's free tier ended in November 2022; deployment is written for Railway with a multi-stage Dockerfile (`mcr.microsoft.com/dotnet/sdk:10.0` → `mcr.microsoft.com/dotnet/aspnet:10.0`) taken from the official .NET container guide, which also works on Render and Fly.io.",
-      "The connection string is never in the image: locally it lives in `appsettings.Development.json`, in production it arrives as the `ConnectionStrings__TodoContext` environment variable built from Railway's Postgres reference variables.",
-      "Migrations are applied on deploy with `dotnet ef database update --connection …` against the host's database; the runtime-`Migrate()` shortcut is shown with the caveat from the EF Core docs."
+      "Project is scaffolded with `dotnet new webapi --use-controllers` on .NET 10 LTS; the only package is `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.0.",
+      "CORS is done with the built-in `AddCors`/`UseCors` default policy, placed before the endpoints as the docs require, rather than a third-party package.",
+      "Heroku's free tier ended in November 2022; deployment is written for Railway with a two-stage Dockerfile (`mcr.microsoft.com/dotnet/sdk:10.0` → `mcr.microsoft.com/dotnet/aspnet:10.0`) after the official .NET container guide.",
+      "The connection string is never in the image or the repo: locally and in production it arrives as the `ConnectionStrings__TodoContext` environment variable, built on Railway from the Postgres reference variables."
     ],
     "override": "content/overrides/languages/cs/api.md",
-    "note": "Deployed on Railway on 2026-11-07 with ASP.NET Core 10 and EF Core 10 against Postgres. Create returned 201, show 200, a missing id was 404, put updated the row, delete returned 204, and the styled index returned 200. The schema was created with EnsureCreated instead of a checked-in migration. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-cs-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit b92bc22109e1b904c3917137d35c9f6f8f1478de of github.com/arthurbernierjr/dtc-cs-api, live at https://api-production-efe3.up.railway.app; `node check.mjs https://api-production-efe3.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Every whole-file block on this page is the file in that repo. No .NET toolchain ran on the build machine; Railway built the image with .NET SDK 10.0.403, ASP.NET Core runtime 10.0.14 and Npgsql.EntityFrameworkCore.PostgreSQL 10.0.0."
   },
   "/languages/php/": {
     "date": "2026-11-07",
@@ -2386,25 +2402,27 @@
       "https://laravel.com/docs/13.x/eloquent",
       "https://laravel.com/docs/13.x/controllers",
       "https://laravel.com/docs/13.x/routing",
+      "https://laravel.com/docs/13.x/validation",
+      "https://laravel.com/docs/13.x/errors",
       "https://laravel.com/docs/13.x/eloquent-resources",
       "https://laravel.com/docs/13.x/deployment",
       "https://laravel.com/docs/13.x/configuration",
       "https://docs.railway.com/guides/laravel",
-      "https://docs.railway.com/guides/postgresql",
-      "https://docs.railway.com/guides/pre-deploy-command"
+      "https://docs.railway.com/guides/dockerfiles",
+      "https://docs.railway.com/guides/postgresql"
     ],
-    "exec": "not run",
+    "exec": "ran",
     "version": "13.40",
     "changes": [
-      "Deployment rewritten for Railway: deploy from a GitHub repo, add a Postgres service, reference its `DATABASE_URL` as `DB_URL`, run migrations as a Pre-Deploy Command, generate a domain. Heroku's free tier ended in November 2022; the Procfile and `heroku-php-apache2` steps are gone.",
-      "Setup adds `php artisan install:api` (no `routes/api.php` without it since Laravel 11) and generates model, migration and API controller in one command: `php artisan make:model Todo -m --api`.",
-      "The table is `todos`, not `_todos_`, and the migration is named `create_todos_table` in snake_case, so Laravel pre-fills `Schema::create('todos', ...)` and the model needs no explicit table link.",
-      "The CORS section the original promised but never wrote is here: `HandleCors` is in Laravel's default middleware stack, `php artisan config:publish cors` exposes `config/cors.php`, and there is no package to install (the old `fruitcake/laravel-cors` is retired).",
-      "`store`, `update` and `destroy` now return their responses (the originals built one and dropped it), take the model through route model binding so a bad id is a 404, validate input, and answer 201 / 204 where REST expects.",
-      "Testing shows the `curl` shape next to the Postman steps (and why `Content-Type`/`Accept: application/json` matter), and 'Resources to Learn More', empty in the original, links the 13.x docs plus the Railway guides used."
+      "Aligned with the shared Todos contract: routes moved from `/api/todos` to `/todos` (`apiPrefix: ''`), validation errors answer 400 `{\\\"error\\\":...}` instead of 422 and missing rows 404 `{\\\"error\\\":\\\"not found\\\"}` as JSON, `created_at`/`updated_at` are hidden from every response, the list is ordered by id, `GET /health` was added, and CORS is `*` on every path.",
+      "Deployment rewritten for Railway: a Dockerfile builds the pinned Laravel skeleton and copies the lesson's files over it, and a `boot` script writes `.env` from Railway's Postgres variables, migrates and serves. Heroku's free tier ended in November 2022; the Procfile is gone.",
+      "Setup adds `php artisan install:api` (no `routes/api.php` without it since Laravel 11) and `php artisan make:model Todo -m --api` for model, migration and API controller at once; the table is `todos`, not `_todos_`.",
+      "The CORS section the original promised but never wrote is here: `HandleCors` ships with Laravel and `php artisan config:publish cors` exposes `config/cors.php`.",
+      "`store`, `update` and `destroy` now return their responses (the originals dropped them), use route model binding so a bad id is a 404, validate input, and answer 201 / 204.",
+      "Testing shows `curl` next to the Postman steps plus the `check.mjs` run; 'Resources to Learn More', empty in the original, links the 13.x docs and Railway guides."
     ],
     "override": "content/overrides/languages/php/api.md",
-    "note": "Deployed on Railway on 2026-11-07 from the Laravel 13.11 skeleton, which pulled framework 13.40. The index returned 200, create returned 201, show 200, a missing id was 404, update returned the row, delete returned 204, and the CORS preflight allowed http://localhost:5173. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-php-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit b9ed53fc94b81593c02b6b7ee29f762b1fd0c4a0 of github.com/arthurbernierjr/dtc-php-api, live at https://api-production-2278d.up.railway.app; `node check.mjs https://api-production-2278d.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Railway built PHP 8.4.27, Composer 2.11.1, the laravel/laravel 13.11.0 skeleton and laravel/framework v13.40.0. Every whole-file block on this page is the file in that repo. No PHP toolchain ran on the build machine."
   },
   "/languages/rust/": {
     "date": "2026-11-07",
@@ -2505,24 +2523,31 @@
       "A missing id is 404 because fetch_optional returns None. Create returns 201 and the inserted row."
     ],
     "override": "content/overrides/languages/rust/models.md",
-    "note": "The same binary as the API page was built on Railway on 2026-11-07 with SQLx 0.9.0 features runtime-tokio, tls-rustls, and postgres. sqlx::migrate ran on boot and the turtles table answered the curl script. Runtime query_as was used, not the compile-time query_as! macro, so the image does not need a database during cargo build."
+    "note": "Checked against the sqlx 0.9 docs and Axum's sqlx-postgres example on 2026-11-07: PgPoolOptions, State<PgPool>, runtime query_as with FromRow, fetch_optional for the 404, and sqlx migrate add and run from sqlx-cli. Nothing on this page was compiled or run. The todos crate on the API page is the one that was built and checked on Railway."
   },
   "/languages/rust/api/": {
-    "date": "2026-11-05",
+    "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
-      "https://docs.rs/tower-http/latest/tower_http/cors/index.html",
       "https://docs.rs/axum/0.8.9/axum/struct.Router.html",
-      "https://docs.railway.com/"
+      "https://docs.rs/axum/0.8.9/axum/extract/struct.State.html",
+      "https://docs.rs/axum/0.8.9/axum/extract/rejection/index.html",
+      "https://docs.rs/tower-http/latest/tower_http/cors/index.html",
+      "https://docs.rs/sqlx/latest/sqlx/postgres/struct.PgPoolOptions.html",
+      "https://docs.rs/sqlx/latest/sqlx/macro.migrate.html",
+      "https://docs.railway.com/",
+      "https://docs.railway.com/variables",
+      "https://docs.railway.com/cli"
     ],
-    "exec": "not run",
+    "exec": "ran",
     "version": "0.8.9",
     "changes": [
+      "The lesson is now a standalone todos crate that meets the shared contract: /todos and /todos/{id} instead of /turtles, objects with exactly id, subject, and details, a JSON 400 for blank or missing fields and for malformed JSON instead of Axum's plain-text 422, a JSON 404 for an unknown or non-numeric id, CORS open to Any origin instead of pinned to localhost:5173, and the table created on boot instead of a sqlx migrate run step.",
       "rocket_cors is gone. CORS is tower_http::cors::CorsLayer, which is the layer Axum's ecosystem uses.",
-      "Deploy is railway up on your own account, with railway add --database postgres. There is no Heroku CLI and no Rocket.toml for the port. The process reads PORT."
+      "Deploy is a Dockerfile that Railway builds from the repo, with a Railway Postgres attached as DATABASE_URL. There is no Heroku CLI and no Rocket.toml for the port. The process reads PORT."
     ],
     "override": "content/overrides/languages/rust/api.md",
-    "note": "Built and curled on Railway on 2026-11-07: Axum 0.8.9, SQLx 0.9.0, tower-http 0.6.11. Index, create 201, show, update, delete 204, missing 404, empty name 400, and the CORS preflight all passed. tower-http 0.6 is the release that matches Axum 0.8; cargo add without a version now resolves 0.7. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-rust-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit 15b0f301ef885ace292c2c37ec579116d196bd00 of github.com/arthurbernierjr/dtc-rust-api, live at https://api-production-da990.up.railway.app; `node check.mjs https://api-production-da990.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Every whole-file block on this page is the file in that repo. Railway's build log printed axum 0.8.9, sqlx 0.9.0, tower-http 0.6.11, tokio 1.54.1, and serde 1.0.229 from cargo tree. No Rust toolchain ran on the build machine."
   },
   "/languages/dart/": {
     "date": "2026-11-07",
@@ -2645,6 +2670,8 @@
       "https://dart.dev/tools/dart-create",
       "https://dart.dev/tools/dart-compile",
       "https://dart.dev/tools/dart-build",
+      "https://pub.dev/packages/shelf_router",
+      "https://pub.dev/documentation/shelf_router/latest/shelf_router/Router/Router.html",
       "https://pub.dev/documentation/shelf/latest/shelf/createMiddleware.html",
       "https://pub.dev/documentation/shelf/latest/shelf/Response/change.html",
       "https://pub.dev/packages/shelf_cors_headers",
@@ -2655,18 +2682,19 @@
       "https://docs.railway.com/reference/variables",
       "https://docs.railway.com/guides/github-autodeploys"
     ],
-    "exec": "not run",
+    "exec": "ran",
     "version": "1.4.3",
     "changes": [
+      "Aligned with the shared Todos contract: the routes are `/health` and `/todos` with no trailing slash (the slash-trimming middleware stays as a courtesy, the frontends no longer need it), every query selects exactly `id, subject, details`, a blank or missing field is a 400 with a one-key error body (`subject and details are required`), a missing id or unknown path is a 404 (`not found`) from the router's `notFoundHandler`, DELETE answers 204 with no body instead of echoing the row, the preflight answers 204 allowing only `Content-Type`, and the table is created on boot instead of by a migration file run with psql.",
       "Heroku is gone: the Dart buildpack, `DART_SDK_URL`/`DART_BUILD_CMD` config vars and the free Heroku Postgres (all retired) are replaced by the Dockerfile the server-shelf template generates — `dart:stable` build stage, AOT compile, `FROM scratch` runtime image — deployed to Railway with its PostgreSQL template; any Dockerfile host (Render, Fly.io) works the same way.",
-      "postgres 2.x `PostgreSQLConnection(..., useSSL: true)` replaced by postgres 3.5: `Pool.withUrl(DATABASE_URL)` in production (the host's single connection string; SSL is the driver's default) and `Pool.withEndpoints([Endpoint(…)])` with `SslMode.disable` for local development.",
-      "CORS is real middleware now (`createMiddleware` answering the OPTIONS preflight and adding the headers to every response) instead of a header map spread into each `Response.ok`; `shelf_cors_headers` is named as the packaged alternative. A trailing-slash middleware makes `/todos/` and `/todos/1/` — what the frontend guides send — reach the same routes.",
-      "Model and controller carry over this track's fixes: pooled connection instead of one per request, `toColumnMap()`, `RETURNING *`, 404 for a missing id, `<id|[0-9]+>` route constraint, `readAsString()`; malformed JSON now returns 400 instead of a 500 stack trace.",
-      "Table gets `PRIMARY KEY`/`NOT NULL`; the schema lives in a migration file that is run against the hosted database with `psql \\\"$DATABASE_PUBLIC_URL\\\" -f …` instead of typed into a Heroku console.",
-      "Controller mounted at `/todos` with the whole `bin/server.dart` shown once, including the middleware order (log → CORS → trailing slash → router)."
+      "postgres 2.x `PostgreSQLConnection(..., useSSL: true)` replaced by postgres 3.x: `Pool.withEndpoints([Endpoint(…)])` built from the host's `DATABASE_URL` with `SslMode.require` in production, and from the `PG*` variables with `SslMode.disable` for local development.",
+      "CORS is real middleware now (`createMiddleware` answering the OPTIONS preflight with 204 and adding the headers to every response) instead of a header map spread into each `Response.ok`; `shelf_cors_headers` is named as the packaged alternative. A trailing-slash middleware is kept so `/todos/` still reaches `/todos`, though nothing on this site sends the slash any more.",
+      "Model and controller carry over this track's fixes: pooled connection instead of one per request, `toColumnMap()`, `RETURNING id, subject, details`, 404 for a missing id, `<id|[0-9]+>` route constraint, `readAsString()`; malformed JSON now returns 400 instead of a 500 stack trace.",
+      "Table gets `PRIMARY KEY`/`NOT NULL` and is created by `CREATE TABLE IF NOT EXISTS` in `main()` on every boot, so a fresh Railway Postgres needs no console step at all.",
+      "Controller mounted at `/todos` with the whole `bin/server.dart` shown once, including the HTML landing page, `/health`, the JSON 404 handler and the middleware order (log → CORS → trailing slash → 400-on-bad-body → router)."
     ],
     "override": "content/overrides/languages/dart/api.md",
-    "note": "Deployed on Railway on 2026-11-07 with shelf, shelf_router and postgres 3. Create returned 201, show 200 with and without a trailing slash, a missing id was 404, put updated the row, a bad body was 400, delete returned 204, and the CORS preflight allowed http://localhost:5173. The project was removed after the proof. The repo is github.com/arthurbernierjr/dtc-dart-api."
+    "note": "Deployed to Railway on 2026-11-07 from commit 6337263d0b28e3c593e1e9044103f922ffda9b8c of github.com/arthurbernierjr/dtc-dart-api, live at https://api-production-5f5ac.up.railway.app; `node check.mjs https://api-production-5f5ac.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Every whole-file block on this page is the file in that repo. No Dart toolchain ran on the build machine."
   },
   "/languages/frontend/": {
     "date": "2026-11-07",
@@ -2683,7 +2711,7 @@
     "note": "Index page: docs are the official sites of the frameworks it lists; sub-page versions come from their own entries. No code on this page."
   },
   "/languages/frontend/react/": {
-    "date": "2026-11-02",
+    "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://react.dev/learn",
@@ -2704,13 +2732,14 @@
       "The data-fetching effect uses the `ignore` flag pattern from react.dev so Strict Mode's double-invocation in development cannot write a stale response into state.",
       "The edit screen is its own route, `/edit/:id`, instead of a `targetTodo` held in App state, so a page refresh on the edit screen still works.",
       "`milligram` and `reportWebVitals` were dropped; the API URL comes from an environment variable (`VITE_API_URL`) instead of a hard-coded Heroku host (Heroku's free tier ended in 2022).",
-      "HTTP methods are upper-case (`POST`, `PUT`, `DELETE`) and responses are checked with `response.ok` before parsing."
+      "HTTP methods are upper-case (`POST`, `PUT`, `DELETE`) and responses are checked with `response.ok` before parsing.",
+      "The API base URL is now the origin only (`VITE_API_URL=https://api-production-02380.up.railway.app`, no path, no trailing slash) and the code builds `${API}/todos` and `${API}/todos/${id}` itself, matching the shared Todos contract every backend guide serves. The 2021 version hard-coded a `/todos/` base with trailing slashes."
     ],
     "override": "content/overrides/languages/frontend/react.md",
-    "note": "Scaffolded with create-vite 9.3 (react template), files copied in verbatim, `npm run build` succeeded with react 19.3.1 + react-router 8.5.1 + vite 8.3.5 on Node 24.13."
+    "note": "Scaffolded with `npm create vite@latest` (create-vite 9.3.4, react template), the files below copied in verbatim, `npm run build` succeeded with react 19.3.1 + react-router 8.5.1 + vite 8.3.6 on Node 24.13. The result is deployed at https://dtc-react-production.up.railway.app (repo github.com/arthurbernierjr/dtc-react) pointed at the Python / Django REST framework API at https://api-production-02380.up.railway.app, and the list / create / edit / delete flow was exercised in a browser against it."
   },
   "/languages/frontend/vue/": {
-    "date": "2026-11-02",
+    "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://vuejs.org/guide/quick-start.html",
@@ -2729,13 +2758,14 @@
       "Vue Router is on v5 (Jan 2026). The API used here (`createRouter`, `createWebHistory`, `useRoute`, `useRouter`, `RouterLink`, `RouterView`) is unchanged from v4; v5 only folded file-based routing into the core package.",
       "Lists are keyed by `post.id`, not the array index, and routes link by `id` rather than by position so edit/delete target the right record.",
       "Routes that the form depends on (`post`, `edit`) are named; the original referenced `route.name === 'edit'` without ever naming the route.",
-      "`milligram` was dropped; the API URL comes from `VITE_API_URL` instead of a hard-coded Heroku host; HTTP methods are upper-case and the single-post view handles the moment before the list has loaded."
+      "`milligram` was dropped; the API URL comes from `VITE_API_URL` instead of a hard-coded Heroku host; HTTP methods are upper-case and the single-post view handles the moment before the list has loaded.",
+      "The API base URL is now the origin only (`VITE_API_URL=https://api-production-a3ab.up.railway.app`, no path, no trailing slash) and the code builds `${API}/todos` and `${API}/todos/${id}` itself, matching the shared Todos contract every backend guide serves. The prop passed to the routed components is `api` rather than `url`. The 2021 version hard-coded a `/todos/` base with trailing slashes."
     ],
     "override": "content/overrides/languages/frontend/vue.md",
-    "note": "Scaffolded with create-vue 3.24 (`--router --bare`), files copied in verbatim, `npm run build` succeeded with vue 3.5.44 + vue-router 5.4.0 + vite 8.3.5 on Node 24.13."
+    "note": "Scaffolded with create-vue 3.24.0 (`npm create vue@latest -- --router --bare`), the files below copied in verbatim, `npm run build` succeeded with vue 3.5.45 + vue-router 5.4.0 + vite 8.3.6 on Node 24.13. The result is deployed at https://dtc-vue-production.up.railway.app (repo github.com/arthurbernierjr/dtc-vue) pointed at the Go / chi API at https://api-production-a3ab.up.railway.app, and the list / create / edit / delete flow was exercised in a browser against it."
   },
   "/languages/frontend/angular/": {
-    "date": "2026-11-02",
+    "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://angular.dev/tools/cli/setup-local",
@@ -2757,13 +2787,14 @@
       "State is held in signals (`signal`, `computed`, `input`) and templates use the built-in control flow (`@for`, `@if`) instead of `*ngFor`/`*ngIf`; `@for` requires a `track` expression.",
       "Requests go through `HttpClient`, which is injectable by default in v21+ and uses `fetch` under the hood; the 2021 version called `fetch` directly from the service.",
       "Route params are read as a signal input via `withComponentInputBinding()` instead of subscribing to `ActivatedRoute.params`.",
-      "The API URL comes from `src/environments/environment.ts` instead of a hard-coded Heroku host; HTTP methods are upper-case."
+      "The API URL comes from `src/environments/environment.ts` instead of a hard-coded Heroku host; HTTP methods are upper-case.",
+      "The API now follows the shared Todos contract: `apiUrl` is the origin only (no path, no trailing slash) and the service builds `${apiUrl}/todos` and `${apiUrl}/todos/${id}`; the old `/todos/` base and trailing-slash routes are gone. `environment.development.ts` falls back to http://localhost:8080 for `ng serve`."
     ],
     "override": "content/overrides/languages/frontend/angular.md",
-    "note": "All files copied verbatim into a standalone project and AOT-compiled with `ngc` (@angular/compiler-cli 22.2.4, TypeScript 6.0.3, strictTemplates on) — every component, the service and the router config compile. `ng new` / `ng build` themselves were not run: Angular CLI 22 requires Node ≥ 24.15 and the build machine had 24.13. Generated file and class names were taken from the CLI schematics source (angular/angular-cli main)."
+    "note": "Built the example for real this time: `npx @angular/cli@22 new todofront` (CLI 22.2.6, @angular/core 22.2.5, TypeScript 6.0.3), then `ng generate environments`, `ng generate service todo-service` and the three `ng generate component` commands, with every file on this page pasted in verbatim; `ng build` produced dist/todofront/browser. The CLI refuses Node 24.13 (it wants ^22.22.3 || ^24.15.0 || >=26.0.0), so the local run used a Node 24.22.2 binary unpacked into a scratch directory (no global install); Railway built it independently with Node 24 from `.nvmrc`. Repo github.com/arthurbernierjr/dtc-angular, live at https://web-production-3237b.up.railway.app, pointed at the Java / Spring Boot API https://api-production-c419.up.railway.app; list, create, edit and delete were driven in headless Chromium with Playwright against that backend."
   },
   "/languages/frontend/svelte/": {
-    "date": "2026-11-02",
+    "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
       "https://svelte.dev/docs/kit/creating-a-project",
@@ -2771,6 +2802,7 @@
       "https://svelte.dev/docs/kit/load",
       "https://svelte.dev/docs/kit/environment-variables",
       "https://svelte.dev/docs/kit/$app-navigation",
+      "https://svelte.dev/docs/kit/adapter-static",
       "https://svelte.dev/docs/kit/migrating-to-sveltekit-3",
       "https://svelte.dev/docs/svelte/$state",
       "https://svelte.dev/docs/svelte/$props",
@@ -2782,12 +2814,13 @@
       "Snowpack is discontinued (2022) and the `merced-spinup` template with it. The project is scaffolded with the official `npx sv create`, which gives you SvelteKit on Vite; the dev server is `npm run dev` on port 5173.",
       "`svelte-routing` is replaced by SvelteKit's file-based routing: `src/routes/+page.svelte`, `src/routes/post/[id]/+page.svelte`, `src/routes/new/+page.svelte`, `src/routes/edit/[id]/+page.svelte`. Navigation uses plain `<a href>` and `goto()` from `$app/navigation`.",
       "Svelte 5 runes replace the Svelte 3 syntax: `let { data } = $props()` instead of `export let`, `$state()` for local state, `$derived()` for computed values, `onclick={fn}` / `onsubmit={fn}` instead of `on:click` / `on:submit`, and `{#each todos as todo (todo.id)}` with a key.",
-      "The list is fetched in a `load` function (`+page.js`) so the page renders with data instead of `undefined` on first paint; after a mutation the app navigates back and the list is reloaded.",
+      "The list is fetched in a `load` function (`+page.js`) so the page renders with data instead of `undefined` on first paint; after a mutation the app navigates back with `refreshAll: true` so the list is reloaded.",
       "SvelteKit 3 specifics: the `$lib` alias is now `#lib`, and public environment variables are declared in `src/env.js` with `defineEnvVars` and imported from `$app/env/public`.",
-      "The API URL comes from an environment variable instead of a hard-coded Heroku host; HTTP methods are upper-case; the edit form keys off the `[id]` route param rather than an optional prop."
+      "The API contract is shared by all eight backend guides: the env var `VITE_API_URL` holds the API origin only (no path, no trailing slash), the code builds `${API}/todos` and `${API}/todos/${id}`, PUT sends `{ subject, details }`, and the Prerequisites list every live backend you can point it at.",
+      "The app is built as a static site with `@sveltejs/adapter-static` (`fallback: \\\"index.html\\\"`, `ssr = false`) so it can be served by any static host; the finished example is deployed on Railway."
     ],
     "override": "content/overrides/languages/frontend/svelte.md",
-    "note": "Scaffolded with sv 1.2 (`npx sv create --template minimal --types jsdoc --no-add-ons`), files copied in verbatim, `npm run build` succeeded with svelte 5.57.3 + @sveltejs/kit 3.1.1 + vite 8.3.5 on Node 24.13."
+    "note": "Scaffolded with sv 1.3.0 (`npx sv create --template minimal --types jsdoc --no-add-ons`), files on this page copied in verbatim, `npm run build` succeeded with svelte 5.57.3 + @sveltejs/kit 3.1.1 + @sveltejs/adapter-static 4.0.1 + vite 8.3.6 on Node 24.13.0. The static build is served by serve 14.2.7 on Railway at https://dtc-svelte-production.up.railway.app, pointed at the Rust / Axum Todos API (https://api-production-da990.up.railway.app); list, create, edit and delete were exercised in Chromium with Playwright against that API."
   },
   "/languages/frontend/react-cheatsheet/": {
     "date": "2026-11-02",
