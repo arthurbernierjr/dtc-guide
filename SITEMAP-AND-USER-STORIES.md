@@ -45,7 +45,7 @@
 ## Template acceptance criteria
 
 ### T-HOME
-- Hero (DESIGN-REFERENCE-RESPAWN §R4): the cover lockup as the H1 (`I RESPAWNED AS A` mono yellow · `SUPER CODER` Clash 700 green · `IN A WORLD WITH` mono yellow · the mark: *Magic* in Fraunces italic struck through in red with `AI` in Clash 700 yellow written over its corner), signature line, computed mono tagline `ONE PATH · 62 SESSIONS · {n} SIDE QUESTS`, two pills (**Start the path** → PATH-00, **Browse the library** → `#tracks`), five stats (pages · sessions · exercises · languages · patterns); on the right the save-point card for the latest written session (large stamp, week/day, title, hook, **Continue**, `{written} of 54 written`). No gate, no audio, no sticker, no disc.
+- Hero (DESIGN-REFERENCE-RESPAWN §R4): the cover lockup as the H1 (`I RESPAWNED AS A` mono yellow · `SUPER CODER` Clash 700 green · `IN A WORLD WITH` mono yellow · the mark: *Magic* in Fraunces italic struck through in red with `AI` in Clash 700 yellow written over its corner), signature line, computed mono tagline `ONE PATH · 62 SESSIONS · {n} SIDE QUESTS`, two pills (**Start the path** → PATH-00, **Browse the library** → `#tracks`), five stats (pages · sessions · exercises · languages · patterns); on the right the save-point card for the latest written session (large stamp, week/day, title, hook, **Continue**, `{written} of 62 written`). No gate, no audio, no sticker, no disc.
 - Sections in this order: 00 The path (route strip: 18 week cells with unit-coloured bars, three session dots each, one flag on the latest written week, act legend, **Latest: n.n Title →**) · 01 Side quests (8 track cards with live counts) · 02 Which pattern when (31 rows, filterable) · 03 Naive vs Optimal (one pair) · 04 Languages (13 tiles) · 05 Mindset quote break · Marquee · Footer.
 - Reveal/float motion only here; all of it off under `prefers-reduced-motion`.
 
@@ -558,7 +558,7 @@ Each page = its template criteria + the global criteria + the specific items bel
   - Signature: — the respawn guide, by Big Poppa Code
   - Tagline: ONE PATH · 62 SESSIONS · {n} SIDE QUESTS (n = pages in this document minus the four Global pages and the Path pages)
   - Stats: 299 pages · 62 sessions · 26 exercises · 9 languages · 23 patterns (computed at build; build fails if the registry count differs)
-  - Save-point card: the latest written session (stamp, `WEEK n · DAY`, title, hook, **Continue**, `{written} of 54 written`)
+  - Save-point card: the latest written session (stamp, `WEEK n · DAY`, title, hook, **Continue**, `{written} of 62 written`)
   - Route strip: 18 week cells, one flag, act legend, **Latest: n.n Title →**
   - Side quests grid: 9 cards (Algorithms 28 · Data Structures 17 · Practice 29 · Languages 68 · System Design 40 · Design Patterns 24 · Security 12 · Mindset 3 · Atelier 11)
   - Which-pattern-when strip: all 31 rows of the table in algorithms/README.md
@@ -618,12 +618,12 @@ Each page = its template criteria + the global criteria + the specific items bel
   - Weeks: 21 · Sessions: 62
   - Three acts: I Foundation (Units 1–4, weeks 1–7, green) · II Full stack (Units 5–8, weeks 7–12, yellow) · III Ship it (Units 9–12, weeks 13–18, red)
   - Twelve units listed with title, topics and artifact, from `content/path/path.json`
-  - One session card per session (54); written cards link to the session, empty cards say NOT YET WRITTEN · RESPAWNS HERE and list up to three side quests from path.json
+  - One session card per session (62); written cards link to the session, empty cards say NOT YET WRITTEN · RESPAWNS HERE and list up to three side quests from path.json
   - Path map: `/assets/diagrams/path/path-map-wide.png` + `-tall.png`, flag on the latest written session
   - Pager: next → first written session
 - **Acceptance:**
   - [ ] G1–G14 and T-PATH
-  - [ ] Exactly 54 session cards, `54 − written` of them empty; every week block has `id="week-N"` so the home route strip and the session pager can link to it
+  - [ ] Exactly 62 session cards, `62 − written` of them empty; every week block has `id="week-N"` so the home route strip and the session pager can link to it
   - [ ] Every written card's chips (read minutes, diagrams, side quests) come from the rendered session, never typed in
 
 #### PATH-1-1 · `/path/1-1-welcome-to-the-new-world/` — Welcome to the New World
