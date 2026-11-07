@@ -201,7 +201,7 @@
     "composition": "DungeonMoves",
     "fig": 4,
     "alt": "Left, the navigation-practice dungeon drawn as rooms: home above Desktop above navigation-practice above dungeon, which splits into floor-1 (room-a, room-b) and floor-2 (boss-room, the target); right, the eight moves of the drill as rows: where you start, the cd command, and where it lands, colour-coded down a branch, up with dot-dot, absolute or tilde jumps, and dash for back",
-    "caption": "Every cd is a move on the map. Down a branch with a relative path, up with .., anywhere with an absolute path or ~, and back to the previous room with -."
+    "caption": "Every cd is a move on the map. Down a branch with a relative path, up with ., anywhere with an absolute path or ~, and back to the previous room with -."
   },
   "session-1-2/fig5-permissions": {
     "composition": "Permissions",
@@ -3122,7 +3122,7 @@
   "session-4-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.1: The working model. Node: A JavaScript runtime on the machine, with its own module system and an event loop.. http: The built-in module that opens a port and hands you a request and a response.. Express: Functions you mount on methods and paths. It calls them when a request matches..",
+    "alt": "Session 4.1: The working model. Node: A JavaScript runtime on the machine, with its own module system and an event loop. http: The built-in module that opens a port and hands you a request and a response. Express: Functions you mount on methods and paths. It calls them when a request matches.",
     "caption": "The working model: Node → http → Express",
     "props": {
       "session": "4.1",
@@ -3148,7 +3148,7 @@
   "session-4-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.1: Diagnose the failure. Wrong runtime: The same file fails in the browser because require, process, and the network stack are not there.. Port already taken: A second process cannot listen on the same port. The error names EADDRINUSE.. No response: The handler ran and returned without res.send, res.json, or res.end. The browser waits..",
+    "alt": "Session 4.1: Diagnose the failure. Wrong runtime: The same file fails in the browser because require, process, and the network stack are not there. Port already taken: A second process cannot listen on the same port. The error names EADDRINUSE. No response: The handler ran and returned without res.send, res.json, or res.end. The browser waits.",
     "caption": "Diagnose the failure: Wrong runtime · Port already taken · No response",
     "props": {
       "session": "4.1",
@@ -3174,7 +3174,7 @@
   "session-4-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.1: What done looks like. Version: node -v prints the runtime you will match in later deploys.. Listen: The process prints the port only after listen succeeds.. Answer: curl localhost:3000 returns the body you passed to res.send..",
+    "alt": "Session 4.1: What done looks like. Version: node -v prints the runtime you will match in later deploys. Listen: The process prints the port only after listen succeeds. Answer: curl localhost:3000 returns the body you passed to res.send.",
     "caption": "What done looks like: Version · Listen · Answer",
     "props": {
       "session": "4.1",
@@ -3200,7 +3200,7 @@
   "session-4-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.2: The working model. Request: Method, path, headers, and maybe a body arrive on a socket.. Middleware: Each function reads or changes req and res, then calls next, or answers.. Handler: The first route that matches writes the status and the body, then stops..",
+    "alt": "Session 4.2: The working model. Request: Method, path, headers, and maybe a body arrive on a socket. Middleware: Each function reads or changes req and res, then calls next, or answers. Handler: The first route that matches writes the status and the body, then stops.",
     "caption": "The working model: Request → Middleware → Handler",
     "props": {
       "session": "4.2",
@@ -3226,7 +3226,7 @@
   "session-4-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.2: Diagnose the failure. Hanging request: A branch returned without next() and without a response.. Headers sent: A second res.send ran after the first. Return after you answer.. Async crash: A promise was not returned and the rejection never reached next..",
+    "alt": "Session 4.2: Diagnose the failure. Hanging request: A branch returned without next() and without a response. Headers sent: A second res.send ran after the first. Return after you answer. Async crash: A promise was not returned and the rejection never reached next.",
     "caption": "Diagnose the failure: Hanging request · Headers sent · Async crash",
     "props": {
       "session": "4.2",
@@ -3252,7 +3252,7 @@
   "session-4-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.2: What done looks like. Order: Log lines print in the order the middleware was mounted.. Status: A thrown error becomes 500 from the error handler, not a dead process.. Router: A router mounted at /quests only sees paths under that prefix..",
+    "alt": "Session 4.2: What done looks like. Order: Log lines print in the order the middleware was mounted. Status: A thrown error becomes 500 from the error handler, not a dead process. Router: A router mounted at /quests only sees paths under that prefix.",
     "caption": "What done looks like: Order · Status · Router",
     "props": {
       "session": "4.2",
@@ -3278,7 +3278,7 @@
   "session-4-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.3: The working model. Resource: Quests, not doQuestSearch. The path names the thing.. Verb: GET reads, POST creates, PUT replaces, PATCH changes, DELETE removes.. Representation: The same quest can be HTML later and JSON now. The resource stays..",
+    "alt": "Session 4.3: The working model. Resource: Quests, not doQuestSearch. The path names the thing. Verb: GET reads, POST creates, PUT replaces, PATCH changes, DELETE removes. Representation: The same quest can be HTML later and JSON now. The resource stays.",
     "caption": "The working model: Resource → Verb → Representation",
     "props": {
       "session": "4.3",
@@ -3304,7 +3304,7 @@
   "session-4-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.3: Diagnose the failure. Verb in the path: /getQuests hides the method, so caches and clients cannot tell a read from a write.. Wrong status: A create that returns 200 forces the client to guess. 201 says the resource exists.. JSON as a string: res.send of a hand-built string forgets the content type, and a quote in the title breaks the body..",
+    "alt": "Session 4.3: Diagnose the failure. Verb in the path: /getQuests hides the method, so caches and clients cannot tell a read from a write. Wrong status: A create that returns 200 forces the client to guess. 201 says the resource exists. JSON as a string: res.send of a hand-built string forgets the content type, and a quote in the title breaks the body.",
     "caption": "Diagnose the failure: Verb in the path · Wrong status · JSON as a string",
     "props": {
       "session": "4.3",
@@ -3330,7 +3330,7 @@
   "session-4-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.3: What done looks like. Map: Every route on the board has a method, a path, and one status for success.. Split: The model has no req. The controller has no schema. The response function has no database call.. Type: The response content-type is application/json..",
+    "alt": "Session 4.3: What done looks like. Map: Every route on the board has a method, a path, and one status for success. Split: The model has no req. The controller has no schema. The response function has no database call. Type: The response content-type is application/json.",
     "caption": "What done looks like: Map · Split · Type",
     "props": {
       "session": "4.3",
@@ -3356,7 +3356,7 @@
   "session-4-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.4: The working model. Process: Express holds a connection, not the data.. Collection: A named set of documents. Quests live here. Users live in another.. Document: One record. Fields can differ, and that freedom is also how bad data gets in..",
+    "alt": "Session 4.4: The working model. Process: Express holds a connection, not the data. Collection: A named set of documents. Quests live here. Users live in another. Document: One record. Fields can differ, and that freedom is also how bad data gets in.",
     "caption": "The working model: Process → Collection → Document",
     "props": {
       "session": "4.4",
@@ -3382,7 +3382,7 @@
   "session-4-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.4: Diagnose the failure. Data in a variable: Restart the process and the array is empty. The write never left memory.. No unique rule: Two documents claim the same hero. The database allowed it because you never forbade it.. Scan: A find on an unindexed field reads the collection. Fine at twenty rows, a different program at two million..",
+    "alt": "Session 4.4: Diagnose the failure. Data in a variable: Restart the process and the array is empty. The write never left memory. No unique rule: Two documents claim the same hero. The database allowed it because you never forbade it. Scan: A find on an unindexed field reads the collection. Fine at twenty rows, a different program at two million.",
     "caption": "Diagnose the failure: Data in a variable · No unique rule · Scan",
     "props": {
       "session": "4.4",
@@ -3408,7 +3408,7 @@
   "session-4-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.4: What done looks like. Durability: A document inserted before the restart is still there after it.. Identity: _id is assigned by the database and does not collide with the next insert.. Shape: You can say which fields a quest must have, even before Mongoose enforces them..",
+    "alt": "Session 4.4: What done looks like. Durability: A document inserted before the restart is still there after it. Identity: _id is assigned by the database and does not collide with the next insert. Shape: You can say which fields a quest must have, even before Mongoose enforces them.",
     "caption": "What done looks like: Durability · Identity · Shape",
     "props": {
       "session": "4.4",
@@ -3434,7 +3434,7 @@
   "session-4-5/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.5: The working model. Schema: Fields, types, required, enum, defaults.. Model: Quest.create, Quest.find, Quest.findById, Quest.findByIdAndUpdate.. Document: The object you get back knows its id and can save itself..",
+    "alt": "Session 4.5: The working model. Schema: Fields, types, required, enum, defaults. Model: Quest.create, Quest.find, Quest.findById, Quest.findByIdAndUpdate. Document: The object you get back knows its id and can save itself.",
     "caption": "The working model: Schema → Model → Document",
     "props": {
       "session": "4.5",
@@ -3460,7 +3460,7 @@
   "session-4-5/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.5: Diagnose the failure. Cast error: An id that is not 24 hex characters throws before the find. That is 400, not 500.. Duplicate key: E11000 on a unique field is a conflict, 409, not an explosion.. Update strips fields: Passing req.body as the replacement, or skipping runValidators, drops or skips the rules..",
+    "alt": "Session 4.5: Diagnose the failure. Cast error: An id that is not 24 hex characters throws before the find. That is 400, not 500. Duplicate key: E11000 on a unique field is a conflict, 409, not an explosion. Update strips fields: Passing req.body as the replacement, or skipping runValidators, drops or skips the rules.",
     "caption": "Diagnose the failure: Cast error · Duplicate key · Update strips fields",
     "props": {
       "session": "4.5",
@@ -3486,7 +3486,7 @@
   "session-4-5/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.5: What done looks like. Reject: A quest with no title never reaches the collection.. Round trip: findById returns the document you created, including the default status.. Conflict: A second quest with the same hero, if hero is unique, fails with code 11000..",
+    "alt": "Session 4.5: What done looks like. Reject: A quest with no title never reaches the collection. Round trip: findById returns the document you created, including the default status. Conflict: A second quest with the same hero, if hero is unique, fails with code 11000.",
     "caption": "What done looks like: Reject · Round trip · Conflict",
     "props": {
       "session": "4.5",
@@ -3512,7 +3512,7 @@
   "session-4-6/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.6: The working model. Index: GET /quests lists every document.. New and Create: GET /quests/new renders the empty form. POST /quests inserts and redirects.. Show, Edit, Update, Delete: The id routes read or change one document, then redirect back to a GET..",
+    "alt": "Session 4.6: The working model. Index: GET /quests lists every document. New and Create: GET /quests/new renders the empty form. POST /quests inserts and redirects. Show, Edit, Update, Delete: The id routes read or change one document, then redirect back to a GET.",
     "caption": "The working model: Index → New and Create → Show, Edit, Update, Delete",
     "props": {
       "session": "4.6",
@@ -3538,7 +3538,7 @@
   "session-4-6/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.6: Diagnose the failure. new is an id: /quests/new was registered after /quests/:id, so new is passed to findById and casts fail.. Form cannot PUT: The browser sent POST and the update route never ran. _method was missing, or method-override was mounted before the body parser.. Double submit: Create did not redirect, so a refresh inserts a second document..",
+    "alt": "Session 4.6: Diagnose the failure. new is an id: /quests/new was registered after /quests/:id, so new is passed to findById and casts fail. Form cannot PUT: The browser sent POST and the update route never ran. _method was missing, or method-override was mounted before the body parser. Double submit: Create did not redirect, so a refresh inserts a second document.",
     "caption": "Diagnose the failure: new is an id · Form cannot PUT · Double submit",
     "props": {
       "session": "4.6",
@@ -3564,7 +3564,7 @@
   "session-4-6/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.6: What done looks like. Seven: Each INDUCES letter has one route and one job.. Redirect: A successful POST responds 302 to a GET, so refresh is safe.. CSS: The stylesheet is a static file. The HTML links it. Express does not invent the design..",
+    "alt": "Session 4.6: What done looks like. Seven: Each INDUCES letter has one route and one job. Redirect: A successful POST responds 302 to a GET, so refresh is safe. CSS: The stylesheet is a static file. The HTML links it. Express does not invent the design.",
     "caption": "What done looks like: Seven · Redirect · CSS",
     "props": {
       "session": "4.6",
@@ -3590,7 +3590,7 @@
   "session-4-7/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.7: The working model. Parse: express.json() turns the body into req.body or rejects bad JSON.. Decide: The handler validates, calls the model, and picks a status.. Serialize: res.status(code).json(value) sets the type and ends the response..",
+    "alt": "Session 4.7: The working model. Parse: express.json() turns the body into req.body or rejects bad JSON. Decide: The handler validates, calls the model, and picks a status. Serialize: res.status(code).json(value) sets the type and ends the response.",
     "caption": "The working model: Parse → Decide → Serialize",
     "props": {
       "session": "4.7",
@@ -3616,7 +3616,7 @@
   "session-4-7/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.7: Diagnose the failure. Undefined body: The client sent JSON and req.body is undefined. The parser is missing, mounted too late, or the content type is text.. HTML error: A thrown error hit the default handler and returned a stack trace page. The API client cannot parse it.. 200 on create: The resource exists and the client treats it as a maybe. 201, with the document, is the contract..",
+    "alt": "Session 4.7: Diagnose the failure. Undefined body: The client sent JSON and req.body is undefined. The parser is missing, mounted too late, or the content type is text. HTML error: A thrown error hit the default handler and returned a stack trace page. The API client cannot parse it. 200 on create: The resource exists and the client treats it as a maybe. 201, with the document, is the contract.",
     "caption": "Diagnose the failure: Undefined body · HTML error · 200 on create",
     "props": {
       "session": "4.7",
@@ -3642,7 +3642,7 @@
   "session-4-7/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.7: What done looks like. Collection: GET /api/quests returns an array.. One: GET /api/quests/:id returns the document or 404.. Reject: POST with an empty title returns 400 and writes nothing..",
+    "alt": "Session 4.7: What done looks like. Collection: GET /api/quests returns an array. One: GET /api/quests/:id returns the document or 404. Reject: POST with an empty title returns 400 and writes nothing.",
     "caption": "What done looks like: Collection · One · Reject",
     "props": {
       "session": "4.7",
@@ -3668,7 +3668,7 @@
   "session-4-8/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.8: The working model. Register: Hash the password with a cost factor and store the user.. Login: Compare the guess. If it matches, sign a token whose subject is the user id.. Protect: Read Authorization: Bearer, verify, attach the user, or 401..",
+    "alt": "Session 4.8: The working model. Register: Hash the password with a cost factor and store the user. Login: Compare the guess. If it matches, sign a token whose subject is the user id. Protect: Read Authorization: Bearer, verify, attach the user, or 401.",
     "caption": "The working model: Register → Login → Protect",
     "props": {
       "session": "4.8",
@@ -3694,7 +3694,7 @@
   "session-4-8/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.8: Diagnose the failure. Plain password: The database shows the password you typed. The hash step never ran, or you stored password instead of passwordHash.. Secret in the repo: The signing key is in a commit. Anyone can mint tokens. Rotate it and read it from the environment.. Expired token still works: verify was skipped, or the expiry was never set. A 401 is the correct failure..",
+    "alt": "Session 4.8: Diagnose the failure. Plain password: The database shows the password you typed. The hash step never ran, or you stored password instead of passwordHash. Secret in the repo: The signing key is in a commit. Anyone can mint tokens. Rotate it and read it from the environment. Expired token still works: verify was skipped, or the expiry was never set. A 401 is the correct failure.",
     "caption": "Diagnose the failure: Plain password · Secret in the repo · Expired token still works",
     "props": {
       "session": "4.8",
@@ -3720,7 +3720,7 @@
   "session-4-8/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.8: What done looks like. Hash: The stored string is not the password and starts like a bcrypt hash.. Token: Login returns a token. The protected route rejects a request without it.. Postman: The same token, sent as a Bearer header, returns 200. An edited token returns 401..",
+    "alt": "Session 4.8: What done looks like. Hash: The stored string is not the password and starts like a bcrypt hash. Token: Login returns a token. The protected route rejects a request without it. Postman: The same token, sent as a Bearer header, returns 200. An edited token returns 401.",
     "caption": "What done looks like: Hash · Token · Postman",
     "props": {
       "session": "4.8",
@@ -3746,7 +3746,7 @@
   "session-4-9/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.9: The working model. State: useState gives you the current value and a setter.. Render: The function runs again and returns the next tree.. Commit: React updates the DOM to match. You do not call the DOM yourself..",
+    "alt": "Session 4.9: The working model. State: useState gives you the current value and a setter. Render: The function runs again and returns the next tree. Commit: React updates the DOM to match. You do not call the DOM yourself.",
     "caption": "The working model: State → Render → Commit",
     "props": {
       "session": "4.9",
@@ -3772,7 +3772,7 @@
   "session-4-9/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.9: Diagnose the failure. Stale increment: Two clicks computed count + 1 from the same render. The setter needs the functional form.. Index key: Deleting the second row leaves the third row's typed text on the second component.. Derived state copied: A prop was copied into state and then went stale. Render the prop, or derive it while rendering..",
+    "alt": "Session 4.9: Diagnose the failure. Stale increment: Two clicks computed count + 1 from the same render. The setter needs the functional form. Index key: Deleting the second row leaves the third row's typed text on the second component. Derived state copied: A prop was copied into state and then went stale. Render the prop, or derive it while rendering.",
     "caption": "Diagnose the failure: Stale increment · Index key · Derived state copied",
     "props": {
       "session": "4.9",
@@ -3798,7 +3798,7 @@
   "session-4-9/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.9: What done looks like. Props: A child renders the title it was given and calls the callback it was given.. Input: The field shows state, and typing calls the setter. It is controlled.. Key: Each row's key is the record id..",
+    "alt": "Session 4.9: What done looks like. Props: A child renders the title it was given and calls the callback it was given. Input: The field shows state, and typing calls the setter. It is controlled. Key: Each row's key is the record id.",
     "caption": "What done looks like: Props · Input · Key",
     "props": {
       "session": "4.9",
@@ -3824,7 +3824,7 @@
   "session-4-10/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.10: The working model. Lift: The parent holds the array. Children receive items and callbacks.. Form: The input's value is state. Submit reads state, not the DOM.. Effect: After paint, load or subscribe. Return a cleanup if you subscribed..",
+    "alt": "Session 4.10: The working model. Lift: The parent holds the array. Children receive items and callbacks. Form: The input's value is state. Submit reads state, not the DOM. Effect: After paint, load or subscribe. Return a cleanup if you subscribed.",
     "caption": "The working model: Lift → Form → Effect",
     "props": {
       "session": "4.10",
@@ -3850,7 +3850,7 @@
   "session-4-10/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.10: Diagnose the failure. Infinite effect: The effect set state that was also a dependency, or the dependency was a fresh object each render.. Forgotten cleanup: A subscription or a timer from the previous quest is still running after the component left the screen.. Effect for math: A total was stored in state and updated in an effect. It should have been computed while rendering..",
+    "alt": "Session 4.10: Diagnose the failure. Infinite effect: The effect set state that was also a dependency, or the dependency was a fresh object each render. Forgotten cleanup: A subscription or a timer from the previous quest is still running after the component left the screen. Effect for math: A total was stored in state and updated in an effect. It should have been computed while rendering.",
     "caption": "Diagnose the failure: Infinite effect · Forgotten cleanup · Effect for math",
     "props": {
       "session": "4.10",
@@ -3876,7 +3876,7 @@
   "session-4-10/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.10: What done looks like. One source: Two children show the same quests because they read the same state.. Cleanup: Leaving the screen clears the timer. The log stops.. No extra state: The filtered list is a const during render, not another useState..",
+    "alt": "Session 4.10: What done looks like. One source: Two children show the same quests because they read the same state. Cleanup: Leaving the screen clears the timer. The log stops. No extra state: The filtered list is a const during render, not another useState.",
     "caption": "What done looks like: One source · Cleanup · No extra state",
     "props": {
       "session": "4.10",
@@ -3902,7 +3902,7 @@
   "session-4-11/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.11: The working model. Login: POST /api/login, keep the token in sessionStorage and in state.. Load: GET /api/todos with the Bearer header. Render the array.. Change: POST, PATCH, or DELETE, then trust the response body, not the hope..",
+    "alt": "Session 4.11: The working model. Login: POST /api/login, keep the token in sessionStorage and in state. Load: GET /api/todos with the Bearer header. Render the array. Change: POST, PATCH, or DELETE, then trust the response body, not the hope.",
     "caption": "The working model: Login → Load → Change",
     "props": {
       "session": "4.11",
@@ -3928,7 +3928,7 @@
   "session-4-11/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.11: Diagnose the failure. Saved too early: The row says saved and a reload shows the old text. The setter ran before the response.. Missing header: Postman worked and the browser got 401. fetch did not send Authorization.. CORS: The API log is silent and the browser reports a CORS failure. The page's origin is not allowed..",
+    "alt": "Session 4.11: Diagnose the failure. Saved too early: The row says saved and a reload shows the old text. The setter ran before the response. Missing header: Postman worked and the browser got 401. fetch did not send Authorization. CORS: The API log is silent and the browser reports a CORS failure. The page's origin is not allowed.",
     "caption": "Diagnose the failure: Saved too early · Missing header · CORS",
     "props": {
       "session": "4.11",
@@ -3954,7 +3954,7 @@
   "session-4-11/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.11: What done looks like. Owner: A todo created by one account is not listed for another.. 401: Clearing the token and loading again sends you to the login form.. Reload: A refresh after a real 201 still shows the todo, because it was stored..",
+    "alt": "Session 4.11: What done looks like. Owner: A todo created by one account is not listed for another. 401: Clearing the token and loading again sends you to the login form. Reload: A refresh after a real 201 still shows the todo, because it was stored.",
     "caption": "What done looks like: Owner · 401 · Reload",
     "props": {
       "session": "4.11",
@@ -3980,7 +3980,7 @@
   "session-4-12/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.12: The working model. Noun: A spell has a name, a school, and a level. That is the whole schema.. Contract: The same four operations and the same token header as the todo API.. Screen: List, form, and a logout. No new ideas. The repetition is the point..",
+    "alt": "Session 4.12: The working model. Noun: A spell has a name, a school, and a level. That is the whole schema. Contract: The same four operations and the same token header as the todo API. Screen: List, form, and a logout. No new ideas. The repetition is the point.",
     "caption": "The working model: Noun → Contract → Screen",
     "props": {
       "session": "4.12",
@@ -4006,7 +4006,7 @@
   "session-4-12/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.12: Diagnose the failure. Renamed todo: The files are the todo app with the word spell pasted over todo. A field the spell needs was never added.. Shared token bug: Logging into the spellbook authorizes the todo API because they share a secret and you never checked which app issued the token. Fine for today, fatal if you do not know you did it.. Copied bug: The early-saved state from last session is in this app too. Repetition copied the defect..",
+    "alt": "Session 4.12: Diagnose the failure. Renamed todo: The files are the todo app with the word spell pasted over todo. A field the spell needs was never added. Shared token bug: Logging into the spellbook authorizes the todo API because they share a secret and you never checked which app issued the token. Fine for today, fatal if you do not know you did it. Copied bug: The early-saved state from last session is in this app too. Repetition copied the defect.",
     "caption": "Diagnose the failure: Renamed todo · Shared token bug · Copied bug",
     "props": {
       "session": "4.12",
@@ -4032,7 +4032,7 @@
   "session-4-12/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.12: What done looks like. Different shape: A spell without a school is rejected. A todo route does not exist in this process.. Closed notes: You can draw the request on paper before you open yesterday's repo.. Both apps: Each app only lists its own user's records..",
+    "alt": "Session 4.12: What done looks like. Different shape: A spell without a school is rejected. A todo route does not exist in this process. Closed notes: You can draw the request on paper before you open yesterday's repo. Both apps: Each app only lists its own user's records.",
     "caption": "What done looks like: Different shape · Closed notes · Both apps",
     "props": {
       "session": "4.12",
@@ -4058,7 +4058,7 @@
   "session-4-13/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.13: The working model. Refs: ObjectId plus ref: 'Adventurer' names the other collection.. Join: A Membership document holds party, member, and role. The relationship can have fields of its own.. Populate: The query asks Mongoose to swap the ids for documents before you send JSON..",
+    "alt": "Session 4.13: The working model. Refs: ObjectId plus ref: 'Adventurer' names the other collection. Join: A Membership document holds party, member, and role. The relationship can have fields of its own. Populate: The query asks Mongoose to swap the ids for documents before you send JSON.",
     "caption": "The working model: Refs → Join → Populate",
     "props": {
       "session": "4.13",
@@ -4084,7 +4084,7 @@
   "session-4-13/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.13: Diagnose the failure. Array drift: The party lists the member and the member does not list the party. Two arrays were updated in two requests, and one failed.. Populate missed: The client received ids and tried to read member.name. You sent the foreign key and called it the object.. Duplicate oath: The same pair was inserted twice because the unique index was never created. Mongoose unique on a nested path is not the same as a compound index you declared..",
+    "alt": "Session 4.13: Diagnose the failure. Array drift: The party lists the member and the member does not list the party. Two arrays were updated in two requests, and one failed. Populate missed: The client received ids and tried to read member.name. You sent the foreign key and called it the object. Duplicate oath: The same pair was inserted twice because the unique index was never created. Mongoose unique on a nested path is not the same as a compound index you declared.",
     "caption": "Diagnose the failure: Array drift · Populate missed · Duplicate oath",
     "props": {
       "session": "4.13",
@@ -4110,7 +4110,7 @@
   "session-4-13/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.13: What done looks like. Pair: One membership ties one party to one adventurer and stores a role.. Both ways: Listing a party's members and listing an adventurer's parties tell the same story.. Reject: Inserting the pair again returns a duplicate-key error..",
+    "alt": "Session 4.13: What done looks like. Pair: One membership ties one party to one adventurer and stores a role. Both ways: Listing a party's members and listing an adventurer's parties tell the same story. Reject: Inserting the pair again returns a duplicate-key error.",
     "caption": "What done looks like: Pair · Both ways · Reject",
     "props": {
       "session": "4.13",
@@ -4136,7 +4136,7 @@
   "session-4-14/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.14: The working model. Accounts: Register and login, the same seal as the todo app.. Inbox: Create a message to another user. List only the ones sent to you.. Pack: A catalog of items, and holdings that say how many of each you carry..",
+    "alt": "Session 4.14: The working model. Accounts: Register and login, the same seal as the todo app. Inbox: Create a message to another user. List only the ones sent to you. Pack: A catalog of items, and holdings that say how many of each you carry.",
     "caption": "The working model: Accounts → Inbox → Pack",
     "props": {
       "session": "4.14",
@@ -4162,7 +4162,7 @@
   "session-4-14/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.14: Diagnose the failure. Mail leak: GET /api/messages/:id returns the document whenever the id exists. The recipient was never compared to the token.. Quantity as a catalog field: Buying a potion changed the catalog, so every user lost one. Quantity belongs on the holding.. Negative pack: A transfer subtracted past zero because the update was not conditional. The holding went to -1 and the UI showed a debt..",
+    "alt": "Session 4.14: Diagnose the failure. Mail leak: GET /api/messages/:id returns the document whenever the id exists. The recipient was never compared to the token. Quantity as a catalog field: Buying a potion changed the catalog, so every user lost one. Quantity belongs on the holding. Negative pack: A transfer subtracted past zero because the update was not conditional. The holding went to -1 and the UI showed a debt.",
     "caption": "Diagnose the failure: Mail leak · Quantity as a catalog field · Negative pack",
     "props": {
       "session": "4.14",
@@ -4188,7 +4188,7 @@
   "session-4-14/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.14: What done looks like. Inbox: User A sends to user B. A's outbox shows it. B's inbox shows it. User C gets 403.. Kinds: Items are potions, weapons, or armor, enforced by an enum.. Count: Two holdings of the same item for the same user cannot exist. The quantity is a number on the one holding..",
+    "alt": "Session 4.14: What done looks like. Inbox: User A sends to user B. A's outbox shows it. B's inbox shows it. User C gets 403. Kinds: Items are potions, weapons, or armor, enforced by an enum. Count: Two holdings of the same item for the same user cannot exist. The quantity is a number on the one holding.",
     "caption": "What done looks like: Inbox · Kinds · Count",
     "props": {
       "session": "4.14",
