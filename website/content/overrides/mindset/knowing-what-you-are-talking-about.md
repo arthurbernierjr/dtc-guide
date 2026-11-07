@@ -26,6 +26,10 @@ changes:
   - "A \"Your first visit\" route under the first heading: the twelve entries to read on day one from Session 1.1, a STOP line, and a \"When to come back\" table by unit (4, 6, 9, 10)."
   - "Every entry the route names, and its neighbours in a shared heading group, carries an italic \"First needed in Session X.Y\" line under the heading, linking the session where the concept first appears on the path; entries that no session builds say so."
   - "Twenty-six \"So, in short, it's like...\" analogy repeats (and the DNS and PORT \"In summary\" repeats) replaced with one concrete example each: a real command, header, URL, or config line, marked editorial."
+  - "Day-one route trimmed to eleven entries: Latency and Throughput (first needed in 9.5) moved to the After Unit 9 row; the route no longer claims Session 1.1 links here; link text for the Databse and Seperation of Concerns anchors spelled correctly (headings unchanged)."
+  - "When-to-come-back table: new After Unit 3 row for the JavaScript Questions section; Hashing moved to After Unit 4 (bcrypt in 4.9); Rate Limiting moved to After Unit 10 with its tag corrected to 10.1 Barrier Magic, where the login limiter is built."
+  - "Component Driven Development example names QuestRow from Session 4.10 instead of a LetterRow component no session writes."
+  - "Node JS entry: day-one reading is the first paragraph; the threading paragraphs sit below a for-later line pointing at 4.1."
 ---
 
 
@@ -47,16 +51,17 @@ changes:
 
 </center>
 
-**Your first visit.** If you came from [Session 1.1](/path/1-1-welcome-to-the-new-world/), this page is not a reading assignment. It is a glossary of sixty entries, and most of them belong to Units 6 and 9. Read these twelve today, in this order, each one breath long: [HTML](#html), [CSS](#css), [JavaScript](#javascript), [Node JS](#node-js), [CRUD](#crud), [REST](#rest), [Client-Server Model](#client-server-model), [IP Address](#ip-address), [PORT](#port), [DNS](#dns), [Databse](#databse), and [Latency and Throughput](#latency-and-throughput). If you already know a better dozen for yourself, read that dozen instead.
+**Your first visit.** If it is day one, whether you are between [Session 1.1](/path/1-1-welcome-to-the-new-world/) and 1.2 or you found this page in the Mindset menu, this page is not a reading assignment. It is a glossary of sixty entries, and most of them belong to Units 6 and 9. Read these eleven today, in this order, each one breath long: [HTML](#html), [CSS](#css), [JavaScript](#javascript), [Node JS](#node-js), [CRUD](#crud), [REST](#rest), [Client-Server Model](#client-server-model), [IP Address](#ip-address), [PORT](#port), [DNS](#dns), and [Database](#databse). If you already know a better eleven for yourself, read those instead.
 
 **STOP here on day one. Go back to Session 1.1 and keep going.** Every entry below carries an italic line naming the session that first needs it; an entry whose session you have not reached is one you are allowed to skip. The rest of the page comes back to you by unit:
 
 | When to come back | Read these entries |
 |---|---|
-| After Unit 4 (your first API and React app) | [MVC](#mvc), [Consuming an API](#consuming-an-api), [Seperation of Concerns](#seperation-of-concerns), [Component Driven Development](#component-driven-development), [Relational](#relational-databases) vs [Non Relational Databases](#non-relational-databases), [Key-Value Stores](#key-value-stores) |
+| After Unit 3 (JavaScript) | [JavaScript Questions You Should Be Able To Answer](#javascript-questions-you-should-be-able-to-answer): data types, `const`, `let` and `var`, closures, scope, promises |
+| After Unit 4 (your first API and React app) | [MVC](#mvc), [Consuming an API](#consuming-an-api), [Separation of Concerns](#seperation-of-concerns), [Component Driven Development](#component-driven-development), [Relational](#relational-databases) vs [Non Relational Databases](#non-relational-databases), [Key-Value Stores](#key-value-stores), [Hashing](#hashing) (bcrypt hashes your first password in 4.9) |
 | After Unit 6 (the hall behind Nginx on a real machine) | [Proxy](#proxy), [Reverse Proxy](#reverse-proxy), [Nginx](#nginx), [Load Balancer](#load-balancer), [Logging and Monitoring](#logging-and-monitoring) |
-| After Unit 9 (system design) | everything else: the [Cache](#cache) entries, the [Hashing](#hashing) entries, [Replication and Sharding](#replication-and-sharding-note-mongodb-does-this-under-the-hood), [Leader Election](#leader-election), [Rate Limiting](#rate-limiting), [Publish/Subscribe](#publish-subscribe-pattern), [MapReduce](#mapreduce), [Build Twitter](#build-twitter) and the four platforms after it |
-| After Unit 10 (security) | [Secure Hash Algorithms (SHA)](#secure-hash-algorithms-sha) |
+| After Unit 9 (system design) | everything else: [Latency and Throughput](#latency-and-throughput), the [Cache](#cache) entries, [Consistent](#consistent-hashing) and [Rendevous Hashing](#rendevous-hashing), [Replication and Sharding](#replication-and-sharding-note-mongodb-does-this-under-the-hood), [Leader Election](#leader-election), [Publish/Subscribe](#publish-subscribe-pattern), [MapReduce](#mapreduce), [Build Twitter](#build-twitter) and the four platforms after it |
+| After Unit 10 (security) | [Rate Limiting](#rate-limiting), [Secure Hash Algorithms (SHA)](#secure-hash-algorithms-sha) |
 
 ##  HTML
 
@@ -103,7 +108,9 @@ This is also why Brendan Eich is a genius... literally.
 
 ![](/images/nodejs.png)
 
-Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allows developers to run JavaScript on the server side, which was previously only possible on the client side (in web browsers). <span class="editorial-mark" title="refreshed 2026-11-02">Node 24 is the current LTS line; Deno and Bun are the two other server-side JavaScript runtimes you will hear named, and they run the same language with different standard libraries.</span> One of the key characteristics of Node.js is its single-threaded architecture.
+Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allows developers to run JavaScript on the server side, which was previously only possible on the client side (in web browsers). <span class="editorial-mark" title="refreshed 2026-11-02">Node 24 is the current LTS line; Deno and Bun are the two other server-side JavaScript runtimes you will hear named, and they run the same language with different standard libraries.</span> That one sentence, Node runs JavaScript outside the browser, on the server, is all day one needs.
+
+*For later, after [Session 4.1](/path/4-1-the-runtime-beyond-the-browser/): how Node uses the machine's cores.* One of the key characteristics of Node.js is its single-threaded architecture.
 
 The single-threaded architecture of Node.js means that your JavaScript runs on one main thread, and all of it is performed sequentially on that thread. <span class="editorial-mark" title="refreshed 2026-11-02">Under the hood, though, Node is not confined to one core: file and DNS work runs on libuv's thread pool, network I/O is handed to the operating system, and CPU-heavy work can be moved to `worker_threads` or to a second process per core with the `cluster` module.</span> What stays single-threaded is your code, so incoming requests are handled one at a time on that thread with no parallel processing of your JavaScript. While this may seem like a limitation, it can actually be beneficial in certain situations.
 
@@ -175,7 +182,7 @@ Separation of concerns is like a chef having different stations in the kitchen. 
 *First needed in [Session 4.10](/path/4-10-the-illusionists-primer/).*
 
 
-Component-driven development is like building with LEGOs. Each LEGO piece represents a component, and you can use different components to build different things. Each component has its own function and purpose, and you can easily swap out or reuse components to create different designs. In software development, components are reusable pieces of code that can be used to build different parts of a website or application. By breaking down a website or application into smaller, reusable components, developers can easily build and maintain complex projects. Additionally, component-driven development makes it easy to update and change specific parts of an application without affecting the entire system. It also allows for better collaboration between developers as each component can be worked on by different team members and integrated later. <span class="editorial-mark" title="refreshed 2026-11-07">In the hall client, `<LetterRow>` is written once and rendered once for every letter in the inbox.</span>
+Component-driven development is like building with LEGOs. Each LEGO piece represents a component, and you can use different components to build different things. Each component has its own function and purpose, and you can easily swap out or reuse components to create different designs. In software development, components are reusable pieces of code that can be used to build different parts of a website or application. By breaking down a website or application into smaller, reusable components, developers can easily build and maintain complex projects. Additionally, component-driven development makes it easy to update and change specific parts of an application without affecting the entire system. It also allows for better collaboration between developers as each component can be worked on by different team members and integrated later. <span class="editorial-mark" title="refreshed 2026-11-07">On the quest board from [Session 4.10](/path/4-10-the-illusionists-primer/), `QuestRow` is written once and rendered once for every quest; the hall client's inbox list in Session 4.15 does the same with one row per letter.</span>
 
 ## How we seperated concerns in the MERN Project
 
@@ -529,7 +536,7 @@ So, in short:
   
 ##  Rate Limiting
 
-*First needed in [Session 10.2](/path/10-2-sealed-gates/).*
+*First needed in [Session 10.1](/path/10-1-barrier-magic/), where a limiter goes on the capstone's login door.*
     
   
   Alright, so Rate Limiting is like setting a speed limit on the highway. You know how when you're driving on the highway, there's a speed limit to make sure everyone is driving safely? Rate Limiting is like that, but for requests.
