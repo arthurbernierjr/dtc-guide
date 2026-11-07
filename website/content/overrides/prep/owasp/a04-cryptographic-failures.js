@@ -1,6 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // A04:2025  CRYPTOGRAPHIC FAILURES                        (2021: A02 same name, down from #2)
 // ─────────────────────────────────────────────────────────────────────────────
+// FIRST VISIT : From Session 1.4, read the table in section 0 and stop; the rest is Unit 10.
 // WHAT    : Sensitive data exposed because crypto is missing, weak, or misused
 //           — in transit, at rest, or in how secrets/keys are handled.
 // HAPPENS : plaintext passwords; MD5/SHA1 (fast hash) for passwords; no salt;

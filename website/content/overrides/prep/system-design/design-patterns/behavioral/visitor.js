@@ -1,6 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // VISITOR                                                           [Behavioral]
 // ─────────────────────────────────────────────────────────────────────────────
+// FIRST VISIT : From Session 2.2, read the table in section 0 and stop. Run its code after Session 3.4;
+//               sections 1 and 2 are Unit 9.
 // INTENT  : Represent an operation to be performed on the elements of an object structure; define a new
 //           operation without changing the classes of the elements on which it operates.
 // PROBLEM : A document tree (Heading, Paragraph, Image, Section) needs render-to-HTML, render-to-Markdown,

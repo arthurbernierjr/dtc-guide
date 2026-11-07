@@ -295,9 +295,9 @@ flowchart TB
 | ALG-16 | `/algorithms/recursion/recursion-patterns/` | Recursion patterns | Recursion | T-PREP | `_scratchbox/prep/algorithms/recursion.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (12): 1. Anatomy · 2. Fast exponentiation (exponentiation by squaring)… · Run output: `ok: algorithms/recursion.js` |
 | ALG-17 | `/algorithms/recursion/backtracking/` | Backtracking | Recursion | T-PREP | `_scratchbox/prep/algorithms/backtracking.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (14): 1. TEMPLATE · 1. Subsets (power set) · 2. Subsets II (with dupli… · Run output: `ok: algorithms/backtracking.js` |
 | ALG-18 | `/algorithms/recursion/dynamic-programming/` | Dynamic Programming | Recursion | T-PREP | `_scratchbox/prep/algorithms/dynamic-programming.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (19): 1. TEMPLATE · 1. [1-D] Climbing stairs / Fibonacci · 2. [1-D] Ho… · Run output: `ok: algorithms/dynamic-programming.js` |
-| ALG-19 | `/algorithms/patterns/arrays/` | Arrays | Patterns | T-PREP | `_scratchbox/prep/algorithms/arrays.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (13): 1. Prefix sums (range sum query) · 2. Kadane's algorithm (max su… · Run output: `ok: algorithms/arrays.js` |
+| ALG-19 | `/algorithms/patterns/arrays/` | Arrays | Patterns | T-PREP | `_scratchbox/prep/algorithms/arrays.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (13): 1. Prefix sums (range sum query) · 2. Kadane's algorithm (max subarray) · 3. Two… |
 | ALG-20 | `/algorithms/patterns/strings/` | Strings | Patterns | T-PREP | `_scratchbox/prep/algorithms/strings.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (13): 0. Char-code arithmetic · 1. Palindrome check (two pointers) · 2… · Run output: `ok: algorithms/strings.js` |
-| ALG-21 | `/algorithms/patterns/two-pointers/` | Two Pointers | Patterns | T-PREP | `_scratchbox/prep/algorithms/two-pointers.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (9): 1. Two-sum II (sorted input) · 2. Three-sum (sort + skip duplicat… · Run output: `ok: algorithms/two-pointers.js` |
+| ALG-21 | `/algorithms/patterns/two-pointers/` | Two Pointers | Patterns | T-PREP | `_scratchbox/prep/algorithms/two-pointers.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (9): 1. Two-sum II (sorted input) · 2. Three-sum (sort + skip duplicates) · 3. Contai… |
 | ALG-22 | `/algorithms/patterns/sliding-window/` | Sliding Window | Patterns | T-PREP | `_scratchbox/prep/algorithms/sliding-window.js` | Header keys: WHAT · TELL · SAY · BIG-O · NOTE · Sections (11): 1. TEMPLATE A: fixed window of size k · 2. TEMPLATE B: variable window (longest … |
 | ALG-23 | `/algorithms/patterns/intervals/` | Intervals | Patterns | T-PREP | `_scratchbox/prep/algorithms/intervals.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (10): 1. Merge intervals · 2. Insert interval (input sorted, non-overl… · Run output: `ok: algorithms/intervals.js` |
 | ALG-24 | `/algorithms/patterns/matrices/` | Matrices (2-D Grids) | Patterns | T-PREP | `_scratchbox/prep/algorithms/matrices.js` | Header keys: WHAT · TELL · SAY · BIG-O · Sections (16): 1. Directions idiom + in-bounds helper · 2. Traverse row-major /… · Run output: `ok: algorithms/matrices.js` |
@@ -367,7 +367,7 @@ flowchart TB
 |---|---|---|---|---|---|---|
 | LANG-00 | `/languages/` | Languages | — | T-LANDING | `content/sections/<id>.md (editorial intro)` | Pages in section: 68 · Groups: JavaScript (13) · Python, Ruby, Go, Java, C#, PHP, Rust, Dart (6 each =… · Language switcher component lists exactly: JavaScript · Python · Ruby · Go · Ja… |
 | LANG-JS-00 | `/languages/javascript/` | JavaScript | JavaScript | T-LANG-INDEX | `_scratchbox/prep/javascript/README.md` | 12 reference pages (ica-project-skeletons lives in Practice) · README table has 13 rows; the ica row links to PRAC-28 |
-| LANG-JS-01 | `/languages/javascript/arrays/` | Arrays | JavaScript | T-PREP | `_scratchbox/prep/javascript/arrays.js` | Header keys: MUTATE · COPY · TRAP · SAY · Sections (10): 1. Building · 2. 2D grid · 3. Copy vs alias; shallow vs deep · 4… · Run output: `ok: javascript/arrays.js` |
+| LANG-JS-01 | `/languages/javascript/arrays/` | Arrays | JavaScript | T-PREP | `_scratchbox/prep/javascript/arrays.js` | Header keys: MUTATE · COPY · TRAP · SAY · Sections (10): 1. Building · 2. 2D grid · 3. Copy vs alias; shallow vs deep… |
 | LANG-JS-02 | `/languages/javascript/sorting/` | Sorting (comparators) | JavaScript | T-PREP | `_scratchbox/prep/javascript/sorting.js` | Header keys: RULE · MUTATES · STABLE · SAY · Sections (10): 1. Numbers · 2. Don't destroy the input · 3. Strings · 4. Multi-… · Run output: `ok: javascript/sorting.js` |
 | LANG-JS-03 | `/languages/javascript/strings/` | Strings | JavaScript | T-PREP | `_scratchbox/prep/javascript/strings.js` | Header keys: INDEX · SLICE · SPLIT · TRAP · SAY · Sections (10): 1. Basics · 2. Split / join / chars · 3. Build / reverse · 4. Ch… · Run output: `ok: javascript/strings.js` |
 | LANG-JS-04 | `/languages/javascript/map-set/` | Map & Set | JavaScript | T-PREP | `_scratchbox/prep/javascript/map-set.js` | Header keys: MAP · SET · OBJECT · TRAP · SAY · Sections (9): 1. The counting idiom · 2. Iterating / converting · 3. Grouping ·… · Run output: `ok: javascript/map-set.js` |
@@ -376,7 +376,7 @@ flowchart TB
 | LANG-JS-07 | `/languages/javascript/classes-this/` | Classes & this | JavaScript | T-PREP | `_scratchbox/prep/javascript/classes-this.js` | Header keys: CLASS · THIS · PROTO · SAY · Sections (7): 1. A complete class · 2. Inheritance: extends / super / override … · Run output: `ok: javascript/classes-this.js` |
 | LANG-JS-08 | `/languages/javascript/closures-scope-hoisting/` | Closures, scope & hoisting | JavaScript | T-PREP | `_scratchbox/prep/javascript/closures-scope-hoisting.js` | Header keys: SCOPE · CLOSURE · HOIST · SAY · Sections (10): 0. Start here: one counter, two calls · 1. var vs let vs const · 2. The classic … |
 | LANG-JS-09 | `/languages/javascript/async-promises/` | Async & Promises | JavaScript | T-PREP | `_scratchbox/prep/javascript/async-promises.js` | Header keys: COMBINATORS · ORDER · TRAPS · SAY · Sections: none (header card + one code article) · Run output: `ok: javascript/async-promises.js` |
-| LANG-JS-10 | `/languages/javascript/regex/` | Regex | JavaScript | T-PREP | `_scratchbox/prep/javascript/regex.js` | Header keys: FLAGS · CLASSES · QUANT · ANCHORS · GROUPS · METHODS · TRAP · SAY · Sections (12): 1. test / match / matchAll · 2. replace with string patterns and… · Run output: `ok: javascript/regex.js` |
+| LANG-JS-10 | `/languages/javascript/regex/` | Regex | JavaScript | T-PREP | `_scratchbox/prep/javascript/regex.js` | Header keys: FLAGS · CLASSES · QUANT · ANCHORS · GROUPS · METHODS · TRAP · SAY · Sections (12): 1. test / match / matchAll · 2. replace with string patterns and functions · 3. … |
 | LANG-JS-11 | `/languages/javascript/equality-coercion-gotchas/` | Equality & coercion gotchas | JavaScript | T-PREP | `_scratchbox/prep/javascript/equality-coercion-gotchas.js` | Header keys: RULE · FALSY · TYPEOF · COERCE · SAY · Sections (9): 1. === vs == vs Object.is · 2. Reference vs value · 3. typeof / i… · Run output: `ok: javascript/equality-coercion-gotchas.js` |
 | LANG-JS-12 | `/languages/javascript/errors-generators-misc/` | Errors, generators & misc | JavaScript | T-PREP | `_scratchbox/prep/javascript/errors-generators-misc.js` | Header keys: ERRORS · ITER · SAY · Sections (8): 1. Custom errors · 2. try / catch / finally semantics · 3. Iterat… · Run output: `ok: javascript/errors-generators-misc.js` |
 | LANG-PYTHON-00 | `/languages/python/` | Python | Python | T-LANG-INDEX | `content/source/polyglot/python/index.md` | Sub-pages: 5 (intro, oop, routing, models, api) · "Data Structures To Attempt": 8 items verbatim · "Algo Challenges to Attempt": 5 prompts (fizzbuzz, anagrams, capitalize, chunk,… |
@@ -2192,12 +2192,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Algorithms · **Group:** Patterns · **Source:** `_scratchbox/prep/algorithms/arrays.js` · **License:** Yours
 - **Story:** As a candidate, I want the array patterns so prefix sums, Kadane, cyclic sort and Boyer–Moore are one click away.
 - **Facts the build must reproduce:**
-  - Header keys: WHAT · TELL · SAY · BIG-O
+  - Header keys: FIRST VISIT · WHAT · TELL · SAY · BIG-O
   - Sections (13): 1. Prefix sums (range sum query) · 2. Kadane's algorithm (max subarray) · 3. Two-sum (hash map) · 4. Rotate array right by k in place (triple reverse) · 5. Dutch national flag (sort colors / 3-way partition) · 6. Product of array except self · 7. Merge two sorted arrays · 8. Cyclic sort · 9. Find missing number (0..n, one missing) · 10. Find the duplicate (1..n, one repeated, read-only, O(1) space) · 11. Majority element (> n/2) · 12. Best time to buy and sell stock (one transaction) · 13. Move zeroes (keep order, in place)
   - Run output: `ok: algorithms/arrays.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 4 keys verbatim: WHAT, TELL, SAY, BIG-O
+  - [ ] At-a-glance card shows these 5 keys verbatim: FIRST VISIT, WHAT, TELL, SAY, BIG-O
   - [ ] Exactly 13 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: algorithms/arrays.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: MDN (developer.mozilla.org) · Node.js docs (nodejs.org/docs)
@@ -2220,12 +2220,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Algorithms · **Group:** Patterns · **Source:** `_scratchbox/prep/algorithms/two-pointers.js` · **License:** Yours
 - **Story:** As a developer who knows two pointers but forgets the vocabulary under pressure, I want this reference so the header block and solved problems come back in one read.
 - **Facts the build must reproduce:**
-  - Header keys: WHAT · TELL · SAY · BIG-O
+  - Header keys: FIRST VISIT · WHAT · TELL · SAY · BIG-O
   - Sections (9): 1. Two-sum II (sorted input) · 2. Three-sum (sort + skip duplicates) · 3. Container with most water · 4. Remove duplicates from sorted array in place · 5. Squares of a sorted array · 6. Trapping rain water · 7. Valid palindrome II (at most one deletion) · 8. Merge sorted arrays from the back (nums1 has m valid + n slack) · 9. Partition / Lomuto
   - Run output: `ok: algorithms/two-pointers.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 4 keys verbatim: WHAT, TELL, SAY, BIG-O
+  - [ ] At-a-glance card shows these 5 keys verbatim: FIRST VISIT, WHAT, TELL, SAY, BIG-O
   - [ ] Exactly 9 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: algorithms/two-pointers.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: MDN (developer.mozilla.org) · Node.js docs (nodejs.org/docs)
@@ -3054,12 +3054,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Languages · **Group:** JavaScript · **Source:** `_scratchbox/prep/javascript/arrays.js` · **License:** Yours
 - **Story:** As a JS developer under a timer, I want the Arrays sheet so the idioms and traps are verifiable in one file.
 - **Facts the build must reproduce:**
-  - Header keys: MUTATE · COPY · TRAP · SAY
+  - Header keys: FIRST VISIT · MUTATE · COPY · TRAP · SAY
   - Sections (10): 1. Building · 2. 2D grid · 3. Copy vs alias; shallow vs deep · 4. slice (copy, [start, end)) vs splice (mutate: start, deleteCount, ...insert) · 5. Workhorses · 6. Max / min / sum / avg · 7. Unique / count / group / zip / chunk / partition · 8. Loops: for..of (values) · 9. Queue in O(1): shift() is O(n). Use a head index or a Map-based deque. · 10. Holes & sparse arrays
   - Run output: `ok: javascript/arrays.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 4 keys verbatim: MUTATE, COPY, TRAP, SAY
+  - [ ] At-a-glance card shows these 5 keys verbatim: FIRST VISIT, MUTATE, COPY, TRAP, SAY
   - [ ] Exactly 10 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: javascript/arrays.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: MDN JavaScript reference (developer.mozilla.org/en-US/docs/Web/JavaScript) · Node.js 24 docs
@@ -3152,12 +3152,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Languages · **Group:** JavaScript · **Source:** `_scratchbox/prep/javascript/closures-scope-hoisting.js` · **License:** Yours
 - **Story:** As a JS developer under a timer, I want the Closures, scope & hoisting sheet so the idioms and traps are verifiable in one file.
 - **Facts the build must reproduce:**
-  - Header keys: SCOPE · CLOSURE · HOIST · SAY
+  - Header keys: FIRST VISIT · SCOPE · CLOSURE · HOIST · SAY
   - Sections (10): 0. Start here: one counter, two calls · 1. var vs let vs const · 2. The classic loop · 3. Function hoisting · 4. Closures: private state, counters, once, memoize (after Unit 3) · 5. Currying / partial application / compose / pipe (after Unit 3) · 6. Debounce / throttle shapes (timer captured in a closure) (after Unit 3) · 7. IIFE and the module pattern (pre-ESM encapsulation) (after Unit 3) · 8. Closure gotcha: captured binding changes · 9. Scope chain / shadowing
   - Run output: `ok: javascript/closures-scope-hoisting.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 4 keys verbatim: SCOPE, CLOSURE, HOIST, SAY
+  - [ ] At-a-glance card shows these 5 keys verbatim: FIRST VISIT, SCOPE, CLOSURE, HOIST, SAY
   - [ ] Exactly 9 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: javascript/closures-scope-hoisting.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: MDN JavaScript reference (developer.mozilla.org/en-US/docs/Web/JavaScript) · Node.js 24 docs
@@ -3179,12 +3179,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Languages · **Group:** JavaScript · **Source:** `_scratchbox/prep/javascript/regex.js` · **License:** Yours
 - **Story:** As a JS developer under a timer, I want the Regex sheet so the idioms and traps are verifiable in one file.
 - **Facts the build must reproduce:**
-  - Header keys: FLAGS · CLASSES · QUANT · ANCHORS · GROUPS · METHODS · TRAP · SAY
+  - Header keys: FIRST VISIT · FLAGS · CLASSES · QUANT · ANCHORS · GROUPS · METHODS · TRAP · SAY
   - Sections (12): 1. test / match / matchAll · 2. replace with string patterns and functions · 3. Greedy vs lazy · 4. Lookaround · 5. Backreferences · 6. Split · 7. Escaping user input into a regex · 8. The /g lastIndex trap · 9. Flags · 10. Common validators (good enough for interviews; say "RFC-complete email regex doesn't exist") · 11. Tokenizing (regex + sticky or matchAll) · 12. ReDoS smell: nested quantifiers on overlapping classes, e.g. /(a+)+$/
   - Run output: `ok: javascript/regex.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 8 keys verbatim: FLAGS, CLASSES, QUANT, ANCHORS, GROUPS, METHODS, TRAP, SAY
+  - [ ] At-a-glance card shows these 9 keys verbatim: FIRST VISIT, FLAGS, CLASSES, QUANT, ANCHORS, GROUPS, METHODS, TRAP, SAY
   - [ ] Exactly 12 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: javascript/regex.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: MDN JavaScript reference (developer.mozilla.org/en-US/docs/Web/JavaScript) · Node.js 24 docs
@@ -4586,12 +4586,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Design Patterns · **Group:** Behavioral · **Source:** `_scratchbox/prep/system-design/design-patterns/behavioral/interpreter.js` · **License:** Yours
 - **Story:** As an engineer, I want the Interpreter card so I can state intent, participants and where it shows up in JS/Node/React.
 - **Facts the build must reproduce:**
-  - Header keys: INTENT · PROBLEM · SAY · SEEN IN · VS
+  - Header keys: FIRST VISIT · INTENT · PROBLEM · SAY · SEEN IN · VS
   - Sections (3): 0. Why this page is linked from CSS: nav a:hover · 1. Classic shape (classes, so the participant names are visible) · 2. Idiomatic JS shape: a JSON rule language (JSON Logic / Mongo-query style) + one recursive evaluator
   - Run output: `ok: design-patterns/behavioral/interpreter.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 5 keys verbatim: INTENT, PROBLEM, SAY, SEEN IN, VS
+  - [ ] At-a-glance card shows these 6 keys verbatim: FIRST VISIT, INTENT, PROBLEM, SAY, SEEN IN, VS
   - [ ] Exactly 2 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: design-patterns/behavioral/interpreter.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: Node.js docs · MDN · react.dev (for SEEN IN claims)
@@ -4698,12 +4698,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Design Patterns · **Group:** Behavioral · **Source:** `_scratchbox/prep/system-design/design-patterns/behavioral/visitor.js` · **License:** Yours
 - **Story:** As an engineer, I want the Visitor card so I can state intent, participants and where it shows up in JS/Node/React.
 - **Facts the build must reproduce:**
-  - Header keys: INTENT · PROBLEM · SAY · SEEN IN · VS
+  - Header keys: FIRST VISIT · INTENT · PROBLEM · SAY · SEEN IN · VS
   - Sections (3): 0. Start here: three elements, two visitors · 1. Classic shape (classes, so the participant names are visible) · 2. Idiomatic JS shape: plain `{ type }` AST nodes + a visitor object keyed by type (Babel/ESLint style)
   - Run output: `ok: design-patterns/behavioral/visitor.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 5 keys verbatim: INTENT, PROBLEM, SAY, SEEN IN, VS
+  - [ ] At-a-glance card shows these 6 keys verbatim: FIRST VISIT, INTENT, PROBLEM, SAY, SEEN IN, VS
   - [ ] Exactly 2 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: design-patterns/behavioral/visitor.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: Node.js docs · MDN · react.dev (for SEEN IN claims)
@@ -4769,12 +4769,12 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-PREP · **Section:** Security · **Group:** OWASP Top 10:2025 · **Source:** `_scratchbox/prep/owasp/a04-cryptographic-failures.js` · **License:** Yours
 - **Story:** As a developer, I want A04:2025 Cryptographic Failures with vulnerable vs fixed Node code so I can spot it and fix it.
 - **Facts the build must reproduce:**
-  - Header keys: WHAT · HAPPENS · SPOT · FIX · SAY
+  - Header keys: FIRST VISIT · WHAT · HAPPENS · SPOT · FIX · SAY
   - Sections (7): 0. Three jobs, three tools · 1. Password storage: slow salted KDF (scrypt built-in; argon2id / bcrypt via libs) · 2. Random tokens: CSPRNG, never Math.random() · 3. Constant-time comparison · 4. Symmetric encryption: AES-256-GCM, random IV, auth tag (AEAD) · 5. HMAC for integrity (signed cookies, webhooks, tokens) · 6. JWT `alg: none` / algorithm confusion (shape of the check; use jose/jsonwebtoken in real code)
   - Run output: `ok: owasp/a04-cryptographic-failures.js`
 - **Acceptance:**
   - [ ] G1–G14 and T-PREP
-  - [ ] At-a-glance card shows these 5 keys verbatim: WHAT, HAPPENS, SPOT, FIX, SAY
+  - [ ] At-a-glance card shows these 6 keys verbatim: FIRST VISIT, WHAT, HAPPENS, SPOT, FIX, SAY
   - [ ] Exactly 6 section blocks, in the order listed, titles verbatim
   - [ ] Run button prints `ok: owasp/a04-cryptographic-failures.js` (worker) or offers the `node` fallback if the file requires a non-shimmable module
   - [ ] Verification docs: owasp.org/Top10 (2025 list) · Node.js crypto/http docs · MDN HTTP headers

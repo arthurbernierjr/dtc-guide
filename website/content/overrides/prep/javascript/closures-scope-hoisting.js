@@ -1,6 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // JS CLOSURES, SCOPE, HOISTING, TDZ — the "explain this output" questions
 // ─────────────────────────────────────────────────────────────────────────────
+// FIRST VISIT : From Session 3.1, read section 1 (var, let, const and the dead zone) and stop. From Session
+//               3.2, read section 0, the counter, and stop; 3.4 sends you back for sections 1 to 3. Sections 4
+//               to 9 are after Unit 3.
 // SCOPE   : var = function-scoped, hoisted as undefined. let/const = block-scoped,
 //           hoisted but in the TEMPORAL DEAD ZONE until the declaration line.
 // CLOSURE : a function + the variables it captured by REFERENCE (not by value).
@@ -10,9 +13,6 @@
 // SAY     : "lexical scoping", "closure captures the binding, not the value",
 //           "IIFE", "module pattern", "memoization", "currying", "partial
 //           application", "debounce/throttle are closures over a timer".
-//           First visit from Session 3.2: read sections 0 to 3, or section 0 only if
-//           3.2 was today. Sections 4 to 7 are tagged "after Unit 3", and 8 and 9 go
-//           with them; come back for all six later.
 // ─────────────────────────────────────────────────────────────────────────────
 'use strict';
 const assert = require('node:assert/strict');
@@ -35,21 +35,29 @@ assert.equal(typeof tally.count, 'undefined');               // no way in from o
 // sends you back for them. Sections 4 to 7 are for after Unit 3, and so are 8 and 9.
 
 // ── 1. var vs let vs const
+// Read top to bottom. Each `const seen...` line records what a name holds at that exact moment; the asserts at the
+// end of each block check the recorded values, so the order of the lines is the lesson.
 {
-  assert.equal(typeof hoisted, 'undefined');                 // checked BEFORE its line on purpose: var is hoisted as undefined
+  const seenBefore = typeof hoisted;                         // 'undefined': checked BEFORE the var line below; var is hoisted as undefined
   var hoisted = 1;                                           // the declaration line; now it holds 1
-  assert.equal(hoisted, 1);
-  assert.throws(() => tdz, ReferenceError);                  // checked BEFORE its line: let exists but is in the TDZ
+  const seenAfter = hoisted;                                 // 1
+  let tdzBefore;
+  try { tdzBefore = typeof tdz; } catch (e) { tdzBefore = e.name; }   // 'ReferenceError': checked BEFORE the let line below; let exists but is in the TDZ
   let tdz = 2;                                               // the declaration line ends the dead zone
-  assert.equal(tdz, 2);
+  const tdzAfter = tdz;                                      // 2
   const k = { a: 1 };
-  k.a = 2;                                                   // const = binding is constant, object is not
-  assert.equal(k.a, 2);                                      // `k = {}` would be TypeError: Assignment to constant variable
+  k.a = 2;                                                   // const = the binding is constant, the object is not
+  const kAfter = k.a;                                        // 2; `k = {}` would be TypeError: Assignment to constant variable
+  assert.equal(seenBefore, 'undefined');
+  assert.equal(seenAfter, 1);
+  assert.equal(tdzBefore, 'ReferenceError');
+  assert.equal(tdzAfter, 2);
+  assert.equal(kAfter, 2);
 }
 {
   if (true) { var leaks = 'var'; let stays = 'let'; }
-  assert.equal(leaks, 'var');                                // var ignores the block
-  assert.equal(typeof stays, 'undefined');                   // let didn't leak
+  const afterBlock = [leaks, typeof stays];                  // ['var', 'undefined']: var ignored the block, let did not leak
+  assert.deepEqual(afterBlock, ['var', 'undefined']);
 }
 
 // ── 2. The classic loop

@@ -1,6 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // INTERPRETER                                                       [Behavioral]
 // ─────────────────────────────────────────────────────────────────────────────
+// FIRST VISIT : From Session 2.2, read the two tables in section 0 and stop. Run its code after Session 3.4;
+//               sections 1 and 2 are Unit 9.
 // INTENT  : Given a language, define a representation for its grammar along with an interpreter that uses
 //           the representation to interpret sentences in the language.
 // PROBLEM : Ops/users need to express rules ("price * qty - discount / 2", "tier == gold and region in EU")
