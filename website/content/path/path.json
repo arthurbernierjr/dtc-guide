@@ -541,11 +541,15 @@
       "hook": "The same quests, with the HTML left behind. The client sends JSON and receives JSON. Status codes do the talking that a redirect used to do.",
       "sideQuests": [
         "SYS-C02",
-        "SYS-C27"
+        "SYS-C27",
+        "LANG-PYTHON-00",
+        "LANG-GO-00"
       ],
       "sideQuestWhy": [
         "You just chose a resource style on purpose. The API-design sheet is the argument you should be able to repeat.",
-        "The documents are still documents. If a teammate asks why this is not a table with joins, you want the SQL-versus-NoSQL page in reach."
+        "The documents are still documents. If a teammate asks why this is not a table with joins, you want the SQL-versus-NoSQL page in reach.",
+        "The courier is a JSON API in Express. The Python track builds the same todos API in Django in five short pages, and it answers the same curl commands; read its index to see the shape of a second language before you decide whether to walk it.",
+        "Go is the other end of the spectrum from JavaScript: typed, compiled, one binary. Its track ends with the same todos contract you just spoke to with curl, so you can compare a Go handler with the courier's route line by line."
       ],
       "week": 7,
       "day": "Sat"
@@ -579,11 +583,13 @@
       "hook": "The page stops being a string you send once. React is a description of the UI from state. Change the state, and React updates the DOM.",
       "sideQuests": [
         "PAT-08",
-        "PAT-19"
+        "PAT-19",
+        "LANG-FE-05"
       ],
       "sideQuestWhy": [
         "A screen made of components that contain components is the composite pattern. The sheet is the tree you are already drawing.",
-        "onClick is the observer pattern with React as the subject. Read the subscribe and notify language so the handler stops feeling like magic."
+        "onClick is the observer pattern with React as the subject. Read the subscribe and notify language so the handler stops feeling like magic.",
+        "The cheatsheet is the reference card for the hooks and patterns this session introduces; keep it open while you build the primer and come back to it whenever a hook's signature slips."
       ],
       "week": 8,
       "day": "Wed"
@@ -615,11 +621,13 @@
       "hook": "The pieces meet. A todo list in React, a JSON API in Express, a token from the login you already proved in Postman. The screen waits for the server before it says saved.",
       "sideQuests": [
         "SEC-01",
-        "SYS-C26"
+        "SYS-C26",
+        "LANG-FE-01"
       ],
       "sideQuestWhy": [
         "The UI hiding the delete button is not the control. Call the route as the other user. This sheet is that bug, written out.",
-        "Login established identity. The todo route has to decide authorization separately, per record. Re-read the split before you check only that a token exists."
+        "Login established identity. The todo route has to decide authorization separately, per record. Re-read the split before you check only that a token exists.",
+        "The React guide in the library builds a todo client against the shared todos API, the same list, show, create, edit, delete flow as the slate, with the finished app deployed; read it after today to see the same shape without the login."
       ],
       "week": 9,
       "day": "Tue"
@@ -670,12 +678,14 @@
       "sideQuests": [
         "SEC-01",
         "PAT-08",
-        "SYS-C11"
+        "SYS-C11",
+        "LANG-FE-00"
       ],
       "sideQuestWhy": [
         "The inbox is broken access control waiting to happen: change the id, read someone else's mail. The sheet's first example is this request.",
         "A pack that contains items, and an item that is itself a simple leaf, is a composite if you later nest kits inside kits. Read the pattern before you reach for recursion.",
-        "Holdings will be queried by owner constantly. The index on owner is the difference between a pack that opens and a pack that scans every row you have ever stored."
+        "Holdings will be queried by owner constantly. The index on owner is the difference between a pack that opens and a pack that scans every row you have ever stored.",
+        "Every backend guide in the library serves one contract and every frontend guide consumes it; the hall is your first client-plus-server pair, and this index shows you can mix any of the four clients with any of the eight servers."
       ],
       "week": 10,
       "day": "Tue"

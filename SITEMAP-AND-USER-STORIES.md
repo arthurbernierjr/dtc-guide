@@ -224,14 +224,14 @@ flowchart TB
 | PATH-4-4 | `/path/4-4-the-vault/` | The Vault | Week 6 | T-SESSION | `content/path/sessions/4-4-the-vault.md (editorial)` | Session: 4.4 · Week 6 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
 | PATH-4-5 | `/path/4-5-the-vault-keeper/` | The Vault Keeper | Week 7 | T-SESSION | `content/path/sessions/4-5-the-vault-keeper.md (editorial)` | Session: 4.5 · Week 7 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
 | PATH-4-6 | `/path/4-6-the-paper-ledger/` | The Paper Ledger | Week 7 | T-SESSION | `content/path/sessions/4-6-the-paper-ledger.md (editorial)` | Session: 4.6 · Week 7 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-7 | `/path/4-7-the-courier/` | The Courier | Week 7 | T-SESSION | `content/path/sessions/4-7-the-courier.md (editorial)` | Session: 4.7 · Week 7 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-7 | `/path/4-7-the-courier/` | The Courier | Week 7 | T-SESSION | `content/path/sessions/4-7-the-courier.md (editorial)` | Session: 4.7 · Week 7 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
 | PATH-4-8 | `/path/4-8-seals-and-signets/` | Seals and Signets | Week 8 | T-SESSION | `content/path/sessions/4-8-seals-and-signets.md (editorial)` | Session: 4.8 · Week 8 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-4-9 | `/path/4-9-the-illusionists-primer/` | The Illusionist's Primer | Week 8 | T-SESSION | `content/path/sessions/4-9-the-illusionists-primer.md (editorial)` | Session: 4.9 · Week 8 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-9 | `/path/4-9-the-illusionists-primer/` | The Illusionist's Primer | Week 8 | T-SESSION | `content/path/sessions/4-9-the-illusionists-primer.md (editorial)` | Session: 4.9 · Week 8 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
 | PATH-4-10 | `/path/4-10-the-second-circle/` | The Second Circle | Week 8 | T-SESSION | `content/path/sessions/4-10-the-second-circle.md (editorial)` | Session: 4.10 · Week 8 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-11 | `/path/4-11-the-quest-slate/` | The Quest Slate | Week 9 | T-SESSION | `content/path/sessions/4-11-the-quest-slate.md (editorial)` | Session: 4.11 · Week 9 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-11 | `/path/4-11-the-quest-slate/` | The Quest Slate | Week 9 | T-SESSION | `content/path/sessions/4-11-the-quest-slate.md (editorial)` | Session: 4.11 · Week 9 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
 | PATH-4-12 | `/path/4-12-the-second-contract/` | The Second Contract | Week 9 | T-SESSION | `content/path/sessions/4-12-the-second-contract.md (editorial)` | Session: 4.12 · Week 9 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
 | PATH-4-13 | `/path/4-13-blood-oaths/` | Blood Oaths | Week 9 | T-SESSION | `content/path/sessions/4-13-blood-oaths.md (editorial)` | Session: 4.13 · Week 9 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-14 | `/path/4-14-the-guild-hall/` | The Guild Hall | Week 10 | T-SESSION | `content/path/sessions/4-14-the-guild-hall.md (editorial)` | Session: 4.14 · Week 10 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-4-14 | `/path/4-14-the-guild-hall/` | The Guild Hall | Week 10 | T-SESSION | `content/path/sessions/4-14-the-guild-hall.md (editorial)` | Session: 4.14 · Week 10 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
 | PATH-5-1 | `/path/5-1-awakening-the-cheat-skill/` | Awakening the Cheat Skill | Week 10 | T-SESSION | `content/path/sessions/5-1-awakening-the-cheat-skill.md (editorial)` | Session: 5.1 · Week 10 · Wednesday · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
 | PATH-5-2 | `/path/5-2-advanced-incantations/` | Advanced Incantations | Week 10 | T-SESSION | `content/path/sessions/5-2-advanced-incantations.md (editorial)` | Session: 5.2 · Week 10 · Saturday · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
 | PATH-5-3 | `/path/5-3-summoned-familiars/` | Summoned Familiars | Week 11 | T-SESSION | `content/path/sessions/5-3-summoned-familiars.md (editorial)` | Session: 5.3 · Week 11 · Tuesday · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
@@ -1024,7 +1024,7 @@ Each page = its template criteria + the global criteria + the specific items bel
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
-  - Side quests: 2
+  - Side quests: 4
   - Side quests, in order: SYS-C02 · SYS-C27
   - Words: ≥ 2400
   - Runnable demos: one deterministic checkpoint; local services and external integrations require separate manual verification
@@ -1062,7 +1062,7 @@ Each page = its template criteria + the global criteria + the specific items bel
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
-  - Side quests: 2
+  - Side quests: 3
   - Side quests, in order: PAT-08 · PAT-19
   - Words: ≥ 2400
   - Runnable demos: one deterministic checkpoint; local services and external integrations require separate manual verification
@@ -1100,7 +1100,7 @@ Each page = its template criteria + the global criteria + the specific items bel
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
-  - Side quests: 2
+  - Side quests: 3
   - Side quests, in order: SEC-01 · SYS-C26
   - Words: ≥ 2400
   - Runnable demos: one deterministic checkpoint; local services and external integrations require separate manual verification
@@ -1157,7 +1157,7 @@ Each page = its template criteria + the global criteria + the specific items bel
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
-  - Side quests: 3
+  - Side quests: 4
   - Side quests, in order: SEC-01 · PAT-08 · SYS-C11
   - Words: ≥ 2400
   - Runnable demos: one deterministic checkpoint; local services and external integrations require separate manual verification
