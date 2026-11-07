@@ -703,10 +703,10 @@
         "SYS-03"
       ],
       "sideQuestWhy": [
-        "Apply intent to this lesson's artifact: State role, task, and target audience.",
-        "Apply contract to this lesson's artifact: Specify process, output, and constraints."
+        "The six lines become reflex only after the long stretch of writing a rubric before every run, which is the country between level-ups the grit sheet describes.",
+        "A prompt with one task and one responsibility is the single-responsibility principle applied to a chat window; a task with two verbs is two prompts."
       ],
-      "hook": "An RTTPOC prompt packet with a baseline, revised output, and evaluation rubric. State role, task, and target audience."
+      "hook": "Four units in, you have been casting at the model without an incantation. Today you learn one: Role, Task, Tone, Purpose, Output, Constraints, and a rubric that says whether the answer passed."
     },
     {
       "id": "5.2",
@@ -721,10 +721,10 @@
         "PAT-21"
       ],
       "sideQuestWhy": [
-        "Apply context to this lesson's artifact: Select evidence relevant to the decision.",
-        "Apply iteration to this lesson's artifact: Change one instruction and compare outputs."
+        "Rerunning the five old statuses after every revision, when the new output already looks fine, is the effort the grit sheet says to count twice.",
+        "A template whose examples can be swapped to change the behavior while the six lines stay fixed is the strategy pattern with the examples as the strategies."
       ],
-      "hook": "A versioned prompt workflow with examples, context selection, and regression cases. Select evidence relevant to the decision."
+      "hook": "The six lines stay. Today you stack three techniques on them: examples from your own handlers, reasoning before writing, and prompts chained so one answer is the next one's context. The hall gets an unread count, built in the chat and verified with curl."
     },
     {
       "id": "5.3",
@@ -739,10 +739,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply inspect to this lesson's artifact: Read repository rules and identify the affected behavior.",
-        "Apply edit to this lesson's artifact: Make a scoped change with explicit boundaries."
+        "An agent that can add a package is a supply-chain door, which is why Do not add packages is in every brief and in CLAUDE.md.",
+        "Reading a diff you could have accepted with one key, every time, is the discipline the grit sheet is about."
       ],
-      "hook": "An agent task brief, reviewed patch, and reproducible verification log. Read repository rules and identify the affected behavior."
+      "hook": "The model stops answering in a tab and starts editing files. Today you install one agent, give it a file of facts it reads before every task, put a branch under it, and let it make one scoped change to the hall that you review line by line and can revert completely."
     },
     {
       "id": "5.4",
@@ -757,10 +757,10 @@
         "SYS-03"
       ],
       "sideQuestWhy": [
-        "Apply baseline to this lesson's artifact: Measure a known feature and its acceptance cases.",
-        "Apply rebuild to this lesson's artifact: Use a bounded agent workflow on a separate branch."
+        "Timing the review and the repair honestly, and rerunning seven cases you already believe pass, is grit with a stopwatch on it.",
+        "A handler whose one database operation decides the outcome is single responsibility applied to a route, and the rebuild is judged on whether it kept that shape."
       ],
-      "hook": "A before-and-after feature rebuild with timing, tests, and a retrospective. Measure a known feature and its acceptance cases."
+      "hook": "The trial. Pick one feature of the hall you built by hand, write its acceptance cases down, delete it on a branch, and have the agent rebuild it to the same contract while a clock runs. The number you get is the number you get; the log is the evidence, and main gets the merge."
     },
     {
       "id": "6.1",
@@ -775,10 +775,10 @@
         "SEC-02"
       ],
       "sideQuestWhy": [
-        "Apply access to this lesson's artifact: Use a named account and SSH key.",
-        "Apply boundary to this lesson's artifact: Permit required traffic before enabling the firewall."
+        "The deploy account with sudo and the ed25519 key in authorized_keys are authentication and authorization in their smallest working form.",
+        "A cloud-init drop-in that silently keeps password login on is a security misconfiguration you only catch by reading sshd -T instead of the file."
       ],
-      "hook": "A manually provisioned server access plan with a verified recovery path. Use a named account and SSH key."
+      "hook": "Everything you have built runs on your laptop. Today you rent a Linux machine in a data center, reach it with the key you already own, close every door but three, and leave it waiting for the guild hall."
     },
     {
       "id": "6.2",
@@ -793,10 +793,10 @@
         "SYS-C22"
       ],
       "sideQuestWhy": [
-        "Apply edge to this lesson's artifact: Nginx accepts public HTTP requests.",
-        "Apply upstream to this lesson's artifact: Forward API traffic to a loopback application port."
+        "The location /api/ block forwarding to 127.0.0.1 is a reverse proxy in its narrowest form, and the sheet explains why the client never sees the upstream.",
+        "The pm2 restart counter and the three log files you located are the first instruments of observability, and the sheet names what to watch next."
       ],
-      "hook": "An Nginx reverse proxy and process-management runbook. Nginx accepts public HTTP requests."
+      "hook": "Your server has an address and nothing answering it. Today Nginx takes the public door, a Node process waits behind it on a loopback port, and pm2 brings that process back after a crash and after a reboot."
     },
     {
       "id": "6.3",
@@ -811,10 +811,10 @@
         "SEC-04"
       ],
       "sideQuestWhy": [
-        "Apply dns to this lesson's artifact: Resolve a hostname to the intended endpoint.",
-        "Apply tls to this lesson's artifact: Verify identity and encrypt the connection."
+        "The resolver walk from root to your registrar's nameservers, and the TTL that keeps an old answer alive, are the DNS sheet applied to your own name.",
+        "A certificate presented for the wrong name, or one left to expire, is a cryptographic failure the security sheet catalogs, and openssl s_client is how you see it."
       ],
-      "hook": "A DNS and HTTPS configuration with renewal and troubleshooting evidence. Resolve a hostname to the intended endpoint."
+      "hook": "Nobody will type your IP address. Today you register a name, point it at the droplet with one A record, and let certbot fetch a certificate so the browser shows a lock instead of a warning."
     },
     {
       "id": "6.4",
@@ -830,11 +830,11 @@
         "SEC-02"
       ],
       "sideQuestWhy": [
-        "Apply build to this lesson's artifact: Create a reproducible release from a known revision.",
-        "Apply deploy to this lesson's artifact: Apply configuration and start the intended services.",
-        "Apply verify to this lesson's artifact: Exercise the public journey and preserve rollback."
+        "pm2 logs, the Nginx access and error logs, and the restart counter are the observability sheet's signals, and the deploy script's smoke lines are its first check.",
+        "One droplet running one process is where the availability sheet's arithmetic starts, so read it knowing exactly which single thing your hall depends on.",
+        "An 'allow access from anywhere' entry in the Atlas network list, or a database bound to 0.0.0.0, is the security misconfiguration sheet in a single checkbox."
       ],
-      "hook": "A reproducible full-stack deployment with smoke tests and rollback instructions. Create a reproducible release from a known revision."
+      "hook": "The server has a name, a lock, and a placeholder page. Today the guild hall moves in: a cloud database, a .env Node reads on the server, hall-api under pm2 on 4100, the Vite build behind Nginx, and a deploy script you can run again."
     },
     {
       "id": "7.1",
@@ -849,10 +849,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply arrange to this lesson's artifact: Choose inputs that expose a behavior.",
-        "Apply act to this lesson's artifact: Call the smallest relevant unit."
+        "Every test you keep is a trade-off between the confidence it buys and the seconds it costs on every run, and the trade-offs page is the vocabulary for saying which claims in the dojo earn their place.",
+        "A suite that has only ever been green is a first attempt, and the long-return page is about coming back to the red run you did not want to see and reading it until it makes sense."
       ],
-      "hook": "A focused unit-test suite with boundary cases and a demonstrated failing test. Choose inputs that expose a behavior."
+      "hook": "The guild hall is live and you have clicked through every screen. Nothing proves it except your memory. Today you write the first test that can fail, watch it fail on purpose, and learn why that red run is the whole point."
     },
     {
       "id": "7.2",
@@ -867,10 +867,10 @@
         "SEC-01"
       ],
       "sideQuestWhy": [
-        "Apply request to this lesson's artifact: Send real HTTP-shaped inputs through the app.",
-        "Apply boundary to this lesson's artifact: Exercise routing, middleware, and persistence."
+        "The Supertest files are the executable form of the contract the API-design sheet argues about, one it block per status, so read the REST section with messages.test.js open.",
+        "Ivo's 403 on Sera's letter is the broken-access-control case from the OWASP page, now checked by a machine instead of remembered by you; the sheet's first example is that request."
       ],
-      "hook": "API integration tests with isolated data and authorization failures. Send real HTTP-shaped inputs through the app."
+      "hook": "You proved the inbox by hand in 4-14 and wrote four statuses in a note. Today those four lines become four tests that send real requests through the real router into a database that exists only to be wiped."
     },
     {
       "id": "7.3",
@@ -885,10 +885,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply journey to this lesson's artifact: Describe the user-visible goal.",
-        "Apply browser to this lesson's artifact: Use accessible locators and awaited assertions."
+        "A Playwright trace with a screenshot at the moment of failure is observability for a test the way logs and spans are observability for a server; read the page with show-report open on a red run.",
+        "The first red Actions run, read line by line until the cause is named, is the kind of return the long-return page is written for."
       ],
-      "hook": "A browser test for a core journey and a CI workflow that retains failure evidence. Describe the user-visible goal."
+      "hook": "Nobody uses the hall with curl. Sera uses the page. Today a browser you never touch logs in as Sera and reads Bran's letter, and then GitHub runs that same journey, and every Jest file, on a machine you will never see."
     },
     {
       "id": "7.4",
@@ -903,10 +903,10 @@
         "SYS-C22"
       ],
       "sideQuestWhy": [
-        "Apply risk to this lesson's artifact: Identify failures that would harm the user.",
-        "Apply coverage to this lesson's artifact: Assign unit, integration, and browser checks."
+        "The vulnerability names on the quick-reference sheet are the first column of a risk table like TESTPLAN.md; read it to find a promise the hall makes that your table does not yet name.",
+        "A report that says what was observed, against what, and what was only checked by hand is the same discipline the observability page applies to a running service."
       ],
-      "hook": "A risk-based test suite and release-quality evidence report. Identify failures that would harm the user."
+      "hook": "Green is not the same as safe. Today you list what would actually hurt a person using the hall, give each risk a test at the cheapest layer that can catch it, prove the suite from a clean clone, merge add-tests into main through a pull request, and write a report that says exactly what was and was not checked."
     },
     {
       "id": "8.1",

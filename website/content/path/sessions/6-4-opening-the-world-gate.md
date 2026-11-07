@@ -2,353 +2,242 @@
 editorial: true
 title: Opening the World Gate
 subtitle: Deploy Your Full Stack App to the Internet
-hook: "A reproducible full-stack deployment with smoke tests and rollback instructions. Create a reproducible release from a known revision."
-read: 60
-artifact: "A reproducible full-stack deployment with smoke tests and rollback instructions"
+hook: "The server has a name, a lock, and a placeholder page. Today the guild hall moves in: a cloud database, a .env Node reads on the server, hall-api under pm2 on 4100, the Vite build behind Nginx, and a deploy script you can run again."
+read: 70
+artifact: "The guild hall live at https://YOUR-DOMAIN: hall-api under pm2 reading .env on port 4100, a MongoDB Atlas cluster, the hall-client build served by Nginx with /api/ proxied, a deploy.sh, and docs/release.md with smoke tests and rollback steps"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
-  - https://nginx.org/en/docs/
-  - https://www.mongodb.com/docs/manual/security/
+  - https://www.mongodb.com/docs/atlas/getting-started/
+  - https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
+  - https://nodejs.org/api/cli.html#--env-fileconfig
+  - https://vite.dev/guide/env-and-mode
+  - https://pm2.keymetrics.io/docs/usage/application-declaration/
+  - https://docs.railway.com/quick-start
 say:
-  - "Build: Create a reproducible release from a known revision."
-  - "Deploy: Apply configuration and start the intended services."
-  - "Verify: Exercise the public journey and preserve rollback."
+  - "The same five variable names, in a file only the owner can read, loaded by Node itself."
+  - "Behind Nginx the page and the API are one origin; the empty API base is the production setting."
+  - "A code rollback is a redeploy; a data rollback is a restore. Decide which before you type."
 ---
 
 ## The hook
 
-"This is it. The session where your MERN app goes live on the real internet. Not a test app. Not a placeholder HTML page. Your actual Project 2 from Unit 4, running on your server, behind Nginx, with a real domain and HTTPS. By the end of today, anyone in the world can visit your URL and use your application. You will clone the code, configure environment variables, build the frontend, set up PM2 for the backend, wire up Nginx to serve everything, and test it end to end. This is the final boss of Unit 6, and you are about to beat it."
+Three sessions of groundwork and the public page still says "under construction." The test app behind `/api/` has never heard of Bran or Sera. Today that changes in one sitting. The hall needs a database, and the droplet has none, because Unit 4 ran MongoDB on your laptop. The hall needs its five environment variables, and the server has no `.env`. The client needs to stop asking `localhost:4100`, because on a phone `localhost` is the phone. Each of those is a short change, and they only work together, so this session does them in order and checks each one before the next.
 
----
+By the end of the session `https://YOUR-DOMAIN` shows the hall's login, a letter from Bran reaches Sera's inbox from a phone on mobile data, `pm2 list` shows `hall-api` online on 4100, `curl https://YOUR-DOMAIN/api/items` without a token answers 401 from Express through Nginx over TLS, and `./deploy.sh` pulls, builds, restarts, and smoke-tests the whole thing in one command. You will also have rolled the page back once, watched the letters survive it, and written down why. The last H3 of the demonstration shows the same two repos on Railway, where the owner's example hall lives, for the day you want the machine hidden.
 
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The gate opens. Travelers you have never met walk through it and find the hall exactly as you built it, because you carried every stone across yourself.*
 
 ## The idea
 
-### Deploy a Full Stack Application to Production
-
-Deploy a complete MERN stack application to a VPS with database connectivity, environment variable management, Nginx routing, and end-to-end verification.
-
-**Enabling Objectives:**
-
-- Clone a project repository to the server and install all backend and frontend dependencies
-- Create and secure a production .env file with database connection strings, JWT secrets, and application configuration
-- Build a React frontend into static assets and configure Nginx to serve them while proxying API requests to Express
-- Start the Express backend with PM2 using an ecosystem configuration file and verify database connectivity
-- Execute end-to-end verification testing CRUD operations, authentication flows, HTTPS, and crash recovery
-
-**You should be able to:**
-- You will be able to deploy a full MERN stack application to a VPS with a custom domain, HTTPS, Nginx reverse proxy, PM2 process management, and verified end-to-end functionality.
-
----
-
-**0:00 - 0:10 | Session Kickoff: The Deployment Plan**
-
-This is it. The session where your MERN app goes live on the real internet. By the end of today, anyone in the world can visit your URL and use your application. Not localhost. Not a demo. The real thing.
-
-Here is the deployment plan:
-
-```
-1. Set up the database (MongoDB Atlas or local MongoDB)
-2. Clone and configure the backend
-3. Build and deploy the frontend
-4. Configure Nginx to serve both
-5. Set up PM2 for the backend
-6. Connect the domain and HTTPS
-7. Test everything
-8. Celebrate
-```
-
-**0:10 - 0:25 | MongoDB Options for Production**
-
-**There are two approaches for MongoDB:**
-
-**Option A: MongoDB Atlas (Recommended for this unit)**
-- Cloud-hosted MongoDB (free tier available)
-- No maintenance, automatic backups
-- You already set this up in Unit 4
-- Just use your existing connection string
-
-**Option B: MongoDB on the VPS**
-- Full control, data on your machine
-- More setup work, you handle backups
-- Uses RAM on your $6/mo droplet (tight squeeze with 1 GB)
-
-We will primarily cover **Option A** (Atlas) because it is simpler, and you already used it in Unit 4. But here is how Option B works for reference:
-
-```bash
-# MANUAL PREREQUISITE: install MongoDB using the official instructions
-# for your actual operating system and supported MongoDB release.
-# Do not add a repository for a different distribution or release.
-# After manual setup, verify the service and use a private connection:
-sudo systemctl status mongod
-mongosh --eval 'db.runCommand({ ping: 1 })'
-```
-
-Your connection string for local MongoDB is:
-```
-mongodb://localhost:27017/your-db-name
-```
-
-**Securing local MongoDB (important if using Option B):**
-
-By default, MongoDB has no authentication. For a production server, you MUST add a user:
-
-```bash
-mongosh
-```
-
-```text
-use admin
-db.createUser({
-  user: "appuser",
-  pwd: "a-strong-password-here",
-  roles: [{ role: "readWrite", db: "your-db-name" }]
-})
-exit
-```
-
-Then enable authentication in the MongoDB config:
-
-```bash
-sudo nano /etc/mongod.conf
-```
-
-Add under `security:`:
-
-```yaml
-security:
-  authorization: enabled
-```
-
-Restart MongoDB:
-
-```bash
-sudo systemctl restart mongod
-```
-
-Your connection string is now:
-```
-mongodb://appuser:a-strong-password-here@localhost:27017/your-db-name?authSource=admin
-```
-
-**0:25 - 0:35 | Environment Variables in Production**
-
-Your app uses environment variables for secrets (database URLs, JWT secrets, API keys). You NEVER commit these to Git. On the server, you create a `.env` file.
-
-```
-NODE_ENV=production
-PORT=3000
-MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/your-db-name?retryWrites=true&w=majority
-JWT_SECRET=your-super-secret-jwt-key-change-this-to-something-random
-# Add any other env vars your app needs
-```
-
-Generate a random JWT secret:
-
-```bash
-node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
-```
-
-**Important security notes:**
-- The `.env` file should be in `.gitignore` (it should already be from Unit 4)
-- Set proper permissions: `chmod 600 .env` (only the owner can read/write)
-- Never use the same secrets in development and production
-
-**0:35 - 0:45 | Frontend Build Strategy**
-
-Your React app needs to be built into static files before deployment. In development, you use `npm start` or `npm run dev` which starts a development server with hot reloading. In production, you build the React code into optimized static HTML, CSS, and JS files that Nginx serves directly.
-
-**Before building, check your API URLs:**
-
-In development, your React app probably calls the API at `http://localhost:3000/api/...`. In production, the API will be at `https://yourdomain.com/api/...`.
-
-Option 1: Use relative URLs in your React code (recommended):
-```javascript
-// Instead of:
-fetch('http://localhost:3000/api/users')
-
-// Use:
-fetch('/api/users')
-```
-
-This works because Nginx serves both the frontend and proxies the API, so relative URLs automatically go to the right place.
-
-Option 2: Use an environment variable:
-```javascript
-const API_URL = process.env.REACT_APP_API_URL || '';
-fetch(`${API_URL}/api/users`)
-```
-
-If you need to change API URLs, do it now before building.
-
----
+A release is a set of inputs, not a folder you copied. The inputs are a source revision, a lockfile, a Node version, a build command, the names of the configuration the process reads, and the data the code expects to find. Change any one and you have a different release. Today you make every input explicit: the revision is a commit on `main` of each repo, the lockfile is `package-lock.json`, Node is the 24 from 6-1, the build is `npm run build` in `hall-client`, the configuration is five names in `.env`, and the data lives in a cluster you create in this session. The figure calls the three stages build, deploy, verify.
 
 ![](diagram:session-6-4/fig1-model)
 
-### Define a release as a set of inputs
+### The database the droplet does not have
 
-A release is more than the latest files copied to a server. It includes a source revision, dependency lockfile, runtime version, build command, configuration names, and any data migration. Record those inputs so you can reproduce the same artifact. Installing whatever dependency versions happen to be current creates a different release even when your application code has not changed.
+Unit 4 installed MongoDB Community Server on your laptop and the hall connected to `mongodb://127.0.0.1:27017/guildhall`. That address on the droplet means "this droplet," where nothing listens on 27017. Two honest options. Run MongoDB on the droplet itself, bound to loopback, which keeps the data on your machine and costs you a chunk of its 1 GB of memory. Or use MongoDB Atlas, the hosted service, whose free tier is enough for the hall and asks for nothing from the droplet except an outbound connection. This session takes Atlas as the one complete path and gives the droplet install as an aside, because a database you do not have to back up by hand is the right first database to run in public.
 
-Separate secrets from the artifact. A frontend bundle is public, while the backend environment may contain private credentials. Verify that only intended public configuration enters the client build. Keep a redacted environment example in the repository and provide secret values through the deployment environment. A missing required variable should cause a clear startup failure rather than a partially working application.
+Atlas has three nouns, and the buttons move around them. A cluster is the server; you create a free one, called M0, in the region nearest your droplet. A database user is the account the hall logs in with; you create one named `hall` with a generated password and read-write access. The network access list is the firewall; you add your droplet's public IP and nothing else. "Allow access from anywhere" is a checkbox that exists for development on a laptop whose address changes, and it is the exact failure the diagnosis below calls Database exposed. If you rebuild the droplet, the IP changes and the list needs the new one; write that in the release notes.
 
-### Deploy in an order that preserves compatibility
+The connection string Atlas shows under Connect, Drivers looks like `mongodb+srv://hall:<password>@cluster0.ab1cd.mongodb.net/?retryWrites=true&w=majority`. You replace `<password>` with the real one and insert the database name before the `?`: `/guildhall?`. The `+srv` form looks up the cluster's hosts through DNS, which is the same system you learned last session doing one more job. The string is a secret, because the password is in it. It goes in `.env` and nowhere else.
 
-If a schema change is needed, prefer an additive transition that old and new application versions can both tolerate. Removing a field before the old process stops using it makes rollback difficult. For a beginner deployment, avoid destructive migrations and document any manual data operation separately. A code rollback is not a database restore, and conflating them can overwrite legitimate new records.
+### The same five names, read by Node, owned by one user
 
-Build the frontend in a controlled environment and serve only its output directory. Ensure the server can read those files without making the entire home directory world-readable. Place deployment artifacts in a dedicated location with deliberate ownership and permissions. Broad recursive chmod commands may appear to fix a 403 while exposing unrelated files. Diagnose the exact path traversal or read permission that failed.
+The hall reads `MONGODB_URI`, `JWT_SECRET`, `PAGE_ORIGIN`, `PORT`, and the guard in `server.js` throws `JWT_SECRET is required` when the secret is missing. On your laptop those came from `.env` through `node --env-file=.env server.js`. On the server they come from the same kind of file, the same flag, and no library: there is no dotenv package anywhere in this path, and you should not add one now. The only new thing is who may read the file. `chmod 600 .env` makes it readable by `deploy` alone, so another account on the machine, or a stray web process, cannot cat it.
 
-### Smoke tests should cross the real boundary
+pm2 does not read `.env` either. It starts Node, and Node reads the file if you pass the flag. The ecosystem file has a field for exactly that, `node_args: '--env-file=.env'`, with `cwd` set to the repo so the relative path resolves. Without it, pm2 starts the process, the guard throws, pm2 restarts it, the guard throws again, and `pm2 list` shows a restart count climbing into the hundreds while the status flickers. That loop is the signature of a missing variable under a process manager, and it is the first thing to check when `pm2 logs` shows the same error repeating.
 
-A health endpoint proves that one route responds. A release smoke test should also complete a representative user journey: open the public site, log in with a synthetic account, create a record, refresh, edit it, and remove the fixture. Check both the browser result and server logs. If email, payments, or AI are outside this unit, do not claim their behavior from the core smoke test.
+`PAGE_ORIGIN` on the server is `https://YOUR-DOMAIN`. Behind Nginx the page and the API share that origin, so the browser never sends a cross-origin request and the `cors` middleware from 4-11 never has to say yes. Setting the variable anyway costs nothing and makes the API honest if you ever put the page on a different host, which the Railway section does. A `PORT` of `4100` keeps the number the hall has always used; Nginx will be told to proxy to it.
 
-Test a fresh browser session and a direct reload of a client-side route. The latter catches missing single-page application fallback configuration. Test an unknown API route too; it should not receive index.html. Review network requests for localhost addresses or mixed HTTP content. These errors often remain hidden when the developer only visits the homepage through an already-authenticated browser.
+### The one line in the client
 
-### Make rollback a rehearsed procedure
+`hall-client` asks for `http://localhost:4100` because the slate did, in a constant named `apiBase`, and that was correct with two dev servers on one laptop. In production the page is served from `https://YOUR-DOMAIN` and the API is at `https://YOUR-DOMAIN/api/`, the same origin, so the base should be empty and every fetch should start with `/api/`. The way to have both without editing the file per machine is Vite's build-time environment. `import.meta.env.VITE_API_URL` is replaced during `npm run build` with the value from the mode's env file; in development Vite reads `.env.development`, in a production build it reads `.env.production`, and a variable that exists in neither is `undefined`.
 
-Keep the previous known-good release and write the exact steps to restore it. In a disposable environment, deploy a harmless visible marker, verify it, roll back, and verify the previous marker. This proves the release-selection mechanism without introducing a real incident. Record what happens to the process, static assets, and database during the rollback.
+So the line becomes `const apiBase = import.meta.env.VITE_API_URL || '';` and `.env.development` holds `VITE_API_URL=http://localhost:4100`. That file is committed; it is not a secret, and anything prefixed `VITE_` ends up in the bundle anyway, which is why the JWT secret must never be given a `VITE_` name. On the server, `npm run build` runs with no `VITE_API_URL`, the base is the empty string, and the bundle fetches `/api/inbox` from its own origin. The checkpoint below models that resolution. Vite's output is `dist/index.html`, `dist/assets/index-<hash>.js`, `dist/assets/index-<hash>.css`, and `dist/vite.svg`; the hashes change every build, which is why the copy step uses `--delete`.
 
-A deployment handoff should include the public URL, revision, service names, log locations, restart procedure, backup location, and unresolved limitations. Do not include passwords or tokens. If a manual prerequisite is pending, mark it clearly and preserve the command and expected output for the operator. An honest handoff lets another person operate the application without guessing which terminal session made it work.
+### Nginx: one origin, two kinds of request
+
+The site file from 6-3 already has the shape. `root /var/www/hall-client` serves the build. `location /api/` proxies to `127.0.0.1:4100` now, instead of the test app's 3000. The one change in the static block is `try_files $uri $uri/ /index.html;`: a request for a path that is not a file gets `index.html`, so a direct reload of the page, or a bookmark, loads the app instead of a 404. The hall is a single screen without a router, so today that line only matters for the reload. Do not let it swallow the API: an unknown `/api/` path matches the proxy block first and reaches Express, whose answer is its own 404, never `index.html`. Test both.
+
+### Verify across the real boundary, and know which rollback you mean
+
+A health check proves a route answers. A smoke test proves the journey: open the public page in a browser that has never seen it, register, log in, send a letter, read it from the recipient's account, reload, spend from the pack. Do it from a phone on mobile data so a different network, resolver, and certificate store are in the loop. Then `pm2 restart hall-api` and do one of those again; a restart that loses the ability to log in means the secret changed between runs.
+
+Rollback has two meanings and the figure separates them. Rolling the code back is a redeploy of an older revision, and `deploy.sh` makes it cheap by keeping the previous build beside the live one. Rolling the data back is a restore from a backup, and nothing in this session takes one automatically; Atlas's free tier does not include scheduled backups, and `mongodump` is the manual tool. A code rollback does not un-send Bran's letter. If a release changed the shape of the documents, the old code may not read the new rows. Decide which rollback you are doing before you type, and write both procedures down while the system is calm.
 
 ## The demonstration
 
-The frontend from Unit 4 uses Vite, whose default production output is client/dist. This deployment serves a dedicated /var/www/quest-client directory rather than granting Nginx access through the deployment account's home directory. After each frontend build, copy the new output into that directory using the scoped ownership and permission steps below, then smoke-test the public route. If your project customizes its output directory, use the actual configured path consistently. Keep the previous release for rollback; the simple copy procedure is a learning deployment, not an atomic release system.
+Laptop first, then Atlas in a browser, then the server. Two SSH sessions as before, Terminal A and Terminal B. The example values use `203.0.113.10`, `YOUR-DOMAIN`, and `YOUR_GITHUB_USER`.
 
-**0:45 - 1:00 | Demo: Cloning and Configuring the Backend**
+On the laptop, in `~/projects/hall-client`, the one line and its env file:
 
-SSH into your server:
+```diff
+-const apiBase = 'http://localhost:4100';
++const apiBase = import.meta.env.VITE_API_URL || '';
+```
+
+```dotenv
+VITE_API_URL=http://localhost:4100
+```
+
+Save the second as `.env.development`. Run `npm run dev` and confirm the hall still logs in against your local `hall-api`; the base is read from the file now, and the network panel still shows requests to `localhost:4100`. Then build once locally to see the shape:
 
 ```bash
-ssh deploy@YOUR_DROPLET_IP
+npm run build
+ls dist dist/assets
 ```
 
-Clone your MERN project:
+```text
+dist:
+assets  index.html  vite.svg
+
+dist/assets:
+index-B7xk2P9q.css  index-Dq3m8cVZ.js
+```
+
+Commit and push: `git add -A && git commit -m "Read the API base from VITE_API_URL" && git push`. In `~/projects/hall-api`, add a start script to `package.json` so a platform that runs `npm start` can find the entry; the VPS path does not need it today, the Railway path does:
+
+```json
+{
+  "scripts": {
+    "dev": "node --env-file=.env server.js",
+    "start": "node --env-file-if-exists=.env server.js"
+  }
+}
+```
+
+`--env-file-if-exists` is Node's own flag for a file that may be absent; it reads `.env` on your laptop and on the droplet and ignores the missing file on a platform that injects variables directly. Commit and push.
+
+Atlas, in a browser. Create an account at the Atlas page in the docs list, then: create a cluster, choose the free M0 tier and the region nearest your droplet, and give it a minute. Under Database Access, add a user `hall`, let Atlas generate the password, copy it somewhere temporary, role read and write to any database. Under Network Access, add `203.0.113.10/32`, your droplet, with a comment. Under Connect, Drivers, copy the string. Assemble the final value with the password and the database name:
+
+```text
+mongodb+srv://hall:THE_GENERATED_PASSWORD@cluster0.ab1cd.mongodb.net/guildhall?retryWrites=true&w=majority
+```
+
+If the password contains characters such as `@` or `:`, regenerate it until it does not, or URL-encode it; a raw `@` in the password ends the credential early and the error says the host is unknown.
+
+Terminal A, on the server:
 
 ```bash
-cd /home/deploy
-git clone https://github.com/YOUR_USERNAME/your-mern-project.git
-cd your-mern-project
-```
-
-If your project is a monorepo (frontend and backend in one repo):
-```
-your-mern-project/
-  client/        # React frontend
-  server/        # Express backend
-  package.json   # Root package.json (maybe)
-```
-
-If your project is in separate repos, clone both:
-```bash
-git clone https://github.com/YOUR_USERNAME/your-mern-backend.git
-git clone https://github.com/YOUR_USERNAME/your-mern-frontend.git
-```
-
-Create and secure the `.env` file:
-
-```bash
-cd /home/deploy/your-mern-project/server  # Or wherever your backend is
+cd ~/hall-api
+git pull --ff-only
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
 nano .env
 ```
 
-```
+```dotenv
+MONGODB_URI=mongodb+srv://hall:THE_GENERATED_PASSWORD@cluster0.ab1cd.mongodb.net/guildhall?retryWrites=true&w=majority
+JWT_SECRET=paste-the-96-hex-characters-node-just-printed
+PAGE_ORIGIN=https://YOUR-DOMAIN
+PORT=4100
 NODE_ENV=production
-PORT=3000
-MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/your-db-name?retryWrites=true&w=majority
-JWT_SECRET=your-super-secret-jwt-key-change-this-to-something-random
-# Add any other env vars your app needs
 ```
 
-Set permissions:
 ```bash
 chmod 600 .env
+ls -l .env
+node --env-file=.env server.js
 ```
 
-If using MongoDB Atlas, make sure your VPS IP is whitelisted:
-1. Go to [cloud.mongodb.com](https://cloud.mongodb.com)
-2. Navigate to your cluster
-3. Click "Network Access" in the left sidebar
-4. Click "Add IP Address"
-5. Enter your droplet's IP address (or click "Allow Access from Anywhere" for development)
+```text
+-rw------- 1 deploy deploy 263 Nov 21 15:10 .env
+listening on 4100
+```
 
-Install dependencies and test:
+`listening on 4100` with no `MongooseServerSelectionError` in the seconds after it is the first proof. A connection failure to Atlas does not stop the listen line; it arrives as a stack trace a few seconds later, and its usual cause is the network access list. Terminal B, prove the database by writing to it:
 
 ```bash
-cd /home/deploy/your-mern-project/server
-npm install
-
-# Try running the backend
-node server.js
+curl -i -H 'Content-Type: application/json' \
+  -d '{"name":"Bran","email":"bran@example.com","password":"a-long-passphrase"}' \
+  http://127.0.0.1:4100/api/register
 ```
 
-If everything is set up correctly, your backend should start and connect to MongoDB. You should see something like:
+```text
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+
+{"name":"Bran","email":"bran@example.com"}
 ```
-Server running on port 3000
-Connected to MongoDB
-```
 
-Press Ctrl+C to stop it. We will use PM2 to run it properly in a moment.
-
-**Common errors at this stage:**
-
-1. **"Cannot find module 'xxx'"** - Run `npm install` again
-2. **"MongoNetworkError"** - Your Atlas IP whitelist does not include your VPS IP, or your connection string is wrong
-3. **"EADDRINUSE"** - Port 3000 is already in use. Kill the other process: `sudo lsof -i :3000` then `kill -9 PID`
-4. **Missing environment variables** - Check your `.env` file has all required vars
-
-**1:00 - 1:15 | Demo: Building the React Frontend**
+A 201 means the document is in Atlas. Open the cluster's Collections tab if you like and see `guildhall.users` with one row. Ctrl-C the server in Terminal A. Now the process manager:
 
 ```bash
-cd /home/deploy/your-mern-project/client  # Or wherever your React app is
+nano ~/hall-api/ecosystem.config.js
+```
+
+```js
+module.exports = {
+  apps: [{
+    name: 'hall-api',
+    script: 'server.js',
+    cwd: '/home/deploy/hall-api',
+    node_args: '--env-file=.env',
+    instances: 1,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '300M'
+  }]
+};
+```
+
+```bash
+cd ~/hall-api
+pm2 delete test-app
+pm2 start ecosystem.config.js
+pm2 save
+pm2 logs hall-api --lines 3 --nostream
+```
+
+```text
+[PM2] Applying action deleteProcessId on app [test-app](ids: [ 0 ])
+[PM2] [test-app](0) ✓
+┌────┬────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┐
+│ id │ name       │ mode    │ ↺       │ status   │ cpu    │ mem  │ user      │
+├────┼────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┤
+│ 1  │ hall-api   │ fork    │ 0       │ online   │ 0%     │ 71mb │ deploy    │
+└────┴────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┘
+[PM2] Saving the process list to /home/deploy/.pm2/dump.pm2
+1|hall-api | listening on 4100
+```
+
+Read the restart column: `0`. If it is climbing, the env file was not read; the Works only locally diagnosis has the fix. The test app is gone and its port with it. The startup unit from 6-2 is still installed, so the saved list is what survives the next reboot.
+
+Commit the ecosystem file to the repo from the laptop later, or now from the server with `git add ecosystem.config.js && git commit -m "pm2 process definition" && git push` if you configured git's identity here. `.env` stays uncommitted; `git status` must never list it.
+
+The client, in Terminal A:
+
+```bash
+cd ~/hall-client
+git pull --ff-only
 npm install
 npm run build
+sudo install -d -o deploy -g www-data -m 0750 /var/www/hall-client.prev
+rsync -a --delete /var/www/hall-client/ /var/www/hall-client.prev/
+rsync -a --delete dist/ /var/www/hall-client/
+chmod -R u=rwX,g=rX,o= /var/www/hall-client
+ls /var/www/hall-client
 ```
 
-This creates a `build/` (or `dist/`) directory with optimized static files:
-
-```
-build/
-  index.html
-  static/
-    css/
-      main.xxxxx.css
-    js/
-      main.xxxxx.js
-  favicon.ico
-  manifest.json
+```text
+vite v7.1.4 building for production...
+✓ 34 modules transformed.
+dist/index.html                   0.46 kB │ gzip:  0.30 kB
+dist/assets/index-B7xk2P9q.css    1.21 kB │ gzip:  0.62 kB
+dist/assets/index-Dq3m8cVZ.js   188.73 kB │ gzip: 59.40 kB
+✓ built in 1.92s
+assets  index.html  vite.svg
 ```
 
-**1:15 - 1:30 | Demo: Full Nginx Configuration for MERN**
+No `sudo` on the copy, because 6-2 made `deploy` the owner of `/var/www/hall-client`. The `.prev` directory is created once and receives a copy of whatever was live before each release; that is the rollback target. If the build is killed on a 1 GB droplet, the alternative is to run `npm run build` on the laptop and `rsync -a --delete dist/ deploy@203.0.113.10:/var/www/hall-client/` from there; the result is the same directory.
 
-Now we configure Nginx to:
-1. Serve the React frontend (static files) at the root path
-2. Proxy API requests to the Express backend
-3. Handle client-side routing (React Router)
-
-```bash
-sudo nano /etc/nginx/sites-available/mysite
-```
-
-Replace the entire contents with:
+Nginx, two edits in the first block of `/etc/nginx/sites-available/hall`: the proxy port and the fallback:
 
 ```nginx
-server {
-    server_name yourdomain.com www.yourdomain.com;
-
-    # React frontend - serve static build files
-    root /var/www/quest-client;
-    index index.html;
-
-    # API requests - proxy to Express backend
     location /api/ {
-        proxy_pass http://localhost:3000;
+        proxy_pass http://127.0.0.1:4100;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -359,67 +248,163 @@ server {
         proxy_cache_bypass $http_upgrade;
     }
 
-    # React Router - serve index.html for all non-file routes
     location / {
         try_files $uri $uri/ /index.html;
     }
-
-    listen [::]:443 ssl;
-    listen 443 ssl;
-    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-}
-
-# HTTP to HTTPS redirect
-server {
-    listen 80;
-    listen [::]:80;
-    server_name yourdomain.com www.yourdomain.com;
-    return 301 https://$host$request_uri;
-}
 ```
-
-**Key parts explained:**
-
-- `root /var/www/quest-client;` - Nginx serves React's built files directly. No Node.js involved for the frontend.
-- `location /api/ { proxy_pass ... }` - Any request starting with `/api/` gets forwarded to Express. Everything else is handled as a static file.
-- `try_files $uri $uri/ /index.html;` - This is crucial for React Router. If someone visits `https://yourdomain.com/dashboard`, Nginx will not find a file called `dashboard`. The `try_files` directive says: "Try to find the file. If you cannot find it, serve `index.html` instead and let React Router handle the routing."
-
-Test and reload:
 
 ```bash
-sudo nginx -t
-sudo systemctl reload nginx
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-**File permissions note:** Nginx runs as the `www-data` user and needs read access to the build directory. If you get 403 Forbidden errors:
+The `listen 443 ssl` lines and the redirect block that certbot wrote stay exactly as they are. Now, from the laptop, the three curls that separate the layers:
 
 ```bash
-# Make sure Nginx can read the files
-# Run from the repository root after the Vite build; replace deploy if needed.
-sudo install -d -o deploy -g www-data -m 0750 /var/www/quest-client
-sudo cp -R client/dist/. /var/www/quest-client/
-sudo chown -R deploy:www-data /var/www/quest-client
-sudo chmod -R u=rwX,g=rX,o= /var/www/quest-client
+curl -sI https://YOUR-DOMAIN | head -n 3
+curl -i https://YOUR-DOMAIN/api/items
+curl -i https://YOUR-DOMAIN/api/nope
 ```
 
----
+```text
+HTTP/2 200
+server: nginx/1.24.0 (Ubuntu)
+content-type: text/html
 
-### Runnable checkpoint: a small model
+HTTP/2 401
+content-type: application/json; charset=utf-8
+{"error":"missing token"}
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+HTTP/2 404
+```
+
+The first is the build, served by Nginx. The second is Express refusing an unauthenticated request, through the proxy, over TLS, with the JSON error shape from 4-11; the message text is whatever your `requireUser` says. The third proves the proxy block beats the fallback: an unknown API path gets Express's 404, not the page. If the third returns `200` and HTML, `/api/` is not reaching the proxy block.
+
+The journey, in a browser on the laptop first. `https://YOUR-DOMAIN` shows the hall's login. Register Sera through the form or with the curl from earlier against `https://YOUR-DOMAIN/api/register`. Seed the catalog once with any token, the way 4-14 did:
+
+```bash
+TOKEN=$(curl -s -H 'Content-Type: application/json' \
+  -d '{"email":"bran@example.com","password":"a-long-passphrase"}' \
+  https://YOUR-DOMAIN/api/login | sed 's/.*"token":"\([^"]*\)".*/\1/')
+curl -s -X POST -H "Authorization: Bearer $TOKEN" https://YOUR-DOMAIN/api/items/seed
+```
+
+Three items come back with a 201. Log in as Bran in the browser, send Sera a letter, log out, log in as Sera, read it. Reload the tab on the inbox: the page comes back, because of `try_files`, and the inbox reloads, because the token is in `sessionStorage`. Give Bran two lamp oils, spend one, try to spend fifty and watch the 409 leave the number alone. Then the phone, Wi-Fi off: the same URL, the same login, the same letter. That is the public journey the figure asks for. `pm2 restart hall-api`, refresh, send one more letter. Still signed, same secret.
+
+The script that does the next release. On the laptop, in `~/projects/hall-api`:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+API=/home/deploy/hall-api
+CLIENT=/home/deploy/hall-client
+WEB=/var/www/hall-client
+SITE=https://YOUR-DOMAIN
+
+echo "== api"
+cd "$API"
+git pull --ff-only origin main
+npm ci --omit=dev
+pm2 restart hall-api --update-env
+
+echo "== client"
+cd "$CLIENT"
+git pull --ff-only origin main
+npm ci
+npm run build
+rsync -a --delete "$WEB/" "$WEB.prev/"
+rsync -a --delete dist/ "$WEB/"
+chmod -R u=rwX,g=rX,o= "$WEB"
+
+echo "== smoke"
+curl -fsS -o /dev/null -w "page %{http_code}\n" "$SITE/"
+curl -sS -o /dev/null -w "api %{http_code}\n" "$SITE/api/items"
+echo "api revision $(git -C "$API" rev-parse --short HEAD)"
+echo "client revision $(git -C "$CLIENT" rev-parse --short HEAD)"
+```
+
+Save it as `deploy.sh`, `chmod +x deploy.sh`, commit, push. On the server, `cd ~/hall-api && git pull --ff-only && ./deploy.sh`. The last four lines are `page 200`, `api 401`, and two short hashes. Those hashes are the release. Write them in `docs/release.md` with the date. `npm ci` installs exactly the lockfile, which is the reproducibility the idea section promised; `--omit=dev` keeps test tooling off the server once Unit 7 adds it.
+
+The rollback drill, so it is rehearsed and not imagined. Change the hall's heading on the laptop, commit, push, run `./deploy.sh`, and see the new heading at the name. Now put the previous build back:
+
+```bash
+rsync -a --delete /var/www/hall-client.prev/ /var/www/hall-client/
+```
+
+Reload: the old heading. Log in as Sera: the letters are all there, including the one you sent after the heading changed. The page went back; the data did not, because the page and the data are different things. Run `./deploy.sh` again to return to the new heading. For the API, a code rollback is `git checkout <previous hash>` in `~/hall-api` followed by `npm ci --omit=dev && pm2 restart hall-api`, and the same sentence applies to the documents in Atlas.
+
+### If you would rather run MongoDB on the droplet
+
+The commands are real and they fit on one screen; the cost is memory and the responsibility for backups. On the server, following the Ubuntu install page in the docs list for the current major version, with 8.0 shown here:
+
+```bash
+sudo apt-get install -y gnupg curl
+curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo systemctl enable --now mongod
+grep bindIp /etc/mongod.conf
+```
+
+`bindIp: 127.0.0.1` is the shipped default; leave it. The daemon listens only on loopback, UFW never sees it, and `MONGODB_URI=mongodb://127.0.0.1:27017/guildhall` in `.env` is the laptop string again. Add a database user and `authorization: enabled` in `mongod.conf` before you trust it with real accounts; the Atlas path gave you both for free. Never run a container with `-p 27017:27017` on this machine: Docker publishes ports ahead of UFW, and that single flag puts an unauthenticated database on the public internet. On a laptop it is harmless; on a server it is the exposed database the diagnosis below describes.
+
+### The same app on Railway
+
+The reference hall at [guild-hall-production.up.railway.app](https://guild-hall-production.up.railway.app/) is not on a droplet. It runs on Railway, where the machine, Nginx, pm2, and certbot are the platform's problem and yours is the code and its variables. If the VPS was the lesson and not the destination, this is the path you keep. Install the CLI with `npm install -g @railway/cli`, then, on the laptop:
+
+```bash
+railway login
+cd ~/projects/hall-api
+railway init
+railway add --database mongo
+railway up
+railway variable set 'MONGODB_URI=${{MongoDB.MONGO_URL}}/guildhall'
+railway variable set JWT_SECRET=paste-a-fresh-96-hex-secret
+railway domain
+```
+
+`railway init` creates a project and links the folder. `railway add --database mongo` provisions a MongoDB service that publishes a `MONGO_URL` variable; the `${{MongoDB.MONGO_URL}}` form is a reference, so the API gets the real string without you ever pasting a password. `railway up` builds from the folder, runs `npm start`, which is why the `start` script exists, and injects `PORT`. `railway domain` generates a public `*.up.railway.app` name with TLS already in front of it. Set `PAGE_ORIGIN` after the client exists.
+
+The client is a second service in the same project: `cd ~/projects/hall-client`, `railway link` to the project, `railway add --service hall-client`, `railway variable set VITE_API_URL=https://THE-API-DOMAIN.up.railway.app`, and `railway up`. Railway's builder runs `npm run build`; if the deploy log says it could not find a start command, `npm install serve` and set the start command to `npx serve -s dist -l $PORT`. Then `railway domain` for the client, and back in `hall-api`, `railway variable set PAGE_ORIGIN=https://THE-CLIENT-DOMAIN.up.railway.app`. On Railway the page and the API are different origins, so this time the `cors` middleware from 4-11 is doing real work, and a wrong `PAGE_ORIGIN` is a blocked preflight in the browser console. The reference hall avoids that by serving its built client from Express as static files in one service; both layouts are fine, and `railway logs` is where `listening on` appears. The variable names are the same five. The release is still a revision, a lockfile, and a set of names; only the machine moved out of view.
+
+A small model you can run here. It does not build, connect, or deploy. It models how the API base resolves in each mode, what counts as release evidence, and the difference between rolling code back and rolling data back. It proves you can say those rules. The phone on mobile data and the `deploy.sh` output prove your hall.
 
 ```js run=checkpoint-6-4
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const release = {revision: 'abc123', build: true, smoke: false, rollback: true};
-const ready = r => Boolean(r.revision && r.build && r.smoke && r.rollback);
+
+function apiBase(env) {
+  return env.VITE_API_URL || '';
+}
+function requestUrl(env, path) {
+  return apiBase(env) + path;
+}
+check(requestUrl({ VITE_API_URL: 'http://localhost:4100' }, '/api/inbox') === 'http://localhost:4100/api/inbox', 'the development build asks the laptop API');
+check(requestUrl({}, '/api/inbox') === '/api/inbox', 'the production build asks its own origin');
+
+function route(path) {
+  if (path.indexOf('/api/') === 0) return 'proxy';
+  return 'static';
+}
+check(route('/api/nope') === 'proxy', 'an unknown /api/ path still reaches Express');
+check(route('/inbox') === 'static', 'a page path falls through to index.html');
+
+const release = { revision: 'a1b2c3d', build: true, smoke: false, rollback: true };
+function ready(r) {
+  return Boolean(r.revision && r.build && r.smoke && r.rollback);
+}
 check(!ready(release), 'Build alone does not prove deployment');
-check(ready({...release, smoke: true}), 'Release evidence complete');
+check(ready(Object.assign({}, release, { smoke: true })), 'Release evidence complete');
+
+function rollbackCode(state) {
+  return { page: state.previousPage, letters: state.letters };
+}
+const after = rollbackCode({ previousPage: 'old heading', letters: 3 });
+check(after.page === 'old heading' && after.letters === 3, 'a code rollback changes the page and keeps the letters');
+
 console.log('ok: checkpoint-6-4');
 ```
 
@@ -429,461 +414,62 @@ console.log('ok: checkpoint-6-4');
 
 ### Works only locally
 
-The app runs on your laptop and fails the moment it is deployed. The usual differences are boring and decisive: another Node version, `NODE_ENV=production` skipping the dev dependencies you imported, a build step you ran by hand and forgot in the start command, or an environment variable that exists in `.env` and not in the host. Compare `node -v`, the start command, and the env names. Log the fact that a variable is present, never its value. "Works on my machine" means the machine is part of the program. The deploy has to include that part.
+The page loads at the name and every button fails, or `pm2 list` shows `hall-api` restarting every second. The causes are boring and decisive. The client bundle still contains `http://localhost:4100`, because the `apiBase` line was not changed or the build happened before the pull; on the phone that address is the phone. Or the process has no environment, because `node_args` is missing from the ecosystem file, so Node never read `.env` and the guard throws on every start. Or the server's Node is not the laptop's, and a syntax the laptop accepts is rejected.
+
+Open the network panel on the laptop: a request to `localhost:4100` from a page at `https://YOUR-DOMAIN` is the first cause, and the fix is the one line plus a rebuild and a `deploy.sh`. `pm2 logs hall-api --lines 20` showing `JWT_SECRET is required` on repeat is the second, and the fix is the `node_args` line, then `pm2 delete hall-api && pm2 start ecosystem.config.js && pm2 save`. `node --version` on both machines is the third. Never print a secret's value in a log; print whether it is set.
 
 ### Database exposed
 
-The database accepts connections from the public internet, and the only thing standing in front of it is a password. Bind it to a private address, or to the machine that runs the app, and restrict the security group so only that app can open the port. Confirm from a laptop that is not the server: the port should refuse you. A database GUI on your laptop can reach it through an SSH tunnel when you need to look. It does not need a public listener to do that.
+The database accepts connections from the whole internet and the only thing in front of it is a password. On Atlas that is the "allow access from anywhere" entry in Network Access. On the droplet it is `bindIp: 0.0.0.0` in `mongod.conf`, or a container started with `-p 27017:27017`, which Docker publishes before UFW gets a say. Scanners find open 27017 ports in minutes, and an unauthenticated one is emptied and ransomed within hours.
+
+Confirm from the laptop, which is not the server: `nc -vz 203.0.113.10 27017` must fail. In Atlas, the network list should contain exactly your droplet's address. On the droplet, `ss -ltnp | grep 27017` should show `127.0.0.1:27017` and nothing on `0.0.0.0`. If you ever need a GUI on the data, tunnel: `ssh -L 27017:127.0.0.1:27017 deploy@203.0.113.10` on the laptop makes the loopback port reachable through SSH, without a public listener.
 
 ### Rollback loses data
 
-You roll the code back to yesterday's release, and the new release had already migrated the database. The old code cannot read the new shape, or the rollback script drops a column the new rows needed. Code and data move on different tracks. Before you migrate, know how the previous release behaves against the new schema, and take a backup you have restored once. Rolling back the process is a deploy. Rolling back the data is a restore. Decide which one you are doing before you run the command.
+You rolled the code back to yesterday's revision because today's had a bug, and now the inbox is empty, or the old code throws on documents the new code wrote. Code and data moved on different tracks. The old page cannot un-send the letters, and if the new release added a field the old handler does not expect, the rows are still there and unreadable by the version now running.
+
+Before a release that changes a schema, know how the previous revision behaves against the new documents, and take a backup you have restored once: `mongodump --uri "$MONGODB_URI"` on a machine allowed by the network list, and `mongorestore` to a scratch database to prove the dump is real. Rolling back the process is a deploy, done with `git checkout` and `pm2 restart`. Rolling back the data is a restore, done with `mongorestore`. The release notes should say which one each release might need.
 
 ## Your turn
 
-> **Exercise 1: Get Your Backend Running on the Server**
->
-> 1. SSH into your server
-> 2. Clone your MERN project from GitHub
-> 3. Create a `.env` file with all required environment variables
-> 4. Install dependencies with `npm install`
-> 5. Test the backend with `node server.js` (or whatever your start command is)
-> 6. Verify it connects to MongoDB successfully
-> 7. Stop it with Ctrl+C
->
-> **Deliverable:** Screenshot of your backend running successfully on the server (showing the console output with "Server running" and "Connected to MongoDB" or equivalent messages).
+Ship your hall. Each step has one line to see before the next.
 
-> **Exercise 2: Wire Up the Full Stack**
->
-> 1. Build your React frontend: `npm run build`
-> 2. Update your Nginx config to:
->    - Serve the React build at the root
->    - Proxy `/api/` requests to your Express backend
->    - Handle React Router with `try_files`
-> 3. Fix any file permission issues
-> 4. Test with `sudo nginx -t` and reload
-> 5. Visit `https://yourdomain.com` and confirm the frontend loads
->
-> **Deliverable:** Screenshot of your React frontend loading at your custom domain with HTTPS.
+1. On the laptop, in `~/projects/hall-client`: change the `apiBase` line to read `import.meta.env.VITE_API_URL || ''`, create `.env.development` with `VITE_API_URL=http://localhost:4100`, confirm `npm run dev` still logs in locally, commit, push. In `~/projects/hall-api`, add the `start` and `dev` scripts, commit, push.
+2. In Atlas: create a free M0 cluster, a user `hall`, and a network entry for your droplet's IP only. Assemble the connection string with the password and `/guildhall`.
+3. On the server, in `~/hall-api`: `git pull --ff-only`, write `.env` with the five names, `chmod 600 .env`. `ls -l .env` shows `-rw-------`.
+4. `node --env-file=.env server.js` prints `listening on 4100`. In Terminal B, the register curl against `127.0.0.1:4100` prints `201 Created`. Ctrl-C the server.
+5. Write `ecosystem.config.js` with `node_args: '--env-file=.env'`. `pm2 delete test-app`, `pm2 start ecosystem.config.js`, `pm2 save`. `pm2 list` shows `hall-api` online with `0` restarts.
+6. In `~/hall-client`: `git pull --ff-only`, `npm install`, `npm run build`. Create `/var/www/hall-client.prev`, rsync the live directory into it, rsync `dist/` into the live directory, fix modes. `ls /var/www/hall-client` shows `assets index.html vite.svg`.
+7. Edit the site file: `proxy_pass http://127.0.0.1:4100;` and `try_files $uri $uri/ /index.html;`. `sudo nginx -t` then reload.
+8. From the laptop: `curl -sI https://YOUR-DOMAIN | head -n 1` prints `HTTP/2 200`; `curl -i https://YOUR-DOMAIN/api/items` prints `401` with a JSON body; `curl -i https://YOUR-DOMAIN/api/nope` prints `404` and no HTML.
+9. In a browser: register Sera, seed the items with the token curl, send a letter from Bran to Sera, read it as Sera, reload, spend from the pack. On a phone with Wi-Fi off, open the name and read the same letter.
+10. Commit `deploy.sh` to `hall-api`, push, pull on the server, `./deploy.sh`. The last four lines are `page 200`, `api 401`, and two hashes. Change the heading, deploy, roll the page back with the `.prev` rsync, confirm the letters survived, deploy again.
 
----
+If step 4 prints the listen line and then a `MongooseServerSelectionError`, go back to step 2: the network list does not contain the droplet, or the password in the string is wrong.
 
 ## The quest
 
-> **Exercise 3: PM2, Final Testing, and the Grand Verification**
->
-> **Part A: Start Backend with PM2**
->
-> ```bash
-> cd /home/deploy/your-mern-project/server
-> ```
->
-> Create an ecosystem file:
->
-> ```bash
-> nano ecosystem.config.js
-> ```
->
-> ```javascript
-> module.exports = {
->   apps: [{
->     name: 'mern-backend',
->     script: 'server.js',
->     cwd: '/home/deploy/your-mern-project/server',
->     instances: 1,
->     autorestart: true,
->     watch: false,
->     max_memory_restart: '300M',
->     env: {
->       NODE_ENV: 'production',
->       PORT: 3000
->     }
->   }]
-> };
-> ```
->
-> Note: The `.env` file will still be loaded by `dotenv` in your Express app (you are using `require('dotenv').config()`, right?). The `env` block in the ecosystem file is for additional overrides.
->
-> ```bash
-> # Delete the old test-app if it is still running
-> pm2 delete test-app 2>/dev/null
->
-> # Start your MERN backend
-> pm2 start ecosystem.config.js
->
-> # Check it is running
-> pm2 list
->
-> # Check logs for errors
-> pm2 logs mern-backend --lines 20
->
-> # Save and set up startup
-> pm2 save
-> pm2 startup
-> # Copy and run the command it outputs
-> ```
->
-> **Part B: The Grand Verification**
->
-> Complete ALL of the following checks and document each one:
->
-> 1. Visit `https://yourdomain.com` and verify the frontend loads
-> 2. Test the full CRUD flow (create, read, update, delete)
-> 3. Test authentication (register, login, protected routes)
-> 4. Run `pm2 list` and screenshot the process table
-> 5. Run `pm2 restart mern-backend`, wait 3 seconds, refresh the browser. App still works?
-> 6. Share the URL with a classmate and have them verify it works on their device
-> 7. Test on your phone
-> 8. Check [ssllabs.com/ssltest/](https://www.ssllabs.com/ssltest/) for your SSL grade
->
-> **Deliverable:** A document (or series of screenshots) showing all 8 checks passing.
-
-**Common Deployment Bugs (covered during Practice block):**
-
-1. **Frontend loads but API calls fail (CORS errors):**
-   Your Express app might have CORS configured for `localhost`. Update it:
-   ```javascript
-   const cors = require('cors');
-   app.use(cors({
-     origin: ['https://yourdomain.com', 'https://www.yourdomain.com'],
-     credentials: true
-   }));
-   ```
-   Or, since Nginx proxies the API, you might not need CORS at all (the browser sees everything on the same origin).
-
-2. **"502 Bad Gateway":**
-   Nginx cannot reach your backend. Check:
-   - Is PM2 running? `pm2 list`
-   - Is the backend on the right port? `pm2 logs mern-backend`
-   - Is the proxy_pass URL correct in Nginx?
-
-3. **"404 Not Found" on page refresh (React Router):**
-   The `try_files $uri $uri/ /index.html;` directive is missing or misconfigured.
-
-4. **Images or uploads not working:**
-   If your app handles file uploads, make sure the upload directory exists and has write permissions:
-   ```bash
-   mkdir -p /home/deploy/your-mern-project/server/uploads
-   chmod 755 /home/deploy/your-mern-project/server/uploads
-   ```
-
-**The Deployment Workflow Going Forward (covered during wrap-up):**
-
-Now that your app is deployed, here is how you update it when you push new code:
-
-```bash
-# SSH into the server
-ssh deploy@YOUR_DROPLET_IP
-
-# Pull the latest code
-cd /home/deploy/your-mern-project
-git pull origin main
-
-# If backend changed:
-cd server
-npm install            # In case dependencies changed
-pm2 restart mern-backend
-
-# If frontend changed:
-cd ../client
-npm install            # In case dependencies changed
-npm run build          # Rebuild the static files
-
-# If Nginx config changed:
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-You can also create a deployment script:
-
-```bash
-nano /home/deploy/deploy.sh
-```
-
-```bash
-#!/bin/bash
-set -e
-
-echo "Starting deployment..."
-
-cd /home/deploy/your-mern-project
-echo "Pulling latest code..."
-git pull origin main
-
-echo "Installing backend dependencies..."
-cd server
-npm install
-
-echo "Restarting backend..."
-pm2 restart mern-backend
-
-echo "Installing frontend dependencies..."
-cd ../client
-npm install
-
-echo "Building frontend..."
-npm run build
-
-echo "Deployment complete!"
-echo "Visit https://yourdomain.com to verify."
-```
-
-Make it executable:
-
-```bash
-chmod +x /home/deploy/deploy.sh
-```
-
-Now you can deploy with a single command:
-
-```bash
-/home/deploy/deploy.sh
-```
-
-**Celebration and Wrap-Up (Last 5 min)**
-
-Look at what you just did.
-
-You took a MERN app that only ran on your laptop and deployed it to a real server in a real data center. You bought a domain name. You set up DNS. You configured Nginx as a reverse proxy. You got a free SSL certificate. You set up PM2 to keep everything alive. You tested it end to end.
-
-Your app is LIVE on the internet. Right now. Anyone can use it.
-
-In five units, you went from "what is a terminal" to "I deployed a full stack application to my own cloud server with a custom domain and HTTPS."
-
-Take a moment to appreciate that. Screenshot your deployed app with the padlock icon. Share it in Discord. Text the URL to a friend. Show it to someone who does not code and watch their face when you say "I built that."
-
-You are not a student. You are a deployer. You are a builder. You bought land in the cloud, and nobody can stop you.
-
----
-
-### Review the artifact
-
-Your deliverable is **A reproducible full-stack deployment with smoke tests and rollback instructions**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
-### Unit project: completion contract
-
----
-
-### The World Gate Deployment Quest: Ship Project 2 to the Internet
-
-### Quest Arc
-
-You have spent the entire unit learning the arts of cloud infrastructure. You claimed territory by spinning up a VPS. You installed a gatekeeper (Nginx) and bound a guardian spirit (PM2) to keep your application alive. You joined the teleportation network by purchasing a domain and weaving DNS records. You warded your gates with SSL encryption. Now it is time for the final trial: open the World Gate and let the entire internet see what you have built.
-
-This is not a practice deployment. This is not a tutorial exercise. You are taking your actual MERN application from Unit 4, the one you built with your own hands, and shipping it to production. When you are done, you will have a real URL that anyone on the planet can visit. Your friends. Your family. Future employers. Future investors. The internet.
-
-This is the quest that separates people who "know how to code" from people who "have shipped software." Complete it, and you earn the title of Deployer.
-
-### Technical Requirements
-
-**Must Have (Boss Clear Tier - Required for Passing)**
-
-1. **VPS Setup**
-   - A running VPS (DigitalOcean, Linode, Vultr, or equivalent)
-   - Non-root user with sudo privileges
-   - SSH key authentication (password auth disabled)
-   - UFW firewall configured (ports 22, 80, 443 only)
-   - Node.js installed
-
-2. **Domain and DNS**
-   - A purchased domain name pointing to the VPS
-   - A record configured for the root domain (`@`)
-   - CNAME or A record configured for `www`
-   - DNS fully propagated (domain resolves to VPS IP)
-
-3. **HTTPS/SSL**
-   - Valid SSL certificate from Let's Encrypt
-   - Certbot installed with automatic renewal configured
-   - HTTP-to-HTTPS redirect working
-   - SSL Labs grade of A or better
-
-4. **Nginx Configuration**
-   - Nginx installed and running
-   - Serves React frontend static files
-   - Proxies API requests to Express backend
-   - Handles React Router with `try_files`
-   - Both HTTP and HTTPS server blocks configured
-
-5. **Backend Deployment**
-   - Express backend running via PM2
-   - Environment variables configured in `.env` (not committed to Git)
-   - Connected to MongoDB (Atlas or local)
-   - PM2 configured for auto-restart on crash
-   - PM2 configured for startup on boot (`pm2 startup` and `pm2 save`)
-
-6. **Frontend Deployment**
-   - React app built with `npm run build`
-   - Static files served by Nginx
-   - API calls work in production (no localhost URLs)
-   - No mixed content warnings
-
-7. **Functionality**
-   - Full CRUD operations work
-   - Authentication works (register, login, protected routes)
-   - Data persists across page refreshes and server restarts
-
-**Nice to Have (Epic Loot and Legendary Tiers)**
-
-- Custom deployment script (`deploy.sh`)
-- Health check endpoint (`/api/health`)
-- Custom Nginx access/error logs
-- API subdomain (`api.yourdomain.com`)
-- PM2 ecosystem file
-- Monitoring dashboard (PM2 monit output)
-- Deployment journal documenting all steps and issues
-
-### Skill Points Rubric
-
-### Boss Clear (70 pts) - Core Deployment
-
-| Category | Points | Criteria |
-|----------|--------|----------|
-| Server Setup | 10 | VPS running, non-root user, SSH keys, firewall, Node.js |
-| Domain and DNS | 10 | Domain purchased, A record + CNAME configured, resolves correctly |
-| HTTPS/SSL | 10 | Valid cert, auto-renewal, HTTP-to-HTTPS redirect, A grade on SSL Labs |
-| Nginx Configuration | 15 | Serves frontend, proxies API, handles React Router, clean config |
-| Backend Deployment | 10 | PM2 running, env vars configured, MongoDB connected, survives reboot |
-| Frontend Deployment | 8 | Built and served, no mixed content, API calls work |
-| End-to-End Functionality | 7 | CRUD works, auth works, data persists |
-
-### Epic Loot (20 pts) - Production Polish
-
-| Category | Points | Criteria |
-|----------|--------|----------|
-| Deployment Script | 5 | Working `deploy.sh` that pulls, installs, builds, and restarts |
-| Health Check Endpoint | 5 | `/api/health` returns status, environment, uptime, timestamp |
-| Custom Nginx Logs | 3 | Separate access and error logs for your domain |
-| PM2 Ecosystem File | 2 | Proper ecosystem.config.js with production env settings |
-| Server Monitoring | 5 | Screenshots of 24-hour uptime, disk, memory, PM2 status |
-
-### Legendary (10 pts) - Above and Beyond
-
-| Category | Points | Criteria |
-|----------|--------|----------|
-| API Subdomain | 5 | `api.yourdomain.com` with separate Nginx config and SSL |
-| Deployment Journal | 5 | Detailed documentation of every step, error, and fix |
-
-**Total Possible: 100 points**
-
-### Submission
-
-Submit the following:
-
-1. **The URL of your deployed app** (e.g., `https://mycoolapp.com`)
-   - This is the most important submission item. We will visit it and test it.
-
-2. **GitHub repository link** with all code (make sure it is public or share access)
-
-3. **Screenshots document** containing:
-   - The app running in a browser at your domain with the HTTPS padlock
-   - `pm2 list` output on the server
-   - `sudo ufw status verbose` output
-   - SSL Labs test result (grade A or better)
-   - Output of `curl https://yourdomain.com/api/health` (if implemented)
-
-4. **Nginx config file** (`/etc/nginx/sites-available/mysite` or equivalent)
-   - Copy the contents and include in your submission
-
-5. **Deployment journal** (optional for Boss Clear, required for Legendary)
-   - Document every step, every error, and how you fixed it
-
-**How to Submit:**
-
-1. Create a new directory in your homework repo: `unit6-deployment/`
-2. Add your screenshots, Nginx config copy, and deployment journal
-3. Include a `README.md` with:
-   - Your deployed URL
-   - Your GitHub repo link
-   - Any notes about your deployment
-4. Push to your homework repo
-5. Post your live URL in the Discord `#deployments` channel
-
-**Due Date:** This project is due at the end of Unit 6. You have one full week after Session 6.4 to polish and submit.
-
----
-
 ![](diagram:session-6-4/fig3-evidence)
+
+Write `docs/release.md` in `~/projects/hall-api`, commit it beside `deploy.sh`, push. It is the handoff for the live hall: another developer with SSH access and this page could operate it tonight. No secrets, no connection strings.
+
+- The public URL and the two short hashes `deploy.sh` printed, with the date.
+- The five variable names in `.env`, with one phrase each on where their values come from, and the `ls -l` line showing the mode.
+- The service name in pm2, the ecosystem path, and the `pm2 list` row.
+- The Nginx site path, the `proxy_pass` port, and the `try_files` line.
+- The three curl results from step 8, pasted.
+- The smoke journey as a checklist with what you saw at each step, including the phone.
+- Rollback, code: the `.prev` rsync for the page and the `git checkout` plus `pm2 restart` for the API. Rollback, data: the `mongodump` and `mongorestore` lines and a sentence saying the free tier has no scheduled backup.
+- Known limits: a single droplet, a single process, the Atlas IP list that must change if the droplet is rebuilt.
+
+Evidence: the committed `deploy.sh` and `docs/release.md`, a screenshot named `6-4-phone.png` of the hall's inbox on a phone at `https://YOUR-DOMAIN`, and a screenshot named `6-4-deploy.png` of the last four lines of `./deploy.sh`.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The three logs and the restart counter you now read are the observability the library sheet describes, the single droplet with a single process is where the availability sheet's arithmetic starts, and an "allow from anywhere" entry in the database firewall is the security misconfiguration sheet in one checkbox, so the three pages for this session are all about the machine you just shipped.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Confirm your VPS has Nginx running with your domain and SSL certificate. Test your MERN app locally to make sure it works on localhost. Push all latest code to GitHub. Have your MongoDB Atlas connection string ready (or your local MongoDB credentials if using Option B from Session 6.1).
-**Materials:** SSH terminal, web browser, GitHub repository, MongoDB Atlas dashboard, MERN project code
+The hall is live and it stays live. The droplet carries Nginx on 80 and 443, pm2 holding `hall-api` on 4100, and a certificate that renews itself; Atlas holds the data. Nothing on the server changes unless you run `deploy.sh`. Close your SSH sessions. On the laptop nothing is running.
 
----
-
-**HW 6.4: Deployment Polish**
-
-1. **Create the deployment script** (`deploy.sh`) as shown in the demo. Test it by making a small code change, pushing to GitHub, and running the script.
-
-2. **Set up Nginx logging.** Add a custom access log to your Nginx config:
-   ```nginx
-   access_log /var/log/nginx/yourdomain-access.log;
-   error_log /var/log/nginx/yourdomain-error.log;
-   ```
-   Make a few requests and view the logs with `sudo tail -f /var/log/nginx/yourdomain-access.log`.
-
-3. **Add a health check endpoint** to your Express backend (if you do not have one):
-   ```javascript
-   app.get('/api/health', (req, res) => {
-     res.json({
-       status: 'ok',
-       environment: process.env.NODE_ENV,
-       uptime: process.uptime(),
-       timestamp: new Date().toISOString()
-     });
-   });
-   ```
-   Deploy it and verify it works at `https://yourdomain.com/api/health`.
-
-4. **Monitor your server.** Leave your server running for 24 hours. Then check:
-   ```bash
-   pm2 list               # Is the app still running?
-   pm2 logs --lines 50    # Any errors in the last 24 hours?
-   df -h                  # Disk space okay?
-   free -m                # Memory okay?
-   uptime                 # How long has the server been up?
-   ```
-   Screenshot the output.
-
-5. **Set up external uptime monitoring.** Your health check endpoint is only useful if something watches it. Sign up for a free uptime monitor (UptimeRobot, Better Stack, and similar services have free tiers), point it at `https://yourdomain.com/api/health`, and configure an email alert if the site goes down. Internal monitoring (`pm2 list`) tells you what your server thinks; external monitoring tells you what the world sees. You need both — if your entire VPS goes offline, PM2 cannot send the distress signal.
-
-6. **Prevent log bloat.** PM2 logs grow forever by default, and a full disk will take down your app in the strangest ways. Install the log rotation module once and forget about it:
-   ```bash
-   pm2 install pm2-logrotate
-   pm2 set pm2-logrotate:max_size 10M      # Rotate when a log hits 10MB
-   pm2 set pm2-logrotate:retain 7          # Keep 7 rotated files
-   ```
-
-7. **Write a deployment journal.** Document every step you took to deploy your app, including any errors you hit and how you solved them. This will be invaluable when you deploy future projects.
-
-**Submission:** Push the deployment script, health check code, monitoring screenshots, and deployment journal to your homework repo.
-
----
-
-**Side Quest (Optional): What About Docker?**
-
-You will hear the word "Docker" constantly, so here is the honest founder's briefing:
-
-- **What it is:** Docker packages your app plus its entire environment (Node version, system libraries, config) into a **container** — a sealed, portable box that runs identically on your laptop, your VPS, and any cloud. The famous "works on my machine" problem dies because you ship the machine.
-- **The core ideas:** a `Dockerfile` is the recipe ("start from Node 24, copy my code, run npm install, start the server"), an **image** is the baked result, and a **container** is a running instance of that image. `docker compose` runs multi-container setups (your app + MongoDB) with one command.
-- **When you actually need it:** teams with many services, apps that must run on many environments, or platforms that only accept containers. Kubernetes, microservices, most CI systems — all built on containers.
-- **When you do not:** a single MERN app on a single VPS, which is exactly what you have. PM2 plus Nginx is simpler to operate and easier to debug at your stage. Do not add Docker because it sounds professional; add it when the pain it solves shows up.
-- **Try it in 10 minutes someday:** install Docker, run `docker run -d -p 27017:27017 mongo`, and you have a disposable MongoDB with zero installation. Throwaway databases for testing are the gateway drug.
-
-We flag this now because job postings and dev conversations assume you know what a container is. Now you do. Deeper container work is a post-program quest.
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://nginx.org/en/docs/)
-- [Official reference 2](https://www.mongodb.com/docs/manual/security/)
+Unit 7 is about proving the hall works instead of believing it: unit tests with Jest, request tests against the real routes with Supertest, a browser test with Playwright, and a GitHub Actions workflow that runs them on every push. Those tests will target `/api/register`, `/api/login`, `/api/messages`, `/api/inbox`, `/api/items`, and `/api/pack`, the twelve routes you just shipped, against a `guildhall_test` database on your laptop, never against Atlas. Read the Jest getting-started page from 7-1's docs list before you arrive. The next session starts on the laptop, in `~/projects/hall-api`, with the live hall untouched.

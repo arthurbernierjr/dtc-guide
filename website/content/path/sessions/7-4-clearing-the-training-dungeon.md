@@ -1,406 +1,288 @@
 ---
 editorial: true
 title: Clearing the Training Dungeon
-subtitle: Build a Real Test Suite
-hook: "A risk-based test suite and release-quality evidence report. Identify failures that would harm the user."
+subtitle: Rank the risks, close the gaps, run from a clean clone, merge the pull request, write the report
+hook: "Green is not the same as safe. Today you list what would actually hurt a person using the hall, give each risk a test at the cheapest layer that can catch it, prove the suite from a clean clone, merge add-tests into main through a pull request, and write a report that says exactly what was and was not checked."
 read: 60
-artifact: "A risk-based test suite and release-quality evidence report"
+artifact: "A risk-ranked TESTPLAN.md, schema tests for the hall's real rules, a coverage reading, a clean-clone run, a merged pull request with green checks, and a TESTING.md that separates automated evidence from manual checks"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://jestjs.io/docs/cli
+  - https://jestjs.io/docs/configuration#collectcoveragefrom-array
   - https://playwright.dev/docs/test-reporters
+  - https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
+  - https://cli.github.com/manual/gh_pr_create
+  - https://www.artillery.io/docs
 say:
-  - "Risk: Identify failures that would harm the user."
-  - "Coverage: Assign unit, integration, and browser checks."
-  - "Decision: Report remaining gaps before release."
+  - "Start from the failure that would hurt someone, not from the file that is easiest to cover."
+  - "A schema rule, a route, and a screen are three layers; put each risk at the cheapest one that can catch it."
+  - "The report says what ran, against what, and what was only checked by hand; a green badge says none of that."
 ---
 
 ## The hook
 
-This is the boss room. Everything you have learned in this unit, you are using today. Session 7.1 gave you Jest, unit testing, and TDD. Session 7.2 gave you Supertest and integration testing. Session 7.3 gave you Playwright and CI. Today you put it all together and build a real test suite for your Project 2 app.
+You have three suites now. Jest in the dojo, Supertest against the hall's routes, Playwright through the hall's page, and a workflow that runs the last two on every push. The Actions tab is green. It would also be green if the suite never touched the transfer route, if `scroll` could be saved as an item kind, if a letter could be two megabytes, or if a password hash rode along in a populated sender. Green means every claim you wrote held. It says nothing about the claims you did not write.
 
-By the end of this session, your Project 2 repo will have a `tests/` folder with unit and integration tests, an `e2e/` folder with end-to-end tests, and a `.github/workflows/test.yml` file that runs everything automatically. You will push to GitHub and see that green checkmark. That checkmark means something. It means your app works. Not "I think it works." Not "It worked when I tested it manually last Tuesday." It means a robot verified it. On a clean machine. With a fresh database. Automatically.
+Today you work from the other end. You list the promises the hall makes to Bran, Sera, and Ivo, rank them by how much a broken one would hurt, and check each one against the suite. Where a promise has no test, you write one at the cheapest layer that can catch it: a schema rule in a model test, a status in a Supertest file, a screen in a browser test. You break the hall once on purpose and name the test that caught it. You clone the repository into a fresh folder and run everything from nothing. Then you open the pull request from `add-tests` to `main`, watch the checks go green on the PR itself, merge it, and write `TESTING.md` so that someone who was not there, including you in a month, knows what the green actually covers.
 
-This is the kind of infrastructure that separates hobby projects from professional software. The training dungeon is full of edge cases, and today you clear every single one of them.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The dungeon is cleared when you can say which rooms you checked, which you did not, and why, and nobody has to take your word for the first part.*
 
 ## The idea
 
-### Evaluate and implement a CI pipeline using GitHub Actions to automate test execution on every push
-
-**Enabling Objectives:**
-- Explain what continuous integration is and why it matters for professional software development
-- Write a GitHub Actions workflow YAML file that triggers on push and pull request events
-- Configure CI jobs with Node.js setup, dependency installation, and test execution steps
-- Add service containers (MongoDB) and environment variables to CI workflows
-- Debug CI failures by reading workflow logs and comparing local vs. CI environments
-
-**You should be able to:**
-- Create a `.github/workflows/test.yml` that runs unit, integration, and E2E tests
-- Configure a MongoDB service container for integration tests in CI
-- Achieve a green checkmark on GitHub Actions for their Project 2 repository
-- Upload test artifacts (Playwright reports, coverage reports) from CI runs
-
----
-
-- Concept 1: **Planning a test suite.** Before writing tests, decide what to test and what to skip. Test critical business logic (functions that calculate prices, validate data, format output). Test API routes that handle money, auth, or user data. Test the most common user flows (login, signup, primary CRUD). Skip testing third-party library internals (React rendering, Express routing), pure CSS styling, and every possible edge case in the universe. Aim for meaningful coverage, not 100%.
-
-- Concept 2: **Test file organization.** Keep your test files organized by type and purpose:
-
-```
-project-root/
-  src/
-    utils/
-      math.js
-      validators.js
-    models/
-      User.js
-      Item.js
-    routes/
-      users.js
-      items.js
-  tests/
-    setup.js              # Database connection and cleanup
-    utils/
-      math.test.js        # Unit tests for math utilities
-      validators.test.js  # Unit tests for validators
-    models/
-      User.test.js        # Unit tests for User model
-    routes/
-      users.test.js       # Integration tests for user routes
-      items.test.js       # Integration tests for item routes
-  e2e/
-    auth.spec.js          # E2E tests for auth flow
-    items.spec.js         # E2E tests for item CRUD flow
-  .github/
-    workflows/
-      test.yml            # CI pipeline
-  jest.config.js
-  playwright.config.js
-```
-
-- Concept 3: **Testing Mongoose models.** You can unit test your Mongoose models to verify validation rules, default values, and instance methods. This catches schema configuration bugs early.
-
-```javascript
-// tests/models/Item.test.js
-const mongoose = require('mongoose');
-const Item = require('../../models/Item');
-
-describe('Item Model', () => {
-  it('should create an item with valid fields', async () => {
-    const itemData = {
-      name: 'Test Item',
-      description: 'A test item for our test suite',
-      price: 9.99,
-      createdBy: new mongoose.Types.ObjectId(),
-    };
-
-    const item = new Item(itemData);
-    const savedItem = await item.save();
-
-    expect(savedItem._id).toBeDefined();
-    expect(savedItem.name).toBe('Test Item');
-    expect(savedItem.price).toBe(9.99);
-    expect(savedItem.createdAt).toBeDefined();
-  });
-
-  it('should require a name', async () => {
-    const item = new Item({
-      description: 'No name provided',
-    });
-
-    let error;
-    try {
-      await item.save();
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error).toBeDefined();
-    expect(error.errors.name).toBeDefined();
-  });
-
-  it('should not allow a negative price', async () => {
-    const item = new Item({
-      name: 'Bad Price Item',
-      price: -5,
-    });
-
-    let error;
-    try {
-      await item.save();
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error).toBeDefined();
-    expect(error.errors.price).toBeDefined();
-  });
-
-  it('should default status to "active"', async () => {
-    const item = new Item({
-      name: 'Default Status Item',
-      createdBy: new mongoose.Types.ObjectId(),
-    });
-
-    const savedItem = await item.save();
-    expect(savedItem.status).toBe('active');
-  });
-
-  it('should trim whitespace from name', async () => {
-    const item = new Item({
-      name: '  Spacey Item  ',
-      createdBy: new mongoose.Types.ObjectId(),
-    });
-
-    const savedItem = await item.save();
-    expect(savedItem.name).toBe('Spacey Item');
-  });
-});
-```
-
-- Concept 4: **Testing User model with password hashing.**
-
-```javascript
-// tests/models/User.test.js
-const User = require('../../models/User');
-
-describe('User Model', () => {
-  it('should hash the password before saving', async () => {
-    const user = new User({
-      username: 'testuser',
-      email: 'test@example.com',
-      password: 'plaintext123',
-    });
-
-    const savedUser = await user.save();
-
-    // Password should NOT be stored as plain text
-    expect(savedUser.password).not.toBe('plaintext123');
-    expect(savedUser.password.length).toBeGreaterThan(20); // bcrypt hashes are long
-  });
-
-  it('should validate correct password', async () => {
-    const user = await User.create({
-      username: 'testuser',
-      email: 'test@example.com',
-      password: 'correctpassword',
-    });
-
-    const isMatch = await user.comparePassword('correctpassword');
-    expect(isMatch).toBe(true);
-  });
-
-  it('should reject incorrect password', async () => {
-    const user = await User.create({
-      username: 'testuser',
-      email: 'test@example.com',
-      password: 'correctpassword',
-    });
-
-    const isMatch = await user.comparePassword('wrongpassword');
-    expect(isMatch).toBe(false);
-  });
-
-  it('should require a unique email', async () => {
-    await User.create({
-      username: 'user1',
-      email: 'duplicate@example.com',
-      password: 'password123',
-    });
-
-    let error;
-    try {
-      await User.create({
-        username: 'user2',
-        email: 'duplicate@example.com',
-        password: 'password123',
-      });
-    } catch (err) {
-      error = err;
-    }
-
-    expect(error).toBeDefined();
-    expect(error.code).toBe(11000); // MongoDB duplicate key error
-  });
-});
-```
-
-**Key Points:**
-- Test behavior, not implementation. Test what your code DOES, not how it does it. If you refactor internals, your tests should still pass.
-- Error cases are as important as happy paths. The happy path works because you built it that way. The error cases are where bugs hide.
-- Coverage is a guide, not a goal. 100% coverage does not mean your app is bug-free. 0% coverage means you are flying blind. Aim for 70-80% on utility functions and routes.
-
-**Common Misconceptions:**
-- Wrong: "If my tests pass locally, they will pass in CI." Correct: CI runs on a clean Linux machine with no `.env` file and potentially a different Node.js version. Always check environment variables and OS-specific behavior.
-- Wrong: "I need 100% code coverage." Correct: Chasing 100% often leads to meaningless tests that verify trivial code. Focus on testing critical paths and edge cases that actually matter.
+A test suite is a portfolio of evidence about specific risks, not a percentage. The first question is never "what can I cover" but "what would hurt someone if it broke." For the hall, the list is short and concrete. A letter is readable by someone other than its recipient. A pack goes negative, or a transfer takes from Bran and never reaches Sera. A password hash reaches a browser. A registration with a taken email overwrites the first account. The login form stops working after a deploy. Each of those is a sentence a person could say about their own experience, and each one has a different cost. A mail leak is a reason to shut the hall down. A misspelt heading is a reason to fix it on Tuesday.
 
 ![](diagram:session-7-4/fig1-model)
 
 ### Start with failure impact
 
-List the application's important promises. Users can save their work, cannot edit someone else's data, can recover from invalid input, and can complete the core journey after a deployment. Rank failures by their impact and likelihood in your actual application. A typo in secondary copy and a lost payment entitlement do not deserve the same release priority. The test plan should reflect those differences.
+Write the promises down before you open a test file. For each one, say who is hurt and how, and give it one of three ranks: a blocker, which means the hall should not be live while it is broken; a defect, which means it should be fixed before the next feature; and a blemish. The ranking is about consequences for a person, not about how hard the test is to write. A route you find boring can hold a blocker.
 
-Assign each promise to the cheapest useful evidence. A pure calculation belongs in a unit test. Route validation and ownership belong in an integration test. A user journey involving forms and navigation belongs in a browser test. Some checks remain manual, such as reviewing a real provider dashboard or judging presentation clarity. This is a portfolio of evidence, not a competition to force every question into one test framework.
+Then assign each promise to the cheapest layer that can observe it. A rule that lives in the schema, such as the kind enum or the 2000-character ceiling on a letter, is observed by a model test: build the document, save it, catch the validation error. A rule that lives in a route, such as the recipient check or the conditional spend, is observed by a Supertest request, because the rule is in the handler and the handler is only reachable through HTTP. A rule that lives on the screen, such as the inbox showing the sender's name, is observed only by a browser. Pushing a schema rule up to a browser test costs seconds per run and tells you less when it fails; pushing a screen rule down to Supertest cannot be done at all.
+
+Some promises cannot be checked by any of the three. That the deployed hall on `https://YOUR-DOMAIN` is serving the merged code, that the TLS certificate renews, that the server's MongoDB is the one with the real letters in it: those are checked by a person, by hand, after a deploy, and the report says so in a separate list. A suite that claims to cover them is overclaiming.
+
+### Model tests are database tests
+
+The hall's schema rules are worth four tests of their own, and they are not unit tests. They `save` to `guildhall_test` through the same `tests/setup.js` as the route tests, because a validation rule is a promise about what MongoDB will accept, and the only way to observe a unique index is to insert twice. Call them model tests. The pyramid's base is the dojo's pure functions; these sit in the middle with the routes.
+
+The four rules worth testing are the ones a route relies on without re-checking. `kind` must be `potion`, `weapon`, or `armor`, so a seed with `scroll` must throw a `ValidationError` with `errors.kind` set. A letter body above 2000 characters must be refused by the schema, because the route only trims and checks for empty. A holding with a negative quantity must fail `save`, which is the `min: 0` promise, even though the conditional update in `spend` is what protects the live path. And a second holding for the same owner and item must fail with code `11000`, which is the compound unique index. That last one only works because `tests/setup.js` calls `syncIndexes` after connecting; without it, a fresh database can accept the duplicate before the index exists, and the test flickers between red and green on first runs.
+
+The user's unique email is already covered from the outside by the 409 in `auth.test.js`, and the hash never leaving the server is covered by the register test's regular expression. Those stay where they are. There is no `comparePassword` method on the hall's user model and no pre-save hook, because hashing happens in the register route; a model test for hashing would be testing code that does not exist.
 
 ### Remove redundant confidence
 
-Several tests can all exercise the same happy path while leaving an important branch untouched. Review the assertions, not only test names. If five tests confirm that a successful create returns an object, add a case proving invalid input writes nothing. If every authorization test uses the owner, add a second identity. The goal is distinct evidence about distinct risks.
+Several tests can all exercise the same happy path while an important branch goes untouched. Review the assertions, not the test names. If four tests confirm that `POST /api/messages` returns 201, and none confirms that an empty body writes nothing, the fourth 201 is adding a number, not evidence. If every pack test uses Bran, add Sera, because the ownership filter on holdings is only observed when a second owner exists. The goal is distinct evidence about distinct risks, and the plan is where you see the duplicates, because the plan has one row per promise.
 
-Refactor test helpers when they clarify intent, but keep important inputs visible in the test. A helper named setupEverything can hide a surprising amount of state. Prefer helpers that return named fixtures and document their side effects. Keep cleanup close to resource ownership so database connections, servers, and browser contexts do not leak across the suite.
+Coverage is the tool for finding the branch you forgot, used after the plan rather than instead of it. `npm test -- --coverage` prints a table for `app.js` with the uncovered line numbers in the last column. Open those lines. Most of them are branches you can name: the `11000` retry in `give`, the `headersSent` guard in the error handler, the transfer's 404 when the recipient is unknown. Decide for each one whether a person is hurt if it is wrong. The retry branch is a defect if it is wrong; the `headersSent` guard is a blemish. Write the test for the first and leave a sentence in the plan for the second. A threshold in `jest.config.js` is a reasonable guard against the number sliding backwards once you are happy with it. Raising a threshold to force tests into existence produces tests that execute lines and assert nothing.
 
-### Rehearse a release regression
+### Rehearse a regression
 
-Introduce one controlled defect on a temporary branch, such as removing a validation condition or changing an expected response field. Run the suite and identify which test catches it. Restore the implementation and confirm the suite passes. This exercise reveals whether your tests are connected to the promises you think they protect. Do not leave the mutation in the submission or weaken the assertion to accept it.
+A suite you have never seen go red against a real bug is a suite you are trusting on faith. Pick one promise ranked as a blocker, remove the code that keeps it, and run. For the hall, the two obvious rehearsals are the recipient comparison in `readMessage` and the `$gte` filter in `spend`; you did both in 7-2. Today do a third, one you have not done: in `inbox`, replace `{ recipient: req.userId }` with `{}` so every account sees every letter. The inbox test fails on `toHaveLength(0)` for Bran's inbox. Put it back. Note which test caught it in the plan. Do not leave the mutation in a commit, and do not weaken the assertion to accept it.
 
-Next, run the suite from a clean checkout or equivalent clean dependency state using the documented setup. A test command that works only with your uncommitted files or local database history is not reproducible. Record any manual prerequisites and keep unavailable toolchains pending rather than installing them automatically or claiming their checks passed.
+### Run from a clean clone
+
+A test command that works only with your uncommitted files, your local `node_modules`, or rows left in `guildhall_test` from last week is not reproducible, and CI is one clean clone among many. Clone the repository into a fresh sibling folder, install with `npm ci`, run `npm test`, run `npx playwright test`, and delete the folder. If anything fails there and passes in `~/projects/hall-api`, the difference is a file you forgot to commit, and the clean run just found it before the reviewer did.
 
 ### Write a release-quality report
 
-Summarize the revision, test commands, results, and known gaps. State whether external services were mocked, whether a real database was used, and whether a deployed environment was checked. A passing local suite cannot establish that production secrets, DNS, or provider configuration are correct. Those require separate evidence at their own boundaries.
+`TESTING.md` is the document the pull request points at. It names the revision, the exact commands, the results, and the known gaps, in that order. It says whether a real database was used, whether anything was mocked, and whether the deployed hall was checked by hand and when. It links the captured failures from this unit, because a screenshot of a red run is evidence that the suite is connected to the code in a way no green screenshot can be. It ends with a maintenance paragraph: which test breaks first when a route changes, and what a flaky browser test should be investigated for before anyone adds a retry.
 
-End the workshop with a short maintenance plan. Identify who updates fixtures when the API changes, how flaky tests are investigated, and which critical regression would block release. A useful suite grows with observed failures. It is not finished forever; it is a reliable starting point for the next feature and the next person who changes the code.
+What you should be able to draw on a napkin: a table with one row per promise, a rank, a layer, and a test name. Model tests for the schema, Supertest for the routes, Playwright for the screens, a hand check for the deploy. Coverage finds forgotten branches. A rehearsed regression proves the suite bites. A clean clone proves the suite travels. The report says what the green means and what it does not.
 
 ## The demonstration
 
-**Live Coding Walkthrough:**
+In `~/projects/hall-api`, on `add-tests`, with `mongod` running and nothing else. Start by turning last session's `TESTPLAN.md` into the table. Copy this into `TESTPLAN.md` and fill it in, one row per promise.
 
-**Demo 1: Writing Model Tests for a Real Project**
-- Show how to identify testable model behaviors (required fields, defaults, custom methods, unique constraints)
-- Write tests live for the Item and User models (code shown above in Explanation section)
-- Run the tests, explain the output, and debug any failures
-- Outcome: You see the pattern for testing Mongoose models
+```markdown
+# Test plan: the guild hall
 
-**Demo 2: Building the Integration Test Suite**
-- Show the checklist approach to building integration tests:
+| Promise | If it broke, who is hurt and how | Rank | Layer | Test |
+|---|---|---|---|---|
+| | | blocker / defect / blemish | model / api / browser / hand | file and `it` string |
+
+## Not covered by any suite, and why
+
+-
+
+## Rehearsed regressions
+
+- date · what was removed · which test went red
 ```
-[ ] app.js separated from server.js (app is exportable)
-[ ] tests/setup.js created with test database connection
-[ ] Tests for GET route (returns correct data)
-[ ] Tests for POST route (creates resource, returns 201)
-[ ] Tests for POST route with invalid data (returns 400)
-[ ] Tests for GET by ID (returns single resource)
-[ ] Tests for GET by ID with non-existent ID (returns 404)
-[ ] Tests for PUT route (updates resource)
-[ ] Tests for DELETE route (removes resource)
-[ ] Tests for auth-protected route without token (returns 401)
-[ ] All tests pass
+
+A filled version for the hall looks like this. Yours will have the same first six rows and different ones after that, depending on what you added to the hall in Unit 5.
+
+```markdown
+# Test plan: the guild hall
+
+| Promise | If it broke, who is hurt and how | Rank | Layer | Test |
+|---|---|---|---|---|
+| Only the recipient can read a letter by id | Ivo reads Sera's mail | blocker | api | messages.test.js · is 403 for a stranger |
+| The inbox lists only the token user's letters | Everyone sees everything | blocker | api | messages.test.js · lists the letter in the recipient inbox and not in the sender inbox |
+| A pack never goes negative | Bran gives away potions he does not have | blocker | api | pack.test.js · spend of 50 answers 409 and the holding still reads 3 |
+| A password hash never leaves the server | Every account is crackable offline | blocker | api | auth.test.js · registers an account and never returns the hash |
+| An item kind outside the enum is refused | The catalog fills with junk nothing can render | defect | model | models.test.js · refuses a kind outside potion, weapon, armor |
+| Sera sees the sender's name on a letter | She cannot tell who wrote to her | defect | browser | inbox.spec.js · Sera logs in and sees the letter Bran sent her |
+| A letter longer than 2000 characters is refused | One letter fills the inbox screen | defect | model | models.test.js · refuses a letter longer than 2000 characters |
+| The deployed hall serves the merged code | Tests pass, the live site is a week old | blocker | hand | after each deploy: log in on https://YOUR-DOMAIN, send one letter |
+
+## Not covered by any suite, and why
+
+- The transfer's second write failing after the first succeeded (the lost-item window from 4-14): needs a transaction before it can be observed; listed as a known gap.
+- The TLS certificate renewing: checked by hand each month; certbot's timer, not the suite.
+
+## Rehearsed regressions
+
+- 7-2 · removed the recipient comparison in readMessage · messages.test.js, two tests red (stranger, sender)
+- 7-2 · removed the $gte filter in spend · pack.test.js, 409 test red with a negative holding
+- 7-4 · replaced the inbox filter with {} · messages.test.js, Bran's inbox had 1, expected 0
 ```
-- Walk through writing 2-3 tests from the checklist live, emphasizing the pattern
-- Outcome: You have a clear checklist to follow during their build time
 
-**Demo 3: Full CI Pipeline with Separate Jobs**
-- Show a production-quality CI pipeline with separate jobs for unit/integration and E2E:
-```yaml
-# .github/workflows/test.yml
-name: Tests
+Two rows in the table name `models.test.js`, which does not exist yet. Write it.
 
-on:
-  push:
-    branches: [main, add-tests]
-  pull_request:
-    branches: [main]
+```js
+// tests/models.test.js
+const mongoose = require('mongoose');
+require('../app');
 
-jobs:
-  unit-and-integration:
-    runs-on: ubuntu-latest
+const Item = mongoose.model('Item');
+const Message = mongoose.model('Message');
+const Holding = mongoose.model('Holding');
 
-    services:
-      mongodb:
-        image: mongo:7
-        ports:
-          - 27017:27017
+async function rejection(promise) {
+  try {
+    await promise;
+  } catch (err) {
+    return err;
+  }
+  return null;
+}
 
-    steps:
-      - uses: actions/checkout@v4
+describe('schema rules the routes rely on', () => {
+  it('refuses a kind outside potion, weapon, armor', async () => {
+    const err = await rejection(Item.create({ name: 'Scroll of fire', kind: 'scroll' }));
+    expect(err).not.toBeNull();
+    expect(err.name).toBe('ValidationError');
+    expect(err.errors.kind).toBeDefined();
+  });
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.x'
-          cache: 'npm'
+  it('refuses a letter longer than 2000 characters', async () => {
+    const err = await rejection(Message.create({
+      sender: new mongoose.Types.ObjectId(),
+      recipient: new mongoose.Types.ObjectId(),
+      body: 'x'.repeat(2001)
+    }));
+    expect(err).not.toBeNull();
+    expect(err.name).toBe('ValidationError');
+    expect(err.errors.body).toBeDefined();
+  });
 
-      - name: Install dependencies
-        run: npm ci
+  it('refuses a negative quantity on save', async () => {
+    const err = await rejection(Holding.create({
+      owner: new mongoose.Types.ObjectId(),
+      item: new mongoose.Types.ObjectId(),
+      qty: -1
+    }));
+    expect(err).not.toBeNull();
+    expect(err.name).toBe('ValidationError');
+    expect(err.errors.qty).toBeDefined();
+  });
 
-      - name: Run tests
-        run: npm test
-        env:
-          TEST_MONGODB_URI: mongodb://localhost:27017/myapp_test
-          JWT_SECRET: ci-test-secret
-          NODE_ENV: test
-
-  e2e:
-    runs-on: ubuntu-latest
-    needs: unit-and-integration
-
-    services:
-      mongodb:
-        image: mongo:7
-        ports:
-          - 27017:27017
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.x'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run E2E tests
-        run: npx playwright test
-        env:
-          TEST_MONGODB_URI: mongodb://localhost:27017/myapp_test
-          JWT_SECRET: ci-test-secret
-          NODE_ENV: test
-
-      - name: Upload Playwright Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
+  it('keeps one holding per owner and item', async () => {
+    const owner = new mongoose.Types.ObjectId();
+    const item = new mongoose.Types.ObjectId();
+    await Holding.create({ owner, item, qty: 1 });
+    const err = await rejection(Holding.create({ owner, item, qty: 1 }));
+    expect(err).not.toBeNull();
+    expect(err.code).toBe(11000);
+  });
+});
 ```
-- Show how to commit and push, then watch the Actions tab
-- Explain common CI debugging issues: missing environment variables, database connection failures, Playwright browser not installed, tests passing locally but failing in CI due to Node version or OS differences
-- Outcome: You have a production-quality CI config they can copy and customize
 
-**Watch for this:**
-- The failures worth expecting: a database connection, a bad import path, an async test that does not await, and a file laid out so the runner cannot see it. `--verbose` shows which test is which.
-- When the integration tests are green, write the end-to-end test
-- Remember that getting CI to green is the ultimate goal. Even a partially failing CI run is a learning moment
+`rejection` turns a promise that should fail into a value you can assert on, and returns `null` when it did not fail, so the first assertion in each test is the one that catches a rule that silently stopped existing. The three fake ids are real `ObjectId`s, because the schema requires the field and the rule under test is elsewhere. Run `npm test`. The count goes up by four, and the last file in the list is the new one.
 
-### Runnable checkpoint: a small model
+```text
+PASS tests/auth.test.js
+PASS tests/messages.test.js
+PASS tests/pack.test.js
+PASS tests/errors.test.js
+PASS tests/models.test.js
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Test Suites: 5 passed, 5 total
+Tests:       26 passed, 26 total
+```
+
+If the last test fails with `Received: undefined` for the code, the unique index did not exist when the second insert ran; confirm `await mongoose.syncIndexes()` is in `tests/setup.js` and that the holding schema still declares the compound index.
+
+### Reading coverage
+
+```bash
+npm test -- --coverage
+```
+
+```text
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+----------|---------|----------|---------|---------|-------------------
+All files |   91.4  |   84.2   |   95.0  |   91.4  |
+ app.js   |   91.4  |   84.2   |   95.0  |   91.4  | 188-193,241,262
+----------|---------|----------|---------|---------|-------------------
+```
+
+Your numbers differ. The column that matters is the last one. Open `app.js` at those lines. In this run, 188 to 193 are the `11000` retry inside `give`, 241 is the transfer's `choose another account` branch, and 262 is the `headersSent` guard. The retry branch is a defect if it is wrong: a race between two gives would lose one. Add a row to the plan and a test to `pack.test.js` that calls `give` for the same item from two concurrent requests with `Promise.all` and asserts one holding with the summed quantity. The transfer-to-self branch is a defect too, and it is one request. The `headersSent` guard is a blemish; write the sentence in the plan and move on. `coverage/` is in `.gitignore`; the table goes into the report as text and the screenshot goes into the pull request.
+
+### The rehearsal, the clean clone, the pull request
+
+Open `app.js`, find `inbox`, and replace the filter with `{}`. Run `npm test`. One test red: Bran's inbox has one letter, expected zero. Restore the filter, run, green, and add the line under Rehearsed regressions in the plan. Commit the plan and the model tests.
+
+Now the clean clone, as a sibling folder, never inside the repository.
+
+```bash
+cd ~/projects
+git clone git@github.com:YOU/hall-api.git hall-api-clean
+cd hall-api-clean
+git switch add-tests
+npm ci
+npm test
+npx playwright install chromium
+npx playwright test
+cd ~/projects
+rm -rf hall-api-clean
+```
+
+`npm ci` installs from the lockfile and nothing else. If `npm test` fails here and passes in `hall-api`, read the first line of the failure: a missing `.env.test` means `.gitignore` swallowed it; a `Cannot find module` means a file was never added; a `buffering timed out` means `jest.config.js` was never committed. Fix it in `hall-api`, commit, push, and clone again. When both commands pass in the clean folder, delete it. Your machine should have one copy of the hall.
+
+The pull request is where the suite becomes a gate instead of a habit. Push the branch and open the PR from the terminal, with the report as its body.
+
+```bash
+cd ~/projects/hall-api
+git push
+gh pr create --base main --head add-tests --title "Add the test suite" --body-file TESTING.md
+gh pr checks --watch
+```
+
+`gh pr checks --watch` sits in the terminal until the `api` and `e2e` jobs finish and prints their status; the same two checks appear on the PR page under the conversation. When both are green, merge from the page or with `gh pr merge --merge`, then `git switch main` and `git pull`. The workflow runs once more on `main`, because the push event fires for it too. If the hall is deployed on Railway from the GitHub repository, that merge also triggers a redeploy; on the VPS from Unit 6, you pull on the server and restart the process as in 6-4. Either way, the hand check in the plan's last row happens after that, not before.
+
+### A small model you can run here
+
+The page cannot run your suite or merge a branch, so here is a small model you can run here: the plan's table as data, with a rank and a result on each row, and the two decisions the report has to make from it. It proves that the release decision depends only on the rows ranked as blockers, and that a failing row that is not a blocker is still named rather than dropped. It does not prove anything about your hall; `gh pr checks` and `TESTING.md` are that proof.
 
 ```js run=checkpoint-7-4
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const risks = [{name: 'ownership', critical: true, passed: true}, {name: 'save', critical: true, passed: false}, {name: 'spacing', critical: false, passed: false}];
-const blockers = risks.filter(r => r.critical && !r.passed);
-check(blockers.length === 1 && blockers[0].name === 'save', 'Release decision follows critical risks');
+
+const plan = [
+  { promise: 'only the recipient reads a letter', rank: 'blocker', layer: 'api', passed: true },
+  { promise: 'a pack never goes negative', rank: 'blocker', layer: 'api', passed: false },
+  { promise: 'the inbox shows the sender name', rank: 'defect', layer: 'browser', passed: false },
+  { promise: 'a kind outside the enum is refused', rank: 'defect', layer: 'model', passed: true },
+  { promise: 'the deployed hall serves the merged code', rank: 'blocker', layer: 'hand', passed: null }
+];
+
+// The release decision reads only the blockers.
+const blockers = plan.filter((row) => row.rank === 'blocker' && row.passed === false);
+check(blockers.length === 1 && blockers[0].promise === 'a pack never goes negative', 'Release decision follows critical risks');
+
+// Everything that did not pass is named, even when it does not block.
+const incomplete = plan.filter((row) => row.passed !== true);
+check(incomplete.length === 3 && incomplete.some((row) => row.rank === 'defect'), 'Explain the rejected or incomplete case');
+
+// A hand check is reported separately from the suites, never counted as green.
+const byHand = plan.filter((row) => row.layer === 'hand');
+check(byHand.length === 1 && byHand[0].passed === null, 'manual checks are listed, not assumed');
+
+// The cheapest layer that can observe a rule is the one assigned to it.
+const cheapest = { 'schema rule': 'model', 'route status': 'api', 'screen text': 'browser', 'live site': 'hand' };
+check(cheapest['schema rule'] === 'model' && cheapest['screen text'] === 'browser', 'each risk sits at the cheapest layer that can catch it');
+
 console.log('ok: checkpoint-7-4');
 ```
+
+Flip the pack row to `passed: true` and run again. The first check fails, because the model expects a blocker to be open; that is the shape of a plan that says the hall may ship. Flip it back and change the browser row's rank to `blemish`: the second check still passes, because a failing row is named regardless of rank. Both results are the report's two rules.
 
 ## Where it breaks
 
@@ -408,234 +290,123 @@ console.log('ok: checkpoint-7-4');
 
 ### Coverage target replaces judgment
 
-Coverage hits the number you set, and the payment path, the auth check, and the empty cart are still untested. The tool counted lines that ran, including lines a trivial test happened to touch. Coverage is a map of what ran. It is not a map of what matters. List the risks you actually care about, write a test for each, and then look at coverage to find a branch you lied to yourself about. Raising the target without that list produces tests that execute lines and assert nothing.
+Coverage hits the number you set, and the transfer path, the recipient check, and the empty-body case are still untested. The tool counted lines that ran, including lines a trivial test happened to touch on its way somewhere else. Coverage is a map of what ran. It is not a map of what matters. List the risks you actually care about, write a test for each, and then look at coverage to find a branch you lied to yourself about. Raising the threshold without that list produces tests that execute lines and assert nothing, and a table that looks better while the plan has the same holes.
 
 ### Everything mocked
 
-Every boundary is replaced, the report is green, and a real request against a real database fails on the first query. Mocks are for the edges you do not want to call in a unit test. They are not a substitute for one test that crosses the boundary you ship. Keep a small number of checks that hit a real router, a real validator, or a disposable database. If those are slow, run them separately. Do not delete them because the mocked suite already said green.
+Every boundary is replaced, the report is green, and a real request against a real database fails on the first query. Mocks are for the edges you do not want to call in a unit test. They are not a substitute for one test that crosses the boundary you ship. The hall's suites keep the router, the validator, and the database real on purpose, and the only thing between the tests and your real data is the `_test` guard. If a future test starts mocking `mongoose.model` to make a case easier, ask what the case is observing. If the answer is a status that depends on the database, the mock removed the evidence.
 
 ### Green report overclaims
 
-The README says the app is fully tested, and the report never started a browser, never ran the payment provider's test mode, and never checked the deploy. Say what the suite covers and what it does not. A unit suite, an API suite, and a manual check of the deploy are three different sentences. Collapsing them into "tested" is how a reviewer, including you in a month, trusts a hole. List the external and manual checks next to the command that produces the green report.
+The README says the hall is fully tested, and the report never started a browser, never ran the transfer under two concurrent requests, and never checked the deploy. Say what the suite covers and what it does not. A model suite, an API suite, a browser suite, and a hand check of the live site are four different sentences. Collapsing them into "tested" is how a reviewer, including you in a month, trusts a hole. List the external and manual checks next to the commands that produce the green runs, with the date each hand check was last done.
 
 ## Your turn
 
-**Guided Practice:**
+In `~/projects/hall-api`, on `add-tests`, with `mongod` running and nothing else.
 
-**Exercise 1: Quest - Model Validation Tests**
-- Prompt: Write unit tests for at least one Mongoose model in your Project 2 app.
-- Steps:
-  1. Pick your most important model (probably your main resource or User model)
-  2. Create `tests/models/[ModelName].test.js`
-  3. Write at least 5 tests: creating a valid document succeeds, missing a required field fails, invalid data (wrong type, out of range) fails, default values are applied correctly, any custom methods work as expected
-  4. Run `npm test` and verify they pass
-- Success criteria: At least 5 model tests passing.
-- Time: 15 minutes
-
-**Exercise 2: Quest - Integration and E2E Build Sprint**
-- Prompt: Complete as much of the test suite as possible during class time.
-- Steps:
-  1. Follow the workshop checklist to write integration tests for your CRUD routes
-  2. Write at least one E2E test for your most important user flow
-  3. Set up `.github/workflows/test.yml` and push to GitHub
-  4. Verify the CI pipeline runs (even if it fails, the setup is the learning moment)
-- Success criteria: At least 5 integration tests passing locally. At least 1 E2E test passing locally. CI workflow file pushed to GitHub.
-- Time: 30 minutes
-
-**Checkpoints:**
-- Checkpoint: at least 3 model tests pass
-- Checkpoint: at least 5 integration tests pass
-- Checkpoint: one end-to-end test exists, and the CI workflow file is in the repo
+1. Fill `TESTPLAN.md` from the template with at least eight rows. Every blocker row names a test file and an `it` string that exists. Rows without a test get a test today or a sentence under Not covered.
+2. Write `tests/models.test.js`. `npm test` ends with four more passing tests than it did yesterday; the last line names the new file.
+3. Run `npm test -- --coverage`. Open every line number in the last column and give each one a rank in the plan. Write at least one new test for a defect-ranked branch. Screenshot the table as `coverage.png`; the folder stays ignored.
+4. Replace the inbox filter with `{}`, run, confirm one test goes red with `Expected length: 0, Received length: 1`, restore it, and add the line to Rehearsed regressions.
+5. Commit. Clone into `~/projects/hall-api-clean`, `npm ci`, `npm test`, `npx playwright test`. Both end in their passing lines. Delete the folder.
+6. Write `TESTING.md` from the template in the quest. Commit and push.
+7. `gh pr create --base main --head add-tests --title "Add the test suite" --body-file TESTING.md`, then `gh pr checks --watch` until both checks print as passing.
+8. Merge the pull request, `git switch main`, `git pull`, and watch the Actions tab run once more on `main`. Then do the hand check from the plan's last row against the deployed hall and write the date into `TESTING.md` on `main`.
 
 ## The quest
 
-**Independent Work:**
+![](diagram:session-7-4/fig3-evidence)
 
-**Lab: Quest - Clearing the Training Dungeon**
-- Finish any test you did not complete, get CI passing, and read the suite once more for a case you skipped.
-- Requirements checklist:
-  - [ ] At least 5 unit tests (utility functions or model validations)
-  - [ ] At least 8 integration tests covering main API resource
-  - [ ] At least 1 E2E test covering login and one CRUD operation
-  - [ ] `.github/workflows/test.yml` runs on push and all tests pass (green checkmark)
-  - [ ] Run `npm run test:coverage` and include coverage output in repo (add `coverage/` to `.gitignore` but screenshot terminal output)
-  - [ ] Push all work to `add-tests` branch and open a Pull Request to `main`
-  - [ ] In the PR description, list how many tests you wrote and what they cover
-- Hints: If tests pass locally but fail in CI, check environment variables first. CI does not have your `.env` file. If Playwright tests timeout in CI, increase the timeout in `playwright.config.js` since CI machines are slower than your laptop. If you get `E11000 duplicate key error`, your `afterEach` cleanup is not running.
-- Stretch Goals:
-  - Achieve 80%+ code coverage on utility functions and routes
-  - Add a coverage badge to your README
-  - Write an E2E test for the full CRUD flow (create, read, update, delete)
-  - Add a second GitHub Actions job that runs `npm audit` for security vulnerabilities
-  - Complete the load testing side quest below and include your Artillery report in the PR
-- Submission: GitHub PR link (from `add-tests` to `main`) with passing CI checks.
+The deliverable is a merged pull request with green checks and a `TESTING.md` that a stranger could follow. Copy this into `TESTING.md` and fill it in.
 
----
+```markdown
+# Testing report: hall-api
 
-**Side Quest (Optional): Load Testing with Artillery**
+Revision: <short commit hash on main after the merge>
+Commands: `npm test` · `npx playwright test`
+Results: Jest <n> passed · Playwright <n> passed · Actions run <link>
+Database: real, `guildhall_test` for Jest and `guildhall_e2e` for Playwright, both on 127.0.0.1; nothing mocked
+Deployed hall: checked by hand on <date>: log in, send one letter, read it as the recipient, on https://YOUR-DOMAIN
 
-Your test suite proves your app works for ONE user. But what happens when a hundred adventurers storm the gates at once? That is a different question, answered by a different kind of test: the **load test**. Correctness testing asks "does it work?" Load testing asks "does it survive success?" For a founder, this is the test that matters the day your product gets traction.
+## Captured failures
+- leak-caught.png · readMessage without the recipient comparison
+- negative-caught.png · spend without the $gte filter
+- wrong-sender.png · inbox rendering the email instead of the name
+- actions-red.png · a workflow with the wrong lockfile path
 
-[Artillery](https://www.artillery.io/) is a load-testing tool that simulates waves of virtual users hitting your API:
+## Known gaps
+-
+
+## Maintenance
+- When a route's status changes, <file> goes red first.
+- A flaky browser test is investigated for an unawaited assertion before anyone adds a retry.
+```
+
+Evidence to keep:
+
+- The PR link, merged, with both checks green on its last commit.
+- `TESTPLAN.md` and `TESTING.md` on `main`, with the hand-check date filled in after the deploy.
+- `coverage.png`, with the uncovered lines each accounted for in the plan.
+- The clean-clone run's last lines pasted into `TESTING.md`, under a heading that says the folder was deleted afterwards.
+
+### A side exercise: how many people can the hall hold
+
+Your suites prove the hall works for one person at a time. A different question, answered by a different tool, is what happens when a hundred adventurers arrive at once. Artillery sends waves of virtual users at the API and reports how long requests took at the 95th percentile. It is optional, it is short, and the number it gives you is one you will want to know before Unit 12.
+
+Start the hall against a fourth throwaway database so the load leaves no trace in your real one. Create `.env.load` with `MONGODB_URI=mongodb://127.0.0.1:27017/guildhall_load`, `JWT_SECRET=load-only`, `PAGE_ORIGIN=http://localhost:5173`, and `PORT=4100`, start it with `node --env-file=.env.load server.js`, register Bran and Sera with curl, and keep Sera's id, which is the `sub` in her token.
 
 ```bash
 npm install --save-dev artillery
 ```
 
-Create `load-test.yml` in your project root:
-
 ```yaml
+# load-test.yml
 config:
-  target: "http://localhost:3000"
+  target: "http://localhost:4100"
   phases:
-    - duration: 30        # Warm-up: 30 seconds
-      arrivalRate: 5      # 5 new virtual users per second
-      name: "Warm up"
-    - duration: 60        # Sustained load: 1 minute
-      arrivalRate: 20     # 20 new virtual users per second
-      name: "Peak traffic"
+    - duration: 30
+      arrivalRate: 5
+      name: warm up
+    - duration: 60
+      arrivalRate: 20
+      name: peak
 
 scenarios:
-  - name: "Browse and create items"
+  - name: log in, read the catalog, send a letter
     flow:
+      - post:
+          url: "/api/login"
+          json:
+            email: "bran@example.com"
+            password: "correct-horse-battery"
+          capture:
+            - json: "$.token"
+              as: "token"
       - get:
           url: "/api/items"
+          headers:
+            Authorization: "Bearer {{ token }}"
       - post:
-          url: "/api/items"
+          url: "/api/messages"
+          headers:
+            Authorization: "Bearer {{ token }}"
           json:
-            name: "Load Test Item"
-            description: "Created by a virtual adventurer"
-            price: 1.99
+            recipient: "SERA_ID"
+            body: "a letter from the load test"
 ```
-
-Run it against your locally running API (use your test database, not production data):
 
 ```bash
 npx artillery run load-test.yml
 ```
 
-How to read the report:
-- **http.response_time p95** — 95% of requests finished faster than this. This is the number to watch, not the average. Averages hide pain; percentiles reveal it. A p95 under 200ms is healthy for a simple CRUD API on a laptop.
-- **http.codes.200 / 201** — should be nearly all of your responses. A pile of 500s under load means something is breaking (often the database connection pool).
-- **vusers.failed** — virtual users whose scenario errored out. Should be zero or close.
-
-If the numbers look bad, the usual suspects in a MERN app: missing database indexes (every query scans the whole collection), doing heavy work inside request handlers, or `console.log` flooding in hot paths. Add an index, re-run, and watch p95 drop — that experience will teach you more about performance than any lecture.
-
-### Review the artifact
-
-Your deliverable is **A risk-based test suite and release-quality evidence report**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
-### Unit project: completion contract
-
-### Capstone: Edge Case Extermination - Comprehensive Test Suite for Project 2
-
-### Quest Arc
-
-You have been training in the testing dungeon for four sessions. You have learned to spar with Jest, fight through dungeon trials with Supertest, survived the Playwright gauntlet, and automated your defenses with a CI pipeline. Now, the dungeon boss appears: your own Project 2 application, fully deployed and supposedly working but harboring an unknown number of edge cases, unhandled errors, and untested code paths.
-
-Your quest is to clear the dungeon completely. Write a comprehensive test suite that covers your application at every level. Unit tests for your utility functions and model logic. Integration tests for your API routes, covering every CRUD operation and every error scenario you can think of. End-to-end tests that simulate real users navigating your app in a real browser. And a CI pipeline that runs everything automatically on every push, standing guard so that no future code change can break what you have built.
-
-When the green checkmark appears on your GitHub repository, the training dungeon is cleared. You have proven that your app works. Not because you clicked around and it seemed fine. Because a robot verified it. On a clean machine. With a fresh database. Automatically. Every single time.
-
-The edge cases never stood a chance.
-
-### Technical Requirements
-
-**Must Have (core functionality):**
-- [ ] At least 5 unit tests covering utility functions and/or model validations
-- [ ] At least 8 integration tests covering main API resource CRUD operations (GET, POST, PUT, DELETE) plus at least 3 error cases (400, 401, 404)
-- [ ] At least 1 E2E test covering a critical user flow (login + one CRUD action)
-- [ ] A `tests/setup.js` file that connects to a test database and cleans up between tests
-- [ ] A `.github/workflows/test.yml` file that runs all tests on push
-- [ ] All tests pass locally and in CI
-
-**Should Have (production quality):**
-- [ ] Test file organization: `tests/utils/`, `tests/models/`, `tests/routes/`, `e2e/`
-- [ ] At least 2 E2E tests (one for auth flow, one for CRUD flow)
-- [ ] Code coverage report generated by `jest --coverage`
-- [ ] CI pipeline that includes both Jest and Playwright tests
-- [ ] Express app properly separated into `app.js` and `server.js`
-
-**Could Have (stretch goals):**
-- [ ] 80%+ code coverage on utility functions and route handlers
-- [ ] CI status badge in README
-- [ ] Playwright HTML report uploaded as a CI artifact
-- [ ] Tests for pagination, search, or filter functionality
-- [ ] A second CI job that runs `npm audit`
-- [ ] TDD evidence: tests written before implementation for at least one function
-
-### Skill Points Rubric
-
-**Boss Clear Criteria (Must Have) - 70 points**
-
-| Skill | Points | Requirement |
-|-------|--------|-------------|
-| Unit Tests | 15 | 5+ unit tests covering utility functions and/or model validations. Tests use appropriate matchers and cover both happy paths and edge cases. |
-| Integration Tests | 20 | 8+ integration tests for CRUD endpoints. Test database with proper setup and cleanup. At least 3 error case tests (400, 401, 404). |
-| E2E Tests | 15 | At least 1 E2E test covering a real user flow with form interaction, navigation, and content assertions. |
-| CI Pipeline | 10 | `.github/workflows/test.yml` exists, triggers on push, and runs tests. Workflow runs successfully in GitHub Actions. |
-| Code Quality | 10 | Tests are organized in folders by type. Setup/teardown is clean. No hardcoded IDs that break between runs. Tests do not depend on each other. |
-
-**Epic Loot (Nice to Have) - 20 points**
-
-| Skill | Points | Requirement |
-|-------|--------|-------------|
-| Comprehensive E2E | 5 | 2+ E2E tests covering both auth and CRUD flows. Good use of selectors (role, text, label). Assertions on both page content and URL. |
-| Coverage Report | 5 | Code coverage report generated and committed. Coverage above 70% on tested files. |
-| Full CI Pipeline | 5 | CI runs all test types (unit, integration, E2E). Includes MongoDB service container. Passes with a green checkmark. Artifacts uploaded. |
-| Test Architecture | 5 | Helper functions for seeding. Excellent file organization. README documents how to run tests. |
-
-**Legendary Status (Wow Factor) - 10 points**
-
-| Skill | Points | Requirement |
-|-------|--------|-------------|
-| 80%+ Coverage | 3 | Code coverage above 80% on utility functions and route handlers. Coverage badge in README. |
-| TDD Evidence | 4 | At least one function demonstrably built with TDD (test file committed before or alongside implementation). |
-| Advanced CI | 3 | Multiple CI jobs (unit/integration separate from E2E). Security audit job. Matrix testing with multiple Node versions. |
-
-**Total: __ / 100 Skill Points**
-
-### Submission Requirements
-
-- **Live URL:** Not applicable for this project (tests run locally and in CI, not deployed)
-- **Repo:** Push to your Project 2 repo on the `add-tests` branch. Open a Pull Request to `main`.
-- **PR Description must include:**
-  - Total number of tests by type (X unit, Y integration, Z E2E)
-  - A screenshot of your local test output (all passing)
-  - A screenshot of your GitHub Actions run (passing or with notes on what failed and why)
-  - A screenshot of your code coverage output
-- **Demo Video (Optional but recommended):** A 2-3 minute Loom recording showing you running the tests locally and walking through one test file explaining what it does and why.
-- **Reflection:** In the PR description, answer: "What was the most surprising bug you found while writing tests?" and "How will testing change the way you write code going forward?"
-
----
-
-![](diagram:session-7-4/fig3-evidence)
+Read three numbers in the summary. `http.response_time.p95` is the time 95 percent of requests finished within; it is the number to watch, not the mean, because averages hide the slow tail that people actually feel. Under 200 milliseconds on a laptop is healthy for this API. `http.codes.200` and `http.codes.201` should account for nearly every response; a pile of 500s under load usually means the database connection pool is exhausted or a handler is doing work it should not. `vusers.failed` should be zero. If p95 is poor, the usual suspects are a missing index on a field you query every request, which the `recipient` index on messages was there to prevent, and logging on a hot path. Stop the hall, drop `guildhall_load` in `mongosh`, and write the p95 into `TESTING.md` under a heading that says it was measured on your machine, not on the server.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The vulnerability names on the quick-reference sheet are the first column of a risk table like yours, and a report that says what was observed and what was not is the same discipline the observability page applies to a running service.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Bring your list of testable utility functions, API routes, and user flows from Session 7.3 homework. Ensure Jest, Supertest, and Playwright are all installed in your Project 2 repo. Have your GitHub repo ready. Review any tests that are currently failing and note the error messages.
-**Materials:** Project 2 codebase with all testing tools installed, GitHub account, [Jest Coverage docs](https://jestjs.io/docs/configuration#collectcoverage-boolean), [Playwright Best Practices](https://playwright.dev/docs/best-practices)
+This is the last session of the unit, and the hall is finished: built in Unit 4, drafted with a model in Unit 5, deployed in Unit 6, and now guarded by a suite that runs on every push to `main`. The next unit begins the capstone, which is yours to choose, and it begins with people rather than code. In 8-1 you write an interview script and go find three to five people who have the problem you want to solve. Spend the time before then thinking about who those people are and what you could ask them without leading the answer. Do not pick a technology. Pick a person who is frustrated.
 
-**Due before next unit:**
-- Complete and polish the test suite (estimated time: 3-4 hours)
-- Ensure at least 5 unit tests, 8 integration tests, and 1 E2E test all pass
-- Get GitHub Actions CI to green (or document why it is failing and what you tried)
-- Run `npm run test:coverage` and screenshot the output
-- Open a PR from `add-tests` to `main` with a description listing: total tests by type, screenshot of local test output, screenshot of GitHub Actions run, screenshot of coverage output
-- Optional: Record a 2-3 minute Loom demo showing you running tests locally and walking through one test file explaining what it does and why
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://jestjs.io/docs/cli)
-- [Official reference 2](https://playwright.dev/docs/test-reporters)
+Nothing is left running after today. The hall's workflow runs on GitHub when `main` changes, and the deployed hall stays up on its own. Leave `~/projects/hall-api` on `main`, with `add-tests` merged and deleted on GitHub if you like. The capstone gets a new folder, `~/projects/<capstone-name>`, in 8-1, and the suite you just built is the pattern its tests will copy: `app.js` and `server.js`, a `_test` database that refuses to be anything else, and a plan with one row per promise.

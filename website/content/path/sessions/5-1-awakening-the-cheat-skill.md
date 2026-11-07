@@ -2,260 +2,227 @@
 editorial: true
 title: Awakening the Cheat Skill
 subtitle: The RTTPOC Prompt Framework
-hook: "An RTTPOC prompt packet with a baseline, revised output, and evaluation rubric. State role, task, and target audience."
-read: 60
-artifact: "An RTTPOC prompt packet with a baseline, revised output, and evaluation rubric"
+hook: "Four units in, you have been casting at the model without an incantation. Today you learn one: Role, Task, Tone, Purpose, Output, Constraints, and a rubric that says whether the answer passed."
+read: 55
+artifact: "An RTTPOC prompt packet in docs/prompt-log.md: a baseline prompt, the revised prompt, both outputs, and the rubric that scored them, plus the first three templates in docs/prompt-library.md"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview
+  - https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices
+  - https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/reduce-hallucinations
+  - https://claude.com/pricing
+  - https://mongoosejs.com/docs/api/model.html
 say:
-  - "Intent: State role, task, and target audience."
-  - "Contract: Specify process, output, and constraints."
-  - "Evaluation: Compare results against observable criteria."
+  - "RTTPOC is Role, Task, Tone, Purpose, Output, Constraints. Six lines before the paste."
+  - "A prompt is a specification. If you cannot say how you would reject the answer, the prompt is not finished."
+  - "Paste the schema, not the secret. Specific and sensitive are not the same thing."
 ---
 
 ## The hook
 
-Every isekai protagonist has that moment. They are getting destroyed by some mid-tier monster, their party is down, things look bad, and then they discover they have had an overpowered skill sitting in their inventory the whole time. Something that changes everything. You have been coding for seven weeks now. You have typed thousands of lines of JavaScript. You have battled CSS. You have survived callback hell. And the whole time, you had a cheat skill sitting right there. Today, we activate it.
+Every isekai protagonist has the moment. The party is down, the mid-tier monster is winning, and then they find the overpowered skill that was in the inventory the whole time. You have been in this world for four units. You built the guild hall in 4-14: `hall-api` on port 4100, `hall-client` on 5173, the `guildhall` database, three accounts and a letter between two of them. The whole time, a model that writes Express routes was one browser tab away, and if you tried it, the results were inconsistent. Sometimes a route that looked right. Sometimes a route that returned anyone's mail to anyone with an id. The reason is not that the model is bad. You were casting without an incantation.
 
-This unit is about prompt engineering and agentic coding tools. Not the "ask ChatGPT to do my homework" version. The real version. The version where you learn a systematic framework called RTTPOC to write prompts that actually work, every time. Where you learn to use tools like Claude Code and Cursor to build features at 10x speed while still understanding every line of code. By the end of this unit, you will take a feature from your MERN app, rebuild it from scratch using AI tools, and prove that you can ship faster than anyone who does not have this skill.
+Today you learn one. RTTPOC is Role, Task, Tone, Purpose, Output, Constraints, six lines you write before you paste any code. You aim it at a function you already wrote by hand, `readMessage`, the one that answers 403 when the token's user is not the recipient. You run a lazy prompt and a structured prompt on the same task, score both outputs with a rubric you wrote first, and keep the whole packet in a file inside the hall. By the end, you have an AI chat account, a `docs/` folder in `hall-api` with two files that every later session of this unit adds to, and one honest comparison that says what the six lines bought you.
 
-Here is why this matters if you want to be a founder. Founding a company means you need to build fast, iterate faster, and ship yesterday. You do not have a team of fifty engineers. You might not even have one. Prompt engineering is the skill that lets a solo founder build what used to require a team. It is not about being lazy. It is about being strategic. The founders who understand AI tools AND understand the fundamentals are going to build circles around everyone else. That is you, after this unit. Four sessions. Session one, we learn the RTTPOC framework. Session two, advanced techniques: chain-of-thought, few-shot, context windows, and debugging AI hallucinations. Session three, we get our hands on Claude Code and Cursor and learn agentic workflows where the AI reads and writes your actual codebase. Session four, the trial. You pick a feature, rebuild it at 10x speed, document everything, and ship. Other bootcamps do not teach this. Most working developers do not know this. You are about to learn a skill that puts you ahead of people with ten years of experience who still copy-paste from Stack Overflow. Your cheat skill is awakening. Let us go.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The spell was never the problem. The caster was mumbling.*
 
 ## The idea
 
-### Construct Structured Prompts Using the RTTPOC Framework
-You will design complete, production-quality prompts by systematically applying all six RTTPOC components (Role, Task, Tone, Purpose, Output, Constraints) to any development task, producing consistent and reliable AI-generated outputs.
+A model is a function. Your prompt is the argument. Better arguments, better returns. That sentence is the whole of prompt engineering, and the reason it needs a session is that most people hand the function one noun and a verb and then judge the output as if they had handed it a specification. "Write a login form" has no stable stopping point. The model fills every unspecified choice itself: which library, which error shape, whether the empty case matters, whether the token goes in a header or a cookie. Each of those is a decision you would have made in thirty seconds. Left blank, they are made for you, and they are made differently every time, which is why the output felt random.
 
-### Enabling Objectives
-- Define each component of the RTTPOC framework and explain its function in shaping AI output
-- Identify missing or weak components in poorly structured prompts
-- Write Role statements with specific expertise levels and domain specializations
-- Write Task statements with specific, actionable instructions
-- Write Constraint statements that prevent off-target outputs (library restrictions, version compatibility, line limits)
-- Compose complete RTTPOC prompts for debugging, code review, and feature building scenarios
+RTTPOC is the six decisions, in a fixed order, so you stop leaving them blank. Role is who the model is for this answer. Task is the operation, one verb and its object. Tone is how it should talk to you. Purpose is why the task exists, which tells the model which trade-offs to make. Output is the shape of the answer. Constraints are the boundaries: which versions, which files, which patterns are forbidden. The acronym is a checklist, not a ritual. The value is the discipline of exposing your assumptions before the model fills them in.
 
-### You will be able to
-- Write a six-component RTTPOC prompt from scratch for any development task in under 5 minutes
-- Diagnose and fix at least 3 problems in a poorly structured prompt
-- Build a reusable prompt template library with placeholders for variable content
-- Iterate on a prompt across 3-5 rounds, improving output quality with each refinement
+The second idea is the one that makes the first one testable. A prompt is a specification, and a specification you cannot check is a wish. Before you run the structured prompt, write the rubric: the three to five observable things a correct answer has. For `readMessage` the rubric is short. A missing id is 404. A token user who is not the recipient is 403, including when that user is the sender. The recipient gets 200 and the body. The token never appears in the URL. Now you can score any output, from any tool, without arguing about taste. A polished answer can still fail the contract. Score the artifact with evidence, not with how confident the paragraph sounded.
 
----
-
-**Welcome + The Cheat Skill Awakens**
-- "Welcome to the session where everything changes. You have been grinding for four units. Today we discover the skill you have had all along."
-- Quick poll: "Who here has used ChatGPT or Claude before? Who felt like the results were inconsistent, sometimes amazing, sometimes garbage?" (Most hands up.)
-- The isekai moment: "The reason AI felt unreliable is not because it is bad. It is because you were casting spells without knowing the incantation. Today we learn the incantation."
-- Overview of the session: RTTPOC framework, writing prompts, iterating, building templates
-- Set expectations: "By the end of today, you will have a framework that makes every single AI interaction better. Not sometimes. Every time."
-
-**What Prompt Engineering Actually Is**
-
-Prompt engineering is the skill of communicating with AI models to get specific, reliable, useful outputs. It is not about "just asking it." Unstructured requests produce unstructured results.
-
-- **Key Concepts:**
-  - The input-output mental model: AI is a function. Your prompt is the argument. Better arguments, better returns.
-  - Real-world analogy: ordering food. "I want food" vs "I want a medium-rare ribeye, 12 oz, with garlic butter, asparagus on the side, no mushrooms." Same restaurant, wildly different results.
-
-- **Why this matters for founders:**
-  - Speed: build features in minutes instead of hours
-  - Leverage: one person doing the work of three
-  - Quality: AI catches edge cases you miss (if you ask right)
-  - Learning: AI explains code, teaches patterns, reviews your work
-
-- **The trap to avoid:** generating code you do not understand. "If you cannot explain it, you do not own it. AI is a power tool, not a replacement for your brain."
-
-- **Quick demo:** Show a bad prompt and its mediocre output, then a good prompt and its excellent output. Do not explain the framework yet, just show the difference.
-
-**The RTTPOC Framework Deep Dive**
-
-Introduce RTTPOC as a mnemonic: **R**ole, **T**ask, **T**one, **P**urpose, **O**utput, **C**onstraints
-
-Break down each component with examples:
-
-**Role** - Tell the AI who it is
-- "You are a senior full-stack JavaScript developer with 10 years of experience in MERN stack applications."
-- "You are a MongoDB schema design expert who specializes in data modeling for social media applications."
-- Why it matters: sets the expertise level and domain. A "junior developer" role gives different output than a "senior architect" role.
-- Pro tip: be specific about the specialization. "React developer" is good. "React developer who specializes in custom hooks and performance optimization" is better.
-
-**Task** - What you want it to do
-- "Write a React component that displays a paginated list of blog posts."
-- "Debug this Express route that returns a 500 error when the user ID is not found."
-- "Refactor this function to use async/await instead of .then() chains."
-- Why it matters: vague tasks get vague results. "Help me with my code" is not a task. "Fix the null pointer exception on line 42 of UserController.js" is a task.
-
-**Tone** - How it should communicate
-- "Explain like I am a bootcamp student with four units of experience."
-- "Be concise and technical. No analogies."
-- "Use a friendly, encouraging tone with code comments explaining each step."
-- Why it matters: controls the density and style of the response.
-
-**Purpose** - Why you need this
-- "I am building a SaaS app for freelancers to track invoices and I need this component for the dashboard."
-- "I am debugging a production issue that is blocking user signups."
-- "I am learning about authentication patterns for the first time."
-- Why it matters: context shapes the response. An auth implementation for a learning exercise looks different than one for production. Purpose tells the AI what trade-offs to make.
-
-**Output** - What format you want
-- "Return only the code, no explanations."
-- "Return a JSON object with the schema definition."
-- "Return a markdown document with headers, code blocks, and a summary table."
-- "Return a React component with TypeScript types, PropTypes, and JSDoc comments."
-- Why it matters: without this, AI guesses the format. Sometimes it writes an essay when you wanted a code block.
-
-**Constraints** - Rules and limitations
-- "Do not use any external libraries. Only built-in React hooks."
-- "Must work with MongoDB 6.0 and Mongoose 7.x."
-- "Maximum 50 lines of code."
-- "Do not include any CSS. Only the logic."
-- "Must handle error cases: empty input, null values, network failures."
-- Why it matters: constraints prevent the AI from going off the rails. Without them, you get answers that technically work but use libraries you do not have, patterns you do not know, or approaches that do not fit your stack.
-
-- **Key Points:**
-  - Every component independently improves output quality
-  - Together, the six components virtually eliminate ambiguity
-  - The framework works across all AI platforms (Claude, ChatGPT, Gemini, etc.)
-  - RTTPOC is a skill, not a template; adapt it to each situation
-
-- **Common Misconceptions:**
-  - "I just need a good Task and I am fine." Without Role, Tone, and Constraints, the AI fills in the blanks with generic defaults.
-  - "More text in the prompt means better output." Specificity matters more than length. A focused 5-line prompt beats a vague 20-line one.
-  - "If the AI gives bad output, AI is bad." Investigate the prompt, missing context, model capability, tools, and evaluation criteria; any of these can explain a poor result.
+What you should be able to draw on a napkin: six lines go in, in order, above the paste. A rubric is written before the run. Two outputs come back, from the same tool on the same task, and the rubric scores both. The gap between the scores is what the six lines bought you, and the entry in your log is the evidence.
 
 ![](diagram:session-5-1/fig1-model)
 
-### A prompt is a specification you can test
+### Six lines, in order, aimed at the hall
 
-A request to make an application better has no stable stopping point. A request to add a labeled email field, validate its format, preserve the draft after failure, and show a confirmation only after a successful server response has observable outcomes. RTTPOC helps you organize those outcomes. The value is not the acronym itself; it is the discipline of exposing assumptions before a model fills them in.
+**Role** tells the model what perspective to answer from. "You are a reviewer who knows Express 5 and Mongoose 9" produces different defaults from "you are a helpful assistant." Be specific about the specialization. A role is a perspective, not a guarantee of expertise, and it does not make the model know your project. That is what the paste is for.
 
-Role provides a perspective, not a guarantee of expertise. Task states the operation. Target audience determines vocabulary and depth. Process can ask for inspection before modification and for checks after modification. Output defines the artifact you expect. Constraints set boundaries such as preserving existing APIs, avoiding new dependencies, or using synthetic data. If two fields conflict, rewrite the prompt instead of expecting the model to infer which one matters more.
+**Task** is one operation. "Write the `readMessage` handler for `GET /api/messages/:id`" is a task. "Help me with my inbox" is not. If the task has two verbs, it is two prompts, and the second one gets the first one's output as context.
 
-### Evaluate two prompts on the same task
+**Tone** controls density. "Be terse. Code first, then at most three sentences" gets you a function. "Explain each line as if I have four units of experience" gets you a lesson. Both are correct in the right moment. Pick on purpose.
 
-Choose a small function with a known contract. Run a vague baseline prompt, save the result, then run your structured prompt against the same starting code and fixtures. Compare correctness, omissions, readability, and the amount of repair required. Do not compare a five-minute first attempt with a two-hour revised implementation and call the difference a prompt improvement. Keep the task, context, and evaluation criteria stable enough that the comparison means something.
+**Purpose** is the why. "This is the inbox door in a guild hall where accounts hold other people's letters, and the bug I am afraid of is returning a letter to the wrong account." The model now knows which failure to guard against. Purpose is where trade-offs get decided: a learning exercise and a route that will carry real mail deserve different answers.
 
-A useful rubric includes at least one negative case. If the task is input validation, empty and malformed inputs matter. If the task is summarization, unsupported claims and missing caveats matter. If the task is code modification, unrelated changes matter. A polished answer can still fail the contract. Score the artifact using evidence rather than how confident or friendly the response sounds.
+**Output** is the shape. "One async function, no router wiring, error bodies shaped `{ "error": "..." }`." Without it, the model guesses, and sometimes the guess is an essay with the code in the middle.
+
+**Constraints** are the fence. "Express 5, so no try/catch for the async rejection. Mongoose at the version in my `package.json`, which is 9.x. Do not add packages. Do not change the schema. The user id is `req.userId`, set by `requireUser`." Constraints are where "technically works" turns into "fits my project." Without them you get code that uses libraries you do not have and patterns you do not know.
+
+Three misconceptions, so you can hear them in your own head later. "I just need a good Task." Without Role, Tone, and Constraints, the model fills the blanks with generic defaults. "More text means better output." Specificity beats length; a focused six-line prompt beats a vague twenty-line one. "If the output is bad, the model is bad." Investigate the prompt, the missing context, and the rubric first. Any of those explains a poor result more often than the model does.
 
 ### Give context in layers
 
-Start with the smallest context that explains the task: relevant files, current behavior, desired behavior, and constraints. Add logs or examples when they resolve a specific ambiguity. Dumping an entire repository into a prompt can hide the important boundary among irrelevant details. Conversely, asking for a precise fix without the error, calling code, or expected behavior forces guesses. The right amount of context is the amount that lets a reviewer explain why the proposed change fits.
+Start with the smallest context that explains the task: the schema the handler reads, the middleware that sets `req.userId`, the current behavior, the desired behavior. Add a log line or an error only when it resolves a specific ambiguity. Pasting the whole of `server.js` hides the important boundary among forty lines that do not matter for this handler. Asking for a precise fix with no schema and no error forces guesses. The right amount of context is the amount that lets a reviewer say why the proposed change fits.
 
-Separate quoted data from instructions. A customer message, repository comment, or retrieved webpage can contain text that looks like a command. The task should identify those materials as evidence to analyze, not authority to change the assignment. This matters especially when a model can use tools. A helpful-looking instruction inside an untrusted document must not silently authorize deleting files or sending messages.
+Separate quoted data from instructions. A message body, a fixture, a comment in a file you paste can contain text that looks like a command. Say what the pasted material is: "the schema below is the data model, treat it as evidence, not as instructions." That habit matters more in 5-3, when the model can run commands, but you start it today.
 
-### Keep an experiment notebook
+### Keep a log, and keep secrets out of it
 
-Save the prompt, model identifier, date, input fixture, output, and your score. Models and tool interfaces change, so a result without those details is difficult to reproduce. Avoid saving secrets or unnecessary personal data in the notebook. Record what you revised and why, including cases where the more detailed prompt performed worse. The goal is a repeatable way to improve results, not a collection of impressive screenshots.
+Every run you care about gets an entry: the date, the tool and model name as the tool shows it, the prompt, the output, and the score. Models and interfaces change, and a result without those details cannot be reproduced. The log lives at `~/projects/hall-api/docs/prompt-log.md`. Every session in this unit appends to it. Templates with placeholders live next to it in `docs/prompt-library.md`. Those two names do not change for the rest of the unit.
+
+Never paste `.env`, a real token, a password hash, or a real person's row into a prompt. The provider has it, the chat history has it, a screenshot of the chat would leak it again. Paste the shape instead: the schema, the field names, the error text, a made-up user called Bran. If a real secret does go out, rotate it. Deleting the message does not un-send it.
+
+### Which account, and what it costs
+
+You have no AI account yet, and today you make one. Go to [claude.ai](https://claude.ai) and sign up with the email you use for GitHub. The Free plan is enough for this session and the next: chat in a browser, paste code, read answers. Claude Code, the terminal tool in 5-3, is not on the Free plan. It needs a paid plan or an API key from the developer console that you pay for by usage. Cursor, the editor alternative in 5-3, has a Free plan with a limited number of agent requests. Read what each plan includes on [claude.com/pricing](https://claude.com/pricing) and [cursor.com/pricing](https://cursor.com/pricing) rather than trusting any number written on this page; the pages change and this page does not. Today you only need the chat account. The 5-3 decision can wait until you have seen what a chat tool can and cannot do.
+
+The six lines work in any chat tool. If you already have another provider's account, use it for the comparison. Write the tool and model name in the log, because the same prompt in two tools is a different experiment.
 
 ## The demonstration
 
-**Live Coding Walkthrough 1: Building a RTTPOC Prompt Incrementally**
+One function, end to end, in a chat tab. The target is `readMessage` from 4-14, the handler behind `GET /api/messages/:id`. You already know its contract, which is the point: you can only score what you can already specify. Open the hall's `server.js` next to the chat so you can copy the schema and nothing else.
 
-**Setup:** Open an AI chat tool. Have a simple development task ready: "Write a login form component."
+First, make the folder the whole unit writes to. The hall's API project is the repo that holds the docs, because the API is where the contract lives.
 
-**Steps:**
-1. Start with just a bare Task: "Write a login form."
-   - Run the prompt and show the output: generic, no error handling, unknown styling approach, random libraries
-2. Add Role: "You are a senior full-stack JavaScript developer with 10 years of experience in MERN stack applications."
-   - Run again and show improvement: better code quality, more professional patterns
-3. Add Tone: "Explain like I am a bootcamp student. Include code comments on every non-obvious line."
-   - Run again: better explanations, more accessible
-4. Add Purpose: "I am building a SaaS app for freelancers to track invoices. This login form is for the main entry point."
-   - Run again: better architectural decisions, context-aware choices
-5. Add Output: "Return a single React functional component file using hooks. No class components."
-   - Run again: correct format, no guessing
-6. Add Constraints: "Do not use any external UI libraries. Use only built-in React hooks and plain CSS. Must handle empty field validation and display error messages. Must include a loading state during form submission."
-   - Run again: fits the actual project, handles edge cases
-
-**Where you should be:** You see the output improve dramatically with each component added.
-
-**Watch for this:**
-- Pause after each addition to compare the outputs
-- Before you run it, predict what will change before running the updated prompt
-- Look for specific lines in the output that appeared only after adding certain components
-- Remember that this incremental approach is also useful for debugging bad prompts: add one component at a time and observe which one fixes the issue
-
-**Live Coding Walkthrough 2: The Iteration Loop**
-
-**Setup:** Use a complete RTTPOC prompt for generating an Express route.
-
-**Steps:**
-1. Round 1: Generate a basic Express route for creating a blog post
-2. Round 2: "That is close, but add error handling for missing fields and invalid ObjectIds"
-3. Round 3: "Good, now add input validation using express-validator"
-4. Round 4: "Add rate limiting and make it match the pattern in my existing routes" (provide an example route)
-
-**Where you should be:** You see how iteration produces progressively more production-ready code.
-
-**Watch for this:**
-- Remember that 3-5 rounds of iteration is normal for important code
-- Show the common iteration patterns:
-  - Refinement: "That is close, but change X to Y"
-  - Adding constraints: "The code works but does not handle the edge case where Z"
-  - Changing approach: "Good logic, but rewrite using [specific pattern]"
-  - Understanding check: "Explain line 14 to me before we continue"
-- Notice that the iteration loop is the real cheat skill within the cheat skill
-
-**Prompt Templates for Common Dev Tasks:**
-
-Three templates you can copy:
-
-**The Debugger Template:**
-```
-Role: You are a senior JavaScript debugger.
-Task: Find and fix the bug in the following code. [paste code]
-Tone: Be direct. Explain what went wrong in one sentence, then show the fix.
-Purpose: This is blocking my feature from working. The expected behavior is [X] but the actual behavior is [Y].
-Output: Show only the corrected code with a comment on the changed line(s).
-Constraints: Do not change the overall structure. Only fix the bug.
+```bash
+mkdir -p ~/projects/hall-api/docs
+touch ~/projects/hall-api/docs/prompt-log.md ~/projects/hall-api/docs/prompt-library.md
+code ~/projects/hall-api
 ```
 
-**The Code Review Template:**
-```
-Role: You are a senior code reviewer at a top tech company.
-Task: Review the following code for bugs, performance issues, security vulnerabilities, and style. [paste code]
-Tone: Be constructive but honest. Rate severity as Critical, Warning, or Suggestion.
-Purpose: This is going into production for a SaaS app. It handles user data.
-Output: A numbered list of findings, each with severity, description, and suggested fix.
-Constraints: Focus on JavaScript/Node.js best practices. Ignore formatting (Prettier handles that).
-```
+Now write the rubric before any prompt, at the top of a new entry in `docs/prompt-log.md`.
 
-**The Feature Builder Template:**
-```
-Role: You are a full-stack MERN developer.
-Task: Build [feature description] for my application.
-Tone: Include code comments explaining the "why" behind non-obvious decisions.
-Purpose: [Why this feature exists and what problem it solves for users]
-Output: Complete implementation with separate code blocks for each file (model, route, component).
-Constraints: Use Express for backend, React with hooks for frontend, Mongoose for data. No TypeScript. No external UI libraries.
+```markdown
+# Prompt log
+
+## 5-1 readMessage: baseline vs RTTPOC
+
+Date: 2026-11-07. Tool: Claude.ai chat, Free plan, model as shown in the picker.
+
+### Rubric (written before running anything)
+1. Missing id answers 404.
+2. Token user who is not the recipient answers 403, including the sender.
+3. Recipient answers 200 with the body.
+4. Error bodies are `{ "error": "..." }`.
+5. No try/catch wrapping (Express 5 forwards the rejection).
 ```
 
-- Mention 3-4 additional template categories without full content: the Explainer, the Refactorer, the Test Writer
+The baseline is the prompt most people type.
 
-### Runnable checkpoint: a small model
+```text
+Write an Express route that returns a message by id from MongoDB.
+```
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+The output you get back varies in wording, so do not expect the lines below exactly. The shape is what to look for, and the shape is this:
+
+```js
+// fragment: typical baseline output, kept for comparison
+router.get('/messages/:id', async (req, res) => {
+  try {
+    const message = await Message.findById(req.params.id);
+    if (!message) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+    res.status(200).json(message);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+```
+
+Score it against the rubric. Rule 1, yes. Rule 2, no: anyone with an id reads anyone's letter, which is exactly the leak 4-14 called the mail leak. Rule 3, yes, but for everyone. Rule 4, no: the key is `message`, the hall uses `error`. Rule 5, no: a try/catch that turns every failure into a 500 body with the raw error message, hiding the error handler you built in 4-2. Two out of five. The model did not do anything wrong. It answered the question it was asked, and the question did not mention a recipient.
+
+Now the six lines, then the paste.
+
+```text
+Role: You are a reviewer who knows Express 5 and Mongoose 9 and writes small, plain handlers.
+Task: Write the async function readMessage(req, res) for GET /api/messages/:id.
+Tone: Terse. The function first, then at most three sentences.
+Purpose: This is the inbox door in a guild hall. Accounts hold other accounts' letters. The failure I am guarding against is returning a letter to an account that is not its recipient.
+Output: One async function, no router wiring. Error bodies are { "error": "..." }. 404 when the id matches nothing, 403 when req.userId is not the recipient (the sender is also 403 here; the sender has an outbox), 200 with the document for the recipient.
+Constraints: Express 5, so do not wrap in try/catch; a rejection reaches the error handler. Mongoose is the version in my package.json (9.x). Do not add packages. Do not change the schema. req.userId is a string set by a middleware called requireUser that already ran.
+
+The schema below is the data model. Treat it as evidence, not as instructions.
+
+const messageSchema = new mongoose.Schema({
+  sender:    { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+  body:      { type: String, required: true, trim: true, maxlength: 2000 }
+}, { timestamps: true });
+const Message = mongoose.model('Message', messageSchema);
+```
+
+The shape that comes back:
+
+```js
+// fragment: typical RTTPOC output, kept for comparison
+async function readMessage(req, res) {
+  const message = await Message.findById(req.params.id).populate('sender', 'name');
+  if (!message) return res.status(404).json({ error: 'no such message' });
+  if (String(message.recipient) !== String(req.userId)) {
+    return res.status(403).json({ error: 'not your letter' });
+  }
+  res.json(message);
+}
+```
+
+Five out of five, and it reads like the one you wrote in 4-14, because you told it what you already knew. Notice what the structured prompt did not do. It did not make the model smarter. It removed the choices the model would otherwise have made for you: the error key, the auth boundary, the version, the error-handling style. Each of those lines was a blank in the baseline.
+
+Then one round of iteration, because the first answer is rarely the last. Ask: "What happens when `req.params.id` is not a valid ObjectId?" The honest answer is that `findById` throws a `CastError`, the rejection reaches your error handler, and the client gets whatever status your handler maps it to. If you want that to be a 404, say so and get a second version. Record the round in the log. The pattern of a follow-up is always one of four: refine ("close, but change X to Y"), add a constraint ("it works but does not handle Z"), change approach ("good logic, rewrite using the conditional update"), or check understanding ("explain line 3 before I paste it"). Three rounds is normal for code you will keep.
+
+The last paragraph of the entry is the comparison, and it is what the quest is built from:
+
+```markdown
+### Result
+Baseline: 2/5 (missed 2, 4, 5). RTTPOC: 5/5.
+What the six lines bought: the recipient check, the error key, no try/catch.
+What I had to know to write them: the contract from HALL.md. The prompt did not invent it.
+Iteration: asked about non-ObjectId ids; CastError reaches the error handler. Decided 404.
+```
+
+Here is a small model you can run here. It proves that a brief with a missing line is detectable before you send it, and that a rubric written first can score two outputs without taste. It does not call a model, and it cannot tell you whether your answer was right. Only the rubric in your log and the running hall can do that.
 
 ```js run=checkpoint-5-1
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const required = ['role', 'task', 'target', 'process', 'output', 'constraints'];
-const brief = Object.fromEntries(required.map(key => [key, 'specified']));
-const missing = value => required.filter(key => typeof value[key] !== 'string' || !value[key].trim());
+
+var parts = ['role', 'task', 'tone', 'purpose', 'output', 'constraints'];
+
+function missing(brief) {
+  return parts.filter(function (key) {
+    return typeof brief[key] !== 'string' || brief[key].trim() === '';
+  });
+}
+
+var brief = {
+  role: 'reviewer who knows Express 5 and Mongoose 9',
+  task: 'write readMessage for GET /api/messages/:id',
+  tone: 'terse, function first',
+  purpose: 'the inbox door; never return a letter to a non-recipient',
+  output: 'one async function, error bodies { error }',
+  constraints: 'no try/catch, no new packages, req.userId from requireUser'
+};
 check(missing(brief).length === 0, 'Complete brief');
-check(missing({...brief, constraints: ''}).includes('constraints'), 'Missing boundary detected');
+
+var fenceless = Object.assign({}, brief, { constraints: '' });
+check(missing(fenceless).length === 1 && missing(fenceless)[0] === 'constraints', 'Missing boundary detected');
+
+var rubric = [
+  function (out) { return out.indexOf('404') !== -1; },
+  function (out) { return out.indexOf('403') !== -1; },
+  function (out) { return out.indexOf('{ error') !== -1; },
+  function (out) { return out.indexOf('try {') === -1; }
+];
+
+function score(out) {
+  return rubric.filter(function (rule) { return rule(out); }).length;
+}
+
+var baseline = 'try { const m = await Message.findById(id); if (!m) return res.status(404).json({ message: "x" }); res.json(m); } catch (e) {}';
+var revised = 'const m = await Message.findById(id); if (!m) return res.status(404).json({ error: "x" }); if (m.recipient !== uid) return res.status(403).json({ error: "y" }); res.json(m);';
+
+check(score(baseline) === 1 && score(revised) === 4, 'the same rubric scores both outputs');
+check(score(revised) > score(baseline), 'the six lines bought the lines the baseline left blank');
+
 console.log('ok: checkpoint-5-1');
 ```
 
@@ -265,177 +232,91 @@ console.log('ok: checkpoint-5-1');
 
 ### Vague output
 
-You asked for "a good login form" and got a generic component that picks a library you do not use, skips the empty-field case, and explains nothing. The model filled every unspecified choice itself. Replace the adjective with an example and a check: which file, which hooks, what the empty submit must do, what it must not import. Run the vague prompt and the specific one back to back and diff the output. The gap is the prompt, not the model's mood. If you cannot say how you would reject a bad answer, the prompt is not finished.
+You asked for "a good inbox route" and got a generic handler that picks an error shape you do not use, skips the recipient case, and explains nothing. The model filled every unspecified choice itself. The cause is a prompt with adjectives where it needed examples and checks. Replace "good" with the rubric: which status for which case, which error key, what it must not import. Then run the vague prompt and the specific one back to back and diff the outputs. The gap is the prompt, not the model's mood. If you cannot say how you would reject a bad answer, the prompt is not finished, and the output cannot be scored.
 
 ### Invented facts
 
-The answer cites a method, a flag, or a pricing tier that does not exist, and it cites it with the same confidence as the lines that are real. A fluent paragraph is not a source. Paste the document, the error, or the schema you want it to use, and tell it to say when the answer is not in that material. Then check the names against the docs before you run the code. The dangerous output is the one that almost compiles, because the invented flag fails later, in a place that looks like your bug.
+The answer calls `Message.findByIdAndValidate()`, or passes a flag `findById` does not take, with the same confidence as the lines that are real. A fluent paragraph is not a source. The cause is a question the model could not answer from what you gave it, so it produced the most plausible-looking name. Paste the document you want it to use, or point it at the [Model API page](https://mongoosejs.com/docs/api/model.html), and tell it to say when the answer is not in that material. Then check every method name against the docs before you run the code. `Message.findById` is a static on the model, and it is real. A method on the `mongoose` object with that name is not. The dangerous output is the one that almost compiles, because the invented name fails later, in a place that looks like your bug.
 
 ### Sensitive context
 
-The prompt got better because you pasted the whole `.env`, a customer row, or a private key "for context." The provider now has it, the chat history has it, and a screenshot of the chat would leak it again. Take those values out before you send. Use fake keys and a made-up user. If a real secret did go out, rotate it. A prompt can be specific about shape, the table, the error text, without carrying a credential. Specific and sensitive are not the same thing.
+The output got better because you pasted the whole `.env`, a real user document, or the JWT from `sessionStorage` "for context." The cause is confusing specific with sensitive. The provider now has the secret, the chat history has it, and a screenshot would leak it again. Take those values out before you send. Use `JWT_SECRET=redacted`, a made-up user called Bran, a token that is the word `TOKEN`. If a real secret went out, rotate it in `.env` and restart the hall. A prompt can be specific about shape, the schema, the error text, the field names, without carrying a credential.
 
 ## Your turn
 
-**Guided Practice 1: Write Your First RTTPOC Prompts**
+Same packet, different function. The target is `spend` from 4-14, the handler behind `POST /api/pack/spend`, whose rule is that a spend larger than the holding's `qty` answers 409 and leaves the number unchanged.
 
-**Prompt:** "Choose three tasks from the list below (or create your own related to your Project 2). For each task, write a complete RTTPOC prompt with all six components. Run each prompt in your AI tool and evaluate the output."
+1. Sign up at [claude.ai](https://claude.ai) if you have not. Open a new chat. Write the tool and model name at the top of a new entry, `## 5-1 spend: baseline vs RTTPOC`, in `~/projects/hall-api/docs/prompt-log.md`.
+2. Write the rubric first, in the log, before any prompt. At least: 400 when `item` or `amount` is missing or `amount` is not a positive integer; 409 when the holding does not have enough; the quantity after a refused spend is unchanged; the catalog document is never written; the decrement is one conditional update, not a read followed by a save.
+3. Run the baseline, `Write an Express route that lets a user spend an item from their inventory`, and paste the output into the log under `### Baseline`. Score it. Expect it to read the holding, subtract in JavaScript, and save; that is the shape the rubric's last line rejects.
+4. Write the six lines. Purpose names the race: two spends arriving together must not take the pack below zero. Constraints paste the `holdingSchema` with `qty: { type: Number, min: 0 }` and the compound unique index, name `req.userId`, forbid new packages, and name Mongoose 9. Run it. Paste the output under `### RTTPOC`. Score it. Expect `findOneAndUpdate` with `qty: { $gte: amount }` in the filter and `$inc` in the update, or something that does the same job in one round trip.
+5. Ask one follow-up that checks understanding: `Explain why the filter includes qty >= amount instead of checking qty in JavaScript.` Paste the answer. If it does not mention two requests arriving at once, ask again with that case named.
+6. Commit the packet.
 
-**Task Options:**
-- Write a React component that displays a user profile card with avatar, name, bio, and an "Edit" button
-- Write an Express middleware that logs every request with timestamp, method, URL, and response time
-- Write a Mongoose schema for a "Comment" model that belongs to a "Post" and a "User"
-- Debug a buggy snippet you wrote on purpose, with one defect you can name
-- Write a function that validates an email address without using regex libraries
-
-**Starter Framework:**
-```markdown
-# prompt-lab-1.md
-
-## Prompt 1: [Task Name]
-
-**Role:**
-[Your role statement here]
-
-**Task:**
-[Your task statement here]
-
-**Tone:**
-[Your tone statement here]
-
-**Purpose:**
-[Your purpose statement here]
-
-**Output:**
-[Your output specification here]
-
-**Constraints:**
-- [Constraint 1]
-- [Constraint 2]
-- [Constraint 3]
-
-### Evaluation
-- Did the output match what you expected?
-- What was the best part of the output?
-- What would you change in your prompt to improve the result?
-- Rating (1-5): ___
-
-## Prompt 2: [Task Name]
-[Same structure]
-
-## Prompt 3: [Task Name]
-[Same structure]
+```bash
+cd ~/projects/hall-api
+git add docs/prompt-log.md
+git commit -m "5-1: prompt log, spend baseline vs RTTPOC"
+git log --oneline -1
 ```
 
-**Success Criteria:**
-- All three prompts include all six RTTPOC components
-- Each component is specific (not generic filler)
-- You can say why each component changed the output
-- At least one prompt produces output rated 4 or higher
-- Markdown file is well-organized and ready for review
-
-**Time:** 30 minutes
-
-**Checkpoints:**
-- Checkpoint: at least one complete RTTPOC prompt is written
-- At 20 minutes: At least two prompts should be executed with outputs evaluated
-- At 30 minutes: All three prompts documented with evaluations
+The last command prints one line beginning with a short hash and ending with `5-1: prompt log, spend baseline vs RTTPOC`. If `git` says the folder is not a repository, you are not in `hall-api`; `pwd` and look again. The hall does not need to be running for any of this. The chat tab and the log are the whole workbench today.
 
 ## The quest
 
-**Independent Lab: Good Prompt vs. Bad Prompt Showdown**
-
-*The Prompt Dueling Arena: prove that RTTPOC beats "just ask it" every time.*
-
-**Objectives:**
-- Demonstrate the measurable difference between unstructured and RTTPOC-structured prompts
-- Practice critical evaluation of AI output quality
-- Build confidence in the RTTPOC framework through side-by-side comparison
-
-**Requirements:**
-1. Pair up with a classmate
-2. Together, choose ONE development task from this list:
-   - Build a REST API endpoint for creating a new blog post with validation
-   - Write a React component for a todo list with add, delete, and toggle-complete functionality
-   - Create a MongoDB aggregation pipeline that returns the top 5 most commented posts
-   - Write an authentication middleware that checks JWT tokens and attaches user data to the request
-3. One partner writes the **bad prompt** (vague, no structure, 1-2 sentences, like how most people prompt):
-   - Example: "Write me a login page"
-4. The other partner writes the **RTTPOC prompt** (full framework, all six components, specific and detailed)
-5. Both run their prompts in the SAME AI tool. Copy the full outputs into a shared document.
-6. Compare the outputs side by side. Document:
-   - Line count difference
-   - Error handling: which one has it?
-   - Code quality: which one follows best practices?
-   - Usability: which one could you actually paste into your project?
-   - Edge cases: which one handles unexpected inputs?
-7. Swap roles and do it again with a different task from the list.
-
-**Hints:**
-- For the "bad prompt," think about how you actually used AI before this session. That is probably the bad prompt.
-- For the RTTPOC prompt, use the templates from the demonstration as a starting point and customize.
-- When comparing, do not just say "this one is better." Be specific about what is different and why.
-
-**Stretch Goals:**
-- Run the same bad prompt in two different AI tools and compare
-- Take the bad prompt's output and write a follow-up RTTPOC prompt to fix only the issues
-- Time how long it takes to make each output usable in your project
-
-**Submission:** Push your comparison document to your Project 2 repo in a `/docs` folder. Be prepared to share one key finding with the class (30-second share).
-
-### Review the artifact
-
-Your deliverable is **An RTTPOC prompt packet with a baseline, revised output, and evaluation rubric**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-5-1/fig3-evidence)
+
+Finish the packet and start the library.
+
+The packet is the `## 5-1 spend` entry in `docs/prompt-log.md`: the rubric written first, the baseline prompt and its output with a score, the RTTPOC prompt and its output with a score, one iteration round, and a `### Result` paragraph in the same four lines as the demonstration. What the six lines bought. What you had to know to write them. What the follow-up changed.
+
+The library is `docs/prompt-library.md` with its first three templates, placeholders in square brackets, each followed by one filled example from the hall. Copy this into the file and fill it in.
+
+```markdown
+# Prompt library
+
+Each template is six lines. Fill the brackets. Paste evidence below the lines and say what it is.
+
+## The Debugger
+Role: You are a [language/framework] debugger who reads the error before the code.
+Task: Find and fix the bug in the code below. Expected [X], observed [Y].
+Tone: Direct. One sentence on the cause, then the fix.
+Purpose: [What this blocks, and what the correct behavior is in my project.]
+Output: Only the corrected lines, with a comment on each changed line.
+Constraints: Do not change the structure. Do not add packages. [Versions.]
+
+## The Reviewer
+Role: You are a reviewer for an Express 5 and Mongoose 9 API that answers JSON.
+Task: Review the code below for bugs, missing auth checks, and error-shape mismatches.
+Tone: Blunt. Rate each finding Critical, Warning, or Suggestion.
+Purpose: [What this code handles and who can call it.]
+Output: A numbered list: severity, one-line description, suggested fix.
+Constraints: Error bodies are { "error": "..." }. Ignore formatting. [Versions.]
+
+## The Feature Builder
+Role: You are a full-stack developer working in Express 5, Mongoose 9, and React with Vite.
+Task: Build [feature] for my application.
+Tone: Code with a comment only where a decision is not obvious.
+Purpose: [Why this feature exists and what it must never do.]
+Output: Separate blocks per file: model, route handler, component.
+Constraints: No TypeScript. No UI libraries. Bearer token in the Authorization header. [Versions.]
+```
+
+A filled example under each one, taken from the hall: the Debugger on the negative-pack bug you forced in 4-14, the Reviewer on your own `readMessage`, the Feature Builder left for 5-2 with a note saying so.
+
+Evidence:
+
+- `docs/prompt-log.md` with the `## 5-1 readMessage` entry from the demonstration and the `## 5-1 spend` entry from your turn, both with rubric, two scored outputs, and a result paragraph.
+- `docs/prompt-library.md` with three six-line templates and at least two filled examples.
+- A commit in `hall-api` whose message begins with `5-1`.
+- No secret in either file. Search them for `JWT_SECRET=` and for `eyJ` before you commit; both searches return nothing.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The long return between the first exciting answer and the day the six lines are reflex is the grit sheet, and a prompt with one task and one responsibility is the single-responsibility principle wearing a chat window, so read both with the log open.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Ensure a free account on at least one AI platform (Claude, ChatGPT, or similar). Have your Project 2 MERN app code available. Review any prior experience you have using AI chat tools and note what worked and what felt inconsistent.
-**Materials:** AI chat tool access (Claude or ChatGPT), VS Code, Project 2 MERN app repo, browser for AI platform
+Next session the six lines stay and three techniques sit on top of them: showing the model examples from your own code so it matches your style, asking it to reason through the cases before it writes, and chaining prompts so the output of one becomes the context of the next. The hall gets its first chained feature, built in the chat, and the log grows the way it did today. Read the [prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) page once, with your log open, and notice how many of its sections are one of your six lines under another name. Reread your own `### Result` paragraphs. If you cannot say what the six lines bought without opening the outputs, the entry is not finished.
 
-**Assignment: Build Your RTTPOC Prompt Library v1**
-
-**Due:** Before Session 5.2
-
-**Tasks:**
-
-1. **Create a file called `prompt-library.md` in your Project 2 repo** (in a `/docs` folder).
-
-2. **Write 6 RTTPOC prompt templates**, one for each of these categories:
-   - Debugging a backend error
-   - Debugging a frontend rendering issue
-   - Code review (paste code, get feedback)
-   - Building a new React component
-   - Building a new Express route with Mongoose
-   - Explaining a concept you do not understand yet
-
-3. **For each template:**
-   - Write the complete RTTPOC prompt with placeholders marked in `[brackets]` for the parts that change each time
-   - Include one real example where you fill in the brackets with something from your Project 2
-   - Run the real example and include the AI output
-   - Rate the output 1-5 and write one sentence about what you would iterate on
-
-4. **Write a short reflection (3-5 sentences)** at the top of the file answering: "What changed about how I think about using AI tools after learning RTTPOC?"
-
-**Submission:** Push to your Project 2 repo. Link in the class submission form.
-
-**Stretch Goals:**
-- Write 3 additional templates for tasks you find yourself doing often (writing tests, formatting data, writing comments/docs)
-- Run one template through 4 rounds of iteration, showing how each round improved the output
-- Try the same RTTPOC prompt in two different AI tools and compare the outputs
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview)
+Nothing is running. The hall was never started today, and the chat tab is not a process. The next session starts in the same chat account, with `docs/prompt-log.md` open and `hall-api` on `main` with today's commit on it.

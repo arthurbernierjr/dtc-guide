@@ -2,391 +2,289 @@
 editorial: true
 title: Claiming Territory
 subtitle: Cloud Machines, SSH, and Server Setup
-hook: "A manually provisioned server access plan with a verified recovery path. Use a named account and SSH key."
-read: 60
-artifact: "A manually provisioned server access plan with a verified recovery path"
+hook: "Everything you have built runs on your laptop. Today you rent a Linux machine in a data center, reach it with the key you already own, close every door but three, and leave it waiting for the guild hall."
+read: 65
+artifact: "A hardened Ubuntu 24.04 droplet with a deploy user, key-only SSH, UFW, Node 24, and the hall repos cloned, plus docs/server.md describing how to reach and recover it"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
-  - https://nodejs.org/en/about/previous-releases
+  - https://docs.digitalocean.com/products/droplets/how-to/create/
+  - https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/
+  - https://man.openbsd.org/sshd_config
   - https://documentation.ubuntu.com/server/how-to/security/firewalls/
+  - https://github.com/nodesource/distributions
+  - https://nodejs.org/en/about/previous-releases
 say:
-  - "Access: Use a named account and SSH key."
-  - "Boundary: Permit required traffic before enabling the firewall."
-  - "Recovery: Keep console access and a tested second session."
+  - "Prove the new door opens before you lock the old one."
+  - "sshd -T shows the config that is actually running, not the file you edited."
+  - "Allow OpenSSH, then enable the firewall, never the other way round."
 ---
 
 ## The hook
 
-"Alright. Five units ago, you woke up in a terminal. You learned the filesystem, built web pages, mastered JavaScript, assembled a full MERN stack, and unlocked AI-powered development. You have built real things. But every single one of those things lives on your laptop. Today that changes. Today you are going to rent a real Linux machine in a data center, connect to it over the internet, lock it down like a fortress, and install Node.js on it. By the end of today, you will have a hardened cloud server running and waiting for your code. This is where deployment begins."
+The guild hall works. Bran sends Sera a letter, Ivo gets a 403, the pack refuses to go negative, and the AI feature you rebuilt in Unit 5 is merged on `main`. All of it runs on one machine, and that machine goes to sleep when you close the lid. Nobody else can open the hall, because the hall's address is `localhost`, and `localhost` means "this computer". Today you rent a second computer that never sleeps, in a building you will never visit, and you make it yours: a named account, a key instead of a password, a firewall with exactly three openings, and the same Node 24 your laptop runs.
 
----
+By the end of the session you can type `ssh deploy@YOUR_DROPLET_IP` from your laptop and land in a shell on that machine without a password. Root cannot log in over the network. Passwords do not work over the network. `node --version` prints a 24 on both machines. Both hall repos are on GitHub and cloned onto the server, and `node server.js` fails there for the one reason you expect: there is no `.env` yet. That failure is the handoff to the rest of the unit.
 
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *You walk out past the last farm and plant a stake in the ground. Nothing is built yet. But the ground is yours, and you know the way back.*
 
 ## The idea
 
-### Provision and Secure Cloud Infrastructure
+A VPS, a virtual private server, is a slice of a real machine in a data center, sold by the month and reachable over the internet. DigitalOcean calls the slice a droplet. You get an Ubuntu install, a public IPv4 address, root, and nothing else. No desktop, no editor, no Node. Every change you make is a command typed over SSH, and that is why Unit 1 made you live in the terminal first: on this machine the terminal is the only room.
 
-Provision a virtual private server, establish secure remote access via SSH key authentication, and harden the server following security best practices.
+The contrast with the places you have deployed before is the point. GitHub Pages, where the landing page and the memory game live, serves files and runs nothing. A droplet runs a process you start, keeps it running after you disconnect, and lets a browser on the other side of the planet reach it on port 80 and 443. Railway, which you will meet at the end of the unit, does the same job with the machine hidden; this unit shows you the machine first so the hidden one is not magic.
 
-**Enabling Objectives:**
+SSH, the secure shell, is a terminal session over the network. You already own the half of it that matters: in Unit 1 you generated `~/.ssh/id_ed25519` and `~/.ssh/id_ed25519.pub` and registered the public half with GitHub. The same pair works for a server. You paste the public key into the droplet when you create it, the private key never leaves your laptop, and the server lets in whoever can prove possession of the private key. A password can be guessed by a script a thousand times a minute. A 256-bit key cannot be guessed at all, so once key login works you switch password login off and the scripts hit a wall.
 
-- Compare hosting options (shared hosting, VPS, dedicated servers, serverless) and justify VPS selection for full stack deployment
-- Provision a VPS instance on a cloud provider (DigitalOcean, Linode, or equivalent) with appropriate specifications
-- Generate SSH key pairs using Ed25519, transfer public keys to the server, and authenticate without passwords
-- Create a non-root user with sudo privileges and disable root SSH login and password authentication
-- Configure UFW firewall rules to allow only SSH, HTTP, and HTTPS traffic
+The order of operations is the whole lesson. Every hardening step closes a door, and some of those doors are the one you came in through. So you never close a door until you have walked through the new one in a second terminal and seen a prompt. First session stays open. Second session proves the new login. Only then does the first session run the command that disables the old way in. If you get that order right you will never need the provider's recovery console; if you get it wrong the console is the only way back, so you also write down where it is before you start.
 
-**You should be able to:**
-- You will be able to set up a production-ready cloud server with SSH key authentication, a non-root sudo user, and firewall rules that follow security best practices.
-
----
-
-**0:00 - 0:10 | Unit Intro and Context Setting**
-
-This is the unit where the project leaves your laptop. By the end of it, a browser that is not yours can open your app on a name you bought, with a lock in the address bar.
-
-Quick poll: "Who here has ever deployed anything to the real internet? Not localhost. Not a free tier. The actual internet with a real domain?" For most, this will be their first time. That changes today.
-
-**0:10 - 0:25 | What Is a VPS and Why Do You Need One?**
-
-A VPS (Virtual Private Server) is a virtual machine running on someone else's hardware. You get root access. You can install anything. You control everything. It is YOUR machine in the cloud.
-
-Think of it this way:
-
-- **Shared hosting** (like GoDaddy hosting): You are renting a room in a crowded hostel. You share the kitchen. You cannot paint the walls. There are rules.
-- **VPS**: You are renting your own apartment. You have the keys. You can do whatever you want inside. The landlord (cloud provider) just keeps the building standing.
-- **Dedicated server**: You bought the entire building. Expensive. Overkill for now.
-- **Serverless** (Lambda, Vercel, etc.): Someone else owns the building and you just show up to cook one meal at a time. Convenient but you do not control anything.
-
-Why VPS over free hosting?
-
-- Full control over the environment
-- Install any software you want
-- No vendor lock-in
-- Real production experience
-- Runs 24/7 (not sleeping like free tiers)
-- You learn actual server administration
-- Looks incredible on a resume
-
-Cloud providers offer different machine sizes, regions, storage, transfer allowances, support, and billing rules. Compare the current product documentation before choosing a plan. Do not assume a historical free-credit offer is available to your account. Set a spending alert and understand whether stopped machines, disks, snapshots, and reserved addresses continue to incur charges.
-
-This walkthrough uses DigitalOcean's term **Droplet** for a virtual machine. You may use another provider if you can map the same operations: choose a supported operating system, add an SSH public key, configure network access, and locate the recovery console. The learning objectives do not depend on a referral promotion or a particular dashboard layout. Record the plan, region, and expected monthly cost from the provider at the time you provision it.
-
-**0:25 - 0:45 | SSH Keys Explained**
-
-SSH (Secure Shell) is how you remotely connect to a server. You type commands on your laptop, and they execute on the server. Like a portal to another machine.
-
-**Password auth vs SSH keys:**
-
-Password auth: You type a password every time. It works, but passwords can be guessed, brute-forced, or intercepted. Not great.
-
-SSH keys: You generate a key pair. Two files:
-
-- **Private key** (`~/.ssh/id_ed25519`): Stays on YOUR machine. Never share this. Ever. This is your identity.
-- **Public key** (`~/.ssh/id_ed25519.pub`): Goes on the server. This is like a lock that only your private key can open.
-
-When you connect, your machine proves it has the private key without ever sending it over the network. It is mathematically impossible to derive the private key from the public key. This is public key cryptography, and it is one of the most important inventions in computer science.
-
-Analogy: The public key is a padlock. You can give padlocks to anyone. The private key is the only key that opens those padlocks. You keep the key. You distribute the padlocks.
-
-**Why server hardening matters:**
-
-Right now a fresh server is running as root with password authentication enabled. This is like leaving your front door wide open with a sign that says "FREE STUFF INSIDE."
-
-Bots are constantly scanning the internet for servers with weak passwords. Within minutes of your server going live, automated scripts will try to brute-force your root password. This is not a hypothetical. You can check it yourself:
-
-```bash
-# SSH into your server first, then run:
-cat /var/log/auth.log | grep "Failed password" | tail -20
-```
-
-The hardening checklist:
-1. Create a non-root user with sudo privileges
-2. Disable root SSH login
-3. Disable password authentication (SSH keys only)
-4. Set up a firewall (UFW)
-5. Keep the system updated
-
----
+What a sketch on a napkin should hold: a droplet with one public address. A named user, `deploy`, with `sudo`. Your ed25519 key in that user's `authorized_keys`. `sshd` configured so root and passwords are refused over the network, and verified with `sshd -T`, not with `grep`. UFW allowing `OpenSSH`, `80/tcp`, and `443/tcp`, enabled after the SSH rule exists. Node 24 from NodeSource. Git. Two clones under `/home/deploy`. The figure shows the three boundaries in that order: access, boundary, recovery.
 
 ![](diagram:session-6-1/fig1-model)
 
-### Treat the first login as a controlled change
+### What you are renting
 
-A virtual machine is a remote computer with an operating system, processes, storage, and a network boundary. Provisioning it does not automatically make your application secure or available. Record the provider, region, operating system release, public address, and recovery-console location. Keep credentials out of that record. Confirm that you can reach the provider console before changing SSH or firewall settings, because that console may be the only route back after a mistake.
+Create a droplet with the Ubuntu 24.04 LTS image, the smallest Basic plan with 1 GB of memory, and the region nearest you. The 512 MB plan is cheaper and will run out of memory the first time Vite builds the client. Prices change; read the current number on the create page and write it in your notes rather than trusting a figure from a session. You need a payment method on the account, even for a trial credit, and you should set a billing alert while the console is open.
 
-Create a named administrative account and verify its key-based login in a second terminal. Leave the original session open while testing. Only after the new account works should you disable an older access path. This sequence matters more than memorizing a hardening command: each change preserves a recovery route until its replacement is proven. A successful command exit does not demonstrate that a new login works.
+The hostname is `yourname-server`, with your own name. It is only a label the shell prints at the prompt, but it is the label you will read a hundred times, so make it one you recognize. When the droplet finishes booting, the console shows a public IPv4 address. That address is the server for the rest of the unit; this session writes it as `YOUR_DROPLET_IP`, and the example output uses `203.0.113.10`, a documentation address that belongs to nobody.
 
-### Read the network boundary explicitly
+The create form has an authentication section with two choices, SSH key or password. Choose SSH key, click the button to add a new key, and paste the one line from `cat ~/.ssh/id_ed25519.pub`. That is the whole reason to generate the key before you open the form: the droplet is born with your public key in root's `authorized_keys`, root never has a password, and there is nothing to copy across later. The old two-step path, password first and keys afterwards, works, but it leaves a password on the machine during exactly the minutes when the scanning bots find a new address. One path.
 
-A host firewall and a provider firewall may both filter traffic. Allowing a port in one does not open it in the other. Write down which service owns each permitted port. SSH is administrative access; HTTP and HTTPS are public web entry points. The database and application process usually do not need direct public exposure when a reverse proxy handles traffic. Bind internal services to loopback where appropriate and verify their listening addresses.
+### The order that keeps you out of the recovery console
 
-Before enabling a restrictive firewall, allow the actual SSH port you use. Test from a second connection and retain console access. Do not assume a tutorial's port, username, or distribution matches your machine. When a command fails, inspect the current service and firewall configuration instead of repeatedly applying a copied sequence. Infrastructure work becomes safer when every step has an observable postcondition.
+Here is the sequence, said once in prose before you see the commands. You log in as root with the key. You update packages. You create `deploy`, give it `sudo`, and copy root's `~/.ssh` into `/home/deploy` with the ownership fixed, so the same key opens the new account. In a second terminal you log in as `deploy` and run `sudo whoami`; it prints `root`. Only now, with the root session still open, do you edit `sshd` so root login and password login are refused, test the file, restart the service, and reconfirm in a third attempt that `deploy` still gets in. Then you allow `OpenSSH` in UFW and enable it. Then Node, git, and the clones.
 
-### Runtime installation remains a manual prerequisite
+Each step has a visible postcondition: a prompt, the word `root`, two lines from `sshd -T`, a `Status: active` table, a version string. If the postcondition does not appear, stop and read, because the next step assumes it. A command that returned without complaint has not proven anything. The second terminal is the proof.
 
-Choose an Active LTS or Maintenance LTS Node.js release supported by your application's dependencies. Record the exact version used locally and on the server. This curriculum uses existing tools for its browser checkpoints; it does not install language toolchains on your machine. Follow the official installation instructions yourself and verify node --version and npm --version afterward. [Node.js release policy](https://nodejs.org/en/about/previous-releases).
+### What `sshd` actually reads
 
-Avoid executing an unexplained remote installer as root. Read the provider's instructions, understand the repository or package source being added, and verify the resulting version. A development machine's global packages are not a deployment manifest. Commit the application lockfile and install its dependencies reproducibly in the deployment workflow. The operating system and runtime still need their own update policy.
+The main file is `/etc/ssh/sshd_config`. Its first real line on Ubuntu 24.04 is `Include /etc/ssh/sshd_config.d/*.conf`, and for most keywords the first value `sshd` sees wins. The drop-in directory is read first. DigitalOcean's image lets cloud-init write `/etc/ssh/sshd_config.d/50-cloud-init.conf` during the first boot, and depending on the image that file can carry `PasswordAuthentication yes`. If it does, the `PasswordAuthentication no` you carefully write into the main file is never used, and `grep` on the main file will cheerfully tell you passwords are off while they are on.
 
-### Plan capacity and recovery before traffic
+So the edit has two parts. Set the three lines in the main file, and look at the drop-in and remove it if it contradicts you. Then ask the daemon, not the file: `sudo sshd -T` prints the effective configuration after every include and default has been applied, in lowercase. The two lines you want to see are `permitrootlogin no` and `passwordauthentication no`. That command is your evidence for the rest of the path, and the checkpoint below models why.
 
-A small server can be enough for a learning application, but memory, disk, and network limits still exist. Check available resources before running a database, build process, and application together. A frontend build can briefly consume more memory than the running server. If the machine becomes unresponsive during builds, investigate resource pressure rather than assuming SSH itself is broken.
+The service on Ubuntu is `ssh`, not `sshd`. `sudo sshd -t` tests the configuration and prints nothing when it is valid; `sudo systemctl restart ssh` applies it. The restart does not drop the session you are in, because an established connection keeps the process that is already serving it. New connections use the new rules.
 
-Keep application data separate from disposable build output. Decide what must be backed up, how often, where backups live, and how you would restore one. A backup you have never restored is an untested hypothesis. For this session, a written restore plan and a disposable-file recovery drill establish the habit without touching real user data. The finished artifact should let another developer understand how to access, identify, and recover the machine.
+### The firewall is a list, and the list is read before you enable it
+
+UFW is the Ubuntu front for the kernel's packet filter. `ufw allow OpenSSH` adds a rule by application name, which the OpenSSH package registered as port 22; `ufw allow 80/tcp` and `ufw allow 443/tcp` add the two web ports. Nothing is enforced until `ufw enable`. When you run it, the tool warns that the command may disrupt existing SSH connections and asks `y` or `n`. You answer `y`, and your session survives, because the `OpenSSH` rule was added first. Enable with an empty list and the server is still there, with every port closed, including the one you are talking on.
+
+Port 4100, where the hall will listen, is not in the list. That is deliberate. The API will sit behind Nginx on the loopback address, and Nginx will be the only process the outside can reach. A port that is not allowed is not a bug; it is the shape of the next session.
+
+### Node, from NodeSource, not from Ubuntu's archive
+
+`apt install nodejs` with no extra repository gives you the Node that was current when Ubuntu 24.04 was frozen, an 18 line that is out of support, and the hall's dependencies were installed and tested under 24. NodeSource publishes an apt repository per major version. The setup script adds their repository and signing key, and then `apt install -y nodejs` installs the 24 line from there. Node 24 is the Active LTS at the time of writing; the release schedule page in the docs list tells you when that changes. Read the script before you run it if you like, it is a shell file you downloaded to disk, and then run it with `sudo -E bash`. The version you must see afterwards starts with `v24`. Write that number next to the one on your laptop. "Latest" is not a version.
 
 ## The demonstration
 
-**0:45 - 0:55 | Demo: DigitalOcean Signup and Droplet Creation**
+One droplet, start to finish, from a laptop that has already done Unit 1. The commands marked laptop run in your own terminal. The commands marked server run inside an SSH session. The prompt tells you which: your laptop prompt is the one from your dotfiles, and the server prompt says `root@yourname-server` or `deploy@yourname-server`.
 
-Walk through the signup process live:
-
-1. Go to [digitalocean.com](https://www.digitalocean.com)
-2. Sign up with GitHub (easiest)
-3. Enter a payment method (required even with free credits)
-4. Review current billing and any offer eligibility directly with the provider
-
-Step-by-step droplet creation:
-
-1. Click "Create" > "Droplets"
-2. **Region:** Choose the closest to you (e.g., New York, San Francisco, London)
-3. **Image:** a supported Ubuntu LTS release compatible with your chosen packages; verify the release-specific setup instructions
-4. **Size:** Basic > Regular > $6/mo (1 GB RAM, 1 vCPU, 25 GB SSD, 1000 GB transfer)
-   - The $4/mo plan has only 512 MB RAM. MongoDB will struggle. Spend the extra $2.
-5. **Authentication:** We will set up SSH keys in a moment. For now, note that password auth exists but SSH keys are better.
-6. **Hostname:** Give it a name like `my-mern-server` or `project2-server`
-7. Click "Create Droplet"
-
-It takes about 55 seconds. When it is done, you get an IP address. That IP address is YOUR server.
-
-**Important concept:** That IP address (e.g., `164.92.105.23`) is where your server lives on the internet. Right now, if you go to that IP in a browser, nothing will load because we have not set up a web server yet. But the machine is running and waiting for you.
-
-**0:55 - 1:10 | Demo: Generating SSH Keys and Connecting**
-
-**Step 1: Check if you already have SSH keys**
+Before the console, the key. On the laptop:
 
 ```bash
-ls -la ~/.ssh/
-```
-
-If you see `id_ed25519` and `id_ed25519.pub` (or `id_rsa` and `id_rsa.pub`), you already have keys. You can use those or generate new ones.
-
-**Step 2: Generate a new SSH key pair**
-
-```bash
-ssh-keygen -t ed25519 -C "your_email@example.com"
-```
-
-- `-t ed25519`: Use the Ed25519 algorithm (modern, fast, secure)
-- `-C "your_email@example.com"`: A comment/label for the key
-
-When prompted:
-- **File location:** Press Enter for the default (`~/.ssh/id_ed25519`)
-- **Passphrase:** Optional but recommended. It encrypts your private key so even if someone steals the file, they cannot use it without the passphrase.
-
-**Step 3: View your public key**
-
-```bash
+ls -la ~/.ssh
 cat ~/.ssh/id_ed25519.pub
 ```
 
-This outputs something like:
+The listing shows `id_ed25519` and `id_ed25519.pub` from Unit 1. If it does not, generate the pair the way 1-4 did, `ssh-keygen -t ed25519 -C "you@example.com"`, and press Enter for the default path. `cat` prints one line beginning `ssh-ed25519 AAAA` and ending with your comment. Copy that whole line.
 
-```
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGkjhJKLMNOPqrstuvwxyz1234567890abcdef your_email@example.com
-```
+In the DigitalOcean console: Create, Droplets. Region nearest you. Image Ubuntu 24.04 (LTS) x64. Size Basic, Regular, the 1 GB option. Authentication SSH Key, New SSH Key, paste the line, name it after the laptop. Hostname `yourname-server`. Create. About a minute later the droplet has an address. Write it in your notes as the server IP. Also find, on the droplet's page, the Access tab with the recovery console button. Do not use it. Know where it is.
 
-**Step 4: Add your public key to the server**
-
-If you created the droplet with password auth, you can copy your key to the server:
+First login, from the laptop:
 
 ```bash
-ssh-copy-id root@YOUR_DROPLET_IP
+ssh root@203.0.113.10
 ```
 
-This will ask for your root password (the one DigitalOcean emailed you or you set during creation), then automatically add your public key to the server's `~/.ssh/authorized_keys` file.
-
-**Step 5: Connect via SSH**
-
-```bash
-ssh root@YOUR_DROPLET_IP
+```text
+The authenticity of host '203.0.113.10 (203.0.113.10)' can't be established.
+ED25519 key fingerprint is SHA256:3kq1x9m0dH7Yq2JrVbXk8tN5p3cF0e1LwZ6yA4uRs9o.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '203.0.113.10' (ED25519) to the list of known hosts.
+root@yourname-server:~#
 ```
 
-If your key is set up correctly, you will connect without being asked for a password. You are now ON the server. Every command you type runs on that remote machine.
+That question appears exactly once per address. Your laptop has never spoken to this machine and is asking you to vouch for its host key. On a brand-new droplet, `yes` is right. The next time you see that question for the same address, something changed, and the Wrong host diagnosis below is for you.
 
-To disconnect:
-
-```bash
-exit
-```
-
-**1:10 - 1:30 | Demo: Server Hardening**
-
-SSH into your server as root:
-
-```bash
-ssh root@YOUR_DROPLET_IP
-```
-
-**Step 1: Update the system**
+On the server, as root:
 
 ```bash
 apt update && apt upgrade -y
-```
-
-This updates the package list and upgrades all installed packages. Always do this first on a new server.
-
-**Step 2: Create a new user**
-
-```bash
 adduser deploy
-```
-
-You will be prompted to set a password and fill in optional info (you can press Enter to skip the optional fields). Use a strong password.
-
-**Step 3: Give the user sudo privileges**
-
-```bash
 usermod -aG sudo deploy
-```
-
-This adds the `deploy` user to the `sudo` group, which means they can run commands as root by prefixing them with `sudo`.
-
-**Step 4: Copy SSH keys to the new user**
-
-```bash
 rsync --archive --chown=deploy:deploy ~/.ssh /home/deploy
 ```
 
-This copies the `authorized_keys` file from root's home directory to the new user's home directory, and sets the correct ownership. Now you can SSH in as `deploy` using the same SSH key.
+`adduser` asks for a password and some optional fields; set a real password, because `sudo` will ask for it, and press Enter through the rest. `usermod -aG sudo deploy` puts the account in the group that may use `sudo`. The `rsync` line copies root's `.ssh` directory, which holds the `authorized_keys` cloud-init wrote from the key you pasted, into the new home with the new owner. That is how the same laptop key opens both accounts.
 
-**Step 5: Test the new user (open a NEW terminal window)**
-
-```bash
-ssh deploy@YOUR_DROPLET_IP
-```
-
-You should connect without a password (your SSH key works). Test sudo:
+Now the second terminal. Open a new terminal window on the laptop and leave the root session alone:
 
 ```bash
+ssh deploy@203.0.113.10
 sudo whoami
 ```
 
-It should output `root`. Your user has sudo powers.
+```text
+[sudo] password for deploy:
+root
+```
 
-**Step 6: Lock down SSH**
-
-Now we disable root login and password auth. Do this ONLY after confirming you can SSH in as your new user.
+The prompt reads `deploy@yourname-server:~$`, and `sudo whoami` prints `root`. That line is the one that allows the next step. Back in the root session, lock the daemon down:
 
 ```bash
-sudo nano /etc/ssh/sshd_config
+cat /etc/ssh/sshd_config.d/50-cloud-init.conf
+nano /etc/ssh/sshd_config
 ```
 
-Find and change these lines (some may be commented out with `#`):
+If the drop-in exists and contains `PasswordAuthentication yes`, remember it. In the main file, find the three keywords, uncomment them, and set them:
 
-```
+```text
 PermitRootLogin no
 PasswordAuthentication no
 PubkeyAuthentication yes
 ```
 
-Save and exit (`Ctrl+X`, then `Y`, then `Enter` in nano).
-
-Restart the SSH service:
+Save with Ctrl-O, Enter, Ctrl-X. Then remove the drop-in if it contradicted you, test, restart, and ask the daemon what it believes:
 
 ```bash
-sudo systemctl restart sshd
+rm -f /etc/ssh/sshd_config.d/50-cloud-init.conf
+sshd -t
+systemctl restart ssh
+sshd -T | grep -E '^(permitrootlogin|passwordauthentication)'
 ```
 
-**WARNING:** If you mess this up and lock yourself out, you can use DigitalOcean's web console (Recovery > Launch Recovery Console) to fix it. But let's not mess it up.
+```text
+permitrootlogin no
+passwordauthentication no
+```
 
-**Step 7: Set up UFW firewall**
+`sshd -t` prints nothing when the file is valid. If it prints a line with a filename and a line number, fix that line before you restart; a daemon that fails to restart over a typo is the other way to lock yourself out. In the second terminal, type `exit`, then `ssh deploy@203.0.113.10` again. A prompt, with no password question, is the proof that the new rules admit you. Try `ssh root@203.0.113.10` from a third terminal and read `Permission denied (publickey)`. That refusal is correct, and you are allowed to be pleased by it.
 
-UFW (Uncomplicated Firewall) is Ubuntu's built-in firewall tool. It blocks all incoming traffic except what you explicitly allow.
+The firewall, from the `deploy` session:
 
 ```bash
-# Allow SSH (ALWAYS do this first or you will lock yourself out)
 sudo ufw allow OpenSSH
-
-# Allow HTTP (port 80) for web traffic
 sudo ufw allow 80/tcp
-
-# Allow HTTPS (port 443) for secure web traffic
 sudo ufw allow 443/tcp
-
-# Enable the firewall
 sudo ufw enable
-
-# Check the status
 sudo ufw status verbose
 ```
 
-Expected output:
-
-```
+```text
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
 Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
 
 To                         Action      From
 --                         ------      ----
-OpenSSH                    ALLOW       Anywhere
-80/tcp                     ALLOW       Anywhere
-443/tcp                    ALLOW       Anywhere
-OpenSSH (v6)               ALLOW       Anywhere (v6)
-80/tcp (v6)                ALLOW       Anywhere (v6)
-443/tcp (v6)               ALLOW       Anywhere (v6)
+22/tcp (OpenSSH)           ALLOW IN    Anywhere
+80/tcp                     ALLOW IN    Anywhere
+443/tcp                    ALLOW IN    Anywhere
+22/tcp (OpenSSH (v6))      ALLOW IN    Anywhere (v6)
+80/tcp (v6)                ALLOW IN    Anywhere (v6)
+443/tcp (v6)               ALLOW IN    Anywhere (v6)
 ```
 
-**Step 8: Install Node.js**
-
-We will use NodeSource to install a specific version of Node.js (not the ancient one from Ubuntu's default repos).
+Default deny incoming, three openings. Your session is still alive because the first rule was `OpenSSH`. Now Node and git:
 
 ```bash
-# Install curl if not already installed
-sudo apt install -y curl
-
-# Download and run the NodeSource setup script for a supported Node.js LTS
-# MANUAL PREREQUISITE: install a supported Node.js LTS using its official instructions
-
-# Install Node.js
-sudo apt install -y nodejs
-
-# Verify installation
+curl -fsSL https://deb.nodesource.com/setup_24.x -o nodesource_setup.sh
+sudo -E bash nodesource_setup.sh
+sudo apt install -y nodejs git
 node --version
 npm --version
+git --version
 ```
 
-Verify that the installed versions match the supported LTS runtime and package-manager versions you selected manually.
+```text
+v24.11.0
+11.6.1
+git version 2.43.0
+```
 
-Test it:
+Your patch numbers will differ; the `v24` is what matters, and it must match the major version on your laptop. If `node --version` prints `v18`, the NodeSource step did not run and apt installed Ubuntu's own package; the Unsupported runtime diagnosis below is the fix.
+
+Now the repos. This is the step older notes skipped: 4-14 ended with a commit, not a push, and the AI feature from Unit 5 was merged on a branch on your laptop. Both repos have to be on GitHub before the server can have them. On the laptop:
 
 ```bash
-node -e "console.log('Hello from the cloud! Node.js is alive.')"
+cd ~/projects/hall-api
+git status
+git check-ignore .env
+gh repo create hall-api --public --source=. --push
+cd ~/projects/hall-client
+git status
+gh repo create hall-client --public --source=. --push
 ```
 
----
+`git status` should say the working tree is clean on `main`; commit anything that is not. `git check-ignore .env` prints `.env`, which proves the secrets file will not travel. `gh repo create` with `--source=. --push` is the command from 2-5, and it prints the new repository's URL. Public is fine here; the hall has no secrets in code, which is exactly what the `.gitignore` line is for. If you prefer private repositories, the server needs its own way to authenticate, either `gh auth login` on the droplet or a deploy key from the GitHub docs, and the clone lines below use the SSH form instead.
 
-### Runnable checkpoint: a small model
+Back on the server, as `deploy`:
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+```bash
+cd ~
+git clone https://github.com/YOUR_GITHUB_USER/hall-api.git
+git clone https://github.com/YOUR_GITHUB_USER/hall-client.git
+cd ~/hall-api
+npm install
+node server.js
+```
+
+```text
+/home/deploy/hall-api/server.js:7
+  if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET is required');
+                               ^
+
+Error: JWT_SECRET is required
+```
+
+That is the right failure. The guard you wrote in 4-11 refuses to listen without a secret, and this machine has no `.env`. Try `node --env-file=.env server.js` and Node tells you the file does not exist. Do not create it today. The database it would point at does not exist on this machine either, and 6-4 builds both the file and the database in one sitting. Note the error text in your docs and move on.
+
+A small model you can run here. It does not open a socket or edit a file. It models two rules from this session: how `sshd` picks a value when a drop-in and the main file disagree, and the order gate that decides when you may close the old door. It proves that you can state those rules. It does not prove your droplet is hardened; `sshd -T` and the second terminal prove that.
 
 ```js run=checkpoint-6-1
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
+
+function effective(files) {
+  const seen = {};
+  files.forEach(function (file) {
+    Object.keys(file.values).forEach(function (key) {
+      if (!(key in seen)) seen[key] = file.values[key];
+    });
+  });
+  return seen;
+}
+
+const dropIn = { name: '50-cloud-init.conf', values: { PasswordAuthentication: 'yes' } };
+const main = { name: 'sshd_config', values: { PasswordAuthentication: 'no', PermitRootLogin: 'no' } };
+
+const withDropIn = effective([dropIn, main]);
+check(withDropIn.PasswordAuthentication === 'yes', 'an included drop-in that comes first wins over the main file');
+
+const withoutDropIn = effective([main]);
+check(withoutDropIn.PasswordAuthentication === 'no' && withoutDropIn.PermitRootLogin === 'no', 'remove the drop-in and the main file is the effective config');
+
 function mayDisableOldAccess(state) {
   return state.newLoginVerified && state.consoleAvailable && state.firewallAllowsSSH;
 }
-check(!mayDisableOldAccess({newLoginVerified: false, consoleAvailable: true, firewallAllowsSSH: true}), 'Preserve recovery before proof');
-check(mayDisableOldAccess({newLoginVerified: true, consoleAvailable: true, firewallAllowsSSH: true}), 'All access prerequisites verified');
+check(!mayDisableOldAccess({ newLoginVerified: false, consoleAvailable: true, firewallAllowsSSH: true }), 'Preserve recovery before proof');
+check(mayDisableOldAccess({ newLoginVerified: true, consoleAvailable: true, firewallAllowsSSH: true }), 'All access prerequisites verified');
+
+function enableFirewall(rules) {
+  if (rules.indexOf('OpenSSH') === -1) throw new Error('the session you are typing in would be cut');
+  return 'active';
+}
+let cut = false;
+try { enableFirewall(['80/tcp', '443/tcp']); } catch (error) { cut = true; }
+check(cut === true, 'enabling with no OpenSSH rule cuts your own session');
+check(enableFirewall(['OpenSSH', '80/tcp', '443/tcp']) === 'active', 'allow OpenSSH first, then enable');
+
 console.log('ok: checkpoint-6-1');
 ```
 
@@ -396,163 +294,62 @@ console.log('ok: checkpoint-6-1');
 
 ### Locked out
 
-The new key is not in `authorized_keys` yet, and you already disabled password login, or you replaced the only key that worked. The next SSH attempt is refused, and the cloud console is now the only door. Before you turn off the old way in, open a second terminal and log in with the new key. Leave the first session open until that succeeds. If you do lock yourself out, the provider's web console or a recovery mode is the path back, not another SSH attempt with the same key.
+`ssh deploy@YOUR_DROPLET_IP` answers `Permission denied (publickey)` and the root session you had open is gone too. The cause is order: password login was switched off, or the daemon was restarted with a broken file, before a second terminal had proven that the key opens the `deploy` account. A variant is the `rsync` step that was skipped, so `/home/deploy/.ssh/authorized_keys` does not exist and `deploy` has no key at all.
+
+The fix is the recovery console on the droplet's Access page, which gives you a terminal that does not go through `sshd`. Log in there as root if root has a password, or reset the root password from the same page, then repair: run the `rsync` line, `sshd -t`, `systemctl restart ssh`, and try the key from your laptop again before closing the console. Then reread the order in the idea section, because the console is a fire exit, not a door.
 
 ### Wrong host
 
-`ssh` warns that the host key has changed, or you reach a machine that is not the one you provisioned. That warning is the client telling you the server at this address is not the server it remembered. Do not type `yes` to clear it until you know why it changed. A rebuild replaces the host key. A typo in the IP, or a record that still points at the old box, connects you to something else entirely. Check the provider's page for the address and the key fingerprint, then decide.
+The laptop prints a block of `@` characters, `WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!`, and refuses to connect. Your `~/.ssh/known_hosts` remembers a host key for that address, and the machine answering now has a different one. Two causes, and they deserve different responses. You rebuilt or destroyed and recreated the droplet, so a new machine sits on the old address with a new key; that is expected. Or you typed a neighbour's address, or a record still points at a box you no longer own, and you are about to type your key into a stranger.
+
+Check the address against the console before you do anything. If it is your rebuilt droplet, remove the stale line with `ssh-keygen -R 203.0.113.10` and connect again, answering the first-time question. If it is not your droplet, you have a typo or a stale DNS record, and no amount of `yes` will make that machine yours.
 
 ### Unsupported runtime
 
-The deploy script installs whatever `node` the default image has, and it is not the version your app runs on. A native addon fails, or a syntax error cites a feature your laptop has and the server does not. Pick a current LTS yourself, install that, and write the version down in the runbook. `node -v` on the server should match the version you tested. "Latest" is not a version. It is a moving target that will change under a working app.
+`node --version` on the server prints `v18.19.1`, or `npm install` in `hall-api` fails with a message about an unsupported engine, or `node --env-file=.env` is reported as a bad option. The server has Ubuntu's archived Node, because `apt install nodejs` ran without the NodeSource repository in place. The hall was built on 24 and `--env-file` arrived in 20.6, so the gap is not cosmetic.
+
+Run the NodeSource setup script again and read its output for the line that says the repository was configured, then `sudo apt install -y nodejs`. If apt still reports the old version, `apt-cache policy nodejs` shows which repository is winning; the NodeSource entry should be at the top. Write the version that finally prints into `docs/server.md` beside the laptop's.
 
 ## Your turn
 
-> **Exercise 1: Spin Up Your Cloud Machine**
->
-> 1. Sign up for DigitalOcean (review current pricing and billing directly with the provider)
-> 2. Create a droplet with these settings:
->    - Region: closest to you
->    - Image: Ubuntu 24.04 LTS
->    - Plan: Basic, Regular, $6/mo (1 GB RAM)
->    - Authentication: Password (we will switch to SSH keys shortly)
->    - Hostname: `yourname-server`
-> 3. Write down your droplet's IP address. You will need it for the rest of this unit.
->
-> **Deliverable:** A running droplet with an IP address you can share in chat.
+Do the demonstration on your own droplet. Each step has one line you should see.
 
-> **Exercise 2: Generate Keys and SSH In**
->
-> 1. Generate an SSH key pair (if you do not have one):
->    ```bash
->    ssh-keygen -t ed25519 -C "your_email@example.com"
->    ```
-> 2. Copy your public key to your droplet:
->    ```bash
->    ssh-copy-id root@YOUR_DROPLET_IP
->    ```
-> 3. SSH into your server:
->    ```bash
->    ssh root@YOUR_DROPLET_IP
->    ```
-> 4. Run these commands on the server to prove you are connected:
->    ```bash
->    hostname
->    whoami
->    uname -a
->    df -h
->    free -m
->    ```
-> 5. Take a screenshot of your terminal showing you are connected to the remote server.
-> 6. Type `exit` to disconnect.
->
-> **Deliverable:** Screenshot showing successful SSH connection with the output of the commands above.
+1. On the laptop, `cat ~/.ssh/id_ed25519.pub`. You see one line beginning `ssh-ed25519`. Create the droplet with that key pasted in, Ubuntu 24.04, 1 GB, hostname `yourname-server`. Write the IP in your notes and find the recovery console button.
+2. `ssh root@YOUR_DROPLET_IP`. Answer `yes` to the first-time host question. You see `root@yourname-server:~#`.
+3. As root: `apt update && apt upgrade -y`, `adduser deploy`, `usermod -aG sudo deploy`, `rsync --archive --chown=deploy:deploy ~/.ssh /home/deploy`. No errors from `rsync`.
+4. In a second terminal: `ssh deploy@YOUR_DROPLET_IP` and `sudo whoami`. You see `root`. Leave both terminals open.
+5. In the root terminal: edit `/etc/ssh/sshd_config` for `PermitRootLogin no`, `PasswordAuthentication no`, `PubkeyAuthentication yes`; `rm -f /etc/ssh/sshd_config.d/50-cloud-init.conf`; `sshd -t`; `systemctl restart ssh`. Then `sshd -T | grep -E '^(permitrootlogin|passwordauthentication)'` prints two lines ending in `no`.
+6. In the second terminal, `exit` and reconnect as `deploy`. You get a prompt with no password question. From a third terminal, `ssh root@YOUR_DROPLET_IP` prints `Permission denied (publickey)`. Now close the root terminal.
+7. As `deploy`: `sudo ufw allow OpenSSH`, `sudo ufw allow 80/tcp`, `sudo ufw allow 443/tcp`, `sudo ufw enable` and answer `y`, `sudo ufw status verbose`. You see `Status: active` and three ALLOW IN rules.
+8. `curl -fsSL https://deb.nodesource.com/setup_24.x -o nodesource_setup.sh`, `sudo -E bash nodesource_setup.sh`, `sudo apt install -y nodejs git`, `node --version`. You see `v24.` and some patch number.
+9. On the laptop, in `~/projects/hall-api`: `git status` clean, `git check-ignore .env` prints `.env`, `gh repo create hall-api --public --source=. --push`. Same for `hall-client`. Both print a GitHub URL.
+10. On the server as `deploy`: clone both repos into `/home/deploy`, `cd ~/hall-api && npm install && node server.js`. You see `Error: JWT_SECRET is required`. That is the expected final line of the session.
 
----
+If step 4 does not print `root`, do not go to step 5. Nothing after step 4 is safe until step 4 is true.
 
 ## The quest
 
-> **Exercise 3: Harden Your Server**
->
-> Complete the following on your server:
->
-> 1. Create a `deploy` user with sudo privileges
-> 2. Copy your SSH keys to the new user
-> 3. Disable root login in `/etc/ssh/sshd_config`
-> 4. Disable password authentication
-> 5. Set up UFW firewall allowing SSH, HTTP, and HTTPS
-> 6. Install a supported Node.js LTS
-> 7. Run this verification script:
->
-> ```bash
-> echo "=== Server Hardening Verification ==="
-> echo "Current user: $(whoami)"
-> echo "Sudo access: $(sudo whoami)"
-> echo "Node version: $(node --version)"
-> echo "NPM version: $(npm --version)"
-> echo "UFW status:"
-> sudo ufw status
-> echo "Root login disabled:"
-> grep "PermitRootLogin" /etc/ssh/sshd_config
-> echo "Password auth disabled:"
-> grep "PasswordAuthentication" /etc/ssh/sshd_config
-> echo "=== Verification Complete ==="
-> ```
->
-> **Deliverable:** Screenshot of the verification script output.
-
-**Wrap-Up (Last 5 min of Practice block)**
-
-What you accomplished today:
-- Learned what a VPS is and why it matters
-- Created a DigitalOcean droplet (your cloud machine)
-- Generated SSH keys and connected to your server securely
-- Created a non-root user with sudo privileges
-- Hardened the server (disabled root login, disabled password auth, set up firewall)
-- Installed Node.js on the server
-
-Your server is now secure, running, and ready for software. In the next session, we install Nginx and PM2 to actually serve your app to the world.
-
----
-
-### Review the artifact
-
-Your deliverable is **A manually provisioned server access plan with a verified recovery path**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-6-1/fig3-evidence)
+
+Write `docs/server.md` in `~/projects/hall-api` on your laptop, commit it, and push. It is the access plan another developer, or you in three months, would need to reach and recover this machine. No secrets, no private keys, no passwords. One page.
+
+- Provider, region, plan, and the monthly price you read on the create page, with the date you read it.
+- The public IP, the hostname, and the user you log in as. The exact `ssh` command.
+- Where the recovery console is, in words, and what you would do there if the key stopped working.
+- The two lines `sshd -T` printed for `permitrootlogin` and `passwordauthentication`.
+- The `ufw status verbose` table, pasted.
+- `node --version` on the server and on the laptop, side by side.
+- The two clone URLs and the error `node server.js` printed in `hall-api`.
+- One sentence on the order rule: which terminal was open while which door was closed.
+
+Evidence: the committed `docs/server.md`, a screenshot named `6-1-sshd-T.png` of the two `sshd -T` lines, and a screenshot named `6-1-ufw.png` of the firewall table.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The named account and the sudo group are authentication and authorization in their smallest form, and a drop-in that silently re-enables passwords is the textbook security misconfiguration, so the two library sheets for this session read like a second look at your own `sshd -T` output.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Ensure you have a credit/debit card ready for cloud provider signup (free credits available). Confirm your MERN app from Unit 4 (Project 2) runs on localhost. Review basic terminal commands (cd, ls, mkdir, nano).
-**Materials:** DigitalOcean referral link (shared in Discord), terminal application, web browser
+Leave the droplet running; it is the one machine on the path that stays up between sessions from now on. Nothing is listening on it yet except `sshd`, and that is correct. Close every SSH session with `exit` when you are done. On the laptop nothing is running.
 
----
-
-**HW 6.1: Server Setup and Exploration**
-
-1. **Complete all in-class exercises** if you did not finish during class.
-
-2. **Install Git on your server:**
-   ```bash
-   sudo apt install -y git
-   git --version
-   ```
-
-3. **Clone your MERN project to the server:**
-   ```bash
-   cd /home/deploy
-   git clone https://github.com/YOUR_USERNAME/your-mern-project.git
-   cd your-mern-project
-   ```
-   (Use the backend/server directory if your project is split into separate repos)
-
-4. **Install project dependencies on the server:**
-   ```bash
-   npm install
-   ```
-
-5. **Research task:** Read the DigitalOcean tutorial "Initial Server Setup with Ubuntu 24.04" (search for it). Write down 2 things from the tutorial that this session did not cover.
-
-6. **Stretch goal:** Try running your Node.js/Express backend on the server:
-   ```bash
-   node server.js
-   ```
-   It will probably fail because MongoDB is not set up yet. That is fine. Note the error message. We will fix it in Session 6.4.
-
-**Submission:** Push a screenshot of your cloned project on the server and your 2 findings from the DigitalOcean tutorial to your homework repo.
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://nodejs.org/en/about/previous-releases)
-- [Official reference 2](https://documentation.ubuntu.com/server/how-to/security/firewalls/)
+Next session installs Nginx on this server, puts a page on port 80 that a browser anywhere can open at `http://YOUR_DROPLET_IP`, and then stands Nginx in front of a Node process on a loopback port, which is the shape the hall will use. Read the Nginx beginner's guide in next session's docs list once before you arrive, just the part about `server` and `location` blocks. Bring the IP and the `deploy` login; the session starts with `ssh deploy@YOUR_DROPLET_IP`.

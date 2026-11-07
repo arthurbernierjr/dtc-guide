@@ -2,260 +2,124 @@
 editorial: true
 title: The Gatekeeper
 subtitle: Nginx, Reverse Proxies, and Process Management
-hook: "An Nginx reverse proxy and process-management runbook. Nginx accepts public HTTP requests."
-read: 60
-artifact: "An Nginx reverse proxy and process-management runbook"
+hook: "Your server has an address and nothing answering it. Today Nginx takes the public door, a Node process waits behind it on a loopback port, and pm2 brings that process back after a crash and after a reboot."
+read: 65
+artifact: "Nginx serving /var/www/hall-client on port 80 and proxying /api/ to a pm2-managed Node process on a loopback port, with a reboot-tested startup hook and docs/runbook.md"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
-  - https://nginx.org/en/docs/http/ngx_http_proxy_module.html
+  - https://nginx.org/en/docs/beginners_guide.html
+  - https://nginx.org/en/docs/http/ngx_http_core_module.html#location
+  - https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass
   - https://pm2.keymetrics.io/docs/usage/quick-start/
+  - https://pm2.keymetrics.io/docs/usage/startup/
+  - https://pm2.keymetrics.io/docs/usage/application-declaration/
 say:
-  - "Edge: Nginx accepts public HTTP requests."
-  - "Upstream: Forward API traffic to a loopback application port."
-  - "Process: Restart deliberately and retain useful logs."
+  - "Nginx owns 80 and 443; the app owns a loopback port nobody else can reach."
+  - "proxy_pass with a path replaces the matched prefix; without one it forwards the path untouched."
+  - "pm2 startup, paste the printed command, then pm2 save, then reboot to prove it."
 ---
 
 ## The hook
 
-"Last session, you spun up a server, locked it down, and installed Node.js. Your cloud territory exists, but it has no gatekeeper. Right now, if someone visits your IP address in a browser, they get nothing. Today we install the gatekeeper. Nginx is the bouncer at the door of your server. It decides who gets in and where they go. It serves static files at lightning speed, it proxies requests to your Node.js app, and it handles SSL termination. And PM2 is the enchantment that keeps your app alive forever, even if it crashes, even if the server reboots. By the end of today, you will have a web server running on the real internet."
+Last session ended with a hardened machine and a Node that refused to start for want of a secret. Open `http://YOUR_DROPLET_IP` in a browser right now and the tab spins and gives up, because port 80 is allowed through the firewall and nothing on the server is listening there. Today something listens. Nginx takes the public ports, serves a page from a directory, and forwards everything under `/api/` to a Node process that only the server itself can reach. Then pm2 takes custody of that process so it survives you closing the terminal, survives a crash, and survives `sudo reboot`.
 
----
+By the end of the session a browser anywhere opens `http://YOUR_DROPLET_IP` and sees a page you wrote, `curl http://YOUR_DROPLET_IP/api/ping` returns JSON from Express, `curl http://YOUR_DROPLET_IP:3000/health` times out because the firewall is doing its job, and `pm2 list` after a reboot shows the process `online` with nobody having started it. You will also have made a 502 on purpose, read the exact line Nginx writes about it, and put it back.
 
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The land has a wall now and a gate in the wall. Behind the gate, a clerk who never sleeps hands each visitor to the right room.*
 
 ## The idea
 
-### Configure Web Server and Process Management
+Nginx is a web server and a reverse proxy. The first job is the one GitHub Pages did for you: given a directory and a path, send the file. The second job is the one this unit needs: accept a connection from the public internet, open a second connection to a process on the same machine, forward the request, and relay the answer. The browser never learns that a Node process exists. It talked to Nginx on port 80 and got a response.
 
-Install and configure Nginx as both a static file server and a reverse proxy, and use PM2 to manage Node.js processes in a production environment.
-
-**Enabling Objectives:**
-
-- Install Nginx and verify it serves the default welcome page on port 80
-- Create Nginx server blocks in sites-available, enable them with symlinks in sites-enabled, and validate configuration syntax
-- Configure Nginx as a reverse proxy that forwards HTTP requests to a Node.js application running on a local port
-- Install PM2 globally, start Node.js applications as managed processes, and configure auto-restart on crash and system boot
-- Read and interpret Nginx access logs, error logs, and PM2 application logs for debugging
-
-**You should be able to:**
-- You will be able to configure Nginx to serve static content and proxy dynamic requests to a Node.js backend, with PM2 ensuring the backend survives crashes and server reboots.
-
----
-
-**0:00 - 0:05 | Session Kickoff**
-
-Quick recap: Last session, you spun up a server, locked it down, and installed Node.js. Today, we install the gatekeeper. Nginx is the bouncer at the door of your server. It decides who gets in and where they go.
-
-**0:05 - 0:25 | What Is Nginx and Why Do You Need It?**
-
-Nginx (pronounced "engine-x") is a web server and reverse proxy. It is used by Netflix, Airbnb, WordPress.com, and roughly 34% of all websites on the internet. It is insanely fast and rock solid.
-
-**"But wait, Node.js can serve HTTP. Why do I need Nginx?"**
-
-Great question. Here is why:
-
-1. **Performance:** Nginx is built in C and optimized for serving static files (HTML, CSS, JS, images). It handles thousands of simultaneous connections with minimal memory. Node.js is good at many things, but serving static files at scale is not one of them.
-
-2. **Security:** You do not want to expose your Node.js app directly to the internet. Nginx sits in front of it as a protective layer. It can handle SSL/TLS termination, rate limiting, and request filtering.
-
-3. **Port management:** Your Node app runs on port 3000 (or 5000, or 8080). But web browsers expect port 80 (HTTP) and 443 (HTTPS). Nginx listens on port 80/443 and forwards requests to your app's port. This is called a **reverse proxy**.
-
-4. **Multiple apps:** You might want to run multiple apps on the same server. Nginx can route `app1.yourdomain.com` to port 3000 and `app2.yourdomain.com` to port 4000.
-
-**The reverse proxy concept:**
-
-```
-Browser (port 80) --> Nginx --> Node.js app (port 3000)
-Browser (port 443) --> Nginx (SSL) --> Node.js app (port 3000)
-```
-
-Without Nginx:
-```
-Browser --> Node.js app (port 3000)
-User has to type: http://164.92.105.23:3000
-Ugly. No SSL. No bueno.
-```
-
-With Nginx:
-```
-Browser --> Nginx (port 80/443) --> Node.js app (port 3000)
-User types: https://yourdomain.com
-Clean. Secure. Professional.
-```
-
-**0:25 - 0:30 | Nginx Configuration Structure**
-
-Nginx configuration lives in `/etc/nginx/`. Here is the structure:
-
-```
-/etc/nginx/
-  nginx.conf              # Main config file (usually do not touch this)
-  sites-available/        # Config files for each site/app
-    default               # The default site config
-  sites-enabled/          # Symlinks to active configs in sites-available
-    default -> ../sites-available/default
-  conf.d/                 # Additional config snippets
-```
-
-**The workflow:**
-1. Create a config file in `sites-available/`
-2. Create a symlink to it in `sites-enabled/`
-3. Test the config with `sudo nginx -t`
-4. Reload Nginx with `sudo systemctl reload nginx`
-
-**0:30 - 0:45 | PM2: The Process Manager Problem and Solution**
-
-Right now, if you run a Node.js app on your server, it runs in a terminal session. If you:
-- Close the SSH connection: the app dies
-- The app crashes: it stays dead
-- The server reboots: the app does not start
-
-This is obviously unacceptable for a production application. You need a **process manager** that:
-- Keeps the app running in the background (daemonized)
-- Automatically restarts it if it crashes
-- Starts it on server boot
-- Gives you logs, monitoring, and cluster mode
-
-PM2 is the industry standard for this in the Node.js world. It is free, battle-tested, and has a beautiful CLI.
-
-**Q&A (remaining time in block)**
-
----
+Why not let Express listen on 80 itself? Three reasons that matter at your scale. Ports below 1024 belong to root, and you do not want the hall running as root. Nginx serves static files faster than Express will and does TLS termination next session so Express never touches a certificate. And one Nginx can front several apps on several ports under one address, which is how a second project lands on this same droplet without a second droplet. The pattern is edge, upstream, process, and the figure draws it in that order.
 
 ![](diagram:session-6-2/fig1-model)
 
-### Follow the two connections
+### Server blocks and the two directories
 
-A reverse proxy accepts a client connection and makes a separate connection to an upstream service. The browser may speak HTTPS to Nginx while Nginx speaks HTTP over loopback to Node. A 502 response often means the proxy could not obtain a valid upstream response; it does not by itself identify whether the application crashed, the port is wrong, or a timeout occurred. Check each connection independently.
+Nginx configuration lives in `/etc/nginx/`. `nginx.conf` is the main file, and you leave it alone. `sites-available/` holds one file per site; `sites-enabled/` holds symlinks to the ones that are live. The package ships a site called `default` that serves the welcome page. The workflow for every change is the same four commands: edit the file in `sites-available`, make sure the link exists in `sites-enabled`, `sudo nginx -t` to check syntax, `sudo systemctl reload nginx` to apply it without dropping connections. A reload after a failed test applies nothing, which is why the test comes first.
 
-First request the application directly on the server's loopback address. Then request the public route through Nginx. If the first succeeds and the second fails, focus on proxy configuration and routing. If both fail, investigate the process before editing Nginx. This two-step method is more reliable than restarting every service and hoping the symptom disappears.
+A `server` block answers for a `listen` port and a `server_name`. Inside it, `location` blocks match the request path by prefix, and the longest matching prefix wins. `root` names the directory, and `try_files $uri $uri/ =404` means: look for a file at that path, then a directory, then answer 404. Next session `server_name` becomes your domain; today it is the IP, and `_` would also work as "whatever the client asked for".
 
-### Paths and headers carry meaning
+### What `proxy_pass` does to the path
 
-A proxy can preserve or rewrite a request path depending on its location and proxy_pass configuration. Write an example mapping beside the configuration: incoming /api/quests should reach exactly the route your Express app exposes. Test a collection route, a nested route, and an unknown route. A trailing slash can change the mapping, so copy configuration with an understanding of its behavior rather than treating it as boilerplate.
+A `location /api/` block with `proxy_pass http://127.0.0.1:4100;` forwards the request path untouched: `/api/items` arrives at Express as `/api/items`. The same block with `proxy_pass http://127.0.0.1:4100/;`, one trailing slash more, replaces the matched prefix with that slash: `/api/items` arrives as `/items`. The nginx reference states the rule as "if proxy_pass is specified with a URI, the part of the request URI matching the location is replaced by that URI." Both forms are useful. Only one of them matches the hall, whose routes are written with `/api/` in them, `app.get('/api/inbox', ...)`, so the form without a trailing slash is the one you want. Write the mapping beside the block when you edit it: incoming `/api/inbox` must reach Express as `/api/inbox`.
 
-Forward host and client-protocol information deliberately. The application may need to know that the original request used HTTPS even though its immediate connection is HTTP. Trust proxy settings must match your actual proxy topology; blindly trusting every forwarded header allows direct clients to spoof information when the application is publicly reachable. Keep the upstream private and document which proxy is trusted.
+Use `127.0.0.1`, not `localhost`, in `proxy_pass`. Nginx resolves `localhost` from `/etc/hosts` when it starts, and on Ubuntu that name has both an IPv6 and an IPv4 entry. A Node process bound to IPv4 only then gets intermittent 502s as Nginx tries `[::1]` first. The numeric address removes the ambiguity, and it matches what "loopback port" in the figure means: an address only this machine can dial.
 
-### Process management is an operational contract
+The `proxy_set_header` lines matter because the upstream connection is a new connection. Without `Host $host`, Express sees `127.0.0.1:4100` as the host. Without `X-Forwarded-For`, every request appears to come from `127.0.0.1`, which is Nginx. Without `X-Forwarded-Proto`, Express cannot tell that the original request was HTTPS. The `Upgrade` and `Connection` pair exist so a WebSocket handshake can pass through later; they cost nothing now.
 
-A process manager can restart a crashed application, retain logs, and restore configured processes after reboot. It does not fix a crash loop. If a process repeatedly exits, inspect the error, environment, working directory, and dependency installation. A restart counter is evidence of instability, not proof that recovery works. Use a readiness check that exercises the application's ability to serve its core function.
+### Why a terminal is not a process manager
 
-Document how environment changes reach the running process. Editing a file does not necessarily change an already-running process's environment. Restart or reload according to the tool's documented behavior and verify the effective result without printing secret values. Keep one process definition with the entry point, working directory, and non-secret configuration names so the deployment does not depend on a remembered terminal session.
+`node server.js` runs as a child of your shell. Close the SSH session and the shell gets a hangup, and the child goes with it. If the process throws and exits, it stays exited. If the machine reboots, nothing knows to start it. A process manager is a daemon that owns your process instead of the shell: it restarts on exit, keeps the stdout and stderr in files you can tail, and registers itself with systemd so that the whole list comes back on boot. pm2 is the one the Node world uses, and it is an npm package installed globally.
 
-### Change configuration with a rollback path
+The boot part has a precise sequence that old notes always get backwards. `pm2 startup` does not install anything; it prints a command, with the path to the pm2 binary and your username in it, that must be run with `sudo`. You paste and run that printed command. Then `pm2 save` writes the current process list to `~/.pm2/dump.pm2`, which is what the systemd unit resurrects at boot. Save before startup saves a list nobody will read. Startup without save registers a unit that starts an empty list. Then you reboot, on purpose, because an untested boot hook is a guess.
 
-Save the previous configuration, validate syntax, reload, and immediately run a smoke check. A reload is usually preferable to an unnecessary stop-start when the service supports it, but validation still matters. Keep the previous application revision available as well. A proxy rollback cannot repair an incompatible database migration, so deployment planning must consider the entire release.
+An ecosystem file turns the command line you typed into a file in the repo. `pm2 start ecosystem.config.js` reads the name, the script, the working directory, the restart policy, and any environment the process should see. Next session's hall will use one more field, `node_args`, to pass `--env-file=.env` so Node reads the secrets file on the server the same way it does on your laptop. The test app today uses the `env` field instead, so you can see that an ecosystem `PORT` reaches `process.env.PORT`.
 
-For the lab, deliberately point a temporary test location at an unused loopback port and observe the resulting error. Restore the correct port and record the difference in logs. Do this only in the isolated exercise environment. The goal is to recognize the signature of an upstream failure, then prove you can restore service without making unrelated changes.
+### Two connections, two checks
+
+A 502 from Nginx means "I accepted the client's connection and could not get a good answer from the upstream." It does not say whether the process is dead, listening on another port, or crashing on every request. So the diagnosis is two curls, in this order. First, on the server, hit the upstream directly: `curl http://127.0.0.1:3000/health`. If that fails, the problem is the process, and Nginx is innocent. If that succeeds, hit the public path through Nginx: `curl http://YOUR_DROPLET_IP/api/ping`. If that fails, the problem is the proxy block. The checkpoint below models exactly that decision, because it is the one you will make at two in the morning.
 
 ## The demonstration
 
-**0:45 - 0:55 | Demo: Installing Nginx and Serving a Static Page**
+Two SSH sessions to the droplet, both as `deploy`; call them Terminal A and Terminal B. The laptop terminal is a third window. Everything today happens on the server except the curls marked laptop.
 
-SSH into your server:
-
-```bash
-ssh deploy@YOUR_DROPLET_IP
-```
-
-Install Nginx:
+Install and look, in Terminal A:
 
 ```bash
 sudo apt update
 sudo apt install -y nginx
+systemctl status nginx --no-pager
 ```
 
-Check that it is running:
+```text
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/usr/lib/systemd/system/nginx.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-11-14 15:02:11 UTC; 3s ago
+```
+
+`active (running)` and `enabled` are the two words to read. From the laptop, `curl -I http://203.0.113.10` prints `HTTP/1.1 200 OK` and a `Server: nginx/1.24.0 (Ubuntu)` header, and a browser shows the welcome page. Port 80 went from a spinner to a page because a process now listens on it.
+
+The directory the hall will eventually live in, with ownership that lets you write and Nginx read:
 
 ```bash
-sudo systemctl status nginx
+sudo install -d -o deploy -g www-data -m 0750 /var/www/hall-client
+nano /var/www/hall-client/index.html
 ```
-
-You should see `active (running)`. Now open your browser and go to:
-
-```
-http://YOUR_DROPLET_IP
-```
-
-You should see the default Nginx welcome page. That page is being served from `/var/www/html/index.nginx-debian.html`.
-
-Congratulations. You have a web server.
-
-**0:55 - 1:10 | Demo: Serving a Custom Static Site**
-
-Let's create a simple site and serve it with Nginx:
-
-```bash
-# Create a directory for our site
-sudo mkdir -p /var/www/mysite
-
-# Create an index.html
-sudo nano /var/www/mysite/index.html
-```
-
-Paste this into the file:
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cloud Server</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-        }
-        h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-        p { font-size: 1.2rem; color: #aaa; }
-        .status { color: #00ff88; font-weight: bold; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guild hall</title>
 </head>
 <body>
-    <div class="container">
-        <h1>I Bought Land in the Cloud</h1>
-        <p>And nobody can stop me.</p>
-        <p class="status">Server Status: ALIVE</p>
-    </div>
+  <h1>The hall is under construction.</h1>
+  <p>Nginx is serving this file from /var/www/hall-client.</p>
 </body>
 </html>
 ```
 
-Save and exit.
-
-Now create an Nginx config for this site:
+`install -d` makes the directory owned by `deploy` with group `www-data`, which is the user Nginx runs as. Mode `0750` lets the group read and traverse, and keeps everyone else out. You write the file as yourself, no `sudo`. The site file:
 
 ```bash
-sudo nano /etc/nginx/sites-available/mysite
+sudo nano /etc/nginx/sites-available/hall
 ```
 
 ```nginx
 server {
     listen 80;
     listen [::]:80;
+    server_name 203.0.113.10;
 
-    root /var/www/mysite;
+    root /var/www/hall-client;
     index index.html;
-
-    server_name YOUR_DROPLET_IP;
 
     location / {
         try_files $uri $uri/ =404;
@@ -263,111 +127,96 @@ server {
 }
 ```
 
-Replace `YOUR_DROPLET_IP` with your actual IP address.
-
-Enable the site:
+Enable it and retire the default:
 
 ```bash
-# Remove the default site (optional but clean)
 sudo rm /etc/nginx/sites-enabled/default
-
-# Create symlink to enable our site
-sudo ln -s /etc/nginx/sites-available/mysite /etc/nginx/sites-enabled/
-
-# Test the config for syntax errors
+sudo ln -s /etc/nginx/sites-available/hall /etc/nginx/sites-enabled/hall
 sudo nginx -t
-
-# Reload Nginx
 sudo systemctl reload nginx
 ```
 
-Now visit `http://YOUR_DROPLET_IP` in your browser. You should see your custom page.
-
-Let's look at the default config to understand the key parts:
-
-```nginx
-server {
-    listen 80 default_server;          # Listen on port 80
-    listen [::]:80 default_server;     # Also listen on IPv6 port 80
-
-    root /var/www/html;                # Where to find static files
-    index index.html index.htm;        # Default file to serve
-
-    server_name _;                     # Respond to any domain name
-
-    location / {
-        try_files $uri $uri/ =404;     # Try to find the file, or return 404
-    }
-}
+```text
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
 ```
 
-**1:10 - 1:25 | Demo: Configuring the Reverse Proxy**
+Reload the browser tab: your heading. Nginx is serving a directory you own. That is the static half of the final shape, and in 6-4 the Vite build lands in that same directory.
 
-Let's create a tiny Express app on the server to test our reverse proxy:
+Now a process to stand behind it. Not the hall yet, because the hall needs a database; a forty-line Express app whose only purpose is to be an upstream:
 
 ```bash
-mkdir -p ~/test-app
-cd ~/test-app
+mkdir -p ~/test-app && cd ~/test-app
 npm init -y
 npm install express
+nano server.js
 ```
 
-Create the app:
-
-```bash
-nano ~/test-app/server.js
-```
-
-```javascript
+```js
 const express = require('express');
+
 const app = express();
-const PORT = 3000;
+const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello from Node.js behind Nginx!',
-    server: 'My Cloud VPS',
-    timestamp: new Date().toISOString()
-  });
+  res.json({ message: 'Hello from Node behind Nginx', host: req.get('host') });
 });
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', uptime: process.uptime() });
+  res.json({ status: 'ok', uptime: Math.round(process.uptime()) });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.get('/api/ping', (req, res) => {
+  res.json({ pong: true, path: req.originalUrl, from: req.get('x-forwarded-for') || 'direct' });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: 'no route for ' + req.originalUrl });
+});
+
+app.listen(port, () => {
+  console.log('listening on ' + port);
 });
 ```
 
-Start it:
+`port` reads `process.env.PORT` so an ecosystem file can set it later. The 404 handler echoes the path Express saw, which is the instrument for the trailing-slash lesson. Start it in Terminal A, and it holds that terminal:
 
 ```bash
-node ~/test-app/server.js
+node server.js
 ```
 
-The app is running on port 3000. But you cannot access it from a browser because our firewall only allows ports 22, 80, and 443. And that is correct. We do NOT want to expose port 3000 to the world. We want Nginx to proxy traffic to it.
+```text
+listening on 3000
+```
 
-Leave this running (or open a second SSH session).
-
-Update the Nginx config:
+In Terminal B, prove the upstream on its own, then prove the firewall from the laptop:
 
 ```bash
-sudo nano /etc/nginx/sites-available/mysite
+curl -s http://127.0.0.1:3000/health
 ```
 
-Replace the entire contents with:
+```text
+{"status":"ok","uptime":12}
+```
+
+From the laptop, `curl -m 5 http://203.0.113.10:3000/health` prints `curl: (28) Connection timed out after 5001 milliseconds`. Port 3000 is not in the UFW list, so the outside cannot reach the process, and that is the design. Now the proxy, in Terminal B:
+
+```bash
+sudo nano /etc/nginx/sites-available/hall
+```
 
 ```nginx
 server {
     listen 80;
     listen [::]:80;
+    server_name 203.0.113.10;
 
-    server_name YOUR_DROPLET_IP;
+    root /var/www/hall-client;
+    index index.html;
 
-    # Serve static files from /var/www/mysite for the root path
-    location / {
-        proxy_pass http://localhost:3000;
+    # /api/ping must reach Express as /api/ping: no trailing slash on proxy_pass
+    location /api/ {
+        proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -377,91 +226,163 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
     }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
 }
 ```
 
-Let's break down each `proxy_set_header`:
-
-- `proxy_pass http://localhost:3000;` - Forward requests to port 3000
-- `proxy_http_version 1.1;` - Use HTTP/1.1 for the proxy connection
-- `Upgrade` and `Connection 'upgrade'` - Support WebSocket connections
-- `Host $host` - Pass the original Host header to Node.js
-- `X-Real-IP $remote_addr` - Pass the real client IP (otherwise Node sees `127.0.0.1`)
-- `X-Forwarded-For` - Standard header for proxied requests
-- `X-Forwarded-Proto $scheme` - Tell Node.js if the request was HTTP or HTTPS
-- `proxy_cache_bypass $http_upgrade` - Do not cache WebSocket connections
-
-Test and reload:
-
 ```bash
-sudo nginx -t
-sudo systemctl reload nginx
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-Now visit `http://YOUR_DROPLET_IP` in your browser. You should see the JSON response from your Node.js app. The browser thinks it is talking to Nginx on port 80, but Nginx is secretly forwarding everything to your Node app on port 3000.
+From the laptop:
 
-This is the reverse proxy in action.
+```bash
+curl -i http://203.0.113.10/api/ping
+```
 
-**1:25 - 1:30 | Demo: Installing and Using PM2 (5 min transition)**
+```text
+HTTP/1.1 200 OK
+Server: nginx/1.24.0 (Ubuntu)
+Content-Type: application/json; charset=utf-8
 
-First, stop your running Node app (Ctrl+C if it is still running in a terminal).
+{"pong":true,"path":"/api/ping","from":"198.51.100.23"}
+```
 
-Install PM2 globally:
+Read the three facts in that response. `Server` is Nginx, because Nginx answered the laptop. The body is from Express, because Nginx forwarded. `from` is your laptop's public address, because `X-Forwarded-For` carried it; without that header Express would have printed `direct`. Now `curl http://203.0.113.10/` still returns the HTML page, because `/` matched the static block and `/api/` matched the proxy block. Longest prefix wins.
+
+Break the path on purpose. Change `proxy_pass` to `http://127.0.0.1:3000/;` with the trailing slash, test, reload, and curl `/api/ping` again:
+
+```text
+HTTP/1.1 404 Not Found
+
+{"error":"no route for /ping"}
+```
+
+Express told you what it received: `/ping`. The `/api/` prefix was replaced by `/`. Put the slash back, test, reload, and the 200 returns. That is the Wrong path diagnosis, seen once with your own instrument.
+
+Now the process manager. In Terminal A, Ctrl-C the running app; the laptop curl now returns `502 Bad Gateway`, and `sudo tail -n 2 /var/log/nginx/error.log` shows `connect() failed (111: Connection refused) while connecting to upstream`. Remember that line. Then:
 
 ```bash
 sudo npm install -g pm2
+cd ~/test-app
+pm2 start server.js --name test-app
+pm2 list
 ```
 
-Start your app with PM2:
+```text
+┌────┬────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┐
+│ id │ name       │ mode    │ ↺       │ status   │ cpu    │ mem  │ user      │
+├────┼────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┤
+│ 0  │ test-app   │ fork    │ 0       │ online   │ 0%     │ 48mb │ deploy    │
+└────┴────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┘
+```
+
+The laptop curl is 200 again, and Terminal A is free, because pm2 owns the process now. `pm2 logs test-app --lines 5` shows the `listening on 3000` line in the out log. Close Terminal A entirely and curl again: still 200. The shell is gone and the process is not.
+
+Boot, in the correct order:
+
+```bash
+pm2 startup
+```
+
+```text
+[PM2] Init System found: systemd
+[PM2] To setup the Startup Script, copy/paste the following command:
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u deploy --hp /home/deploy
+```
+
+Copy the printed line, yours, not this one, and run it. It writes a systemd unit called `pm2-deploy`. Then:
+
+```bash
+pm2 save
+sudo reboot
+```
+
+`pm2 save` prints `[PM2] Saving the process list to /home/deploy/.pm2/dump.pm2`. The reboot drops your sessions. Wait thirty seconds, `ssh deploy@203.0.113.10`, and:
+
+```bash
+pm2 list
+uptime
+```
+
+`test-app` is `online` with uptime measured in seconds, and nobody typed `pm2 start`. Curl from the laptop returns 200. That reboot is the evidence the figure calls Process.
+
+Finally, the process definition as a file, so the next person does not need to remember a command line:
+
+```bash
+nano ~/test-app/ecosystem.config.js
+```
+
+```js
+module.exports = {
+  apps: [{
+    name: 'test-app',
+    script: 'server.js',
+    cwd: '/home/deploy/test-app',
+    instances: 1,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '200M',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3000
+    }
+  }]
+};
+```
 
 ```bash
 cd ~/test-app
-pm2 start server.js --name "test-app"
-```
-
-You will see a nice table showing your app is running. Here are the essential PM2 commands:
-
-```bash
-# List all running processes
-pm2 list
-
-# View logs (real-time)
-pm2 logs
-
-# View logs for a specific app
-pm2 logs test-app
-
-# Stop an app
-pm2 stop test-app
-
-# Restart an app
-pm2 restart test-app
-
-# Delete an app from PM2
 pm2 delete test-app
-
-# Monitor all processes (CPU, memory, etc.)
-pm2 monit
+pm2 start ecosystem.config.js
+pm2 save
 ```
 
----
+Change `PORT` to `3001` in that file, `pm2 restart ecosystem.config.js --update-env`, and the laptop curl is a 502 while `curl http://127.0.0.1:3001/health` on the server is fine: the ecosystem `env` reached the process, and Nginx is still pointed at 3000. Put it back to 3000, restart, save. You have now seen a 502 from both sides, process down and port moved.
 
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+A small model you can run here. It does not start Nginx or pm2. It models the `proxy_pass` path rule, the two-curl diagnosis, and the save-before-boot rule, and it proves you can state them. The reboot on your droplet is the proof that counts.
 
 ```js run=checkpoint-6-2
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-function diagnose({direct, proxied}) {
-  if (!direct) return 'inspect upstream process';
-  if (!proxied) return 'inspect proxy routing';
+
+function upstreamPath(location, proxyPass, requestPath) {
+  const match = proxyPass.match(/^https?:\/\/[^/]+(\/.*)?$/);
+  const uri = match && match[1];
+  if (!uri) return requestPath;
+  return uri + requestPath.slice(location.length);
+}
+check(upstreamPath('/api/', 'http://127.0.0.1:4100', '/api/inbox') === '/api/inbox', 'no URI on proxy_pass forwards the path untouched');
+check(upstreamPath('/api/', 'http://127.0.0.1:4100/', '/api/inbox') === '/inbox', 'a trailing slash replaces the matched prefix');
+
+function diagnose(result) {
+  if (!result.direct) return 'inspect the upstream process';
+  if (!result.proxied) return 'inspect the proxy block';
   return 'request path works';
 }
-check(diagnose({direct: false, proxied: false}) === 'inspect upstream process', 'Upstream first');
-check(diagnose({direct: true, proxied: false}) === 'inspect proxy routing', 'Proxy boundary isolated');
+check(diagnose({ direct: false, proxied: false }) === 'inspect the upstream process', 'Upstream first');
+check(diagnose({ direct: true, proxied: false }) === 'inspect the proxy block', 'Proxy boundary isolated');
+check(diagnose({ direct: true, proxied: true }) === 'request path works', 'both connections answer');
+
+function boot(steps) {
+  let saved = null;
+  let unit = false;
+  const running = ['test-app'];
+  steps.forEach(function (step) {
+    if (step === 'startup') unit = true;
+    if (step === 'save') saved = running.slice();
+  });
+  return unit && saved ? saved : [];
+}
+check(boot(['startup', 'save']).length === 1, 'startup, then save, then the list survives a reboot');
+check(boot(['startup']).length === 0, 'startup without save boots an empty list');
+check(boot(['save']).length === 0, 'save without the startup unit boots nothing');
+
 console.log('ok: checkpoint-6-2');
 ```
 
@@ -471,199 +392,60 @@ console.log('ok: checkpoint-6-2');
 
 ### 502 gateway error
 
-The public URL returns 502 and Nginx's error log says `connect() failed` or `upstream prematurely closed`. Nginx did its job and could not get a response from the process behind it. Check that the app is running, that it is listening on the address and port in `proxy_pass`, and that it is not bound only to a socket you did not configure. A 502 is not a DNS problem and it is not an application 500. Read the upstream log next to the Nginx log. The two of them together tell you whether the process is down, crashing, or listening in the wrong place.
+The public URL returns `502 Bad Gateway` with Nginx's own error page, and `/var/log/nginx/error.log` has a line ending `while connecting to upstream, client: ..., upstream: "http://127.0.0.1:3000/..."`. Nginx accepted the request and could not get an answer from the port in `proxy_pass`. Two causes dominate: the process is not running, or it is running on a different port than the block names. A third is a process that is up but crashes on the first request, which pm2 shows as a climbing restart count.
+
+Run the two curls in order. `curl http://127.0.0.1:3000/health` on the server: refused means the process is down or elsewhere, so `pm2 list` and `pm2 logs` are next, not the Nginx file. Answered means Nginx is pointed at the wrong place, so compare the port in the ecosystem file to the port in the site file. Do not restart everything and hope. The log line names the upstream address it tried; believe it.
 
 ### Wrong path
 
-`/api/quests` returns 404 from Express while `curl` against the app's own port returns the JSON. The proxy is rewriting the path. A `proxy_pass` with a trailing slash replaces the matched location. One without a trailing slash appends the full URI. Those are different routes to your app. Log `req.originalUrl` in Express and compare it to the URL you requested from outside. Fix the slash so the path Express sees is the path you wrote the router for.
+`/api/ping` is 200 when you curl port 3000 directly and 404 through Nginx, and the 404 body says `no route for /ping`. The proxy rewrote the path. A `proxy_pass` with a URI part, even just `/`, replaces the matched `location` prefix with that URI. The hall's routes carry `/api/` in them, so the prefix must survive.
+
+Remove the trailing slash from `proxy_pass`, test, reload, curl again. If you ever do want the prefix stripped, because an upstream expects `/inbox` and not `/api/inbox`, keep the slash and write the mapping as a comment above the block, because the next reader will not guess. Express's `req.originalUrl` is the instrument: log it, or echo it in the 404 as the test app does, and compare it to what you typed.
 
 ### Lost process after reboot
 
-The server reboots for a maintenance window and the site stays down until you SSH in and start Node by hand. The process was a shell session, and the shell is gone. A process manager is what turns "I started it" into "it starts on boot." Enable the unit or the startup hook, reboot a test machine on purpose, and confirm the site comes back without you. Until you have done that reboot, the setup is not finished. It is a process that happens to be running.
+The droplet rebooted for a kernel update, or you ran `sudo reboot`, and the site is a 502 until you SSH in and start the app by hand. Either the startup unit was never installed, or `pm2 save` ran before `pm2 start`, so the saved list was empty, or `pm2 startup` printed its command and you did not paste it.
+
+`systemctl status pm2-deploy` tells you whether the unit exists and ran. `cat ~/.pm2/dump.pm2` shows what was saved; an empty array is the second cause. Fix the order: start the app, `pm2 startup`, paste the printed `sudo env ...` line, `pm2 save`, reboot again. Until the reboot has happened and `pm2 list` showed `online` afterwards, the setup is a process that happens to be running.
 
 ## Your turn
 
-> **Exercise 1: Your First Cloud-Hosted Page**
->
-> 1. SSH into your server
-> 2. Create the `/var/www/mysite` directory
-> 3. Create an `index.html` file with custom content (make it yours, change the text, add your name)
-> 4. Create an Nginx config in `sites-available`
-> 5. Enable it with a symlink in `sites-enabled`
-> 6. Test with `sudo nginx -t` and reload
-> 7. Visit your IP in a browser and confirm you see your page
->
-> **Deliverable:** Screenshot of your custom page loaded in a browser via your server's IP address.
+Repeat the demonstration on your droplet and write down the line each step prints.
 
-> **Exercise 2: Proxy It**
->
-> 1. Create the test Express app in `~/test-app/`
-> 2. Start it on port 3000
-> 3. Update your Nginx config to proxy requests to `localhost:3000`
-> 4. Test with `sudo nginx -t` and reload
-> 5. Visit your IP in a browser, confirm you see the JSON response from Express
-> 6. Visit `http://YOUR_DROPLET_IP/health` and confirm that route also works
->
-> **Deliverable:** Screenshot showing the JSON response from your Express app loaded through Nginx.
+1. `sudo apt install -y nginx`, then `systemctl status nginx --no-pager`. You see `active (running)`. From the laptop, `curl -I http://YOUR_DROPLET_IP` prints `HTTP/1.1 200 OK`.
+2. `sudo install -d -o deploy -g www-data -m 0750 /var/www/hall-client` and write `index.html` there with your own heading. Create `/etc/nginx/sites-available/hall` with the static block, remove the `default` link, add the `hall` link, `sudo nginx -t` prints `test is successful`, reload. The browser shows your heading at `http://YOUR_DROPLET_IP`.
+3. Create `~/test-app` with the Express file above and `node server.js` in Terminal A. In Terminal B, `curl -s http://127.0.0.1:3000/health` prints `{"status":"ok",...}`. From the laptop, `curl -m 5 http://YOUR_DROPLET_IP:3000/health` times out.
+4. Add the `location /api/` proxy block with `proxy_pass http://127.0.0.1:3000;`, test, reload. From the laptop, `curl -i http://YOUR_DROPLET_IP/api/ping` prints `200` and a body with `"path":"/api/ping"`.
+5. Add a trailing slash to `proxy_pass`, reload, curl again. You see `404` and `"no route for /ping"`. Remove the slash, reload, confirm `200`.
+6. Ctrl-C the app in Terminal A. The laptop curl prints `502 Bad Gateway`. `sudo tail -n 2 /var/log/nginx/error.log` shows `connect() failed (111: Connection refused)`.
+7. `sudo npm install -g pm2`, `pm2 start server.js --name test-app`, `pm2 list` shows `online`. Close Terminal A. The laptop curl is `200` again.
+8. `pm2 startup`, paste the printed `sudo env PATH=...` command, `pm2 save`, `sudo reboot`. After thirty seconds, SSH back in and `pm2 list` shows `test-app` `online`.
+9. Write `ecosystem.config.js` as above, `pm2 delete test-app`, `pm2 start ecosystem.config.js`, `pm2 save`. Change `PORT` to `3001`, `pm2 restart ecosystem.config.js --update-env`, and confirm the laptop curl is `502` while `curl http://127.0.0.1:3001/health` on the server is `200`. Restore `3000`, restart, save.
 
----
+If step 4 is a 502 before you have touched anything, go back to step 3: is the app still running in Terminal A?
 
 ## The quest
 
-> **Exercise 3: PM2 Survival Test**
->
-> 1. Start your test-app with PM2:
->    ```bash
->    cd ~/test-app
->    pm2 start server.js --name "test-app"
->    ```
->
-> 2. Configure PM2 startup (so it survives reboots):
->    ```bash
->    pm2 save
->    pm2 startup
->    ```
->    PM2 will print a command that looks like this:
->    ```
->    sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u deploy --hp /home/deploy
->    ```
->    Copy and paste that exact command (it will be different for your system). This tells the system to start PM2 (and all saved processes) when the server boots.
->
-> 3. Save the PM2 process list
->
-> 4. Reboot the server with `sudo reboot`
->
-> 5. Wait 30 seconds, SSH back in:
->    ```bash
->    ssh deploy@YOUR_DROPLET_IP
->    pm2 list
->    ```
->
-> 6. Confirm your app is running after the reboot
->
-> 7. Visit your IP in a browser and confirm the app responds
->
-> 8. Create an ecosystem file for your test-app:
->    ```bash
->    nano ~/test-app/ecosystem.config.js
->    ```
->    ```javascript
->    module.exports = {
->      apps: [{
->        name: 'test-app',
->        script: 'server.js',
->        instances: 1,
->        autorestart: true,
->        watch: false,
->        max_memory_restart: '200M',
->        env: {
->          NODE_ENV: 'production',
->          PORT: 3000
->        }
->      }]
->    };
->    ```
->    Then switch to using it:
->    ```bash
->    cd ~/test-app
->    pm2 delete test-app
->    pm2 start ecosystem.config.js
->    pm2 save
->    ```
->
-> **Deliverable:** Screenshot of `pm2 list` after a reboot showing your app running.
-
-**Logs, when something fails:**
-
-When things go wrong on the server (and they will), logs are your best friend:
-
-```bash
-# PM2 logs (your app's console.log output)
-pm2 logs
-pm2 logs test-app --lines 50
-
-# Nginx access log (every request that hits your server)
-sudo tail -f /var/log/nginx/access.log
-
-# Nginx error log (when Nginx itself has problems)
-sudo tail -f /var/log/nginx/error.log
-
-# System logs
-sudo journalctl -u nginx --since "1 hour ago"
-```
-
-The most common issue: You update your code, restart PM2, but the site still shows the old version. Check:
-1. Did you actually restart? `pm2 restart test-app`
-2. Is Nginx caching? `sudo systemctl reload nginx`
-3. Is your browser caching? Hard refresh: Ctrl+Shift+R (or Cmd+Shift+R on Mac)
-
-**Wrap-Up (Last 5 min of Practice block)**
-
-What you accomplished today:
-- Installed Nginx and served a static page
-- Configured Nginx as a reverse proxy to route traffic to a Node.js app
-- Installed PM2 and learned to manage Node.js processes
-- Set up PM2 to survive reboots and crashes
-- Learned where to find logs for debugging
-
-The architecture you built:
-
-```
-Internet --> Your Droplet IP (port 80)
-              --> Nginx (reverse proxy)
-                --> Node.js app (port 3000, managed by PM2)
-```
-
-Next session: DNS and SSL. You are getting a real domain name and HTTPS.
-
----
-
-### Review the artifact
-
-Your deliverable is **An Nginx reverse proxy and process-management runbook**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-6-2/fig3-evidence)
+
+Write `docs/runbook.md` in `~/projects/hall-api` on your laptop, next to `docs/server.md`, commit, push. It is the page you would read at two in the morning. No secrets.
+
+- The four-command Nginx change workflow, with the exact file paths on your server.
+- The pm2 commands you actually use: start from the ecosystem file, `list`, `logs --lines 50`, `restart`, `delete`, `save`, and where the dump file lives.
+- The path mapping sentence for `/api/`, and what the 404 body looked like when the slash was wrong.
+- The two-curl diagnosis for a 502, with the two commands and what each outcome means.
+- The reboot result: the `pm2 list` table after `sudo reboot`, pasted, with the uptime column.
+- Where the three logs are: pm2 out and error, Nginx access, Nginx error, and the `journalctl -u nginx` form.
+- One line on the port change experiment: what moved, what did not, and which curl told you.
+
+Evidence: the committed `docs/runbook.md`, a screenshot named `6-2-after-reboot.png` of `pm2 list` with a fresh uptime, and a screenshot named `6-2-502.png` of the Nginx error log line.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The block you wrote is a reverse proxy in the narrowest sense, and the three log files you located are the beginning of observability, so the two library sheets for this session name what you just built.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Confirm SSH access to your VPS as the `deploy` user. Verify Node.js is installed by running `node --version` on the server. Review what a web server does (accepts HTTP requests, returns responses).
-**Materials:** SSH terminal, web browser, server IP address from Session 6.1
+Leave everything running. The droplet now carries Nginx on port 80 and pm2 holding `test-app` on 3000, and both come back after a reboot. Close your SSH sessions with `exit`. Nothing runs on the laptop.
 
----
-
-**HW 6.2: Nginx and PM2 Mastery**
-
-1. **Create an ecosystem file** for your test-app with the following settings:
-   - `autorestart: true`
-   - `max_memory_restart: '200M'`
-   - `env.NODE_ENV: 'production'`
-
-2. **Serve static files alongside your proxy.** Update your Nginx config to serve static files from `/var/www/mysite` at the path `/static/`:
-   ```nginx
-   location /static/ {
-       alias /var/www/mysite/;
-   }
-   ```
-   Confirm you can visit `http://YOUR_IP/static/` and see your HTML page, while `http://YOUR_IP/` still shows the Node.js app.
-
-3. **Explore PM2 logs.** Run `pm2 logs test-app --lines 100` and examine the output. Add a `console.log` to your Express app that logs every incoming request with a timestamp. Restart the app with PM2 and make several requests. Screenshot the logs.
-
-4. **Research task:** Read about Nginx location blocks. What is the difference between `location /`, `location /api/`, and `location ~ \.php$`? Write a paragraph explanation.
-
-**Submission:** Push all screenshots and your paragraph to your homework repo.
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://nginx.org/en/docs/http/ngx_http_proxy_module.html)
-- [Official reference 2](https://pm2.keymetrics.io/docs/usage/quick-start/)
+Next session the IP gets a name. You register a domain, point an A record at `YOUR_DROPLET_IP`, change `server_name` to that name, and let certbot fetch a Let's Encrypt certificate so the address bar shows `https://`. Have a payment method ready for the registrar; prices vary by ending, and the session teaches you where to read the renewal price before you buy. Read the Let's Encrypt "how it works" page from next session's docs list once, just enough to know what a challenge is. The session starts on the laptop, at a registrar's search box.

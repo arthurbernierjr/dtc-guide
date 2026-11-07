@@ -470,8 +470,8 @@
   "session-5-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 5.1: The working model. Intent: State role, task, and target audience. Contract: Specify process, output, and constraints. Evaluation: Compare results against observable criteria.",
-    "caption": "The working model: Intent → Contract → Evaluation",
+    "alt": "Three boxes in a row: Intent, which states who the model answers as and what it must do; Contract, which fixes the process, the output shape, and the boundaries; and Evaluation, which compares the result against observable criteria.",
+    "caption": "Intent → Contract → Evaluation. Role, Task, and Purpose are the intent; Tone, Output, and Constraints are the contract; the rubric written before the run is the evaluation.",
     "props": {
       "session": "5.1",
       "title": "The working model",
@@ -496,8 +496,8 @@
   "session-5-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 5.1: Diagnose the failure. Vague output: Replace adjectives with examples and acceptance criteria. Invented facts: Provide evidence and require uncertainty to remain visible. Sensitive context: Remove credentials and unnecessary personal data.",
-    "caption": "Diagnose the failure: Vague output → Invented facts → Sensitive context",
+    "alt": "Three failure cards: Vague output, fixed by replacing adjectives with examples and acceptance criteria; Invented facts, fixed by providing the source and letting uncertainty stay visible; Sensitive context, fixed by removing credentials and personal data before sending.",
+    "caption": "Vague output, invented facts, sensitive context: the prompt is missing the rubric, missing the source, or carrying a secret.",
     "props": {
       "session": "5.1",
       "title": "Diagnose the failure",
@@ -522,8 +522,8 @@
   "session-5-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 5.1: evidence to collect. Checkpoint assertion: Complete brief Boundary assertion: Missing boundary detected Manual handoff: An RTTPOC prompt packet with a baseline, revised output, and evaluation rubric",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "An evidence ladder: a checkpoint assertion that a complete brief has all six lines, a boundary assertion that a missing constraints line is detected, and the manual handoff, the RTTPOC packet with baseline, revised output, and rubric in docs/prompt-log.md.",
+    "caption": "The browser model proves a brief can be checked for its six lines; the packet in docs/prompt-log.md is the evidence that the lines bought something.",
     "props": {
       "session": "5.1",
       "title": "Prove the handoff",
@@ -548,8 +548,8 @@
   "session-5-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 5.2: The working model. Context: Select evidence relevant to the decision. Iteration: Change one instruction and compare outputs. Regression: Retest old cases before adopting a revision.",
-    "caption": "The working model: Context → Iteration → Regression",
+    "alt": "Three boxes in a row: Context, select the evidence relevant to the decision; Iteration, change one instruction and compare outputs; Regression, retest the old cases before adopting a revision.",
+    "caption": "Context → Iteration → Regression. Pick the facts that decide the change, change one line at a time, and rerun the five HALL.md statuses before any version is adopted.",
     "props": {
       "session": "5.2",
       "title": "The working model",
@@ -574,8 +574,8 @@
   "session-5-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 5.2: Diagnose the failure. Context overload: Remove irrelevant material and keep authoritative facts close. Example overfitting: Include diverse and negative examples. Unstable format: Validate the result instead of assuming compliance.",
-    "caption": "Diagnose the failure: Context overload → Example overfitting → Unstable format",
+    "alt": "Three failure cards: Context overload, fixed by removing irrelevant material and keeping the deciding fact next to the question; Example overfitting, fixed by adding diverse and negative examples; Unstable format, fixed by validating the output in code instead of trusting the instruction.",
+    "caption": "Too much context, examples with no refusal, a format that was only asked for: three ways a prompt that looks richer gets worse.",
     "props": {
       "session": "5.2",
       "title": "Diagnose the failure",
@@ -600,8 +600,8 @@
   "session-5-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 5.2: evidence to collect. Checkpoint assertion: Overall score improved Boundary assertion: Improvement still contains a regression Manual handoff: A versioned prompt workflow with examples, context selection, and regression cases",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "An evidence ladder: a checkpoint assertion that the overall score improved, a boundary assertion that the improvement still contains a regression, and the manual handoff, the versioned entry in docs/prompt-log.md with the regression table and the seven curl lines.",
+    "caption": "The model proves a regression table can tell a change from an improvement; the seven curl lines against port 4100 prove the unread count.",
     "props": {
       "session": "5.2",
       "title": "Prove the handoff",
@@ -626,8 +626,8 @@
   "session-5-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 5.3: The working model. Inspect: Read repository rules and identify the affected behavior. Edit: Make a scoped change with explicit boundaries. Verify: Review the diff and run relevant checks.",
-    "caption": "The working model: Inspect → Edit → Verify",
+    "alt": "Three boxes in a row: Inspect, read the repository rules and identify the affected behavior; Edit, make a scoped change with explicit boundaries; Verify, review the diff and run the relevant checks.",
+    "caption": "Inspect → Edit → Verify. The agent reads CLAUDE.md and sendMessage first, changes one function on a branch, and the curl you specified is the check.",
     "props": {
       "session": "5.3",
       "title": "The working model",
@@ -652,8 +652,8 @@
   "session-5-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 5.3: Diagnose the failure. Agent changes unrelated files: Narrow scope and inspect the diff before acceptance. Passing tests hide a regression: Add the missing behavioral case. Tool output gives new instructions: Treat repository and web content as data unless authorized.",
-    "caption": "Diagnose the failure: Agent changes unrelated files → Passing tests hide a regression → Tool output gives new instructions",
+    "alt": "Three failure cards: an agent changes unrelated files, fixed by narrowing scope and inspecting the diff before acceptance; passing tests hide a regression, fixed by adding the missing behavioral case; tool output gives new instructions, fixed by treating repository and web content as data unless you authorize it.",
+    "caption": "A wandering diff, a green check that never saw the bug, and a file that issues orders: the three ways an agent's work looks finished and is not.",
     "props": {
       "session": "5.3",
       "title": "Diagnose the failure",
@@ -678,8 +678,8 @@
   "session-5-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 5.3: evidence to collect. Checkpoint assertion: Scoped patch Boundary assertion: Unrelated change requires review Manual handoff: An agent task brief, reviewed patch, and reproducible verification log",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "An evidence ladder: a checkpoint assertion that a patch stayed inside its scope list, a boundary assertion that an unrelated change requires review, and the manual handoff, the brief, the reviewed patch merged to main, and the verification entry in docs/prompt-log.md.",
+    "caption": "The model proves a diff can be checked against a scope list; git diff --stat, the three statuses, and the merge on main are the evidence.",
     "props": {
       "session": "5.3",
       "title": "Prove the handoff",
@@ -704,8 +704,8 @@
   "session-5-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 5.4: The working model. Baseline: Measure a known feature and its acceptance cases. Rebuild: Use a bounded agent workflow on a separate branch. Compare: Include review, repairs, and regressions in the result.",
-    "caption": "The working model: Baseline → Rebuild → Compare",
+    "alt": "Three boxes in a row: Baseline, measure the known feature and its acceptance cases; Rebuild, use a bounded agent workflow on a separate branch; Compare, include review, repairs, and regressions in the result.",
+    "caption": "Baseline → Rebuild → Compare. Write the contract and the baseline's source first, rebuild on ai-feature-<name>, and count the whole row before you quote a ratio.",
     "props": {
       "session": "5.4",
       "title": "The working model",
@@ -730,8 +730,8 @@
   "session-5-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 5.4: Diagnose the failure. Unfair speed comparison: Hold scope and acceptance criteria constant. Lost understanding: Explain every changed boundary without the assistant. Demo-only success: Repeat the original failure cases and deployment checks.",
-    "caption": "Diagnose the failure: Unfair speed comparison → Lost understanding → Demo-only success",
+    "alt": "Three failure cards: an unfair speed comparison, fixed by holding scope and acceptance criteria constant; lost understanding, fixed by explaining every changed boundary without the assistant; demo-only success, fixed by repeating the original failure cases and the checks that were skipped.",
+    "caption": "A moved finish line, a diff you cannot explain, and a happy path that never met the old failures: the three ways a trial lies.",
     "props": {
       "session": "5.4",
       "title": "Diagnose the failure",
@@ -756,8 +756,8 @@
   "session-5-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 5.4: evidence to collect. Checkpoint assertion: Include the entire workflow Boundary assertion: Measured speedup is 1.8x, not a promised 10x Manual handoff: A before-and-after feature rebuild with timing, tests, and a retrospective",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "An evidence ladder: a checkpoint assertion that the timing includes the entire workflow, a boundary assertion that the measured speedup is 1.8x rather than a promised 10x, and the manual handoff, the rebuilt feature merged to main with the timed entry and retrospective in docs/prompt-log.md.",
+    "caption": "The model proves the ratio depends on which columns you count; the evidence table, the clock line, and git log on main are the trial's result.",
     "props": {
       "session": "5.4",
       "title": "Prove the handoff",
@@ -782,8 +782,8 @@
   "session-6-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 6.1: The working model. Access: Use a named account and SSH key. Boundary: Permit required traffic before enabling the firewall. Recovery: Keep console access and a tested second session.",
-    "caption": "The working model: Access → Boundary → Recovery",
+    "alt": "Three stages of taking over a droplet in order: access through a named deploy account and SSH key, a UFW boundary opened for OpenSSH before enabling, and recovery kept through the provider console and a verified second session.",
+    "caption": "Access, then boundary, then recovery: prove the new login before closing the old one.",
     "props": {
       "session": "6.1",
       "title": "The working model",
@@ -808,8 +808,8 @@
   "session-6-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 6.1: Diagnose the failure. Locked out: Verify new SSH access before disabling old access. Wrong host: Confirm provider details and host key changes. Unsupported runtime: Choose a supported LTS manually and record its version.",
-    "caption": "Diagnose the failure: Locked out → Wrong host → Unsupported runtime",
+    "alt": "Three failures of a fresh server and what to check: locked out before the new key was verified, a host-key warning because the address now answers with a different machine, and an unsupported Node from Ubuntu's archive instead of NodeSource.",
+    "caption": "Locked out, wrong host, unsupported runtime: each has one check that names the cause.",
     "props": {
       "session": "6.1",
       "title": "Diagnose the failure",
@@ -834,8 +834,8 @@
   "session-6-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 6.1: evidence to collect. Checkpoint assertion: Preserve recovery before proof Boundary assertion: All access prerequisites verified Manual handoff: A manually provisioned server access plan with a verified recovery path",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for the hardened droplet: the checkpoint's order rule that recovery is preserved before proof, the boundary assertion that every access prerequisite was verified, and the manual handoff of docs/server.md with sshd -T and ufw status pasted in.",
+    "caption": "The model proves the order rule; sshd -T, ufw status, and the second terminal prove your droplet.",
     "props": {
       "session": "6.1",
       "title": "Prove the handoff",
@@ -860,8 +860,8 @@
   "session-6-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 6.2: The working model. Edge: Nginx accepts public HTTP requests. Upstream: Forward API traffic to a loopback application port. Process: Restart deliberately and retain useful logs.",
-    "caption": "The working model: Edge → Upstream → Process",
+    "alt": "The three layers of the server's front door: Nginx at the edge accepting public HTTP on port 80, the upstream Node process reached only on a loopback port, and pm2 managing that process with deliberate restarts and retained logs.",
+    "caption": "Edge, upstream, process: Nginx owns the public port, Node owns a loopback port, pm2 owns the process.",
     "props": {
       "session": "6.2",
       "title": "The working model",
@@ -886,8 +886,8 @@
   "session-6-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 6.2: Diagnose the failure. 502 gateway error: Check the upstream process, port, and logs. Wrong path: Compare proxy_pass trailing-slash behavior with route paths. Lost process after reboot: Verify startup configuration and saved process state.",
-    "caption": "Diagnose the failure: 502 gateway error → Wrong path → Lost process after reboot",
+    "alt": "Three failures behind a reverse proxy and their checks: a 502 traced with a direct curl to the upstream port, a wrong path caused by a trailing slash on proxy_pass, and a process missing after reboot because pm2 save or the startup unit was skipped.",
+    "caption": "502, wrong path, lost after reboot: curl the upstream first, read the slash, check the saved list.",
     "props": {
       "session": "6.2",
       "title": "Diagnose the failure",
@@ -912,8 +912,8 @@
   "session-6-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 6.2: evidence to collect. Checkpoint assertion: Upstream first Boundary assertion: Proxy boundary isolated Manual handoff: An Nginx reverse proxy and process-management runbook",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for the proxy setup: the checkpoint's upstream-first diagnosis, the boundary assertion that the proxy and the process were tested separately, and the manual handoff of docs/runbook.md with the pm2 list table taken after a real reboot.",
+    "caption": "The model proves the diagnosis order; pm2 list after sudo reboot proves your server.",
     "props": {
       "session": "6.2",
       "title": "Prove the handoff",
@@ -938,8 +938,8 @@
   "session-6-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 6.3: The working model. DNS: Resolve a hostname to the intended endpoint. TLS: Verify identity and encrypt the connection. Renewal: Maintain certificates before they expire.",
-    "caption": "The working model: DNS → TLS → Renewal",
+    "alt": "Three stages of naming and locking a server: DNS resolving the domain to the droplet's address through an A record, TLS proving the server's identity and encrypting the connection with a Let's Encrypt certificate, and renewal keeping that certificate valid through the certbot timer.",
+    "caption": "DNS, TLS, renewal: the name finds the address, the certificate proves the name, the timer keeps it true.",
     "props": {
       "session": "6.3",
       "title": "The working model",
@@ -964,8 +964,8 @@
   "session-6-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 6.3: Diagnose the failure. Domain points elsewhere: Compare authoritative records and cached answers. Certificate mismatch: Check hostname coverage and the selected virtual host. Renewal fails: Test the challenge path and renewal mechanism.",
-    "caption": "Diagnose the failure: Domain points elsewhere → Certificate mismatch → Renewal fails",
+    "alt": "Three failures of a named HTTPS site and their checks: a domain pointing elsewhere diagnosed by comparing authoritative and cached answers with dig, a certificate mismatch read with openssl and server_name, and a failing renewal reproduced with certbot renew --dry-run.",
+    "caption": "Points elsewhere, certificate mismatch, renewal fails: dig, openssl, and the dry run each name the layer.",
     "props": {
       "session": "6.3",
       "title": "Diagnose the failure",
@@ -990,8 +990,8 @@
   "session-6-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 6.3: evidence to collect. Checkpoint assertion: A cache may retain the old answer Boundary assertion: This simplified cache expires at its deadline Manual handoff: A DNS and HTTPS configuration with renewal and troubleshooting evidence",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for DNS and HTTPS: the checkpoint's cached-answer rule that a resolver may keep the old address until its TTL runs out, the boundary assertion that the simplified cache expires on schedule, and the manual handoff of docs/domain.md with dig output, the certificate dates, and the dry-run result.",
+    "caption": "The model proves the cache rule; dig, the lock, and the dry run prove your domain.",
     "props": {
       "session": "6.3",
       "title": "Prove the handoff",
@@ -1016,8 +1016,8 @@
   "session-6-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 6.4: The working model. Build: Create a reproducible release from a known revision. Deploy: Apply configuration and start the intended services. Verify: Exercise the public journey and preserve rollback.",
-    "caption": "The working model: Build → Deploy → Verify",
+    "alt": "Three stages of a release of the guild hall: build creating a reproducible Vite output from a known commit and lockfile, deploy applying the .env, pm2 ecosystem, and Nginx site to start hall-api on 4100, and verify exercising the public journey from a phone while keeping the previous build for rollback.",
+    "caption": "Build, deploy, verify: a known revision, the five variable names applied, the journey walked from outside.",
     "props": {
       "session": "6.4",
       "title": "The working model",
@@ -1042,8 +1042,8 @@
   "session-6-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 6.4: Diagnose the failure. Works only locally: Compare runtime, environment names, and build artifacts. Database exposed: Bind privately and restrict network access. Rollback loses data: Separate code rollback from schema and data recovery.",
-    "caption": "Diagnose the failure: Works only locally → Database exposed → Rollback loses data",
+    "alt": "Three failures of a deployed full-stack app and their checks: works only locally because the client bundle still asks localhost or pm2 never passed --env-file, a database exposed by an allow-from-anywhere network entry or a public bind, and a rollback that loses data because code and documents moved on different tracks.",
+    "caption": "Works only locally, database exposed, rollback loses data: compare the bundle and env, check the listener, separate code from data.",
     "props": {
       "session": "6.4",
       "title": "Diagnose the failure",
@@ -1068,8 +1068,8 @@
   "session-6-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 6.4: evidence to collect. Checkpoint assertion: Build alone does not prove deployment Boundary assertion: Release evidence complete Manual handoff: A reproducible full-stack deployment with smoke tests and rollback instructions",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for the live hall: the checkpoint's rule that a build alone does not prove a deployment, the boundary assertion that release evidence is complete only with a smoke test and a rollback path, and the manual handoff of deploy.sh output and docs/release.md with the two revision hashes.",
+    "caption": "The model proves what counts as evidence; deploy.sh's four lines and the phone prove your hall.",
     "props": {
       "session": "6.4",
       "title": "Prove the handoff",
@@ -1094,8 +1094,8 @@
   "session-7-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 7.1: The working model. Arrange: Choose inputs that expose a behavior. Act: Call the smallest relevant unit. Assert: Check the observable contract, then prove failure.",
-    "caption": "The working model: Arrange → Act → Assert",
+    "alt": "Three boxes in a row: Arrange, choose inputs that expose a behavior; Act, call the smallest relevant unit; Assert, check the observable contract and then prove the test can fail.",
+    "caption": "One test, three moves: arrange the input, act on one function, assert the contract, then break the function once to prove the assertion is connected.",
     "props": {
       "session": "7.1",
       "title": "The working model",
@@ -1120,8 +1120,8 @@
   "session-7-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 7.1: Diagnose the failure. Test mirrors implementation: Assert outcomes from the contract instead. False green: Temporarily break the behavior and watch the test fail. Brittle setup: Use small deterministic fixtures without shared mutation.",
-    "caption": "Diagnose the failure: Test mirrors implementation → False green → Brittle setup",
+    "alt": "Three failure cards: a test that mirrors the implementation, a false green that survives sabotage, and a brittle setup that shares mutable fixtures between tests.",
+    "caption": "Three ways a green suite lies: it asserts how instead of what, it cannot go red, or its tests lean on each other's leftovers.",
     "props": {
       "session": "7.1",
       "title": "Diagnose the failure",
@@ -1146,8 +1146,8 @@
   "session-7-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 7.1: evidence to collect. Checkpoint assertion: Normal discount Boundary assertion: Zero boundary Manual handoff: A focused unit-test suite with boundary cases and a demonstrated failing test",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for the dojo: the checkpoint's normal-discount assertion, the zero-boundary assertion, and the manual handoff to the testing-dojo repo with its captured red run.",
+    "caption": "What counts as proof: the model's two assertions here, then npm test, the coverage table, and the screenshot of the formatter failing in your own terminal.",
     "props": {
       "session": "7.1",
       "title": "Prove the handoff",
@@ -1172,8 +1172,8 @@
   "session-7-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 7.2: The working model. Request: Send real HTTP-shaped inputs through the app. Boundary: Exercise routing, middleware, and persistence. Cleanup: Restore isolated fixtures after every test.",
-    "caption": "The working model: Request → Boundary → Cleanup",
+    "alt": "Three boxes in a row: Request, Supertest sends real HTTP into the exported app; Boundary, the request crosses routing, middleware, and the guildhall_test database; Cleanup, every collection is wiped before the next test.",
+    "caption": "A request enters the exported app, crosses the real router and the throwaway database, and the setup file wipes the collections before the next one.",
     "props": {
       "session": "7.2",
       "title": "The working model",
@@ -1198,8 +1198,8 @@
   "session-7-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 7.2: Diagnose the failure. Production database used: Require an explicit disposable test database. Server never exits: Separate app creation from listen and close resources. Mock hides bug: Keep the boundary under test real.",
-    "caption": "Diagnose the failure: Production database used → Server never exits → Mock hides bug",
+    "alt": "Three failure cards: the production database was used because the setup fell back to MONGODB_URI, the server never exits because app.js listened or a connection stayed open, and a mock hid the bug by replacing the boundary under test.",
+    "caption": "Three ways the dungeon bites back: wiping the wrong database, a Jest process that never exits, and a mock standing where the real boundary should be.",
     "props": {
       "session": "7.2",
       "title": "Diagnose the failure",
@@ -1224,8 +1224,8 @@
   "session-7-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 7.2: evidence to collect. Checkpoint assertion: Denied request writes nothing Boundary assertion: Validation is a distinct failure Manual handoff: API integration tests with isolated data and authorization failures",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for the hall's API suite: the checkpoint's denied-request-writes-nothing assertion, the validation-is-a-distinct-failure assertion, and the manual handoff to npm test on the add-tests branch.",
+    "caption": "What counts as proof: the model's two assertions here, then the fourteen green tests, the two sabotage runs caught, and the guard refusing the real database name.",
     "props": {
       "session": "7.2",
       "title": "Prove the handoff",
@@ -1250,8 +1250,8 @@
   "session-7-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 7.3: The working model. Journey: Describe the user-visible goal. Browser: Use accessible locators and awaited assertions. Pipeline: Run reproducibly and retain diagnostic artifacts.",
-    "caption": "The working model: Journey → Browser → Pipeline",
+    "alt": "Three boxes in a row: Journey, describe the user-visible goal of logging in as Sera and seeing Bran's letter; Browser, locate by role and label and await assertions; Pipeline, a GitHub Actions workflow that runs the same commands on a fresh machine and keeps the report.",
+    "caption": "A journey in a person's words, a browser that finds elements the way a person does, and a pipeline that runs the same commands on a machine with nothing of yours on it.",
     "props": {
       "session": "7.3",
       "title": "The working model",
@@ -1276,8 +1276,8 @@
   "session-7-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 7.3: Diagnose the failure. Flaky timing: Wait for observable conditions instead of fixed sleeps. Selector breaks: Use roles, labels, or stable test identifiers. CI differs locally: Pin dependencies and document environment assumptions.",
-    "caption": "Diagnose the failure: Flaky timing → Selector breaks → CI differs locally",
+    "alt": "Three failure cards: flaky timing from a fixed sleep instead of an awaited condition, a selector that broke because it was a generated CSS class, and CI differing from local because a lockfile, env file, or second repository was missing.",
+    "caption": "Three ways the gauntlet fails you: waiting for seconds instead of evidence, selecting by styling instead of role, and a runner that is missing a file your laptop had.",
     "props": {
       "session": "7.3",
       "title": "Diagnose the failure",
@@ -1302,8 +1302,8 @@
   "session-7-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 7.3: evidence to collect. Checkpoint assertion: Success follows confirmation Boundary assertion: Action follows readiness Manual handoff: A browser test for a core journey and a CI workflow that retains failure evidence",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for the browser and CI session: the checkpoint's success-follows-confirmation assertion, the action-follows-readiness assertion, and the manual handoff to three passing Playwright tests and a green Actions run.",
+    "caption": "What counts as proof: the model's ordering assertions here, then 3 passed in your terminal, the wrong-sender screenshot, and both jobs green on the Actions tab.",
     "props": {
       "session": "7.3",
       "title": "Prove the handoff",
@@ -1328,8 +1328,8 @@
   "session-7-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 7.4: The working model. Risk: Identify failures that would harm the user. Coverage: Assign unit, integration, and browser checks. Decision: Report remaining gaps before release.",
-    "caption": "The working model: Risk → Coverage → Decision",
+    "alt": "Three boxes in a row: Risk, list the failures that would hurt Bran, Sera, or Ivo and rank them; Coverage, assign each risk to a model, API, browser, or hand check; Decision, report the remaining gaps before the pull request merges.",
+    "caption": "Start from the failure that would hurt someone, put each one at the cheapest layer that can observe it, and decide the release from the blockers that are still open.",
     "props": {
       "session": "7.4",
       "title": "The working model",
@@ -1354,8 +1354,8 @@
   "session-7-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 7.4: Diagnose the failure. Coverage target replaces judgment: Map tests to important user risks. Everything mocked: Retain real checks at the boundaries that matter. Green report overclaims: List external and manual checks separately.",
-    "caption": "Diagnose the failure: Coverage target replaces judgment → Everything mocked → Green report overclaims",
+    "alt": "Three failure cards: a coverage target that replaced judgment, a suite where everything is mocked and nothing real is observed, and a green report that overclaims what was checked.",
+    "caption": "Three ways a finished suite misleads: a percentage standing in for a plan, mocks standing in for boundaries, and one word, tested, standing in for four different kinds of evidence.",
     "props": {
       "session": "7.4",
       "title": "Diagnose the failure",
@@ -1380,8 +1380,8 @@
   "session-7-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 7.4: evidence to collect. Checkpoint assertion: Release decision follows critical risks Boundary assertion: Explain the rejected or incomplete case Manual handoff: A risk-based test suite and release-quality evidence report",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence ladder for the final session: the checkpoint's release-decision-follows-critical-risks assertion, the explain-the-rejected-or-incomplete-case assertion, and the manual handoff to a merged pull request with TESTPLAN.md and TESTING.md.",
+    "caption": "What counts as proof: the model's two decision rules here, then a clean-clone run, green checks on the pull request, and a report that names every gap.",
     "props": {
       "session": "7.4",
       "title": "Prove the handoff",

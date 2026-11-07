@@ -1,133 +1,156 @@
 ---
 editorial: true
 title: Sparring Grounds
-subtitle: Jest, Unit Testing, and the TDD Mindset
-hook: "A focused unit-test suite with boundary cases and a demonstrated failing test. Choose inputs that expose a behavior."
-read: 60
-artifact: "A focused unit-test suite with boundary cases and a demonstrated failing test"
+subtitle: Jest, unit tests, and the red-green-refactor loop
+hook: "The guild hall is live and you have clicked through every screen. Nothing proves it except your memory. Today you write the first test that can fail, watch it fail on purpose, and learn why that red run is the whole point."
+read: 55
+artifact: "A testing-dojo repo with Jest installed, a math module, a currency formatter built test-first, a matcher sheet, and one captured failing run"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://jestjs.io/docs/getting-started
+  - https://jestjs.io/docs/using-matchers
   - https://jestjs.io/docs/expect
+  - https://jestjs.io/docs/setup-teardown
+  - https://jestjs.io/docs/mock-functions
+  - https://jestjs.io/docs/configuration
 say:
-  - "Arrange: Choose inputs that expose a behavior."
-  - "Act: Call the smallest relevant unit."
-  - "Assert: Check the observable contract, then prove failure."
+  - "A test is a claim about behavior with a witness that runs."
+  - "toBe is ===; toEqual compares shape. Wrap a throw in a function or expect never sees it."
+  - "A test that has never been red has never been proven connected to the code."
 ---
 
 ## The hook
 
-Alright, listen up. You know that trope in every anime training arc where the hero walks into a sparring ground thinking they are already strong enough, and then the training dummy starts throwing edge cases at them? That is today. You built your MERN app. You deployed it. It works. At least, you think it works. But have you actually proven it? Have you thrown bad data at it? Have you tried to break it on purpose?
+The guild hall from Unit 4 is on a server now. You registered Bran, Sera, and Ivo, sent a letter, read it as the wrong person and got a 403, spent a potion past zero and got a 409. You wrote those statuses into `HALL.md` by hand. Then Unit 5 handed a model your routes and Unit 6 put the process behind Nginx. Every one of those steps could have broken the recipient check, and the only way you would know is to curl all twelve routes again, in order, and compare the numbers with the note. You did not do that after the deploy. Nobody does. That is the gap tests fill: a claim about behavior, written once, checked by a machine every time you ask.
 
-Testing is the difference between "I think it works" and "I know it works." Every serious tech company tests their code. Every serious open source project has tests. When you join a team or hire developers for your startup, tests are how you prevent new code from breaking old code. Tests are how you refactor with confidence instead of fear. Tests are how you know your app still works at 3 AM when you are asleep and your servers are handling requests.
+Today is a sparring ground, not the hall. You make a small folder, `~/projects/testing-dojo`, install Jest, and write tests for functions that have no database and no network, so the only thing under examination is the habit. You learn the three words every test is made of, the matcher that compares values and the one that compares shapes, the one trap that makes a throwing function look like it passed, and the loop called red, green, refactor. By the end you have a currency formatter you built by writing the test first, and a terminal screenshot of the run where the test was red. That red run is the artifact. A test that has only ever been green has never been proven connected to anything.
 
-Today we learn Jest, the most popular JavaScript testing framework. We learn matchers, the TDD workflow, and mocking. By the end of this session, you will have written your first real test suite. The sparring grounds are open. Let's train.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *A training dummy does not fight back. It just tells you, every time, exactly where you missed.*
 
 ## The idea
 
-### Create automated unit tests using Jest to verify individual functions, model validations, and isolated logic
+A test is a claim with an executable witness. The claim is a sentence: `formatCurrency(-5.5)` returns `-$5.50`. The witness is a function that calls the code with that input and compares the result with the sentence. If they agree, the test passes. If they disagree, the runner prints both values side by side and the file and line where the disagreement happened. That is all a test framework is: a way to write claims so a program can check them, and a reporter that says which claims were false.
 
-**Enabling Objectives:**
-- Install and configure Jest in a Node.js project with appropriate scripts and configuration
-- Structure test files using `describe`, `it`/`test`, and `expect` blocks
-- Select and apply appropriate Jest matchers for different data types and assertion scenarios
-- Implement the Red-Green-Refactor TDD workflow to build functions from test specifications
-- Use `jest.fn()` and `jest.mock()` to isolate units of code from external dependencies
-- Apply setup and teardown hooks (`beforeAll`, `afterAll`, `beforeEach`, `afterEach`) to manage test state
+The pyramid people draw has three layers. Unit tests at the base: one function, no database, no network, hundreds of them, each finishing in a millisecond. Integration tests in the middle: a real request through your real router into a disposable database, dozens of them. Browser tests at the top: a real browser clicking your real page, a handful of them, because each one costs seconds. This session is the base. The next two sessions are the other layers, against the hall. The shape of the pyramid is advice about where to spend effort, not a quota.
 
-**You should be able to:**
-- Write at least 10 unit tests covering utility functions and Mongoose model validations
-- Build a new function from scratch using the Red-Green-Refactor workflow
-- Use mocks to isolate code that depends on external services (APIs, databases, email)
-- Achieve 80%+ code coverage on utility modules using `jest --coverage`
-
-- Concept 1: **The Testing Pyramid.** Software tests come in three tiers. Unit tests form the base: they are fast, cheap, and focused on a single function or method. You will have hundreds of these. Integration tests sit in the middle: they test how multiple components work together (your route, controller, and database). You will have dozens. End-to-end tests sit at the top: they simulate a real user in a real browser. They are slow, expensive, and you will have just a handful. The pyramid shape tells you where to invest your testing effort.
-
-```
-        /\
-       /  \
-      / E2E \        <-- Few (slow, expensive, high confidence)
-     /--------\
-    /Integration\    <-- Some (medium speed, medium confidence)
-   /--------------\
-  /   Unit Tests    \ <-- Many (fast, cheap, focused)
- /___________________\
-```
-
-- Concept 2: **Why test at all?** Four reasons. Confidence: change code without fear, refactor that ugly function, and tests will tell you if you broke something. Collaboration: when someone else touches your code, tests prove their changes did not destroy yours. Documentation: tests describe what your code is supposed to do; they are living documentation. Speed: manual testing is slow and error-prone; automated testing runs hundreds of checks in seconds.
-
-- Concept 3: **What is Jest?** Jest is a JavaScript testing framework created by Meta (Facebook). It comes with everything bundled: a test runner, an assertion library, mocking utilities, and code coverage reporting. It is the most popular JS testing framework and the default for React projects. Zero configuration is needed to get started. Jest discovers test files automatically by looking for files that end in `.test.js` or `.spec.js`.
-
-- Concept 4: **Jest structure - describe, it, expect.** A test file is organized with `describe` blocks (groups of related tests, like chapter titles), `it` or `test` blocks (individual test cases, each testing one specific behavior), and `expect` statements (assertions that verify a value meets your expectation). The pattern reads like English: "Describe the add function. It should add two positive numbers. I expect add(2,3) to be 5."
-
-- Concept 5: **Core matchers.** Jest provides matchers for every situation:
-  - `toBe(value)` for strict equality (`===`), good for primitives
-  - `toEqual(value)` for deep equality, required for objects and arrays
-  - `toBeTruthy()` / `toBeFalsy()` for truthiness checks
-  - `toBeNull()` / `toBeUndefined()` / `toBeDefined()` for nullish checks
-  - `toBeGreaterThan()` / `toBeLessThan()` / `toBeCloseTo()` for numbers
-  - `toMatch(/regex/)` / `toContain(item)` for strings and arrays
-  - `toHaveLength(n)` / `toHaveProperty('key')` for structure checks
-  - `toThrow()` for exception testing
-  - `not` prefix for negation (e.g., `expect(5).not.toBe(3)`)
-
-**Key Points:**
-- `toBe` uses `===` (reference equality). Use it for numbers, strings, and booleans. `toEqual` performs deep equality. Use it for objects and arrays. This is the number one source of confusion for beginners.
-- A unit test should test ONE thing in isolation. If your test needs a database connection, it is probably an integration test, not a unit test.
-- Jest looks for files matching `*.test.js` or `*.spec.js` by default. Place your test file next to the source file it tests.
-
-**Common Misconceptions:**
-- Wrong: "I only need to test happy paths." Correct: Edge cases and error paths are where most bugs hide. Always test what happens with empty input, null, undefined, and unexpected types.
-- Wrong: "`toBe` and `toEqual` are interchangeable." Correct: `expect({ hp: 100 }).toBe({ hp: 100 })` FAILS because they are different object references. Use `toEqual` for objects and arrays.
-- Wrong: "`expect(myFunction()).toThrow()`" will catch the error. Correct: You must wrap the call in a function: `expect(() => myFunction()).toThrow()`. Otherwise the error is thrown before `expect` can catch it.
+Jest is the runner this path uses for Node code. It bundles the runner, the assertion library, mocks, and coverage in one install, and it finds files named `*.test.js` or `*.spec.js` without configuration. It is the common choice for Express projects. Your Vite React client from 4-9 would normally use Vitest instead, which speaks the same `describe`, `it`, and `expect`, so what you learn today transfers; this unit tests the API, not the React tree.
 
 ![](diagram:session-7-1/fig1-model)
 
-### A test is a claim with an executable witness
+### describe, it, expect
 
-Suppose a discount function should never produce a negative total. A test that repeats the same arithmetic as the implementation may reproduce the same mistake. Instead choose an input and an expected result derived from the business rule. Test zero, a normal value, and a boundary near the limit. Explain why each case exists. The test's value comes from the independent claim it makes, not from increasing the number of green dots.
+A test file is organized with three functions Jest puts in scope for you. `describe(name, fn)` groups related claims under a heading. `it(name, fn)` is one claim; `test` is an alias and you pick one and stay with it. `expect(value)` returns an object with matchers on it, and a matcher is the comparison: `expect(add(2, 3)).toBe(5)`. Read it as a sentence. Describe the add function. It adds two positive numbers. I expect `add(2, 3)` to be 5.
 
-Keep the unit small enough that a failure points somewhere useful. A pure calculation is a good first target because it has explicit inputs and outputs. A function that reads the clock, contacts a service, and writes a database contains several boundaries. You can still test it, but first identify which dependencies should be injected or replaced by controlled fixtures. Do not mock the function you are trying to verify.
+The matcher you reach for first is `toBe`, and it is `===`. Use it for numbers, strings, and booleans. The matcher you reach for second is `toEqual`, and it walks the value recursively and compares the shape. Use it for objects and arrays. `expect({ hp: 100 }).toBe({ hp: 100 })` fails, every time, because the two literals are two different objects and `===` on objects compares identity. `expect({ hp: 100 }).toEqual({ hp: 100 })` passes. This is the first confusion every new test writer has, so make the mistake once on purpose in the demonstration and read the message Jest prints. It tells you to use `toEqual` when you meant structural equality.
+
+The second trap is `toThrow`. `expect(divide(10, 0)).toThrow()` does not work, because JavaScript evaluates `divide(10, 0)` before `expect` is even called, the throw happens outside any matcher, and the test crashes instead of passing. Wrap the call in a function: `expect(() => divide(10, 0)).toThrow('Cannot divide by zero')`. Now `expect` receives a function, calls it itself, and catches what comes out.
+
+### The matcher sheet
+
+Keep this near you for the whole unit. Every line is a real assertion that passes.
+
+```js
+// Equality
+expect(2 + 2).toBe(4);
+expect({ name: 'Bran' }).toEqual({ name: 'Bran' });
+
+// Nullish and truthiness
+expect(null).toBeNull();
+expect(undefined).toBeUndefined();
+expect('hello').toBeDefined();
+expect(1).toBeTruthy();
+expect(0).toBeFalsy();
+
+// Numbers
+expect(10).toBeGreaterThan(5);
+expect(10).toBeGreaterThanOrEqual(10);
+expect(5).toBeLessThan(10);
+expect(0.1 + 0.2).toBeCloseTo(0.3);
+
+// Strings
+expect('guild hall').toMatch(/hall/);
+expect('lamp oil').toContain('oil');
+
+// Arrays
+expect(['Bran', 'Sera', 'Ivo']).toContain('Sera');
+expect([1, 2, 3]).toHaveLength(3);
+
+// Objects
+expect({ name: 'Lamp oil', kind: 'potion' }).toHaveProperty('kind');
+expect({ a: 1, b: 2 }).toMatchObject({ a: 1 });
+
+// Exceptions: always wrap the call
+expect(() => { throw new Error('boom'); }).toThrow();
+expect(() => { throw new Error('boom'); }).toThrow('boom');
+
+// Negation works on every matcher
+expect(5).not.toBe(3);
+expect([1, 2, 3]).not.toContain(4);
+```
+
+`toBeCloseTo` exists because `0.1 + 0.2` is `0.30000000000000004` in every JavaScript engine, and a `toBe(0.3)` on that sum is a test that fails for a reason that has nothing to do with your code. `toMatchObject` checks that the listed keys match and ignores the rest, which is what you want when a function returns a document with a generated id and a timestamp beside the fields you care about.
 
 ### Red proves the test is connected
 
-Write a failing case before implementing a new behavior when that helps clarify the contract. Alternatively, for an existing function, temporarily introduce a deliberate defect and confirm that the test detects it. Restore the correct code immediately. A test that passes both implementations may be asserting too little, calling the wrong function, or never reaching its assertion.
+The loop has three steps and a color for each. Red: write a test for behavior that does not exist yet, run it, and watch it fail. Green: write the smallest code that makes it pass. Refactor: clean the code up while the test stands guard. Then write the next test. The order matters more than it looks. A test written after the code tends to describe what the code does. A test written before the code describes what the code is for, and the first run proves the test can actually fail, which is the only proof you ever get that it is wired to the behavior.
 
-Read the failure output. A useful test names the behavior and compares meaningful values. A generic assertion that an object is truthy can pass while every important field is wrong. Prefer an expected shape or a specific property when that expresses the contract. Do not over-specify incidental details such as object key order or internal helper calls unless those details are actually required.
+For a function that already exists, you get the same proof a different way. Change the function so it is wrong in a way a person would notice, run the test, and watch it go red. Put the function back. If the test stayed green through the sabotage, it is asserting too little, calling the wrong function, or never reaching its assertion. That test is decoration. Do this once for every new test file before you trust it.
 
-### Determinism makes failures explainable
+Read the failure output. A good test names the behavior in its `it` string and compares meaningful values, so the red line reads like a bug report: expected `-$5.50`, received `$-5.50`, in `currency.test.js` line 14. A generic assertion that a result is truthy can pass while every important field is wrong. Prefer the exact value, or `toMatchObject` with the fields that carry the contract. Do not over-specify incidental details such as key order or which internal helper got called. The test should survive a rewrite of the function's insides.
 
-Use fixed dates, seeded inputs, and isolated fixtures. A test that depends on the current time can fail at midnight or across time zones. A test that shares a mutable array can fail only when run after another test. Reset state deliberately or construct fresh data per case. If randomness is the behavior under test, control the random source or test an invariant across reproducible samples.
+### Fixtures, hooks, and the clock
 
-Asynchronous tests must await the work they claim to verify. Starting a promise and returning from the test can produce a false pass before the assertion runs. Test rejected promises explicitly and make sure the error path is reached. Timers can be controlled with the test framework's clock tools, but restoring real timers is part of cleanup. The suite should finish without dangling handles.
+A test should not depend on another test having run first. Jest gives you four hooks for building fresh state. `beforeAll` and `afterAll` run once per file, before and after everything in it. `beforeEach` and `afterEach` run around every single test. A fixture built in `beforeEach` is new for every test, so a test that mutates it cannot leak that mutation into the next one. A fixture built once at the top of the file and shared is the classic order-dependent bug: the suite passes in one order and fails when you add a case in the middle.
 
-### Coverage guides questions rather than declaring quality
+Determinism is the same idea applied to inputs. A test that reads `Date.now()` can fail at midnight or in another time zone. A test that uses `Math.random()` passes most of the time, which is worse than failing, because you stop trusting red. Pass fixed dates in. For a shuffle, test the invariant, same length and same elements, not the order. Jest's fake timers can freeze the clock when you need to, and restoring real timers afterwards is part of cleanup.
 
-A covered line has executed; it has not necessarily been checked correctly. Branch coverage can reveal an untested error path, but a numerical target cannot replace a review of important behavior. Use coverage to ask what remains unobserved. Add tests where a failure would matter, especially around validation, money, permissions, and transformations that feed external systems.
+Asynchronous tests must `await` the work they claim to check. Mark the test function `async` and `await` the promise. A test that starts a promise and returns without awaiting it can finish green before the assertion ever runs. The next session is built on that rule, because every request to the hall is a promise.
 
-The submission should contain the contract, the tests, one captured expected failure, and the final passing result. Include the command another developer can run after manually setting up the required runtime. A small suite with clear behavioral claims is more useful than a large suite that merely reproduces the current implementation.
+### Mocks: replace the edge, not the subject
+
+`jest.fn()` makes a function that records how it was called. `jest.mock('./emailService')` replaces a whole module with recording stand-ins. You use these to cut off an edge you do not want a unit test to cross: a paid API, an email sender, the clock, the disk. You do not use them on the function you are testing, and you do not use them on everything around it either, because a test where every collaborator is a mock proves only that the function returns 200 when nothing real is in the room.
+
+```js
+const notify = jest.fn();
+notify('Sera', 'A letter arrived');
+notify('Ivo', 'A letter arrived');
+
+expect(notify).toHaveBeenCalledTimes(2);
+expect(notify).toHaveBeenCalledWith('Sera', 'A letter arrived');
+expect(notify).toHaveBeenLastCalledWith('Ivo', 'A letter arrived');
+
+const findUser = jest.fn();
+findUser.mockReturnValue({ name: 'Bran' });
+expect(findUser('any-id').name).toBe('Bran');
+```
+
+The second session of this unit keeps the database real on purpose. Mocks are a tool for the unit layer. The hall's bugs live at the boundaries, and a boundary you mocked is a boundary you did not test.
+
+### Coverage asks questions
+
+`jest --coverage` prints a table of which lines, branches, and functions ran during the suite. A covered line executed. It was not necessarily checked. Coverage is a map of what ran, not of what matters. Use it to find the `else` branch nobody wrote a case for, then write that case because the branch matters, not because the number was 78 and you wanted 80. A `coverageThreshold` in `jest.config.js` can fail the run when a module's number drops, which is a reasonable guard rail for a utility folder and a silly one for a file full of glue.
+
+What you should be able to draw on a napkin: a test file is `describe` around `it` around `expect`. `toBe` is identity and `toEqual` is shape. A throw must be wrapped. Red first, then green, then refactor. Fresh fixtures per test. Mock the edge you do not own. Coverage is a question, not a grade.
+
+One convention to settle now, because it changes next session. In the dojo, each test file sits beside the module it tests, `utils/math.js` and `utils/math.test.js`, which is the natural layout for a library of pure functions. In `hall-api` the tests go in a `tests/` folder, because they are about routes and the database rather than individual files, and because the folder name is what the config will point at. Both layouts are normal. Pick on purpose.
 
 ## The demonstration
 
-**Live Coding Walkthrough:**
+A new folder, a new repo. Nothing from the hall is involved, and no server is running. If one is, stop it with Ctrl-C; this session never binds a port.
 
-**Demo 1: Jest Setup and Your First Test File**
-- Setup: Create a fresh practice project.
 ```bash
-mkdir testing-dojo && cd testing-dojo
+mkdir -p ~/projects/testing-dojo
+cd ~/projects/testing-dojo
+git init
 npm init -y
 npm install --save-dev jest
 ```
-- Update `package.json` scripts:
+
+`npm install --save-dev jest` installs Jest 30 as a development dependency, which is what a tool that never runs in production should be. Open `package.json` and replace the scripts block.
+
 ```json
 {
   "scripts": {
@@ -137,10 +160,13 @@ npm install --save-dev jest
   }
 }
 ```
-- Create a simple utility file:
-```javascript
-// utils/math.js
 
+The project is CommonJS, which is Node's default when `package.json` has no `"type"` field, so `require` and `module.exports` are the import style throughout. Jest reads CommonJS without any transform. Add `node_modules/` and `coverage/` to `.gitignore` before the first commit.
+
+The first module is arithmetic, because a function with no edges lets you look at the test file without anything else competing for attention.
+
+```js
+// utils/math.js
 function add(a, b) {
   return a + b;
 }
@@ -162,270 +188,220 @@ function divide(a, b) {
 
 module.exports = { add, subtract, multiply, divide };
 ```
-- Write the test file:
-```javascript
-// utils/math.test.js
 
+```js
+// utils/math.test.js
 const { add, subtract, multiply, divide } = require('./math');
 
-describe('Math Utilities', () => {
+describe('math utilities', () => {
   describe('add', () => {
-    it('should add two positive numbers', () => {
+    it('adds two positive numbers', () => {
       expect(add(2, 3)).toBe(5);
     });
 
-    it('should add negative numbers', () => {
+    it('adds negative numbers', () => {
       expect(add(-1, -1)).toBe(-2);
     });
 
-    it('should add zero', () => {
+    it('adds zero', () => {
       expect(add(5, 0)).toBe(5);
     });
   });
 
   describe('subtract', () => {
-    it('should subtract two numbers', () => {
+    it('subtracts two numbers', () => {
       expect(subtract(10, 4)).toBe(6);
     });
   });
 
   describe('multiply', () => {
-    it('should multiply two numbers', () => {
+    it('multiplies two numbers', () => {
       expect(multiply(3, 4)).toBe(12);
     });
 
-    it('should return zero when multiplied by zero', () => {
+    it('returns zero when multiplied by zero', () => {
       expect(multiply(99, 0)).toBe(0);
     });
   });
 
   describe('divide', () => {
-    it('should divide two numbers', () => {
+    it('divides two numbers', () => {
       expect(divide(10, 2)).toBe(5);
     });
 
-    it('should throw when dividing by zero', () => {
+    it('throws when dividing by zero', () => {
       expect(() => divide(10, 0)).toThrow('Cannot divide by zero');
     });
   });
 });
 ```
-- Run `npm test`, walk through the output, celebrate the green checkmarks.
-- Outcome: You see a complete test file with `describe`, `it`, and `expect` in action. They understand the test output format.
 
-**Demo 2: Matchers Deep Dive**
-- Show the full range of matchers with live examples:
-```javascript
-// Exact equality
-expect(2 + 2).toBe(4);                    // === comparison
-expect({ name: 'Goku' }).toEqual({ name: 'Goku' }); // deep equality for objects
+Run `npm test`. Jest finds the one file by its name, runs eight claims, and prints a tree.
 
-// Truthiness
-expect(null).toBeNull();
-expect(undefined).toBeUndefined();
-expect('hello').toBeDefined();
-expect(1).toBeTruthy();
-expect(0).toBeFalsy();
+```text
+PASS  utils/math.test.js
+  math utilities
+    add
+      ✓ adds two positive numbers (1 ms)
+      ✓ adds negative numbers
+      ✓ adds zero
+    subtract
+      ✓ subtracts two numbers
+    multiply
+      ✓ multiplies two numbers
+      ✓ returns zero when multiplied by zero
+    divide
+      ✓ divides two numbers
+      ✓ throws when dividing by zero (2 ms)
 
-// Numbers
-expect(10).toBeGreaterThan(5);
-expect(10).toBeGreaterThanOrEqual(10);
-expect(5).toBeLessThan(10);
-expect(0.1 + 0.2).toBeCloseTo(0.3);       // floating point!
-
-// Strings
-expect('team rocket').toMatch(/rocket/);
-expect('hello world').toContain('world');
-
-// Arrays
-expect(['Naruto', 'Sasuke', 'Sakura']).toContain('Sasuke');
-expect([1, 2, 3]).toHaveLength(3);
-
-// Objects
-expect({ name: 'Luffy', crew: 'Straw Hats' }).toHaveProperty('crew');
-expect({ a: 1, b: 2 }).toMatchObject({ a: 1 }); // partial match
-
-// Exceptions
-expect(() => { throw new Error('boom'); }).toThrow();
-expect(() => { throw new Error('boom'); }).toThrow('boom');
-
-// Negation (works with any matcher)
-expect(5).not.toBe(3);
-expect([1, 2, 3]).not.toContain(4);
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        0.4 s
 ```
-- Demonstrate the `toBe` vs `toEqual` trap live:
-```javascript
-// This FAILS:
-expect({ hp: 100 }).toBe({ hp: 100 });  // Different object references!
 
-// This PASSES:
-expect({ hp: 100 }).toEqual({ hp: 100 }); // Same structure and values!
-```
-- Outcome: You have a reference for which matcher to use in every scenario.
+Now make the two mistakes from the idea section, on purpose, so you have seen the messages. Change the last test to `expect(divide(10, 0)).toThrow()` without the arrow function and run again. The suite does not fail politely. It reports the test as failed with `Cannot divide by zero` thrown from inside the test body, because the throw happened before any matcher existed. Put the arrow back. Then add a temporary test, `expect({ hp: 100 }).toBe({ hp: 100 })`, and read the output: Jest says the values have the same structure but are not the same reference, and suggests `toEqual`. Delete the temporary test.
 
-**Demo 3: TDD Workflow - Red, Green, Refactor**
-- Explain the three-step loop: RED (write a test for a feature that does not exist, watch it fail), GREEN (write the minimum code to make it pass), REFACTOR (clean up the code while tests protect you).
-- Build a `formatCurrency` function using TDD.
-- Step 1 (RED): Write the test first.
-```javascript
+### Red, green, refactor, with money
+
+The second module is built the other way round. Write the test first, for a function that does not exist.
+
+```js
 // utils/currency.test.js
-
 const { formatCurrency } = require('./currency');
 
 describe('formatCurrency', () => {
-  it('should format a whole number as USD', () => {
+  it('formats a whole number as dollars', () => {
     expect(formatCurrency(10)).toBe('$10.00');
   });
 });
 ```
-- Run `npm test`. It fails. Good. RED.
-- Step 2 (GREEN): Write the minimum code.
-```javascript
-// utils/currency.js
 
+Run `npm test`. The file fails before any `it` runs, because `require('./currency')` cannot find the module. That is red, and it is the correct kind of red: the test is connected to a thing that is missing. Now the smallest code that makes it pass.
+
+```js
+// utils/currency.js
 function formatCurrency(amount) {
   return '$' + amount.toFixed(2);
 }
 
 module.exports = { formatCurrency };
 ```
-- Run `npm test`. It passes. GREEN.
-- Step 3 (RED again): Add more tests.
-```javascript
-  it('should format a decimal number', () => {
-    expect(formatCurrency(9.99)).toBe('$9.99');
-  });
 
-  it('should format zero', () => {
-    expect(formatCurrency(0)).toBe('$0.00');
-  });
+Run again. Green. Now add four more claims, written before you touch the function.
 
-  it('should handle negative amounts', () => {
-    expect(formatCurrency(-5.5)).toBe('-$5.50');
-  });
+```js
+// fragment: add inside the describe block in utils/currency.test.js
+it('formats a decimal', () => {
+  expect(formatCurrency(9.99)).toBe('$9.99');
+});
 
-  it('should add commas for thousands', () => {
-    expect(formatCurrency(1000)).toBe('$1,000.00');
-  });
+it('formats zero', () => {
+  expect(formatCurrency(0)).toBe('$0.00');
+});
+
+it('puts the sign before the dollar on a negative amount', () => {
+  expect(formatCurrency(-5.5)).toBe('-$5.50');
+});
+
+it('adds a thousands separator', () => {
+  expect(formatCurrency(1000)).toBe('$1,000.00');
+});
 ```
-- Some fail. GREEN them up with a better implementation:
-```javascript
-// utils/currency.js
 
+Run. Three of the five pass and two are red, and the red lines are the specification you have not met yet.
+
+```text
+  ● formatCurrency › puts the sign before the dollar on a negative amount
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "-$5.50"
+    Received: "$-5.50"
+
+  ● formatCurrency › adds a thousands separator
+
+    Expected: "$1,000.00"
+    Received: "$1000.00"
+```
+
+Take a screenshot of that output. It is the captured failing run the quest asks for, and it is worth more than any green screenshot, because it proves the tests were checking something before the function could do it. Now the implementation that satisfies all five.
+
+```js
+// utils/currency.js
 function formatCurrency(amount) {
   const isNegative = amount < 0;
   const absAmount = Math.abs(amount);
   const formatted = absAmount.toLocaleString('en-US', {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 2
   });
-  return isNegative ? `-$${formatted}` : `$${formatted}`;
+  return isNegative ? '-$' + formatted : '$' + formatted;
 }
 
 module.exports = { formatCurrency };
 ```
-- REFACTOR: Code is clean. Move on.
-- Outcome: You experience the full Red-Green-Refactor cycle and understand why writing tests first leads to better-designed code.
 
-**Demo 4: Setup/Teardown Hooks and Mocking**
-- Show setup and teardown hooks:
-```javascript
-describe('User tests', () => {
-  let testUser;
+Five green. `toLocaleString('en-US', ...)` handles the grouping comma and the two decimals; the sign is handled by hand so it lands before the dollar. The refactor step here is small: the names are clear, nothing is duplicated, move on. On a bigger function this is where you would rename, extract, and simplify, running the file after every edit, with the tests as the net.
 
-  beforeAll(() => {
-    // Runs ONCE before all tests in this describe block
-    console.log('Setting up test database connection');
-  });
+Now the sabotage check. Change `'-$'` to `'$-'` and run. One test red, the right one. Change it back. Green. That round trip is the habit: break it, watch it catch you, restore it.
 
-  afterAll(() => {
-    // Runs ONCE after all tests in this describe block
-    console.log('Closing test database connection');
-  });
+### A small model you can run here
 
-  beforeEach(() => {
-    // Runs before EACH test
-    testUser = { name: 'Goku', powerLevel: 9001 };
-  });
-
-  afterEach(() => {
-    // Runs after EACH test
-    testUser = null;
-  });
-
-  it('should have a name', () => {
-    expect(testUser.name).toBe('Goku');
-  });
-
-  it('should have a power level over 9000', () => {
-    expect(testUser.powerLevel).toBeGreaterThan(9000);
-    testUser.powerLevel = 1; // This change won't affect the next test!
-  });
-
-  it('should still have original power level', () => {
-    // beforeEach resets testUser before this runs
-    expect(testUser.powerLevel).toBe(9001);
-  });
-});
-```
-- Show mocking basics:
-```javascript
-// Simple mock function
-const mockCallback = jest.fn();
-mockCallback('hello');
-mockCallback('world');
-
-expect(mockCallback).toHaveBeenCalledTimes(2);
-expect(mockCallback).toHaveBeenCalledWith('hello');
-expect(mockCallback).toHaveBeenLastCalledWith('world');
-```
-```javascript
-// Mock return values
-const mockGetUser = jest.fn();
-mockGetUser.mockReturnValue({ name: 'Vegeta', powerLevel: 8000 });
-
-const user = mockGetUser();
-expect(user.name).toBe('Vegeta');
-```
-```javascript
-// Mocking a module
-jest.mock('./emailService');
-const { sendEmail } = require('./emailService');
-
-// Now sendEmail is automatically a mock function
-sendEmail.mockResolvedValue({ success: true });
-
-// Your function that USES sendEmail can be tested
-// without actually sending emails
-```
-- Explain when to mock (external APIs, databases for unit tests, email services, file system, anything slow or unpredictable) and when NOT to mock (the thing you are testing, simple utility functions with no side effects).
-- Outcome: You understand how to manage test state and isolate dependencies.
-
-**Watch for this:**
-- Show what happens when you run `expect(myFunction()).toThrow()` without wrapping in a function. The error is thrown immediately and the test crashes instead of being caught by `expect`.
-- Demonstrate the difference between `toBe` and `toEqual` with objects live. Let the test fail first, then fix it.
-- Remember that `beforeEach` creates fresh data for every test. Tests should never depend on each other.
-
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+The page cannot run Jest in your browser, so here is a small model you can run here: a ten-line `it` and `expect` of its own, a discount function, and a deliberately broken copy of it. It proves that a test which passes against the right code goes red against the wrong code, which is the one property that makes a test worth keeping. It does not prove anything about your dojo folder; `npm test` in your terminal is that proof.
 
 ```js run=checkpoint-7-1
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
+
+// A ten-line model of it() and expect(): run a claim, record red or green.
+function makeRunner() {
+  const results = [];
+  function it(name, fn) {
+    try { fn(); results.push({ name: name, status: 'green' }); }
+    catch (err) { results.push({ name: name, status: 'red', reason: err.message }); }
+  }
+  function expect(received) {
+    return {
+      toBe: function (expected) {
+        if (received !== expected) throw new Error('expected ' + expected + ', received ' + received);
+      }
+    };
+  }
+  return { it: it, expect: expect, results: results };
+}
+
 function totalAfterDiscount(cents, discount) {
   if (!Number.isInteger(cents) || cents < 0 || discount < 0 || discount > 1) throw new Error('invalid');
   return Math.round(cents * (1 - discount));
 }
-check(totalAfterDiscount(1000, 0.2) === 800, 'Normal discount');
-check(totalAfterDiscount(0, 1) === 0, 'Zero boundary');
-let rejected = false;
-try { totalAfterDiscount(-1, 0); } catch { rejected = true; }
-check(rejected, 'Invalid amount rejected');
+
+// The same claims, run against the real function.
+const good = makeRunner();
+good.it('Normal discount', () => good.expect(totalAfterDiscount(1000, 0.2)).toBe(800));
+good.it('Zero boundary', () => good.expect(totalAfterDiscount(0, 1)).toBe(0));
+check(good.results.every((r) => r.status === 'green'), 'Normal discount');
+check(good.results[1].name === 'Zero boundary' && good.results[1].status === 'green', 'Zero boundary');
+
+// Sabotage: a copy with the discount applied twice. The same claims must turn red.
+function brokenTotal(cents, discount) {
+  return Math.round(cents * (1 - discount) * (1 - discount));
+}
+const bad = makeRunner();
+bad.it('Normal discount', () => bad.expect(brokenTotal(1000, 0.2)).toBe(800));
+check(bad.results[0].status === 'red' && /received 640/.test(bad.results[0].reason), 'the same test is red against broken code');
+
+// The throw trap: calling first, then asserting, means the error escapes before any matcher runs.
+let escaped = false;
+try { good.expect(totalAfterDiscount(-1, 0)).toBe(0); } catch (err) { escaped = err.message === 'invalid'; }
+check(escaped, 'an unwrapped call throws before the matcher can see it');
+
 console.log('ok: checkpoint-7-1');
 ```
+
+Change `800` to `801` in the first claim and run the model again. The first check fails with the received value in the message. That is the shape of every red run you will read this unit: a name, an expected value, a received value.
 
 ## Where it breaks
 
@@ -433,147 +409,125 @@ console.log('ok: checkpoint-7-1');
 
 ### Test mirrors implementation
 
-The test fails the moment you rename a helper, and it stays green when the function returns the wrong total. It was written by reading the implementation and asserting each internal call, so it tests the shape of the code rather than the result. Assert the contract: given this input, this output, this error. You should be able to rewrite the function and keep the test. If a test has to change whenever an internal detail changes, it is a second copy of the code, and it will not catch a regression in the behavior.
+The test fails the moment you rename a helper, and it stays green when the function returns the wrong total. It was written by reading the implementation and asserting each internal step, so it tests the shape of the code rather than the result. Assert the contract: given this input, this output, this error. You should be able to rewrite the function from scratch and keep the test file untouched. If a test has to change whenever an internal detail changes, it is a second copy of the code, and it will not catch a regression in the behavior.
+
+The fix is to delete the assertions about how and keep the assertions about what. `expect(formatCurrency(1000)).toBe('$1,000.00')` is a contract. `expect(toLocaleString).toHaveBeenCalled()` is a diary entry.
 
 ### False green
 
-The suite passes, including a test for a function you just broke on purpose. The assertion is too weak, the test never called the function, or it caught the error and continued. Break the behavior in a way a user would notice, run the one test, and watch it fail. Then put the behavior back and watch it pass. A test that cannot fail does not protect you. Do this once for every new test before you trust the file. The red run is the proof the test is connected to the behavior.
+The suite passes, including a test for a function you just broke on purpose. The assertion is too weak, the test never called the function, or it caught the error and continued. Break the behavior in a way a user would notice, run the one test, and watch it fail. Then put the behavior back and watch it pass. A test that cannot fail does not protect you. Do this once for every new test before you trust the file.
+
+The usual culprits are `expect(result).toBeDefined()` on a function that always returns something, an `async` test that forgot `await`, and a `try` block around the call with the assertion inside the `try`, so a throw skips the assertion and the test ends green. The red run is the proof the test is connected to the behavior.
 
 ### Brittle setup
 
-Tests pass alone and fail in the file, or fail only when the suite runs in a different order. They share a mutable object, a clock, or a row in a database, and one test's leftover becomes the next test's input. Build the fixture inside the test, or in a `beforeEach` that returns a fresh value. Do not let tests delete from a shared list they all imported. Order dependence is a bug in the tests even when the production code is fine, and it will show up on the day you add an unrelated case.
+Tests pass alone and fail in the file, or fail only when the suite runs in a different order. They share a mutable object, a clock, or a row in a database, and one test's leftover becomes the next test's input. Build the fixture inside the test, or in a `beforeEach` that assigns a fresh value. Do not let tests delete from a shared array they all imported at the top of the file. Order dependence is a bug in the tests even when the production code is fine, and it will show up the day you add an unrelated case in the middle. Run one file with `npx jest utils/strings.test.js` and then the whole suite; if the counts differ, a fixture is shared.
 
 ## Your turn
 
-**Guided Practice:**
+Everything happens in `~/projects/testing-dojo`. Run `npm test` after every step; the number of passing tests should only go up.
 
-**Exercise 1: Quest - The Matcher Gauntlet**
-- Prompt: Create a string utility module and write comprehensive tests using at least 5 different matchers for every function.
-- Starter code:
-```javascript
-// utils/strings.js
+1. Create `utils/strings.js` with `capitalize`, `reverseString`, `isPalindrome`, `truncate`, and `countWords`. Use this starter.
 
-function capitalize(str) {
-  if (typeof str !== 'string') return '';
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+   ```js
+   // utils/strings.js
+   function capitalize(str) {
+     if (typeof str !== 'string' || str === '') return '';
+     return str.charAt(0).toUpperCase() + str.slice(1);
+   }
 
-function reverseString(str) {
-  return str.split('').reverse().join('');
-}
+   function reverseString(str) {
+     return str.split('').reverse().join('');
+   }
 
-function isPalindrome(str) {
-  const cleaned = str.toLowerCase().replace(/[^a-z0-9]/g, '');
-  return cleaned === cleaned.split('').reverse().join('');
-}
+   function isPalindrome(str) {
+     const cleaned = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+     return cleaned === cleaned.split('').reverse().join('');
+   }
 
-function truncate(str, maxLength) {
-  if (str.length <= maxLength) return str;
-  return str.slice(0, maxLength) + '...';
-}
+   function truncate(str, maxLength) {
+     if (str.length <= maxLength) return str;
+     return str.slice(0, maxLength) + '...';
+   }
 
-function countWords(str) {
-  return str.trim().split(/\s+/).filter(word => word.length > 0).length;
-}
+   function countWords(str) {
+     return str.trim().split(/\s+/).filter((word) => word.length > 0).length;
+   }
 
-module.exports = { capitalize, reverseString, isPalindrome, truncate, countWords };
-```
-- Create `utils/strings.test.js` and write tests for ALL five functions.
-- Requirements: at least 2 test cases per function (happy path + edge case), use at least 5 different matchers, test edge cases (empty strings, single characters, strings with spaces).
-- Success criteria: All tests pass. At least 10 test cases total. At least 5 different matchers used.
-- Time: 20 minutes
+   module.exports = { capitalize, reverseString, isPalindrome, truncate, countWords };
+   ```
 
-**Exercise 2: Quest - TDD Challenge: Build a Validator**
-- Prompt: Use the Red-Green-Refactor workflow to build an `isValidEmail` function from scratch. Write all tests FIRST, then implement.
-- Starter code (tests only, no implementation):
-```javascript
-// utils/validators.test.js
+2. Write `utils/strings.test.js` with at least two claims per function, one normal and one edge: the empty string, a single character, a string of spaces, a non-string passed to `capitalize`. Use at least five different matchers from the sheet. `npm test` should end with `Tests: 23 passed, 23 total` or higher, counting the eight math claims and the five currency claims.
+3. Sabotage `isPalindrome` so it returns `true` unconditionally. Run. At least one strings test must be red. Restore it. If nothing went red, your palindrome cases only use palindromes; add `'guild hall'`.
+4. Write `utils/validators.test.js` first, for `isValidEmail`, with these five claims and three of your own.
 
-const { isValidEmail } = require('./validators');
+   ```js
+   // utils/validators.test.js
+   const { isValidEmail } = require('./validators');
 
-describe('isValidEmail', () => {
-  it('should return true for a valid email', () => {
-    expect(isValidEmail('goku@capsulecorp.com')).toBe(true);
-  });
+   describe('isValidEmail', () => {
+     it('accepts a plain address', () => {
+       expect(isValidEmail('sera@example.com')).toBe(true);
+     });
 
-  it('should return false for an email without @', () => {
-    expect(isValidEmail('gokucapsulecorp.com')).toBe(false);
-  });
+     it('rejects an address without @', () => {
+       expect(isValidEmail('seraexample.com')).toBe(false);
+     });
 
-  it('should return false for an email without a domain', () => {
-    expect(isValidEmail('goku@')).toBe(false);
-  });
+     it('rejects an address without a domain', () => {
+       expect(isValidEmail('sera@')).toBe(false);
+     });
 
-  it('should return false for an empty string', () => {
-    expect(isValidEmail('')).toBe(false);
-  });
+     it('rejects the empty string', () => {
+       expect(isValidEmail('')).toBe(false);
+     });
 
-  it('should return false for null or undefined', () => {
-    expect(isValidEmail(null)).toBe(false);
-    expect(isValidEmail(undefined)).toBe(false);
-  });
+     it('rejects null and undefined', () => {
+       expect(isValidEmail(null)).toBe(false);
+       expect(isValidEmail(undefined)).toBe(false);
+     });
+   });
+   ```
 
-  // Add at least 3 more test cases!
-});
-```
-- Steps: Run `npm test` and watch everything fail (RED). Create `utils/validators.js` and implement `isValidEmail` one test at a time (GREEN). After all tests pass, refactor if needed. BONUS: Add `isValidPassword` using TDD (minimum 8 chars, at least one uppercase, at least one number).
-- Success criteria: All tests pass. Function was written AFTER the tests. At least 8 test cases total.
-- Time: 25 minutes
+   Run `npm test` and confirm the file is red with `Cannot find module './validators'`. Only then create `utils/validators.js` and make the claims pass one at a time.
+5. Run `npm run test:coverage`. Read the table. Every file under `utils/` should show 100 in the `% Stmts` column, because every function has a test that calls it. If a line is uncovered, the table names the line number; write the case or decide the line should not exist.
+6. Create `jest.config.js` so a drop in coverage fails the run.
 
-**Checkpoints:**
-- Checkpoint: at least 5 string utility tests are passing
-- Checkpoint: the validator test file exists, and the new tests fail for the right reason
-- Checkpoint: `isValidEmail` passes, and you saw it fail first
+   ```js
+   // jest.config.js
+   module.exports = {
+     testEnvironment: 'node',
+     collectCoverageFrom: ['utils/**/*.js'],
+     coverageThreshold: {
+       global: { statements: 90, branches: 80, functions: 90, lines: 90 }
+     }
+   };
+   ```
+
+   `npm run test:coverage` should still pass. Comment out one test and run again: Jest prints `Jest: "global" coverage threshold for statements (90%) not met` and exits non-zero. Put the test back.
+7. Commit, then create the repo and push, the way you have since 1-4: `gh repo create testing-dojo --public --source=. --push`.
 
 ## The quest
 
-**Independent Work:**
-
-**Lab: Quest - The Testing Dojo**
-- Objective: Build a utility module from scratch using pure TDD and achieve real code coverage.
-- Requirements checklist:
-  - [ ] Create `utils/arrayHelpers.js` with 5 functions: `unique(arr)` (removes duplicates), `flatten(arr)` (flattens one level of nesting), `chunk(arr, size)` (splits array into chunks of given size), `shuffle(arr)` (randomly shuffles, returns new array), `intersection(arr1, arr2)` (returns elements in both arrays)
-  - [ ] Use TDD for every function. Write tests FIRST in `utils/arrayHelpers.test.js`, then implement
-  - [ ] Each function needs at least 3 test cases (happy path, edge case, empty array)
-  - [ ] Run `npm run test:coverage` and screenshot the output
-  - [ ] Aim for 90%+ coverage on utility files
-  - [ ] Push to a GitHub repo called `testing-dojo`
-- Hints: Start with `unique` because it is the simplest. For `shuffle`, you cannot test the exact output (it is random), but you can test that the output has the same length and the same elements. For `chunk`, test what happens when the array length is not evenly divisible by the chunk size.
-- Stretch Goals:
-  - Add `isValidPassword(password)` validator using TDD with rules: minimum 8 chars, at least one uppercase, at least one lowercase, at least one number, at least one special character
-  - Add a `jest.config.js` file that sets the coverage threshold to 80% so the test command fails if coverage drops below that
-- Submission: GitHub repo link with tests and coverage screenshot in the README.
-
-### Review the artifact
-
-Your deliverable is **A focused unit-test suite with boundary cases and a demonstrated failing test**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-7-1/fig3-evidence)
+
+Build `utils/arrayHelpers.js` test-first, in `utils/arrayHelpers.test.js`, one function at a time: `unique(arr)`, `flatten(arr)` one level deep, `chunk(arr, size)`, `shuffle(arr)` returning a new array, and `intersection(a, b)`. Each function gets at least three claims: a normal case, an edge case, and the empty array. Start with `unique` because it is the simplest. For `shuffle` you cannot assert the order, so assert the length and that the result, sorted, equals the input, sorted, and that the input was not mutated. For `chunk`, cover a length that does not divide evenly. For each function, the test must be red once before it is green; the git log should show that, so commit the red test file before you commit the implementation.
+
+Evidence to keep in the repo:
+
+- `README.md` with the command to run the suite, the final `Tests:` line from `npm test`, and the coverage table pasted in a fenced block.
+- `red-run.png`, the screenshot of the currency formatter failing on the negative and thousands cases, linked from the README.
+- A commit history where at least one `*.test.js` file was committed before the module it tests.
+- `jest.config.js` with a coverage threshold that passes.
+
+The repo is small on purpose. It is the place you will come back to when you forget what `toMatchObject` does, and it is the proof that you know what red looks like before the hall's tests have anything to hide behind.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Every test is a trade-off between the confidence it buys and the time it costs, and a suite that has never been red is the kind of first attempt the long-return page is about, so read those two with the dojo open.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Review your Project 2 utility functions and model files. Identify at least 3 pure functions and 2 Mongoose model validations that could be tested. Read the [Jest Getting Started guide](https://jestjs.io/docs/getting-started) through "Using Matchers."
-**Materials:** Node.js and npm installed, a code editor, terminal access, [Jest Docs](https://jestjs.io/docs/getting-started), [Jest Expect API reference](https://jestjs.io/docs/expect)
+Next session the tests stop being about pure functions and start being about the hall. You will open `~/projects/hall-api`, split `server.js` into a file that builds the app and a file that listens, point Jest at a throwaway database called `guildhall_test`, and send real HTTP requests through the real router with Supertest. Before then, reread the first half of your `HALL.md` from 4-14, the inbox statuses: 200 for Sera, 403 for Ivo, 403 for Bran, 404 for a random id. Those four lines become four `it` blocks, and the fact that you already wrote them down by hand is why the next session goes quickly.
 
-**Due before next session:**
-- Complete the Testing Dojo lab if you did not finish it here (estimated time: 2-3 hours)
-- Push all work to a GitHub repo called `testing-dojo`
-- Run `npm run test:coverage` and include a screenshot of the coverage output in your README
-- Review the [Supertest GitHub README](https://github.com/ladjs/supertest) to prepare for next session
-- Look at your Project 2 Express app and identify which routes you want to test (list them out)
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://jestjs.io/docs/getting-started)
-- [Official reference 2](https://jestjs.io/docs/expect)
+Nothing is left running after today. The dojo has no server. Make sure the hall is also stopped on your machine (the deployed copy from Unit 6 stays up on its own and is not touched by anything in this unit). Confirm `mongod` is still installed and starts, because next session's tests need it on `127.0.0.1:27017`. The next session starts in `~/projects/hall-api` on a new branch called `add-tests`.
