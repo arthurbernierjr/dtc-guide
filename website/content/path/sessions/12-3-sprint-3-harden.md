@@ -12,6 +12,8 @@ diagrams:
 docs:
   - https://owasp.org/Top10/2025/
   - https://playwright.dev/docs/best-practices
+  - https://jestjs.io/docs/configuration
+  - https://github.com/forwardemail/supertest#readme
   - https://www.mongodb.com/docs/database-tools/mongodump/
   - https://www.mongodb.com/docs/database-tools/mongorestore/
   - https://www.mongodb.com/docs/database-tools/installation/installation/
@@ -24,9 +26,9 @@ say:
 
 ## The hook
 
-Sprint 2 ended with the journey walkable and the core flow obeying a table. Today you do not add anything. You pick one commit, give it a name, and spend the day trying to prove it is not good enough: the Jest and Supertest files from Unit 7 run against it, the Playwright journey runs against it, a second account tries to read the first account's records, and the rate limiter and Helmet are checked with a request rather than by reading the file they were configured in. Whatever survives that is the release candidate.
+Sprint 2 ended with the journey walkable and the core flow obeying a table. Today you do not add anything. You pick one commit, give it a name, and spend the day trying to prove it is not good enough: a Jest and Supertest suite, installed in the first hour the way Unit 7 built the hall's, runs against it, a Playwright journey runs against it, a second account tries to read the first account's records, and the rate limiter and Helmet are checked with a request rather than by reading the file they were configured in. Whatever survives that is the release candidate.
 
-Then the part no earlier unit made you do. You take a backup of the deployed database with `mongodump`, restore it into a disposable database on your own machine with `mongorestore`, and read a record back. Only after that do you redeploy, with the `deploy.sh` from 6-4 or `railway up` from the Railway path in 6-4, and roll back once on purpose so the rollback is a thing you have done rather than a thing you assume. By the end the live URL runs the candidate, and `docs/release-candidate.md` names the sha every piece of evidence was collected against.
+Then the part no earlier unit made you do. You take a backup of the deployed database with `mongodump`, restore it into a disposable database on your own machine with `mongorestore`, and read a record back. Only after that do you redeploy, with `railway up` the way [10-4](/path/10-4-warding-the-kingdom/) first put the capstone on a URL, or the `deploy.sh` from 6-4 if yours lives on the VPS, and roll back once on purpose so the rollback is a thing you have done rather than a thing you assume. By the end the live URL runs the candidate, and `docs/release-candidate.md` names the sha every piece of evidence was collected against.
 
 > *The armor is tested by the smith striking it, not by the knight admiring it.*
 
@@ -38,7 +40,7 @@ The second idea is that security is reviewed by operating the app wrongly on pur
 
 The third idea is recovery. Your capstone has a database with the fixture account and whatever real sign-ups you collected since 10-4. A backup is a copy of it that exists somewhere else. A restore is proof that the copy can be read. Those are different facts, and only the second one matters on the day you need it. The drill is to dump the live database, restore it into a database with a different name on your local MongoDB from 4-4, count the records, and time the whole thing. Then you know what a bad day costs: the age of the newest backup, plus the minutes the restore took.
 
-The fourth idea is that deployment is already solved. The server, Nginx site, pm2 app, and certificate from 6-4 exist, or the Railway project from the same session does. Redeploying is one command on either path. The thing you have not rehearsed is the step backwards: checking out the previous tag, deploying it, confirming the public journey still works, and coming forward again. A rollback you have performed once under no pressure is a procedure. One you have only read about is a hope.
+The fourth idea is that deployment is already solved. The Railway project, database, domain, and variables from 10-4 exist, or the server, Nginx site, pm2 app, and certificate from 6-4 do if you took the VPS path. Redeploying is one command on either path. The thing you have not rehearsed is the step backwards: checking out the previous tag, deploying it, confirming the public journey still works, and coming forward again. A rollback you have performed once under no pressure is a procedure. One you have only read about is a hope.
 
 Napkin version: tag the candidate; run every test against the tag and write the sha on the output; attack ownership and mass assignment with a second account; dump, restore elsewhere, count, time it; redeploy with the path you have; roll back once and come forward; put every result in one file with the sha at the top.
 
@@ -48,12 +50,36 @@ Napkin version: tag the candidate; run every test against the tag and write the 
 
 `git status --short` prints nothing, `git log --oneline -1` prints the commit, `git tag rc-1` names it, `git push origin rc-1` sends the name to GitHub. From here, a fix that is needed to pass a test goes in as a new commit and the tag moves: `git tag -f rc-1` and `git push -f origin rc-1`, and the sha at the top of the evidence file changes with it. Every check affected by the fix runs again. A fix that is not needed to pass a test waits until Sprint 4. The temptation is to "quickly also" rename a button while a test is running. The button rename does not change the sha the test already saw, which is exactly the problem.
 
-### The test tree you already have
+### The test tree, installed today
 
-Unit 7 left your capstone with `tests/` for Jest and Supertest and `e2e/` for Playwright, a `jest.config.js` that ignores `e2e/`, a `playwright.config.js` whose `webServer` starts the API on 3000 and the client on 5173, and a workflow in `.github/workflows/test.yml`. Those files have not run against the Sprint 2 code. Today they do, with the sha in the output.
+Unit 7 taught the pattern on `hall-api`: [7-2](/path/7-2-dungeon-trials/) split the hall into `app.js` and `server.js`, pointed Jest at a database that must end in `_test`, and sent real requests through Supertest; [7-3](/path/7-3-the-gauntlet/) added a Playwright journey and a workflow. None of that reached the capstone. 10-1 scaffolded `api/` with the split already made, `app.js` exports `{ app }` and `server.js` listens, and 10-4's audit listed the missing tests as a Unit 12 gap. This is the hour that closes it. First the API suite, in `api/`:
 
 ```bash
-cd ~/projects/<capstone-name>/server
+cd ~/projects/<capstone-name>/api
+npm install --save-dev jest supertest
+mkdir -p tests
+```
+
+Add `"test": "node --env-file=.env.test node_modules/jest/bin/jest.js"` to the `scripts` in `api/package.json`, next to `seed`. Then `.env.test`, committed, with every name `api/.env.example` lists, because `config.js` refuses to start without them, and with both database names pointing at the throwaway database:
+
+```dotenv
+# api/.env.test (committed; nothing in here is a secret)
+MONGODB_URI=mongodb://127.0.0.1:27017/<capstone-name>_test
+TEST_MONGODB_URI=mongodb://127.0.0.1:27017/<capstone-name>_test
+JWT_SECRET=test-only-not-a-secret-but-at-least-thirty-two-characters
+PAGE_ORIGIN=http://localhost:5173
+STRIPE_SECRET_KEY=sk_test_placeholder
+STRIPE_WEBHOOK_SECRET=whsec_placeholder
+ANTHROPIC_API_KEY=placeholder
+NODE_ENV=test
+```
+
+`jest.config.js` and `tests/setup.js` are 7-2's files, copied in with one change: the setup requires the app with braces, `const { app } = require('../app')`, because 10-1 exported an object and the hall exported the app itself. The guard that refuses any database not ending in `_test` stays word for word. Then the first test files. `tests/auth.test.js` is 7-2's register-and-login pair against `/api/register` and `/api/login`. `tests/entries.test.js` is the two curls from 12-1 as assertions, create then list, as the fixture account and then as a stranger. `tests/draft.test.js` posts to the adapter route from 12-2 and expects `200` with a `summary` field. `npm test` with no files prints `No tests found, exiting with code 1`, which is correct; with the files in place it prints a `Tests:` line and exits on its own, and if it hangs, 7-2's `--detectOpenHandles` note applies here too.
+
+The browser half lives at the repository root, where 7-3 put it in the hall. `npm init playwright@latest` there, with the same answers as before: JavaScript, `e2e` as the folder, no workflow, yes to browsers. Delete `e2e/example.spec.js` and `tests-examples/`. `playwright.config.js` is 7-3's, with the two `webServer` entries changed to this project: `node --env-file=.env.test server.js` with `cwd` of `api` on port 3000 and `MONGODB_URI` overridden to `<capstone-name>_e2e` in its `env` block, and `npx vite --strictPort` with `cwd` of `client` on 5173. A `.github/workflows/test.yml` is 7-3's with `hall-api` replaced by `api` in every `working-directory`; it is worth the ten minutes and the rubric in 12-5 has a line for it, but it is not a release blocker today. None of these files has run against the Sprint 2 code. Now they do, with the sha in the output.
+
+```bash
+cd ~/projects/<capstone-name>/api
 git rev-parse --short HEAD
 npm test 2>&1 | tee ../docs/evidence/12-3-jest.txt
 ```
@@ -70,7 +96,7 @@ FAIL tests/draft.test.js
 Tests: 1 failed, 11 passed, 12 total
 ```
 
-That failure is real and it is a good one. The test was written in Unit 7 against the provider route; Sprint 2 put an adapter in front of it, and the test environment has no `DRAFT_MODE`. Set `DRAFT_MODE=normal` in `tests/setup.js` next to `NODE_ENV=test`, and the fixture answers. That is a test-environment fix, so it is allowed, and it is a commit that moves the tag. A test that is simply wrong about the current contract is rewritten; a test that found a bug gets the bug fixed. Those are the only two outcomes. Deleting a failing test to get green is the third outcome, and it is the one that makes the whole file a rumor.
+That failure is real and it is a good one. The test was written an hour ago against the route's contract, `200` with a `summary`; Sprint 2 put an adapter in front of the provider, and the test environment has no `DRAFT_MODE`, so the adapter went to the real provider with a placeholder key and answered 502. Set `DRAFT_MODE=normal` in `.env.test` next to `NODE_ENV=test`, and the fixture answers. That is a test-environment fix, so it is allowed, and it is a commit that moves the tag. A test that is simply wrong about the current contract is rewritten; a test that found a bug gets the bug fixed. Those are the only two outcomes. Deleting a failing test to get green is the third outcome, and it is the one that makes the whole file a rumor.
 
 The browser test is the journey from 12-2 as the fixture account. Run it from the repository root, where `playwright.config.js` lives:
 
@@ -87,7 +113,7 @@ Running 3 tests using 1 worker
 3 passed (9.4s)
 ```
 
-If your `e2e/` has only the home-page spec from 7-3, write `e2e/core-flow.spec.js` now; the journey you walked by hand in 12-2 is the script, step for step. One browser test of the real path outranks ten that check a heading exists.
+`e2e/` is empty after the install, because 7-3's inbox spec belongs to `hall-api`, so write `e2e/core-flow.spec.js` now; the journey you walked by hand in 12-2 is the script, step for step. One browser test of the real path outranks ten that check a heading exists.
 
 ### The review that sends requests
 
@@ -119,7 +145,7 @@ Then read the created record back as `$B` and confirm `owner` is B's id and no `
 Then the two configuration checks, done as requests rather than by reading `app.js`:
 
 ```bash
-curl -s -I https://YOUR-DOMAIN/api/health | grep -i -E 'strict-transport|x-content-type|content-security|ratelimit'
+curl -s -I https://YOUR-APP.up.railway.app/api/health | grep -i -E 'strict-transport|x-content-type|content-security|ratelimit'
 ```
 
 ```text
@@ -151,7 +177,7 @@ An expired token is the last request: take a token you saved two hours ago from 
 
 `mongodump` and `mongorestore` ship in the MongoDB Database Tools, a separate download from the server you installed in 4-4. The [installation page](https://www.mongodb.com/docs/database-tools/installation/installation/) has one section per operating system. `mongodump --version` printing a version is the check that it is installed.
 
-The dump runs wherever the live database is reachable. On the VPS from 6-x, that is on the server itself, as the `deploy` user, because the database listens on `127.0.0.1` only. On Railway, the MongoDB service's connection string is in the service's variables, and the tools connect from your laptop. Either way, `MONGODB_URI` is the same value the running app uses, with the database name in it, and the dump folder is named for the candidate:
+The dump runs wherever the live database is reachable. On Railway, where 10-4 put it, the MongoDB service's connection string is in the service's variables, `railway variable list` prints it, and the tools connect from your laptop. On the VPS from 6-4, it is the server itself, as the `deploy` user, because the database listens on `127.0.0.1` only. Either way, `MONGODB_URI` is the same value the running app uses, with the database name in it, and the dump folder is named for the candidate:
 
 ```bash
 mkdir -p backups
@@ -195,19 +221,18 @@ The counts match the dump. Open one entry and confirm the fields are the ones yo
 
 ### Redeploy with the path you have, then step back once
 
-If the capstone lives on the VPS from 6-4:
+The capstone lives on Railway, where [10-4](/path/10-4-warding-the-kingdom/) put it, and the path is the one that session walked:
 
 ```bash
-ssh deploy@YOUR-DOMAIN
-cd ~/<capstone-name>
-git fetch --tags
+cd ~/projects/<capstone-name>
 git checkout rc-1
-./deploy.sh
+railway up
+railway logs
 ```
 
-`deploy.sh` is the script you wrote in [6-4](/path/6-4-opening-the-world-gate/): pull, install, restart the pm2 app, rebuild the client. The only change today is checking out the tag instead of `main`, so the server runs the sha the evidence names.
+`railway up` uploads the tree you have checked out, builds it with the commands in `railway.json`, and starts it; `railway logs` shows the `listening on` line. The only change from 10-4 is checking out the tag instead of `main`, so the service runs the sha the evidence names. A project connected to the GitHub repository deploys on push instead; pushing the tag's commit to `main` is the same action.
 
-If the capstone lives on Railway, the same session's "The same app on Railway" section is the path: from the repository root on the candidate commit, `railway up` builds and deploys that tree, and `railway logs` shows the listening line. A project connected to the GitHub repository deploys on push instead; pushing the tag's commit to `main` is the same action.
+If you took the VPS alternative from [6-4](/path/6-4-opening-the-world-gate/) instead, the script you wrote there is the path: `ssh deploy@YOUR-DOMAIN`, `cd ~/<capstone-name>`, `git fetch --tags`, `git checkout rc-1`, `./deploy.sh`, which pulls, installs, restarts the pm2 app, and rebuilds the client.
 
 Either way, the smoke test is the journey on the public URL as the fixture account, in a private window, plus the phone: open the URL on your phone over mobile data, not your Wi-Fi, and walk the core flow once. That is the nearest thing to "someone else's network" you can produce alone, and it catches the CORS origin and the mixed-content error that `localhost` never shows.
 
@@ -233,13 +258,13 @@ To github.com:YOU/<capstone-name>.git
  * [new tag]         rc-1 -> rc-1
 ```
 
-Jest first, as above. The draft test fails on 502, `DRAFT_MODE=normal` goes into `tests/setup.js`, the run goes green, and the fix is committed with `git tag -f rc-1 && git push -f origin rc-1`. The sha in `docs/release-candidate.md` is updated by hand, and Jest runs once more so the file holds the output from the new sha, not the old one.
+The install first: Jest and Supertest in `api/`, the four files, three test files, Playwright at the root, one commit named `sprint 3: test suite`, and the tag moved onto it. Then Jest, as above. The draft test fails on 502, `DRAFT_MODE=normal` goes into `.env.test`, the run goes green, and the fix is committed with `git tag -f rc-1 && git push -f origin rc-1`. The sha in `docs/release-candidate.md` is updated by hand, and Jest runs once more so the file holds the output from the new sha, not the old one.
 
 Playwright next, from the root, three passes. The two outputs are already in `docs/evidence/` because of `tee`.
 
-Then the review. Seed the second account, collect `$A` and `$B` the way 12-1 collected a token, send the four requests, paste first lines. On this capstone the delete came back 204 as the wrong user: the handler used `findByIdAndDelete(req.params.id)`. Changed to `findOneAndDelete({ _id: req.params.id, owner: req.user.userId })`, which returns `null` for someone else's record, and the handler answers 404 on `null`. Commit, move the tag, rerun `tests/entries.test.js`, add a test for the cross-account delete so this cannot come back.
+Then the review. Seed the second account, collect `$A` and `$B` the way 12-1 collected a token, send the four requests, paste first lines. On this capstone the delete came back 204 as the wrong user: the handler used `findByIdAndDelete(req.params.id)`. Changed to `findOneAndDelete({ _id: req.params.id, owner: req.userId })`, which returns `null` for someone else's record, and the handler answers 404 on `null`. Commit, move the tag, rerun `tests/entries.test.js`, add a test for the cross-account delete so this cannot come back.
 
-Then the drill, exactly as above, with the three numbers written in the file: dump taken 10:12, restore 0.41 seconds, newest record 14 hours old. Then the deploy: `ssh`, `git checkout rc-1`, `./deploy.sh`, journey in a private window, journey on the phone. Then the rollback to `rc-1~1` and back. Then `curl -I` against the public URL for the headers.
+Then the drill, exactly as above, with the three numbers written in the file: dump taken 10:12, restore 0.41 seconds, newest record 14 hours old. Then the deploy: `git checkout rc-1`, `railway up`, `railway logs`, journey in a private window, journey on the phone. Then the rollback to `rc-1~1` and back. Then `curl -I` against the public URL for the headers.
 
 Here is a small model you can run here. It checks evidence the way the release file should be read: every required check must come from the candidate sha, a restore only counts when the counts match, and a cross-account read is only safe when the answer was not 200. It does not run your tests, dump your database, or touch your server; it models the rules you applied by hand.
 
@@ -309,14 +334,15 @@ There is a cron line or a dashboard toggle that says "backups: on," and nobody h
 In `~/projects/<capstone-name>`, clean tree, nothing running except what each step starts.
 
 1. `git status --short` prints nothing. `git tag rc-1 && git push origin rc-1`. Create `docs/release-candidate.md` with the sha and date on the first lines.
-2. Run `npm test` in `server/` with `tee` into `docs/evidence/12-3-jest.txt`. For each failure decide: test wrong about the contract, or bug found. Fix accordingly, commit, `git tag -f rc-1`, update the sha, rerun. Stop when the last line reads `Tests: 0 failed`.
-3. Run `npx playwright test` from the root with `tee` into `docs/evidence/12-3-e2e.txt`. If `e2e/` has no core-flow spec, write it from the 12-2 walk first. The last line reads `N passed`.
-4. Seed a second account. Send the read, delete, and update for the first account's record as the second account; send a body with `owner` and a privilege field; send an expired token to `/api/me`. Paste each command's first response line into the file. Every cross-account answer is 404 or 403; the extra fields never land; the expired token gets 401 with a JSON body.
-5. `curl -I` the public URL and paste the Helmet and `ratelimit` headers. If your limiter still says `max`, change it to `limit` with `standardHeaders: 'draft-7'` and `legacyHeaders: false`.
-6. Install the Database Tools if `mongodump --version` fails. Dump the live database into `backups/rc-1-<date>`, add `backups/` to `.gitignore`, restore with `--nsFrom`/`--nsTo` into `<db>_restore` locally, count with `mongosh`, open one record. Write the three numbers in the file. Drop the restore database.
-7. Redeploy the tag with `./deploy.sh` over ssh or `railway up`, walk the journey in a private window and on your phone over mobile data. Roll back to the previous tag, walk it, come forward, walk it again. Write the three sentences.
+2. Install the suite, copying the [7-2](/path/7-2-dungeon-trials/) and [7-3](/path/7-3-the-gauntlet/) pattern with the capstone's own routes: `npm install --save-dev jest supertest` in `api/`, the `test` script, `api/.env.test`, `jest.config.js`, `tests/setup.js` requiring `{ app }`, and `tests/auth.test.js`, `tests/entries.test.js`, `tests/draft.test.js`. Then `npm init playwright@latest` at the repository root with `e2e/`, the scaffold files deleted, and `playwright.config.js` pointed at `api/` and `client/`. `npm test` in `api/` before the test files exist prints `No tests found, exiting with code 1`; `npx playwright test` before the spec exists prints `Error: No tests found`. Commit, `git tag -f rc-1`, update the sha.
+3. Run `npm test` in `api/` with `tee` into `docs/evidence/12-3-jest.txt`. For each failure decide: test wrong about the contract, or bug found. Fix accordingly, commit, `git tag -f rc-1`, update the sha, rerun. Stop when the last line reads `Tests: 0 failed`.
+4. Run `npx playwright test` from the root with `tee` into `docs/evidence/12-3-e2e.txt`. Write `e2e/core-flow.spec.js` from the 12-2 walk first. The last line reads `N passed`.
+5. Seed a second account. Send the read, delete, and update for the first account's record as the second account; send a body with `owner` and a privilege field; send an expired token to `/api/me`. Paste each command's first response line into the file. Every cross-account answer is 404 or 403; the extra fields never land; the expired token gets 401 with a JSON body.
+6. `curl -I` the public URL and paste the Helmet and `ratelimit` headers. If your limiter still says `max`, change it to `limit` with `standardHeaders: 'draft-7'` and `legacyHeaders: false`.
+7. Install the Database Tools if `mongodump --version` fails. Dump the live database into `backups/rc-1-<date>`, add `backups/` to `.gitignore`, restore with `--nsFrom`/`--nsTo` into `<db>_restore` locally, count with `mongosh`, open one record. Write the three numbers in the file. Drop the restore database.
+8. Redeploy the tag with `railway up` from the tag's checkout, or `./deploy.sh` over ssh on the VPS, and walk the journey in a private window and on your phone over mobile data. Roll back to the previous tag, walk it, come forward, walk it again. Write the three sentences.
 
-If `mongorestore` says `0 document(s) restored`, the dump folder path is one level off: point it at the folder that contains the database folder, not at the database folder itself.
+If `mongorestore` says `0 document(s) restored`, the dump folder path is one level off: point it at the folder that contains the database folder, not at the database folder itself. If `npm test` dies on the first line with `FATAL: missing environment variable`, `.env.test` is missing a name that `config.js` requires; copy every name from `.env.example` and give it a placeholder.
 
 ## The quest
 
@@ -341,6 +367,6 @@ The vulnerability quick reference is the longer list behind the five requests yo
 
 ## Before next session
 
-Sprint 4 is the last build session: a bug hunt in a private window and on the phone, a 404 page, loading and empty and success states on every screen that lacks them, a README someone can run from, and the recorded rehearsal of the five-minute demo. Before then, install nothing new and change nothing on `main`; write down, as you use the live URL over the next days, every rough edge you notice, with the screen it happened on. That list is Tuesday's first hour. Reread the deck in `docs/pitch-deck/` from 11-4 and mark every slide whose screenshot no longer matches the product.
+Sprint 4 is the last build session: a bug hunt in a private window and on the phone, a 404 page, loading and empty and success states on every screen that lacks them, a README someone can run from, and the recorded rehearsal of the five-minute demo. Before then, install nothing new and change nothing on `main`; write down, as you use the live URL over the next days, every rough edge you notice, with the screen it happened on. That list is Tuesday's first hour. Reread `docs/pitch-deck.md` from 11-4, open the Google Slides deck it links, and mark every slide whose screenshot no longer matches the product.
 
 Nothing stays running on your machine. The live URL runs `rc-1` and keeps running; that is what the drill was for.

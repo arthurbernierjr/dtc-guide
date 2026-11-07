@@ -25,7 +25,7 @@ say:
 
 Sprint 1 ended with a table that tells the truth and one slice that survives a reload. Sprint 2 is the only session in this unit that adds features. The Should-haves that survived the cut get built today, each one as a full slice, and nothing from the Could column comes anywhere near the editor. By the end of the session a stranger with the fixture account can walk from sign-in to the valuable outcome and back without you narrating, and every step on that walk has a visible answer for "what is happening right now."
 
-That second half is the real work. In 4-10 you learned that loading, empty, error, and ready are one `status` string, not four booleans. Your capstone grew for twelve weeks after that lesson, and some of its forms have a `loading` flag, an `error` string, a `success` toast, and a button that can be clicked twice while the first request is in flight. Today the core flow gets one small state machine: a pure function that says which event is allowed in which state, and a component that cannot do anything the function did not permit. The same discipline wraps the provider you already call, Stripe or the AI route, in an adapter with fixtures so the build keeps moving when the key is missing.
+That second half is the real work. In 4-10 you learned that loading, empty, error, and ready are one `status` string, not four booleans. Your capstone was written three units after that lesson, and some of its forms have a `loading` flag, an `error` string, a `success` toast, and a button that can be clicked twice while the first request is in flight. Today the core flow gets one small state machine: a pure function that says which event is allowed in which state, and a component that cannot do anything the function did not permit. The same discipline wraps the provider you already call, Stripe or the AI route, in an adapter with fixtures so the build keeps moving when the key is missing.
 
 > *A bridge is finished when the far bank is reached, not when every plank is cut. Today you lay the planks that are left, in order, and you nail each one down before stepping on the next.*
 
@@ -39,7 +39,7 @@ Explicit states fix the data-loss bug too. The draft lives in its own `useState`
 
 Empty is not an error. A new account has no records and a working app, and the empty state says what to do next. A failed request is a different sentence with a retry. If the list shows "no entries yet" when the server actually returned 500, the user believes a lie, and so do your tests. One `status` for the list, separate from the form's machine: `loading`, `ready`, `error`, with `ready && items.length === 0` as the empty branch computed during render, never stored.
 
-Integrations hide behind adapters. Your capstone already calls Stripe from 10-2 and an AI provider from 10-3. Today each call moves behind a small module in `server/services/` that returns your application's shape, not the provider's payload, and that can be switched to fixtures with one environment variable. Four fixtures per adapter: normal, empty, malformed, unavailable. That lets you build and test the screen that shows an AI draft without a key in the environment, and it lets 12-3's tests exercise the error path without a provider outage on demand.
+Integrations hide behind adapters. Your capstone already calls Stripe through `api/lib/stripe.js` from 10-2 and an AI provider through `api/lib/ai.js` from 10-3. Today each call moves behind a small module in `api/services/` that returns your application's shape, not the provider's payload, and that can be switched to fixtures with one environment variable. Four fixtures per adapter: normal, empty, malformed, unavailable. That lets you build and test the screen that shows an AI draft without a key in the environment, and it lets 12-3's tests exercise the error path without a provider outage on demand.
 
 Napkin version: a pure `transition` function; one `status` per flow; the draft survives failure; empty and error are different sentences; every provider behind an adapter with four fixtures; the whole journey walked as the fixture account after every feature.
 
@@ -126,7 +126,7 @@ export default function EntryForm(props) {
 Every error body since 4-11 is `{ "error": "..." }`. The capstone's error handler stays in that shape, because the client reads `body.error` as a message and shows it.
 
 ```js
-// server/app.js, mounted last
+// api/app.js, mounted last
 app.use((err, req, res, next) => {
   if (res.headersSent) {
     next(err);
@@ -165,7 +165,7 @@ Keep the `sessionStorage` key your capstone already uses; the name here is illus
 ### An adapter with four fixtures
 
 ```js
-// server/services/draft.js
+// api/services/draft.js
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -242,10 +242,10 @@ Request failed with 0
 
 That is `fetch` rejecting with a `TypeError` on a refused connection, which the wrapper turns into a message, which the machine turns into `error`. The draft is still in the fields. Start the server again, press Save, and the `retry` event moves through `pending` to `saved`. Write those three observations down; they are this session's evidence.
 
-Then the adapter. Write `server/services/draft.js` and the four fixtures, mount the route, and run it by hand in each mode.
+Then the adapter. Write `api/services/draft.js` and the four fixtures, mount the route, and run it by hand in each mode.
 
 ```bash
-cd ~/projects/<capstone-name>/server
+cd ~/projects/<capstone-name>/api
 DRAFT_MODE=normal node --env-file=.env server.js
 ```
 
@@ -353,7 +353,7 @@ In `~/projects/<capstone-name>`, with the server on 3000 and the client on 5173,
 2. Add `client/src/lib/flow.js` with the `FLOW` table and `transition`. Rewrite the core flow's form so every `setStatus` goes through `transition`. Grep the component for `'pending'` and `'saved'`; the only hits are inside comparisons, never inside a `setStatus` call.
 3. Stop the server, press Save with a filled form, read the message, confirm the draft is still there. Start the server, press Save again, confirm `saved`. The two messages, in order, go in your notes.
 4. Pick the Should-haves that survived the Sprint 1 cut. For each one, build the five parts of the slice and the four checks: reach, perform, understand, recover. Mark it done in `docs/sprint-plan.md` only after the private-window walk includes it.
-5. Move your AI call, and your Stripe session creation if you want it switchable, behind `server/services/<name>.js` with `normalize` and a `<NAME>_MODE` variable. Add `fixtures/<name>/normal.json`, `empty.json`, `malformed.json`. Run the route in all four modes with curl and paste the four bodies into your notes.
+5. Move your AI call, the one `api/lib/ai.js` makes for 10-3's route, and your Stripe session creation from `api/lib/stripe.js` if you want it switchable, behind `api/services/<name>.js` with `normalize` and a `<NAME>_MODE` variable. The `lib/` files stay as the clients; the service is what the route calls. Add `fixtures/<name>/normal.json`, `empty.json`, `malformed.json`. Run the route in all four modes with curl and paste the four bodies into your notes.
 6. Make every list screen distinguish `loading`, `error`, and `ready` with an empty branch computed during render. The empty sentence says what to do next. The error sentence has a retry.
 7. Open the device toolbar at 375, 768, 1024, and 1440 and walk the core flow at each width. Fix what wraps wrong or stretches. Screenshot the core screen at 375 and 1440.
 
@@ -368,7 +368,7 @@ The deliverable is the Sprint 2 section of `docs/sprint-plan.md`: every survivin
 Evidence to keep:
 
 - `client/src/lib/flow.js` and the rewritten core-flow form, with no `setStatus` outside the table.
-- `server/services/<name>.js`, the three fixture files, and the four curl bodies pasted under "Recovery evidence" as a `text` block.
+- `api/services/<name>.js`, the three fixture files, and the four curl bodies pasted under "Recovery evidence" as a `text` block.
 - `docs/evidence/12-2-375.png` and `docs/evidence/12-2-1440.png` of the core screen at both widths.
 - `docs/evidence/12-2-failure.png` showing the error message beside the untouched draft.
 - The Sprint 2 rows in `docs/sprint-plan.md`, each with the private-window walk noted.
@@ -382,6 +382,6 @@ The adapter you wrote is the Adapter pattern with its name on, the `FLOW` table 
 
 ## Before next session
 
-Sprint 3 does not add a feature. It freezes a commit, runs the whole test tree against that exact commit, tries to break the ownership rules with a second account, takes a backup and restores it somewhere disposable, and redeploys with the path you already have from 6-4 or Railway. Before then, run `npm test` in `server/` and `npx playwright test` from the repository root and write down what fails, without fixing it yet. Install the MongoDB Database Tools from the [official installation page](https://www.mongodb.com/docs/database-tools/installation/installation/) for your operating system so `mongodump --version` prints a version; 12-3 uses it in the first hour.
+Sprint 3 does not add a feature. It freezes a commit, runs the whole test tree against that exact commit, tries to break the ownership rules with a second account, takes a backup and restores it somewhere disposable, and redeploys with the Railway path from 10-4, or the VPS from 6-4 if that is where yours lives. There is no test command to run before then: the capstone has no test runner yet, and 12-3's first hour installs Jest, Supertest, and Playwright the way [7-2](/path/7-2-dungeon-trials/) and [7-3](/path/7-3-the-gauntlet/) did for the hall. Reread those two sessions once so the files are familiar when you copy their shape. Install the MongoDB Database Tools from the [official installation page](https://www.mongodb.com/docs/database-tools/installation/installation/) for your operating system so `mongodump --version` prints a version; 12-3 uses it in the first hour.
 
 Nothing stays running. Stop both terminals with Ctrl-C. The deployed URL is still the commit from 10-4, and that is fine until Saturday.

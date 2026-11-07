@@ -269,7 +269,7 @@ cd ~/projects/hall-api && git add -A && git commit -m "5-2: unread count, prompt
 cd ~/projects/hall-client && git add -A && git commit -m "5-2: unread badge on the inbox"
 ```
 
-Each commit prints one summary line with the file count. `.env` is not in the first one, because 4-5's `.gitignore` is still there; if `git status` ever lists it, stop and fix the ignore before anything else.
+Each commit prints one summary line with the file count. `.env` is not in the first one, because 4-14's `.gitignore` is still there; if `git status` ever lists it, stop and fix the ignore before anything else.
 
 ## The quest
 

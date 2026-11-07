@@ -2,7 +2,7 @@
 editorial: true
 title: Coronation Day
 subtitle: The final take, the written Q&A, the self-scored rubric, and the handoff to yourself
-hook: "Twenty-one weeks after the blinking cursor, you record the demo that counts on the live URL, answer the five questions a reviewer would ask, score your own capstone against a hundred points, and hand the product to the person who will run it next: you."
+hook: "Twenty weeks after the blinking cursor, you record the demo that counts on the live URL, answer the five questions a reviewer would ask, score your own capstone against a hundred points, and hand the product to the person who will run it next: you."
 read: 55
 artifact: "A final capstone handoff, demo retrospective, and measurable next-step plan"
 diagrams:
@@ -23,7 +23,7 @@ say:
 
 ## The hook
 
-Week 21, Wednesday. Twenty-one weeks ago the terminal was a dark window with a blinking rectangle in it. Today `rc-2` is live, tested against its own sha, attacked by a second account, backed up and restored, rolled back and forward, polished, and rehearsed once on camera. There is no audience in a room. There is a recording you make today that counts, a page of questions you answer in writing, a rubric you score honestly against yourself, and a handoff packet that lets the next person operate the app. The next person is you, next month, with the details already fading.
+Week 21, Wednesday. Twenty weeks ago the terminal was a dark window with a blinking rectangle in it. Today `rc-2` is live, tested against its own sha, attacked by a second account, backed up and restored, rolled back and forward, polished, and rehearsed once on camera. There is no audience in a room. There is a recording you make today that counts, a page of questions you answer in writing, a rubric you score honestly against yourself, and a handoff packet that lets the next person operate the app. The next person is you, next month, with the details already fading.
 
 That is the shape of the day. Seed the fixture account on the live database, record the final take from the script you wrote on Tuesday, and watch it once. Write five questions a reviewer would ask and answer them from the implementation, with file names. Score the hundred points and write the number down with the evidence for each line. Put the release sha, the URL, the environment variable names, the run and test commands, the backup and restore commands, the known issues, and who watches it into `docs/demo-day.md`. Then send the recording and the deck to one person outside the build, write down their three comments, and rank them. The last thing you write is a README and a post that claim exactly what the repository can prove.
 
@@ -68,7 +68,7 @@ Copy this into `docs/demo-day.md` under a heading `## Q&A` and answer each one i
 (the model's owner field; the two 404s from docs/release-candidate.md; the backup numbers)
 
 **4. What happens when the provider you depend on is down, and when did you last test it?**
-(server/services/<name>.js, the unavailable fixture, the date of the last real-provider check)
+(api/services/<name>.js, the unavailable fixture, the date of the last real-provider check)
 
 **5. What is the next thing you would build, and how would you know it worked?**
 (docs/next-quest.md: the hypothesis, the number you would watch, the decision rule)
@@ -77,7 +77,7 @@ Copy this into `docs/demo-day.md` under a heading `## Q&A` and answer each one i
 A filled answer to question three:
 
 ```markdown
-**3.** Every record has an `owner` set from the token, never from the body (server/routes/entries.js). On 12-3 a second account tried to read and delete the fixture account's entry by id and got 404 both times; the delete had been a 204 before that review, which is why there is now a test for it (tests/entries.test.js, "another user cannot delete"). The database is the one the app writes to; it was dumped on 12-3, restored locally in 0.41 seconds, and the newest record was 14 hours old, so the current recovery policy is "lose at most a day, back in a minute" and the backup is manual.
+**3.** Every record has an `owner` set from the token, never from the body (api/routes/entries.js). On 12-3 a second account tried to read and delete the fixture account's entry by id and got 404 both times; the delete had been a 204 before that review, which is why there is now a test for it (tests/entries.test.js, "another user cannot delete"). The database is the one the app writes to; it was dumped on 12-3, restored locally in 0.41 seconds, and the newest record was 14 hours old, so the current recovery policy is "lose at most a day, back in a minute" and the backup is manual.
 ```
 
 ### The rubric, scored by you
@@ -120,14 +120,14 @@ The Stripe line sits in the second band only because a capstone with no paid fea
 ```markdown
 ## Handoff
 
-- Release: rc-2, sha <short sha>, deployed <date> via <deploy.sh on YOUR-DOMAIN | railway up>
-- URL: https://YOUR-DOMAIN
+- Release: rc-2, sha <short sha>, deployed <date> via <railway up | deploy.sh on the VPS>
+- URL: https://YOUR-APP.up.railway.app
 - Fixture account: demo@example.com (password in README's development section)
-- Environment variables (names only; values live in server/.env on the host or in the Railway service):
+- Environment variables (names only; values live in the Railway service's variables, or in api/.env on the VPS host):
   MONGODB_URI, JWT_SECRET, PAGE_ORIGIN, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, ANTHROPIC_API_KEY, DRAFT_MODE
 - Run: see README "Run it locally"
-- Test: cd server && npm test; npx playwright test from the root
-- Deploy: ssh deploy@YOUR-DOMAIN, cd ~/<capstone-name>, git fetch --tags, git checkout <tag>, ./deploy.sh
+- Test: cd api && npm test; npx playwright test from the root
+- Deploy: git fetch --tags, git checkout <tag>, railway up (10-4); on the VPS instead: ssh deploy@YOUR-DOMAIN, cd ~/<capstone-name>, git fetch --tags, git checkout <tag>, ./deploy.sh
 - Roll back: the same with the previous tag; last rehearsed <date>
 - Backup: mongodump --uri="$MONGODB_URI" --out=backups/<tag>-<date>, run where the database is reachable
 - Restore drill: mongorestore --nsFrom='<db>.*' --nsTo='<db>_restore.*' backups/<folder>; last run <date>, <seconds>, newest record <hours> old
@@ -169,7 +169,7 @@ Then the reviewer. P2 from 8-1 got the recording and the deck at noon and sent t
 Then the README's top section, rewritten so that every claim has a link: the live URL, the tag, the test command, the backup drill, the three things that are not finished. And the post, which is the README's first paragraph with the URL and nothing the README cannot support:
 
 ```text
-Twenty-one weeks ago I opened a terminal for the first time. Today <Product> is live at https://YOUR-DOMAIN: sign in, create an entry, and it is still there after you reload. It has a test checkout, an assistant draft behind an adapter that survives the provider going down, twelve tests that run on every push, and a backup I have actually restored. Three things are not finished, and the README says which. Source and the full evidence trail: https://github.com/YOU/<capstone-name>
+Twenty weeks ago I opened a terminal for the first time. Today <Product> is live at https://YOUR-APP.up.railway.app: sign in, create an entry, and it is still there after you reload. It has a test checkout, an assistant draft behind an adapter that survives the provider going down, twelve tests that run on every push, and a backup I have actually restored. Three things are not finished, and the README says which. Source and the full evidence trail: https://github.com/YOU/<capstone-name>
 ```
 
 Then the tag's release on GitHub, so the sha, the recording link, and the known issues sit together where a stranger looks first:
@@ -196,7 +196,7 @@ function check(condition, message) {
 const REQUIRED = ['release', 'url', 'envNames', 'run', 'test', 'deploy', 'rollback', 'backup', 'restoreDrill', 'knownIssues', 'watcher', 'nextExperiment'];
 const packet = {
   release: 'rc-2 a9f3c1d', url: 'https://example.test', envNames: ['MONGODB_URI', 'JWT_SECRET'],
-  run: 'README', test: 'npm test', deploy: './deploy.sh', rollback: 'rc-1', backup: 'mongodump',
+  run: 'README', test: 'npm test', deploy: 'railway up', rollback: 'rc-1', backup: 'mongodump',
   restoreDrill: '0.41s, 14h', knownIssues: ['long titles overflow on phone'], watcher: 'me, weekly',
   nextExperiment: ''
 };
@@ -281,7 +281,7 @@ Evidence to keep:
 - The README's top section with a link for every claim and the three unfinished items.
 - The GitHub release for `rc-2` carrying the release-candidate notes, and the repository pinned on your profile.
 - The post, as text in `docs/demo-day.md` under `## Post`, and the link to wherever you put it.
-- `docs/retrospective.md`: a short page in your own words on where you were twenty-one weeks ago, the hardest thing on the path, the thing you are proudest of, and what you will build next. This one is for you, and it goes in the repository only if you want it there.
+- `docs/retrospective.md`: a short page in your own words on where you were twenty weeks ago, the hardest thing on the path, the thing you are proudest of, and what you will build next. This one is for you, and it goes in the repository only if you want it there.
 
 ## Side quests
 

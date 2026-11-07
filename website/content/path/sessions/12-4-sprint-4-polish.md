@@ -50,7 +50,7 @@ Napkin version: hunt as a stranger, fix three dead ends with before and after, w
 Copy this into `docs/polish-log.md` and fill it in as you go:
 
 ```markdown
-## Bug hunt — <date>, against rc-1 on https://YOUR-DOMAIN
+## Bug hunt — <date>, against rc-1 on https://YOUR-APP.up.railway.app
 
 | # | Screen | What I did | What happened | Cost (dead end / wrong / feedback / layout / decoration) | Fix? |
 |---|---|---|---|---|---|
@@ -89,7 +89,7 @@ export default function NotFound() {
 }
 ```
 
-On the VPS, Nginx's `try_files $uri /index.html` from 6-4 is what lets a deep link reach the client at all; on Railway the static serving does the same. The test is pasting `https://YOUR-DOMAIN/nothing-here` into a fresh window and seeing your page, not Nginx's.
+On Railway, the fallback you added to `api/app.js` in 10-4, which serves the built `index.html` for any path that does not start with `/api/`, is what lets a deep link reach the client at all; on the VPS, Nginx's `try_files $uri /index.html` from 6-4 does the same. The test is pasting `https://YOUR-APP.up.railway.app/nothing-here` into a fresh window and seeing your page, not the host's.
 
 ### Titles, favicon, and the four sentences
 
@@ -104,14 +104,14 @@ The four sentences are a pass over every component that fetches or sends. For ea
 
 One sentence: who it is for and what they get.
 
-Live: https://YOUR-DOMAIN — sign in with demo@example.com / demo-pass-1 to try it.
+Live: https://YOUR-APP.up.railway.app — sign in with demo@example.com / demo-pass-1 to try it.
 
 ## Run it locally
 
 Requires Node 24 or newer and a local MongoDB on 27017.
 
     git clone git@github.com:YOU/<capstone-name>.git
-    cd <capstone-name>/server
+    cd <capstone-name>/api
     cp .env.example .env     # fill in every value
     npm install
     npm run seed
@@ -125,7 +125,7 @@ In a second terminal:
 
 ## Test it
 
-    cd server && npm test
+    cd api && npm test
     npx playwright test        # from the repository root
 
 ## Deploy it
@@ -192,7 +192,7 @@ cp .env.example .env
 
 The first question the file did not answer: what goes in `JWT_SECRET`? Any long random string, and the README now says so, with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` as the way to make one. The second: `npm run seed` failed because `.env` had no `MONGODB_URI`; the README now shows the local value, `mongodb://127.0.0.1:27017/capstone`. The third run of the clone had no questions. `rm -rf ~/projects/readme-check`.
 
-Then the deck. Every slide with a screenshot was taken in Unit 11 against the 10-4 build; they are retaken from the polished live URL at 1440 wide, dropped into `docs/pitch-deck/` under the same file names, and the slide that promised a feature the cut removed in 12-1 now describes the Should-have you shipped instead. The deck tells the truth about the product behind it.
+Then the deck. Every slide with a screenshot was taken in Unit 11 against the 10-4 build; they are retaken from the polished live URL at 1440 wide, dropped into the Google Slides deck linked from `docs/pitch-deck.md` in place of the old ones, `docs/pitch-deck.pdf` is exported again, and the slide that promised a feature the cut removed in 12-1 now describes the Should-have you shipped instead. The deck tells the truth about the product behind it.
 
 Then the script, written, then read aloud against a timer twice. The first read was five minutes and twenty seconds; feature three was cut to the failure path alone, and the second read was four minutes and ten. Then the take: `npm run seed` against the live database first so the three records are the known three, private window, signed in, recording on, script beside the screen. Four minutes and twenty-five seconds. Watched back once. Note from the watch: the reload at 0:45 took three seconds and the narration went quiet; next time, say what the reload proves while it happens.
 
@@ -204,7 +204,7 @@ git status --short
 git tag rc-2 && git push origin rc-2
 ```
 
-Over ssh, `git fetch --tags && git checkout rc-2 && ./deploy.sh`; or `railway up` from the tag. Journey in a private window, journey on the phone. `docs/release-candidate.md` gets a second section headed `rc-2` with the sha, and the Jest and Playwright runs against it, because three fixes touched components the browser test walks.
+`git checkout rc-2 && railway up`, the way [10-4](/path/10-4-warding-the-kingdom/) and 12-3 did; or over ssh on the VPS, `git fetch --tags && git checkout rc-2 && ./deploy.sh`. Journey in a private window, journey on the phone. `docs/release-candidate.md` gets a second section headed `rc-2` with the sha, and the Jest and Playwright runs against it, because three fixes touched components the browser test walks.
 
 Here is a small model you can run here. It times the script the way the rehearsal did and triages a bug list the way the log does. It proves that the timeline leaves room inside five minutes and that dead ends sort ahead of decoration. It does not record anything or open your live URL; the timer and the private window are yours.
 
@@ -271,9 +271,9 @@ In `~/projects/<capstone-name>`, against the live `rc-1`, with a phone beside yo
 1. Create `docs/polish-log.md` from the template. Hunt for twenty minutes in a private window and on the phone, with the abuse list from the idea section. At least ten rows, each with a cost.
 2. Fix the three highest-cost rows. For each: before screenshot, change, after screenshot, commit named for the fix. Verify each fix in a fresh private window and on the phone before you call it done.
 3. Walk every component that fetches or sends and write the four sentences. Grep for `return null` inside a `status` branch; each hit becomes a sentence.
-4. Add the 404 page, set `<title>` to the product name, add a favicon. Paste `https://YOUR-DOMAIN/nothing-here` on the phone after deploy and see your page.
+4. Add the 404 page, set `<title>` to the product name, add a favicon. Paste `https://YOUR-APP.up.railway.app/nothing-here` on the phone after deploy and see your page.
 5. Rewrite the README from the template. Clone into `~/projects/readme-check`, follow it with no memory, fix the file for every question, repeat until a clone has no questions. Delete the folder.
-6. Retake every screenshot in `docs/pitch-deck/` from the polished live URL. Change any slide that describes a feature the cut removed.
+6. Retake every screenshot in the Google Slides deck from the polished live URL and export `docs/pitch-deck.pdf` again. Change any slide that describes a feature the cut removed.
 7. Write `docs/demo-script.md` with a line per thirty seconds, under four and a half minutes. Read it aloud against a timer twice. Seed, record once, watch it back, write three notes at the bottom of the script.
 8. `git tag rc-2`, push, deploy with your existing path, walk the journey in a private window and on the phone. Rerun Jest and Playwright and add an `rc-2` section to `docs/release-candidate.md`.
 
@@ -290,7 +290,7 @@ Evidence to keep:
 - `docs/polish-log.md` with the hunt table and three "Fixed this sprint" entries, each with `docs/evidence/12-4-fixN-before.png` and `-after.png`.
 - The 404 page component, the `<title>`, and the favicon in `client/public/`, in one commit.
 - The README, with a sentence in the polish log saying how many clone runs it took to have no questions.
-- Retaken screenshots in `docs/pitch-deck/` under their original names.
+- Retaken screenshots in the Slides deck linked from `docs/pitch-deck.md`, and a fresh `docs/pitch-deck.pdf`.
 - `docs/demo-script.md` with the timeline and the three notes.
 - The rehearsal recording as a file or an unlisted link, referenced from the script, labelled as the rehearsal take.
 - The tag `rc-2` live on the URL, with its section in `docs/release-candidate.md`.

@@ -657,7 +657,7 @@ The remote is the SSH form, `git@github.com:…`, because 1.4 set you up with a 
 
 > *The crowd gathers. The guild masters watch from the royal box. The announcer reads your name. This is your moment. Build something the crowd will remember. Build something that works. Build something you are proud of. Then deploy it to the Crystal Network so the entire realm can play it. Win or lose, every competitor who ships a working game earns the title of Builder. But those who go above and beyond? They earn Legendary status.*
 
-**The Arena Championship: Build Your Browser Game.** This is Project 1, the Unit 3 project. Pick one arena and build it from scratch; no frameworks, no jQuery, no libraries.
+**The Arena Championship: Build Your Browser Game.** This is the Unit 3 project. Pick one arena and build it from scratch; no frameworks, no jQuery, no libraries.
 
 ![](diagram:session-3-5/fig5-four-arenas)
 

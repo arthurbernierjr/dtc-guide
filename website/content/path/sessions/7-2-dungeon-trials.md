@@ -463,7 +463,7 @@ The route test mocks the model, the auth check, and the validator, and then asse
 
 In `~/projects/hall-api`, on `add-tests`, with `mongod` running and the hall stopped.
 
-1. Split `server.js` into `app.js` and `server.js` as shown. Start the hall once with `npm start` and confirm the terminal prints `guild hall on 4100`. Curl `/api/items` with a token to see the twelve routes still answer. Stop it with Ctrl-C.
+1. Split `server.js` into `app.js` and `server.js` as shown. Start the hall once with `npm start` and confirm the terminal prints `listening on 4100`. Curl `/api/items` with a token to see the twelve routes still answer. Stop it with Ctrl-C.
 2. `npm install --save-dev jest supertest`, then add the `test` script, `.env.test`, `jest.config.js`, and `tests/setup.js`. Run `npm test` with no test files yet; Jest prints `No tests found, exiting with code 1`, which is correct.
 3. Temporarily set `TEST_MONGODB_URI` in `.env.test` to the real `guildhall` name and run `npm test` with any one test file in place. The run must stop with `TEST_MONGODB_URI must name a database ending in _test, got guildhall`. Put `guildhall_test` back. That refusal is the evidence the guard works.
 4. Add `tests/helpers.js`, `tests/auth.test.js`, and `tests/messages.test.js`. `npm test` ends with `Tests: 14 passed, 14 total`.

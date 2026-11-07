@@ -2,7 +2,7 @@
 editorial: true
 title: The Quest Slate
 subtitle: A React todo on your API, with JWT auth
-hook: "The pieces meet. A todo list in React, a JSON API in Express, a token from the login you already proved in Postman. The screen waits for the server before it says saved."
+hook: "The pieces meet. A todo list in React, a JSON API in Express, a token from the login you already proved with curl. The screen waits for the server before it says saved."
 read: 65
 artifact: "A todo app: register, login, and CRUD against your API, with the token on each request"
 diagrams:

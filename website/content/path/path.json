@@ -618,7 +618,7 @@
       "title": "The Quest Slate",
       "subtitle": "A React todo on your API, with JWT auth",
       "slug": "4-11-the-quest-slate",
-      "hook": "The pieces meet. A todo list in React, a JSON API in Express, a token from the login you already proved in Postman. The screen waits for the server before it says saved.",
+      "hook": "The pieces meet. A todo list in React, a JSON API in Express, a token from the login you already proved with curl. The screen waits for the server before it says saved.",
       "sideQuests": [
         "SEC-01",
         "SYS-C26",
@@ -1324,7 +1324,7 @@
         "Grit is for the week after the crown, when the streak has no audience and the experiment in docs/next-quest.md has a date on it.",
         "Observability is what the who-watches-it line in the handoff grows into if the product stays live and a stranger signs up next month."
       ],
-      "hook": "Twenty-one weeks after the blinking cursor, you record the demo that counts on the live URL, answer the five questions a reviewer would ask, score your own capstone against a hundred points, and hand the product to the person who will run it next: you."
+      "hook": "Twenty weeks after the blinking cursor, you record the demo that counts on the live URL, answer the five questions a reviewer would ask, score your own capstone against a hundred points, and hand the product to the person who will run it next: you."
     }
   ]
 }

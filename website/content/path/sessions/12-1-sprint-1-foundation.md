@@ -23,15 +23,15 @@ say:
 
 ## The hook
 
-Week 20. Twenty-one weeks ago you opened a terminal for the first time. Today you open `~/projects/<capstone-name>`, and it is not empty. It has the research with its empathy map, the user stories, the sprint plan, and the product spec from Unit 8 in `docs/`, and a GitHub Projects board whose Sprint 1 column has never been emptied. It has the architecture record from 9-4. It has sign-in, a Stripe test checkout from 10-2, an AI feature from 10-3, Helmet and a rate limiter and validators from 10-1, tests shaped the way Unit 7 taught them, and it has been live on a real URL since 10-4. The final unit does not start from scratch. It finishes.
+Week 20. Nineteen weeks ago you opened a terminal for the first time. Today you open `~/projects/<capstone-name>`, and it is not empty. It has the research with its empathy map, the user stories, the sprint plan, and the product spec from Unit 8 in `docs/`, and a GitHub Projects board whose Sprint 1 column has never been emptied. It has the architecture record from 9-4. It has sign-in, a Stripe test checkout from 10-2, an AI feature from 10-3, Helmet and a rate limiter and validators from 10-1, no tests yet, because Unit 7 wrote its suite against the hall and Sprint 3 brings the same pattern here, and it has been live on a real URL since 10-4. The final unit does not start from scratch. It finishes.
 
-That sentence hides the real problem. You have been adding to this app for twelve weeks, and the honest answer to "which Must-haves are done?" is a shrug. Some of them work on the deployed URL. Some work on your laptop and nowhere else. Some have a route and no screen. Some have a screen that saves and then forgets on refresh. Sprint 1 turns the shrug into a table, picks the Must-have that is furthest from done, and finishes it as one complete slice: a form, a route, validation, a saved record, and the refresh that shows it. By the end of the session the plan and the app agree, and you have written down, once, what demo day actually asks of you.
+That sentence hides the real problem. The app has had code for about four weeks, three sessions of Unit 10 and then Unit 11 beside it, on top of six weeks of planning documents, and the honest answer to "which Must-haves are done?" is a shrug. Some of them work on the deployed URL. Some work on your laptop and nowhere else. Some have a route and no screen. Some have a screen that saves and then forgets on refresh. Sprint 1 turns the shrug into a table, picks the Must-have that is furthest from done, and finishes it as one complete slice: a form, a route, validation, a saved record, and the refresh that shows it. By the end of the session the plan and the app agree, and you have written down, once, what demo day actually asks of you.
 
 > *You already crossed the river. Sprint 1 is turning around and counting the stones you stepped on.*
 
 ## The idea
 
-Unit 8 left you with four files in `docs/`: `research.md` with the interview logs for P0 through P3 and the combined empathy map, `user-stories.md`, `sprint-plan.md`, and `product-spec.md` at v1.1, revised before this session. The spec sorts your stories into Must, Should, Could, and Won't. The sprint plan slices them into four sprints mapped to the four sessions of this unit, each with hours, capacity, and slack, and its Sprint 1 scope reads "models and seed, auth, one resource end to end, pages stubbed." Most of that happened in Units 9 and 10, which is why today is a reconciliation rather than a build. The plan was a prediction. Twelve weeks later the app is the fact. Sprint 1 is reconciliation: for every Must-have, you find out which of four states it is in, and you write that state down next to the story. Deployed and working. Working locally only. Partly built. Not started. Nothing else counts as a status. "Mostly done" is not one of the four, because a reviewer cannot click on "mostly."
+Unit 8 left you with four files in `docs/`: `research.md` with the interview logs for P0 through P3 and the combined empathy map, `user-stories.md`, `sprint-plan.md`, and `product-spec.md` at v1.1, revised before this session. The spec sorts your stories into Must, Should, Could, and Won't. The sprint plan slices them into four sprints mapped to the four sessions of this unit, each with hours, capacity, and slack, and its Sprint 1 scope reads "models and seed, auth, one resource end to end, pages stubbed." Most of that happened in Units 9 and 10, which is why today is a reconciliation rather than a build. The plan was a prediction. Six weeks later the app is the fact. Sprint 1 is reconciliation: for every Must-have, you find out which of four states it is in, and you write that state down next to the story. Deployed and working. Working locally only. Partly built. Not started. Nothing else counts as a status. "Mostly done" is not one of the four, because a reviewer cannot click on "mostly."
 
 The second idea is the vertical slice. A feature is complete when one user action travels the whole way: a form the user can reach, a route that receives it, validation that rejects the bad case, a record that lands in MongoDB, and a reload that shows the saved record. Five parts. If any one is missing, the slice is not finished, however good the other four look. The most common missing part is the last one. The form sends, the UI updates, you move on, and nobody refreshes the page. On refresh the record is gone, because the client updated its own state and the route returned 500 behind it.
 
@@ -60,7 +60,7 @@ Write the result into `docs/sprint-plan.md` under a new heading. Copy this into 
 A filled row looks like this:
 
 ```markdown
-| M1 Sign in with email and password | deployed | logged in as demo@example.com on https://YOUR-DOMAIN, /api/me returned my id | none |
+| M1 Sign in with email and password | deployed | logged in as demo@example.com on https://YOUR-APP.up.railway.app, /api/me returned my id | none |
 | M2 Create an entry and see it after reload | partial | POST /api/entries returns 201 locally; dashboard shows it until refresh, then empty | refresh |
 | M3 Upgrade with test checkout | local | Stripe test card works on localhost; live URL returns 500 (webhook secret missing) | persistence |
 ```
@@ -71,15 +71,15 @@ The last column is the one that makes the table useful. "Partial" tells you noth
 
 Walk the five parts for one story and keep a finger on each.
 
-The **form** is a controlled component in `client/src`, the shape you built in 4-10. It holds a draft, it has a button, and it calls a function in the parent when it has a trimmed, non-empty value. The **route** is an Express handler mounted under `/api`, behind the bearer-token middleware from 4-8 and 10-1, in `server/`. **Validation** runs on the server with the `express-validator` chains from 10-1, and it answers 400 with `{ "error": "..." }`, the body shape every route has used since 4-11. **Persistence** is a Mongoose `create` or `save` on a model that has an `owner` field set from `req.user`, never from the body. The **refresh** is `GET /api/<resource>` filtered by `owner`, called from an effect on mount, so a reload paints what the database holds and not what the client remembers.
+The **form** is a controlled component in `client/src`, the shape you built in 4-10. It holds a draft, it has a button, and it calls a function in the parent when it has a trimmed, non-empty value. The **route** is an Express handler mounted under `/api`, behind the bearer-token middleware from 4-8 and 10-1, in `api/`. **Validation** runs on the server with the `express-validator` chains from 10-1, and it answers 400 with `{ "error": "..." }`, the body shape every route has used since 4-11. **Persistence** is a Mongoose `create` or `save` on a model that has an `owner` field set from `req.user`, never from the body. The **refresh** is `GET /api/<resource>` filtered by `owner`, called from an effect on mount, so a reload paints what the database holds and not what the client remembers.
 
 The failure path is the sixth thing, and it is part of the slice. If the save fails, the draft stays in the field and the error is visible. If validation rejects the input, nothing is written. If the user is signed out, the route answers 401 before it touches the database. You built each of these once in Unit 4 and again in Unit 10. Today you check that your capstone's most important story has all of them, on the deployed URL, not on a diagram.
 
 ### Folders, ports, and the two halves
 
-For this unit, `server/` is the Express half and `client/` is the Vite React half of `~/projects/<capstone-name>`, which is the layout 6-4's deploy script expects. If your capstone keeps the API at the repository root, drop the `cd server` from the commands and nothing else changes. The API listens on port 3000, the port it has used since 10-1. The Vite dev server is 5173. The hall-api on 4100 is a different project, and only one server runs at a time: stop anything else with Ctrl-C in its terminal before you start the capstone.
+For this unit, `api/` is the Express half and `client/` is the Vite React half of `~/projects/<capstone-name>`, the layout 10-1 scaffolded and the one `railway.json` from 10-4 builds. If your capstone keeps the API at the repository root, drop the `cd api` from the commands and nothing else changes. The API listens on port 3000, the port it has used since 10-1. The Vite dev server is 5173. The hall-api on 4100 is a different project, and only one server runs at a time: stop anything else with Ctrl-C in its terminal before you start the capstone.
 
-Secrets live in `server/.env`, read by `node --env-file=.env server.js`, the way 4-5 taught, or through `dotenv` if you took the library option in 10-1. Either way, the names in `.env` are the names the deploy needs, and the deploy has no way to read your laptop. That is why this sprint commits `server/.env.example`: the same keys, empty values, so the README can say "copy this and fill it in" and mean it.
+Secrets live in `api/.env`, read by `node --env-file=.env server.js`, the way 4-5 taught, or through `dotenv` if you took the library option in 10-1. Either way, the names in `.env` are the names the deploy needs, and the deploy has no way to read your laptop. That is why this sprint brings `api/.env.example`, the file 10-1 started with four names, up to date: the same keys as `.env`, empty values, so the README can say "copy this and fill it in" and mean it.
 
 ### The fixture account is a product decision
 
@@ -107,7 +107,10 @@ ls docs
 a41c9e2 deploy: production webhook url
 7d02f1b ai: timeout fallback
 ...
-board-sprint-1.png  pitch-deck  product-spec.md  research.md  sprint-plan.md  user-stories.md
+ai-feature.md        financial-narrative.md  pitch-deck.md   research.md        system-design.md
+board-sprint-1.png   fundraising-research.md pitch-deck.pdf  runway.js          threat-model.md
+cap-table.md         payments.md             product-spec.md security-audit.md  user-stories.md
+pitch                sprint-plan.md
 ```
 
 A modified file you do not remember is the first finding. Read the diff, then commit it or `git checkout -- client/src/App.jsx`. Sprint 1 starts from a clean tree, because the deployed commit is the thing you are grading against, and a dirty tree is a tree nobody deployed.
@@ -115,7 +118,7 @@ A modified file you do not remember is the first finding. Read the diff, then co
 Open the private window and grade. For M2 on the live URL: sign in as `demo@example.com`, create an entry, watch it appear, press reload. It is gone. Now the same on `localhost`. Stop any other server with Ctrl-C, then:
 
 ```bash
-cd ~/projects/<capstone-name>/server
+cd ~/projects/<capstone-name>/api
 node --env-file=.env server.js
 ```
 
@@ -152,25 +155,25 @@ curl -s -H "Authorization: Bearer $TOKEN" http://localhost:3000/api/entries
 []
 ```
 
-There it is. The create works and the list is empty. That is a partial slice with the persistence or refresh part missing, and the grade in the table is `partial`. Open the router. The `GET` handler filters by `owner: req.user.id`, and the `POST` handler saved `owner: req.user.userId`. Two names for the same claim, one from the 4-8 middleware and one from the 10-2 rename warning you read and did not apply everywhere. The list filter never matches. Pick one name, `req.user.userId` if that is what your middleware sets, and use it in both handlers.
+There it is. The create works and the list is empty. That is a partial slice with the persistence or refresh part missing, and the grade in the table is `partial`. Open the router. The `GET` handler filters by `owner: req.user.id`, and the `POST` handler saved `owner: req.userId`. Two names for the same claim, one from the 4-8 middleware and one from the 10-2 rename warning you read and did not apply everywhere. The list filter never matches. Pick one name, `req.userId` if that is what your middleware sets, and use it in both handlers.
 
 ```js
-// server/routes/entries.js
+// api/routes/entries.js
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const Entry = require('../models/entry');
-const auth = require('../middleware/auth');
+const requireUser = require('../middleware/require-user');
 
 const router = express.Router();
 
-router.get('/', auth, async (req, res) => {
-  const entries = await Entry.find({ owner: req.user.userId }).sort({ createdAt: -1 });
+router.get('/', requireUser, async (req, res) => {
+  const entries = await Entry.find({ owner: req.userId }).sort({ createdAt: -1 });
   res.json(entries);
 });
 
 router.post(
   '/',
-  auth,
+  requireUser,
   body('title').trim().isLength({ min: 1, max: 120 }),
   body('body').trim().isLength({ max: 5000 }),
   async (req, res) => {
@@ -182,7 +185,7 @@ router.post(
     const entry = await Entry.create({
       title: req.body.title,
       body: req.body.body,
-      owner: req.user.userId
+      owner: req.userId
     });
     res.status(201).json(entry);
   }
@@ -191,12 +194,12 @@ router.post(
 module.exports = router;
 ```
 
-If your capstone uses `import` and `export` because you followed 10-2's ES module files, the lines are the same with that syntax. Restart, run the two curls again, and the second one returns an array with one entry. Now the browser: reload the dashboard and the entry is there. The refresh agrees. The slice is complete, and the table row changes from `partial` to `local`.
+The capstone is CommonJS, the way 10-1 scaffolded it, so `require` is the right spelling here. Restart, run the two curls again, and the second one returns an array with one entry. Now the browser: reload the dashboard and the entry is there. The refresh agrees. The slice is complete, and the table row changes from `partial` to `local`.
 
 It becomes `deployed` only after the fix is live, and that is 12-3's job, not today's. Today you commit it and note it. The seed script comes next, because the fix is useless without an account to demonstrate it with.
 
 ```js
-// server/scripts/seed.js
+// api/scripts/seed.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
@@ -227,7 +230,7 @@ main().catch(function (err) {
 ```
 
 ```bash
-cd ~/projects/<capstone-name>/server
+cd ~/projects/<capstone-name>/api
 node --env-file=.env scripts/seed.js
 ```
 
@@ -235,10 +238,10 @@ node --env-file=.env scripts/seed.js
 seeded demo@example.com with 3 entries
 ```
 
-Add `"seed": "node --env-file=.env scripts/seed.js"` to the `scripts` in `server/package.json` so the README can say `npm run seed`. Then the example env file:
+Add `"seed": "node --env-file=.env scripts/seed.js"` to the `scripts` in `api/package.json` so the README can say `npm run seed`. Then the example env file:
 
 ```dotenv
-# server/.env.example — copy to server/.env and fill in every value
+# api/.env.example — copy to api/.env and fill in every value
 PORT=3000
 MONGODB_URI=
 JWT_SECRET=
@@ -248,7 +251,7 @@ STRIPE_WEBHOOK_SECRET=
 ANTHROPIC_API_KEY=
 ```
 
-Only the keys your server actually reads. Grep for `process.env.` in `server/` and make the list match. A key the README promises and the code never reads is a lie that costs a reviewer twenty minutes.
+Only the keys your server actually reads. Grep for `process.env.` in `api/` and make the list match. A key the README promises and the code never reads is a lie that costs a reviewer twenty minutes.
 
 Here is a small model you can run here. It grades a status table the way the session does and checks a slice the way the demonstration did. It proves that the grading rules are mechanical and that a save without a refresh is not a finished slice. It does not open your repository, hit your deploy, or know your stories, so the real table is still yours to fill.
 
@@ -319,8 +322,8 @@ Work in `~/projects/<capstone-name>`. Stop any other server first.
 2. Grade every Must-have in a private window on the live URL, then on `localhost`. Add the Sprint 1 status table to `docs/sprint-plan.md` with one row per Must. Every row has one of the four states and, if not `deployed`, the missing part by name.
 3. Cut. If more than three rows are `partial` or `missing`, move Musts to Should until one coherent path remains. Record each move in the sprint plan with one sentence of reason, and move the matching cards on the GitHub Projects board from 8-2: `deployed` rows go to Done, the row you are about to finish goes to In Progress, everything else waits in Backlog or Sprint 1.
 4. Pick the row furthest from done and finish its slice. Run the two curls from the demonstration against your own route, with your own resource name. The read-back after the create must list the record. In the browser, create one and reload. It must still be there.
-5. Write `server/scripts/seed.js` for `demo@example.com` and at least three records. Add `npm run seed`. Run it twice. The second run prints the same line and the database does not grow.
-6. Commit `server/.env.example` with every key your server reads and nothing it does not. Confirm `.env` is in `.gitignore` with `git check-ignore server/.env`, which prints the path if it is ignored and nothing if it is not.
+5. Write `api/scripts/seed.js` for `demo@example.com` and at least three records. Add `npm run seed`. Run it twice. The second run prints the same line and the database does not grow.
+6. Commit `api/.env.example` with every key your server reads and nothing it does not. Confirm `.env` is in `.gitignore` with `git check-ignore api/.env`, which prints the path if it is ignored and nothing if it is not.
 7. Open your 9-4 architecture record. For every box, add one sentence of what it is for. Delete boxes that get no sentence.
 
 If a `GET` after a `POST` comes back empty, you are in the demonstration's bug. Print `req.user` in both handlers and compare the key names before you touch the model.
@@ -336,7 +339,7 @@ Evidence to keep in the repository:
 - `docs/sprint-plan.md` with the Sprint 1 status table, the commit sha it was graded against, and every cut explained.
 - The two curl commands and their output for the finished slice, pasted under the table as a `text` block.
 - A screenshot named `docs/evidence/12-1-refresh.png` of the dashboard after a reload, showing the record you created.
-- `server/scripts/seed.js`, `npm run seed` in `server/package.json`, and `server/.env.example`.
+- `api/scripts/seed.js`, `npm run seed` in `api/package.json`, and `api/.env.example`.
 - The updated architecture record with one sentence per box.
 - One commit with a message that names the story: `sprint 1: finish M2 create-and-reload slice`.
 

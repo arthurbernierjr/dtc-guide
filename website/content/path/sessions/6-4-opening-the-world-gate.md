@@ -17,7 +17,7 @@ docs:
   - https://pm2.keymetrics.io/docs/usage/application-declaration/
   - https://docs.railway.com/quick-start
 say:
-  - "The same five variable names, in a file only the owner can read, loaded by Node itself."
+  - "The four variable names from 4.14 plus NODE_ENV, in a file only the owner can read, loaded by Node itself."
   - "Behind Nginx the page and the API are one origin; the empty API base is the production setting."
   - "A code rollback is a redeploy; a data rollback is a restore. Decide which before you type."
 ---
@@ -454,7 +454,7 @@ If step 4 prints the listen line and then a `MongooseServerSelectionError`, go b
 Write `docs/release.md` in `~/projects/hall-api`, commit it beside `deploy.sh`, push. It is the handoff for the live hall: another developer with SSH access and this page could operate it tonight. No secrets, no connection strings.
 
 - The public URL and the two short hashes `deploy.sh` printed, with the date.
-- The five variable names in `.env`, with one phrase each on where their values come from, and the `ls -l` line showing the mode.
+- The five variable names in `.env` (the four from 4.14 plus `NODE_ENV`), with one phrase each on where their values come from, and the `ls -l` line showing the mode.
 - The service name in pm2, the ecosystem path, and the `pm2 list` row.
 - The Nginx site path, the `proxy_pass` port, and the `try_files` line.
 - The three curl results from step 8, pasted.

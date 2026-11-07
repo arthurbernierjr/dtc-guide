@@ -183,7 +183,7 @@ Everything happens in the capstone repo. Open a terminal there.
    ls docs
    ```
 
-   You should see `research.md`, `user-stories.md`, `sprint-plan.md`, `product-spec.md`, and `board-sprint-1.png`, plus `system-design.md` and `security-audit.md` from Units 9 and 10. If `docs/` is missing you are in the wrong folder; `ls ~/projects` and look again.
+   You should see `research.md`, `user-stories.md`, `sprint-plan.md`, `product-spec.md`, and `board-sprint-1.png`, plus `system-design.md` from Unit 9 and `threat-model.md`, `payments.md`, `ai-feature.md` and `security-audit.md` from Unit 10. If `docs/` is missing you are in the wrong folder; `ls ~/projects` and look again.
 
 2. Copy this into `docs/fundraising-research.md` and fill it in. Keep the headings; the next three sessions read this file.
 
