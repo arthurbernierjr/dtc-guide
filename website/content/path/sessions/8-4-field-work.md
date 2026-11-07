@@ -2,281 +2,367 @@
 editorial: true
 title: Field Work
 subtitle: Real User Interviews and Sprint Planning
-hook: "A research-to-backlog handoff and a realistic first sprint plan. Synthesize real interviews without inventing certainty."
+hook: "Three real people have talked to you. Today their words become a combined empathy map, a set of insights with counts instead of adjectives, a backlog revised line by line with a reason for every change, and the product spec that Unit 12 opens on its first morning."
 read: 60
-artifact: "A research-to-backlog handoff and a realistic first sprint plan"
+artifact: "docs/product-spec.md v1.0 in the capstone repo: research summary from P1–P3, combined empathy map and insights with validated and invalidated assumptions, the revised backlog with a change log, the four-sprint plan with a Sprint 1 goal and a learning criterion, and a recorded two-minute walkthrough"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://www.gov.uk/service-manual/user-research/analyse-a-research-session
+  - https://www.gov.uk/service-manual/user-research/using-in-depth-interviews
+  - https://www.gov.uk/service-manual/user-research/getting-users-consent-for-research
+  - https://scrumguides.org/scrum-guide.html
+  - https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects
 say:
-  - "Evidence: Synthesize real interviews without inventing certainty."
-  - "Decision: Choose a problem and document alternatives."
-  - "Plan: Commit to a small testable product increment."
+  - "Three of three said it. One of three asked for it. Those are different rows."
+  - "A story is evidence when it cites a participant who exists in the log. Otherwise it is a hypothesis, and it says so."
+  - "Write what result would change the plan before you watch anyone use it."
 ---
 
 ## The hook
 
-Today is different. Today is not lecture day. Today is DO day. Everything you have learned in this unit, the Mom Test, empathy mapping, user stories, backlogs, sprint planning, all of it comes together right now. You are going to conduct real interviews with real humans, synthesize real data, and make real decisions about what to build.
+This is the session the unit was built for. In 8.1 you wrote questions that could not be answered with a kind lie and booked the people who would answer them. In 8.2 you wrote the backlog anyway, tagging every row as evidence or assumption so that today could happen. In 8.3 you sized it and shaped it into four sprints. Now the log in `docs/research.md` has P1, P2, and P3 in it, and some of what they said agrees with your idea, and some of it does not. The part that does not is the valuable part. A founder who finds out they were wrong in week 15 is cheap. One who finds out in week 21 has built the wrong thing.
 
-This is the session where you stop theorizing and start operating like a founder. You are going to hear things that surprise you. You are going to discover that some of your assumptions were wrong. That is not failure. That is the whole point. The founders who win are the ones who find out they are wrong BEFORE they spend months building the wrong thing. The founders who lose are the ones who never asked.
+By the end of today, the three logs become one combined empathy map and a page of insights where every pattern carries a count, the backlog has a change log with a participant id next to every promotion, demotion, addition, and deletion, the four-sprint plan has been re-checked against the new backlog and still fits, and all of it is written into `docs/product-spec.md` as version 1.0 with a two-minute recorded walkthrough. That file is what 12.1 opens. It is also honest about its own limits: how many people, who was not represented, and what result from the first increment would change the plan.
 
-By the end of today, you will have a validated understanding of your target user, a research-backed backlog, and a Sprint 1 plan ready to execute. You will present your findings to the group and get feedback that makes your plan stronger. This is the bridge between "I have an idea" and "I have a plan." Let us cross it.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The guild leader comes back from the taverns with a notebook. Not with a plan. The plan is what you write after you read the notebook twice.*
 
 ## The idea
 
-### Create a comprehensive product spec document grounded in validated user research
+### From notes to themes, with the links intact
 
-**You will:**
-- Integrate user research, empathy maps, personas, backlog, prioritization, and sprint planning into a single product spec document
-- Demonstrate research-driven decision making by showing how interview findings changed backlog priorities
-- Present research findings and sprint plan to peers and incorporate feedback
+Start with the anonymised notes, not with the feature list you hoped for. Read all three logs twice. On the second pass, mark the observation rows that repeat across participants, the workarounds, the costs in time or money, and the places where two people contradict each other. Group related observations and give each group a short name: "chasing is personal", "paid in blocks", "three apps to answer one question". Keep the link to the row each observation came from, so that another reader, or you in Unit 12, can check whether the theme is really in the notes.
 
-**You will be able to:**
-- Produce a complete product spec document containing user research summary, persona, prioritized backlog, MVP definition, and Sprint 1 plan
-- Identify at least one validated and one invalidated assumption from their user research
-- Deliver a 2-3 minute presentation of their product spec and incorporate peer feedback
+Frequency is the number that matters, and it is small. "Three of three described checking more than one app to answer who owes them" is a pattern. "One of three asked for reminders by text" is a request. Both go in the file, in different rows, and the second one does not get to vote. Three interviews cannot give you a percentage, so do not write one. Write "two of three" and let the reader see the sample.
 
----
+### The combined map and the insight page
 
-**Welcome and Field Work Briefing**
+The empathy map from 8.1, filled from all three logs at once, with the participant id after each entry. Says is quotes. Thinks is inference and says so. Does is actions with a count. Feels is what you heard or saw. Then the insight page in six blocks: patterns, each with a count; pain points, each pointing at a row; surprises, the things you did not expect; opportunities, where a step could be removed or a status made visible; validated assumptions, with the rows that validated them; and invalidated assumptions, with the rows that broke them. If the last block is empty, you were asking leading questions or not listening, because an idea written before the interviews is never entirely right. Go back to the logs and find the row that disagrees with you. There is one.
 
-"Today is different. Today is not lecture day. Today is DO day."
+### One problem statement and two alternatives
 
-This session structure:
-- Block 1: Conduct interviews (or review pre-recorded interviews if done before class)
-- Block 2: Synthesize findings
-- Block 3: Build backlog and plan Sprint 1
-- Block 4: Present to the group
+Choose one problem statement in four parts: a user, a context, an obstacle, and a consequence. "Independent tutors who are paid per lesson or per block lose track of who owes them after a missed lesson, and chasing feels personal enough that they sometimes write the money off" is a problem. "Tutors need a ledger app" is a solution wearing a problem's coat. Then write at least two responses to the problem, one of which is not software: a shared spreadsheet template with a calendar reminder, for instance. Comparing the capstone with the cheaper alternative tells you whether the software is proportionate, and it gives you the sentence a sceptical reader will ask for.
 
-Ground rules for interviews:
-- Be genuinely curious, not performative
-- Record (with permission) or take aggressive notes
-- Do NOT mention your solution. Focus on the problem.
-- It is okay if the interview goes off-script. Follow the interesting threads.
-- Thank them sincerely. They are giving you their time.
+### Tag every story, then change the backlog in the open
 
-If you already conducted interviews before this session (recommended), you will use this time to review, synthesize, and plan.
+Go through `docs/user-stories.md` row by row with the insight page beside it. For each story, the source column gets one of three values: `evidence: P1, P3` when participants who exist in the log support it, `hypothesis` when nobody did, or a strike-through when the evidence argues against it. A story may be valuable and unsupported; label it a hypothesis rather than pretend it came from research. That label is what makes the first increment a test instead of a guess.
 
-Quick logistics: remote interviews via Zoom/Google Meet are fine. Phone calls work too. In-person is ideal but not required.
+Then the change log: every row that moved buckets, every row added, every row deleted, with the participant ids that caused it. "#8 monthly total: Should to Could, because zero of three think in months; P2 and P3 charge per term." "#6 client page: Should to Must, because three of three answer 'what do you owe me' per client, not per lesson." A reader should be able to trace each change back to a row in the log, and forward to a card on the board.
 
-**Key Points:**
-- This is a working session, not a lecture. The majority of time is spent doing, not listening.
-- Real user interviews are the foundation of everything that follows.
-- Interview data should change your backlog. If nothing changes, you were not listening.
+### Re-check the plan, do not inflate it
 
-**Common Misconceptions:**
+A promoted story has a size from 8.3, and the four-sprint table has capacities. Put the promoted stories where they go and read the slack rows again. Evidence adds stories; it does not add hours. If Sprint 2 would go over capacity, something leaves it, and the thing that leaves is the one furthest from the sprint's goal sentence. A new story that fits only if everything goes perfectly is written as "first pull if slack survives", not as a line in the total. The plan the learner wrote in 8.3 was a hypothesis about capacity; today's version is the same plan corrected by evidence about the product, and still honest about time.
 
-| Wrong | Correct |
-|---|---|
-| "I already know what my users want because I interviewed classmates" | Classmates giving hypothetical answers are not the same as real target users describing real experiences |
-| "If my research does not change anything, I was right all along" | If research does not change at least one priority or assumption, you were probably asking leading questions or not listening carefully |
-| "Sprint 1 should include all my Must Have stories" | Sprint 1 should be the foundation: auth plus one core feature, maximum. Spread Must Have items across multiple sprints |
+### Sprint 1 is a learning instrument
+
+The first increment exists to produce usable behavior and evidence at the same time. A read-only list for one tutor may be enough to find out whether the information helps anyone decide whom to chase. Reminders, payments, and charts wait until that core view proves useful. This is not lowering quality; it is reducing scope while keeping a complete interaction a person can finish.
+
+Write the end-of-sprint conversation now, before any code exists. Which participant will try the increment, what task you will ask them to do with synthetic records, what you will watch for, and what result would change the plan. "P1 tries to find which client owes the most using seeded data; pass if she finds it in under a minute without help; if two of three testers fail, change the list, not add a tour." A test with no criterion written in advance can be narrated as a success no matter what happened. The criterion goes in the spec, in a block of its own.
+
+### Trace one story back and one criterion forward
+
+A review you can run alone: pick one Must story and trace it backward to the log rows that justify it; if you cannot find them, its tag is hypothesis. Then pick one acceptance criterion and trace it forward to the Supertest or Playwright case that will check it in Sprint 3; if you cannot describe that test in a sentence, the criterion is not testable yet. Write both traces in the spec's decision log. That is the solo version of a sceptical stakeholder, and it catches the same two faults.
+
+Review the sample, too. If every participant uses the same workaround, you have learned about one segment. Write down who was not represented and how that limits the decision, so the next research round knows where to look. Do not replace that uncertainty with a persona that looks more precise than three conversations can justify. A persona built from the map is useful as a name you can say in a sentence; it is still three people.
+
+### The spec is the handoff
+
+The product spec is one file, `docs/product-spec.md`, and it exists so that 12.1 can start without reopening the argument. It carries the problem statement, the research summary with the combined map and insights, the persona if you built one, the MVP, the revised backlog with the Must stories and their acceptance criteria, the MoSCoW buckets, the four-sprint plan with Sprint 1 in full, the Definition of Done, the learning criterion, the alternatives you considered, the decision log, and the sample's limits. Version 1.0 is written today with however many interviews are in the log, and the spec says the number. If an interview is still outstanding, it is logged as it lands, and version 1.1, with every booked interview in it and the backlog re-tagged, is pushed before 12.1. The version line at the top makes that visible.
+
+The napkin version: read the logs twice. Count patterns; do not vote on requests. Map and insights, with ids. One problem statement, two alternatives. Tag every story evidence or hypothesis. Change the backlog in the open, with ids. Re-check the four sprints without adding hours. Write the learning criterion before the code. Trace one story back and one criterion forward. Spec v1.0 today, v1.1 before 12.1.
 
 ![](diagram:session-8-4/fig1-model)
 
-### Move from stories people tell to work you can test
-
-Begin with the anonymized notes rather than the feature list you hoped to build. Highlight repeated behaviors, workarounds, costs, and contradictions. Group related observations and give each group a descriptive name. Keep links back to the original notes so another reviewer can check the interpretation. Do not turn every quotation into a requirement or count a small convenience sample as a market survey.
-
-Select one problem statement that identifies a user, context, obstacle, and consequence. “Tutors lose track of which invoices need follow-up after checking several tools” suggests a workflow problem. “Tutors need our dashboard” already assumes the solution. Write at least two possible responses, including a smaller non-automated option. Comparing alternatives exposes whether the proposed software is proportionate to the problem.
-
-### Make the first sprint a learning instrument
-
-Choose a sprint goal that produces both usable behavior and evidence. A read-only overdue list may be enough to test whether the information helps users decide whom to contact. Automated reminders, payment collection, and analytics can wait until the core view proves useful. This is not lowering quality; it is reducing scope while preserving a complete interaction.
-
-Create stories with concrete acceptance examples. Include empty data, invalid data, and unavailable service behavior. Identify dependencies and make the order visible. Estimate capacity using the actual time available to the team. If the plan requires every optimistic estimate to be correct, it has no room for ordinary uncertainty. Cut optional work before the sprint begins rather than silently carrying unfinished items afterward.
-
-### Run a review before building
-
-Have a peer play the role of a skeptical stakeholder. Ask them to trace one proposed story back to evidence and one acceptance criterion forward to a test. If either connection is missing, refine the artifact. A story can be valuable but poorly supported; label it as a hypothesis rather than pretending it came directly from research. That distinction makes future learning possible.
-
-Also review recruitment gaps. If every participant uses the same workaround, you may have learned about one segment rather than the whole market. Document who was not represented and how that limits the decision. The next research round can target that gap. Avoid replacing uncertainty with a polished persona that appears more precise than the interviews justify.
-
-### Define the end-of-sprint conversation now
-
-Write the task you will ask a participant to perform on the increment. Decide what you will observe: successful identification, hesitation, errors, or time to a decision. Do not coach them through the interface while measuring usability. Keep the task neutral and use synthetic records. Record whether the result supports, weakens, or changes your original hypothesis.
-
-The submission includes the synthesis, problem statement, alternatives, prioritized backlog, sprint goal, and review plan. Finish with a short decision log explaining what you deliberately deferred. A complete product plan is not the largest possible feature set. It is a reasoned next step with a way to learn whether that step helped.
-
 ## The demonstration
 
-**Block 1: Conduct Interviews**
+The tutor ledger, with three real interviews in the log. The names are on the learner's phone; the file has ids. Here is enough of the log to see the work, then every artifact built from it.
 
-**Option A: Live Interviews (recommended)**
+```markdown
+### P1
+- date: 2026-11-07
+- role: full-time tutor, 12 clients, paid per lesson
+- consent: notes yes / recording no
 
-Conduct 2 or 3 interviews, about 20 minutes each.
-- Use your finalized interview script
-- Take notes during. Star the most interesting quotes.
-- Between interviews: jot down your top 3 takeaways while it is fresh
+| kind | text |
+|---|---|
+| observation | Keeps a spreadsheet with one row per lesson and a column "paid?"; updates it "on Sunday, if I remember". |
+| observation | To answer "who owes me", opened the bank app, the spreadsheet, and two chats. "About ten minutes, and I was not sure at the end." |
+| observation | "Asking twice is fine. Asking a third time, I would rather lose the money." |
+| observation | Two parents pay a block of ten lessons in advance and she tracks the count on paper. |
+| interpretation | The spreadsheet is the record; the chats are the chasing; nothing joins them. |
 
-**Option B: Review Pre-Conducted Interviews**
+### P2
+- role: tutors through an agency and privately, paid per term privately
+- observation | Private clients pay per term; "I only find out someone has not paid when the term is half over." |
+- observation | "I would never send an automatic text. It would feel like a utility company." |
+- observation | Keeps a notes-app list per client with lessons and a running total. |
 
-If you already conducted 3-5 interviews before this session, use this time to:
-- Re-read all your notes
-- Highlight patterns across interviews
-- Identify contradictions (interviewee 2 said X, interviewee 4 said the opposite)
-- List the top 5 most surprising things you heard
-
-**Interview Tracking Sheet:**
-
-```
-INTERVIEW LOG
-
-Interview 1:
-- Name (first only): ___________
-- Date/Time: ___________
-- Duration: ___________
-- Format: [In-person / Video / Phone]
-- Top 3 takeaways:
-  1.
-  2.
-  3.
-- Best quote: "___________"
-- Surprising finding:
-
-Interview 2:
-[Same format]
-
-Interview 3:
-[Same format]
-
-Interview 4 (if completed):
-[Same format]
-
-Interview 5 (if completed):
-[Same format]
+### P3
+- role: music teacher, paid per term or per block of eight
+- observation | Uses a paper diary; adds up what a client owes "by flipping back pages". |
+- observation | "If I could just send them a page that says here is what you have had and here is what is owed, I would do that tonight." |
+- observation | Has written off two blocks in a year rather than chase. |
 ```
 
-**BREAK**
+The combined map, with ids on every entry.
 
-**Block 2: Synthesize Findings**
+```markdown
+## Combined empathy map (P1, P2, P3)
+| Says | Thinks (inferred) |
+|---|---|
+| "About ten minutes, and I was not sure at the end." (P1) | "I should have a system by now." (P1, P3) |
+| "Asking a third time, I would rather lose the money." (P1) | "Chasing makes me look petty." (P1, P3) |
+| "It would feel like a utility company." (P2) | "A page is neutral; a text is me." (P2, P3) |
+| "I would do that tonight." (P3) | |
 
-**Step 1: Build Your Empathy Map**
-- Pull together all interview notes
-- Create one COMBINED empathy map representing your target user (not one per interviewee)
-
-```
-COMBINED EMPATHY MAP - [Target User Description]
-Based on [X] interviews conducted [dates]
-
-+--------------------------+--------------------------+
-|         SAYS             |         THINKS           |
-| (direct quotes, pick     | (inferred thoughts)      |
-|  the 5 best)             |                          |
-|                          |                          |
-| 1.                       | 1.                       |
-| 2.                       | 2.                       |
-| 3.                       | 3.                       |
-| 4.                       | 4.                       |
-| 5.                       | 5.                       |
-+--------------------------+--------------------------+
-|         DOES             |         FEELS            |
-| (observed/described      | (emotions identified)    |
-|  behaviors)              |                          |
-|                          |                          |
-| 1.                       | 1.                       |
-| 2.                       | 2.                       |
-| 3.                       | 3.                       |
-| 4.                       | 4.                       |
-| 5.                       | 5.                       |
-+--------------------------+--------------------------+
+| Does | Feels |
+|---|---|
+| Opens two or more tools to answer who owes them (3 of 3). | Awkward when chasing (3 of 3). |
+| Tracks blocks or terms, not only lessons (P1, P2, P3). | Resigned about written-off money (P1, P3). |
+| Updates the record on a schedule, not at the lesson (P1). | Relieved when a client pays unprompted (P1). |
+| Has written money off rather than ask again (P1, P3). | |
 ```
 
-**Step 2: Extract Key Insights**
+The insight page. Counts, not adjectives.
 
-```
-KEY INSIGHTS FROM RESEARCH
+```markdown
+## Insights
+### Patterns
+1. Answering "who owes me" means opening more than one tool. 3 of 3.
+2. Chasing is personal, and a third ask is where people give up. 3 of 3 (P1 row 3, P2 row 2, P3 row 3).
+3. Money is tracked per block or per term as often as per lesson. 3 of 3.
 
-Patterns (things multiple people said/did):
-1.
-2.
-3.
+### Pain points
+- Ten minutes and no confidence to answer one question (P1 row 2).
+- Finding out mid-term that a term is unpaid (P2 row 1).
+- Written-off money: two blocks in a year (P3 row 3), "rather lose it" (P1 row 3).
 
-Pain Points (biggest frustrations):
-1.
-2.
-3.
+### Surprises
+- Nobody wants automatic texts; two of three said a neutral page they could send would be different (P2 row 2, P3 row 2).
+- Blocks and terms, not lessons, are the unit two of three think in.
 
-Surprises (things you did not expect):
-1.
-2.
+### Opportunities
+- One place that answers "who owes what" per client, without a text.
+- A statement page per client that the tutor sends by hand.
+- Blocks as a first-class thing a lesson draws down from.
 
-Opportunities (where you can help):
-1.
-2.
-3.
+### Validated assumptions
+- Tutors lose track after a missed lesson (idea sentence): P1 row 2, P2 row 1.
+- The awkwardness, not the spreadsheet, delays the chase (P0 interpretation, now evidence): P1 row 3, P3 row 3.
 
-Validated Assumptions (things you assumed that
-turned out to be true):
-1.
-
-Invalidated Assumptions (things you assumed that
-turned out to be wrong):
-1.
-```
-
-**Step 3: Create or Update Your Persona**
-
-```
-USER PERSONA
-
-Name: [Give them a name]
-Age: [Based on interview demographics]
-Role: [Job/situation]
-Tech Comfort: [Low / Medium / High]
-
-Quote: "[Best quote from your interviews]"
-
-Story: [2-3 sentences describing their situation
-and struggle, based on real interview data]
-
-Goals:
--
--
-
-Frustrations:
--
--
--
-
-Current Solutions:
-- [What they use now]
-- [Workarounds they have created]
-
-Needs:
-- [What would actually help them]
-- [What they cannot find in existing solutions]
+### Invalidated assumptions
+- "Tutors track per lesson" (Lesson model, story 3): two of three charge per term or block; a lesson-only model misses the unit they think in.
+- "A reminder text would help" (story 11): zero of three want it; two said it would feel robotic.
 ```
 
-**Where you should be:** You have a synthesized empathy map, key insight document, and refined persona based on real interview data.
+The problem statement, and the two alternatives, including the one that is not software.
 
-**Watch for this:**
-- During the interviews, do not pitch. If you hear yourself describing your app, stop and ask what they did last time.
-- In the synthesis, name at least one assumption the interviews broke. If everything matched, you are not done looking.
-- The persona should be specific enough to feel like a real person. "25-year-old professional who likes technology" is not a persona.
+```markdown
+## Problem
+Independent tutors who are paid per lesson, per block, or per term lose
+track of who owes them after a missed lesson or mid-term, and chasing
+feels personal enough that two of three have written money off.
 
-### Runnable checkpoint: a small model
+## Alternatives considered
+1. A spreadsheet template with a "paid?" column and a monthly calendar
+   reminder to update it. Cheap; already what P1 does; does not solve the
+   chasing, and the update happens "if I remember".
+2. A notes-app list per client with a running total (P2's method). Answers
+   one client at a time; nothing across clients; nothing to send.
+3. The capstone: one place per tutor that answers who owes what, with a
+   statement page per client the tutor sends by hand. Proportionate because
+   the chasing, not the arithmetic, is the problem, and a neutral page is
+   what two of three asked for unprompted.
+```
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+The backlog change log, every line with an id.
+
+```markdown
+## Backlog changes (8.4)
+- #6 client page: Should → Must. 3 of 3 answer "what do you owe me" per
+  client, not per lesson (P1 row 2, P2 row 3, P3 row 1).
+- #7 statement link: source assumption → evidence: P2, P3. Stays Should
+  because it is a five; first card of Sprint 4.
+- #8 monthly total: Should → Could. 0 of 3 think in months; P2 and P3
+  charge per term.
+- #11 reminder text: Could → Won't. 0 of 3 want it; P2 row 2, P3 row 2
+  argue against it.
+- NEW #14 "As a tutor, I want to record a block of prepaid lessons for a
+  client, so that each lesson draws down from it and the owed amount is
+  right." Should, evidence: P1 row 4, P3 role line. Size M, 3. First pull
+  into Sprint 2 if Sprint 1 ends on time.
+- #1 login, #3 log a lesson, #4 unpaid list, #5 mark paid: unchanged,
+  source now evidence: P1, P2, P3.
+- #13 dark mode: unchanged, hypothesis, Won't.
+```
+
+The re-checked sprint table. Sprint 1 is unchanged. Sprint 2 lost the monthly total and gained the client page as a Must; it is at 10 of 13 with the block story named as the first pull.
+
+```markdown
+## Sprint 2 (re-checked 8.4)
+Goal: A tutor can see who owes what per client, mark it paid, and fix a mistake.
+| # | story | points |
+|---|---|---|
+| 4 | Unpaid list | 2 |
+| 5 | Mark paid | 2 |
+| 6 | Client page (now Must) | 3 |
+| 9 | Edit or delete a lesson | 3 |
+| | total | 10 |
+| | capacity | 13 |
+| | slack | 3 |
+First pull if slack survives: #14 prepaid block (3).
+```
+
+The learning criterion, written before a line of code.
+
+```markdown
+## Learning criterion (end of Sprint 2)
+- who: P1 and P3, who both offered; synthetic records seeded for the test.
+- task: "Find which client owes you the most, and mark one lesson paid."
+- watch for: time to the answer, hesitation, whether they open anything else.
+- pass: both find the right client in under a minute without help.
+- if it fails: change the list (ordering, totals per client), not add a tour.
+- also note: whether either asks for the statement page unprompted (#7).
+```
+
+The spec itself. Copy this into `docs/product-spec.md` and fill it in; most blocks are the ones you just wrote, moved into one file so that 12.1 has one thing to open.
+
+```markdown
+# Product spec: <capstone-name>
+One line: <what it does, for whom>
+
+- Version: 1.0 (<date>), written with <n> of <booked> interviews in the log.
+- Next: 1.1 before 12.1, with all booked interviews and the backlog re-tagged.
+- Author: <your GitHub handle>
+
+## 1. Problem
+<user, context, obstacle, consequence>
+
+## 2. Research summary
+| id | role | date | format |
+|---|---|---|---|
+| P1 | | | |
+
+### Combined empathy map
+<the four boxes, ids on every entry>
+
+### Insights
+<patterns with counts, pain points, surprises, opportunities,
+validated assumptions, invalidated assumptions>
+
+### Sample limits
+<who was not represented, and what that means for the decision>
+
+## 3. Persona (optional, built only from the map)
+<a name you invented, a role, one real quote, goals, frustrations,
+current workaround, unmet need>
+
+## 4. MVP
+<one sentence: who, what it does, what it does not do>
+
+## 5. Backlog
+| # | story | points | MoSCoW | source |
+|---|---|---|---|---|
+
+### Acceptance criteria (Must stories)
+### MoSCoW with reasons
+### Backlog changes (8.4)
+
+## 6. Plan
+| sprint | session | hours | capacity | goal |
+|---|---|---|---|---|
+
+### Sprint 1 in full
+### Definition of Done
+### Learning criterion
+
+## 7. Alternatives considered
+## 8. Decision log
+- <date>: <decision>, because <evidence>; deferred <what>.
+- Trace back: story #<n> ← P<i> row <r>, P<j> row <s>.
+- Trace forward: criterion "<text>" → <the Supertest or Playwright case that checks it>.
+
+## 9. Links
+- Research: docs/research.md
+- Stories: docs/user-stories.md
+- Sprint plan: docs/sprint-plan.md
+- Board: <url>
+- Walkthrough: <url or docs/walkthrough.mp4>
+```
+
+The filled decision log for the ledger, which is the part people skip and the part a reader in week 20 will thank you for.
+
+```markdown
+## 8. Decision log
+- 2026-11-11: Client page becomes a Must, because 3 of 3 answer the money
+  question per client; deferred the monthly total to Could.
+- 2026-11-11: Reminder text moves to Won't, because 0 of 3 want it and two
+  argued against it; the statement link carries the "neutral chase" need.
+- 2026-11-11: Lesson model gains an optional block, as story #14, Should,
+  not in a sprint total; pulled first if Sprint 2 has slack.
+- Trace back: story #4 unpaid list ← P1 row 2, P2 row 1, P3 row 1.
+- Trace forward: "Given a lesson owned by another tutor, the request is
+  refused with 404" → a Supertest case that logs in as tutor B and PATCHes
+  tutor A's lesson, expecting 404 and an unchanged document.
+- Sample limits: all three teach one-to-one; nobody who runs group classes
+  or uses an agency's billing was interviewed; the block story may look
+  different for them.
+```
+
+The walkthrough is two to three minutes of screen recording, any recorder you like, with the spec open, answering four questions in order: who it is for, the biggest pain point you found and its count, the MVP, and the Sprint 1 goal. Watch it back once. If you hear yourself describing a feature nobody in the log asked for, the spec has a hypothesis row that is not labelled. Put the link, or the file, under Links.
+
+Here is a small model you can run here. It proves that a story is evidence only when it cites participants who exist in the log, that a citation to a participant who is not in the log is demoted to hypothesis, that patterns are ranked by how many participants support them rather than by who asked loudest, that an insight page with no invalidated assumption is refused, and that a learning criterion decides pass or fail from results rather than from mood. It does not prove your three people were the right three; the sample-limits block is where you say that.
 
 ```js run=checkpoint-8-4
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const evidence = new Set(['interview-1', 'interview-2']);
-const stories = [{id: 'overdue-list', evidence: ['interview-1']}, {id: 'gamification', evidence: []}];
-const unsupported = stories.filter(s => !s.evidence.length || s.evidence.some(id => !evidence.has(id)));
-check(unsupported.length === 1 && unsupported[0].id === 'gamification', 'Unproven idea remains a hypothesis');
+
+const log = new Set(['P1', 'P2', 'P3']);
+const stories = [
+  { id: 'unpaid-list', cites: ['P1', 'P2', 'P3'] },
+  { id: 'client-page', cites: ['P1', 'P2', 'P3'] },
+  { id: 'statement-link', cites: ['P2', 'P3'] },
+  { id: 'reminder-text', cites: ['P4'] },
+  { id: 'dark-mode', cites: [] },
+  { id: 'login', cites: [] }
+];
+
+function audit(story) {
+  const real = story.cites.filter(function (id) { return log.has(id); });
+  return { id: story.id, support: real.length, tag: real.length ? 'evidence' : 'hypothesis' };
+}
+const audited = stories.map(audit);
+const byId = Object.fromEntries(audited.map(function (s) { return [s.id, s]; }));
+check(byId['unpaid-list'].tag === 'evidence' && byId['unpaid-list'].support === 3, 'a story cited by three participants is evidence with support 3');
+check(byId['reminder-text'].tag === 'hypothesis', 'a citation to a participant who is not in the log does not count');
+check(byId['dark-mode'].tag === 'hypothesis' && byId['login'].tag === 'hypothesis', 'unproven ideas remain hypotheses, including the dependency');
+
+const ranked = audited.slice().sort(function (a, b) { return b.support - a.support; });
+check(ranked[0].support === 3 && ranked.indexOf(byId['statement-link']) < ranked.indexOf(byId['reminder-text']), 'patterns rank by how many said it, not by who asked loudest');
+
+const assumptions = [
+  { text: 'tutors lose track after a missed lesson', verdict: 'validated', rows: ['P1:2', 'P2:1'] },
+  { text: 'tutors track per lesson', verdict: 'invalidated', rows: ['P2:1', 'P3:role'] },
+  { text: 'a reminder text would help', verdict: 'invalidated', rows: ['P2:2', 'P3:2'] }
+];
+function insightPageIsHonest(list) {
+  return list.some(function (a) { return a.verdict === 'invalidated'; }) && list.every(function (a) { return a.rows.length > 0; });
+}
+check(insightPageIsHonest(assumptions), 'at least one assumption was broken, and every verdict points at rows');
+check(!insightPageIsHonest(assumptions.filter(function (a) { return a.verdict === 'validated'; })), 'an insight page with nothing invalidated is refused');
+
+const criterion = { needed: 2, of: 2, passIf: function (r) { return r.foundInUnder60s && !r.needHelp; } };
+function decide(results) {
+  const passes = results.filter(criterion.passIf).length;
+  return passes >= criterion.needed ? 'keep the list' : 'change the list, not add a tour';
+}
+check(decide([{ foundInUnder60s: true, needHelp: false }, { foundInUnder60s: true, needHelp: false }]) === 'keep the list', 'two clean finds pass the criterion');
+check(decide([{ foundInUnder60s: true, needHelp: true }, { foundInUnder60s: false, needHelp: false }]) === 'change the list, not add a tour', 'a failed test changes the plan the way the criterion said it would');
+
 console.log('ok: checkpoint-8-4');
 ```
 
@@ -286,556 +372,80 @@ console.log('ok: checkpoint-8-4');
 
 ### Interview notes become feature votes
 
-One person asked for a dark mode, so it jumps the queue, ahead of the task that three people described struggling with. A sentence in an interview is a clue, not a ballot. Ask how often it happens and what they do today. Cluster the notes. Build the thing several people trip over, and write down the requests you are not building so the decision is visible. Treating every comment as a feature is how a small tool becomes a drawer of unrelated switches.
+The symptom is a backlog where one participant's request jumped to Must ahead of the task three people described struggling with, and a change log that reads "P2 asked for X, so X". The cause is treating a sentence in an interview as a ballot instead of a clue. The fix is the count. Cluster the notes, write "n of 3" next to every pattern, and ask of every request how often the underlying problem happens and what they do today. Build the thing several people trip over. Write the requests you are not building into Won't with the id attached, so the decision is visible and reversible. One voice is a reason to ask the next person, not a reason to build.
 
 ### Scope ignores capacity
 
-The plan contains six workflows and the time contains one. You start all six, finish none, and the field test has nothing a person can complete. Cut to one path from the first screen to a saved result. Say out loud what you are not building this round. A thin path you can watch someone use will teach you more than a wide sketch nobody can finish. Capacity is a requirement. A plan that ignores it is fiction.
+The symptom is a re-checked Sprint 2 that contains six stories because the evidence was so good, with the slack row quietly deleted. The cause is that evidence changed the product and you let it change the hours too, which it cannot. The fix is the table from 8.3: a promoted story takes its points with it, the total stays under capacity, the story that leaves is the one furthest from the sprint goal, and the new story is written as "first pull if slack survives". Capacity is a requirement. A plan that ignores it is fiction, and the demo in 12.5 is where the fiction gets found out.
 
 ### No learning criterion
 
-You ship the slice and then argue about whether the test "went well," because you never said what result would change your mind. Before you watch anyone use it, write the criterion: four of five people complete the save without help, or they don't, and if they don't you will change the form rather than add a tour. Afterward, compare the notes to that sentence. A test with no criterion can be narrated as a success no matter what happened.
+The symptom is a Sprint 2 review that ends with "I think it went well" and no change to anything. The cause is that nobody wrote down, before the test, what result would change the plan, so every result can be narrated as fine. The fix is the criterion block in the spec: who tries it, what task, what you watch for, what counts as a pass, and what you do if it fails, written before the code exists. After the test, compare the notes to that block, line by line. If it failed, do what the block said you would do. If it passed, say what you watched for and did not see.
 
 ## Your turn
 
-**Guided Practice Exercise 1: Interview Synthesis Workshop (Block 2 activities, integrated above)**
+The ledger is done. Now yours, with whatever is in your log; if it is two interviews rather than three, the spec says two, and the third goes in when it lands.
 
-**Prompt:** Synthesize data from multiple interviews into a single empathy map and insight document.
+1. Read your P1 to P3 logs twice. On the second pass, in `docs/research.md`, add `## Combined empathy map` with an id after every entry and at least three entries per box, and `## Insights` with the six blocks: patterns with counts, pain points with rows, surprises, opportunities, validated assumptions with rows, invalidated assumptions with rows. The last block must have at least one line.
 
-**Steps:**
-1. Gather all interview notes (from pre-class interviews or live interviews conducted today)
-2. Read through all notes and use colored highlights or markers:
-   - Yellow = direct quotes (SAYS)
-   - Blue = behaviors observed (DOES)
-   - Pink = emotions detected (FEELS)
-   - Green = surprising insights
-3. Build the combined empathy map (template in Block 2 above)
-4. Extract key insights (patterns, pain points, surprises, opportunities)
-5. Create or refine your user persona
+2. Write the problem statement in four parts and two alternatives, one of them not software, at the top of `docs/product-spec.md`, which you create now from the template.
 
-**Success Criteria:**
-- Empathy map has 3-5 entries per quadrant
-- Insights are based on interview data, not assumptions
-- At least one "invalidated assumption" identified (if everything matched your assumptions, you were not listening hard enough)
-- Persona feels like a real person, not a demographic checkbox
+3. Open `docs/user-stories.md` and re-tag the source column of every story: `evidence: P1, P3` with ids that exist in your log, or `hypothesis`. Then write `## Backlog changes (8.4)` with every bucket move, addition, and deletion, each with its ids. Expect at least two changes; if you have none, go back to the invalidated assumptions and ask what story they break.
 
-**Time:** 35 minutes (Block 2)
+4. Open `docs/sprint-plan.md`, move the promoted and demoted stories, and re-check every total against its capacity. Keep the slack rows. Write any new story that does not fit as "first pull if slack survives". Update the board to match: cards relabelled, Sprint 1 unchanged unless a Must left it.
 
-**Checkpoints:**
-- At 15 minutes: Combined empathy map should be filled with entries from all interviews
-- At 25 minutes: Key insights should be extracted with patterns and pain points identified
-- At 35 minutes: Persona should be refined based on research data
+5. Write the learning criterion block for the end of Sprint 2: who, task, watch for, pass, if it fails.
 
-**BREAK**
+6. Fill the rest of the spec: research summary with the interview table by id, the map and insights, sample limits, the MVP, the backlog table with points and sources, acceptance criteria for the Musts, MoSCoW with reasons, the four-sprint table with Sprint 1 in full, the Definition of Done, and the decision log with one trace back and one trace forward. Version line: `1.0`, today's date, and the count of interviews.
 
-**Guided Practice Exercise 2: Backlog Refinement and Sprint Planning**
+7. Record the walkthrough, two to three minutes, four questions in order. Put the link under Links, or the file at `docs/walkthrough.mp4` if it is under a few megabytes; otherwise a link.
 
-**Prompt:** Update your backlog with research-driven changes and plan Sprint 1.
+8. Commit and push:
 
-**Step 1: Update Your Backlog Based on Research**
+   ```bash
+   cd ~/projects/<capstone-name>
+   git add docs/
+   git commit -m "Product spec v1.0: research, revised backlog, four-sprint plan"
+   git push
+   ```
 
-Compare your existing user stories to your research findings. Add new stories based on pain points you discovered. Remove or deprioritize stories that your research did not support. Update your MoSCoW priorities based on what users actually care about (not what you assumed).
+   You should see `main -> main`, and the four files plus the spec on GitHub, with ids and no names anywhere in `docs/`.
 
-```
-BACKLOG UPDATE LOG
-
-Stories ADDED based on research:
-- [New story]: because interviewees said [finding]
-- [New story]: because interviewees said [finding]
-
-Stories REMOVED or deprioritized:
-- [Story]: moved from Must to Could because no one
-  mentioned this need
-- [Story]: removed entirely because research showed
-  this is not a real problem
-
-Stories that STAYED as Must Have (validated):
-- [Story]: confirmed by [X] out of [Y] interviewees
-```
-
-**Step 2: Plan Sprint 1**
-
-```
-SPRINT 1 PLAN
-
-Sprint Goal: "[What will be true after Sprint 1?]"
-
-Sprint Duration: [1 week / 2 weeks]
-
-Selected Stories:
-| # | Story | Points | Acceptance Criteria Summary |
-|---|-------|--------|---------------------------|
-| 1 |       |        |                           |
-| 2 |       |        |                           |
-| 3 |       |        |                           |
-| 4 |       |        |                           |
-| 5 |       |        |                           |
-| TOTAL |  |  [X] pts |                          |
-
-Sprint Schedule:
-- Day 1: [What you will work on]
-- Day 2: [What you will work on]
-- Day 3: [What you will work on]
-- Day 4: [What you will work on]
-- Day 5: [Review and retro]
-
-Definition of Done (for each story):
-- [ ] Feature works as described in acceptance criteria
-- [ ] Code is committed and pushed to GitHub
-- [ ] Basic tests written (at minimum, manual testing)
-- [ ] No console errors or crashes
-```
-
-**Success Criteria:**
-- Backlog reflects research findings (not just pre-interview assumptions)
-- At least 2 new stories added based on interview insights
-- At least 1 story removed or deprioritized because research did not validate it
-- Sprint 1 has a clear, achievable goal
-- Total story points do not exceed capacity
-- Day-by-day schedule is realistic
-
-**Time:** 30 minutes (15 min backlog update, 15 min sprint plan)
-
-**Checkpoints:**
-- At 10 minutes: Backlog update log should show specific changes driven by research
-- At 20 minutes: Sprint 1 stories should be selected within capacity
-- At 30 minutes: Sprint plan should be complete with goal, schedule, and Definition of Done
+Before you push, search the folder once: `grep -ril "<a participant's first name>" docs/` should print nothing. If it prints a file, fix it, commit, and treat the previous push as public.
 
 ## The quest
 
-**Block 4: Presentations and Peer Feedback**
-
-Present this, in two or three minutes:
-1. Who is your target user? (Show your persona)
-2. What is the biggest pain point you discovered? (Show your empathy map)
-3. What is your MVP? (Show your Must Have list)
-4. What is your Sprint 1 goal? (Show your sprint plan)
-
-Peer feedback: after each presentation, 1-2 classmates give feedback:
-- "Your Must Have list looks solid because..."
-- "Have you considered..."
-- "I am curious how you will handle..."
-
-"This is not a pitch. This is a sanity check. We are helping each other make sure we are building the right thing."
-
-**Unit Wrap-Up**
-
-"You came into this unit as a developer. You are leaving as a product thinker."
-
-What you now have:
-- A researched, validated understanding of your target user
-- An empathy map and persona based on real data
-- A prioritized product backlog with user stories and acceptance criteria
-- A Sprint 1 plan with a clear goal
-- A project management board set up and ready to go
-
-"In Unit 9, you will learn TypeScript and algorithms. In Unit 12, you will use everything from this unit to actually build your capstone in sprints. The plan is ready. When the time comes, you will execute."
-
-"You are not guessing anymore. You have data. You have a plan. That is what separates founders from people with ideas. Let us go."
-
-**Independent Lab: Complete Your Product Spec Document**
-
-**Objectives:**
-- Finalize all sections of the product spec document
-- Ensure every section is backed by real research data
-- Prepare the document for submission
-
-**Requirements:**
-- All 6 required sections complete (User Research Summary, User Persona, Product Backlog, MoSCoW Prioritization, MVP Definition, Sprint 1 Plan)
-- Research summary includes data from at least 3 interviews
-- Backlog shows evidence of research-driven changes
-- Sprint plan is realistic and within capacity
-
-**Hints:**
-- Use the product spec template provided in the Unit Project section below
-- Your best quotes and insights should be front and center. They prove you did the work.
-- If you are missing interviews, schedule them immediately. Complete them before Unit 12.
-
-**Stretch Goals:**
-- Conduct 2 additional interviews (aim for 5 total)
-- Create a simple wireframe for each Must Have story (pen and paper or Figma)
-- Write a competitive analysis: 3 existing solutions, what they do well, what they miss
-- Record a 2-minute Loom video walking through your product spec
-
-**Submission:**
-- Product spec document (markdown) pushed to capstone repo
-- Project board link
-- Loom video link (optional)
-
-### Review the artifact
-
-Your deliverable is **A research-to-backlog handoff and a realistic first sprint plan**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
-### Unit project: completion contract
-
-### "The Guild Charter: Forging Your Capstone Blueprint"
-
-### Quest Arc
-
-You have been grinding solo dungeons for seven units. You have slain syntax errors, conquered deployment bosses, and tamed the wild beasts of testing. But now the guild hall has recognized your strength, and they have done something you did not expect: they put you in charge. You are the Guild Leader now. And guild leaders do not just swing swords. They plan raids. They talk to the townspeople. They figure out which quests actually matter and which ones are distractions disguised as glory.
-
-Your first task as Guild Leader? Forge the Guild Charter. This is the sacred document that tells your party what you are fighting for, who you are fighting for, and how you plan to win. You will venture into the taverns (user interviews), listen to the common folk (your target users), map their struggles and desires (empathy mapping), post the quests on the guild board (product backlog), and plan your first raid (Sprint 1).
-
-The ancient guilds that failed? They charged into dungeons without reconnaissance. They built legendary weapons for enemies that did not exist. They planned six-month campaigns and watched the dungeon meta shift in week two. Your guild will be different. Your guild has data. Your guild has a plan. Your guild runs sprints. Your Guild Charter will be the proof that you are not just a warrior. You are a leader.
-
-Forge the charter. Plan the raid. The capstone dungeon awaits.
-
-### Technical Requirements
-
-**Must Have (required for full credit):**
-
-1. **User Research Summary**
-   - [ ] Empathy map (combined from all interviews)
-   - [ ] At least 3 completed interviews documented (5 recommended)
-   - [ ] For each interview: date, duration, format, top 3 takeaways, best quote
-   - [ ] Key insights section: patterns (3+), pain points (3+), surprises (1+), opportunities (2+)
-   - [ ] At least 1 validated assumption and 1 invalidated assumption
-
-2. **User Persona**
-   - [ ] Name, age range, role, tech comfort level
-   - [ ] Representative quote from interviews
-   - [ ] 2-3 sentence story describing their situation
-   - [ ] Goals (2+)
-   - [ ] Frustrations (3+)
-   - [ ] Current solutions and workarounds
-   - [ ] Unmet needs
-
-3. **Product Backlog**
-   - [ ] Minimum 15 user stories in correct format ("As a..., I want..., so that...")
-   - [ ] Acceptance criteria for all Must Have stories (3-5 criteria each)
-   - [ ] All stories estimated with Fibonacci story points
-
-4. **MoSCoW Prioritization**
-   - [ ] Stories categorized into Must Have, Should Have, Could Have, Won't Have
-   - [ ] Must Have contains 3-5 stories maximum
-   - [ ] Each Must Have has a one-sentence justification
-   - [ ] Won't Have contains at least 2 items (proves you made real tradeoffs)
-
-5. **MVP Definition**
-   - [ ] 2-3 sentence description of the minimum viable product
-   - [ ] Clear statement of what the MVP does and does not include
-
-6. **Sprint 1 Plan**
-   - [ ] Sprint goal (one sentence)
-   - [ ] Sprint duration specified
-   - [ ] Selected stories with point estimates
-   - [ ] Day-by-day schedule
-   - [ ] Definition of Done checklist
-
-**Should Have (recommended):**
-
-7. **Competitive Analysis**
-   - [ ] 2-3 existing solutions analyzed
-   - [ ] What they do well, what they miss
-   - [ ] How your product differs
-
-8. **Wireframes or Sketches**
-   - [ ] Low-fidelity wireframe for each Must Have story
-   - [ ] Can be hand-drawn and photographed, does not need to be Figma
-
-9. **Sprint 2-3 Rough Plan**
-   - [ ] Which stories you plan to tackle in Sprint 2 and Sprint 3
-   - [ ] Not detailed, just directional
-
-**Could Have (stretch goals):**
-
-10. **Video Walkthrough**
-    - [ ] 2-3 minute Loom recording walking through the spec
-    - [ ] Explain your research, persona, and plan like you are pitching to a co-founder
-
-11. **Additional Research**
-    - [ ] Survey data (if you ran a survey in addition to interviews)
-    - [ ] Competitor user reviews analyzed for pain points
-
-### Product Spec Template
-
-Use this markdown template as the skeleton for your product spec:
-
-```markdown
-# Product Spec: [Your Capstone Name]
-## [One-Line Description of What It Does]
-
-**Author:** [Your Name]
-**Date:** [Date]
-**Version:** 1.0
-
----
-
-## 1. User Research Summary
-
-### Interviews Conducted
-
-| # | Name | Date | Duration | Format |
-|---|------|------|----------|--------|
-| 1 |      |      |          |        |
-| 2 |      |      |          |        |
-| 3 |      |      |          |        |
-
-### Interview Details
-
-**Interview 1: [Name]**
-- Top takeaways:
-  1.
-  2.
-  3.
-- Best quote: ""
-- Surprising finding:
-
-[Repeat for each interview]
-
-### Combined Empathy Map
-
-| SAYS | THINKS |
-|------|--------|
-| 1.   | 1.     |
-| 2.   | 2.     |
-| 3.   | 3.     |
-
-| DOES | FEELS |
-|------|-------|
-| 1.   | 1.    |
-| 2.   | 2.    |
-| 3.   | 3.    |
-
-### Key Insights
-
-**Patterns:**
-1.
-2.
-3.
-
-**Pain Points:**
-1.
-2.
-3.
-
-**Surprises:**
-1.
-
-**Opportunities:**
-1.
-2.
-
-**Validated Assumptions:**
-1.
-
-**Invalidated Assumptions:**
-1.
-
----
-
-## 2. User Persona
-
-**Name:**
-**Age:**
-**Role:**
-**Tech Comfort:** [Low / Medium / High]
-
-**Quote:** ""
-
-**Story:** [2-3 sentences]
-
-**Goals:**
--
--
-
-**Frustrations:**
--
--
--
-
-**Current Solutions:**
--
-
-**Unmet Needs:**
--
--
-
----
-
-## 3. Product Backlog
-
-| # | User Story | Points | MoSCoW |
-|---|-----------|--------|--------|
-| 1 | As a..., I want..., so that... | | Must |
-| 2 | | | Must |
-| 3 | | | Must |
-| 4 | | | Should |
-| 5 | | | Should |
-| ... | | | |
-
-### Acceptance Criteria (Must Have Stories)
-
-**Story 1: [Short Name]**
-- [ ]
-- [ ]
-- [ ]
-
-**Story 2: [Short Name]**
-- [ ]
-- [ ]
-- [ ]
-
-[Continue for all Must Have stories]
-
----
-
-## 4. MoSCoW Prioritization
-
-### Must Have
-1. [Story] - Because:
-2. [Story] - Because:
-3. [Story] - Because:
-
-### Should Have
-1.
-2.
-
-### Could Have
-1.
-2.
-
-### Won't Have (This Version)
-1.
-2.
-
----
-
-## 5. MVP Definition
-
-[2-3 sentences: What does the MVP do? What does it
-NOT do? Who is it for?]
-
----
-
-## 6. Sprint 1 Plan
-
-**Sprint Goal:** ""
-
-**Sprint Duration:** [1 week / 2 weeks]
-
-**Selected Stories:**
-
-| # | Story | Points |
-|---|-------|--------|
-| 1 |       |        |
-| 2 |       |        |
-| 3 |       |        |
-| TOTAL | | [X] pts |
-
-**Day-by-Day Schedule:**
-- Day 1:
-- Day 2:
-- Day 3:
-- Day 4:
-- Day 5:
-
-**Definition of Done:**
-- [ ] Feature works per acceptance criteria
-- [ ] Code committed and pushed
-- [ ] Basic tests written
-- [ ] No console errors
-
----
-
-## 7. Competitive Analysis (Optional)
-
-| Competitor | What They Do Well | What They Miss |
-|-----------|------------------|----------------|
-| 1.        |                  |                |
-| 2.        |                  |                |
-
----
-
-## 8. Sprint 2-3 Rough Plan (Optional)
-
-**Sprint 2 Focus:**
-**Sprint 3 Focus:**
-```
-
-### Skill Points Rubric
-
-**Boss Clear (70 pts) - Meets Expectations:**
-
-| Criteria | Points | Requirements |
-|----------|--------|-------------|
-| User Research | 10 | 3 interviews documented with takeaways, quotes, and insights |
-| Empathy Map | 10 | All 4 quadrants filled with research-backed data, 3+ entries each |
-| User Persona | 10 | Specific persona with quote, story, goals, frustrations, and needs from research |
-| User Stories | 10 | 15+ stories in correct format, Must Have stories have acceptance criteria |
-| Prioritization | 10 | MoSCoW applied, Must Have is 3-5 items, Won't Have has 2+ items |
-| MVP Definition | 10 | Clear 2-3 sentence MVP that defines scope and target user |
-| Sprint Plan | 10 | Sprint goal, selected stories with estimates, day-by-day schedule |
-
-**Epic Loot (20 pts) - Exceeds Expectations:**
-
-| Criteria | Points | Requirements |
-|----------|--------|-------------|
-| Research Depth | 5 | 5+ interviews, deep synthesis, clear validated/invalidated assumptions |
-| Empathy Map Quality | 3 | Rich detail, strong quotes, clear gap between SAYS and DOES identified |
-| Persona Quality | 2 | Persona feels like a real person you know, with specific behavioral details |
-| Story Quality | 3 | 20+ stories, all with acceptance criteria, INVEST criteria met |
-| Prioritization Quality | 3 | RICE/ICE scores calculated, clear justifications for all priorities |
-| MVP Specificity | 2 | MVP is specific, achievable in 2-4 weeks, and directly addresses top pain point |
-| Sprint Plan Completeness | 2 | Sprint plan includes Definition of Done, realistic capacity, and contingency |
-
-**Legendary (10 pts) - Outstanding Work:**
-
-| Criteria | Points | Requirements |
-|----------|--------|-------------|
-| Overall Quality | 5 | Publication-quality spec that could be shared with a co-founder or investor |
-| Competitive Analysis | 3 | 2-3 competitors analyzed with clear differentiation strategy |
-| Video Walkthrough | 2 | 2-3 minute Loom that clearly communicates research, persona, and plan |
-
-**Total: __ / 100 points**
-
-### Submission Requirements
-
-- **GitHub:** Push the product spec markdown file to your capstone repo (suggested path: `docs/PRODUCT_SPEC.md`)
-- **Project Board:** Share the public link to your GitHub Projects, Trello, Linear, or Notion board with stories added
-- **Video (recommended):** Record a 2-3 minute Loom walking through your product spec
-- **Deadline:** Before Session 9.1
-
----
-
 ![](diagram:session-8-4/fig3-evidence)
+
+One deliverable: `docs/product-spec.md` version 1.0 in the capstone repo, pushed, with the walkthrough linked. It is complete when a stranger could read it and tell you who the product is for, what three people said, what you will build on the first day of Unit 12, and what result would make you change your mind.
+
+Evidence:
+
+- A combined empathy map with ids on every entry and an insight page where every pattern has a count and at least one assumption is marked invalidated with rows.
+- A problem statement with a user, a context, an obstacle, and a consequence, and two alternatives, one of them not software.
+- A re-tagged `docs/user-stories.md` where every source is `evidence: P…` with ids that exist in the log, or `hypothesis`, and a change log with ids on every line.
+- A re-checked `docs/sprint-plan.md` where every sprint is at or under capacity with slack visible, and the board matching it.
+- A learning criterion with who, task, watch for, pass, and if-it-fails.
+- A decision log with at least three dated decisions, one trace back to rows, one trace forward to a test, and a sample-limits paragraph.
+- The walkthrough link under Links, two to three minutes, four questions.
+- The commit `Product spec v1.0: research, revised backlog, four-sprint plan` on GitHub.
+
+Self-check before you call it done, one line each, honestly:
+
+| Check | Pass looks like |
+|---|---|
+| Research | Three interviews by id, map and insights with counts and rows |
+| Backlog | Fifteen or more stories, every one tagged, Musts with acceptance examples |
+| Prioritisation | Three to five Musts with reasons, two or more Won'ts, RICE on ten |
+| Plan | Four sprints with hours, capacity, slack, and goals; Sprint 1 in full |
+| Learning | A criterion written before any code, with an if-it-fails |
+| Honesty | At least one invalidated assumption and a sample-limits paragraph |
+| Privacy | `grep -ril` for any name in `docs/` prints nothing |
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Three interviews that disagree with your idea are the plateau the grit story is about, and the Interface Segregation rule on the SOLID page is the Sprint 1 goal in code form: the first increment exposes one thin path a tester can walk, not every method the finished product will have.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Complete Sessions 8.1-8.3 and all homework. Finalize your interview script. Have your product backlog with 15-20 user stories. Set up your sprint board. CRITICAL: Have 3-5 interview subjects identified and scheduled (you MUST have people lined up).
-**Materials:** Finalized interview script, empathy map template, interview tracking sheet (provided below), backlog update log (provided below), sprint planning template, recording tools (phone for audio with permission, or note-taking tools), Zoom/Google Meet for remote interviews
-
-**Due before Session 9.1:**
-
-1. Finalize your product spec document (see Unit Project spec below for full requirements)
-2. Push the document to your capstone repo
-3. Share the project board link. It has to be readable by the person reviewing it.
-4. Schedule your remaining interviews if you have not hit 3-5 yet (complete them before Unit 12)
-5. Record a 2-minute Loom video walking through your product spec (this is your "pitch" for the spec)
-
-**Submission:**
-- Product spec document (markdown) pushed to capstone repo
-- Project board link
-- Loom video link
-
-**Estimated Time:** 4-6 hours (this is the unit project, give it the time it deserves)
-
-**Stretch Goals (Optional):**
-- Conduct 2 additional interviews (aim for 5 total)
-- Create a simple wireframe for each Must Have story (pen and paper or Figma)
-- Write a competitive analysis: 3 existing solutions, what they do well, what they miss
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.gov.uk/service-manual/user-research/analyse-a-research-session)
+Next session, 9.1, starts a different kind of unit: TypeScript, with the guild hall's code as the thing you annotate, so put the capstone down for now. Two things carry forward. Any interview still outstanding goes into the log when it happens, and version 1.1 of the spec, with every booked interview in it and the backlog re-tagged, is pushed before 12.1; put a reminder somewhere you will see it in week 19. Nothing is running on your machine, and the board stays with Sprint 1 filled and In Progress empty until the morning of 12.1, when the spec is the first file you open.

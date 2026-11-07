@@ -2,377 +2,336 @@
 editorial: true
 title: Guild Operations
 subtitle: Agile, SCRUM, Sprints, and Retros
-hook: "A sprint goal, working board, review agenda, and retrospective action. Choose a coherent goal within actual capacity."
+hook: "A board on the wall does not clear dungeons. Today every Must story gets a size, the backlog becomes the four sprints Unit 12 actually runs, Sprint 1 gets a goal that fits, and you run your first retrospective on the work you already did in Unit 7."
 read: 60
-artifact: "A sprint goal, working board, review agenda, and retrospective action"
+artifact: "docs/sprint-plan.md in the capstone repo: Fibonacci points on every Must and Should story calibrated against the guild hall, four sprints mapped to sessions 12.1–12.4 with capacity and slack, a Sprint 1 goal, a Definition of Done, the solo ceremonies, and a retrospective of Unit 7 with one experiment"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://scrumguides.org/scrum-guide.html
+  - https://agilemanifesto.org/
+  - https://www.atlassian.com/agile/project-management/estimation
+  - https://www.atlassian.com/agile/scrum/sprint-planning
+  - https://www.atlassian.com/agile/scrum/retrospectives
+  - https://docs.github.com/en/issues/planning-and-tracking-with-projects/understanding-fields/about-text-and-number-fields
 say:
-  - "Plan: Choose a coherent goal within actual capacity."
-  - "Inspect: Review working outcomes and impediments."
-  - "Adapt: Change the next plan using observed results."
+  - "Points are relative. Login is a five because the unpaid list is a two."
+  - "An XL has no number. Split it before it enters a sprint."
+  - "Four sprints, four sessions. Slack is a line in the table, not a hope."
 ---
 
 ## The hook
 
-Last session we built the quest board. We pinned every quest to the wall, ranked them by importance, and figured out which ones to tackle first. But a quest board on the wall does not clear dungeons. You need an operating system for actually doing the work. That is what Agile and SCRUM give you.
+Last session you pinned the quests to the board and ranked them. The board is honest, every card knows where it came from, and nothing is in the Sprint 1 column, because moving a card there is a promise and a promise needs a size. Today you put a number on every Must and Should story, and you do it without guessing hours, by comparing each story with something you have already built. The guild hall's login took you one session in 4.8 and again in 4.14. That is a five. A list page that fetches one resource is a two. Everything else is measured against those.
 
-Here is the thing about building software: the old way of doing it, the Waterfall way, treated software like a bridge. You plan everything upfront, you build it in sequence, and you hope it works at the end. But software is not a bridge. Software changes. Users change. Markets change. The new way, the Agile way, says: plan a little, build a little, ship a little, learn, repeat. SCRUM is the most popular framework for doing this. It gives you sprints, standups, reviews, and retrospectives. It works for teams of 50 and it works for teams of 1.
+Then the backlog becomes a plan with the shape Unit 12 actually has: four sprints, one per session from 12.1 to 12.4, each with the session's hours plus the hours you will really give it before the next one, each with a capacity in points and a visible line for slack. Sprint 1 gets a goal in one sentence and a Definition of Done you can check with your eyes. And because a retrospective is a skill you practise, not a form you fill, you run one tonight on the Unit 7 test suite you finished last week and pick one experiment to carry into Unit 12.
 
-Today you learn how real software teams work. And more importantly, you learn how to work as a team of one. Because as a solo founder, you are the product owner, the scrum master, AND the development team. That is both a curse and a superpower. Let us figure out how to use it.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *A guild that spends six months planning the perfect raid arrives to find the dungeon patched. A guild that raids for a week, counts the loot, and adjusts clears it in two months.*
 
 ## The idea
 
-### Analyze Agile and SCRUM frameworks and apply them to plan and manage iterative development
+### Plan a little, build a little, look
 
-**You will:**
-- Compare Waterfall and Agile methodologies, explaining why Agile is the industry standard for software
-- Describe SCRUM roles (Product Owner, Scrum Master, Development Team), events (Sprint Planning, Daily Standup, Sprint Review, Retrospective), and artifacts (Product Backlog, Sprint Backlog, Increment)
-- Estimate user stories using relative sizing with T-shirt sizes and Fibonacci story points
-- Conduct sprint planning by selecting stories, setting capacity, and writing a sprint goal
-- Facilitate a sprint retrospective that produces specific, actionable improvement items
+The old way treated software like a bridge: specify everything, build in sequence, test at the end, hope. Bridges do not change their minds halfway through. Software does, because users do, and because the first version teaches you things the specification could not know. The Agile Manifesto, written in 2001, is four preferences, and the things on the right still matter; when the two sides conflict, you lean left.
 
-**You will be able to:**
-- Run a sprint planning session that produces a sprint backlog within capacity and a one-sentence sprint goal
-- Estimate all stories using Fibonacci points and explain relative sizing decisions
-- Complete a retrospective template with specific action items and owners
+1. Individuals and interactions over processes and tools.
+2. Working software over comprehensive documentation.
+3. Customer collaboration over contract negotiation.
+4. Responding to change over following a plan.
 
-**Welcome and The Two Ways to Run a Guild**
+Agile is not "no planning". It is just enough planning, just in time: plan the next sprint in detail and the rest in outline, build, show it to someone, learn, and plan again with what you learned. The retro at the end of every sprint is where the learning gets written down, which is why skipping it is how a team repeats the same week forever.
 
-"Last session we built the quest board. Today we learn how to actually run the guild. How do you decide what to do each week? How do you track progress? How do you course correct when things go sideways?"
+### Scrum, sized for a party of one
 
-Two stories:
-- **Guild A (Waterfall):** Spends 6 months planning the perfect dungeon raid. Writes a 200-page strategy document. By the time they are ready to execute, the dungeon has been patched and everything changed. Total wipe.
-- **Guild B (Agile):** Plans for 1 week, raids for 1 week, reviews what worked, adjusts. Repeat. Clears the dungeon in 2 months.
+Scrum is the most common frame for working that way. It is a framework, not a method: it gives you the structure and you fill in the details. The 2020 Scrum Guide, which is short and free and the one reference this session leans on, defines three accountabilities, the Sprint plus four events inside it, and three artifacts, each with a commitment.
 
-"Which guild do you want to lead?"
-
-**Waterfall vs. Agile**
-
-**Waterfall** (the old way):
-- Sequential phases: Requirements -> Design -> Build -> Test -> Deploy
-- You finish each phase completely before starting the next
-- All planning happens upfront, all testing happens at the end
-- Works for: building a bridge, launching a rocket, things where you cannot iterate
-- Fails for: software, because requirements change, users change, markets change
-- The problem: you do not find out if you built the wrong thing until the very end
-
-```
-WATERFALL FLOW:
-Requirements --> Design --> Build --> Test --> Deploy
-    (Month 1)    (Month 2)  (Month 3-5)  (Month 6)  (Month 7)
-
-Problem discovered at testing?
-Too bad. Go back to the beginning. Lose months.
-```
-
-**Agile** (the current standard):
-- Iterative cycles (sprints) of 1-4 weeks
-- Plan a little, build a little, test a little, ship a little, learn, repeat
-- Embrace change instead of fighting it
-- Working software is the primary measure of progress (not documents, not plans)
-- The Agile Manifesto (2001), four values:
-  1. Individuals and interactions OVER processes and tools
-  2. Working software OVER comprehensive documentation
-  3. Customer collaboration OVER contract negotiation
-  4. Responding to change OVER following a plan
-- "The stuff on the right still matters. But when there is a conflict, lean left."
-
-```
-AGILE FLOW:
-[Sprint 1: Plan -> Build -> Test -> Ship -> Learn]
-[Sprint 2: Plan -> Build -> Test -> Ship -> Learn]
-[Sprint 3: Plan -> Build -> Test -> Ship -> Learn]
-...keep going until done
-
-Problem discovered in Sprint 2?
-Fix it in Sprint 3. Lose days, not months.
-```
-
-Why Agile won:
-- Software changes too fast for 6-month plans
-- Users do not know what they want until they see it
-- Small, frequent releases reduce risk
-- You get feedback early and often
-- It is more fun (shipping beats planning)
-
-"Agile is not 'no planning.' It is 'just enough planning, just in time.' You plan what you need for the next 1-2 weeks, not the next 6 months."
-
-**The SCRUM Framework**
-
-SCRUM is the most popular implementation of Agile. It is a framework, not a methodology. Meaning: it gives you structure, but you fill in the details.
-
-**SCRUM Roles:**
-
-| Role | Responsibility | In a startup |
+| Accountability | Does what | On the capstone |
 |---|---|---|
-| **Product Owner** | Decides WHAT to build and WHY. Owns the backlog. Represents the user. | You (the founder). |
-| **Scrum Master** | Protects the process. Removes blockers. Facilitates events. | Also you. Or nobody, honestly. |
-| **Development Team** | Decides HOW to build it and DOES the building. Self-organizing. | Also you. You are the whole party. |
+| Product Owner | Decides what and why; owns the backlog; speaks for the user | You, with `docs/research.md` open |
+| Scrum Master | Protects the process; removes blockers; keeps the events honest | You, with a timer |
+| Developers | Decide how and build it; own the Sprint Backlog | You, at the keyboard |
 
-"In a big company, these are three different people. As a solo founder, you are all three. That is both a curse and a superpower. No meetings needed. But also no one to blame."
+The Sprint is the container. A fixed length, scope does not change inside it, and a new Sprint starts the moment the last one ends. Inside it, four events:
 
-**SCRUM Events (Ceremonies):**
+- **Sprint Planning** at the start: pick stories from the backlog that serve one goal, within capacity. Output: the Sprint Backlog and a Sprint Goal in one sentence.
+- **Daily Scrum**: fifteen minutes, every working day. What moved yesterday, what moves today, what is blocked. Solo, this is three lines in the plan file every day you work on the capstone.
+- **Sprint Review** at the end: show the working increment to someone who cares. Working software, not slides. Solo, this is a two-minute screen recording of the real thing, which you watch back, and which you send to one interviewee if they offered to look.
+- **Sprint Retrospective** after the review: what went well, what did not, what one thing changes next sprint. Solo, this is the template at the end of this page, filled honestly, with one experiment.
 
-1. **Sprint Planning** (start of sprint)
-   - How long: 1-2 hours for a 2-week sprint (scale down for solo)
-   - What happens: pick stories from the backlog, estimate them, commit to a sprint goal
-   - Output: Sprint backlog (the stories you will build this sprint) + sprint goal (one sentence)
+Three artifacts, three commitments: the Product Backlog commits to a Product Goal (your MVP sentence); the Sprint Backlog commits to a Sprint Goal; the Increment commits to a Definition of Done. Each artifact is a list, and each commitment is the sentence that says what the list is for.
 
-2. **Daily Standup** (every day during sprint)
-   - How long: 15 minutes MAX
-   - Three questions:
-     - What did I do yesterday?
-     - What am I doing today?
-     - Am I blocked on anything?
-   - "As a solo founder, this is your morning journaling. Seriously. Write three sentences in your notes app every morning. It keeps you accountable."
+On a large team these are three people and four meetings. On a capstone they are three hats and four habits, and the habits are the point. Pair programming is the fifth habit on real teams, driver and navigator swapping every twenty minutes; the solo version is explaining each chunk aloud to a rubber duck or to the AI chat from Unit 5, which exposes the gap between what you meant and what you wrote just as reliably.
 
-3. **Sprint Review / Demo** (end of sprint)
-   - How long: 30-60 minutes
-   - What happens: show what you built to stakeholders (users, friends, your Discord community)
-   - Key: demo WORKING software, not slides. Not mockups. Working. Software.
-   - "If you cannot demo it, you did not ship it."
+### Relative size, calibrated on the hall
 
-4. **Sprint Retrospective** (after review, before next sprint)
-   - How long: 30-45 minutes
-   - Three questions:
-     - What went well? (Keep doing this)
-     - What did not go well? (Stop doing this)
-     - What will we change next sprint? (Specific action items)
-   - "The retro is the most underrated ceremony. It is where you actually get better. Skip it and you make the same mistakes forever."
+Developers are bad at hours, reliably off by a factor of two or three, and hours punish the honest estimator. People are good at comparing. Story points are relative sizes: a two is about twice a one, a five is bigger than a three by more than the numbers suggest, and the scale skips numbers on purpose so you cannot pretend to know the difference between a six and a seven.
 
-**SCRUM Artifacts:**
-1. **Product Backlog**: The master list of everything to build (you made this last session)
-2. **Sprint Backlog**: The subset of stories picked for this sprint
-3. **Increment**: The working software at the end of the sprint (potentially shippable)
+T-shirt sizes are the beginner's scale and Fibonacci points are the one teams use; here is the one mapping this path uses, and the row that has no number is deliberate.
 
-**The Sprint cycle visualized:**
+| Size | Points | Means | Guild hall reference |
+|---|---|---|---|
+| XS | 1 | Under an hour, no unknowns | A Mongoose field with validation; a label change |
+| S | 2 | A few hours, one known shape | A list page that fetches one resource; an owner-scoped `PATCH` with a 404 for other owners |
+| M | 3 | Most of a session | A create form with validation and an error state; a model, its seed, and its first route |
+| L | 5 | A whole session, maybe spilling | Register and login with JWT, as in 4.8 and 4.14; a Supertest suite for the Must routes; deploying to Railway with variables and a domain |
+| XL | none | Too big to estimate | "Build messaging", "add reminders by text" |
 
-```
-SPRINT CYCLE (2 weeks):
+An 8 exists on the Fibonacci scale, and you may use it for an L that you know will spill; a 13 is a story that should already have been split; a 21 is a project. XL has no points at all. If you cannot estimate it, you do not understand it yet, and a story you do not understand does not enter a sprint. Split it until each piece has a number. The reminder text in the tutor ledger needs a text-message provider, a scheduler, and a consent flow, three things you have never built; it is XL, and it stays in Could until it is three stories or until Unit 10 changes what you know.
 
-Day 1: Sprint Planning
-  |
-  v
-Days 2-9: Build (daily standups each morning)
-  |
-  v
-Day 10: Sprint Review (demo what you built)
-  |
-  v
-Day 10 (after review): Sprint Retrospective
-  |
-  v
-Day 1 of next sprint: Sprint Planning again
-```
+Planning poker is how a team estimates: everyone shows a card at once, and the disagreement between the two and the thirteen is the useful part, because it exposes a misunderstanding. Solo, you get the same effect by writing one sentence of reasoning next to every number, which is the rule for the sizes table in your file. If you cannot write the sentence, round up.
 
-**Working Practice: Pair Programming (the two-adventurer party)**
+Velocity is the total of points finished in a sprint. After two sprints you know yours, and you use it to plan the third. It is a planning number, not a score, and the moment it becomes a target it stops measuring anything, because the only way to raise it is to inflate the estimates. Do not try to increase it. Try to predict it.
 
-Ceremonies structure your weeks; pair programming structures your hours. It is two people, one problem, one screen, and it is how a huge share of professional code gets written.
+### Four sprints, because Unit 12 has four sessions
 
-The two roles:
-- **Driver:** hands on the keyboard. Types the code, focuses on the tactical level — syntax, the current line, the current function.
-- **Navigator:** hands OFF the keyboard. Watches the strategic level — is this the right approach? What edge case are we missing? What comes after this?
+Unit 12 is not a week-long sprint with a Monday planning meeting. It is four build sessions, 12.1 Foundation, 12.2 Build, 12.3 Harden, and 12.4 Polish, on consecutive path days, with a demo in 12.5. A sprint on this path is one of those sessions plus the hours you give it before the next session begins. That is the shape the plan takes today, and the plan the learner in you writes has to fit the sprints the builder in you will run.
 
-The rules that make it work:
-- **Swap roles every 15-30 minutes.** The swap is not optional. Staying driver forever is just coding with an audience; staying navigator forever turns into backseat driving.
-- **The navigator does not dictate keystrokes.** Say "what if we extract that into a helper?" not "type function, space, formatDate, open paren."
-- **Talk constantly.** The driver narrates intent ("okay, now I'm going to guard against the empty array case"), the navigator thinks out loud. Silence means someone disengaged.
-- **Disagree at the whiteboard, not the keyboard.** If you hit an approach dispute, pause, sketch both options for two minutes, pick one, move on.
+| Sprint | Session | What it is for | Hours (session + between) | Capacity, example |
+|---|---|---|---|---|
+| 1 | 12.1 Foundation | Models and seed, auth, one resource end to end, every other page stubbed | about 3 + 4 | 12 |
+| 2 | 12.2 Build | The remaining Must stories and the pages that use them | about 3 + 6 | 13 |
+| 3 | 12.3 Harden | Tests on the Must paths, the security pass from Unit 10, deploy on Railway | about 3 + 6 | 13 |
+| 4 | 12.4 Polish | Should stories that fit, seed data for the demo, README, the demo script | about 3 + 3 | 8 |
 
-Why founders should care: pairing is the fastest knowledge-transfer mechanism in software. When you hire your first engineer, pairing with them for a week beats a month of documentation. When you get stuck, thirty minutes of pairing with anyone — even someone junior — dislodges bugs that hours of solo staring cannot, because explaining your code out loud forces you to actually read it. And in this program, pairing on homework with a study partner is encouraged: you will learn more from navigating someone else's code than from writing your own.
+The hours are yours to set, and setting them honestly is the whole exercise. Count the evenings you actually have between the sessions, not the ones you hope for. The capacity in points comes from the calibration: one session holds roughly the guild hall's login plus a list, a five and a two, so a session plus four evening hours holds something like ten to twelve points. Write the number, then plan under it, and leave the difference in the table as a row called slack. The slack is for the thing you did not predict, and there is always one.
 
-Solo variant while you have no partner: **rubber-duck programming.** Explain each chunk of code, out loud, to an inanimate object (or an AI chat). Same mechanism — verbalizing exposes the gap between what you meant and what you wrote.
+Every Must story lands in Sprint 1 or Sprint 2. Sprint 3 is tests, security, and deploy, which Units 7, 10, and 6 taught and which take a full session whether or not you believe it. Sprint 4 is where Should stories go, if the first three left room, and where the demo gets its seed data and its script.
 
-**Key Points:**
-- Waterfall is sequential and works for fixed-scope projects; Agile is iterative and works for software
-- SCRUM defines three roles, four events, and three artifacts
-- The Agile Manifesto prioritizes people, working software, collaboration, and responsiveness to change
-- Sprints are fixed time periods (1-4 weeks) where scope does not change mid-sprint
+### The Sprint 1 goal and the Definition of Done
 
-**Common Misconceptions:**
+A sprint is not a calendar box with unrelated tickets in it. The goal is one sentence that names a capability a person will have at the end, and it is what you use to say no to a card halfway through. "A tutor can sign in, add a client, log a lesson, and see it in the unpaid list" is a goal. "Do stories 1, 2, 3" is a list. If capacity shrinks, you cut scope and keep the goal; the goal is what you renegotiate against.
 
-| Wrong | Correct |
-|---|---|
-| "Agile means no planning or documentation" | Agile means just enough planning, just in time. You still plan, but in short cycles rather than upfront for 6 months |
-| "SCRUM does not work for solo developers" | SCRUM scales down effectively. Solo founders use 1-week sprints, self-standups, and journal retros |
-| "Velocity should increase every sprint" | Velocity is a measurement, not a goal. Trying to increase it just inflates estimates |
+The Definition of Done is the Increment's commitment, and it is a list of evidence, not a feeling. For the capstone, a card is Done when the acceptance examples pass by hand, the code is committed on a branch and merged to `main`, there is a Supertest or Playwright case for the path from Sprint 3 onward, the browser console is clean, and the card is in Done with a one-line note. Acceptance is not release: an increment can be Done and not yet deployed, and a deploy does not excuse a missing test.
+
+### The board shows flow, the retro changes next week
+
+Four columns: Backlog, Sprint 1, In Progress, Done. Only one or two cards live in In Progress at a time, because three half-finished stories are zero finished stories. A blocked card gets a reason and a next action written on it, not a red label. During a sprint, the daily three lines are about the board: which card moved, which one is stuck, what you do about it today.
+
+A retrospective is three questions and one experiment. What went well, and keep doing it. What did not, and stop. What one thing changes next sprint, as a specific action with an owner, which is you. One experiment small enough to try before the next retro beats ten observations. At the next retro, check that one thing first.
+
+The napkin version: size by comparing, not by clock. XL has no number. Four sprints, one per Unit 12 session, each with hours, capacity, and slack. A goal is a sentence about a person, not a list of cards. Done is evidence. One or two cards in progress. One experiment per retro.
 
 ![](diagram:session-8-3/fig1-model)
 
-### A sprint goal gives the work coherence
-
-A sprint is not simply a calendar box containing unrelated tickets. A useful goal describes a capability or learning outcome the team intends to achieve. “Tutors can identify overdue invoices” gives a reason to select particular stories and reject distractions. If capacity changes, the team can renegotiate scope while preserving the goal. Without that goal, every ticket appears equally urgent.
-
-Estimate available capacity honestly. Account for support work, reviews, meetings, and absences. Story points are a relative planning tool within a team, not a universal unit of productivity. Comparing individuals or teams by points encourages inflation and hides the actual outcome. A forecast should help the team make decisions; it should not become a promise that discourages surfacing problems.
-
-### A board should reveal flow
-
-Columns represent meaningful states such as ready, in progress, review, and done. Define what qualifies for each transition. If review is required, a ticket is not done merely because the author finished typing. Limit simultaneous work so partially finished items do not accumulate. A blocked item needs a reason and a next action, not only a red label.
-
-Use daily inspection to coordinate toward the sprint goal. A status recital to a manager can consume time without changing anyone's plan. Ask what changed, what is blocked, and which collaboration would move the goal forward. If a detailed technical discussion is needed, continue it with the relevant people after the brief coordination step. The format serves the work, not the reverse.
-
-### Review working behavior with stakeholders
-
-A sprint review examines the increment and gathers feedback. Show the actual workflow using a realistic fixture. Slides can provide context but should not replace the product evidence. Invite stakeholders to respond to the outcome and its implications. A new request is input to future prioritization, not an automatic commitment that bypasses the backlog.
-
-Distinguish acceptance from release. An increment can meet the definition of done while a business decision controls when it is exposed. Conversely, a deployment does not excuse missing quality checks. Write the definition of done in terms of evidence your team can produce: reviewed code, relevant tests, usable error states, and updated operational notes where needed. Keep it achievable and meaningful.
-
-### Retrospectives need a feedback loop
-
-Discuss the team's process without turning incidents into personal blame. Use specific observations: reviews waited two days, fixtures were inconsistent, or the sprint goal changed repeatedly. Choose one improvement small enough to try in the next sprint. Assign an owner and a way to observe whether it helped. Ten vague action items are less useful than one completed experiment.
-
-For the workshop, simulate a mid-sprint interruption and decide what changes. Do you reduce scope, pair on a blocker, or renegotiate the goal? Document the reasoning. The finished artifact should show planning, inspection, and adaptation as connected activities. A calendar full of ceremonies is not the outcome; a team that can respond intelligently to evidence is.
-
 ## The demonstration
 
-**BREAK**
+The tutor ledger's backlog from last session, sized and shaped. The file is `docs/sprint-plan.md`. Copy the template into yours and fill it in; the filled example follows.
 
-**Live Walkthrough: Story Points and Estimation**
+```markdown
+# Sprint plan: <capstone-name>
 
-**Setup:** Using the sample freelancer budgeting app backlog from Session 8.2, walk through estimating every story.
+## Shape
+Four sprints, one per Unit 12 session, plus the hours between sessions.
 
-**Steps:**
+| sprint | session | hours (session + between) | capacity | goal |
+|---|---|---|---|---|
+| 1 | 12.1 Foundation | | | |
+| 2 | 12.2 Build | | | |
+| 3 | 12.3 Harden | | | |
+| 4 | 12.4 Polish | | | |
 
-1. Explain why story points use relative sizing instead of hours
-2. Introduce T-shirt sizing (beginner-friendly)
-3. Introduce Fibonacci story points (industry standard)
-4. Walk through estimating 5-6 sample stories
-5. Explain velocity and how to use it for sprint planning
+## Sizes
+| # | story | size | points | why |
+|---|---|---|---|---|
 
-**Why not hours?**
-- Developers are terrible at estimating hours (off by 2-3x, consistently)
-- Hours punish slow workers and reward fast ones (not fair, not useful)
-- Relative comparison is something humans are actually good at
+## Sprint 1
+Goal: <one sentence about what a person can do at the end>
 
-**The T-shirt sizing method (beginner-friendly):**
-
-| Size | Meaning | Example |
+| # | story | points |
 |---|---|---|
-| XS | Trivial, do it in 30 minutes | Change a button label |
-| S | Simple, few hours | Add form validation to one field |
-| M | Moderate, a day or two | Build a new CRUD page |
-| L | Large, most of a sprint | Build authentication flow |
-| XL | Too big, break it down | "Build the social features" |
+| | total | |
+| | capacity | |
+| | slack | |
 
-**Fibonacci story points (industry standard):**
-- 1, 2, 3, 5, 8, 13, 21
-- Why Fibonacci? The gaps get bigger as the numbers get bigger, which reflects the increasing uncertainty of larger tasks
-- A 1-point story is trivial (change a color, fix a typo)
-- A 3-point story is a standard feature (add a form, create an API endpoint)
-- An 8-point story is complex (build a full CRUD feature with validation)
-- A 13-point story is nearly too big (break it down if possible)
-- A 21-point story IS too big (definitely break it down)
-- "If you cannot estimate it, you do not understand it well enough. Break it down further."
+## Sprints 2–4 (directional)
+- Sprint 2:
+- Sprint 3:
+- Sprint 4:
 
-**Planning Poker (how teams estimate):**
-- Everyone picks a card with their estimate simultaneously
-- If estimates differ wildly (one person says 2, another says 13), discuss why
-- The disagreement IS the value. It surfaces misunderstandings.
-- As a solo founder, estimate your stories honestly. If you are unsure, round up.
+## Definition of Done
+- [ ] acceptance examples pass by hand
+- [ ] committed on a branch and merged to main
+- [ ] a Supertest or Playwright case for the path (from Sprint 3)
+- [ ] no console errors
+- [ ] card in Done with a one-line note
 
-**Velocity:**
-- Velocity = total story points completed per sprint
-- After 2-3 sprints, you know your velocity
-- Use velocity to plan future sprints: "I complete about 15 points per sprint, so I should pick 15 points of stories"
-- Do NOT try to increase velocity. It is a measurement, not a goal. Increasing it just means you inflate your estimates.
+## Ceremonies, solo
+- planning: first 30 minutes of each Unit 12 session, in this file
+- daily: three lines under Daily log, every day I work on it
+- review: a two-minute screen recording at the end of each sprint
+- retro: the template below, one experiment
 
-**Where you should be:** You can estimate any user story with Fibonacci points and understand velocity.
+## Daily log
+### <date>
+- moved:
+- today:
+- blocked:
 
-**Live Walkthrough: Kanban and Running a One-Person Sprint**
-
-**Setup:** Show a Kanban board alongside a SCRUM sprint board. Compare and contrast.
-
-**Kanban** (alternative to SCRUM):
-- No fixed sprints. Work flows continuously.
-- Visualize work on a board with columns: Backlog -> To Do -> In Progress -> Done
-- Limit Work In Progress (WIP): only 1-2 items in "In Progress" at a time
-- Pull new work when current work is done (do not push)
-- Good for: maintenance work, support teams, solo founders who hate timeboxing
-
-```
-KANBAN BOARD:
-
-| Backlog     | To Do       | In Progress | Done        |
-|             |             | (WIP: 2)    |             |
-|-------------|-------------|-------------|-------------|
-| Story 7     | Story 4     | Story 2     | Story 1     |
-| Story 8     | Story 5     |             | Story 3     |
-| Story 9     | Story 6     |             |             |
-| Story 10    |             |             |             |
+## Retro: <sprint or project>
+### Went well
+### Did not go well
+### One experiment
+- action:
+- owner: me
+- check at the next retro:
 ```
 
-**SCRUM vs Kanban:**
+The sizes table, with the sentence that justifies every number. The story numbers are from `docs/user-stories.md`.
 
-| Aspect | SCRUM | Kanban |
+```markdown
+## Sizes
+| # | story | size | points | why |
+|---|---|---|---|---|
+| 1 | Sign up and log in | L | 5 | Did it in 4.8 and 4.14; still the most lines, two routes, a hash, a token, and a guard. |
+| — | Client and Lesson models with a seed | S | 2 | Two models, one ref, a seed script; written four times in Unit 4. |
+| 3 | Log a lesson | M | 3 | A form with a client select, a date, a fee, validation, and an error state. |
+| 4 | Unpaid list | S | 2 | One query with paid = false and owner = me, sorted; a table and an empty state. |
+| 5 | Mark paid | S | 2 | An owner-scoped PATCH and a button; the 404 for other owners is the only edge. |
+| 2 | Add a client | XS | 1 | A name and a rate; it is the first screen of story 3. |
+| 6 | Client page | M | 3 | A detail page with two lists and a total; new query shape. |
+| 9 | Edit or delete a lesson | M | 3 | Two more owner-scoped routes and an edit form. |
+| 8 | Monthly total | S | 2 | One aggregate over lessons I already have. |
+| 7 | Statement link | L | 5 | A public route with a token I have not built before; a page with no login. |
+| 10 | CSV export | S | 2 | One route that writes rows; no new model. |
+| 11 | Reminder text | XL | — | Needs a text provider, a scheduler, and consent. Three unknowns. Split or leave in Could. |
+```
+
+Read the reasons. Login is a five not because it is hard but because it is the most lines and has the most places to go wrong, and you have the two earlier versions to measure against. The unpaid list is a two because it is a single query and a table you have built in every Unit 4 project. The statement link is a five because it is the one Should story with a shape you have never built. The reminder text has no number and the reason says why.
+
+The sprint table with the hours filled for a learner who has two evenings between 12.1 and 12.2 and three between 12.2 and 12.3.
+
+```markdown
+## Shape
+| sprint | session | hours (session + between) | capacity | goal |
+|---|---|---|---|---|
+| 1 | 12.1 Foundation | 3 + 4 | 12 | A tutor can sign in, add a client, log a lesson, and see it listed. |
+| 2 | 12.2 Build | 3 + 6 | 13 | A tutor can see who owes what, mark it paid, and fix a mistake. |
+| 3 | 12.3 Harden | 3 + 6 | 13 | The Must paths are tested, locked down, and live on Railway. |
+| 4 | 12.4 Polish | 3 + 3 | 8 | A client can be sent a statement link; the demo has real-looking data. |
+```
+
+Sprint 1, selected within capacity, with the slack written down.
+
+```markdown
+## Sprint 1
+Goal: A tutor can sign in, add a client, log a lesson, and see it listed.
+
+| # | story | points |
 |---|---|---|
-| Work periods | Fixed sprints (1-4 weeks) | Continuous flow |
-| Planning | Sprint planning event | Continuous replenishment |
-| Roles | Product Owner, Scrum Master, Team | No prescribed roles |
-| Changes | No changes during sprint | Change anytime |
-| Best for | Product development, new features | Maintenance, ops, solo work |
+| 1 | Sign up and log in | 5 |
+| — | Client and Lesson models with a seed | 2 |
+| 2 | Add a client | 1 |
+| 3 | Log a lesson (and see it in a plain list) | 3 |
+| | total | 11 |
+| | capacity | 12 |
+| | slack | 1 |
 
-**Running a one-person sprint (founder mode):**
-- Use 1-week sprints (2 weeks feels too long when you are solo)
-- Monday morning: sprint planning (30 minutes, pick 3-5 stories)
-- Every morning: 5-minute self-standup (write it in your notes)
-- Friday afternoon: sprint review (demo to yourself or record a Loom)
-- Friday evening: retro (10 minutes, 3 questions, write it down)
-- Weekends: rest, recharge, or do optional stretch work
-
-```
-SOLO FOUNDER SPRINT (1 WEEK):
-
-Monday:
-  AM: Sprint planning (30 min)
-  PM: Start building
-
-Tuesday-Thursday:
-  AM: 5-min standup (notes app)
-  All day: Build, test, ship
-
-Friday:
-  AM: Finish current work
-  PM: Sprint review (demo or Loom recording)
-  PM: Retro (10 min journal entry)
-
-Saturday/Sunday:
-  Rest. Or stretch goals. Your call.
+## Sprints 2–4 (directional)
+- Sprint 2: #4 unpaid list (2), #5 mark paid (2), #6 client page (3), #9 edit/delete (3), #8 monthly total (2). Total 12 of 13.
+- Sprint 3: Supertest for the Must routes (5), Unit 10 security pass (3), Railway deploy with a domain (3). Total 11 of 13.
+- Sprint 4: #7 statement link (5), demo seed and README (2). Total 7 of 8.
 ```
 
-"You do not need a team to run a sprint. You need discipline and a board. That is it."
+Every Must is in Sprint 1 or 2. The two Could stories are not in any sprint, and the file says where they wait. If Sprint 1's slack turns out to be negative on the day, the goal says what to cut: the plain list in story 3 can wait for Sprint 2's unpaid list, and the goal still holds for sign in, add a client, log a lesson.
 
-**Where you should be:** You understand Kanban as an alternative, and have a concrete plan for running solo sprints.
+Now the board. Open the project from last session. Add a number field called Points: in the project's settings, Fields, New field, type Number, name `Points`; or from the terminal:
 
-**Watch for this:**
-- Story points trip people up. Emphasize relative sizing by using physical analogies: "Is this story more like carrying a backpack or more like moving a couch?"
-- Write the solo sprint schedule down. It is the part you will need on a Tuesday when nobody is setting the agenda.
-- Velocity should NOT be introduced as a performance metric. It is a planning tool.
+```bash
+gh project field-create 1 --owner "@me" --name Points --data-type NUMBER
+```
 
-### Runnable checkpoint: a small model
+```text
+Created field
+```
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+On the Board view, type each card's points into the field, and drag the four Sprint 1 cards from Backlog into Sprint 1. Everything else stays in Backlog. The In Progress column is still empty, and it stays empty until 12.1, because a card in progress is a promise to today.
+
+The retrospective. You have not run a capstone sprint yet, so the practice retro is on the Unit 7 test suite, which you finished in week 14. Here is the example filled; yours will have different rows.
+
+```markdown
+## Retro: Unit 7 test suite
+Date: week 14
+
+### Went well
+1. Jest ran on the first try; no config fight.
+2. Writing the Supertest cases found a real bug in the inbox route's 404.
+3. Finished two evenings before 8.1 started.
+
+### Did not go well
+1. Three hours on one Playwright test that flaked on the login redirect.
+2. Read the Playwright docs after getting stuck, not before.
+3. One huge commit at the end instead of one per passing test.
+
+### One experiment
+- action: when stuck for thirty minutes, write the question down in full and
+  put it to the AI chat before trying a fourth time; set a timer.
+- owner: me
+- check at the next retro: did the timer go off, and what happened next?
+```
+
+One experiment, not three. "Commit after every passing test" and "read the docs first" are real lessons, and they go in Went well and Did not go well as observations; the experiment is the one you will actually check in Sprint 1's retro.
+
+Here is a small model you can run here. It proves that the size mapping gives an XL no number, that each of the four sprints fits its capacity with slack visible, that every Must story lands in Sprint 1 or 2, and that adding one more story to Sprint 1 is refused by the plan before the sprint starts. It does not prove your hours are honest or your fives are fives; the calibration against the hall is something only you can do.
 
 ```js run=checkpoint-8-3
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const capacity = 12;
-const selected = [{id: 'list', estimate: 5}, {id: 'empty-state', estimate: 3}, {id: 'review', estimate: 2}];
-const planned = selected.reduce((sum, item) => sum + item.estimate, 0);
-check(planned <= capacity, 'Plan fits illustrative capacity');
-check(capacity - planned === 2, 'Unallocated capacity remains visible');
+
+const SHIRT = { XS: 1, S: 2, M: 3, L: 5, XL: null };
+function points(size) {
+  if (!(size in SHIRT)) throw new Error('unknown size ' + size);
+  return SHIRT[size];
+}
+check(points('L') === 5 && points('S') === 2, 'login is a five because a list is a two');
+check(points('XL') === null, 'an XL has no number: split it before it enters a sprint');
+
+const sprints = [
+  { n: 1, session: '12.1', capacity: 12 },
+  { n: 2, session: '12.2', capacity: 13 },
+  { n: 3, session: '12.3', capacity: 13 },
+  { n: 4, session: '12.4', capacity: 8 }
+];
+const backlog = [
+  { id: 'login', size: 'L', moscow: 'Must', sprint: 1 },
+  { id: 'models-seed', size: 'S', moscow: 'Must', sprint: 1 },
+  { id: 'add-client', size: 'XS', moscow: 'Must', sprint: 1 },
+  { id: 'log-lesson', size: 'M', moscow: 'Must', sprint: 1 },
+  { id: 'unpaid-list', size: 'S', moscow: 'Must', sprint: 2 },
+  { id: 'mark-paid', size: 'S', moscow: 'Must', sprint: 2 },
+  { id: 'client-page', size: 'M', moscow: 'Should', sprint: 2 },
+  { id: 'edit-delete', size: 'M', moscow: 'Should', sprint: 2 },
+  { id: 'monthly-total', size: 'S', moscow: 'Should', sprint: 2 },
+  { id: 'tests', size: 'L', moscow: 'Must', sprint: 3 },
+  { id: 'security-pass', size: 'M', moscow: 'Must', sprint: 3 },
+  { id: 'deploy', size: 'M', moscow: 'Must', sprint: 3 },
+  { id: 'statement-link', size: 'L', moscow: 'Should', sprint: 4 },
+  { id: 'demo-seed', size: 'S', moscow: 'Should', sprint: 4 },
+  { id: 'reminder-text', size: 'XL', moscow: 'Could', sprint: null }
+];
+
+function plan(sprint, items) {
+  const chosen = items.filter(function (s) { return s.sprint === sprint.n; });
+  const total = chosen.reduce(function (sum, s) { return sum + points(s.size); }, 0);
+  return { n: sprint.n, total: total, capacity: sprint.capacity, slack: sprint.capacity - total, fits: total <= sprint.capacity };
+}
+
+const plans = sprints.map(function (sp) { return plan(sp, backlog); });
+check(plans.length === 4, 'four sprints, one per Unit 12 session');
+check(plans.every(function (p) { return p.fits; }), 'every sprint fits its capacity');
+check(plans.every(function (p) { return p.slack >= 1; }), 'unallocated capacity remains visible in every sprint');
+check(plans[0].total === 11 && plans[0].slack === 1, 'Sprint 1 plans 11 of 12');
+
+const musts = backlog.filter(function (s) { return s.moscow === 'Must' && s.size !== 'XL'; });
+check(musts.every(function (s) { return s.sprint === 1 || s.sprint === 2 || s.sprint === 3; }), 'every Must lands in a sprint before Polish');
+check(backlog.find(function (s) { return s.id === 'reminder-text'; }).sprint === null, 'the XL is in no sprint');
+
+const overCommitted = plan(sprints[0], backlog.concat([{ id: 'client-page-too', size: 'M', moscow: 'Should', sprint: 1 }]));
+check(overCommitted.fits === false && overCommitted.total === 14, 'one more card in Sprint 1 is refused before the sprint starts');
+
 console.log('ok: checkpoint-8-3');
 ```
 
@@ -382,230 +341,70 @@ console.log('ok: checkpoint-8-3');
 
 ### Ceremony without outcome
 
-You hold the standup, the planning, and the retro, and no decision comes out of any of them. The calendar is full and the board does not change. A meeting earns its slot by producing something you can point at: an ordered list, a cut scope, a named owner, a change you will try. If the same conversation could have been a sentence in the issue, let it be a sentence. Keep the ritual only where it changes the work. A retro that files no change, and a planning meeting that does not reorder the board, were status updates.
+The symptom is a daily log full of entries and a board that has not moved in three days, or a planning half hour that ends with the same cards in the same columns. The cause is that the event ran because the calendar said so, not because a decision was waiting for it. The fix is to make every event produce something you can point at: an ordered Sprint column, a cut scope, a blocked card with a next action, a change you will try. If the daily three lines would have been the same as yesterday's, the real entry is "nothing moved, because X, so today I do Y". A retro that files no experiment and a planning session that reorders nothing were status updates, and status updates can be a sentence.
 
 ### Velocity used as a target
 
-The number goes up because people inflate the estimates, and the number goes down the week you did the hardest useful work, so you start avoiding it. Velocity is a planning aid for a stable team. It is not a score, and it is not a way to compare people. Use it to notice that the next three cards are more than the last three weeks could hold. The week the number becomes a target, it stops measuring anything except the pressure to make the number.
+The symptom is estimates that creep upward sprint over sprint while the product does not, and a reluctance to pick the hard story because it will "hurt the number". The cause is treating velocity as a score instead of a forecast. The fix is to use it only in one direction: after Sprint 1, count what was Done, and use that count to decide how much Sprint 2 can hold. Never adjust an estimate to hit a number, and never compare your number with anyone else's; two people's threes are not the same three. The week velocity becomes a target, it stops measuring anything except the pressure to make the target.
 
 ### Retro produces no change
 
-The board fills with observations and the next week is identical. An observation without an experiment is a diary entry. Pick one change small enough to try before the next retro: a checklist on the deploy card, a rule that a bug gets a failing test, a shorter meeting. Name who will notice whether it happened. At the next retro, review that one thing first. A retro that adds three more sticky notes and changes nothing has taught the team that the meeting is optional.
+The symptom is a retro with six observations and a Sprint 2 that is identical to Sprint 1, including the three-hour flaky test. The cause is that observations were filed without an experiment, or with three experiments and no owner, so none of them happened. The fix is the template's last block: one action, small enough to try before the next retro, with a way to check whether it happened. At the next retro, review that one thing first, before any new observation. If it worked, keep it and pick the next one. If it did not, say why, and pick a smaller one. A retro that adds sticky notes and changes nothing has taught you that the meeting is optional.
 
 ## Your turn
 
-**Guided Practice Exercise 1: Sprint Planning Simulation**
+The tutor ledger is sized and shaped. Now yours. The board from 8.2 is open in a tab and nothing is running on your machine.
 
-**Prompt:** Run a mock sprint planning session using your capstone backlog.
+1. Copy the template into `~/projects/<capstone-name>/docs/sprint-plan.md`. Fill the Sizes table for every Must and Should story from `docs/user-stories.md`, with a size, points, and one sentence of reasoning that names what you are comparing it with. Any story you cannot write the sentence for is XL: points `—`, and a note about how it splits.
 
-**Starter Materials:** Sprint planning template (below).
+2. Fill the Shape table. Count the real hours you have between 12.1 and 12.2, 12.2 and 12.3, 12.3 and 12.4, and 12.4 and 12.5, and write them down. Set each capacity from the calibration: one session is about a five plus a two. Write a goal sentence for every sprint that names what a person can do, not which cards are done.
 
-**Steps:**
-1. Pull out your product backlog from Session 8.2 homework (or use the one you built in that session)
-2. Estimate each of your Must Have stories using T-shirt sizing (XS, S, M, L, XL)
-3. Convert T-shirt sizes to Fibonacci points: XS=1, S=2, M=3, L=5, XL=8 (or break XL down)
-4. Set your sprint capacity: for a 1-week solo sprint, assume 10-15 story points
-5. Pick stories from the top of your backlog until you hit your capacity
-6. Write a sprint goal: one sentence that describes what you will accomplish
+3. Select Sprint 1. Login, the models and seed, and one resource end to end, under capacity, with the slack row filled. Check the sum by hand and check that every Must is in Sprint 1, 2, or 3. Write the Sprints 2–4 lines as story numbers with points and a "total of capacity".
 
-**Sprint Planning Template:**
+4. Write the Definition of Done as the five checkboxes, adding any evidence your product needs, and the four solo ceremonies with the real time you will give each one.
 
-```
-SPRINT 1 PLANNING
-Sprint Duration: 1 week
-Sprint Goal: "[One sentence: what will be true at the
-end of this sprint?]"
-Sprint Capacity: 12 points (example)
+5. Add the Points field to the board, in the project settings or with:
 
-SELECTED STORIES:
-| # | User Story (short) | Points | Priority |
-|---|-------------------|--------|----------|
-| 1 | User sign-up/login | 5      | Must     |
-| 2 | Create expense entry | 3    | Must     |
-| 3 | View expense list   | 2     | Must     |
-| 4 | Monthly total       | 2     | Must     |
-|   | TOTAL              | 12     |          |
+   ```bash
+   gh project field-create <number> --owner "@me" --name Points --data-type NUMBER
+   ```
 
-NOT SELECTED (Next Sprint):
-| # | User Story (short) | Points | Priority |
-|---|-------------------|--------|----------|
-| 5 | Edit/delete expense | 3     | Must     |
-| 6 | Expense categories  | 3     | Should   |
-```
+   You should see `Created field`. Type each card's points in, then drag exactly the Sprint 1 cards into the Sprint 1 column. In Progress stays empty.
 
-**Success Criteria:**
-- All Must Have stories have point estimates
-- Sprint does not exceed your capacity (do not over-commit)
-- Sprint goal is a clear, one-sentence statement
-- You can explain WHY you picked these stories and not others
+6. Run the practice retro on the Unit 7 test suite under `## Retro: Unit 7 test suite`, with at least two rows under Went well and Did not go well and exactly one experiment with a check.
 
-**Time:** 30 minutes (15 min estimating, 10 min selecting, 5 min sprint goal)
+7. Commit and push:
 
-**Checkpoints:**
-- At 10 minutes: All Must Have stories should have point estimates
-- At 20 minutes: Sprint backlog should be selected within capacity
-- At 25 minutes: Sprint goal should be written and sprint plan complete
+   ```bash
+   git add docs/sprint-plan.md
+   git commit -m "Sprint plan: sizes, four sprints, Sprint 1 goal, DoD, Unit 7 retro"
+   git push
+   ```
 
-**BREAK**
+   You should see `main -> main`, and on the board, Sprint 1 holding only the cards whose points sum to at most its capacity.
 
-**Guided Practice Exercise 2: Sprint Retrospective Practice**
-
-**Prompt:** Practice running a retro using a past experience (not your capstone, since you have not started yet).
-
-**Starter Materials:** Retrospective template (below).
-
-**Steps:**
-1. Think about a project you worked on recently (could be a class project, a homework assignment, even something non-technical like planning an event)
-2. Fill out the retro template below
-3. Share one item from each category with a partner or the group
-4. For each "What to change," write a SPECIFIC action item, not a vague intention
-
-**Retrospective Template:**
-
-```
-SPRINT RETROSPECTIVE
-Project/Sprint: ___________
-Date: ___________
-
-WHAT WENT WELL (keep doing these):
-1.
-2.
-3.
-
-WHAT DID NOT GO WELL (stop doing these):
-1.
-2.
-3.
-
-WHAT TO CHANGE NEXT TIME (specific actions):
-1.
-   Action: [specific, measurable change]
-   Owner: [who will do it, probably you]
-2.
-   Action:
-   Owner:
-
-SHOUTOUTS (celebrate wins):
--
-```
-
-**Example filled out:**
-
-```
-SPRINT RETROSPECTIVE
-Project: Unit 7 Test Suite Homework
-Date: Week 11
-
-WHAT WENT WELL:
-1. Got Jest set up on the first try (no config issues)
-2. Writing tests actually helped me find a bug in my API
-3. Finished 2 days before the deadline
-
-WHAT DID NOT GO WELL:
-1. Spent 3 hours on one Playwright test that kept flaking
-2. Did not read the Playwright docs carefully enough
-3. Forgot to commit until the very end (huge messy commit)
-
-WHAT TO CHANGE NEXT TIME:
-1. When stuck for more than 30 minutes, step away or
-   ask for help
-   Action: Set a 30-minute timer when debugging
-   Owner: Me
-2. Read docs BEFORE writing code, not after getting stuck
-   Action: Spend first 15 min of any new tool reading
-   the "Getting Started" guide
-   Owner: Me
-3. Commit after each working feature, not at the end
-   Action: Follow the "commit early, commit often" rule
-   from Unit 1
-   Owner: Me
-```
-
-**Success Criteria:**
-- At least 2 items in each category
-- "What to change" items are specific actions, not vague wishes
-- Each action has an owner (even if it is just "me")
-
-**Time:** 15 minutes (10 min writing, 5 min sharing)
-
-**Checkpoints:**
-- Checkpoint: at least two of the three categories have something in them
-- At 10 minutes: "What to change" items should have specific action items and owners
+If the sum in Sprint 1 is over capacity after step 3, do not raise the capacity. Cut the story that is furthest from the goal sentence and write it at the top of Sprint 2.
 
 ## The quest
 
-**Independent Lab: Set Up Your Sprint Board and Plan Sprint 1**
-
-**Objectives:**
-- Create your project management board with proper column structure
-- Add all user stories as cards with estimates
-- Finalize your Sprint 1 plan
-- Set up your one-person sprint schedule
-
-**Requirements:**
-- Board created with columns: Backlog, Sprint 1, In Progress, Done
-- All user stories added as cards (at least 15 stories from 8.2 homework)
-- All stories estimated with Fibonacci points
-- Sprint 1 stories moved into the Sprint 1 column
-- Sprint 1 goal written
-- One-person sprint schedule documented (when you will do planning, standups, review, retro)
-- Brief reflection: what are you most excited to build? What scares you?
-
-**Hints:**
-- Pick GitHub Projects if you want everything in one place with your code.
-- Pick Trello if you like drag-and-drop simplicity.
-- Pick Linear if you want something that feels professional and fast.
-- Your sprint schedule should be realistic. If you know you cannot work Wednesdays, plan around it.
-
-**Stretch Goals:**
-- Read the Scrum Guide (free, 13 pages) at https://scrumguides.org/
-- Watch a real sprint planning session on YouTube (search "sprint planning meeting example")
-- Set up GitHub Issues with labels for your user stories (Must, Should, Could, Won't)
-
-**Submission:** Screenshot of your sprint board + markdown file with sprint goal and schedule, pushed to your capstone repo.
-
-### Review the artifact
-
-Your deliverable is **A sprint goal, working board, review agenda, and retrospective action**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-8-3/fig3-evidence)
+
+One deliverable: `docs/sprint-plan.md` in the capstone repo, pushed, with the board's Sprint 1 column matching its Sprint 1 table. It is complete when someone reading only that file could tell you what you will build on the first day of Unit 12, why those stories, and how you will know each one is done.
+
+Evidence:
+
+- A Sizes table with points and a reasoning sentence on every Must and Should story, and `—` on any XL with a note on how it splits.
+- A Shape table with real hours, a capacity, and a goal sentence for each of the four sprints.
+- A Sprint 1 table whose total is at or under capacity, with the slack row filled, and a Sprints 2–4 block that places every Must before Polish.
+- A Definition of Done with at least five checkable lines, and the solo ceremonies with times.
+- A screenshot of the board named `board-sprint-1.png` in `docs/`, showing Points on the cards and the Sprint 1 column matching the table.
+- A Unit 7 retro with one experiment and a line saying how you will check it.
+- The commit `Sprint plan: sizes, four sprints, Sprint 1 goal, DoD, Unit 7 retro` on GitHub.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Grit's training circle is plan, inspect, adapt told as a story, and the Open/Closed and Dependency Inversion rules on the SOLID page are what make a story Independent on the board: if finishing card four means reopening card two, that page names the coupling you have to cut before you estimate.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Complete Session 8.2 and homework (product backlog with 15-20 user stories created, MoSCoW prioritization applied, project board set up). Have your capstone MVP defined.
-**Materials:** Sprint planning template (provided below), retrospective template (provided below), The Scrum Guide (free, 13 pages, https://scrumguides.org/), project board tool of choice
-
-**Due before Session 8.4:**
-
-1. Choose a tool: GitHub Projects, Trello, Linear, or Notion
-2. Create a board with columns: Backlog, Sprint 1, In Progress, Done
-3. Add all your user stories as cards (at least 15 stories from 8.2 homework)
-4. Estimate all stories with Fibonacci points
-5. Move your Sprint 1 stories into the Sprint 1 column
-6. Write your Sprint 1 goal
-7. Set up your one-person sprint schedule (when you will do planning, standups, review, retro)
-8. Write a brief reflection: what are you most excited to build? What scares you?
-
-**Submission:** Screenshot of your sprint board + markdown file with sprint goal and schedule, pushed to your capstone repo.
-
-**Estimated Time:** 2-3 hours
-
-**Stretch Goals (Optional):**
-- Read the Scrum Guide (free, 13 pages) at https://scrumguides.org/
-- Watch a real sprint planning session on YouTube (search "sprint planning meeting example")
-- Set up GitHub Issues with labels for your user stories (Must, Should, Could, Won't)
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://scrumguides.org/scrum-guide.html)
+Finish the interviews. By 8.4 the log in `docs/research.md` needs P1, P2, and P3 written up, each within a day of its call; if one is still unbooked, message two more names tonight, because next session synthesises whatever is in the log and the spec is honest about how many that is. Nothing is running on your machine, and the board stays as you left it: Sprint 1 filled, In Progress empty. Next session starts with all three interviews open side by side, turns them into a combined empathy map and a set of insights, revises the backlog with a change log that names which row each change came from, and writes the product spec that Unit 12 opens on its first morning.

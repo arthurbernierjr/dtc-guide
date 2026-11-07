@@ -2,407 +2,378 @@
 editorial: true
 title: Listening at the Tavern
 subtitle: User Research, Interviews, and Empathy Maps
-hook: "An interview guide, anonymized notes, and an evidence-based empathy map. Ask about a recent concrete experience."
+hook: "The guild hall is built. Nobody asked for it. Today you pick the capstone idea in one afternoon, open its repo, write seven questions that cannot be answered with a polite lie, and book the people who will answer them."
 read: 60
-artifact: "An interview guide, anonymized notes, and an evidence-based empathy map"
+artifact: "The capstone repo with docs/research.md: a seven-question interview script that passes the Mom Test, one practice interview logged as P0, an empathy map built from it, and three to five real interviews booked for this week"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://www.gov.uk/service-manual/user-research/using-in-depth-interviews
+  - https://www.gov.uk/service-manual/user-research/getting-users-consent-for-research
+  - https://www.gov.uk/service-manual/user-research/find-user-research-participants
+  - https://momtestbook.com/
+  - https://cli.github.com/manual/gh_repo_create
 say:
-  - "Observe: Ask about a recent concrete experience."
-  - "Separate: Keep quotations distinct from interpretations."
-  - "Synthesize: Find patterns without erasing contradictory evidence."
+  - "Ask about the last time it happened, not whether they would use it."
+  - "A quote is an observation. What I think it means is an interpretation, on its own row."
+  - "The shared log says P1, P2, P3. The names live outside the repo."
 ---
 
 ## The hook
 
-You know that moment in every isekai when the protagonist gets put in charge of something? Like, they have been soloing the whole time, maxing out their stats, and then suddenly they are running a guild, or a kingdom, or a whole adventurer party? And they realize... oh no, I actually have to plan things now? I cannot just swing my sword at every problem? Yeah. That is this unit. Welcome to the guild leader arc.
+For seven units somebody else chose what you built. The quest list, the slate, the spellbook, the guild hall: each one arrived with its models and routes already decided, and your job was to make them work. The guild hall is deployed and tested, and it has one honest flaw. Nobody asked for it. It was a lesson, not a product. The capstone is different. It will be a product for a specific person who does a specific task today and finds it annoying, and the only way to know what that person needs is to ask them, carefully, without telling them your idea first.
 
-Here is the uncomfortable truth about startups. Most of them fail because they build something nobody wants. Not because the code was bad. Not because the team was lazy. They just built the wrong thing. The Mom Test, the book we are going to reference a lot this unit, opens with a brutal stat: almost every failed startup had a product that nobody asked for. User research is the cheat code that keeps you from wasting months of your life. And Agile, sprints, all that process stuff? That is how you ship fast enough to learn before you run out of money. Or motivation. Or both.
+By the end of this session the capstone exists as a folder, a repo, and a single file. The folder is `~/projects/<capstone-name>`, with a name you pick this afternoon by a method short enough to finish before dinner. The file is `docs/research.md`. It holds a seven-question interview script in which every question asks about something that already happened, one practice interview you run on a friend and log as P0, an empathy map built from that practice, and a schedule with three to five real people booked for twenty-minute calls before Session 8.4. You will also learn the one rule that makes the rest of the unit honest: the shared file says P1, P2, P3. The names stay on your phone.
 
-By the end of this unit, you will have a real product spec for your capstone. Not a vague idea. Not "I want to build an app." A researched, validated, prioritized plan with user stories, an empathy map, and your first sprint laid out. This is the document that turns your idea into a product. Four sessions. Session 1: we learn to listen, really listen, to users. Session 2: we turn what we hear into user stories and a backlog. Session 3: we learn Agile and SCRUM so we can actually execute. Session 4: you go do real interviews, build your real backlog, and plan Sprint 1 of your capstone. You have been leveling up your technical skills for seven units. Now you level up the skill that separates builders from founders. Let us go.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The tavern is loud, and everyone in it will tell you your quest sounds wonderful. The adventurers who actually paid for the last one are sitting in the corner, and they will tell you what went wrong if you ask about Tuesday instead of about your plan.*
 
 ## The idea
 
-### Apply user research methodologies to gather and synthesize qualitative user data
+### Pick the idea in one afternoon
 
-**You will:**
-- Distinguish between generative and evaluative research and identify when each is appropriate
-- Apply The Mom Test principles to construct interview questions that elicit honest, actionable responses
-- Conduct a structured user interview using active listening, follow-up questions, and note-taking techniques
-- Construct an empathy map from interview data, populating the Says, Thinks, Does, and Feels quadrants
-- Synthesize findings from multiple interviews into user personas and actionable insight summaries
+You do not need a startup. You need one person and one task. Here is the method. Set a timer for ninety minutes and do the steps in order; the timer is there so you stop when it rings, not so you work faster.
 
-**You will be able to:**
-- Write a 7-question interview script that passes Mom Test criteria and focuses on past behavior rather than hypothetical futures
-- Conduct a 20-30 minute user interview and capture direct quotes, observed behaviors, and inferred emotions
-- Build a combined empathy map from 3 or more interviews, identifying patterns, pain points, and opportunities
+First, list ten tasks. Each one is something you, or somebody you can message today, did in the last month using a spreadsheet, a group chat, a paper notebook, or a tool they complained about. Write the person and the task, nothing else: "independent tutors, keeping track of who has paid", "a friend who runs a climbing club, collecting dues", "my cousin, planning meals for a shared flat". Do not write solutions. If a line contains the word "app", cross it out and write the task again.
 
-**Welcome and The Most Expensive Mistake in Tech**
+Second, cross out any line where you cannot name three real people who do that task and whom you could message this week. Not a demographic. Three names. The interviews in 8.4 are not optional, and a task with no reachable people is a task you cannot research.
 
-"Welcome to the guild leader arc. You have been grinding code for 7 units. Now we learn the skill that determines whether your code matters."
+Third, cross out any line where the smallest useful version needs something you have not built. Accounts, a list, a form, a detail page, a relationship between two models, and one thing that is specific to the task: that is the shape of the guild hall, and that is the shape Unit 12 can finish in four sprints. Payments and AI arrive in Unit 10 and can join later. A capstone that is "like Uber" cannot.
 
-Story time: failed startups that built things nobody wanted:
-- Juicero ($120M raised, built a $400 juice bag squeezer, nobody needed it)
-- Google Wave (brilliant engineering, zero user demand)
-- Quibi ($1.75 billion raised, shut down in 6 months)
+Fourth, of what is left, pick the line where you have heard a specific complaint, from a specific person, on a specific day. "She said she texted the same client twice about the same invoice and felt awkward both times." That memory is worth more than a market.
 
-The pattern: they all skipped real user research or ignored what users told them.
+Fifth, write the idea as one sentence with no solution in it: a person, a task they do today, the tool they use, and what goes wrong. Three examples of the sentence, so you can hear the shape:
 
-"Building without user research is like fighting a boss with your eyes closed. You might land a hit, but you are probably going to get wrecked."
+- "Independent tutors keep track of which clients have paid in a spreadsheet, and they lose track of who still owes them after the second missed lesson."
+- "A community garden coordinator assigns plots and watering turns over a group chat, and the schedule is wrong by the second week."
+- "A small bakery takes pre-orders for weekend cakes over Instagram messages, and twice a month they bake the wrong number."
 
-**Why User Research Matters**
+That sentence is the capstone idea. The solution is not in it on purpose. You will write a solution in 8.2, after you have a backlog, and you will revise it in 8.4, after real people have talked to you. Pick a folder name now, short and lower-case with hyphens, the way every project since Unit 2 has been named: `tutor-ledger`, `plot-rota`, `cake-orders`. That is `<capstone-name>` for the rest of the path.
 
-The build trap: when teams measure success by features shipped instead of problems solved.
+### Why you ask about last Tuesday, not next year
 
-Types of user research:
-- **Generative research** (discovery): "What problems exist?" Done before you build.
-- **Evaluative research** (validation): "Does this solution work?" Done after you build.
-- **Quantitative** (surveys, analytics, numbers): tells you WHAT is happening.
-- **Qualitative** (interviews, observation, conversations): tells you WHY.
+The Mom Test is a short book by Rob Fitzpatrick, and its premise is that people lie to you to be nice, most of all the people who love you. The title is the test: a question is a good question if your mother could not answer it with a kind lie. "Would you use an app that tracks who has paid?" fails. She would. "When did a client last pay you late, and what did you do about it?" passes. She either has a story or she does not, and either answer is evidence.
 
-When to do research:
-- Before you write a single line of code (most important, most skipped)
-- After you have a prototype (usability testing)
-- Continuously (feedback loops, analytics)
+The four rules are short enough to keep on a sticky note.
 
-The founder advantage: you are small, you are fast, you can literally DM your users.
+1. Talk about their life, not your idea.
+2. Ask about specifics in the past, not hypotheticals about the future.
+3. Talk less, listen more.
+4. Push for commitment and advancement, not compliments.
 
-"Big companies spend $50K on focus groups. You are going to spend $0 and get better data by buying someone a coffee and asking good questions."
+The same rules as a table of questions you will be tempted to ask, and the question to ask instead.
 
-**The Mom Test**
-
-The book "The Mom Test" by Rob Fitzpatrick is the single best book on user interviews, period.
-
-The core problem: people lie to you. Not because they are bad people, but because they want to be nice.
-
-**The Mom Test rules:**
-1. Talk about their life, not your idea
-2. Ask about specifics in the past, not hypotheticals about the future
-3. Talk less, listen more
-4. Push for commitment and advancement, not compliments
-
-**Bad questions vs. good questions:**
-
-| Bad Question (Breaks the Mom Test) | Why It Is Bad | Good Question (Passes the Mom Test) |
+| Bad question (fails the test) | Why it fails | Good question (passes) |
 |---|---|---|
-| "Would you use an app that does X?" | Hypothetical future, invites polite lies | "How do you currently handle X?" |
-| "Do you think this is a good idea?" | Begging for compliments | "What have you tried to solve this problem?" |
-| "Would you pay $10/month for this?" | Hypothetical spending is meaningless | "What do you currently spend on solving this?" |
-| "Do you have this problem?" | Leading question, easy to say yes | "Tell me about the last time you dealt with X." |
-| "What features would you want?" | Users design bad products | "Walk me through your process when you do X." |
+| "Would you use an app that does X?" | Hypothetical future, invites a polite yes | "How do you currently handle X?" |
+| "Do you think this is a good idea?" | Begs for a compliment | "What have you tried to solve this?" |
+| "Would you pay ten dollars a month for this?" | Imaginary money costs nothing | "What do you spend on this today, in money or hours?" |
+| "Do you have this problem?" | Leading; yes is free | "Tell me about the last time you dealt with X." |
+| "What features would you want?" | Users design bad products | "Walk me through what you did the last time you did X." |
 
-The three types of bad data from conversations:
-1. **Compliments**: "That sounds awesome!" (meaningless)
-2. **Fluff**: "I would definitely use that." (hypothetical, also meaningless)
-3. **Ideas**: "You should add a feature that..." (their job is the problem, your job is the solution)
+Three kinds of bad data come out of conversations, and you will hear all three this week. Compliments: "That sounds awesome." Fluff: "I would definitely use that." Ideas: "You should add a feature that..." A compliment is worth nothing. Fluff is a hypothetical dressed as a promise. An idea is a clue about a problem, and your job is to ask what happened the last time that problem showed up, not to write the feature down.
 
-Real example walkthrough:
-- Bad interview: "I am building a meal planning app. Do you think that is useful?" "Oh yeah, totally!"
-- Good interview: "When was the last time you planned meals for the week? Walk me through what happened." "Honestly, I tried once three months ago and gave up by Wednesday because I forgot to buy half the ingredients."
-- The good version gave you a real insight: the problem is not planning, it is the grocery list integration
-
-Discussion prompt: "Think about your capstone idea. What question would your mom say yes to that does not actually prove anything?"
-
-**Key Points:**
-- User research is the difference between building something people need and building something people ignore
-- Generative research (before building) is the most important and most skipped type
-- The Mom Test provides four rules for questions that produce honest answers instead of polite lies
-- The gap between what users say and what users do is where the most valuable insights live
-
-**Common Misconceptions:**
-
-| Wrong | Correct |
-|---|---|
-| "User research means asking people if they like my idea" | User research means understanding people's problems, behaviors, and needs before presenting any solution |
-| "If people say they would use my app, that validates it" | Hypothetical interest is meaningless. Only past behavior and current spending patterns validate demand |
-| "I can skip research because I AM my target user" | Even if you experience the problem, you are one data point. Other users have different contexts, workarounds, and priorities |
-
-![](diagram:session-8-1/fig1-model)
+The difference, in one exchange. Bad: "I am building a meal planning app. Do you think that is useful?" "Oh yeah, totally." Good: "When did you last plan meals for the week? Walk me through what happened." "Honestly, I tried once three months ago and gave up by Wednesday because I forgot to buy half the ingredients." The second answer told you the problem is not planning. It is the shopping list. Nobody would have said that to the first question.
 
 ### Research starts with a decision
 
-Write the product decision the interviews should inform. “Learn about users” is too broad to guide a short session. “Understand how independent tutors track unpaid invoices” identifies a context, behavior, and uncertainty. You can then ask about the most recent invoice, the tools used, the moment something went wrong, and the workaround. These questions produce evidence about existing behavior rather than polite predictions about a product that does not exist.
+Write the product decision the interviews should inform before you write a question. "Learn about tutors" is too broad to guide twenty minutes. "Understand how independent tutors notice that a lesson is unpaid, and what they do next" names a context, a behavior, and an uncertainty. From that sentence the questions fall out: the most recent unpaid lesson, the tools they opened, the moment it went wrong, the workaround.
 
-Separate a research question from an interview question. You may want to know whether reminders would be valuable, but asking “Would reminders help?” encourages agreement. Ask how the participant notices an overdue payment now, what happens next, and what the delay costs them. The participant supplies the story; you interpret its implications afterward. Do not sell your solution while trying to understand the problem.
+Separate the research question from the interview question. You want to know whether reminders would be valuable. You do not ask "Would reminders help?", because the answer is yes and it means nothing. You ask how they notice an overdue payment now, what happens next, and what the delay costs them. The participant supplies the story. You interpret its implications afterward, in the file, with the interpretation on its own row.
 
-### Consent makes the session legible
+### The script has a shape
 
-Explain the purpose, expected duration, and how notes will be used. Ask separately before recording. A person can participate without agreeing to a recording, and they can decline a question. Use anonymized participant identifiers in the shared artifact. Remove account numbers, contact details, and unrelated personal information. A realistic research repository does not need to become a repository of unnecessary private data.
+A twenty-minute interview has five parts, and you write all five down even though you will not read them aloud word for word.
 
-Recruit participants based on relevant behavior rather than convenience alone. Friends can be useful practice interviewees, but their desire to encourage you can distort product evidence. Keep a simple recruitment criterion and document the sample's limits. Five conversations can reveal useful patterns; they do not establish a population-wide percentage. Describe findings at the scale your evidence supports.
+1. **Warm-up.** Who you are, what the broad area is (never your idea), how long it takes, how the notes will be used, and a separate question asking if it is fine to take notes.
+2. **Context.** Two questions about their world: what they do, how often the situation comes up.
+3. **Problem exploration.** Three questions about the pain, each with follow-ups. "Tell me about the last time." "What was the hardest part?" "What happened next?"
+4. **Current solutions.** Two questions about what they do today: the tools, how they found them, what is missing, what they tried and stopped using.
+5. **Wrap-up.** Anything you did not ask about, and whether they know one or two other people who deal with the same thing. That second question is how your list of three becomes five.
 
-### Preserve the chain from observation to decision
+Seven numbered questions, each with at least one follow-up. Seven is the number everywhere in this unit. The follow-ups matter more than the questions. "Tell me more about that" and "What happened next?" are the two most useful sentences you will say all week. Silence is fine. Let them think. Write during the conversation, in shorthand, and write the full notes within a day while the voice is still in your head.
 
-Use separate columns for what the participant said, what you observed, your interpretation, and a possible product response. A quotation is not the same as a universal requirement. If one person says they hate reminders, investigate when and why rather than deleting reminders from the roadmap immediately. Contradictory evidence can reveal different contexts or user groups.
+### Consent and the anonymised log
 
-An empathy map organizes observations but should not invent inner thoughts. Mark inferred feelings as interpretations and connect them to evidence. Empty cells are acceptable when the interview did not address them. A complete-looking diagram filled with assumptions is less useful than an honest map showing what remains unknown. Research artifacts should make uncertainty visible.
+Before the first question, say what the research is for, how long it will take, and what happens to the notes. Ask separately before recording; a person can say yes to notes and no to a recording, and they can skip any question. Collect the minimum. You need the workflow, not their employer, their health, or a screenshot of their bank app.
 
-### Close the loop with a small experiment
+The log you push to GitHub uses participant ids: P0 for the practice interview, then P1, P2, P3 in the order the real interviews happen. The mapping from id to name lives in one place that is not the repo: a note on your phone, or a file in your home folder such as `~/participants-private.md`. Never a gitignored file inside the capstone; someone un-ignores it in a year. When the write-up is done and the spec is written in 8.4, delete the raw notes you no longer need.
 
-Choose one insight that could change the product and write a testable hypothesis. For example, participants who currently maintain a manual overdue list may benefit from a clear status view before they need automated messaging. A paper sketch or clickable prototype can test whether that view helps them find the next action. This is cheaper than building a notification system before understanding the workflow.
+Recruit for behavior, not convenience. The friend you interview today is practice. Their desire to encourage you distorts the evidence, which is why the practice interview is labelled P0 and its empathy map says "practice" at the top. The real interviews are with people who did the task in the last month and can describe a specific afternoon when it went badly. Five conversations can reveal a pattern. They cannot give you a percentage, and the file should never pretend otherwise.
 
-Submit the guide, recruitment rationale, anonymized notes, synthesis, and decision. Include one finding that challenged your original idea. The lesson is successful when evidence changes what you plan to build, even if that means reducing scope or abandoning a favorite feature.
+### The empathy map and the gap
+
+An empathy map is four boxes you fill from the notes after the conversation.
+
+**Says** holds direct quotes, in their exact words, including the sigh. **Thinks** holds what they probably believe but did not say, inferred from context, and it is labelled as inference. **Does** holds observable actions: what they opened, what they typed, who they asked, how many apps it took. **Feels** holds emotional states you heard or saw: frustration, relief, guilt, anxiety.
+
+The valuable row is the gap between Says and Does. "I always chase late payers the same day" in Says, next to "has not sent a reminder in six weeks" in Does, tells you the intention is real and the execution barrier is real, which is where a product lives. Empty cells are allowed. An honest map with a blank Feels box is more useful than a full map padded with guesses.
+
+From the map you write three kinds of insight: pain points (where the frustration is, where they give up), unmet needs (what they are working around, the hacks), and opportunities (where you could remove a step, automate a chore, or make a status visible). Each insight points back at the quote or action it came from.
+
+The napkin version: pick a person and a task. Write a decision the interviews should inform. Ask seven questions about the past. Separate what they said from what you think it means. Store the ids in the repo and the names outside it. Map says, thinks, does, feels, and look for the gap.
+
+![](diagram:session-8-1/fig1-model)
+
+### Ask the model to be the skeptic
+
+The prompt habit from [5.2](/path/5-2-advanced-incantations/) has a real job here. Paste the four rules and your seven questions into the AI chat you set up in Unit 5 and ask it to grade each question as "asks about a concrete past event", "asks about a hypothetical future", or "contains my solution", and to rewrite the failing ones. Then decide yourself. The model is good at spotting "would you" and bad at knowing your tutor. Keep the rewrites that still sound like something you would say to a person at a kitchen table.
 
 ## The demonstration
 
-**BREAK**
+One worked example, start to finish, for the idea sentence "Independent tutors keep track of which clients have paid in a spreadsheet, and they lose track of who still owes them after the second missed lesson." The folder is `tutor-ledger`. Yours will have a different name and the same steps.
 
-**Live Walkthrough: Writing an Interview Script**
+Make the folder and the repo first, so the research has somewhere to live. Nothing is running from Unit 7; this unit starts no servers.
 
-**Setup:** Open a blank document. Walk through building an interview script from scratch for a sample capstone idea (freelancer budgeting app).
-
-**Steps:**
-
-1. Define the broad problem space (NOT the solution): "How freelancers manage their money"
-2. Write the warm-up section: build rapport, explain purpose, get consent
-3. Write context questions (2 questions): understand their world
-4. Write problem exploration questions (3 questions with follow-ups): dig into the pain
-5. Write current solutions questions (2 questions with follow-ups): what they do now
-6. Write the wrap-up: anything else to add, ask for referrals (snowball recruiting)
-
-**Structure of a user interview script:**
-1. **Warm-up**: build rapport, explain the purpose, get consent
-2. **Context questions**: understand their world
-3. **Problem exploration** (10-15 min): dig into the pain
-4. **Current solutions** (5-10 min): what they do now
-5. **Wrap-up**: anything else, ask for referrals
-
-**Interview Script Template:**
-
+```bash
+mkdir -p ~/projects/tutor-ledger/docs
+cd ~/projects/tutor-ledger
+git init
 ```
-INTERVIEW SCRIPT - [Your Product Area]
-Date: ___________
-Interviewee: ___________ (first name only is fine)
-Duration target: 25-30 minutes
 
-WARM-UP (2 minutes)
-"Thanks for taking the time to chat with me. I am working on
-a project related to [broad area, NOT your specific idea], and
-I am trying to understand how people currently deal with
-[problem space]. There are no right or wrong answers. I am
-genuinely curious about your experience. Is it okay if I
-take notes?"
+```text
+Initialized empty Git repository in /home/you/projects/tutor-ledger/.git/
+```
 
-CONTEXT (5 minutes)
-1. "Tell me a bit about your role / daily routine as it
-   relates to [area]."
-2. "How often do you encounter [situation related to
-   problem space]?"
+A README with the idea sentence is the first commit. The sentence is the one thing about the capstone that should not change this week.
 
-PROBLEM EXPLORATION (10-15 minutes)
-3. "Tell me about the last time you [activity related to
-   the problem]. Walk me through what happened."
-   - Follow-up: "What was the hardest part about that?"
+```bash
+printf '# tutor-ledger\n\nIndependent tutors keep track of which clients have paid in a spreadsheet, and they lose track of who still owes them after the second missed lesson.\n' > README.md
+git add README.md
+git commit -m "Capstone idea"
+gh repo create tutor-ledger --public --source=. --push
+```
+
+```text
+✓ Created repository you/tutor-ledger on GitHub
+✓ Added remote https://github.com/you/tutor-ledger.git
+✓ Pushed commits to https://github.com/you/tutor-ledger.git
+```
+
+Now the research file. Copy this into `docs/research.md` and fill it in. The example that follows the template is the same file filled for the tutor ledger.
+
+```markdown
+# Research: <capstone-name>
+
+## Idea sentence
+<person> does <task> today with <tool>, and <what goes wrong>.
+
+## Decision this research informs
+<one sentence naming a context, a behavior, and an uncertainty>
+
+## Interview script (20 minutes)
+
+### Warm-up
+"Thanks for making time. I am looking into how <broad area, not the idea>
+works for people like you. It takes about twenty minutes, there are no
+right answers, and I will use anonymised notes for a project. Is it okay
+if I take notes?"
+
+### Context
+1. <question>
+   - Follow-up: <question>
+2. <question>
+   - Follow-up: <question>
+
+### Problem exploration
+3. "Tell me about the last time <the task went wrong>. Walk me through it."
+   - Follow-up: "What was the hardest part?"
    - Follow-up: "What happened next?"
-4. "What is the most frustrating thing about [process]?"
-   - Follow-up: "Can you give me a specific example?"
-5. "If you could wave a magic wand and fix one thing about
-   [area], what would it be?"
-   - Follow-up: "Why that one thing specifically?"
+4. <question>
+   - Follow-up: <question>
+5. <question>
+   - Follow-up: <question>
 
-CURRENT SOLUTIONS (5-10 minutes)
-6. "What tools or methods do you currently use to handle
-   [problem]?"
-   - Follow-up: "How did you find that solution?"
-   - Follow-up: "What do you like about it? What is missing?"
-7. "Have you ever tried other solutions? What happened?"
-   - Follow-up: "Why did you switch / stop using it?"
+### Current solutions
+6. <question>
+   - Follow-up: <question>
+7. <question>
+   - Follow-up: <question>
 
-WRAP-UP (3 minutes)
-"This has been incredibly helpful. Two last things:
-- Is there anything about [area] that I did not ask about
-  that you think is important?
-- Do you know 1-2 other people who deal with [problem] that
-  I could talk to?" (snowball recruiting)
+### Wrap-up
+"Is there anything about <area> I should have asked about? And do you know
+one or two other people who deal with this that I could talk to?"
+
+## Schedule
+| id | who (role only) | date | format | booked |
+|---|---|---|---|---|
+| P1 | | | | no |
+| P2 | | | | no |
+| P3 | | | | no |
+
+## Interview log
+
+### P0 (practice; not evidence)
+- date:
+- role:
+- consent: notes yes / recording no
+
+| kind | text |
+|---|---|
+| observation | |
+| interpretation | |
+
+## Empathy map (P0, practice)
+| Says | Thinks (inferred) |
+|---|---|
+| | |
+
+| Does | Feels |
+|---|---|
+| | |
+
+## Insights
+- Pain point:
+- Unmet need:
+- Opportunity:
+
+## Reflection
+<three to five sentences: which question worked, which one you would change>
 ```
 
-**Where you should be:** an interview script you can take to your own project.
+The filled example. Only the parts that change are shown; the headings are the template's.
 
-**Example Completed Script (Freelancer Budgeting):**
+```markdown
+## Idea sentence
+Independent tutors keep track of which clients have paid in a spreadsheet,
+and they lose track of who still owes them after the second missed lesson.
 
-```
-CAPSTONE IDEA: A budgeting app for freelancers
-(DO NOT MENTION THIS IN THE INTERVIEW)
+## Decision this research informs
+Understand how independent tutors notice that a lesson is unpaid, and what
+they do in the hour after they notice.
 
-BROAD PROBLEM SPACE: How freelancers manage their money
+### Context
+1. "Tell me about your tutoring at the moment: how many clients, how often,
+   how you get paid."
+   - Follow-up: "How long has it worked that way?"
+2. "How often does a lesson go unpaid for more than a week?"
+   - Follow-up: "When was the most recent one?"
 
-WARM-UP:
-"Hey, thanks for chatting with me. I am doing some research
-on how freelancers handle their finances. No right or wrong
-answers, just genuinely curious about your experience."
+### Problem exploration
+3. "Tell me about the last time a client was late paying. Walk me through
+   it from the moment you noticed."
+   - Follow-up: "What was the hardest part?"
+   - Follow-up: "What happened next?"
+4. "What did you have to open or check to work out who still owed you?"
+   - Follow-up: "How long did that take?"
+5. "Has a payment ever slipped through completely? What happened?"
+   - Follow-up: "How did you find out?"
 
-QUESTIONS:
-
-1. "Tell me about how you currently track your income and
-    expenses as a freelancer."
-   Follow-up: "How long have you been doing it that way?"
-
-2. "Walk me through the last time you had to figure out
-    how much money you could actually spend this month."
-   Follow-up: "How long did that take you?"
-   Follow-up: "How confident were you in the number?"
-
-3. "Tell me about a time when you were surprised by your
-    finances, positively or negatively."
-   Follow-up: "What did you do after that?"
-
-4. "What tools or systems do you use for money management
-    right now?"
-   Follow-up: "How did you find those tools?"
-   Follow-up: "What do you wish they did differently?"
-
-5. "When tax season comes around, what does that process
-    look like for you?"
-   Follow-up: "What is the most painful part?"
-
-6. "Have you ever tried a budgeting app or system and
-    stopped using it? What happened?"
-   Follow-up: "At what point did you stop?"
-
-7. "If you could snap your fingers and fix one thing about
-    how you handle money as a freelancer, what would it be?"
-   Follow-up: "Why that one thing?"
-
-WRAP-UP:
-"This was really helpful. Is there anything about managing
-money as a freelancer that I did not ask about? And do you
-know any other freelancers who might chat with me for
-20 minutes?"
+### Current solutions
+6. "What do you use right now to keep track of lessons and payments?"
+   - Follow-up: "How did you end up with that setup?"
+   - Follow-up: "What is missing from it?"
+7. "Have you tried anything else and stopped? What happened?"
+   - Follow-up: "At what point did you stop?"
 ```
 
-**Tips for the script:**
-- Print it or have it on a second screen. Do not read from it robotically.
-- The follow-up questions matter more than the main questions.
-- "Tell me more about that" is the most powerful phrase in interviewing.
-- Silence is okay. Let people think. Do not fill every pause.
-- Take notes during, but write up full notes within 24 hours while it is fresh.
+Grade the seven against the table. None contains "would you". None mentions a ledger, an app, a reminder, or a dashboard. Four of them start with "the last time" or "right now". Question 2 asks for a frequency, which is a number the person can actually know, not a prediction. That is a script that passes.
 
-**Live Walkthrough: Empathy Mapping**
+Then the practice interview. The friend in this example tutors maths on weekends, which makes her a fair practice subject and a biased one; she is P0, and the file says so. Twenty minutes, phone call, notes only. The log is two columns and every row is tagged.
 
-**Setup:** Show the four-quadrant empathy map template. Walk through filling it in with sample interview data.
+```markdown
+### P0 (practice; not evidence)
+- date: 2026-11-04
+- role: part-time maths tutor, four clients
+- consent: notes yes / recording no
 
-**Steps:**
-
-1. Explain the four quadrants and what goes in each one
-2. Fill in the SAYS quadrant with direct quotes from sample data
-3. Fill in the THINKS quadrant with inferred thoughts (read between the lines)
-4. Fill in the DOES quadrant with observable actions and behaviors
-5. Fill in the FEELS quadrant with emotional states
-6. Identify the gap between SAYS and DOES (where the gold is)
-7. Extract pain points, unmet needs, and opportunities
-
-**The four quadrants:**
-
-```
-+---------------------------+---------------------------+
-|          SAYS             |          THINKS           |
-|                           |                           |
-| Direct quotes from        | What they are probably    |
-| interviews. Use their     | thinking but did not say  |
-| exact words.              | out loud. Inferred from   |
-|                           | context and body language.|
-| "I just Google it and     | "I should be better at    |
-|  hope for the best"       |  this by now"             |
-| "I do not have time for   | "There is probably a      |
-|  that"                    |  better way but I cannot  |
-| "It is fine, I guess"     |  justify the time to      |
-|  (said with a sigh)       |  find it"                 |
-+---------------------------+---------------------------+
-|          DOES             |          FEELS            |
-|                           |                           |
-| Observable actions and    | Emotional states.         |
-| behaviors. What you saw   | Frustrations, anxieties,  |
-| them do or what they      | desires, motivations.     |
-| described doing.          |                           |
-|                           |                           |
-| Uses 3 different apps     | Frustrated by complexity  |
-| to track one thing        |                           |
-| Gives up after 5 minutes  | Guilty about              |
-| Asks a friend instead     | procrastinating           |
-| of searching themselves   | Relieved when it works    |
-|                           | Anxious about missing     |
-|                           | something important       |
-+---------------------------+---------------------------+
+| kind | text |
+|---|---|
+| observation | "I have a Google Sheet with a column called Paid? and I fill it in when I remember." |
+| observation | Opened the bank app first, then the sheet, then the WhatsApp chat with the parent, to answer "who owes me". |
+| observation | "I texted her twice about the same lesson and felt awkward both times." |
+| interpretation | The awkwardness, not the spreadsheet, is what delays the second reminder. |
+| observation | "I once just let it go. It was thirty pounds and I could not face asking a third time." |
+| interpretation | A visible, neutral status might replace the personal text; worth asking real tutors. |
 ```
 
-How to fill it in:
-- Go through your interview notes
-- Pull direct quotes for SAYS
-- Infer thoughts for THINKS (what is between the lines?)
-- List actions for DOES (what did they actually do, not what they said they do?)
-- Identify emotions for FEELS (look for frustration, relief, anxiety, excitement)
+The empathy map comes from those rows and nowhere else.
 
-The gap between SAYS and DOES is where the gold is:
-- "I always meal prep on Sundays" (SAYS) vs. "Has not meal prepped in 3 months" (DOES)
-- That gap tells you: the intention is there but the execution barrier is real
+```markdown
+## Empathy map (P0, practice)
+| Says | Thinks (inferred) |
+|---|---|
+| "I fill it in when I remember." | "I should be more organised than this." |
+| "I felt awkward both times." | "Asking a third time makes me look petty." |
 
-From empathy map to insights:
-- **Pain points**: where is the frustration? Where do they give up?
-- **Unmet needs**: what are they working around? What hacks do they use?
-- **Opportunities**: where can you reduce friction, automate pain, or create delight?
+| Does | Feels |
+|---|---|
+| Checks three apps to answer one question. | Awkward when chasing. |
+| Let a thirty-pound lesson go unpaid rather than ask again. | Relieved when a parent pays without being asked. |
 
-**Creating a user persona from empathy map data:**
-
-```
-PERSONA: [Name]
-Photo: [Stock photo or illustration, not a real person]
-Age: [Range]
-Occupation: [Role]
-Tech comfort: [Low / Medium / High]
-
-Quote: "[A real quote from your interviews that captures
-their attitude]"
-
-Goals:
-- [What they are trying to achieve]
-- [What success looks like for them]
-
-Frustrations:
-- [Specific pain point 1]
-- [Specific pain point 2]
-- [Specific pain point 3]
-
-Behaviors:
-- [How they currently solve the problem]
-- [Tools they use]
-- [Workarounds they have created]
-
-Needs:
-- [What they need but do not have]
-- [What would make their life easier]
+## Insights
+- Pain point: answering "who owes me" takes three apps and a memory.
+- Unmet need: a way to chase that does not feel personal.
+- Opportunity: a status a tutor can see in one place, before any reminder is sent.
 ```
 
-"A persona is not a demographic profile. It is a story about a real person's struggle. If your persona could be replaced by a bullet point list, you did it wrong."
+Notice what the map does not contain: her name, her clients' names, the amount beyond a round figure she volunteered, and any feature. The opportunity row is a direction, not a story. Stories come in 8.2.
 
-**Where you should be:** You understand how to transform raw interview data into structured empathy maps and personas.
+The schedule is the last block you fill before you push. In the example, five people were messaged on the Wednesday evening with one sentence each ("I am doing a small research project on how tutors keep track of payments; could I have twenty minutes on a call this week?") and three said yes by Friday.
 
-**Watch for this:**
-- Remember that THINKS is NOT a copy of SAYS. It requires inference and reading between the lines.
-- The SAYS-DOES gap is the highest-value insight. Spend extra time on this concept.
-- Personas should feel like someone you could have a conversation with, not a demographic checkbox.
+```markdown
+## Schedule
+| id | who (role only) | date | format | booked |
+|---|---|---|---|---|
+| P1 | full-time tutor, 12 clients | 2026-11-07 | video | yes |
+| P2 | tutor via an agency and privately | 2026-11-08 | phone | yes |
+| P3 | music teacher, pays per term | 2026-11-10 | video | yes |
+| P4 | tutor from P1's referral | | | asked |
+| P5 | | | | no |
+```
 
-### Runnable checkpoint: a small model
+Three of the five booked before 8.4. The names and numbers are in `~/participants-private.md`, which is not in the repo and never will be.
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Here is a small model you can run here. It proves three things about the file you are about to write: that a question containing a hypothetical is flagged and a question about a recent event is not, that interpretations in the log are kept but not counted as evidence, and that a shared log built from a name list contains ids and no names. It does not prove your questions are good, that your friend told you the truth, or that three people will turn up. Those you verify by doing them.
 
 ```js run=checkpoint-8-1
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const notes = [{kind: 'observation', text: 'Used a spreadsheet'}, {kind: 'interpretation', text: 'May need a status view'}, {kind: 'observation', text: 'Checked two tools'}];
-const evidence = notes.filter(n => n.kind === 'observation');
-check(evidence.length === 2, 'Interpretations are not counted as observations');
+
+const hypothetical = [/\bwould you\b/i, /\bdo you think\b/i, /\bgood idea\b/i, /\bwhat features\b/i, /\bmy app\b/i, /\bdo you have this problem\b/i];
+const concrete = [/\blast time\b/i, /\bwalk me through\b/i, /\bcurrently\b/i, /\bright now\b/i, /\bwhat did you\b/i, /\bhow do you\b/i, /\bwhat happened\b/i, /\bhow often\b/i];
+
+function momTest(question) {
+  if (hypothetical.some(function (re) { return re.test(question); })) return 'fails';
+  if (concrete.some(function (re) { return re.test(question); })) return 'passes';
+  return 'unclear';
+}
+
+const script = [
+  'Would you use an app that tracks which clients have paid?',
+  'Walk me through the last time a client paid you late.',
+  'How do you currently keep track of who owes you money?',
+  'Do you think a reminder feature is a good idea?',
+  'What did you do the last time you noticed a lesson was unpaid?'
+];
+const graded = script.map(momTest);
+check(graded.filter(function (g) { return g === 'fails'; }).length === 2, 'two of the five questions fail the Mom Test');
+check(graded[1] === 'passes' && graded[2] === 'passes' && graded[4] === 'passes', 'questions about a recent concrete experience pass');
+
+const log = [
+  { kind: 'observation', text: 'Opened the bank app, then the sheet, then the chat' },
+  { kind: 'interpretation', text: 'Awkwardness delays the second reminder' },
+  { kind: 'observation', text: '"I texted her twice and felt awkward both times"' },
+  { kind: 'observation', text: 'Let a thirty-pound lesson go rather than ask again' }
+];
+const evidence = log.filter(function (n) { return n.kind === 'observation'; });
+check(evidence.length === 3, 'interpretations are not counted as observations');
+check(log.length - evidence.length === 1, 'the interpretation stays in the log on its own row');
+
+function anonymise(entries, people) {
+  const ids = new Map(people.map(function (name, i) { return [name, 'P' + (i + 1)]; }));
+  return entries.map(function (e) { return { who: ids.get(e.who) || e.who, text: e.text }; });
+}
+const shared = anonymise(
+  [{ who: 'Maya', text: 'texted twice' }, { who: 'Theo', text: 'bank app first' }],
+  ['Maya', 'Theo']
+);
+check(shared.every(function (e) { return /^P\d+$/.test(e.who); }), 'every entry in the shared log carries a participant id');
+check(JSON.stringify(shared).indexOf('Maya') === -1, 'no name survives into the shared file');
+
 console.log('ok: checkpoint-8-1');
 ```
 
@@ -412,175 +383,73 @@ console.log('ok: checkpoint-8-1');
 
 ### Leading question
 
-You ask "Would you use an app that tracks party loot?" and the person says yes, because you handed them the answer. You learned that they are polite. Ask what they did the last time the problem happened: what they opened, what they typed, where it got annoying, what they did instead. Their verbs are evidence. Your idea, offered first, is not. Write the question down before the conversation and cross out any question that contains your solution. If they bring the solution up themselves, write that down too, and still ask what they do today.
+The symptom is a log full of yes. Every participant agreed, nobody told a story, and the empathy map has a Says column of compliments and an empty Does column. The cause is that you handed them the answer: "Would you use an app that tracks who has paid?" contains your solution and a hypothetical, and a kind person says yes to both. The fix is to go back to the script and cross out every question that contains your idea or the word "would". Replace each one with the last time the problem happened: what they opened, what they typed, where it got annoying, what they did instead. Their verbs are the evidence. If they bring up a solution themselves, write it down as an observation, and still ask what they do today.
 
 ### Friends flatter the idea
 
-Your friends tell you the idea is great, and none of them have the problem. They are encouraging you, which is a different activity from discovering a need. Talk to people who did the task in the last month and can describe a specific afternoon when it went badly. Three of those conversations will contradict a room full of supportive opinions. If you cannot find anyone who has the problem, that is the finding. Write it down. Do not replace them with a more supportive audience.
+The symptom is three enthusiastic interviews and nothing in the Does column that resembles the task. The cause is recruitment: you interviewed people who like you instead of people who did the task last month, and encouraging a friend is a different activity from describing a bad afternoon. The fix is in the schedule table. P0 is practice and is labelled practice. P1 to P5 are people who can name a specific day the task went wrong, found through the wrap-up question, a community the task lives in, or a message to someone two hops away. If you cannot find anyone who has the problem, write that down as the finding of the week. Do not replace them with a more supportive audience.
 
 ### Private detail retained
 
-The notes include a name, an employer, a health detail, or a screenshot of their tool, and you did not agree on any of that. You needed the workflow, not their identity. Say what you are collecting before you start, collect the minimum, and store it somewhere you would be willing to show them. When the write-up is done, delete the raw notes you no longer need. A research habit that leaks is a product risk you built before you had a product.
+The symptom is a pushed file that contains a first name, an employer, a client's name, a health detail, or a screenshot of a spreadsheet with amounts next to names. The cause is that you captured everything in the moment and never separated the shared log from the private note. The fix has three parts. Say what you are collecting before you start, and collect the minimum. Keep the id-to-name mapping outside the repo and refer to P1 in every file that goes to GitHub. When a detail has already been pushed, remove it, commit, and treat the history as public from that moment; a research habit that leaks is a product risk you built before you had a product.
 
 ## Your turn
 
-**Guided Practice Exercise 1: Write Your Interview Script**
+The example above was the tutor ledger. Now do it for the idea you chose this afternoon. Every step has a command or a file and the line you should see.
 
-**Prompt:** Create a 7-question interview script for your capstone idea using Mom Test principles.
+1. Pick the idea with the ninety-minute method, write the one sentence, and choose `<capstone-name>`. Then create the folder and the repo:
 
-**Starter Materials:** Interview script template (provided in Demonstration section above).
+   ```bash
+   mkdir -p ~/projects/<capstone-name>/docs
+   cd ~/projects/<capstone-name>
+   git init
+   ```
 
-**Steps:**
-1. Write down your capstone idea in one sentence (do NOT show this to your interviewee later)
-2. Identify the broad problem space your idea addresses (NOT the solution)
-3. Write 5-7 open-ended questions following The Mom Test rules
-4. For each question, write at least one follow-up question
-5. Include warm-up and wrap-up sections
-6. Trade scripts with a partner and check each question against the Mom Test: does it ask about specifics in the past? Does it avoid leading the witness?
+   You should see `Initialized empty Git repository in /home/you/projects/<capstone-name>/.git/` (on macOS the path starts with `/Users/`).
 
-**Success Criteria:**
-- At least 5 questions that pass the Mom Test
-- Questions focus on the problem, not your solution
-- At least 3 questions ask about past behavior ("Tell me about the last time...")
-- Follow-up questions dig deeper, not wider
-- Warm-up and wrap-up included
+2. Write `README.md` with the idea sentence, commit it, and publish the repo with `gh repo create <capstone-name> --public --source=. --push`. You should see `✓ Pushed commits to https://github.com/YOU/<capstone-name>.git`.
 
-**Time:** 30 minutes (20 min writing, 10 min peer review)
+3. Copy the template into `docs/research.md`. Fill the idea sentence, the decision, and the seven questions with at least one follow-up each. Read the questions aloud. If one sounds like a form, rewrite it as something you would say across a table.
 
-**Checkpoints:**
-- Checkpoint: you have named the problem, not your solution, and written at least 3 questions
-- At 20 minutes: Check that all questions pass the Mom Test and follow-ups are included
-- At 25 minutes: Partner review should be underway with active feedback
+4. Grade each question against the bad/good table. Cross out any that contain "would", "do you think", or your solution, and replace them with "the last time" questions. Then paste the four rules and the script into the AI chat from Unit 5 and ask for a grading; keep only the rewrites you would actually say. Count: seven questions, zero hypotheticals.
 
-**BREAK**
+5. Run the practice interview with one friend who is near the task. Twenty minutes, notes only, consent asked before you start. Log it under `### P0 (practice; not evidence)` with every row tagged `observation` or `interpretation`. You should have at least five observation rows and at least one interpretation row.
 
-**Guided Practice Exercise 2: Mock Interview + Empathy Map**
+6. Build the P0 empathy map from the log and nothing else, with at least two entries in Says and Does, and write one pain point, one unmet need, and one opportunity, each pointing at a row. Write the reflection: which question worked, which you would change.
 
-**Prompt:** Practice interviewing a classmate and build an empathy map from the conversation.
+7. Fill the schedule. Message five people tonight with one sentence each, asking for twenty minutes before Session 8.4. Book every yes with a date and a format. Put the names in `~/participants-private.md` or your phone, and only the role in the table. By the time you start 8.2 the table should show at least three rows with `booked: yes`.
 
-**Starter Materials:** Empathy map template (below).
+8. Commit and push:
 
-**Steps:**
-1. Pair up with a classmate (or, if working solo, call a friend or family member)
-2. Person A interviews Person B for 10 minutes about a topic Person A is researching (use the script from Exercise 1, adapted if needed)
-3. Person A takes notes during the interview (shorthand is fine, capture quotes)
-4. After the interview, Person A spends 10 minutes filling out an empathy map based on the conversation
-5. Swap roles and repeat
-6. Share your empathy map with your partner and ask "Does this capture your experience?"
+   ```bash
+   git add docs/research.md
+   git commit -m "Research: script, P0 practice interview, schedule"
+   git push
+   ```
 
-**Empathy Map Template:**
+   You should see `main -> main` in the push output, and `docs/research.md` on GitHub with ids and no names.
 
-```
-EMPATHY MAP
-Interviewee: ___________ (first name)
-Topic: ___________
-Date: ___________
-
-+--------------------------+--------------------------+
-|         SAYS             |         THINKS           |
-| (direct quotes)          | (inferred thoughts)      |
-|                          |                          |
-| 1.                       | 1.                       |
-| 2.                       | 2.                       |
-| 3.                       | 3.                       |
-+--------------------------+--------------------------+
-|         DOES             |         FEELS            |
-| (observable behaviors)   | (emotions)               |
-|                          |                          |
-| 1.                       | 1.                       |
-| 2.                       | 2.                       |
-| 3.                       | 3.                       |
-+--------------------------+--------------------------+
-
-KEY INSIGHTS:
-- Pain point 1:
-- Pain point 2:
-- Opportunity:
-```
-
-**Success Criteria:**
-- At least 3 entries in each quadrant
-- SAYS quadrant uses actual quotes (not paraphrases)
-- THINKS quadrant shows inference, not just repetition of SAYS
-- At least 2 pain points and 1 opportunity identified
-
-**Time:** 25 minutes (10 min interview, 10 min empathy map, 5 min share-back)
-
-**Checkpoints:**
-- At 10 minutes: First interview should be wrapping up with notes captured
-- At 20 minutes: Empathy map should be mostly filled in with entries in all four quadrants
-- At 25 minutes: Share-back conversation should validate that the empathy map captures the interviewee's experience
+If nobody has answered by the time you push, that is normal on a Wednesday night. Send the messages anyway; the booking is the quest's evidence, and it has until 8.4.
 
 ## The quest
 
-**Independent Lab: Interview Script Refinement and Extended Practice**
-
-**Objectives:**
-- Finalize your interview script based on in-class feedback
-- Conduct an additional practice interview if time permits
-- Begin identifying interview subjects for Session 8.4
-
-**Requirements:**
-- Finalized interview script with 7 questions, all passing the Mom Test
-- Each question has at least one follow-up
-- Warm-up and wrap-up sections are polished and natural
-- Begin a list of 5-7 people you could interview for your capstone research
-
-**Hints:**
-- Read your questions out loud. If they sound robotic, rewrite them in a more conversational tone.
-- The best follow-up question is almost always "Tell me more about that" or "What happened next?"
-- Your warm-up should make the interviewee feel like they are helping you, not being tested.
-
-**Stretch Goals:**
-- Conduct a second practice interview with a different classmate or friend
-- Create a second empathy map and compare patterns across both interviews
-- Start reading "The Mom Test" by Rob Fitzpatrick (first 3 chapters)
-
-**Submission:** Save your finalized interview script and empathy map. These will feed into the Session 8.4 field work and the unit project.
-
-### Review the artifact
-
-Your deliverable is **An interview guide, anonymized notes, and an evidence-based empathy map**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-8-1/fig3-evidence)
+
+One deliverable: `docs/research.md` in `~/projects/<capstone-name>`, pushed, version zero. It is complete when a stranger could run your interview from it and could not learn who you talked to.
+
+Evidence:
+
+- `README.md` with the one idea sentence and no solution in it.
+- Seven numbered questions, each with a follow-up, none containing "would you", "do you think", or your idea.
+- A P0 log labelled practice, every row tagged observation or interpretation, at least five observations.
+- A P0 empathy map with the Says and Does columns filled from the log, and three insights that point at rows.
+- A schedule table with at least three rows booked, roles only, and a private name list that is not in the repo.
+- The commit `Research: script, P0 practice interview, schedule` visible at `https://github.com/YOU/<capstone-name>`.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+The one-breath definitions page is how you describe what you build when an interviewee asks, without turning the warm-up into a pitch, and the grit story is for the evening when the third message goes unanswered.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Complete Units 1-7 (full stack app development, deployment, and testing). Have a rough idea for your capstone project. Be willing to talk to actual human beings (yes, this is required).
-**Materials:** Interview script template (provided below), empathy map template (provided below), "The Mom Test" by Rob Fitzpatrick (optional but strongly recommended), note-taking tools (paper/pen or digital)
-
-**Due before Session 8.2:**
-
-1. Finalize your interview script based on in-class feedback (7 questions, Mom Test approved)
-2. Identify 5-7 people you could interview for your capstone research (friends, family, social media contacts, Discord community members, anyone who fits your target user profile)
-3. Conduct ONE practice interview (15-25 minutes) with someone from your list
-4. Write up notes from the practice interview
-5. Create an empathy map from the practice interview
-6. Write a 3-5 sentence reflection: what question worked best? What would you change for next time?
-
-**Submission:** Google Doc, Notion page, or markdown file in your capstone repo. Must include:
-- Finalized interview script
-- Practice interview notes (with timestamps and direct quotes)
-- Empathy map
-- Reflection paragraph
-
-**Estimated Time:** 2-3 hours (1 hour script refinement + recruiting, 30 min interview, 1 hour write-up)
-
-**Stretch Goals (Optional):**
-- Read the first 3 chapters of "The Mom Test" by Rob Fitzpatrick (it is short, cheap, and worth every penny)
-- Run a second practice interview and compare the empathy maps
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.gov.uk/service-manual/user-research/using-in-depth-interviews)
+Run the interviews as they land this week; each one goes into the log as P1, P2, P3 in the order it happens, observations and interpretations on separate rows, within a day of the call. Nothing is running on your machine, and nothing needs to be: this unit is files and conversations. Next session starts with the idea sentence and the P0 map open, and turns them into a backlog of user stories, each one honestly tagged as evidence or assumption, with a board to pin them on. Read the first chapter of The Mom Test if you have it; it is short, and the second interview will go better than the first either way.
