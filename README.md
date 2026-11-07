@@ -100,6 +100,8 @@ Stills generate wide and tall crops, plus an updated path map. New lessons need 
 - Unit 12 carries Unit 10's exact contract (`api/`, `apiBase`, `capstoneToken`, an idempotent seed); Unit 11 arithmetic reconciles; 5.2 and 8.4 accept honest non-findings; 4.11 catches a rejected fetch; Unit 6 shows where you are at the start and close of every session plus a pause checklist; Unit 7 test totals carry a case ledger.
 - Eleven library pages the reviewers scored 2/5 open with a first-visit route, a stop line and the worked example they asked for (the system design primer is now one traced house). Prep-sourced pages and the primer can be overridden under `content/overrides/`, and Holt lessons accept a labelled editorial note.
 
+- A second independent review (one fresh reader plus a static source check) then confirmed the direction and surfaced residual defects, all fixed: the 12.2 retry and request wrapper, cross-lesson contracts in 3.3, 4.7, 5.4, 8.4 and 9.6, Village-road navigation, and a FIRST VISIT key on nine prep sheets.
+
 ## Production launch
 
 The configured canonical origin is `https://guide.bigpoppacode.io` in `website/build/site.config.js`. Confirm the destination before deploying; rebuild if the origin changes. No public deployment, DNS change, TLS setup or social-preview scrape was performed in this pass.
