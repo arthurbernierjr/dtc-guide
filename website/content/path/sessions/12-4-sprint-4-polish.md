@@ -192,7 +192,7 @@ cp .env.example .env
 
 The first question the file did not answer: what goes in `JWT_SECRET`? Any long random string, and the README now says so, with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` as the way to make one. The second: `npm run seed` failed because `.env` had no `MONGODB_URI`; the README now shows the local value, `mongodb://127.0.0.1:27017/<capstone-name>`, the same one 10-1 put in `api/.env`. The third run of the clone had no questions. `rm -rf ~/projects/readme-check`.
 
-Then the deck. Every slide with a screenshot was taken in Unit 11 against the 10-4 build; they are retaken from the polished live URL at 1440 wide, dropped into the Google Slides deck linked from `docs/pitch-deck.md` in place of the old ones, `docs/pitch-deck.pdf` is exported again, and the slide that promised a feature the cut removed in 12-1 now describes the Should-have you shipped instead. The deck tells the truth about the product behind it.
+Then the deck. Every slide with a screenshot was taken in Unit 11 against the 10-4 build; they are retaken from the polished live URL at 1440 wide, dropped into the Google Slides deck linked from `docs/pitch-deck.md` or `docs/stakeholder-brief.md` in place of the old ones, `docs/pitch-deck.pdf` or `docs/stakeholder-brief.pdf` is exported again, and the slide that promised a feature the cut removed in 12-1 now describes the Should-have you shipped instead. The deck tells the truth about the product behind it.
 
 Then the script, written, then read aloud against a timer twice. The first read was five minutes and twenty seconds; feature three was cut to the failure path alone, and the second read was four minutes and ten. Then the take: `npm run seed` against the live database first so the three records are the known three, private window, signed in, recording on, script beside the screen. Four minutes and twenty-five seconds. Watched back once. Note from the watch: the reload at 0:45 took three seconds and the narration went quiet; next time, say what the reload proves while it happens.
 
@@ -273,7 +273,7 @@ In `~/projects/<capstone-name>`, against the live `rc-1`, with a phone beside yo
 3. Walk every component that fetches or sends and write the four sentences. Grep for `return null` inside a `status` branch; each hit becomes a sentence.
 4. Add the 404 page, set `<title>` to the product name, add a favicon. Paste `https://YOUR-APP.up.railway.app/nothing-here` on the phone after deploy and see your page.
 5. Rewrite the README from the template. Clone into `~/projects/readme-check`, follow it with no memory, fix the file for every question, repeat until a clone has no questions. Delete the folder.
-6. Retake every screenshot in the Google Slides deck from the polished live URL and export `docs/pitch-deck.pdf` again. Change any slide that describes a feature the cut removed.
+6. Retake every screenshot in the Google Slides deck from the polished live URL and export `docs/pitch-deck.pdf` again, or `docs/stakeholder-brief.pdf` on the Village road. Change any slide that describes a feature the cut removed.
 7. Write `docs/demo-script.md` with a line per thirty seconds, under four and a half minutes. Read it aloud against a timer twice. Seed, record once, watch it back, write three notes at the bottom of the script.
 8. `git tag rc-2`, push, deploy with your existing path, walk the journey in a private window and on the phone. Rerun Jest and Playwright and add an `rc-2` section to `docs/release-candidate.md`.
 
@@ -290,7 +290,7 @@ Evidence to keep:
 - `docs/polish-log.md` with the hunt table and three "Fixed this sprint" entries, each with `docs/evidence/12-4-fixN-before.png` and `-after.png`.
 - The 404 page component, the `<title>`, and the favicon in `client/public/`, in one commit.
 - The README, with a sentence in the polish log saying how many clone runs it took to have no questions.
-- Retaken screenshots in the Slides deck linked from `docs/pitch-deck.md`, and a fresh `docs/pitch-deck.pdf`.
+- Retaken screenshots in the Slides deck linked from `docs/pitch-deck.md` or `docs/stakeholder-brief.md`, and a fresh `docs/pitch-deck.pdf` or `docs/stakeholder-brief.pdf`.
 - `docs/demo-script.md` with the timeline and the three notes.
 - The rehearsal recording as a file or an unlisted link, referenced from the script, labelled as the rehearsal take.
 - The tag `rc-2` live on the URL, with its section in `docs/release-candidate.md`.

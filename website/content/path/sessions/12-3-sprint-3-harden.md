@@ -367,6 +367,6 @@ The vulnerability quick reference is the longer list behind the five requests yo
 
 ## Before next session
 
-Sprint 4 is the last build session: a bug hunt in a private window and on the phone, a 404 page, loading and empty and success states on every screen that lacks them, a README someone can run from, and the recorded rehearsal of the five-minute demo. Before then, install nothing new and change nothing on `main`; write down, as you use the live URL over the next days, every rough edge you notice, with the screen it happened on. That list is Tuesday's first hour. Reread `docs/pitch-deck.md` from 11-4, open the Google Slides deck it links, and mark every slide whose screenshot no longer matches the product.
+Sprint 4 is the last build session: a bug hunt in a private window and on the phone, a 404 page, loading and empty and success states on every screen that lacks them, a README someone can run from, and the recorded rehearsal of the five-minute demo. Before then, install nothing new and change nothing on `main`; write down, as you use the live URL over the next days, every rough edge you notice, with the screen it happened on. That list is Tuesday's first hour. Reread `docs/pitch-deck.md` or `docs/stakeholder-brief.md` from 11-4, whichever your road wrote, open the Google Slides deck it links, and mark every slide whose screenshot no longer matches the product.
 
 Nothing stays running on your machine. The live URL runs `rc-1` and keeps running; that is what the drill was for.

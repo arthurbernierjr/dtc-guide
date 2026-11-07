@@ -325,6 +325,7 @@ Error bodies are `{ "error": "..." }` from 4-12 on (4-1…4-9 use `{ "message": 
 - The capstone (Units 8–12) is **"your capstone"** with a learner-chosen folder `~/projects/<capstone-name>`; sessions
   use `<capstone-name>` literally where a path is needed.
 - Unit 8 artifacts: `~/projects/<capstone-name>/docs/` holds `research.md` (script, interview logs, the combined empathy map, insights), `user-stories.md`, `sprint-plan.md` (four sprints mapped to 12.1–12.4), `product-spec.md`; Units 9–12 refer to these file names.
+- Unit 11 artifacts, two roads chosen in 11-1 and recorded in `docs/funding-route.md` (one paragraph; one switch allowed, stated in the file). Both roads: `fundraising-research.md`, `funding-route.md`, `financial-narrative.md`, `runway.js`, and the recording in `docs/pitch/` or linked. The Noble Houses road: `cap-table.md`, `pitch-deck.md`, `pitch-deck.pdf` (twelve slides, five-minute pitch). The Village road: `operating-budget.md`, `ownership.md`, `stakeholder-brief.md`, `stakeholder-brief.pdf` (four slides, three-minute stakeholder demo). Unit 12 says "deck or stakeholder brief" wherever it names the deck.
 - Week numbers are taken from path.json (5-1 is week 10, not "seven weeks in").
 
 ### Voice and structure (for rewrites)

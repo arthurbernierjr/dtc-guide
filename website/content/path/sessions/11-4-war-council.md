@@ -354,7 +354,9 @@ Open a terminal in the capstone repo and the deck in Google Slides.
 
 ![](diagram:session-11-4/fig3-evidence)
 
-One deliverable, the unit's: the reconciled deck and narrative with the runway check, in the capstone repo. Concretely, `docs/pitch-deck.md` with the Slides link, the rehearsal log, and the expected questions; `docs/pitch-deck.pdf`; `docs/financial-narrative.md` with the assumptions sheet, the runway check, and two scenarios; `docs/runway.js`; and the recording, linked or in `docs/pitch/`. Score yourself honestly on this before you call it done.
+One deliverable, the unit's, in the shape of your road. On both roads it is the reconciled deck and narrative with the runway check, in the capstone repo, and a recording you scored.
+
+**The Noble Houses road.** Concretely, `docs/pitch-deck.md` with the Slides link, the rehearsal log, and the expected questions; `docs/pitch-deck.pdf`; `docs/financial-narrative.md` with the assumptions sheet, the runway check, and two scenarios; `docs/runway.js`; and the recording, linked or in `docs/pitch/`. Score yourself honestly on this before you call it done.
 
 | Area | Points | Done means |
 |---|---|---|
@@ -377,7 +379,72 @@ Evidence that it is done:
 - `docs/pitch-deck.pdf` exists and the Slides link opens with view access.
 - Everything is committed and pushed.
 
-If the venture-fit paragraph from last session said no, the deliverable is the same. The deck pitches angels, grant committees, a bank, or a co-founder with the same twelve questions, and the model is the first thing any of them will ask to see.
+If the venture-fit paragraph from last session said no and you stayed on the Noble Houses road, the deliverable is the same. The deck pitches angels, grant committees, a bank, or a co-founder with the same twelve questions, and the model is the first thing any of them will ask to see.
+
+**The Village road.** The same `docs/runway.js`, run with a raise of $0 and your real monthly cost, so it prints how long your own money and the product's revenue keep the live URL alive. Then a three-minute recorded stakeholder demo of the four slides and the product, instead of the five-minute pitch, scored against a rubric built for this road. Concretely: `docs/stakeholder-brief.md` with the Slides link, the rehearsal log, and the expected questions; `docs/stakeholder-brief.pdf`; `docs/financial-narrative.md` with the assumptions sheet, the runway check, and two scenarios; `docs/runway.js`; `docs/operating-budget.md` reconciled with the model; and the recording, linked or in `docs/pitch/`, the same folder name as the other road so Unit 12 looks in one place.
+
+The script does not change. The assumptions do, and here is the whole assumptions sheet for a Village version of TaskForge, so you can see every row that moves. The raise is $0, so starting cash is your own money, and the only costs are the ones on the bill:
+
+```markdown
+## Assumptions
+| Input | Value | Status | Source |
+|---|---|---|---|
+| Starting cash | $300 | hypothetical | own money set aside; the raise is $0 |
+| Starting subscribers | 0 | observed | Stripe is in test mode, so nobody has paid; say so |
+| Price | $5/month | hypothetical | the price in operating-budget.md |
+| Processor fee | 3% | placeholder | read the processor's pricing page |
+| Monthly churn | 5% | hypothetical | nobody has stayed long enough to measure |
+| CAC | $40 | unused | marketing is $0, so no paid acquisition; keep a nonzero number so the division stays defined |
+| Founder pay | $0 | observed | own time |
+| Hosting, model credits, tools | $12/month | observed | the total line of operating-budget.md, dated |
+| Legal and accounting | $0 | observed | |
+| Engineer | $0, starts month 99 | observed | no hire |
+| Marketing | $0 every month | observed | word of mouth |
+| Months | 36 | | the question is how long own money lasts, so run it past 18 |
+```
+
+Those rows become this `assumptions` object at the top of `docs/runway.js`, and nothing below it is touched:
+
+```js
+// docs/runway.js, Village inputs. Every number is on the sheet above.
+const assumptions = {
+  startingCash: 300,
+  startingSubscribers: 0,
+  price: 5,
+  processorFee: 0.03,
+  monthlyChurn: 0.05,
+  cac: 40,
+  fixedCosts: { founder: 0, hosting: 12, legalAccounting: 0 },
+  engineer: { salary: 0, startsMonth: 99 },
+  marketing: (m) => 0,
+  months: 36
+};
+```
+
+`node docs/runway.js` then ends with `lowest cash: -132 (month 36)`, `months funded: 25 of 36`, `first cash-positive month: none`, and `subscribers at month 36: 0`. Twenty-five months is the runway: $300 of own money at $12 a month, with nobody paying. That is the floor, and the floor is the number to know, because the model's only growth engine is paid acquisition and the Village spends nothing on it. Now the one scenario that matters on this road: change `startingSubscribers` to 3, the three people from `docs/research.md` who said they would pay, and run it again. `first cash-positive month: 1` and `months funded: 36 of 36`. Three users at $5 collect $15 after the processor's cut, which clears a $12 bill. The Village's break-even is three paying users, not 2,921, and that sentence goes in the narrative under "Scenarios" with the second scenario beside it: the hosting line at twice the bill, which is what happens when Railway's usage doubles or the droplet is upgraded. The reconciliation on this road is between `docs/operating-budget.md` and the model: the hosting line in the script is the total line in the budget file, to the dollar, with the same date, and the months-of-runway line is written into slide 4's notes so the ask for testers has a deadline the ledger agrees with.
+
+The recording is three minutes or less: the four slides, a switch to the live URL for at least sixty seconds in which you complete one real flow, and the limits said aloud at the moment they apply, not at the end. The rehearsal log table in Your turn step 7 is the same, with two rows changed: "Ask: a number of testers or users, a date, the thing you will measure, and no dollar figure?" and "Timing: under 3:00 with all four slides?" Score yourself on this before you call it done:
+
+| Area | Points | Done means |
+|---|---|---|
+| Problem (slide 1) | 15 | One named participant's specific pain, in their words, with the interview it came from |
+| Evidence shown (slide 2) | 20 | Participant ids and the count on screen, not described; the reviewer can see the evidence, not hear about it |
+| What works today (slide 3 and the live switch) | 15 | Two real screenshots and one real flow completed on the live URL in the recording |
+| Limits said aloud | 10 | At least two things the product does not do yet, said in the recording at the moment they apply, with timestamps in the log |
+| The ask as users, not money (slide 4) | 15 | A number of testers or users by a date, the one thing you will measure, and no dollar figure anywhere on the slide |
+| Budget reconciled with the model | 15 | The hosting line in `runway.js` equals the total in `operating-budget.md`; the runway line from the script appears in the narrative and in slide 4's notes |
+| Recording and rehearsal log | 5 | Two takes, both scored; three GROWs fixed between them; under 3:00 on take 2 |
+| Expected questions | 5 | Five questions with an answer and a source each; at least one answered "not measured yet" |
+
+Evidence that it is done, on the Village road:
+
+- `node docs/runway.js` prints the four check lines with a raise of $0, and the same four lines appear under "Runway check" in the narrative with a date.
+- The hosting line in `docs/runway.js` and the total in `docs/operating-budget.md` are the same number with the same date, and the scenarios section names the paying-user count that covers the bill.
+- Slide 4 asks for people by a date, and its notes carry the runway line from the script.
+- The rehearsal log has two scored tables and three GROWs that changed between them, and take 2 is under three minutes.
+- The expected-questions table has five rows with sources that are files in `docs/`.
+- `docs/stakeholder-brief.pdf` exists and the Slides link opens with view access.
+- Everything is committed and pushed.
 
 ## Side quests
 
@@ -385,6 +452,6 @@ Back-of-the-envelope numbers are the whole method behind `runway.js`, and the lo
 
 ## Before next session
 
-Unit 12 begins with [Sprint 1: Foundation](/path/12-1-sprint-1-foundation/). It does not start a new app. It takes the capstone you have been deploying since 10-4 and runs four sprints to finish, harden, and polish it, then a recorded demo day. Reread `docs/product-spec.md` and `docs/sprint-plan.md` from Unit 8 before then, and write down the three features the pitch promised that the product does not fully do yet; those become the first sprint's backlog.
+Unit 12 begins with [Sprint 1: Foundation](/path/12-1-sprint-1-foundation/). It does not start a new app. It takes the capstone you have been deploying since 10-4 and runs four sprints to finish, harden, and polish it, then a recorded demo day. Reread `docs/product-spec.md` and `docs/sprint-plan.md` from Unit 8 before then, and write down the three features the pitch or the stakeholder brief promised that the product does not fully do yet; those become the first sprint's backlog.
 
-Nothing is running between sessions. The deployed capstone stays up at its public URL on its own, and the deck, the narrative, the model, and the recording live in `docs/` and in Google Slides.
+Nothing is running between sessions. The deployed capstone stays up at its public URL on its own, and the deck, the narrative, the model, and the recording live in `docs/` and in Google Slides. What carries forward into Unit 12 is `financial-narrative.md`, `runway.js`, `funding-route.md`, and the recording on both roads, with `pitch-deck.md` and `pitch-deck.pdf` on the Noble Houses road or `stakeholder-brief.md`, `stakeholder-brief.pdf`, `operating-budget.md`, and `ownership.md` on the Village road.

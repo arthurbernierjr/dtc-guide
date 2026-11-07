@@ -87,7 +87,7 @@ Every demo, every test, and every screenshot in this unit uses one account you c
 
 ### The demo-day contract, written once
 
-Demo day in this path is a solo event, and here is what it asks of you, so every later sprint is aimed at the same target. In 12-5 you deliver four things: a recorded five-minute demo of the deployed URL using the fixture account; a written Q&A, five questions a reviewer would ask, answered from your implementation; a self-scored 100-point rubric; and a handoff packet in `docs/demo-day.md` another developer could operate from. The pitch deck from 11-4 and the financial narrative sit next to those, updated to the product you actually shipped. Nothing on that list requires an audience in a room. All of it requires the app to work on the live URL.
+Demo day in this path is a solo event, and here is what it asks of you, so every later sprint is aimed at the same target. In 12-5 you deliver four things: a recorded five-minute demo of the deployed URL using the fixture account; a written Q&A, five questions a reviewer would ask, answered from your implementation; a self-scored 100-point rubric; and a handoff packet in `docs/demo-day.md` another developer could operate from. The pitch deck or the stakeholder brief from 11-4, whichever road you took in Unit 11, and the financial narrative sit next to those, updated to the product you actually shipped. Nothing on that list requires an audience in a room. All of it requires the app to work on the live URL.
 
 ## The demonstration
 
@@ -109,11 +109,13 @@ ls docs
 a41c9e2 deploy: production webhook url
 7d02f1b ai: timeout fallback
 ...
-ai-feature.md        financial-narrative.md  pitch-deck.md   research.md        system-design.md
-board-sprint-1.png   fundraising-research.md pitch-deck.pdf  runway.js          threat-model.md
-cap-table.md         payments.md             product-spec.md security-audit.md  user-stories.md
-pitch                sprint-plan.md
+ai-feature.md           funding-route.md         pitch-deck.md    runway.js          threat-model.md
+board-sprint-1.png      fundraising-research.md  pitch-deck.pdf   security-audit.md  user-stories.md
+cap-table.md            payments.md              product-spec.md  sprint-plan.md
+financial-narrative.md  pitch                    research.md      system-design.md
 ```
+
+That listing is the Noble Houses set from Unit 11. You see one of two sets, and `docs/funding-route.md` says which: on the Village road, `cap-table.md`, `pitch-deck.md`, and `pitch-deck.pdf` read `ownership.md`, `stakeholder-brief.md`, and `stakeholder-brief.pdf`, and `operating-budget.md` sits beside them. `funding-route.md`, `financial-narrative.md`, `runway.js`, and the `pitch/` folder are in both.
 
 A modified file you do not remember is the first finding. Read the diff, then commit it or `git checkout -- client/src/App.jsx`. Sprint 1 starts from a clean tree, because the deployed commit is the thing you are grading against, and a dirty tree is a tree nobody deployed.
 

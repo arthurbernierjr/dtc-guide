@@ -326,7 +326,44 @@ Open a terminal in the capstone repo.
 
 ![](diagram:session-11-2/fig3-evidence)
 
-One deliverable: `docs/cap-table.md`, complete, with the term-sheet read filled in. Here is the term sheet. It is fictional; the company, the investor, and every number are made up, and five of its terms are unusual. Four of them hurt you. One is odd and does you no harm. Read it cold before you look at the answer key further down, find the four, and decide which one is the harmless one.
+Two roads, two files, one term sheet. On the Noble Houses road the deliverable is `docs/cap-table.md`, complete, with the term-sheet read filled in. On the Village road the deliverable is `docs/ownership.md`, and the term-sheet read goes at the bottom of that file instead. Both roads read the same term sheet, because the Village founder who never raises is exactly the person a bad term sheet is written for: the one who has not seen one before and is offered one the week the product gets noticed.
+
+**The Village road** first, because its file is new. A one-founder cap table looks too simple to write down, and that is why you write it down: the day a collaborator asks for "ten percent" you need to know ten percent of what. Copy this into `docs/ownership.md` and fill it in.
+
+```markdown
+# Ownership: <capstone-name>
+
+Fictional share counts. Shares first, percentages derived, every stage sums to 100.
+
+## Today
+| Holder | Shares | % |
+|---|---|---|
+| Founder | 10,000,000 | 100.00 |
+| Total | 10,000,000 | 100 |
+
+## If a collaborator joins
+Grant: <X>% of the post-grant total (the base; "10%" means nothing until the base is named)
+Shares to issue: 10,000,000 x X / (1 - X) =
+Vesting: 4 years, 1-year cliff, monthly after the cliff. My choice because:
+At the cliff they hold: 25% of the grant = <shares>, which is <%> of the new total
+If they leave before the cliff they hold: 0 shares, and the grant returns to the company
+
+| Holder | Shares | % |
+|---|---|---|
+| Founder | 10,000,000 | |
+| Collaborator (fully vested) | | |
+| Total | | 100 |
+
+## Term sheet read
+(filled in below, the same five terms as the Noble Houses)
+
+## What I would never sign
+-
+```
+
+The grant is new shares, not a transfer of yours, so the arithmetic is the SAFE stage's arithmetic from the demonstration: a 10 percent grant on a 10,000,000-share base is 10,000,000 × 0.10 ÷ 0.90 = 1,111,111 new shares, the founder's count does not move, and the founder's percentage goes to 90.00. Four years with a one-year cliff is the standard schedule, and you write it as a choice, not a default: the cliff means a collaborator who leaves in month eight holds nothing, and monthly vesting after it means one who leaves in year three holds what three years earned. If you would choose differently, say what and why; "I would skip the cliff for a friend" is a decision you can be asked about later, and the file is where you answer in advance.
+
+**The Noble Houses road** fills the "Term sheet read" section of `docs/cap-table.md`. Here is the term sheet, for both roads. It is fictional; the company, the investor, and every number are made up, and five of its terms are unusual. Four of them hurt you. One is odd and does you no harm. Read it cold before you look at the answer key further down, find the four, and decide which one is the harmless one.
 
 ```markdown
 # TERM SHEET (non-binding, fictional)
@@ -363,7 +400,7 @@ Expenses:          company pays Investor's legal fees up to $40,000 at closing
 Governing law:     Delaware
 ```
 
-For each term you think is unusual, write one sentence in the "Term sheet read" section of `docs/cap-table.md`: what it does to you in a low-value sale, in the next round, and in a disagreement, and then one word, negotiate or walk. For the one you decide is harmless, write why instead of a decision. Find the four harmful terms before reading on.
+For each term you think is unusual, write one sentence in the "Term sheet read" section of your road's file, `docs/cap-table.md` or `docs/ownership.md`: what it does to you in a low-value sale, in the next round, and in a disagreement, and then one word, negotiate or walk. For the one you decide is harmless, write why instead of a decision. Find the four harmful terms before reading on.
 
 ### Answer key, read after
 
@@ -380,7 +417,9 @@ Four more terms are worth a sentence in your read, though none of them is one of
 - **Negotiable.** The $40,000 expense cap is high for a round this size; $10,000 to $15,000 is more usual at seed, and the number moves when asked.
 - **Negotiable.** The 10 percent pool inside the pre-money (10 percent of the $5M post-money total, carved out of the founders' side before the investor's price is set) is exactly the dilution the demonstration measured; ask for the pool to be sized to the hiring plan.
 
-Evidence that the quest is done:
+On the Village road the read ends with one more section, "What I would never sign": at least three lines, each naming a term from the sheet above and the one-sentence reason, in your words, that it is a walk for a product you fund yourself. A 3x participating preference on a company that will never be sold is a strange thing to fear, so say what you would actually fear: a board you do not control over a tool twelve people depend on, or a re-vesting clause on the years you already put in. That list is the Village's whole defence, and it is short on purpose so you remember it.
+
+Evidence that the quest is done, on the Noble Houses road:
 
 - Three stages in `docs/cap-table.md` with share counts, derived percentages, and a 100 at the bottom of each.
 - The four scenario answers match the lines printed in Your turn.
@@ -388,11 +427,22 @@ Evidence that the quest is done:
 - The four harmful terms found before the key, each with a negotiate-or-walk decision and a one-sentence reason, and the harmless one named with the reason it is harmless.
 - Committed and pushed.
 
+On the Village road:
+
+- The "Today" table in `docs/ownership.md` has a share count and a 100 at the bottom, and the collaborator table sums to 100 with the percentages derived from shares.
+- The grant names its base and shows the shares-to-issue arithmetic, and the vesting schedule is stated as a choice with a reason.
+- The four scenario answers from Your turn are in the file too, because the SAFE arithmetic is the grant arithmetic.
+- The four harmful terms found before the key, each with negotiate or walk and a reason, and the harmless one named.
+- "What I would never sign" has at least three lines, each tied to a term on the sheet.
+- Committed and pushed.
+
 ```bash
 git add docs/cap-table.md
 git commit -m "docs: term sheet read with negotiate or walk decisions"
 git push
 ```
+
+On the Village road the first line is `git add docs/ownership.md`.
 
 ## Side quests
 
@@ -402,4 +452,4 @@ Back-of-the-envelope numbers are the cap table's whole discipline, shares first 
 
 Next session is [The Royal Court](/path/11-3-the-royal-court/): how a venture fund's arithmetic decides what it can invest in, a twelve-slide deck built around your deployed capstone, bottom-up market sizing, and the one-page financial narrative. Read the YC "How to pitch your company" article linked from that session's docs once; you will build the deck in Google Slides, so make sure you have a Google account and can open slides.google.com before you sit down.
 
-Nothing is running between sessions. The deployed capstone stays up on its own, and the two files in `docs/` are the only state this unit carries forward.
+Nothing is running between sessions. The deployed capstone stays up on its own, and the files in `docs/` are the only state this unit carries forward: `fundraising-research.md`, `funding-route.md`, and `cap-table.md` on the Noble Houses road, or `operating-budget.md` and `ownership.md` beside the first two on the Village road.

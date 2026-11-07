@@ -52,6 +52,14 @@ Companies should not raise when the product has not found a person who keeps com
 
 Ownership is the whole game underneath this table. History pays the people who own a piece of a system, not the people who merely work inside it. The writer who created a beloved show but does not own the rights can be removed from their own story. The creator whose audience lives on someone else's platform can lose it to one algorithm change. You spent ten units learning to build. This unit exists so that when capital enters the picture you know exactly what you are trading away and what you are keeping. Every word you learn this week, equity, dilution, cap, SAFE, is an instrument for one question: how much of what you built do you still own when the dust settles. Investors are not villains. The good ones are force multipliers. But they negotiate ownership for a living and, until this week, you did not.
 
+### Two roads
+
+This unit has two roads through it, and you pick one before the session ends. The first is **The Noble Houses**: you build the investor pipeline, the twelve-slide deck, and the five-minute pitch, and you learn the court's arithmetic by preparing to stand in front of it. The second is **The Village**: you fund the product from your own pocket, from its first paying users, or from the community it serves, and you prepare a short brief for the people who will use it instead of a pitch for the people who might fund it. Both roads read the same hook, the same idea, and the same demonstration in every session, because the literacy is shared. Crowdfunding maths, the SAFE and the cap table, fund maths and bottom-up sizing, the cash model and the reconciliation: a founder on either road who cannot do those is a founder someone else can take advantage of. What differs is the quest. Each session's quest has a Noble Houses deliverable and a Village deliverable, and you do the one for your road.
+
+The Village is not the consolation road. Most of the software people rely on every day was never pitched to anyone. The package manager, the text editor, the calendar for the climbing gym, the roster tool for the volunteer fire company, the thing one person built for twelve people who needed it: nobody made a deck for those, and they ship, and they matter. A community tool with ten real users and a bill you can cover is a success by the only measure that counts in this unit, which is whether the thing exists and the people who need it can reach it. If your capstone's persona is twenty people you can name, the Village is probably the honest road. If the venture-fit question in 11-3 comes out as a real yes, the Noble Houses is. Neither answer is better. The wrong answer is picking the road that sounds impressive over the one your evidence supports.
+
+You record the choice in `docs/funding-route.md`: one paragraph that says which road, why, and what would make you switch. You may switch once during the unit, and if you do, you say so in the file with the date and the reason. A reviewer reading that file in Unit 12 should see a decision, not a shrug.
+
 ### The five routes, and what each contributor receives
 
 **Bootstrapping.** Revenue, savings, or services pay for the product. Nobody receives anything but the product. Your Stripe Checkout from 10-2, switched from test mode to live keys, is a bootstrapping tool.
@@ -295,7 +303,9 @@ Everything happens in the capstone repo. Open a terminal there.
 
 ![](diagram:session-11-1/fig3-evidence)
 
-One deliverable: `docs/fundraising-research.md`, complete, committed, and pushed. Evidence that it is done rather than copied:
+Two roads, so two deliverables, and you do the one for your road. Both roads also write `docs/funding-route.md` today, because the choice is the first thing the rest of the unit depends on.
+
+**The Noble Houses road.** One deliverable: `docs/fundraising-research.md`, complete, committed, and pushed. Evidence that it is done rather than copied:
 
 - The milestone has a dollar figure with one-time and per-unit costs separated.
 - The routes table has all five rows filled, and every "contributor receives" cell says either a product, a promise, or a security.
@@ -305,7 +315,62 @@ One deliverable: `docs/fundraising-research.md`, complete, committed, and pushed
 - The thesis paragraph names a route, an amount, what it buys, and what you would still own, and "raise nothing right now" was considered as a real option.
 - The commit is on GitHub.
 
-Next session reads this file's thesis and asks what happens to the ownership number inside it.
+**The Village road.** One deliverable: `docs/operating-budget.md`, which says what the deployed capstone costs to keep alive each month, today, with the numbers taken from the bills you can see and not from a guess. You still fill the milestone section and the routes table of `docs/fundraising-research.md`, because the Village has to know what it is turning down; the pre-sale model and the three company histories are optional on this road, and the thesis paragraph is replaced by the decision at the bottom of the budget file. Copy this in and fill it:
+
+```markdown
+# Operating budget: <capstone-name>
+
+Every number is read off a bill or a dashboard, with the date. Guesses say so.
+
+## What it costs today, per month
+| Line | Amount | Where I read it | Date |
+|---|---|---|---|
+| Hosting (Railway usage page, or the 6-1 droplet) | $ | | |
+| Database (Railway add-on usage, or the Atlas free cluster) | $ | | |
+| Domain (renewal price from docs/domain.md, divided by twelve) | $ | | |
+| Model credits (AI_DAILY_TOKEN_BUDGET x users x the pricing page) | $ | | |
+| Anything else with a card on file | $ | | |
+| Total per month | $ | | |
+
+## What the first ten paying users would change
+Price per user per month:
+Collected after the processor's cut (price x 0.97, rounded):
+Ten users collect:
+That covers the total above: yes / no, by $
+What ten users cost me that zero users do not (support time, model credits):
+
+## A pre-sale or community round
+Yes / no:
+Reasons:
+If yes: how much, from whom, what they receive, what I owe:
+
+## Raise nothing
+This is a decision, not a default. Reasons:
+What would make me revisit it (a number, not a feeling):
+```
+
+What goes in the hosting line depends on where you deployed in 10-4. On Railway the plan is usage-based and the number is on your project's usage page this month; the course prints no figure for it because the price list moves, and [9-5](/path/9-5-grand-architecture/) links the pricing page. On the Unit 6 droplet the figure is the one [6-4](/path/6-4-opening-the-world-gate/) states: $6.00 a month at the time of writing, with a snapshot at $0.06 per GB per month if you ever pause it. The Atlas free cluster is $0 and says so in its own row. The domain renews once a year at the price you wrote in `docs/domain.md` in Unit 6; divide it by twelve. Model credits are the daily token budget from 10-3 multiplied by the users you expect and the rate on the provider's pricing page, done once in this file and dated, not in code.
+
+Evidence that the Village deliverable is done rather than copied:
+
+- Every line in the cost table has a source and a date, and the total is a sum you can recompute.
+- The ten-user section answers yes or no to "covers the bill" with the dollar gap either way.
+- The pre-sale or community-round section has a yes or a no with reasons, and if yes, the four words from the routes table: receives, owe.
+- "Raise nothing" is written as a decision with reasons and a number that would change it.
+- The milestone and the routes table in `docs/fundraising-research.md` are filled.
+- Both files are committed and pushed.
+
+**Both roads.** `docs/funding-route.md`, one paragraph: which road, why, and what would make you switch. Commit it with today's deliverable.
+
+```bash
+git add docs/funding-route.md docs/fundraising-research.md
+git commit -m "docs: funding route chosen"
+git push
+```
+
+On the Village road, add `docs/operating-budget.md` to the first line. Do not add it on the Noble Houses road: `git add` refuses a path that does not exist and stages nothing at all, and the commit that follows has nothing in it.
+
+Next session reads the thesis paragraph on the Noble Houses road and the "raise nothing" decision on the Village road, and asks what happens to the ownership number inside each.
 
 ## Side quests
 
@@ -313,6 +378,6 @@ Back-of-the-envelope numbers are the whole method of this session's model, and t
 
 ## Before next session
 
-Next session is [The Noble Houses](/path/11-2-the-noble-houses/): angel investors, the post-money SAFE, dilution arithmetic, and a fictional term sheet with red flags in it. Read the YC SAFE page linked above once, just the "how it works" part; you will read the actual document next time. Bring your thesis paragraph, because the first thing you do is put a number on the ownership it promises.
+Next session is [The Noble Houses](/path/11-2-the-noble-houses/): angel investors, the post-money SAFE, dilution arithmetic, and a fictional term sheet with red flags in it. Read the YC SAFE page linked above once, just the "how it works" part; you will read the actual document next time. Bring your thesis paragraph, because the first thing you do is put a number on the ownership it promises. On the Village road, bring the "raise nothing" decision instead, because next session puts a number on what a single founder owns and what a future collaborator would earn.
 
-Nothing is running between sessions. The deployed capstone stays up at its public URL on its own; no local server was started today and none needs stopping.
+Nothing is running between sessions. The deployed capstone stays up at its public URL on its own; no local server was started today and none needs stopping. What carries forward is `docs/fundraising-research.md` and `docs/funding-route.md` on both roads, plus `docs/operating-budget.md` on the Village road.

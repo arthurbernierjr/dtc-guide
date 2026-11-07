@@ -25,7 +25,7 @@ say:
 
 Week 21, Wednesday. Twenty weeks ago the terminal was a dark window with a blinking rectangle in it. Today `rc-2` is live, tested against its own sha, attacked by a second account, backed up and restored, rolled back and forward, polished, and rehearsed once on camera. There is no audience in a room. There is a recording you make today that counts, a page of questions you answer in writing, a rubric you score honestly against yourself, and a handoff packet that lets the next person operate the app. The next person is you, next month, with the details already fading.
 
-That is the shape of the day. Seed the fixture account on the live database, record the final take from the script you wrote on Tuesday, and watch it once. Write five questions a reviewer would ask and answer them from the implementation, with file names. Score the hundred points and write the number down with the evidence for each line. Put the release sha, the URL, the environment variable names, the run and test commands, the backup and restore commands, the known issues, and who watches it into `docs/demo-day.md`. Then send the recording and the deck to one person outside the build, write down their three comments, and rank them. The last thing you write is a README and a post that claim exactly what the repository can prove.
+That is the shape of the day. Seed the fixture account on the live database, record the final take from the script you wrote on Tuesday, and watch it once. Write five questions a reviewer would ask and answer them from the implementation, with file names. Score the hundred points and write the number down with the evidence for each line. Put the release sha, the URL, the environment variable names, the run and test commands, the backup and restore commands, the known issues, and who watches it into `docs/demo-day.md`. Then send the recording and the deck or stakeholder brief to one person outside the build, write down their three comments, and rank them. The last thing you write is a README and a post that claim exactly what the repository can prove.
 
 > *The crown is not the moment the sword touches the shoulder. It is the morning after, when the kingdom still has to be run.*
 
@@ -102,7 +102,7 @@ A filled answer to question three:
 | Stripe test checkout and the AI feature both work on the live URL | 5 | | |
 | Ten or more tests, and the workflow runs them on push | 5 | | .github/workflows/test.yml, Actions run link |
 | Backup restored and timed; custom domain; process manager or platform restart verified | 5 | | release-candidate.md drill section |
-| README, deck, and recording agree with each other and with the product | 5 | | |
+| README, deck or stakeholder brief, and recording agree with each other and with the product | 5 | | |
 
 ### Legendary — 10
 | Line | Max | Score | Evidence |
@@ -139,7 +139,7 @@ Every line is a fact you can check against the repository or the host. The "who 
 
 ### The outside reviewer and the ranked list
 
-Send the recording link and the deck to one person who was not in the build. A friend who uses software is enough; one of P0 through P3 from 8-1 is better, because they have the problem. Ask for three comments, any kind. Write them down in their words under `## Feedback` in `docs/demo-day.md`, then sort each one into one of three bins: a defect, which is the path doing something wrong; a need, which is something they could not do; a suggestion, which is a taste. Defects and blocked needs outrank suggestions. Pick the top one and say why. A list you do not rank is a way to feel busy while the broken step stays broken.
+Send the recording link and the deck or stakeholder brief to one person who was not in the build. A friend who uses software is enough; one of P0 through P3 from 8-1 is better, because they have the problem. Ask for three comments, any kind. Write them down in their words under `## Feedback` in `docs/demo-day.md`, then sort each one into one of three bins: a defect, which is the path doing something wrong; a need, which is something they could not do; a suggestion, which is a taste. Defects and blocked needs outrank suggestions. Pick the top one and say why. A list you do not rank is a way to feel busy while the broken step stays broken.
 
 ### One experiment, not a roadmap
 
@@ -164,7 +164,7 @@ The pasted URI never goes into a file on your laptop; the command's history line
 
 Then `docs/demo-day.md`, section by section. The Q&A took forty minutes, because question two was honest: the second service in the 9-5 record came out in Sprint 1, and the answer says so and says why. The rubric took twenty, and the first pass gave 84; the second pass, checking every evidence cell, took the ten-test line back to zero because the Actions run on `rc-2` was never opened, and the `rc-2` run link went into the cell after it was found. Final: 79. The packet took fifteen, with every line copied from a file rather than from memory, which is how a mismatch in the environment variable list was found: `DRAFT_MODE` was in `.env.example` and not in the packet, and now it is in both.
 
-Then the reviewer. P2 from 8-1 got the recording and the deck at noon and sent three comments by four. "I could not find where to change my password" is a blocked need. "The green is hard to read on my phone" is a defect in the layout sense. "It should have a dark mode" is a suggestion. The password one is first, with its reason, and it is the hypothesis in `docs/next-quest.md`.
+Then the reviewer. P2 from 8-1 got the recording and the deck, or the stakeholder brief on the Village road, at noon and sent three comments by four. "I could not find where to change my password" is a blocked need. "The green is hard to read on my phone" is a defect in the layout sense. "It should have a dark mode" is a suggestion. The password one is first, with its reason, and it is the hypothesis in `docs/next-quest.md`.
 
 Then the README's top section, rewritten so that every claim has a link: the live URL, the tag, the test command, the backup drill, the three things that are not finished. And the post, which is the README's first paragraph with the URL and nothing the README cannot support:
 
@@ -261,7 +261,7 @@ In `~/projects/<capstone-name>`, against the live `rc-2`, with nothing to deploy
 3. Create `docs/demo-day.md`. Answer the five questions, each with at least one file name. Answer question two honestly, including the thing you would not build the same way.
 4. Score the rubric. Then score it again, and zero every line whose evidence cell you cannot open right now. Write both totals and keep the second.
 5. Write the handoff section from files, not memory: `.env.example` for the names, `docs/release-candidate.md` for the drill numbers and known issues, the README for the commands. Write the "who watches it" line last and mean it.
-6. Send the recording and the deck to one outside person. Record their three comments in their words, bin them, rank them, pick one with a reason.
+6. Send the recording and the deck or stakeholder brief to one outside person. Record their three comments in their words, bin them, rank them, pick one with a reason.
 7. Write `docs/next-quest.md` as one experiment with a number and a date. The low rubric lines come first if any scored under half.
 8. Rewrite the README's top section so every claim links to its evidence and the three unfinished things sit beside the finished ones. Write the post from that paragraph. Create the GitHub release for `rc-2` with `gh release create` and pin the repository on your profile.
 

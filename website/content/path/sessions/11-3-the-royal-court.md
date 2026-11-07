@@ -366,7 +366,9 @@ Open a terminal in the capstone repo and a browser at slides.google.com, signed 
 
 ![](diagram:session-11-3/fig3-evidence)
 
-One deliverable in two files: `docs/pitch-deck.md` with its Slides link and `docs/financial-narrative.md`, both committed. Evidence that it is done:
+Two roads, and `docs/financial-narrative.md` on both, because the one-page narrative is how anyone, investor or user, learns whether the product can pay for itself.
+
+**The Noble Houses road.** One deliverable in two files: `docs/pitch-deck.md` with its Slides link and `docs/financial-narrative.md`, both committed. Evidence that it is done:
 
 - The venture-fit paragraph gives a yes or a no with a reason, and a non-venture route if the answer is no.
 - Slides 1 to 4 exist in the deck with content from the capstone, not placeholders; a reviewer opening the link can see two real screenshots.
@@ -376,7 +378,61 @@ One deliverable in two files: `docs/pitch-deck.md` with its Slides link and `doc
 - The pipeline table has at least three rows of firms or people who invest at your stage, with the introduction source you would use and no private contact details.
 - The data-room index lists where each item lives in the repo.
 
-Next session builds the month-by-month cash model, and slides 10 and 11 change to whatever it says.
+**The Village road.** One deliverable in two files: `docs/stakeholder-brief.md` with a link to a four-slide deck, and the same `docs/financial-narrative.md`. The four slides replace the twelve, and they are not the first four of the twelve. They are the four things a person who will use the product, host it, test it, or vouch for it needs to see: the problem, the evidence, what works today, and what you need from them. Steps 1 to 3 of Your turn become these four slides and this file; steps 4 to 7 are the same for everyone, with `docs/stakeholder-brief.md` in place of `docs/pitch-deck.md` in the commit. Copy this in:
+
+```markdown
+# Stakeholder brief: <capstone-name>
+
+Slides: <share link, view access, four slides>
+Status: draft, four slides
+Route: the Village (see docs/funding-route.md)
+
+## Slides
+1. The problem: <one person's specific pain, in their words, from docs/research.md>
+2. The evidence: <P1, P2, P3 and so on; what each said or did; how many of the interviews had this problem>
+3. What works today: <two screenshots of the live URL; the flow a user can complete now; one line on what it does not do yet>
+4. What I need: <testers and users: how many, by when, and the one thing I will measure. No dollar figure on this slide.>
+
+## Market arithmetic
+Count:   <segment> = <number> (<source>, <date>)
+Pay:     <share who already pay for something like this> = <number>
+Price:   $<X> per year, or $0 with the reason
+SAM:     <count x price>
+SOM:     <the people and channels I can actually reach in a year, listed, x price>
+
+## Elevator pitch (60 seconds)
+Sentence 1, what I built:
+Sentence 2, who it is for:
+Sentence 3, why it matters:
+Sentence 4, why now:
+Sentence 5, the ask (users, testers, a host, an introduction):
+
+## Who gets this brief
+| Person or group | Why them | How I reach them | Next action | Date |
+|---|---|---|---|---|
+| | | | | |
+
+## Evidence index
+- Problem and interviews: docs/research.md
+- Product promise: docs/product-spec.md
+- What it costs: docs/operating-budget.md
+- Who owns it: docs/ownership.md
+
+## Rehearsal log
+(filled in next session)
+```
+
+The market arithmetic stays on this road, and the SOM is where it earns its keep. A Village SOM is not a percentage of anything. It is a list: the twelve people in the Discord, the two clubs whose organisers you have met, the mailing list with forty names, each times what they would pay, which may be zero. Ten reachable people at $0 is an honest SOM for a community tool, and writing it down is what stops slide 4 from asking for a thousand users you have no way to find. The ask on slide 4 is a number of people by a date and the one thing you will measure when they arrive: weekly return, a completed flow, a message you did not prompt. Evidence that it is done:
+
+- Four slides exist in the deck with content from the capstone; slide 2 names participants by id and gives the count, and slide 3 has two real screenshots and one sentence about what the product does not do yet.
+- Slide 4 asks for a number of testers or users by a date, says what will be measured, and contains no dollar figure.
+- The market arithmetic has a source and a date on the count, and the SOM is a list of reachable people or channels times a price, not a percentage.
+- The financial narrative fits on one printed page, with a $0 price written as $0 and the arithmetic checked on every line that has one.
+- The elevator pitch was recorded twice; the sentence you changed between takes is marked in the file.
+- "Who gets this brief" has at least three rows, with no private contact details.
+- The evidence index points at files that exist in the repo.
+
+Next session builds the month-by-month cash model. On the Noble Houses road, slides 10 and 11 change to whatever it says; on the Village road, slide 4 and the operating budget do.
 
 ## Side quests
 
@@ -384,6 +440,6 @@ Back-of-the-envelope numbers are the method behind the fund arithmetic and the b
 
 ## Before next session
 
-Next session is [War Council](/path/11-4-war-council/): the cash model that tests every number in the deck, the reconciliation of slides 10 and 11 against it, and a recorded five-minute pitch you score yourself. Finish slides 5 to 12 in the deck before then, content first and design last; next session's first step assumes twelve filled slides. Make sure you can record your screen and your voice on your own machine: QuickTime on macOS, Game Bar on Windows, or OBS on anything, and test a ten-second recording so the first real take is not the test.
+Next session is [War Council](/path/11-4-war-council/): the cash model that tests every number in the deck, the reconciliation of slides 10 and 11 against it, and a recorded five-minute pitch you score yourself. Finish slides 5 to 12 in the deck before then, content first and design last; next session's first step assumes twelve filled slides. On the Village road, finish the four slides instead, and know that next session's recording is a three-minute stakeholder demo rather than the five-minute pitch. Make sure you can record your screen and your voice on your own machine: QuickTime on macOS, Game Bar on Windows, or OBS on anything, and test a ten-second recording so the first real take is not the test.
 
-Nothing is running between sessions. The deployed capstone stays up on its own; the deck lives in Google Slides and its outline in `docs/`.
+Nothing is running between sessions. The deployed capstone stays up on its own; the deck lives in Google Slides and its outline in `docs/`, as `pitch-deck.md` on the Noble Houses road or `stakeholder-brief.md` on the Village road, with `financial-narrative.md` beside it on both.
