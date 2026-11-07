@@ -2,689 +2,595 @@
 editorial: true
 title: The Character Sheet Forge
 subtitle: Build and Deploy Your Landing Page
-hook: "A responsive personal landing page, deployment URL, and accessibility review. Name the visitor and the action they should take."
-read: 60
-artifact: "A responsive personal landing page, deployment URL, and accessibility review"
+hook: "Five sessions of skeleton, armor, formation and motion become one page with your name on it, and today it goes on the internet at a URL you can send to anyone. Then you prove the page a visitor gets is the page you built: on a phone, from the keyboard, with every path resolving under the prefix GitHub gives you."
+read: 55
+artifact: "~/projects/landing-page: a personal landing page in semantic HTML and one stylesheet, BEM throughout, Flexbox for the bar and Grid for the cards, mobile-first, a skip link, visible focus, reduced motion respected; a public repository called landing-page with a README; live on GitHub Pages at https://USER.github.io/landing-page/ and checked on a phone"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site
+  - https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages
+  - https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility
+  - https://webaim.org/resources/contrastchecker/
+  - https://developer.chrome.com/docs/lighthouse/overview
+  - https://squoosh.app/
 say:
-  - "Content: Name the visitor and the action they should take."
-  - "Layout: Use semantic sections and fluid components."
-  - "Release: Publish and check the deployed URL on a phone."
+  - "the page answers three questions: who you are, what you can do, how to reach you"
+  - "Pages serves one branch and one folder, and it looks for index.html at that root"
+  - "a path that starts with a slash starts at the host, not at your project"
 ---
 
 ## The hook
 
-This is it. Everything you have learned in this unit comes together today. HTML structure from Session 2.1. CSS styling from 2.2. Layout with Flexbox and Grid from 2.3. Animations and BEM from 2.4. Today, you build a real thing. A personal landing page. Your page. Not a tutorial follow-along. Not a copy of someone else's design. Yours.
+Everything in this unit was practice on pages nobody else will open. The adventure log, the potion shop, the holy grail, the enchantments workshop: real files, real commits, and an audience of one. Today the audience changes. You build one page that says who you are, what you can do, and how to reach you, and then you put it on the internet at an address that works from any phone in the world. It is a small page. It is also the first thing you have made that a stranger can find.
 
-A landing page is the single most important page on any website. It is the first thing people see. It has one job: make the visitor care enough to keep going. In the professional world, landing pages convert visitors into customers, subscribers, users. For you, right now, this page introduces you to the world. Who you are, what you can do, how to reach you. And by the end of today, it will be live on the internet at a real URL that you can share with anyone.
+By the end of the session there is a new folder, `~/projects/landing-page`, with `index.html`, `style.css`, a `README.md`, and an image. There is a public repository with the same name. There is a URL, `https://YOU.github.io/landing-page/`, that you have opened in a private window, tabbed through with the keyboard, and checked at a phone width. And there is one sentence in the README that says what the page does not do yet, because a page you can describe honestly is worth more than one you have to apologise for.
 
-We are going to walk through landing page design principles, build the structure together, then you will take over and make it your own. We will also cover deployment to GitHub Pages, accessibility checks, and performance basics. After today, you will have shipped a real product. Not a homework assignment. A product. Let us forge your character sheet.
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+> *The forge is lit. Every adventurer who walks into the guild hall carries a sheet: a name, a class, a short list of what they can do, and a way to send for them. Yours gets written today, and then it gets pinned to the board outside, where anyone can read it.*
 
 ## The idea
 
-### Create and Deploy a Professional Landing Page
-You will design, build, and deploy a complete personal landing page that demonstrates HTML structure, CSS styling, responsive layout, and visual polish.
+A landing page is a page with one job. A visitor arrives from a link, usually on a phone, usually with ten seconds of patience, and wants three answers: who is this, what can they do, how do I reach them. Everything on the page either answers one of those questions or gets in the way. That rule decides the section order before you write a line of CSS, and it decides what the one button on the page says.
 
-**You will:**
-- Plan a landing page structure using wireframing and content hierarchy
-- Build a multi-section landing page with semantic HTML and styled CSS
-- Deploy a static website to GitHub Pages from a repository
-- Validate accessibility and performance using browser tools and checklists
-
-**You will be able to:**
-- sketch a wireframe and translate it into semantic HTML sections
-- build a complete landing page with hero, features, about, contact, and footer sections
-- deploy a live website to GitHub Pages and verify it loads at the public URL
-- run accessibility checks (alt text, color contrast, semantic structure) and fix identified issues
-
----
-
-- **Concept 1: Landing Page Design Principles**
-
-  A strong landing page follows a proven structure. You do not need to reinvent the wheel:
-
-  1. **Hero Section** - The first thing visitors see. Big headline, supporting text, call-to-action button. Full viewport height or close to it. This section has 3-5 seconds to grab attention.
-  2. **Features/Skills Section** - What do you offer? What can you do? Show 3-6 key items in a grid or card layout. Icons or images help.
-  3. **About Section** - Personal context. A photo, a short bio, your story. People connect with people, not just skills.
-  4. **Social Proof/Projects Section** - Evidence. Portfolio pieces, testimonials, logos, numbers. "Do not tell me you are good. Show me."
-  5. **Contact/CTA Section** - How to reach you. A form, email link, social media links. Make it easy.
-  6. **Footer** - Copyright, secondary links, social icons.
-
-  **Design principles:**
-  - Visual hierarchy: Most important content is biggest and highest on the page
-  - Whitespace: Do not cram elements together. Spacing creates breathability and focus
-  - Consistency: Use the same fonts, colors, and spacing patterns throughout
-  - One primary CTA: Do not give visitors 10 things to click. Guide them to one action
-  - Contrast: Important elements (buttons, headings) must stand out from their surroundings
-
-- **Concept 2: GitHub Pages Deployment**
-
-  GitHub Pages is a free hosting service that takes HTML, CSS, and JavaScript files from a GitHub repository and serves them as a live website.
-
-  **How it works:**
-  1. You push your code to a GitHub repository
-  2. You enable GitHub Pages in the repository settings
-  3. GitHub serves your files at `https://yourusername.github.io/repository-name/`
-
-  **Steps to deploy:**
-  ```bash
-  # 1. Make sure your main HTML file is named index.html
-  # 2. Push your code to GitHub
-  git add .
-  git commit -m "Ready for deployment"
-  git push origin main
-
-  # 3. Go to your repository on GitHub
-  # 4. Click Settings > Pages
-  # 5. Under "Source", select "Deploy from a branch"
-  # 6. Select "main" branch and "/ (root)" folder
-  # 7. Click Save
-  # 8. Wait 1-2 minutes, then visit https://yourusername.github.io/repo-name/
-  ```
-
-  **Important:** The entry file MUST be named `index.html` and be in the root of your repository (or the folder you specify). GitHub Pages looks for `index.html` by default.
-
-- **Concept 3: Accessibility Fundamentals**
-
-  Accessibility (a11y) means making your website usable by everyone, including people who use screen readers, keyboard-only navigation, or have visual impairments.
-
-  **Essential accessibility practices:**
-
-  - **Semantic HTML:** Use `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`. Screen readers use these to navigate.
-  - **Alt text on images:** Every `<img>` needs a descriptive `alt` attribute. Decorative images get `alt=""`.
-  - **Color contrast:** Text must have sufficient contrast against its background. WCAG AA requires a ratio of at least 4.5:1 for normal text. Use [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/) to verify.
-  - **Keyboard navigation:** Users must be able to Tab through all interactive elements (links, buttons, form fields). Never remove the `:focus` outline without replacing it with a visible alternative.
-  - **ARIA labels:** When visual context is not enough, add `aria-label` attributes to describe elements for screen readers.
-
-  ```html
-  <!-- Good: Descriptive alt text -->
-  <img src="profile.jpg" alt="Arthur standing at a whiteboard teaching a coding class">
-
-  <!-- Good: ARIA label on an icon-only button -->
-  <button aria-label="Open menu">
-      <span class="icon-hamburger"></span>
-  </button>
-
-  <!-- Good: Skip to main content link for keyboard users -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  ```
-
-  ```css
-  /* Visible focus styles (never just remove outline) */
-  a:focus,
-  button:focus {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-  }
-
-  /* Skip link - hidden until focused */
-  .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: var(--color-primary);
-      color: white;
-      padding: 0.5rem 1rem;
-      z-index: 100;
-      transition: top 0.3s;
-  }
-
-  .skip-link:focus {
-      top: 0;
-  }
-  ```
-
-- **Concept 4: Performance Basics**
-
-  Page speed matters. Users leave if a page takes more than 3 seconds to load.
-
-  **Image optimization:**
-  - Use [Squoosh](https://squoosh.app/) to compress images before adding them to your project
-  - Use appropriate formats: JPEG for photos, PNG for graphics with transparency, WebP for both (modern browsers)
-  - Set explicit `width` and `height` attributes on `<img>` to prevent layout shift
-  - Use `loading="lazy"` on images below the fold
-
-  ```html
-  <img src="project.webp"
-       alt="Screenshot of my project"
-       width="800"
-       height="450"
-       loading="lazy">
-  ```
-
-  **CSS performance:**
-  - Put critical CSS (above-the-fold styles) first in your stylesheet
-  - Minimize unused CSS
-  - Avoid `@import` in CSS (use `<link>` tags instead, they load in parallel)
-
-  **Testing performance:**
-  - Open Chrome DevTools > Lighthouse tab
-  - Run a Lighthouse audit for Performance, Accessibility, Best Practices, and SEO
-  - Aim for 90+ on all scores
-
-  **Common Misconceptions:**
-
-  | Wrong | Correct |
-  |-------|---------|
-  | "Accessibility is only for blind users" | Accessibility benefits keyboard users, motor-impaired users, colorblind users, and even users on slow connections. |
-  | "I can deploy any HTML file to GitHub Pages" | The entry file must be named `index.html`. GitHub Pages looks for this by default. |
-  | "Performance does not matter for a simple landing page" | Even simple pages can be slow if images are unoptimized. A 5MB photo will make your page crawl on mobile. |
-  | "I will add accessibility later" | Build accessibility in from the start. Retrofitting is harder and more expensive. |
-  | "A landing page needs lots of content" | Less is more. A focused page with clear hierarchy beats a cluttered one every time. |
+The build is an assembly, not a new lesson. The skeleton is [2.1](/path/2-1-the-skeleton-frame/): `header`, `nav`, `main`, `section`, `footer`, one `h1`, an `img` with an `alt` that describes it. The armor is [2.2](/path/2-2-armor-and-cosmetics/): a border-box reset, custom properties on `:root`, a font from Google Fonts. The formation is [2.3](/path/2-3-formation-magic/): a nav that is a column on a phone and a row from 768 pixels up, a grid of cards that fits as many as the width allows. The enchantments are [2.4](/path/2-4-enchantments/): one entrance, one hover, BEM names, reduced motion respected. What is new today is the last step, release, and the three ways a released page differs from the one on your screen.
 
 ![](diagram:session-2-5/fig1-model)
 
-### A portfolio is a small product
+### Content before layout
 
-A visitor arriving from a link has three questions: who is this person, what can they do, and how do I contact them? Arrange the page around those questions. A dramatic hero that takes an entire phone screen without identifying you makes the visitor work before they have a reason to care. Write the content before adjusting gradients. Your name, a concrete description of your work, one project with evidence, and a contact action form a usable first release. Additional sections earn their place by answering a visitor question.
+Write the words first. Your name, as you want it read. One sentence that says what you build, in plain words, with a noun in it: "I build small web apps and write down how they work" says more than "passionate developer". Three skills, each with a title and one line. Two or three sentences about you. Two projects, which at this point in the path are the adventure log and the potion shop, and that is fine; a project card that links to a real page you made beats a card that says "coming soon". One contact action.
 
-Choose one primary action. If the goal is a project conversation, label the link with that outcome and point it to a working contact method. A button that says Submit beside no form is decoration. If you use an email link, explain that it opens the visitor's email application. If you build a contact form later, it needs a delivery service, validation, feedback, and privacy decisions. Static hosting alone cannot deliver a message. Do not display a fake success notification that discards what the visitor wrote.
+Choose that action before you style it. If you want email, the link is `mailto:you@example.com` and the button says what happens: "Email me". If you want conversations on another platform, link there and name it. A button that says "Send" next to no form is decoration, and a form on a static site has nowhere to send its message. Pages serves files. It does not run a program that receives anything. The contact form arrives in Unit 4, with a server behind it. Today the contact section is a link, and the page says so.
 
-### Design the awkward content first
+Then design for the awkward version of the content. Make one project title twice as long and watch the card grow instead of cropping. Replace the two sentences about you with two paragraphs. Take the portrait out and see whether the about section still reads. A layout that only works with the exact words you wrote is a screenshot, not a system.
 
-Test a project title twice as long as the original. Replace your short biography with two paragraphs. Remove a project thumbnail. These changes reveal whether the layout is a reusable system or a screenshot that only works with one set of content. Cards should grow vertically instead of cropping important text. Images need useful alternative text when they carry meaning, and empty alternative text when they merely repeat adjacent text. Reserve their aspect ratio so the page does not jump while they load.
+### What GitHub Pages actually is
 
-A useful responsive test matrix includes a narrow phone, a medium tablet, a wide desktop, and browser zoom. Check the page with the keyboard before using the mouse: the skip link should appear, navigation should follow a logical order, and every link should have a visible focus indicator. Hover is an enhancement because touch users cannot depend on it. Motion should respect reduced-motion preferences. A layout can look excellent in a screenshot and still fail these basic interactions.
+GitHub Pages takes the files in one branch of one repository and serves them over HTTPS, unchanged, at a fixed address. For a project repository the address is `https://USER.github.io/REPO/`, where `USER` is your GitHub username and `REPO` is the repository name. You push, GitHub copies the branch to its web servers, and a minute later the files are live. There is no build step for plain HTML and CSS. There is no server of yours. If it is in the branch, it is on the internet; if it is not in the branch, it is not.
 
-### Prove the deployed version
+Three facts follow from that, and all three of today's failures come from forgetting one of them.
 
-A project site often lives below a repository prefix. An asset URL beginning with a slash starts at the domain root, which can bypass that prefix. Use appropriate relative paths for a plain static project, or configure the base path when introducing a bundler. File names on a deployed server may be case sensitive even when your local file system is forgiving. Photograph.JPG and photograph.jpg are different paths on many hosts.
+Pages publishes one branch and one folder. You pick them in the repository settings: `main` and `/ (root)` for this project. Files on another branch, files you never committed, and files that exist only on your disk are not published.
 
-After publishing, open the exact public URL in a fresh browser context. Follow every navigation and contact link. Reload a nested URL if your site has one. Inspect the network panel for missing images, fonts, and styles. A local preview is evidence about your working directory; the public check is evidence about what a visitor receives. Record the deployed revision so a later change does not make your review ambiguous.
+Pages looks for `index.html` at that root. The address ends in a slash, and the file that answers a slash is `index.html`, spelled exactly like that. `Index.html` is a different file on the web server, even though your laptop may treat the two names as the same.
 
-### Peer review that changes the page
+Pages serves a project under a prefix. Your page is not at the root of a domain. It is at `/landing-page/` on `USER.github.io`. A link written `href="/style.css"` means "the stylesheet at the root of the host", which is `https://USER.github.io/style.css`, which does not exist. A link written `href="style.css"` means "the stylesheet next to this HTML file", which is under the prefix, which is right. Every path in this project is relative for that reason.
 
-Ask a reviewer to find one project and explain what you contributed. Do not narrate the answer while they look. Record where they hesitate, then separate an observed problem from a suggested solution. “I cannot find a contact link” is evidence. “Make the footer purple” is a proposal. Fix the evidence first and rerun the task. Keep a short before-and-after note with the change and the result. That note is also a portfolio story: you can explain a design decision using user behavior instead of personal taste.
+### Accessibility is a list you already started
+
+You have been doing pieces of this since the first session: the `alt` text in 2.1, the labels that focus their fields, the reduced-motion query in 2.4. The [accessibility overview](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility) is the list those pieces belong to. For a landing page the list is short.
+
+Semantic sectioning. `header`, `nav`, `main`, `section`, `footer` are landmarks a screen reader can jump between. One `h1`, then `h2` for each section, then `h3` inside cards. The heading outline is a table of contents whether or not you draw one.
+
+Alt text on every image. The portrait describes the person. A decorative flourish gets `alt=""`. An image with no `alt` attribute at all is unfinished.
+
+Contrast. Normal text needs a ratio of at least 4.5 to 1 against its background, and the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/) will tell you the number for any two colours. This matters today because the obvious choice is wrong. White text on the green this page uses, `#00A868`, is 3.09 to 1, which fails. The near-black ink on the same green is 6.21 to 1, which passes. The muted grey `#8A8A94` on the page background `#0f0f1a` is 5.57 to 1, which passes, and it would fail if you made it a little greyer. Check the pairs you are tempted to eyeball.
+
+Keyboard. Every link and button must be reachable with Tab and must show where focus is. Browsers draw a focus ring by default; a stylesheet that sets `outline: none` to make a mockup look clean has removed the only sign a keyboard user has. Replace it, never remove it. `:focus-visible` draws the ring only for keyboard focus, which is the behaviour people usually wanted when they reached for `none`.
+
+A skip link. The first focusable thing on the page is a link to `#main`, hidden until it receives focus. A keyboard user presses Tab once, sees "Skip to content", presses Enter, and lands past the navigation. It is three lines of CSS and the first thing a reviewer checks.
+
+Reduced motion. The query from 2.4, complete this time: durations near zero, iteration count forced to one so an infinite pulse does not loop at a thousand frames a second, and smooth scrolling switched off, because a page that glides to its anchors is motion too.
+
+### Performance is mostly the image
+
+A landing page with one stylesheet and no script is fast unless the image is enormous. A photograph straight from a phone is four thousand pixels wide and several megabytes, and it will be the only slow thing on the page. Run it through [Squoosh](https://squoosh.app/) before it goes in the folder: resize to the largest size the page will display, which for a 200 pixel portrait is 400 pixels to stay sharp on a dense screen, and export as WebP or JPEG. A portrait under 50 kilobytes is normal.
+
+Give the `img` its `width` and `height` attributes, in pixels, matching the file. The browser then reserves the space before the bytes arrive, and the text below does not jump when the picture lands. CSS still decides the displayed size; the attributes only set the ratio. Add `loading="lazy"` to images below the first screen so the browser fetches them when they are about to be needed.
+
+Then measure instead of guessing. Chrome DevTools has a Lighthouse panel. Run it against the live URL with the Accessibility and Performance categories ticked, read the failures, and fix the ones that name your file. A score is not the point. The list under it is.
+
+> **Note:** Napkin version. Write the content, lay it out with the parts you already own, release it. Pages serves one branch and one folder, looks for `index.html` at that root, and puts the whole project under `/landing-page/`, so every path is relative. Before you call it done: keyboard, phone width, contrast numbers, one honest sentence in the README.
 
 ## The demonstration
 
-**What you should see:**
-
-- **Demo 1: Build a Complete Landing Page Structure from Wireframe**
-
-  **Setup:** Draw a simple wireframe on the board or screen showing 5 sections stacked vertically: Hero, Features, About, Projects, Footer. Then translate it to HTML.
-
-  Create `landing-page/index.html`:
-  ```html
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Your Name - Developer</title>
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-      <a href="#main" class="skip-link">Skip to main content</a>
-
-      <header class="header">
-          <nav class="header__nav">
-              <a href="#" class="header__brand">YourName</a>
-              <ul class="header__links">
-                  <li><a href="#features" class="header__link">Skills</a></li>
-                  <li><a href="#about" class="header__link">About</a></li>
-                  <li><a href="#projects" class="header__link">Projects</a></li>
-                  <li><a href="#contact" class="header__link">Contact</a></li>
-              </ul>
-          </nav>
-      </header>
-
-      <main id="main">
-          <section class="hero">
-              <h1 class="hero__title">Hi, I am <span class="hero__name">Your Name</span></h1>
-              <p class="hero__subtitle">Full-stack developer building things that matter.</p>
-              <a href="#projects" class="hero__cta">View My Work</a>
-          </section>
-
-          <section id="features" class="features">
-              <h2 class="features__heading">What I Do</h2>
-              <div class="features__grid">
-                  <div class="feature-card">
-                      <h3 class="feature-card__title">Frontend</h3>
-                      <p class="feature-card__text">HTML, CSS, JavaScript. Responsive, accessible, fast.</p>
-                  </div>
-                  <div class="feature-card">
-                      <h3 class="feature-card__title">Backend</h3>
-                      <p class="feature-card__text">Node.js, Express, databases. APIs that scale.</p>
-                  </div>
-                  <div class="feature-card">
-                      <h3 class="feature-card__title">Tools</h3>
-                      <p class="feature-card__text">Git, GitHub, VS Code, terminal. The full toolkit.</p>
-                  </div>
-              </div>
-          </section>
-
-          <section id="about" class="about">
-              <h2 class="about__heading">About Me</h2>
-              <div class="about__content">
-                  <img src="https://via.placeholder.com/300x300" alt="Your Name smiling at the camera" class="about__image">
-                  <div class="about__text">
-                      <p>Write 2-3 sentences about yourself here. Who are you? What drives you? What are you building toward?</p>
-                      <p>This is the human section. Let people know there is a real person behind the code.</p>
-                  </div>
-              </div>
-          </section>
-
-          <section id="projects" class="projects">
-              <h2 class="projects__heading">Projects</h2>
-              <div class="projects__grid">
-                  <article class="project-card">
-                      <h3 class="project-card__title">Project One</h3>
-                      <p class="project-card__description">A brief description of what you built and what you learned.</p>
-                      <a href="#" class="project-card__link">View Project</a>
-                  </article>
-                  <article class="project-card">
-                      <h3 class="project-card__title">Project Two</h3>
-                      <p class="project-card__description">Another project with a description of technologies used.</p>
-                      <a href="#" class="project-card__link">View Project</a>
-                  </article>
-              </div>
-          </section>
-
-          <section id="contact" class="contact">
-              <h2 class="contact__heading">Get In Touch</h2>
-              <p class="contact__text">Interested in working together? Reach out.</p>
-              <a href="mailto:you@example.com" class="contact__cta">Email Me</a>
-          </section>
-      </main>
-
-      <footer class="footer">
-          <p class="footer__text">&copy; 2025 Your Name. Built with HTML & CSS.</p>
-      </footer>
-  </body>
-  </html>
-  ```
-
-  **Outcome:** A complete, semantic HTML structure for a professional landing page with BEM naming, skip link, and section anchors.
-
-  **Watch for this:**
-  - Point out the skip link for accessibility.
-  - Show how the nav links use `href="#features"` to jump to sections with matching `id` attributes.
-  - All classes follow BEM. Every element is clearly named.
-
-- **Demo 2: Style It Responsive with Everything Learned**
-
-  Create `landing-page/style.css`:
-  ```css
-  *,
-  *::before,
-  *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-  }
-
-  :root {
-      --color-bg: #0f0f1a;
-      --color-surface: #1a1a2e;
-      --color-primary: #e94560;
-      --color-primary-dark: #c73650;
-      --color-text: #e0e0e0;
-      --color-text-muted: #888;
-      --color-heading: #ffffff;
-      --font-main: 'Inter', sans-serif;
-      --font-code: 'Fira Code', monospace;
-      --max-width: 1100px;
-      --spacing-section: clamp(3rem, 8vw, 6rem);
-  }
-
-  html {
-      scroll-behavior: smooth;
-  }
-
-  body {
-      font-family: var(--font-main);
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      line-height: 1.6;
-  }
-
-  /* Skip link */
-  .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: var(--color-primary);
-      color: white;
-      padding: 0.5rem 1rem;
-      z-index: 1000;
-      transition: top 0.3s;
-  }
-  .skip-link:focus { top: 0; }
-
-  /* Header */
-  .header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background-color: rgba(15, 15, 26, 0.95);
-      backdrop-filter: blur(8px);
-  }
-
-  .header__nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 1rem 1.5rem;
-  }
-
-  .header__brand {
-      color: var(--color-primary);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.25rem;
-  }
-
-  .header__links {
-      display: flex;
-      list-style: none;
-      gap: 1.5rem;
-  }
-
-  .header__link {
-      color: var(--color-text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.3s ease;
-  }
-
-  .header__link:hover { color: var(--color-primary); }
-
-  /* Hero */
-  .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      min-height: 90vh;
-      padding: 2rem 1.5rem;
-  }
-
-  .hero__title {
-      font-size: clamp(2rem, 6vw, 3.5rem);
-      color: var(--color-heading);
-      margin-bottom: 1rem;
-  }
-
-  .hero__name { color: var(--color-primary); }
-
-  .hero__subtitle {
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      color: var(--color-text-muted);
-      margin-bottom: 2rem;
-      max-width: 600px;
-  }
-
-  .hero__cta {
-      display: inline-block;
-      background-color: var(--color-primary);
-      color: white;
-      padding: 0.9rem 2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-
-  .hero__cta:hover {
-      background-color: var(--color-primary-dark);
-      transform: translateY(-2px);
-  }
-
-  /* Features */
-  .features {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: var(--spacing-section) 1.5rem;
-  }
-
-  .features__heading {
-      text-align: center;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      color: var(--color-heading);
-      margin-bottom: 2rem;
-  }
-
-  .features__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-  }
-
-  .feature-card {
-      background-color: var(--color-surface);
-      padding: 2rem;
-      border-radius: 8px;
-      border-top: 3px solid var(--color-primary);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(233, 69, 96, 0.15);
-  }
-
-  .feature-card__title {
-      color: var(--color-primary);
-      margin-bottom: 0.75rem;
-  }
-
-  /* About */
-  .about {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: var(--spacing-section) 1.5rem;
-  }
-
-  .about__heading {
-      text-align: center;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      color: var(--color-heading);
-      margin-bottom: 2rem;
-  }
-
-  .about__content {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-  }
-
-  .about__image {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--color-primary);
-      flex-shrink: 0;
-  }
-
-  .about__text p + p { margin-top: 1rem; }
-
-  /* Projects */
-  .projects {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: var(--spacing-section) 1.5rem;
-  }
-
-  .projects__heading {
-      text-align: center;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      color: var(--color-heading);
-      margin-bottom: 2rem;
-  }
-
-  .projects__grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-  }
-
-  .project-card {
-      background-color: var(--color-surface);
-      padding: 2rem;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      transition: transform 0.3s ease;
-  }
-
-  .project-card:hover { transform: translateY(-4px); }
-
-  .project-card__title { color: var(--color-heading); }
-
-  .project-card__link {
-      color: var(--color-primary);
-      text-decoration: none;
-      font-weight: 600;
-      margin-top: auto;
-      transition: color 0.3s ease;
-  }
-
-  .project-card__link:hover { color: var(--color-primary-dark); }
-
-  /* Contact */
-  .contact {
-      text-align: center;
-      padding: var(--spacing-section) 1.5rem;
-  }
-
-  .contact__heading {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      color: var(--color-heading);
-      margin-bottom: 1rem;
-  }
-
-  .contact__text { margin-bottom: 2rem; color: var(--color-text-muted); }
-
-  .contact__cta {
-      display: inline-block;
-      background-color: var(--color-primary);
-      color: white;
-      padding: 0.9rem 2rem;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-
-  .contact__cta:hover {
-      background-color: var(--color-primary-dark);
-      transform: translateY(-2px);
-  }
-
-  /* Footer */
-  .footer {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      background-color: var(--color-surface);
-      color: var(--color-text-muted);
-      font-size: 0.9rem;
-  }
-
-  /* Responsive */
-  @media (max-width: 767px) {
-      .header__nav {
-          flex-direction: column;
-          gap: 0.75rem;
-      }
-      .header__links { gap: 1rem; }
-      .about__content {
-          flex-direction: column;
-          text-align: center;
-      }
-  }
-
-  /* Focus styles */
-  a:focus,
-  button:focus {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
-  }
-
-  /* Reduced motion preference */
-  @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          transition-duration: 0.01ms !important;
-      }
-  }
-  ```
-
-  **Outcome:** A fully styled, responsive, accessible landing page with sticky nav, smooth scrolling, hover effects, and BEM naming.
-
-  **Watch for this:**
-  - Walk through each section and connect it to a previous session: "Semantic HTML - that is Session 2.1. Custom properties and typography - Session 2.2. Grid and Flexbox layout - Session 2.3. Transitions and BEM - Session 2.4."
-  - Show the `prefers-reduced-motion` query and explain that it respects user accessibility preferences.
-  - Show `scroll-behavior: smooth` on the `html` element for smooth anchor scrolling.
-
-- **Demo 3: Deploy to GitHub Pages Step by Step**
-
-  **Steps:**
-
-  ```bash
-  # 1. Navigate to your project
-  cd landing-page
-
-  # 2. Initialize git (if not already)
-  git init
-
-  # 3. Add and commit
-  git add .
-  git commit -m "Initial landing page"
-
-  # 4. Create GitHub repo (using gh CLI or GitHub website)
-  gh repo create my-landing-page --public --source=. --push
-
-  # 5. Enable GitHub Pages
-  # Go to github.com > your repo > Settings > Pages
-  # Source: Deploy from a branch
-  # Branch: main, folder: / (root)
-  # Save
-
-  # 6. Wait ~60 seconds, then visit:
-  # https://yourusername.github.io/my-landing-page/
-  ```
-
-  Show the live site loading in a browser. Open it on a phone (or phone emulator). It works. It is live. It is real.
-
-  **Watch for this:**
-  - Remember that this is a real website that anyone in the world can access.
-  - Show how to check the deployment status in the Actions tab on GitHub.
-  - If deployment takes more than 2 minutes, explain that GitHub Pages can occasionally be slow and to just wait.
-
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+One new folder, one new repository, four files, one URL. The folder is a sibling of `html-css-foundations`, never inside it; a repository inside a repository is the first trap of the day, and `git status` would show you a folder instead of files. Stop Live Server if it is still serving the enchantments page, with the Port line in the VS Code status bar, so it serves the new folder when you start it again.
+
+```bash
+mkdir -p ~/projects/landing-page
+cd ~/projects/landing-page
+git init
+gh repo create landing-page --public --source=. --remote=origin
+mkdir images
+cp ~/projects/html-css-foundations/portrait.png images/portrait.png
+code .
+```
+
+`git init` answers `Initialized empty Git repository in /home/you/projects/landing-page/.git/`. `gh repo create` answers `✓ Created repository YOU/landing-page on GitHub` and `✓ Added remote git@github.com:YOU/landing-page.git`, the same two lines it printed in 2.1. The `cp` line reuses the portrait from the adventure log so the page has an image on the first save; replace it with the picture you chose after 2.4 whenever you like, resized in Squoosh, and keep the name or change the `src` to match. `file images/portrait.png` prints the pixel size, which you will need for the `width` and `height` attributes.
+
+The finished example is [dtc-landing](https://github.com/arthurbernierjr/dtc-landing). Read it after you have built yours, not before, so you compare two answers instead of copying one. Two things about it to know in advance: it names its stylesheet `styles.css` where this session says `style.css`, and it carries a tiny `server.js` and `package.json` because it is also deployed on Railway, which is a Unit 6 topic. Ignore the `game/` folder until Unit 3. The page itself is the same assembly you are about to do.
+
+### The skeleton
+
+`index.html`. Every class is BEM. Every path is relative. The year in the footer is the year you publish.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name · Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <header class="header">
+        <nav class="header__nav" aria-label="Page">
+            <a href="#main" class="header__brand">Your Name</a>
+            <ul class="header__links">
+                <li><a href="#skills" class="header__link">Skills</a></li>
+                <li><a href="#about" class="header__link">About</a></li>
+                <li><a href="#projects" class="header__link">Projects</a></li>
+                <li><a href="#contact" class="header__link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <section class="hero">
+            <h1 class="hero__title">Hi, I am <span class="hero__name">Your Name</span></h1>
+            <p class="hero__subtitle">I build small web apps and write down how they work.</p>
+            <a href="#projects" class="hero__cta">See my work</a>
+        </section>
+
+        <section id="skills" class="skills">
+            <h2 class="skills__heading">What I can do</h2>
+            <ul class="skills__grid">
+                <li class="skill-card">
+                    <h3 class="skill-card__title">Interfaces</h3>
+                    <p class="skill-card__text">Semantic HTML, Flexbox, Grid, and motion that respects a reduced-motion setting.</p>
+                </li>
+                <li class="skill-card">
+                    <h3 class="skill-card__title">Tools</h3>
+                    <p class="skill-card__text">Git, GitHub, VS Code, and a terminal I am no longer afraid of.</p>
+                </li>
+                <li class="skill-card">
+                    <h3 class="skill-card__title">Next</h3>
+                    <p class="skill-card__text">JavaScript starts next week. This card gets rewritten when it lands.</p>
+                </li>
+            </ul>
+        </section>
+
+        <section id="about" class="about">
+            <h2 class="about__heading">About</h2>
+            <div class="about__content">
+                <img src="images/portrait.png" alt="Your Name, in the portrait from the adventure log" width="320" height="160" class="about__image">
+                <div class="about__text">
+                    <p>Two or three sentences. Who you are, what pulled you toward building things, what you are building toward.</p>
+                    <p>This is the section a visitor reads to decide whether to send the email. Write it for that person.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="projects">
+            <h2 class="projects__heading">Projects</h2>
+            <div class="projects__grid">
+                <article class="project-card">
+                    <h3 class="project-card__title">The adventure log</h3>
+                    <p class="project-card__description">The first page of the path: semantic sections, a portrait with real alt text, and a list that became a table.</p>
+                    <a href="https://github.com/YOU/html-css-foundations" class="project-card__link">Read the code</a>
+                </article>
+                <article class="project-card">
+                    <h3 class="project-card__title">The potion shop</h3>
+                    <p class="project-card__description">Three product cards in a grid, renamed to BEM, with a hover that lifts and a price pinned to the bottom of each card.</p>
+                    <a href="https://github.com/YOU/html-css-foundations" class="project-card__link">Read the code</a>
+                </article>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2 class="contact__heading">Get in touch</h2>
+            <p class="contact__text">The link below opens your email app with my address filled in.</p>
+            <a href="mailto:you@example.com" class="contact__cta">Email me</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p class="footer__text">&copy; 2026 Your Name. Built with HTML and CSS.</p>
+    </footer>
+</body>
+</html>
+```
+
+Read it as a visitor. The first Tab lands on the skip link. The nav links point at `#skills`, `#about`, `#projects`, `#contact`, and each one has a section with that `id` below. The hero names you and says what you do in one sentence, and its one button goes to the projects. The skills are a `ul`, because they are a list, and the grid is drawn on the list. The portrait has `width` and `height` from `file images/portrait.png`; change them if your file is a different size. The project links go to a real repository. The contact section says what the link will do before the visitor clicks it.
+
+### The armor, the formation, the enchantments
+
+`style.css`. The base rules are the phone. One query at 768 pixels adds the wide layout. The palette lives on `:root`, and the contrast numbers from The idea are the reason the button text is dark.
+
+```css
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-bg: #0f0f1a;
+    --color-surface: #16161A;
+    --color-accent: #00A868;
+    --color-accent-light: #2FD48F;
+    --color-ink: #07110C;
+    --color-text: #EAE6E1;
+    --color-muted: #8A8A94;
+    --color-heading: #ffffff;
+    --font-main: 'Inter', system-ui, sans-serif;
+    --max-width: 1100px;
+    --space-section: clamp(3rem, 8vw, 6rem);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+/* Skip link: off screen until it has focus */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-accent);
+    color: var(--color-ink);
+    padding: 0.5rem 1rem;
+    z-index: 1000;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Focus: replaced, never removed */
+:focus-visible {
+    outline: 2px solid var(--color-accent-light);
+    outline-offset: 3px;
+}
+
+/* Header: a column on the phone, a row from 768 up */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: rgba(15, 15, 26, 0.95);
+    backdrop-filter: blur(8px);
+}
+
+.header__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+}
+
+.header__brand {
+    color: var(--color-accent-light);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.header__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    list-style: none;
+}
+
+.header__link {
+    color: var(--color-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.header__link:hover {
+    color: var(--color-accent-light);
+}
+
+/* Hero: the entrance from 2.4 */
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 80vh;
+    padding: 2rem 1.5rem;
+}
+
+.hero__title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    color: var(--color-heading);
+    margin-bottom: 1rem;
+    animation: fade-in-up 0.8s ease forwards;
+}
+
+.hero__name {
+    color: var(--color-accent-light);
+}
+
+.hero__subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: var(--color-muted);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    opacity: 0;
+    animation: fade-in-up 0.8s ease 0.3s forwards;
+}
+
+.hero__cta,
+.contact__cta {
+    display: inline-block;
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    padding: 0.9rem 2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.hero__cta:hover,
+.contact__cta:hover {
+    background-color: var(--color-accent-light);
+    transform: translateY(-2px);
+}
+
+/* Sections share one width and one rhythm */
+.skills,
+.about,
+.projects,
+.contact {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-section) 1.5rem;
+}
+
+.skills__heading,
+.about__heading,
+.projects__heading,
+.contact__heading {
+    text-align: center;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--color-heading);
+    margin-bottom: 2rem;
+}
+
+/* Skills: a grid that fits as many cards as the width allows */
+.skills__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.skill-card {
+    background-color: var(--color-surface);
+    padding: 2rem;
+    border-radius: 8px;
+    border-top: 3px solid var(--color-accent);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 168, 104, 0.15);
+}
+
+.skill-card__title {
+    color: var(--color-accent-light);
+    margin-bottom: 0.75rem;
+}
+
+/* About: stacked on the phone, side by side from 768 up */
+.about__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+}
+
+.about__image {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-accent);
+    flex-shrink: 0;
+}
+
+.about__text p + p {
+    margin-top: 1rem;
+}
+
+/* Projects */
+.projects__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    background-color: var(--color-surface);
+    padding: 2rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+}
+
+.project-card__title {
+    color: var(--color-heading);
+}
+
+.project-card__link {
+    color: var(--color-accent-light);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: auto;
+    transition: color 0.2s ease;
+}
+
+.project-card__link:hover {
+    color: var(--color-heading);
+}
+
+/* Contact */
+.contact {
+    text-align: center;
+}
+
+.contact__text {
+    margin-bottom: 2rem;
+    color: var(--color-muted);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    background-color: var(--color-surface);
+    color: var(--color-muted);
+    font-size: 0.9rem;
+}
+
+/* The wide layout, added on top of the phone */
+@media (min-width: 768px) {
+    .header__nav {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .header__links {
+        gap: 1.5rem;
+    }
+
+    .about__content {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+    }
+}
+
+/* Reduced motion: complete, so nothing loops and nothing glides */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+```
+
+Start Live Server on the folder and read the page at a phone width first, with the device toolbar from 2.3. The nav is a column of centred links. The about section is a portrait above two paragraphs. The skills are one column. Drag the width past 768 and the bar becomes brand-left, links-right, the about section becomes a row, and the grids fill in as soon as two 250 pixel columns fit. Nothing scrolls sideways at 320. Turn on reduced motion in the Rendering panel of DevTools and reload: the hero appears without rising, the cards do not lift, and a click on a nav link jumps instead of gliding.
+
+Then Tab from the address bar. The first press reveals the skip link at the top left. Enter lands focus past the navigation. Keep pressing and the ring moves through the nav, the hero button, the two project links and the email link, in the order they appear in the HTML. If the ring is ever missing, a rule somewhere set `outline: none`, and this file does not have one.
+
+### The release
+
+Commit, push, and tell Pages which branch and folder to serve.
+
+```bash
+cd ~/projects/landing-page
+git add .
+git status
+git commit -m "Landing page: first release"
+git push -u origin main
+```
+
+`git status` lists four things to be saved: `index.html`, `style.css`, `images/portrait.png`, and nothing else, because there is no README yet. The push answers `* [new branch] main -> main`, and from then on a bare `git push` is enough.
+
+Now the setting. The stable way is the repository's settings page, which `gh browse --settings` opens in your browser. Choose **Pages** in the left column. Under **Build and deployment**, set **Source** to **Deploy from a branch**, choose the `main` branch and the `/ (root)` folder, and press **Save**. The page now shows the address, and within a minute or two it shows a line saying the site is live. The exact wording of that page changes; the [creating a site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site) guide is the current version of the screenshots.
+
+The same setting can be made from the terminal, with the API call `gh` wraps. It is one line, and it is the version you can put in your notes and repeat without a screenshot.
+
+```bash
+gh api -X POST repos/{owner}/{repo}/pages -f 'source[branch]=main' -f 'source[path]=/'
+gh api repos/{owner}/{repo}/pages --jq '.html_url + " " + .status'
+```
+
+`gh` fills `{owner}` and `{repo}` from the folder you are standing in. The first call answers with a block of JSON that includes `"html_url": "https://YOU.github.io/landing-page/"`. The second prints that address and a status word; run it again until the word is `built`. If you already enabled Pages in the browser, the first call answers `409 Conflict`, because the site exists, and that is not an error you need to fix.
+
+Open the address in a private window, so a cached copy of nothing can fool you. The page is there, in the same font, with the portrait. Open DevTools, choose the Network panel, and reload. Every row is a 200 or a 304. If `style.css` or `portrait.png` is a 404, the path is wrong, and the second diagnosis below tells you how. Open the same address on your phone. The column nav, the stacked about section, the one-column grid: the base rules, served to the device they were written for.
+
+### A small model you can run here
+
+Three rules from today can be written down as code: a relative path stays under the project prefix and a root-absolute one leaves it, `index.html` is one specific spelling, and every nav target needs a section with that `id`. The checkpoint below models them. It proves that you can state the rules. It does not prove your repository is published, that your file names are right, or that your page works on a phone. Those three are checked on your machine and at your URL, and nothing on this page can do them for you.
 
 ```js run=checkpoint-2-5
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-const links = ['#about', '#projects', '#contact'];
-const sections = new Set(['about', 'projects', 'contact']);
-const missing = links.filter(link => !sections.has(link.slice(1)));
+
+const base = 'https://you.github.io/landing-page/';
+
+function resolve(href) {
+  return new URL(href, base).href;
+}
+
+check(resolve('style.css') === base + 'style.css', 'a relative path stays under the project prefix');
+check(resolve('images/portrait.png') === base + 'images/portrait.png', 'a relative folder path stays under the project prefix');
+check(resolve('/style.css') === 'https://you.github.io/style.css', 'a path that starts with a slash leaves the project');
+
+const published = ['index.html', 'style.css', 'README.md', 'images/portrait.png'];
+check(published.includes('index.html'), 'index.html is at the root with that exact spelling');
+check(!published.includes('Index.html'), 'Index.html is a different file to the server');
+
+const links = ['#skills', '#about', '#projects', '#contact'];
+const sections = new Set(['main', 'skills', 'about', 'projects', 'contact']);
+const missing = links.filter((link) => !sections.has(link.slice(1)));
 check(missing.length === 0, 'Every navigation target exists');
-check(!sections.has('missing'), 'A broken target is detected');
+
+const broken = ['#skills', '#blog'].filter((link) => !sections.has(link.slice(1)));
+check(broken.length === 1 && broken[0] === '#blog', 'A broken target is detected');
+
 console.log('ok: checkpoint-2-5');
 ```
+
+Change `'style.css'` in the first check to `'/style.css'` and run it again. The check fails with the message it was guarding, which is the failure you would otherwise meet as a 404 in the Network panel. Put it back.
 
 ## Where it breaks
 
@@ -692,212 +598,92 @@ console.log('ok: checkpoint-2-5');
 
 ### Blank deployed page
 
-The repository is on GitHub and the Pages setting says it is published, and the URL is a white screen or a 404. Pages publishes one branch and one folder, and it looks for `index.html` at that root with that exact casing. A file named `Index.html`, a page that lives in `src/` while Pages is pointed at `/`, or a setting that still says "None" all produce the same empty result. Open the repository's Pages settings and read the branch, the folder, and the last deploy line before you touch the HTML. Then open the URL GitHub printed, not a URL you assembled by hand.
+The repository is on GitHub, the settings page says Pages is on, and the address is a white screen or a GitHub 404 page. Pages publishes one branch and one folder, and it looks for `index.html` at that root with that exact spelling. A file named `Index.html`, a page that lives in a `src/` folder while Pages is pointed at `/`, a Source that still says **None**, or a push that went to a branch other than `main` all give the same empty result. Open the Pages settings and read the branch, the folder, and the deployment line before you touch the HTML. Then open the address GitHub printed, not one you assembled by hand. `gh api repos/{owner}/{repo}/pages --jq .status` says `building` or `built`; if it is still `building`, wait a minute and nothing is wrong yet.
 
 ### Missing assets
 
-The HTML arrives and the portrait, the stylesheet, or the font does not. In the browser network panel those requests are 404s, usually because the path was written from your laptop's point of view. A link that starts with `/` asks for the host root. A project site is served from `/your-name/`, so that slash skips the project and the file is not there. Write the path relative to the HTML file, or with the repository name in it, and reload with the cache disabled. The same break hits a stylesheet that itself points at a font with a root-absolute URL.
+The HTML arrives and the stylesheet, the portrait, or the font does not. In the Network panel those rows are 404s, usually because the path was written from your laptop's point of view. A path that starts with `/` asks for the root of the host, and a project site is served from `/landing-page/`, so that slash skips the project. Write the path relative to the HTML file, `style.css` and `images/portrait.png`, and reload with the cache disabled. The same break hides inside the stylesheet: a `url("/images/…")` in CSS is resolved the same way. Casing is the other cause. `portrait.PNG` on disk and `portrait.png` in the `src` are the same file to many laptops and two different files to the web server. Match the name exactly.
 
 ### Unusable navigation
 
-The page looks finished at a wide desktop width and fails as soon as a person tries to use it. Tab through it. If the focus ring never appears, or the ring jumps into a control that is off the screen, the keyboard path is broken even though the mouse path works. Then narrow the window to a phone width. A nav that overflows sideways, a button that sits under a fixed bar, or text that runs off the card is the layout you shipped, not a browser quirk. Fix focus order and the narrow width before you call the deploy done.
+The page looks finished at a wide window and fails the moment a person tries to use it. Tab through it. If the focus ring never appears, a rule set `outline: none` and replaced it with nothing. If the ring jumps into a control that is off screen, the order of the HTML does not match the order of the layout. Then narrow the window to a phone width. A nav that overflows sideways, a button hidden under the sticky bar, text running off a card: that is the layout you shipped, not a browser quirk. Fix the focus order and the narrow width before you call the release done, and check both at the live address, because the live address is the one people get.
 
 ## Your turn
 
-**What you build:**
+`~/projects/landing-page`, Live Server on, the device toolbar open. The files in the demonstration are the reference; this page is yours, so change the words, the colours, and the order of sections, and keep the rules.
 
-- **Exercise 1: Build and Style the Hero Section**
-
-  **Prompt:** Build a hero section for YOUR landing page. Use your real name (or chosen name), a real tagline about yourself, and a call-to-action button. Center it with Flexbox. Make it full viewport height. Add a fade-in animation.
-
-  **Starter Code:**
-  ```html
-  <section class="hero">
-      <h1 class="hero__title">Hi, I am <span class="hero__name">[YOUR NAME]</span></h1>
-      <p class="hero__subtitle">[Your one-line description]</p>
-      <a href="#projects" class="hero__cta">[Your CTA text]</a>
-  </section>
-  ```
-
-  ```css
-  @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* TODO: Style the hero section (centered, full viewport, dark background) */
-  /* TODO: Apply fadeInUp animation to .hero__title */
-  /* TODO: Apply fadeInUp with delay to .hero__subtitle and .hero__cta */
-  /* TODO: Style the CTA button with hover transition */
-  ```
-
-  **Success Criteria:**
-  - [ ] Uses your real name and a genuine tagline
-  - [ ] Centered horizontally and vertically with Flexbox
-  - [ ] Full viewport height (`min-height: 100vh`)
-  - [ ] Fade-in animation on title, subtitle, and CTA
-  - [ ] CTA has hover effect with transition
-
-  **Time:** 20 minutes
-
-- **Exercise 2: Build the Features/Skills Section with Grid Layout**
-
-  **Prompt:** Build a skills section with at least 3 skill cards in a responsive grid. Each card should have a title and description. Use CSS Grid with `auto-fit` and `minmax()`.
-
-  **Starter Code:**
-  ```html
-  <section id="skills" class="skills">
-      <h2 class="skills__heading">My Skills</h2>
-      <div class="skills__grid">
-          <!-- Add at least 3 skill cards here -->
-          <!-- Each card: <div class="skill-card">
-              <h3 class="skill-card__title">Skill Name</h3>
-              <p class="skill-card__text">Description</p>
-          </div> -->
-      </div>
-  </section>
-  ```
-
-  ```css
-  /* TODO: Style .skills section with max-width and centered */
-  /* TODO: Style .skills__grid with CSS Grid (auto-fit, minmax(250px, 1fr)) */
-  /* TODO: Style each .skill-card with background, padding, border-radius */
-  /* TODO: Add hover effect to skill cards */
-  ```
-
-  **Success Criteria:**
-  - [ ] At least 3 skill cards with your real skills
-  - [ ] Responsive grid using `auto-fit` and `minmax()`
-  - [ ] Cards have hover effects
-  - [ ] BEM naming used throughout
-  - [ ] Section has a heading and is visually distinct
-
-  **Time:** 20 minutes
-
-## The quest
-
-**Begin the Unit Project** (see below). Use the remaining class time to start building your personal landing page. The full requirements and rubric follow.
-
-### Review the artifact
-
-Your deliverable is **A responsive personal landing page, deployment URL, and accessibility review**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
-### Unit project: completion contract
-
-> *The forges of the Guild are open. Every adventurer who joins this world must present themselves. A single page that tells the realm who you are, what you can do, and why any party should want you. This is not decoration. This is your battle standard. Your flag planted in the ground. In this world, the adventurers who ship are the ones who get noticed. The ones who wait for perfection are still waiting in the tavern.*
->
-> *You have spent five sessions learning the foundational arts: HTML structure, CSS styling, responsive layout, animation, and deployment. Now it is time to combine them all into one cohesive artifact. You will build a personal landing page from scratch and deploy it to the Crystal Network (GitHub Pages) where anyone in the realm can view it. This page will be your first real portfolio piece. Not a tutorial project. Not a classroom exercise. A real page at a real URL.*
->
-> *The forgemasters will judge your work on structure, style, responsiveness, polish, and craft. But remember: a shipped page that is good beats an unshipped page that is perfect. Forge it. Ship it. Improve it later. That is the way.*
-
-### Technical Requirements
-
-Your landing page must include ALL of the following:
-
-- [ ] **Valid semantic HTML5** - Proper document structure, semantic sectioning elements (`header`, `nav`, `main`, `section`, `footer`), meaningful heading hierarchy
-- [ ] **External CSS with custom properties** - All styles in an external stylesheet, at least 5 CSS custom properties for colors, fonts, and spacing
-- [ ] **Responsive design** - Mobile-first approach, works well on at least 3 screen sizes (phone, tablet, desktop), no horizontal scrollbar at any width
-- [ ] **Flexbox AND Grid** - Both layout systems used meaningfully (not just for demonstration). Example: Grid for a card section, Flexbox for the navigation
-- [ ] **At least 2 CSS animations/transitions** - Hover effects, entrance animations, or interactive feedback. Must be purposeful, not decorative noise
-- [ ] **BEM naming convention** - All CSS classes follow Block__Element--Modifier naming
-- [ ] **Google Fonts** - At least one custom font loaded from Google Fonts
-- [ ] **Deployed on GitHub Pages** - Live at a public URL that anyone can visit
-- [ ] **Accessible** - All images have alt text, sufficient color contrast, visible focus styles, semantic structure for screen readers
-- [ ] **README.md** - In the repository root, includes: your name, a screenshot of the page, a link to the live URL, technologies used, and one thing you learned
-
-### Required Sections (minimum)
-
-1. **Navigation** - Functional navigation bar with links to page sections
-2. **Hero Section** - Headline, subtitle, call-to-action
-3. **Skills/Features Section** - At least 3 items in a grid or card layout
-4. **About Section** - Photo/avatar and bio text
-5. **Projects or Portfolio Section** - At least 2 project cards (can be placeholder projects from this course)
-6. **Contact Section** - At least an email link or contact form
-7. **Footer** - Copyright and any secondary links
-
-### Skill Points Rubric
-
-### Boss Clear Criteria (70 pts) - Core Requirements
-
-| Criterion | Points | Description |
-|-----------|--------|-------------|
-| Semantic HTML Structure | 15 | Proper document structure, semantic elements used correctly, meaningful heading hierarchy, valid HTML |
-| CSS Fundamentals | 15 | External stylesheet linked, CSS custom properties used, consistent typography and color scheme, box model applied correctly |
-| Responsive Design | 15 | Mobile-first approach, works on phone/tablet/desktop, media queries or fluid techniques used, no overflow issues |
-| Layout Systems | 15 | Both Flexbox and Grid used meaningfully, appropriate system chosen for each layout task, proper alignment and spacing |
-| Deployment | 10 | Live on GitHub Pages at a working URL, `index.html` in root, all assets loading correctly |
-
-### Epic Loot (20 pts) - Quality and Polish
-
-| Criterion | Points | Description |
-|-----------|--------|-------------|
-| Animations and Polish | 10 | At least 2 meaningful transitions/animations, smooth hover effects, visual feedback on interactive elements, page feels polished |
-| Code Quality and BEM | 10 | BEM naming throughout, organized CSS (logical section order, comments), clean HTML (no unnecessary divs), no inline styles |
-
-### Legendary Status (10 pts) - Above and Beyond
-
-| Criterion | Points | Description |
-|-----------|--------|-------------|
-| Exceptional Craft | 10 | Professional-level design, creative use of CSS techniques, accessibility beyond the basics (skip link, `prefers-reduced-motion`, ARIA where needed), performance-optimized images, README with screenshot |
-
-### Score Rating
-
-| Score | Rating |
-|-------|--------|
-| 90-100 | Legendary (S-Rank) |
-| 80-89 | Epic (A-Rank) |
-| 70-79 | Boss Clear (B-Rank) |
-| 60-69 | Approaching (C-Rank) |
-| 0-59 | Needs Retry |
-
-### Submission Requirements
-
-1. Push your completed project to a GitHub repository
-2. Deploy to GitHub Pages and verify the live URL works
-3. Submit:
-   - GitHub repository URL
-   - Live GitHub Pages URL
-   - A brief paragraph (3-5 sentences) reflecting on what you built, what was hardest, and what you would improve with more time
-
----
+1. Make the folder and the repository as a sibling of `html-css-foundations`, with `mkdir -p ~/projects/landing-page`, `cd ~/projects/landing-page`, `git init`, and `gh repo create landing-page --public --source=. --remote=origin`. The last command prints `✓ Created repository YOU/landing-page on GitHub`. Run `git status` and confirm it says `No commits yet`, not a line about a parent repository.
+2. Put the image in place: `mkdir images` and either `cp ~/projects/html-css-foundations/portrait.png images/portrait.png` or your own picture after Squoosh. `file images/portrait.png` prints its size; those are the `width` and `height` for the `img`.
+3. Write `index.html` with your name, your one sentence, three skills, two or three sentences about you, two projects that link to real pages, and one contact action whose text says what it does. Every nav `href` matches a section `id`. Open it in Live Server and press Tab once: the skip link appears.
+4. Write `style.css`, mobile-first. At 320 pixels in the device toolbar nothing scrolls sideways. At 768 the nav and the about section become rows. Check your button text against its background in the WebAIM checker and write the ratio in a comment next to the rule; it must be 4.5 or more.
+5. Turn on reduced motion in the Rendering panel and reload. The hero does not rise and a nav click does not glide. Turn it off and confirm both come back.
+6. Commit and push: `git add .`, `git status`, `git commit -m "Landing page: first release"`, `git push -u origin main`. The push answers `* [new branch] main -> main`.
+7. Enable Pages, in the browser from `gh browse --settings` or with the `gh api` line from the demonstration. Then run `gh api repos/{owner}/{repo}/pages --jq '.html_url + " " + .status'` until it prints `https://YOU.github.io/landing-page/ built`.
+8. Open that address in a private window. The Network panel shows no 404. Open it on your phone. Tab through it from the keyboard. Those three checks are the release; a page you have only seen in Live Server is not released.
 
 ![](diagram:session-2-5/fig3-evidence)
 
+If step 7 prints the address and `building` for more than a few minutes, open the repository's **Actions** tab; a workflow named `pages build and deployment` runs on every push, and its log says what it was doing when it stopped.
+
+## The quest
+
+One deliverable: the landing page, live, with a README that tells the truth about it. The README is the file a stranger reads on the repository page before they open the site, and it is where the review lives.
+
+Copy this into `README.md` and fill it in.
+
+```markdown
+# Your Name · landing page
+
+Live: https://YOU.github.io/landing-page/
+
+![The landing page at a phone width and at a desktop width](images/screenshot.png)
+
+## Built with
+
+HTML, CSS, GitHub Pages. No framework, no script.
+
+## Checked
+
+- Keyboard: Tab reaches the skip link, four nav links, the hero button, two project links and the email link, in that order, with a visible ring.
+- Contrast: button text on the button is 6.21 to 1; muted text on the background is 5.57 to 1.
+- Phone: no sideways scroll at 320 pixels; the nav and the about section stack.
+- Reduced motion: the hero does not rise and anchors jump instead of gliding.
+- Lighthouse accessibility: 100, run against the live URL on <date>.
+
+## Not yet
+
+The contact section is a mailto link; a form needs a server, which arrives in Unit 4.
+
+## One thing I learned
+
+<one sentence>
+```
+
+A filled example, from a page whose button text was white until the contrast check: "Contrast: white on the green was 3.09 to 1 and failed, so the button text is now the near-black ink at 6.21 to 1." That sentence is the kind of thing a reviewer wants to read, because it shows the check was run and the page was changed by it.
+
+Then the solo review that replaces having someone look over your shoulder. Open the live address in a private window, put the mouse out of reach, and give yourself one task with a clock running: from the top of the page, find one project and reach the contact link using only the keyboard. Write down where you hesitated. If you had to Tab past twelve links to reach the one you wanted, that is the skip link's job and it is not doing it. If anyone is nearby, hand them your phone with the page open and ask them to find how to contact you; say nothing while they look. Separate what you saw from what you want to change. "I could not tell the Projects heading was a section" is evidence. "Make it bigger" is a proposal. Fix the evidence, repeat the task, and put the before and after in the README under Checked.
+
+Evidence, all in the repository:
+
+- `index.html`, `style.css`, `images/portrait.png`, `README.md`, pushed to `main`.
+- `images/screenshot.png`: the live page, captured in the device toolbar at a phone width and at a desktop width, side by side or one above the other.
+- The live URL in the README, opened once in a private window with a clean Network panel.
+- The Checked list with real numbers, the Not yet paragraph, and the one sentence you learned.
+
+After it is live, read [dtc-landing](https://github.com/arthurbernierjr/dtc-landing) next to your own `index.html`. Same section order, same BEM habit, a different voice. Notice what it does that yours does not, and the other way round; the differences are the design decisions you made, and now you can name them.
+
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Four sheets in the library stand near this page: two patterns that describe a page as a tree of parts and a base thing with one behaviour added, and two atelier pages on the widths where this page simplifies and on assembling a shipped page from two stylesheets.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:**
-- Complete Session 2.4 homework (BEM refactor, animations added to about-me.html)
-- Read: [GitHub Pages Documentation](https://pages.github.com/)
-- Read: [MDN - Accessibility Overview](https://developer.mozilla.org/en-US/docs/Learn/Accessibility)
-- Have your `html-css-foundations` repo cloned and up to date
-- Have a rough idea of what you want your personal landing page to look like (sketch it on paper or in your head)
+Before you close the laptop, the README is pushed and the live address is in it. Send the address to one person. That is not a formality; a page that one other human has opened on their phone has been tested in a way no checklist matches, and you will fix something within the hour.
 
-**Materials:**
-- VS Code with Live Server extension
-- Chrome or Firefox with DevTools (Lighthouse tab for accessibility/performance audits)
-- GitHub account with Pages enabled
-- An image for your landing page (photo, avatar, or placeholder)
-- [Squoosh](https://squoosh.app/) for image optimization
+Nothing stays running on your machine. Stop Live Server from the status bar, close the folder, and the page keeps being served anyway, because GitHub's servers are doing the serving now, from the branch you pushed. That is what a deploy is: the work continues without you.
 
-**Due before Unit 3:**
-- [ ] Complete and deploy your Unit 2 Project (landing page on GitHub Pages)
-- [ ] Submit the live URL and GitHub repo URL
-- [ ] Ensure your page passes a basic Lighthouse accessibility audit (aim for 90+)
-- [ ] Push all work to GitHub
+Next session is [3.1, Mana Basics](/path/3-1-mana-basics/), and the path changes language. JavaScript starts in a new repository, `~/projects/js-fundamentals`, made the way you made `html-css-foundations` and `landing-page`; the first step of that session creates it, so there is nothing to make tonight. What 3.1 opens first is the Console in Chrome DevTools, the panel next to the Elements and Styles panels you have been living in all unit. Open it once now, type `2 + 2`, press Enter, and read the answer. That is the whole of the preparation.
 
-**Estimated time:** 5-8 hours (this is the Unit Project)
+> **Say:** "The page answers three questions: who you are, what you can do, how to reach you. Pages serves one branch and one folder, and it looks for index.html at that root. A path that starts with a slash starts at the host, not at your project."
 
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+The sheet is pinned to the board. Next week you learn to make it do something.

@@ -305,12 +305,12 @@
         "ATELIER-10"
       ],
       "sideQuestWhy": [
-        "Apply content to this lesson's artifact: Name the visitor and the action they should take.",
-        "Apply layout to this lesson's artifact: Use semantic sections and fluid components.",
-        "The two widths where a gift site simplifies: the hero stacks, the menu swaps, the grid collapses. Read Breakpoints and check 390 and 1440 before you deploy.",
-        "Assembly is the landing page you are shipping, written in the order of the two stylesheets. Read it last, then build one file."
+        "The page is a tree: sections hold cards, cards hold a title and a body, and the Composite sheet is the name for treating a card and the grid around it the same way; read the idiomatic shape, nested data plus one recursive function, and you will recognise the DOM you just wrote.",
+        "A BEM modifier such as a secondary button adds one behaviour to a base without rewriting it, which is the Decorator idea in a stylesheet; read the higher-order-function shape so the pattern has a name before Unit 3 gives you functions to wrap.",
+        "The two widths where this landing page simplifies: the hero stacks, the nav swaps from a column to a row, the grid collapses to one column. Read Breakpoints and check 390 and 1440 in the device toolbar before you enable Pages.",
+        "Assembly is the landing page you are shipping, written in the order of the two stylesheets; read it last, then compare it against the dtc-landing repository and your own index.html, and name the decisions where yours differs."
       ],
-      "hook": "A responsive personal landing page, deployment URL, and accessibility review. Name the visitor and the action they should take."
+      "hook": "Five sessions of skeleton, armor, formation and motion become one page with your name on it, and today it goes on the internet at a URL you can send to anyone. Then you prove the page a visitor gets is the page you built: on a phone, from the keyboard, with every path resolving under the prefix GitHub gives you."
     },
     {
       "id": "3.1",

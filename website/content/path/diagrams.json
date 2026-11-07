@@ -392,8 +392,8 @@
   "session-2-5/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 2.5: The working model. Content: Name the visitor and the action they should take. Layout: Use semantic sections and fluid components. Release: Publish and check the deployed URL on a phone.",
-    "caption": "The working model: Content → Layout → Release",
+    "alt": "Three boxes in a row, read left to right: Content, name the visitor and the one action they should take; Layout, semantic sections and fluid components; Release, publish and check the deployed URL on a phone.",
+    "caption": "The working model: write the content, lay it out with the parts you already own, then release it and check the live address, in that order.",
     "props": {
       "session": "2.5",
       "title": "The working model",
@@ -418,8 +418,8 @@
   "session-2-5/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 2.5: Diagnose the failure. Blank deployed page: Inspect the published branch, folder, and index.html casing. Missing assets: Resolve URLs relative to the repository base path. Unusable navigation: Test focus order, visible focus, and narrow viewports.",
-    "caption": "Diagnose the failure: Blank deployed page → Missing assets → Unusable navigation",
+    "alt": "Three diagnoses side by side: a blank deployed page points at the published branch, folder and index.html spelling; missing assets point at paths resolved under the repository prefix; unusable navigation points at focus order, visible focus and narrow widths.",
+    "caption": "Diagnose the failure: a blank page is a branch, folder or spelling problem; a 404 asset is a path problem; a page you cannot Tab through or use on a phone is a layout problem.",
     "props": {
       "session": "2.5",
       "title": "Diagnose the failure",
@@ -444,8 +444,8 @@
   "session-2-5/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 2.5: evidence to collect. Checkpoint assertion: Every navigation target exists Boundary assertion: A broken target is detected Manual handoff: A responsive personal landing page, deployment URL, and accessibility review",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence in three parts: the checkpoint asserts every navigation target exists; the boundary assertion shows a broken target is detected; the manual hand-off is the live landing page, its URL and the accessibility review in the README.",
+    "caption": "Evidence: the browser model proves the rules can be stated; the live URL, the keyboard pass and the phone check are verified on your own machine and at your own address.",
     "props": {
       "session": "2.5",
       "title": "Prove the handoff",
