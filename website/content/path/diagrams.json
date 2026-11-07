@@ -2124,8 +2124,8 @@
   "session-9-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Four steps left to right: Restate, writing one sentence that names the inputs, the output, and what may change; Brute force, writing the definition as code and keeping it as the oracle; Pattern, naming the fast version from the tell in the restatement rather than from a list; Prove, writing the invariant before the loop, running the seeded comparison, and benching both versions.",
-    "caption": "The working model: restate until the tell shows, write the brute force and keep it, name the pattern from the tell, then prove it with an invariant, a seeded oracle, and a bench.",
+    "alt": "Four steps left to right: Restate, writing one sentence that names the inputs, the output, and what may change; Brute force, writing the definition as code and keeping it as the oracle; Pattern, naming the fast version from the tell in the restatement rather than from a list; Prove, writing the invariant before the loop, running the seeded comparison, and benching both versions. The four boxes group the seven moves of the method.",
+    "caption": "The working model, four boxes grouping the seven moves: restate until the tell shows, write the brute force and keep it, name the pattern from the tell, then prove it with an invariant, a seeded oracle, and a bench.",
     "props": {
       "session": "9.4",
       "title": "The working model",

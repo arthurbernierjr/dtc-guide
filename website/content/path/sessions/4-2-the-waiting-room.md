@@ -26,7 +26,7 @@ say:
 
 [Last session](/path/4-1-the-runtime-beyond-the-browser/) you started a process that listens on port 3000 and answers `GET /` with a sentence. You knocked on it with curl. Curl is a separate program, so the waiting happened outside your code. Today the knock comes from JavaScript. A second file in the same folder, `client.js`, asks the server for `/` with `fetch`, and between the asking and the answer there is a gap your program has to live through. The thing that fills that gap is a promise. The keyword that lets you wait on it without your whole program going blind is `await`.
 
-By the end of the session you can watch one request end three different ways, in order, in your own terminal. The server answers 200 and you print the body. The server answers 404 and you print that it said no. The server is stopped and `fetch` throws, and you catch it and print that nothing came back. Those are not three bugs. They are the three endings every request you write for the rest of this unit can have, and the pattern that handles them is five lines long. The database calls in [the vault](/path/4-5-the-vault/), the routes in [the listening door](/path/4-3-the-listening-door/), and the form in [the quest slate](/path/4-12-the-quest-slate/) all reuse it.
+By the end of the session you can watch one request end three different ways, in order, in your own terminal. The server answers 200 and you print the body. The server answers 404 and you print that it said no. The server is stopped and `fetch` throws, and you catch it and print that nothing came back. Those are not three bugs. They are the three endings every request you write for the rest of this unit can have, and one short pattern handles all three. The database calls in [the vault](/path/4-5-the-vault/), the routes in [the listening door](/path/4-3-the-listening-door/), and the form in [the quest slate](/path/4-12-the-quest-slate/) all reuse it.
 
 > *You hand the courier a letter and the courier leaves. You hold a ticket with nothing written on it yet. The ticket is the promise.*
 
@@ -82,7 +82,7 @@ What you should be able to draw on a napkin: `fetch` returns a promise at once, 
 
 ### Why this comes before the router
 
-Next session every route handler you write is `async`, and Express forwards a rejected handler to the error handler for you. That sentence is only useful if you can see the promise it is talking about. The session after that, `await client.connect()` is the first line that can hang your startup. Later, a React form waits for a 2xx before it tells the person the row is saved. All of those are the same five-line pattern with different nouns. Today the noun is a request to your own door, and the server is a thing you can stop with Ctrl-C so the third ending is one keystroke away. You will never again have a failure this easy to produce on purpose, so produce it on purpose now.
+Next session every route handler you write is `async`, and Express forwards a rejected handler to the error handler for you. That sentence is only useful if you can see the promise it is talking about. The session after that, `await client.connect()` is the first line that can hang your startup. Later, a React form waits for a 2xx before it tells the person the row is saved. All of those are the same pattern with different nouns: one `try`, one `if`, one `return`. Today the noun is a request to your own door, and the server is a thing you can stop with Ctrl-C so the third ending is one keystroke away. You will never again have a failure this easy to produce on purpose, so produce it on purpose now.
 
 ## The demonstration
 
@@ -170,7 +170,7 @@ no response: fetch failed
 result: no response
 ```
 
-`pending` still printed, because the request had not been attempted yet. Then `fetch` tried to connect, the operating system refused, and the promise rejected with a `TypeError` whose message is `fetch failed`. `await` threw it. The `catch` ran. The `if` never ran, because the function returned from inside the `catch`. There is no status. There was never a status line to read. If you want the underlying reason, `err.cause` carries it, and its `code` is `ECONNREFUSED`, the same word curl printed last session when you stopped the server and knocked.
+`pending` still printed, because the request had not been attempted yet. Then `fetch` tried to connect, the operating system refused, and the promise rejected with a `TypeError` whose message is `fetch failed`. `await` threw it. The `catch` ran. The `if` never ran, because the function returned from inside the `catch`. There is no status. There was never a status line to read. If you want the underlying reason, `err.cause` carries it, and its `code` is `ECONNREFUSED`, which reads as connection refused. Compare it with the curl line you wrote down in 4.1 step 5. Curl spells the same refusal as `Failed to connect to localhost port 3000 ... Connection refused`, or `Couldn't connect to server` on newer curl. Same refusal, two spellings: curl never prints the token `ECONNREFUSED`, and Node never prints curl's sentence.
 
 ### The timeline, side by side
 
@@ -184,7 +184,7 @@ Three things to notice across the rows. The first line is identical in shape eve
 
 ### A small model you can run here
 
-The page cannot start your server or reach your port, so the checkpoint below replaces `fetch` with three fake versions: one that resolves to `{ ok: true, status: 200 }`, one that resolves to `{ ok: false, status: 404 }`, and one that rejects with `TypeError('fetch failed')`. It runs the same five-line handling against each, with the words the form in 4.12 will put on its notice, and it checks the order of a pending and settled log.
+The page cannot start your server or reach your port, so the checkpoint below replaces `fetch` with three fake versions: one that resolves to `{ ok: true, status: 200 }`, one that resolves to `{ ok: false, status: 404 }`, and one that rejects with `TypeError('fetch failed')`. It runs the same handling against each, with the words the form in 4.12 will put on its notice, and it checks the order of a pending and settled log.
 
 ```js run=checkpoint-4-2
 function check(condition, message) {
@@ -243,7 +243,7 @@ check(log.length === 8, 'after await, the settled line has run');
 console.log('ok: checkpoint-4-2');
 ```
 
-What it proves: the shape of the handling. One `try` for the rejection, one `if` for the refusal, one `return` on the far side for the yes, and the pending line always ahead of the settled line. It also proves that an async function called without `await` gives you a promise and not a result. What it does not prove: that your server is running, that port 3000 is the right port, or that `fetch` in your Node behaves the way the fake does. The three runs in your terminal are the demonstration. The model only checks that you can say what each run showed.
+What it proves: the shape of the handling. One `try` for the rejection, one `if` for the refusal, one `return` on the far side for the yes, and the pending line always ahead of the settled line. It also proves that an async function called without `await` gives you a promise and not a result. What it does not prove: that your server is running, that port 3000 is the right port, or that `fetch` in your Node behaves the way the fake does. The three runs in your terminal are the demonstration. The model only checks that you can say what each run showed. One more thing to notice: the block uses `await` at its top level, outside any function. That works because the run box wraps the block in an `async` function before it runs it, and it would also work in a Node 24 ES module. In a plain CommonJS script like `client.js` the same line is the third diagnosis below, which is why `client.js` reads its result with `.then` instead.
 
 ## Where it breaks
 
@@ -275,7 +275,7 @@ Make the three endings yours, in `~/projects/guild-door`. The server is last ses
 2. Start the server in terminal one with `node server.js` and confirm the line `listening on 3000`.
 3. In terminal two, write your prediction for run one in `NOTES.md`, then run `node client.js`. The second line is `answered: 200` followed by your `GET /` body. The third line is `result: ok`.
 4. Write your prediction for run two, then run `node client.js http://localhost:3000/nope`. The second line is `said no: 404`. The third line is `result: said no (404)`. Confirm with `curl -i http://localhost:3000/nope` that the status line is `HTTP/1.1 404 Not Found`.
-5. Add a route of your own to `server.js` so a path that used to be 404 becomes 200: `app.get('/health', (req, res) => { res.send('ok'); });` if you did not already add it last session. Restart the server with Ctrl-C and `node server.js`, run `node client.js http://localhost:3000/health`, and watch the second line change from `said no: 404` to `answered: 200 ok`. Same client, same `if`, different answer.
+5. Watch the same `if` take the other branch. 4.1 step 3 already added `GET /health` to `server.js`, so `node client.js http://localhost:3000/health` prints `answered: 200 ok` on the second line, where `/nope` printed `said no: 404`. Now turn a 404 into a 200 yourself. Run `node client.js http://localhost:3000/ping` and read `said no: 404`. Add `app.get('/ping', (req, res) => { res.send('pong'); });` to `server.js`, restart the server with Ctrl-C and `node server.js`, run the same command again, and watch the second line change to `answered: 200 pong`. Same client, same `if`, different answer.
 6. Write your prediction for run three. Press Ctrl-C in terminal one. In terminal two run `node client.js`. The second line is `no response: fetch failed`. The third line is `result: no response`.
 7. Break it once on purpose. Delete the `try`, the `catch` block, and the braces around the `await`, so the line reads `response = await fetch(url);` on its own. With the server still stopped, run `node client.js`. The output is a stack trace beginning `TypeError: fetch failed` and ending `Node.js v24`, and `echo $?` prints `1`. Put the `try/catch` back. Run again and confirm `result: no response` and `echo $?` printing `0`.
 8. Break it a second way. Remove `async` from `function load`. Run `node --check client.js`. Read the `SyntaxError` and the caret. Put `async` back.
@@ -290,7 +290,7 @@ If `node client.js` prints nothing at all and returns to the prompt, the `.then`
 The deliverable is `client.js` committed in `~/projects/guild-door` beside `server.js`, with `NOTES.md` in the same folder holding the evidence. `NOTES.md` is one page, in this order:
 
 - The three transcripts, each one your prediction line followed by the three real lines, pasted exactly, headed `Run one: answered`, `Run two: said no`, `Run three: no response`.
-- The five-line pattern, written by hand from memory, not pasted. Write it out and then compare it with the fragment in The idea.
+- The pattern from The idea, the `try`, the `if`, and the `return`, written by hand from memory, not pasted. Write it out and then compare it with the fragment in The idea.
 - Under the pattern, two sentences in your own words: which of the two failures the `try` is for, and which the `if` is for.
 - One line naming the three outcomes a request can have and the state of the promise in each: fulfilled with `ok` true, fulfilled with `ok` false, rejected.
 - The exact first line of the stack trace from step seven, and the exact `SyntaxError` line from step eight.

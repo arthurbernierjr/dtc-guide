@@ -23,7 +23,7 @@ say:
 
 ## The hook
 
-Last session the process listened, and one function answered `GET /`. That is a door with a single knock. A real server is a stack of functions standing behind the same port. One of them logs. One of them reads a JSON body. One of them matches `/quests`. One of them matches `/quests/:id`. The last one exists only for failures, and it has a different shape from the rest. Today you build that stack, and you learn the three ways it goes quiet or shouts: a request that never gets an answer, a second answer after the first, and a promise Express never heard.
+In [4.1](/path/4-1-the-runtime-beyond-the-browser/) the process listened, and one function answered `GET /`. Last session `client.js` knocked on that one route from JavaScript, and `NOTES.md` kept the three transcripts. The server itself has not changed since 4.1. That is a door with a single knock. A real server is a stack of functions standing behind the same port. One of them logs. One of them reads a JSON body. One of them matches `/quests`. One of them matches `/quests/:id`. The last one exists only for failures, and it has a different shape from the rest. Today you build that stack, and you learn the three ways it goes quiet or shouts: a request that never gets an answer, a second answer after the first, and a promise Express never heard.
 
 By the end of the session you have an Express application with a router mounted on a prefix, `express.json()` in front of the routes, a logging middleware you can see in the terminal, and a four-argument error handler. You can point at the file and say which function runs first, which one is allowed to end the response, and which one runs only when something threw.
 
@@ -65,7 +65,7 @@ The logger runs first. It prints `POST /quests` and calls `next()`. The JSON mid
 
 Now change only the mount order. Put the logger under the router. The router answers and does not call `next`. The logger never runs. The client still receives 201. If you judge success by the log, you will say the route is broken. The route is fine. The witness was standing behind the door instead of in front of it.
 
-Now remove `res.json` and also forget `next`. The logger prints. The parser runs. The handler returns. No later function runs, because you did not call `next`, and no bytes go out, because you did not send. Curl sits there until it times out. That is a hanging request. The process looks healthy. `listen` already succeeded last session. Health of the process and completion of the response are different facts.
+Now remove `res.json` and also forget `next`. The logger prints. The parser runs. The handler returns. No later function runs, because you did not call `next`, and no bytes go out, because you did not send. Curl sits there until it times out. That is a hanging request. The process looks healthy. `listen` already succeeded back in 4.1, and nothing in this file changes that. Health of the process and completion of the response are different facts.
 
 ### Routers, prefixes, and the 404 that is not an error
 
@@ -138,7 +138,7 @@ Do not mount this function up by the logger "so we don't forget." Error handlers
 
 ## The demonstration
 
-One file, continuing the door from last session, in `~/projects/guild-door`. Stop last session's server with Ctrl-C in its terminal before you start this one; two processes cannot share port 3000. Install nothing new. Express is already a dependency, and `express.json` ships with it.
+One file, continuing the door from 4.1, in `~/projects/guild-door`. `client.js` and `NOTES.md` from last session stay in that folder untouched today; once the new stack is up, `node client.js` still works against it. Stop the old `server.js` with Ctrl-C in its terminal if it is still running before you start this one; two processes cannot share port 3000. Install nothing new. Express is already a dependency, and `express.json` ships with it.
 
 ```js
 const express = require('express');
@@ -303,7 +303,7 @@ Mark the handler `async`. `await` the call that can reject. Let the rejection le
 
 ## Your turn
 
-Replace `server.js` in `~/projects/guild-door` with this stack. It is the same project, not a second folder. Stop the server from last session with Ctrl-C first; two processes cannot share port 3000, and `EADDRINUSE` from 4-1 is what you get if you forget.
+Replace `server.js` in `~/projects/guild-door` with this stack. It is the same project, not a second folder. Stop the old `server.js` with Ctrl-C first if it is still up; two processes cannot share port 3000, and `EADDRINUSE` from 4-1 is what you get if you forget.
 
 1. Mount a logger first. It prints method and `originalUrl`, then calls `next()`. It does not send.
 2. Mount `express.json()` next. Confirm a `POST` with `Content-Type: application/json` can read `req.body.title`, and a `POST` without that header does not pretend the body was parsed.
@@ -330,7 +330,7 @@ Commit the server file and `STACK.md`. Leave `node_modules` out. This stack is t
 
 ## Side quests
 
-Middleware is a chain of responsibility, each function doing its part and then calling `next` or ending the response, and the app object is still the facade from last session, the small surface in front of that chain.
+Middleware is a chain of responsibility, each function doing its part and then calling `next` or ending the response, and the app object is still the facade from 4.1, the small surface in front of that chain.
 
 ## Before next session
 
