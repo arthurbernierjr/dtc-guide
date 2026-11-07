@@ -13,6 +13,8 @@ docs:
   - https://www.mongodb.com/docs/manual/introduction/
   - https://www.mongodb.com/docs/manual/core/document/
   - https://www.mongodb.com/docs/manual/core/databases-and-collections/
+  - https://www.mongodb.com/docs/manual/installation/
+  - https://www.mongodb.com/docs/mongodb-shell/install/
 say:
   - "A database outlives the process. A variable does not."
   - "MongoDB stores documents, which are JSON-like objects, in collections."
@@ -69,6 +71,15 @@ Different documents may omit `hero`. That is a legal use of flexible fields. A d
 
 ### The shell, so you can see durability without Express
 
+Nothing so far has installed a database. Do that now, once, from the official pages, and nowhere else. You want MongoDB Community Server running locally on port 27017, and the shell, `mongosh`, beside it. Follow the installation page for your machine: macOS at https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-os-x/ (Homebrew: `brew tap mongodb/brew && brew install mongodb-community && brew services start mongodb-community`, which installs `mongosh` with it), Ubuntu on WSL or on its own at https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/ (the `mongodb-org` package includes `mongosh`; start the server the way that page's "Run MongoDB Community Edition" section shows), and any other Linux from the index at https://www.mongodb.com/docs/manual/installation/. If your install did not bring the shell, https://www.mongodb.com/docs/mongodb-shell/install/ is the shell's own page. Then confirm both halves from a terminal:
+
+```bash
+mongosh --version
+mongosh --quiet --eval 'db.runCommand({ ping: 1 })'
+```
+
+The first line prints a version. The second prints `{ ok: 1 }`, which means a server is listening on 27017 and the shell can reach it. If it prints a connection error instead, the server is installed and not started. Start it the way your platform's page says, and run the ping again before you go on. A hosted cluster is not part of this unit; the vault lives on your machine.
+
 MongoDB's shell is `mongosh`. The connection string you will use from Node later looks like `mongodb://127.0.0.1:27017/guild`. The shell can open the same database. You are not learning a second language. You are looking at the vault without the HTTP door in front of it.
 
 ```bash
@@ -88,7 +99,7 @@ db.quests.find()
 db.quests.find({ title: 'Ring the bell' })
 ```
 
-Quit the shell. Quit nothing else that matters: if a `node` server was running, stop it too. Start `mongosh` again, `use` the same database if you are not already in it via the connection string, and `db.quests.find()` again. The document is there. That is the durability evidence. Do the contrasting experiment with the array model from last session: create a quest, stop `node`, start `node`, `GET /quests`. The body is `[]`. The write never left memory. Both experiments belong in your notes. One of them is a database. The other is a variable that happened to live inside a server.
+Quit the shell. If a `node` server is running, stop it too, with Ctrl-C. Start `mongosh` again, `use` the same database if you are not already in it via the connection string, and `db.quests.find()` again. The document is there. That is the durability evidence. Do the contrasting experiment with the array model from last session: create a quest, stop `node`, start `node`, `GET /quests`. The body is `[]`. The write never left memory. Both experiments belong in your notes. One of them is a database. The other is a variable that happened to live inside a server.
 
 Insert a second document with the same `hero` and no unique index. `find` shows two. Then build the index and try a third.
 
@@ -109,7 +120,7 @@ You can ask the database what it did. `explain` is the tool.
 db.quests.find({ title: 'Ring the bell' }).explain('executionStats')
 ```
 
-You are looking for two words in the plan, not for a benchmark. A collection scan means the find walked documents. An index scan means it used an index. `totalDocsExamined` tells you how many documents the operation actually touched. On a tiny collection the numbers are boring, and that boredom is the trap. The plan kind is the fact to write down. If the field you will search by shows a collection scan, the index is still missing, even if the curl returned in milliseconds.
+You are looking for one token in the plan, not for a benchmark. Under `queryPlanner.winningPlan`, and again under `executionStats.executionStages`, the `stage` field is either `COLLSCAN` or `IXSCAN`. `COLLSCAN` is a collection scan: the find walked documents. `IXSCAN` is an index scan: it used an index, and the plan names which one. `totalDocsExamined` tells you how many documents the operation actually touched. On a tiny collection the numbers are boring, and that boredom is the trap. The plan kind is the fact to write down. If the field you will search by shows a collection scan, the index is still missing, even if the curl returned in milliseconds.
 
 The order of fields inside a compound index matters when you get there. A single-field index is enough for this session: one index on `hero` if hero is how you look quests up, and the unique flag if the rule is one quest per hero. Do not index every field because the list was short. Each index is more work on insert and on update. The read you actually do, by id or by the field on the map, is the one that earns an index. The side quest is the cost of having them and the cost of not having them. Read it while creating an index is still a one-line command.
 
@@ -137,13 +148,13 @@ If you cannot say those sentences about your own collection, you do not have a m
 
 Run the shell experiment against a local MongoDB. Then run the memory experiment against the server you already have. Write down both results. The point is the difference, observed, not a new framework.
 
-If you want the driver visible in Node without Mongoose, the official driver is `mongodb`. This unit's next session uses Mongoose on top of that world, so do not build a second style of application today. A short script is enough to see an insert survive a restart of Node.
+If you want the driver visible in Node without Mongoose, the official driver is `mongodb`. This unit's next session uses Mongoose on top of that world, so do not build a second style of application today. A short script is enough to see an insert survive a restart of Node. Save it as `vault-check.js` in `~/projects/guild-door`, run `npm install mongodb` once so the `require` resolves, and run it with `node vault-check.js`. Delete the file before you commit. Mongoose brings its own copy of this driver next session, and the server should not carry a second way of talking to the vault. You can also skip the script entirely; the shell experiment above is the evidence that matters.
 
 ```js
 const { MongoClient } = require('mongodb');
 
 async function main() {
-  const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017';
+  const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/guild';
   const client = new MongoClient(uri);
   await client.connect();
   const quests = client.db('guild').collection('quests');
@@ -299,7 +310,7 @@ Run `explain` on the filter you actually send. If you see a collection scan on `
 5. `explain` a find on `title` before and after an index on `title`. Write down whether each plan scanned the collection or used the index.
 6. Sketch the two boxes, process and database, and put the connection string on the line between them. The string in your notes can be the local URI. Do not paste a password into the note if you add one later.
 
-If `mongosh` is missing, install the shell that matches the server you installed, and come back to the same steps. The lesson is the documents you can still see after the process is gone.
+If `mongosh` is missing, or the ping in the install step did not print `{ ok: 1 }`, go back to that step and finish it before you continue. The lesson is the documents you can still see after the process is gone.
 
 ## The quest
 
@@ -324,4 +335,4 @@ MongoDB is one answer in the SQL-versus-NoSQL trade-off, and the unique field pl
 
 Next session puts a keeper at the door of this collection. Mongoose is a schema, a model, and validators that run when you save, and the queries it gives you return promises. The collection is still the collection. Read the Mongoose guide's opening, the validation page, and the section of the queries page that shows `await` on a find. Arrive knowing that `unique` is an index helper and not a validator that runs in JavaScript, because the validation page says so and the duplicate you just produced is the proof.
 
-Bring `VAULT.md`. The schema you write should be a translation of that page, not a new invention with a different set of fields.
+Bring `VAULT.md`. The schema you write should be a translation of that page, not a new invention with a different set of fields. Leave MongoDB running; it is a service now, and it stays up between sessions. Stop any `node` process with Ctrl-C.

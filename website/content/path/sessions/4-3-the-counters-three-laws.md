@@ -161,7 +161,7 @@ Names are plural for the collection. `/quest` and `/quests` as two styles in one
 
 ## The demonstration
 
-Keep the stack from last session: logger, `express.json()`, router, 404, error handler. Put the model in `quests-model.js` and the routes in `quests-router.js`. The router is the controller layer.
+Keep the stack from last session: logger, `express.json()`, router, 404, error handler. Stop last session's server with Ctrl-C before you restart. Put the model in `quests-model.js` and the routes in `quests-router.js`, both in `~/projects/guild-door`. The router is the controller layer.
 
 ```js
 const express = require('express');
@@ -198,6 +198,14 @@ quests.get('/:id', (req, res) => {
 });
 
 module.exports = quests;
+```
+
+Then wire it. In `server.js`, delete the `const quests = express.Router()` block and its three inline handlers from last session, and put this in their place. The mount line stays where it was, after `express.json()` and before the 404.
+
+```js
+const quests = require('./quests-router');
+
+app.use('/quests', quests);
 ```
 
 `GET /quests` returns `[]` and `200` and `Content-Type: application/json`. `POST` a title and the next `GET` includes it, with `status` equal to `open`, because the model applied the default and the controller did not invent a second one. `GET /quests/nope` returns 404 and a JSON object, not an HTML page and not a 200 with `null`. `GET /quests?status=open` still hits the collection route. The query never changes which function matches.
@@ -340,4 +348,4 @@ REST is one choice among API styles, sitting beside GraphQL and gRPC, and a cont
 
 The array in the model is about to embarrass you. Restart the process and the quests are gone. Next session is why a database exists at all: documents that outlive the process, collections instead of modules, and an index that is both a speed tool and a rule. Read the MongoDB introduction's opening, and the pages on documents and on databases and collections. You want the vocabulary, not a cluster design. Arrive able to say "document" and "collection" out loud, and able to explain why the array you used today is a different kind of memory.
 
-The map stays. The methods stay. The owner of storage changes from a variable to a database. MVC still means the controller does not grow a connection string in the middle of a status decision.
+The map stays. The methods stay. The owner of storage changes from a variable to a database. MVC still means the controller does not grow a connection string in the middle of a status decision. Stop the server with Ctrl-C when you are done; next session starts by installing the database, with nothing running.

@@ -15,6 +15,7 @@ docs:
   - https://mongoosejs.com/docs/validation.html
   - https://mongoosejs.com/docs/queries.html
   - https://mongoosejs.com/docs/models.html
+  - https://nodejs.org/api/cli.html#--env-fileconfig
 say:
   - "A schema describes the shape. A model is the object you call to talk to one collection."
   - "Validators run on save. A unique index is a database rule, not a Mongoose courtesy."
@@ -57,7 +58,7 @@ What you should be able to draw on a napkin: schema describes, model talks to on
 
 ### The schema you translate from the vault note
 
-Open `VAULT.md` and write the schema so it matches the fields you already defended. Do not add a second title-like field because a tutorial used `name`.
+Open `VAULT.md` and write the schema so it matches the fields you already defended. Do not add a second title-like field because a tutorial used `name`. First, in `~/projects/guild-door`, install the package: `npm install mongoose`. Then put the schema and the model in a new file, `quest-model.js`. It replaces `quests-model.js` from the resource session: the array and its functions go, and the file exports the compiled model and nothing else, so the router calls `Quest.create` and `Quest.find` itself.
 
 ```js
 const mongoose = require('mongoose');
@@ -104,9 +105,23 @@ main().catch((err) => {
 
 `listen` stays behind a successful connect. If the vault is unreachable, the process exits and the port stays closed. That is a failed start, which is what you want.
 
+`process.env.MONGODB_URI` has to come from somewhere, and the somewhere is a file named `.env` in `~/projects/guild-door`, one variable per line:
+
+```bash
+MONGODB_URI=mongodb://127.0.0.1:27017/guild
+```
+
+Node reads that file itself when you ask it to. No package is needed. Start the server with the flag from now on:
+
+```bash
+node --env-file=.env server.js
+```
+
+Add `.env` to `.gitignore`, on its own line under `node_modules`, before you commit anything else. The local URI has no password in it today; the habit is for the day it does. Run `git status` once and confirm `.env` is not listed. If you start the server without the flag, `MONGODB_URI is missing` is the line you see, and that is the startup check doing its job.
+
 ### Create, find, and the difference between null and a throw
 
-The create route from the resource map now awaits the model.
+The create route from the resource map now awaits the model. At the top of `quests-router.js`, `const Quest = require('./quest-model');` replaces the old `model` require.
 
 ```js
 quests.post('/', async (req, res) => {
@@ -141,7 +156,7 @@ quests.get('/:id', async (req, res) => {
 });
 ```
 
-`find` always hands you an array after `await`. `findById` hands you one document or `null`. Do not check `if (!questsFound)` on the list route. An empty array is truthy enough to be the wrong test anyway: empty arrays are truthy in JavaScript. The missing-item test is `quest === null`.
+`find` always hands you an array after `await`. `findById` hands you one document or `null`. Do not check `if (!questsFound)` on the list route: it never fires, because an empty array is truthy in JavaScript. The missing-item test is `quest === null`, on the item route.
 
 Delete is the same shape as the item read.
 
@@ -241,7 +256,7 @@ Create a quest with a title and a hero. Read it back by the `_id` string from th
 
 ## The demonstration
 
-Wire the model file, the connect-then-listen startup, the router's create and find, and the error handler branches. Use the stack you already trust: logger, `express.json()`, the quests router, the 404 middleware, the error handler last.
+`npm install mongoose` in `~/projects/guild-door` if you have not already. Wire `quest-model.js`, the connect-then-listen startup, the `.env` file, the router's create and find, and the error handler branches. Use the stack you already trust: logger, `express.json()`, the quests router, the 404 middleware, the error handler last. Stop the old server with Ctrl-C and start this one with `node --env-file=.env server.js`.
 
 Curl a create.
 
@@ -369,8 +384,8 @@ Stop passing the raw body. Copy the allowed paths into a new object. Call `findB
 
 ## Your turn
 
-1. Add the schema and model in their own file. Connect from `MONGODB_URI` before `listen`.
-2. Replace the array inside the model functions with `create`, `find`, `findById`, `findByIdAndUpdate`, and `findByIdAndDelete`. Every call is awaited.
+1. `npm install mongoose`. Put the schema and model in `quest-model.js`; it replaces `quests-model.js`, and it exports the Mongoose model and nothing else. Delete the array and its functions. Write `.env` with `MONGODB_URI`, add `.env` to `.gitignore`, and connect from `process.env.MONGODB_URI` before `listen`, started with `node --env-file=.env server.js`.
+2. In `quests-router.js`, require `./quest-model` as `Quest` and call `Quest.create`, `Quest.find`, `Quest.findById`, `Quest.findByIdAndUpdate`, and `Quest.findByIdAndDelete` from the handlers. Every call is awaited.
 3. Teach the error handler the three names: `CastError` to 400, code `11000` to 409, `ValidationError` to 400.
 4. Create a quest with no `status` in the body. Read it back. The stored status is `open`.
 5. Create a second quest with the same hero. Confirm 409, then confirm the collection has one such document.
@@ -384,7 +399,7 @@ If validation never runs, you are calling an update without `runValidators`, or 
 
 ![](diagram:session-4-5/fig3-evidence)
 
-Write `KEEPER.md` beside the model file. Include the schema, in a fence, and then the evidence from your own curls:
+Write `KEEPER.md` beside `quest-model.js`. Include the schema, in a fence, and then the evidence from your own curls:
 
 - The request that omitted `title`, the status code, and a `mongosh` find that shows nothing new was inserted.
 - The `_id` you created, the `GET` that returned it, and the `status` value that defaulted to `open`.
@@ -400,4 +415,4 @@ The unique index you just asked MongoDB to build has a write cost worth reading 
 
 ## Before next session
 
-Next session the server sends HTML. Seven routes, one resource, the name of the seven is INDUCES. The model you just wrote stays. The controller will render pages and redirect after a successful `POST`, because a browser form is not a JSON client. Read the routing guide's note about route order, and the method-override page, especially the part where a string getter reads the query and the part where a body field is only visible after `express.urlencoded`. Arrive knowing that `/quests/new` must be registered before `/quests/:id`, or the word `new` will be handed to `findById` and you will get the `CastError` you just learned, on a page that should have been a form.
+Next session the server sends HTML. Seven routes, one resource, the name of the seven is INDUCES. The model you just wrote stays. The controller will render pages and redirect after a successful `POST`, because a browser form is not a JSON client. Read the routing guide's note about route order, and the method-override page, especially the part where a string getter reads the query and the part where a body field is only visible after `express.urlencoded`. Arrive knowing that `/quests/new` must be registered before `/quests/:id`, or the word `new` will be handed to `findById` and you will get the `CastError` you just learned, on a page that should have been a form. Stop the server with Ctrl-C when you are done. MongoDB stays up on its own.

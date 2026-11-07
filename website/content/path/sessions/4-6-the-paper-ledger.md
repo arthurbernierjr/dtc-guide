@@ -48,23 +48,27 @@ Delete is `DELETE /quests/:id`. Same constraint. A small form posts, the overrid
 
 That is the whole surface. Seven functions. One model, the Mongoose model you already have. The controller reads `req`, calls the model, and either sends HTML or redirects. The HTML functions do not call Mongoose. If a function that builds a string also calls `Quest.find`, the split you drew two sessions ago has collapsed.
 
-Route order is part of the checklist. Express matches in the order you registered, for a given method. Register the specific `GET`s before the parameter `GET`.
+Route order is part of the checklist. Express matches in the order you registered, for a given method. Register the specific `GET`s before the parameter `GET`. The seven live in a new file, `quests-pages.js`, as named functions, and the router in that file is called `pages`, not `quests`, so that `server.js` can hold both routers without one name shadowing the other. The JSON router from the keeper session is still `quests`, in `quests-router.js`.
 
 ```js
-router.get('/', index);
-router.get('/new', fresh);
-router.get('/:id/edit', edit);
-router.get('/:id', show);
-router.post('/', create);
-router.put('/:id', update);
-router.delete('/:id', destroy);
+const pages = express.Router();
+
+pages.get('/', index);
+pages.get('/new', fresh);
+pages.get('/:id/edit', edit);
+pages.get('/:id', show);
+pages.post('/', create);
+pages.put('/:id', update);
+pages.delete('/:id', destroy);
+
+module.exports = pages;
 ```
 
-`GET /quests/new` is the collision you can reproduce. If `router.get('/:id', show)` is registered first, a request for `/quests/new` matches it, and `req.params.id` is the string `new`. `findById('new')` throws a `CastError`, because `new` is not 24 hex characters. The form never renders. You then "fix" the cast by special-casing the word `new` inside the show handler, and now one function is two routes. Register `/new` first and the word never becomes an id.
+`GET /quests/new` is the collision you can reproduce. If `pages.get('/:id', show)` is registered first, a request for `/quests/new` matches it, and `req.params.id` is the string `new`. `findById('new')` throws a `CastError`, because `new` is not 24 hex characters. The form never renders. You then "fix" the cast by special-casing the word `new` inside the show handler, and now one function is two routes. Register `/new` first and the word never becomes an id.
 
 `GET /quests/:id/edit` is a two-segment path. A one-segment `/:id` pattern does not swallow `/abc/edit`. You still register `/:id/edit` before `/:id`, so the file lists the specific patterns above the parameter pattern and so a later edit to the show pattern cannot hide the form. The bug the cast will actually catch this week is the word `new`.
 
-HTML forms only speak `GET` and `POST`. You can look at the form element for as long as you like. There is no `method="PUT"` that browsers honor as a real `PUT`. If you write it, the browser sends `GET`. Delete and update would never hit your routes. The method-override package exists for this hole. Install it. It is not built into Express. `express.urlencoded` is built in, and it is the parser that turns a form body into `req.body`.
+HTML forms only speak `GET` and `POST`. You can look at the form element for as long as you like. There is no `method="PUT"` that browsers honor as a real `PUT`. If you write it, the browser sends `GET`. Delete and update would never hit your routes. The method-override package exists for this hole. Install it, in `~/projects/guild-door`: `npm install method-override`. It is not built into Express. `express.urlencoded` is built in, and it is the parser that turns a form body into `req.body`.
 
 The method-override page defines two different getters. `methodOverride('_method')` treats `_method` as a query-string key, because the string does not start with `X-`. The form's action carries the override:
 
@@ -79,13 +83,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 ```
 
-`extended: false` parses flat name and value fields with the `querystring` library, which is what a title field and a status field are. The override has to run before routing, or `router.put` will not see a `PUT`. It sits after the parser so that, by the time any later function runs, the body has already become `req.body`. The query helper itself reads `?_method=`, not the body. A hidden input named `_method` does nothing for this string helper. If you want the hidden input, the method-override page shows a custom getter that reads `req.body._method` and deletes it so it is not saved as a quest field. That getter must be mounted after `express.urlencoded`. If it runs before the parser, `req.body` is empty, the method stays `POST`, and the update route never runs. The browser sent `POST`. Your `router.put` waited for a `PUT`. Both are true, and the page appears to refresh without saving. That is the diagnosis.
+`extended: false` parses flat name and value fields with the `querystring` library, which is what a title field and a status field are. The override has to run before routing, or `pages.put` will not see a `PUT`. It sits after the parser so that, by the time any later function runs, the body has already become `req.body`. The query helper itself reads `?_method=`, not the body. A hidden input named `_method` does nothing for this string helper. If you want the hidden input, the method-override page shows a custom getter that reads `req.body._method` and deletes it so it is not saved as a quest field. That getter must be mounted after `express.urlencoded`. If it runs before the parser, `req.body` is empty, the method stays `POST`, and the update route never runs. The browser sent `POST`. Your `pages.put` waited for a `PUT`. Both are true, and the page appears to refresh without saving. That is the diagnosis.
 
 Redirect after a successful `POST`. The pattern's name is Post/Redirect/Get. `res.redirect('/quests/' + id)` responds with 302 and a `Location` header. Express uses 302 when you do not pass a status. The browser then issues a `GET` for that location. Refresh repeats the `GET`. It does not repeat the insert. If create renders HTML directly, the address bar is still the `POST`. Refresh submits the form again, and you get a second document. The duplicate may even 409 if `hero` is unique, which hides the bug until the hero field is blank and you suddenly have two bells to ring.
 
 Failed validation does not redirect. If the title is empty, respond 400 and send the form again, with a message in the HTML. A redirect would throw away the message unless you stored it somewhere else. The success path redirects. The failure path re-renders. A refresh of the failure page will try the `POST` again, which is the leftover cost of answering a `POST` with HTML, and it is still the right trade for a one-page form without a session store.
 
-The stylesheet is a static file. `express.static('public')` serves files from that folder. `public/styles.css` is requested as `/styles.css`. The HTML links it.
+The stylesheet is a static file. `express.static(path.join(__dirname, 'public'))` serves files from that folder. `public/styles.css` is requested as `/styles.css`. The HTML links it.
 
 ```html
 <link rel="stylesheet" href="/styles.css">
@@ -139,7 +143,7 @@ The edit page is the same fields as new, with `value` attributes filled from the
 </form>
 ```
 
-Update loads nothing from the query string except the method. The fields come from the body. Build the update from `title`, `status`, and `hero` the way you did in the keeper session: allowed keys only, `{ new: true, runValidators: true }`, and `findByIdAndUpdate` rather than `findOneAndReplace`. Then `res.redirect('/quests/' + id)`. A failed enum re-renders the edit form with 400. A missing document is a 404 page.
+Update loads nothing from the query string except the method. The fields come from the body. Build the update from `title`, `status`, and `hero` the way the keeper session's `PATCH` handler did; here the form's method is `PUT`, and the handler is the same shape: allowed keys only, `{ new: true, runValidators: true }`, and `findByIdAndUpdate` rather than `findOneAndReplace`. Then `res.redirect('/quests/' + id)`. A failed enum re-renders the edit form with 400. A missing document is a 404 page.
 
 Delete calls `findByIdAndDelete`. If the document was already gone, 404. If it was removed, `res.redirect('/quests')`. The index query runs on that following `GET`, and the quest is absent. You never rendered a "deleted" template as the body of the `DELETE`. The index is the page that shows absence.
 
@@ -194,6 +198,29 @@ function questShow(quest) {
 }
 ```
 
+The new page and the edit page are the same form with different values, so one function builds it. `formFields` takes the values to fill in, the action, the method, and the button label. For `POST` the action is used as is. For `PUT` the override goes into the query string, because that is where `methodOverride('_method')` looks.
+
+```js
+function formFields(values, action, method, label) {
+  const statuses = ['open', 'done', 'failed'];
+  const options = statuses.map(function (status) {
+    const selected = status === values.status ? ' selected' : '';
+    return '<option value="' + status + '"' + selected + '>' + status + '</option>';
+  });
+  const target = method === 'POST' ? action : action + '?_method=' + method;
+  return [
+    '<form method="POST" action="' + escapeHtml(target) + '">',
+    '<label>Title <input name="title" value="' + escapeHtml(values.title || '') + '" /></label>',
+    '<label>Hero <input name="hero" value="' + escapeHtml(values.hero || '') + '" /></label>',
+    '<label>Status <select name="status">' + options.join('') + '</select></label>',
+    '<button type="submit">' + escapeHtml(label) + '</button>',
+    '</form>'
+  ].join('\n');
+}
+```
+
+The new page is `layout('New quest', formFields({ title: '', status: 'open', hero: '' }, '/quests', 'POST', 'Create'))`. The edit page is `layout('Edit quest', formFields(quest, '/quests/' + quest._id, 'PUT', 'Update'))`, and the values come from the document, so the title and the hero are already in the boxes and the stored status is the selected option.
+
 The id is escaped too. An ObjectId hex string has no special characters, and you still escape it, so the day the id is something else you do not have a second policy. `res.type('html').send(questShow(quest))` sends the string as HTML. `res.send` of a string already defaults toward HTML. Setting the type makes the intention obvious when you are also still thinking about `res.json` from the API sessions.
 
 The index maps documents into list items. If the array is empty, the body says the board is empty and still links to `/quests/new`. Do not skip the layout on the empty path. The stylesheet belongs on the empty page too.
@@ -214,12 +241,21 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+const quests = require('./quests-router');
+const pages = require('./quests-pages');
+
+app.use('/api/quests', quests);
+app.use('/quests', pages);
 ```
 
-Logger first, so you can see the `POST` and the following `GET` as two lines. Parser next. Override next. Static next, so `/styles.css` is a file and not a route you hand-write. Then the router, then the 404, then the four-argument error handler. `path.join` keeps the public folder next to the server file even if you start Node from another working directory. The link in the HTML stays `/styles.css`, because that is a URL, not a disk path.
+Logger first, so you can see the `POST` and the following `GET` as two lines. Both parsers next; `express.json()` stays from the keeper session, and each parser skips the bodies it does not claim. Override next. Static next, so `/styles.css` is a file and not a route you hand-write. Then the two routers, then the 404, then the four-argument error handler.
+
+The mounts are the step people skip. The JSON router from the keeper session was mounted at `/quests`. It moves to `/api/quests` now, in this one line, and nothing inside `quests-router.js` changes. Next session grows it there. `/quests` belongs to the paper router from today on. If both routers stay at `/quests`, whichever is mounted first answers, and the other one looks broken for no reason the log will explain. `path.join` keeps the public folder next to the server file even if you start Node from another working directory. The link in the HTML stays `/styles.css`, because that is a URL, not a disk path.
 
 `public/styles.css` can be short and still prove the pipeline.
 
@@ -253,12 +289,19 @@ async function create(req, res) {
   }
   const input = { title: title, status: status };
   if (hero) input.hero = hero;
-  const quest = await Quest.create(input);
+  let quest;
+  try {
+    quest = await Quest.create(input);
+  } catch (err) {
+    if (err.name !== 'ValidationError') throw err;
+    res.status(400).send(layout('New quest', formFields({ title: title, status: status, hero: hero }, '/quests', 'POST', 'Create') + '<p>' + escapeHtml(err.message) + '</p>'));
+    return;
+  }
   res.redirect('/quests/' + quest._id);
 }
 ```
 
-Omitting `hero` when the box is blank keeps a sparse unique index from treating two empty heroes as duplicates. If your schema requires `hero`, this is the branch that should re-render with a message instead of omitting the field. Match `VAULT.md`. Do not silently drop a required field and hope the keeper's error page is HTML. A `ValidationError` that falls through to a JSON error handler will show JSON in the browser. Either catch it and re-render the form, or teach the error handler to send HTML in this app. Pick one and use it on create and on update.
+Omitting `hero` when the box is blank keeps a sparse unique index from treating two empty heroes as duplicates. If your schema requires `hero`, this is the branch that should re-render with a message instead of omitting the field. Match `VAULT.md`. Do not silently drop a required field and hope the keeper's error page is HTML. A `ValidationError` that falls through to the JSON error handler shows JSON in the browser, which is why create catches it and re-renders the form with 400. Update does the same around `findByIdAndUpdate`. Everything else is rethrown with `throw err`, so a cast error or a duplicate key still reaches the four-argument handler, and that handler stays JSON: the courier next session needs it that way, and a 409 as a JSON body in a browser tab is an ugly page, not a wrong one.
 
 Update redirects the same way after `findByIdAndUpdate`. Delete redirects to `/quests`. Neither handler sends the page that comes next. The next request does.
 
@@ -278,7 +321,7 @@ The controller does not concatenate a query into HTML. The show function does. T
 
 ## The demonstration
 
-Stand up the seven routes against the model from the keeper session. One quest, clicked in order.
+Stand up the seven routes against the model from the keeper session. Stop the old server with Ctrl-C, check that `server.js` mounts `quests` at `/api/quests` and `pages` at `/quests`, and start it again with `node --env-file=.env server.js`. One quest, clicked in order.
 
 1. `GET /quests` shows an empty board and a link labeled New.
 2. `GET /quests/new` shows the form. The terminal logged `GET`, and `db.quests.countDocuments()` did not change.
@@ -288,7 +331,7 @@ Stand up the seven routes against the model from the keeper session. One quest, 
 6. Open `/styles.css` in the same origin and confirm the file is the one in `public`.
 7. Delete. The browser lands on the index. The quest is gone from the list and from the shell.
 
-Then break order on purpose. Move `router.get('/:id', show)` above `router.get('/new', fresh)`, restart, and open `/quests/new`. You get the cast failure, a 400 if your error handler maps `CastError`, or a 500 if it does not. The log shows `GET /quests/new`. The show route ran. Put `/new` back above `/:id`.
+Then break order on purpose. Move `pages.get('/:id', show)` above `pages.get('/new', fresh)`, restart, and open `/quests/new`. You get the cast failure, a 400 if your error handler maps `CastError`, or a 500 if it does not. The log shows `GET /quests/new`. The show route ran. Put `/new` back above `/:id`.
 
 Then break the override. Remove `?_method=PUT` from the edit form's action, restart, and save. The terminal shows `POST /quests/` plus the id, and no `PUT` route handled it. The 404 middleware answers, or a `POST /:id` you accidentally registered creates a mess. Put the query back. If you are using the hidden-input getter instead, move it above `express.urlencoded` and watch the same symptom: the log stays `POST`. Parser first, then override. That order is the lesson, not a style.
 
@@ -386,7 +429,7 @@ The browser sent `POST` and the update route never ran. `_method` was missing, o
 
 Look at the log's method. If it says `POST` and the path is the quest id, the override did not change `req.method`. Open the form in the page source. For `methodOverride('_method')`, the action must include `?_method=PUT` or `?_method=DELETE`. A hidden input without the query is invisible to that helper. Either add the query, or switch to the custom getter on the method-override page, the one that reads `req.body._method`.
 
-If the source already has the hidden input and you wrote the custom getter, check mount order. `express.urlencoded` has to run first, or `req.body` is empty and the getter returns nothing. The method stays `POST`. `router.put` does not run. A `POST` handler for `/:id` might run instead, if you added one, and you will insert or 404 for reasons that look supernatural. Fix the order. Parser, then override, then routes. The default allowed original method is `POST`, so a real `GET` is left alone. Your form's method attribute stays `POST`.
+If the source already has the hidden input and you wrote the custom getter, check mount order. `express.urlencoded` has to run first, or `req.body` is empty and the getter returns nothing. The method stays `POST`. `pages.put` does not run. A `POST` handler for `/:id` might run instead, if you added one, and you will insert or 404 for reasons that look supernatural. Fix the order. Parser, then override, then routes. The default allowed original method is `POST`, so a real `GET` is left alone. Your form's method attribute stays `POST`.
 
 ### Double submit
 
@@ -398,9 +441,9 @@ If the redirect points at `/quests/new`, you are sending people back to an empty
 
 ## Your turn
 
-1. Install method-override. Keep `express.urlencoded` from Express itself. Mount the parser, then `methodOverride('_method')`, then `express.static` for `public`.
-2. Add `public/styles.css` and the layout function that links `/styles.css`. Escape titles before they enter HTML.
-3. Register all seven routes in the safe order. Index, new, edit, show, create, update, delete. One resource.
+1. `npm install method-override`. Keep `express.urlencoded` from Express itself. Mount `express.json()`, the urlencoded parser, then `methodOverride('_method')`, then `express.static` for `public`.
+2. Add `public/styles.css`, the layout function that links `/styles.css`, and `formFields`. Escape titles before they enter HTML.
+3. In `server.js`, move the JSON router's mount from `/quests` to `/api/quests`. Then create `quests-pages.js`, register all seven routes in the safe order, and mount it at `/quests`. Index, new, edit, show, create, update, delete. One resource, two doors.
 4. New renders the empty form. Create validates, inserts, and redirects to show. Show links to edit and contains the delete form. Edit's form posts with `?_method=PUT`. Update redirects to show. Delete redirects to index.
 5. Use a title that contains an ampersand and a quote. The page shows them as text.
 6. Refresh after create. Confirm a single document.
@@ -419,7 +462,7 @@ Write `LEDGER.md`. One line per INDUCES letter: the method, the path, and the on
 - The redirect proof: the 302 and `Location` from `curl -i` on create, and the document count after a browser refresh.
 - The CSS proof: the HTML link, the URL you opened for the file, and the status of that URL.
 
-Add the mount order as a short list: urlencoded, method-override, static, router, error handler. Commit the routes, the layout, `public/styles.css`, and `LEDGER.md`. Do not commit a template-engine dependency you do not use. Plain HTML strings and a static file are the whole view.
+Add the mount order as a short list: json, urlencoded, method-override, static, the JSON router at `/api/quests`, the pages router at `/quests`, 404, error handler. Commit the routes, the layout, `public/styles.css`, and `LEDGER.md`. Do not commit a template-engine dependency you do not use. Plain HTML strings and a static file are the whole view.
 
 ## Side quests
 
@@ -427,4 +470,4 @@ The controller is a mediator between the Mongoose model and the HTML you send, a
 
 ## Before next session
 
-Next session throws the paper away and keeps the quests. The client sends JSON and receives JSON. Nothing redirects. `express.json()` has to be mounted before the routes, success on create is 201 with one body, a bad title is 400, and a missing document is 404. Read `res.json` again and the error-handling note about what the default handler sends, because an HTML stack trace in an API response is the bug you are about to remove. The seven names can stay in your head. The verbs stay. The representation changes.
+Next session throws the paper away and keeps the quests. The client sends JSON and receives JSON. Nothing redirects. `express.json()` has to be mounted before the routes, success on create is 201 with one body, a bad title is 400, and a missing document is 404. Read `res.json` again and the error-handling note about what the default handler sends, because an HTML stack trace in an API response is the bug you are about to remove. The seven names can stay in your head. The verbs stay. The representation changes. Stop the server with Ctrl-C when you are done.

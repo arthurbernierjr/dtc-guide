@@ -554,7 +554,7 @@
       "id": "4.8",
       "unit": 4,
       "title": "Seals and Signets",
-      "subtitle": "bcrypt, JWT, and authentication in Postman",
+      "subtitle": "bcrypt, JWT, and authentication with curl",
       "slug": "4-8-seals-and-signets",
       "hook": "No React yet. A password becomes a hash, a login returns a signed token, and the next request carries that token in a header. The server is the only thing that believes it.",
       "sideQuests": [

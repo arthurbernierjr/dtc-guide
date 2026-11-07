@@ -30,7 +30,7 @@ By the end you can drive the board with curl and read the contract off the statu
 
 ## The idea
 
-The resource map does not change. `GET /api/quests` is the collection. `POST /api/quests` creates. `GET /api/quests/:id` reads one. `PUT /api/quests/:id` replaces the fields you allow. `DELETE /api/quests/:id` removes one. The `/api` prefix is how this router sits beside the paper routes if you still have them, and how a log line tells you which door was used. Inside the router you still register `'/'` and `'/:id'`. The mount is `app.use('/api/quests', quests)`.
+The resource map does not change. `GET /api/quests` is the collection. `POST /api/quests` creates. `GET /api/quests/:id` reads one. `PUT /api/quests/:id` replaces the fields you allow. `DELETE /api/quests/:id` removes one. The `/api` prefix is how this router sits beside the paper routes, and how a log line tells you which door was used. The file is still `quests-router.js`, and you already moved its mount to `/api/quests` in the ledger session; today it grows the rest of the verbs. The paper router, `quests-pages.js`, keeps `/quests`. Inside the API router you still register `'/'` and `'/:id'`. The mount is `app.use('/api/quests', quests)`.
 
 What changes is the representation and the way a write finishes. The paper ledger answered a successful `POST` with 302 and a `Location`, and the browser issued a second request to get HTML. This API does not redirect. The client that sent the `POST` is the client that needs the result, and it may not be a browser that follows redirects and paints pages. `201` plus the created document is the whole answer. One status. One body. The client decides what to show. If you `res.redirect` here, a JSON client receives 302 and then, if it follows, a document from a different URL, or an HTML page it cannot parse. You took the courier's parcel and replaced it with a forwarding note.
 
@@ -108,10 +108,8 @@ quests.put('/:id', async (req, res) => {
     res.status(400).json({ message: 'title required' });
     return;
   }
-  const update = {
-    title: body.title.trim(),
-    status: typeof body.status === 'string' ? body.status : 'open'
-  };
+  const update = { title: body.title.trim() };
+  if (typeof body.status === 'string') update.status = body.status;
   if (typeof body.hero === 'string' && body.hero.trim()) update.hero = body.hero.trim();
   const quest = await Quest.findByIdAndUpdate(req.params.id, update, {
     new: true,
@@ -136,15 +134,19 @@ quests.delete('/:id', async (req, res) => {
 module.exports = quests;
 ```
 
-Read the endings. Every path that finishes the response uses `.json` once and returns. `POST` uses 201 only after `create` resolves. If `create` throws a `ValidationError`, the error handler answers 400 and the document is not in the collection, because the save failed. The empty-title branch never calls `create` at all, which is the one you can prove with a count even if the database is empty. `PUT` requires a title because this handler is writing the fields it intends to keep. It still uses `findByIdAndUpdate` with `runValidators: true`, so a status outside the enum fails, and the plain object is sent as `$set`, so a field you left out of `update` is not blanked. `findOneAndReplace` would blank it. If your `PUT` is a stricter replace, say so in the route's note and require every field. Do not `res.redirect` to the `GET` afterward. The body of the 200 is the document. The client already has it.
+Read the endings. Every path that finishes the response uses `.json` once and returns. `POST` uses 201 only after `create` resolves. If `create` throws a `ValidationError`, the error handler answers 400 and the document is not in the collection, because the save failed. The empty-title branch never calls `create` at all, which is the one you can prove with a count even if the database is empty. `PUT` requires a title because this handler is writing the fields it intends to keep. It still uses `findByIdAndUpdate` with `runValidators: true`, so a status outside the enum fails, and the plain object is sent as `$set`, so a field you left out of `update` is not blanked: a `PUT` that sends only `title` leaves a `done` quest `done`, because `status` is only set when the body carries it. `findOneAndReplace` would blank it. If your `PUT` is a stricter replace, say so in the route's note and require every field. Do not `res.redirect` to the `GET` afterward. The body of the 200 is the document. The client already has it.
 
 `GET /` returning an array means the JSON text starts with `[`. A wrapper object that contains an array fails the contract even when the data is right. Clients will look at `response[0].title` or at `response.length`. Give them the array. Errors are the exception: there is no document, so the body is `{ "message": "..." }`. Do not sometimes return the document and sometimes return `{ quest: document }`. One shape for success on that route, one shape for errors across the API.
 
 ### The parser, in front, and the handler behind it
 
 ```js
+const quests = require('./quests-router');
+const pages = require('./quests-pages');
+
 app.use(express.json());
 app.use('/api/quests', quests);
+app.use('/quests', pages);
 ```
 
 That order is the whole undefined-body bug when it is a mount bug. Reverse the two lines and a correct curl still arrives with `Content-Type: application/json`, and `req.body` is still undefined, because the route answered before the parser ran. Express does not rewind the stack after a route fails to see a body. Mount the parser on the app, above every API router. If you also serve the paper ledger, keep `express.urlencoded` for the form routes. The two parsers look at different content types and can both be mounted. A JSON request will not be eaten by the urlencoded parser. A form post will not be eaten by `express.json()`. Each one skips bodies it does not claim, and calls `next`.
@@ -198,7 +200,7 @@ A create that returns 200 and `{ ok: true }` forces a second request and throws 
 
 ### What you deliberately do not carry over from the ledger
 
-No `methodOverride` on these routes. The client can send `PUT` and `DELETE` itself. Postman can. Curl can, with `-X PUT` and `-X DELETE`. A form cannot, and this session is not a form.
+No `methodOverride` on these routes. The client can send `PUT` and `DELETE` itself. Curl can, with `-X PUT` and `-X DELETE`. A form cannot, and this session is not a form.
 
 No `res.redirect`. Search the router for the word. It should not be there.
 
@@ -206,11 +208,11 @@ No layout function, no `escapeHtml`, no stylesheet. If a title contains a quote,
 
 No page that "looks like" an error. A 404 is JSON even if a human reads the curl in a terminal and finds it ugly. Ugliness is acceptable. HTML is a contract break.
 
-The paper routes can remain in the process for the clicks you already built. Do not point the API client at them. `POST /quests` with a JSON body will not be parsed by `express.urlencoded`, and `POST /quests` with a form body will not satisfy `express.json()`. Each door has a content type. The courier's door is `/api/quests`.
+The paper routes, `pages` at `/quests`, remain in the process for the clicks you already built. Do not point the API client at them. `POST /quests` with a JSON body will not be parsed by `express.urlencoded`, and `POST /quests` with a form body will not satisfy `express.json()`. Each door has a content type. The courier's door is `/api/quests`.
 
 ## The demonstration
 
-Mount `express.json()` above the API router. Restart. Then run the contract in order, and write down the status line of each.
+Mount `express.json()` above the API router. Stop the server with Ctrl-C and start it again with `node --env-file=.env server.js`. Then run the contract in order, and write down the status line of each.
 
 ```bash
 curl -i http://localhost:3000/api/quests
@@ -346,7 +348,7 @@ The checkpoint models the contract. Your curls are the evidence. If the 201 body
 
 The client sent JSON and `req.body` is undefined. The parser is missing, mounted too late, or the content type is not `application/json`.
 
-Log `req.get('Content-Type')` and log whether `req.body` is undefined, before you log the title. If the header is missing or is `application/x-www-form-urlencoded`, curl forgot `-H`, or Postman is sending a form. Fix the client, and keep the handler's 400 for a missing body so the next caller gets a parcel instead of a throw.
+Log `req.get('Content-Type')` and log whether `req.body` is undefined, before you log the title. If the header is missing or is `application/x-www-form-urlencoded`, curl forgot `-H`, or whatever client you used sent a form. Fix the client, and keep the handler's 400 for a missing body so the next caller gets a parcel instead of a throw.
 
 If the header is correct and the body is still undefined, look at mount order. `app.use(express.json())` has to appear above `app.use('/api/quests', quests)`. A parser inside a route, after you already read `req.body`, is too late for that request. Restart after you move it. A long-running process keeps the old order, and you will "fix" the handler instead of the stack.
 
@@ -354,7 +356,7 @@ Malformed JSON is the nearby case, not this one. The header is right, the parser
 
 ### HTML error
 
-A thrown error hit the default handler and returned a stack-trace page. The API client cannot parse it. You can see it with `curl -i`: the content type is HTML, the body contains `<` or a stack, and `JSON.parse` fails. Postman shows a preview that looks like a document, which is a trap, because the preview is the browser inside Postman rendering HTML. Look at the raw body.
+A thrown error hit the default handler and returned a stack-trace page. The API client cannot parse it. You can see it with `curl -i`: the content type is HTML, the body contains `<` or a stack, and `JSON.parse` fails. A GUI client will often render that page as a preview that looks like a document, which is a trap. Look at the raw body.
 
 Put the four-argument handler last. Send `res.status(...).json({ message })`. Do not `res.send(err.stack)`. Do not call `next(err)` after you have already decided to answer, unless headers were sent and you are delegating. If one branch of the handler sends JSON and another calls the default by falling through, the fall-through is this bug. Every branch either sends JSON or calls `next(err)` on purpose.
 
@@ -391,7 +393,7 @@ Write `COURIER.md`. It is the contract, proved with your curls. Include:
 - The content type on one success and one error.
 - A sentence that says the router does not redirect, and where `express.json()` sits relative to the router.
 
-Commit the router, the error handler, and `COURIER.md`. The next session's Postman collection will call this same shape. If create is 200 today, the token work tomorrow will be built on a guess.
+Commit the router, the error handler, and `COURIER.md`. Next session's register and login routes answer in this same shape. If create is 200 today, the token work next session will be built on a guess.
 
 ## Side quests
 
@@ -399,4 +401,4 @@ You chose a resource style on purpose, which is the API-design argument worth re
 
 ## Before next session
 
-Next session seals the door. A password becomes a bcrypt hash, a login returns a token from `jwt.sign`, and Postman sends that token as `Authorization: Bearer`. The secret comes from the environment. A hidden button on a page is not a check. Read the bcrypt README's hash and compare example, and the jsonwebtoken README's sign and verify example, before you sit down. You are arriving knowing that the API you just built answers JSON, so login will too: 200 or 401, one body, no redirect.
+Next session seals the door. A password becomes a bcrypt hash, a login returns a token from `jwt.sign`, and curl sends that token as `Authorization: Bearer`. The secret comes from the same `.env` file as the database URI. A hidden button on a page is not a check. Read the bcrypt README's hash and compare example, and the jsonwebtoken README's sign and verify example, before you sit down. You are arriving knowing that the API you just built answers JSON, so login will too: 200 or 401, one body, no redirect. Stop the server with Ctrl-C when you are done.

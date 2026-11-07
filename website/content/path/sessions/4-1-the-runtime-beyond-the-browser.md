@@ -71,9 +71,10 @@ Node loads code from files. CommonJS is `require` and `module.exports`. ECMAScri
 
 ## The demonstration
 
-One folder, one manifest, one file. From a terminal:
+One folder, one manifest, one file. The folder is `~/projects/guild-door`, and it is the project you keep through the rest of this half of the unit: every session up to the seals in 4-8 edits this same folder. From a terminal:
 
 ```bash
+cd ~/projects
 mkdir guild-door && cd guild-door
 npm init -y
 npm install express
@@ -96,7 +97,7 @@ app.listen(port, () => {
 });
 ```
 
-`process.env.PORT` is how a host will tell you the port later. Locally it falls through to 3000. Start it with `node server.js`. The log line prints only if `listen` succeeded. In another terminal, `curl http://localhost:3000/` returns the sentence. `curl -i` shows the status line, `200`, and the headers Express set. Stop the process with Ctrl-C. `curl` then fails to connect. The program did not "keep the site up." The process was the site.
+`process.env.PORT` is how a host will tell you the port later. Locally it falls through to 3000. Start it with `node server.js`. The log line prints only if `listen` succeeded. In another terminal, `curl http://localhost:3000/` returns the sentence. `curl` is already installed on macOS, on WSL, and on Linux; `curl --version` proves it. It is the tool this path uses to knock on a server from outside the process, for the rest of the unit. `curl -i` shows the status line, `200`, and the headers Express set. Stop the process with Ctrl-C. `curl` then fails to connect. The program did not "keep the site up." The process was the site.
 
 Change the handler to return without `res.send`, restart, and curl again. The request hangs. That is the lesson, not a broken install. Put the `send` back.
 
@@ -139,7 +140,7 @@ You paste a handler that reads `document.body` into `server.js`, or you open `se
 
 ### Port already taken
 
-`EADDRINUSE` means the bind failed. Find the other process and stop it, or pick another port. Killing random terminals until the error goes away also works, and teaches you nothing. `lsof -i :3000` or your system's equivalent tells you the pid. A nodemon you forgot about is the usual culprit once we start using one. Today it is almost always a second `node server.js`.
+`EADDRINUSE` means the bind failed. Find the other process and stop it, or pick another port. Killing random terminals until the error goes away also works, and teaches you nothing. `lsof -i :3000` or your system's equivalent tells you the pid. A nodemon you forgot about is the usual culprit once you start using one. Today it is almost always a second `node server.js`.
 
 ### No response
 
@@ -147,9 +148,9 @@ The log says listening. The browser spins. The handler ran, logged `req.method`,
 
 ## Your turn
 
-Make the door yours, in a folder that is not this lesson's sample.
+Make the door yours. The folder is the one you just made, `~/projects/guild-door`. There is no separate sample and no second folder: this is the project, and sessions 4-2 through 4-8 all build in it.
 
-1. `npm init` and install Express. Confirm `express` is in `dependencies` and that `node_modules` is not something you are about to commit. Add a `.gitignore` with `node_modules` on its own line before the first commit.
+1. `git init` in `~/projects/guild-door`, then `npm init` and install Express. Confirm `express` is in `dependencies` and that `node_modules` is not something you are about to commit. Add a `.gitignore` with `node_modules` on its own line before the first commit.
 2. Answer `GET /` with your name and the Node version. `process.version` is the string. Send it in the body so you can see it from curl.
 3. Add `GET /health` that sends the text `ok`. Two routes, same app, one listen.
 4. Start the server, curl both paths, and write down the status line from `curl -i`.
@@ -170,7 +171,7 @@ Write a one-page note, `RUNTIME.md`, in the same folder, in your own words. Six 
 - the version of Node you are on, and the version of Express in your lockfile
 - where you would look if an old tutorial disagrees with your error-handling behavior
 
-Then commit the manifest, the lockfile, `server.js`, `.gitignore`, and the note. Do not commit `node_modules`. Push it if you already have a remote from Unit 1. This repository is the door. Every later session in the unit builds in a project that starts this way.
+Then commit the manifest, the lockfile, `server.js`, `.gitignore`, and the note. Do not commit `node_modules`. Create an empty GitHub repository named `guild-door` and push, the way you did in 1-4; do not let GitHub add a README, since the folder already has files. This repository is the door. Every session through 4-8 builds in `~/projects/guild-door`.
 
 ## Side quests
 
@@ -178,6 +179,8 @@ Express is a small door in front of a larger machine. Two library pages name tha
 
 ## Before next session
 
-Next session we stop at one route. You will mount middleware, split routes onto a router, and write the error handler Express calls when a function throws. Read the Express routing guide's opening and the error-handling page's section on asynchronous code before you sit down. You are not memorizing it. You are arriving knowing that `next` exists and that an async function's rejection is not your private problem.
+Next session the door stops being a single route. You will mount middleware, split routes onto a router, and write the error handler Express calls when a function throws. Read the Express routing guide's opening and the error-handling page's section on asynchronous code before you sit down. You are not memorizing it. You are arriving knowing that `next` exists and that an async function's rejection is not your private problem.
 
 One more distinction to carry in, because every later lesson leans on it. A module you import is not running a server. Importing Express creates nothing on the network. Calling `express()` creates an application object in memory. Only `listen` asks the operating system for a port. When a tutorial says "run the file" and you instead paste it into a browser console, you have skipped the only step that makes it a server. When a tutorial says "it is running" and you have not sent a request from outside the process, you have a log line and a guess. Curl, or a browser pointed at `http://localhost:3000`, is the other half of the demonstration. Keep both halves for the rest of the unit.
+
+Stop the server with Ctrl-C before you close the terminal. Nothing needs to stay running between sessions, and the next one starts by replacing `server.js` in this same folder.

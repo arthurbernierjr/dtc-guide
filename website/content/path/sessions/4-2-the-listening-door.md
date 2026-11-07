@@ -14,6 +14,7 @@ docs:
   - https://expressjs.com/en/guide/routing.html
   - https://expressjs.com/en/guide/using-middleware.html
   - https://expressjs.com/en/guide/error-handling.html
+  - https://expressjs.com/en/5x/api.html#res.json
 say:
   - "app.METHOD(path, handler) registers one match."
   - "Middleware is a function of req, res, next, and order is the program."
@@ -32,7 +33,7 @@ By the end of the session you have an Express application with a router mounted 
 
 `app.get(path, handler)` is one registration. The method and the path together are the match. `app.post` is a different list from `app.get`, even when the path string is identical. `POST /quests` and `GET /quests` can live side by side and will never steal each other's requests. What they can steal is a request of the same method, if you register two `GET`s that both match and you expected the second one to win. Express walks the stack in the order you mounted it and runs the first match that accepts the request. Registration order is the program. The file's visual order is not a suggestion.
 
-A middleware function has the signature `(req, res, next)`. `req` is the request Express already parsed into method, path, headers, query string, and params. `res` is the response you are allowed to finish. `next` is how you decline to finish it and hand the same request to the next function in the stack. You do one of three things. You call `next()` with no argument, and the walk continues. You call `next(err)` with any value other than the special string `'route'`, and Express skips every remaining normal middleware and looks for an error handler. Or you write the response, with `res.send`, `res.json`, `res.status(...).send`, or `res.end`, and you stop. A function that returns without doing any of those three leaves the socket open. The browser keeps spinning. Express does not treat a JavaScript `return` as an HTTP answer. Returning from a function only returns from the function.
+A middleware function has the signature `(req, res, next)`. `req` is the request Express already parsed into method, path, headers, query string, and params. `res` is the response you are allowed to finish. `next` is how you decline to finish it and hand the same request to the next function in the stack. You do one of three things. You call `next()` with no argument, and the walk continues. You call `next(err)` with any value other than the special strings `'route'` and `'router'`, and Express skips every remaining normal middleware and looks for an error handler. Or you write the response, with `res.send`, `res.json`, `res.status(...).send`, or `res.end`, and you stop. A function that returns without doing any of those three leaves the socket open. The browser keeps spinning. Express does not treat a JavaScript `return` as an HTTP answer. Returning from a function only returns from the function.
 
 Order is not a style preference. A logger mounted after a route that sends a response never sees that request, because the route did not call `next`. A JSON parser mounted after the route that reads `req.body` runs too late, and the handler sees `undefined`. An error handler mounted before the routes never sits downstream of them, so the errors those routes produce fall through to Express's built-in handler instead of yours. The using-middleware guide and the error-handling guide are describing the same stack from two ends: ordinary functions that continue, and the four-argument function that receives what they could not finish.
 
@@ -147,7 +148,7 @@ Do not mount this function up by the logger "so we don't forget." Error handlers
 
 ## The demonstration
 
-One file, continuing the door from last session. Install nothing new if Express is already a dependency. `express.json` ships with it.
+One file, continuing the door from last session, in `~/projects/guild-door`. Stop last session's server with Ctrl-C in its terminal before you start this one; two processes cannot share port 3000. Install nothing new. Express is already a dependency, and `express.json` ships with it.
 
 ```js
 const express = require('express');
@@ -312,7 +313,7 @@ Mark the handler `async`. `await` the call that can reject. Let the rejection le
 
 ## Your turn
 
-Build this in your own folder, beside the one-file server from last session, or in that same project if you would rather grow it.
+Replace `server.js` in `~/projects/guild-door` with this stack. It is the same project, not a second folder. Stop the server from last session with Ctrl-C first; two processes cannot share port 3000, and `EADDRINUSE` from 4-1 is what you get if you forget.
 
 1. Mount a logger first. It prints method and `originalUrl`, then calls `next()`. It does not send.
 2. Mount `express.json()` next. Confirm a `POST` with `Content-Type: application/json` can read `req.body.title`, and a `POST` without that header does not pretend the body was parsed.
@@ -345,4 +346,4 @@ Middleware is a chain of responsibility, each function doing its part and then c
 
 Next session the paths stop being arbitrary strings. A quest is a noun, the method is the verb, and the body is JSON with a status code that means one thing. Read the opening of the routing guide again, this time for how a path and a method pair, and skim `res.json` on the API page so you know it both serializes and sets the content type. RFC 9110 is the semantics behind the methods. You are not memorizing status tables. You are arriving able to say why `GET /quests` and `POST /quests` are two operations on one resource.
 
-Bring one habit with you. Every branch sends or calls `next`, and every `async` route is allowed to reject into the handler you just wrote. The resource map you draw next session will assume that the stack under it already answers.
+Bring one habit with you. Every branch sends or calls `next`, and every `async` route is allowed to reject into the handler you just wrote. The resource map you draw next session will assume that the stack under it already answers. Stop the server with Ctrl-C when you are done; nothing stays running between sessions.

@@ -1037,7 +1037,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 
 #### PATH-4-8 · `/path/4-8-seals-and-signets/` — Seals and Signets
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 8 · **Source:** `content/path/sessions/4-8-seals-and-signets.md (editorial)` · **License:** Yours
-- **Story:** As a learner in Unit 4, I want to learn bcrypt, JWT, and authentication in Postman, so I can produce register, login, and a protected route, exercised from Postman with a Bearer token.
+- **Story:** As a learner in Unit 4, I want to learn bcrypt, JWT, and authentication with curl, so I can produce register, login, and a protected route, exercised with a Bearer token.
 - **Facts the build must reproduce:**
   - Session: 4.8 · Week 8 · Tuesday · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
