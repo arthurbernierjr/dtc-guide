@@ -156,7 +156,7 @@ function readSpellbookToken(token, secret) {
 
 Here is the bug the diagnosis names. Both projects read `JWT_SECRET` from the environment. In a hurry you export one secret and launch both servers from the same shell. `verify` checks the signature and the expiry. If you never set an audience, a token minted by the slate verifies on the spellbook, and a token minted by the spellbook verifies on the slate. The `sub` is a user id. If the two apps share a database and a users collection, that id is the same person, and logging into the spellbook has just authorized the todo API. If the databases are separate, the id might not exist on the other side, or it might collide with a different person who received the same ObjectId by chance in a tiny database you reset a lot. You will not notice. The request returns 200 and a list. The list might even be empty, which looks like privacy and is only an empty query.
 
-It is acceptable, for a single afternoon on your own machine, to know that you reused a secret. It is not acceptable to reuse it and be unable to say so. The fatal version is the one you discover when a second application is public and a token from the smaller one still opens the larger one. Set the audience now, in both apps if you are willing to touch the slate for one line, so that a slate token presented to the spellbook is a 401 you have seen with your eyes. Record that 401 in the notes. That is the shared-token bug, understood, rather than the shared-token bug, shipped.
+It is acceptable, for a single afternoon on your own machine, to know that you reused a secret. It is not acceptable to reuse it and be unable to say so. The fatal version is the one you discover when a second application is public and a token from the smaller one still opens the larger one. Set the audience now, in both apps if you are willing to touch the slate for two lines, so that a slate token presented to the spellbook is a 401 you have seen with your eyes. Record that 401 in the notes. That is the shared-token bug, understood, rather than the shared-token bug, shipped.
 
 The owner filter is still required after the audience check. Audience answers "which application minted this token." Owner answers "which rows may this `sub` see." A spellbook token for Sera must not list Bran's spells. Audience does not do that. `find({ owner: req.userId })` does. Both lines stay.
 
@@ -217,13 +217,13 @@ Logout, load-on-token, and `sessionStorage` are the same decisions as the slate.
 
 ## The demonstration
 
-Close the slate. Put it in another editor window only if you enjoy losing the session, and then the session is already lost. Create `spellbook-api` and `spellbook-client` as new directories. `npm init` and install `express`, `mongoose`, `bcrypt`, `jsonwebtoken`, and `cors` in the API. Scaffold the client with Vite's React template the way you did for the primer. You are allowed to remember those commands. You are not allowed to `cp -R` the slate and then run a rename.
+Stop the slate first, in both terminals: Ctrl-C on the API and Ctrl-C on its Vite dev server, so nothing answers on 3000 and the spellbook's own Vite prints 5173 again. Then close the slate. Put it in another editor window only if you enjoy losing the session, and then the session is already lost. Create `~/projects/spellbook-api` and `~/projects/spellbook-client` as new directories. `npm init -y` and install `express`, `mongoose`, `bcrypt`, `jsonwebtoken`, and `cors` in the API. Scaffold the client with Vite's React template the way you did for the primer. You are allowed to remember those commands. You are not allowed to `cp -R` the slate and then run a rename.
 
-Write the schema from the block above. Write register and login again, with `audience: 'spellbook'` on `sign` and on `verify`. Write the four spell routes on a router mounted at `/api/spells`. Write a final 404 that returns JSON. Listen on port `4000`. Use a database name `spellbook`, not `slate`, so a careless find cannot show you yesterday's todos and look like success.
+Write the schema from the block above. Write register and login again, with `audience: 'spellbook'` on `sign` and on `verify`. Write the four spell routes on a router mounted at `/api/spells`. Write a final 404 that returns JSON. Listen on port `4000`. Mount `cors({ origin })` with the origin read from `PAGE_ORIGIN`, the way the slate did; that origin is `http://localhost:5173`, which is what Vite prints once the slate's dev server is stopped. Write the API's `.env` the same way too: `MONGODB_URI=mongodb://127.0.0.1:27017/spellbook`, `JWT_SECRET`, and `PAGE_ORIGIN=http://localhost:5173`, started with `node --env-file=.env server.js`. The database name is `spellbook`, not `slate`, so a careless find cannot show you yesterday's todos and look like success. A `MONGODB_URI` still exported in the shell wins over the file, so `unset MONGODB_URI` first.
 
 In the client, hard-code the API base as `http://localhost:4000`. Build login, the list, and the form. The list effect depends on the token and requests `/api/spells`. The form is the one in the idea section, or yours, as long as the body has `name`, `school`, and `level`, and the saved notice waits for `response.ok`.
 
-Then run the three checks that tell a rebuild from a copy.
+Then run the four checks that tell a rebuild from a copy.
 
 First, the shape. `POST /api/spells` with no school returns 400 and the collection is unchanged. `POST` with Mage Armor, abjuration, level 1 returns 201. The document in MongoDB has those three fields and an `owner`. It does not have `title`.
 
@@ -328,7 +328,7 @@ Build the spellbook with the slate closed.
 
 1. Write the one-page contract on paper or in `CONTRACT.md` before you create the routes. Include the noun, the six routes, the header, the owner rule, and the port.
 2. Create a new API project and a new client project. Do not copy files. Install the dependencies by name.
-3. Schema: `name`, `school` as the enum, `level` from 0 to 9, `owner`. Database name `spellbook`. Port `4000`.
+3. Schema: `name`, `school` as the enum, `level` from 0 to 9, `owner`. Database name `spellbook`. Port `4000`. CORS origin `http://localhost:5173`.
 4. Sign and verify with `audience: 'spellbook'`. Register, login, list, create, update, delete. Every spell query includes the owner. `GET /api/todos` on this port is a 404.
 5. Client: login, list, form with the three fields. `response.ok` gates the saved notice. Keys are spell ids. The token is in the header and in `sessionStorage`, and it is not in the URL.
 6. Prove two accounts do not see each other's spells. Prove a body with no school is a 400. Prove a slate token, if you still have the slate, is a 401 against the spellbook. If you no longer have the slate, prove that a token you sign without an audience is a 401 against a verifier that requires one. A tiny node script is enough for that last proof, and then delete it or keep it out of the client.

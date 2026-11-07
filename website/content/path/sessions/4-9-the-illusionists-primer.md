@@ -178,7 +178,7 @@ The fix is not to stop using local state. The fix is a key that moves with the r
 
 ## The demonstration
 
-Scaffold the client with Vite. In a folder that is not last session's server, run `npm create vite@latest`, name the project something like `primer`, and choose the React template with JavaScript when the prompts ask. The exact flag spelling has drifted across Vite majors, so trust the prompts in front of you rather than a blog post's one-liner. Then `npm install` and `npm run dev`. The terminal prints a local URL. Open it. The starter page is Vite proving that JSX compiles. Replace the starter with the board below.
+Scaffold the client with Vite. Stop the guild door's server with Ctrl-C in its terminal if it is still running; nothing today listens on a port except Vite. From `~/projects`, not inside the guild door, run `npm create vite@latest primer -- --template react`, and choose React with JavaScript if the prompts ask. The exact flag spelling has drifted across Vite majors, so trust the prompts in front of you rather than a blog post's one-liner. The project is `~/projects/primer`, and that exact name is the one the next two sessions use. Then `cd primer`, `npm install`, and `npm run dev`. The terminal prints a local URL. Open it. The starter page is Vite proving that JSX compiles. Replace the starter with the board below.
 
 You do not need a second framework that also wants to own routing and data loading. Express will be the server again two sessions from now. This folder is only the client. `npm run dev` is the development server. `npm run build` later emits static files. Neither of those commands is a deploy, and neither of them talks to MongoDB.
 
@@ -187,7 +187,7 @@ You do not need a second framework that also wants to own routing and data loadi
 ```jsx
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from './App.jsx';
+import App from './App.jsx';
 
 const rootElement = document.getElementById('root');
 createRoot(rootElement).render(
@@ -197,7 +197,7 @@ createRoot(rootElement).render(
 );
 ```
 
-`index.html` has `<div id="root"></div>`. `createRoot` is the current mount API. If a tutorial tells you `ReactDOM.render`, it is old. Use the template's mount and move on.
+`index.html` has `<div id="root"></div>`. `createRoot` is the current mount API. If a tutorial tells you `ReactDOM.render`, it is old. Use the template's mount and move on. The template imports `App` as a default export, so every `App.jsx` in this unit is written `export default function App` to match it. A named export here is a blank page with a console message about a missing default.
 
 `src/App.jsx` is the primer.
 
@@ -248,7 +248,7 @@ function Composer(props) {
   );
 }
 
-export function App() {
+export default function App() {
   const [quests, setQuests] = useState([
     { id: 1, title: 'Mend the gate', done: false },
     { id: 2, title: 'Fetch lamp oil', done: false }
@@ -399,13 +399,13 @@ There is a documented escape when a child truly must reset local state because a
 
 Build the primer in a Vite React project of your own. The sample above is a starting point, not a file to drop in unexamined.
 
-1. Scaffold with Vite's React JavaScript template. Run the dev server. Confirm the page loads from the URL the terminal prints.
+1. Scaffold `~/projects/primer` with Vite's React JavaScript template. Run the dev server. Confirm the page loads from the URL the terminal prints.
 2. Replace the starter `App` with a list of quests held in `useState`. Each quest has an id, a title, and a done flag. The id is not the array index.
 3. Render a child component that receives the title, the id, the done flag, and two callbacks. The child does not own the quest array.
 4. Add a controlled composer. The input's `value` is state. Submit prevents the browser navigation, trims the title, refuses an empty title, and calls the parent's add function. The field clears because the draft state goes back to an empty string.
 5. Show the count of open quests as a `const` computed during render. Do not store the count.
 6. Give each row a local note input, keyed by quest id. Type distinct notes. Delete the middle row. Confirm the surviving notes stay with their titles. Switch the key to the index once, repeat the delete, see the note jump, and switch the key back.
-7. Add a button that calls the functional updater twice in one click, and a button that calls `setCount(count + 1)` twice. Click each. Write down both results. They should be 2 and 1 if you started from 0.
+7. Add a `const [count, setCount] = useState(0)` to `App` and show the number. Then add a button that calls the functional updater twice in one click, and a button that calls `setCount(count + 1)` twice. Click each. Write down both results. They should be 2 and 1 if you started from 0.
 
 If the page is white, open the browser console before you touch the logic. A syntax error in JSX, a component whose name starts with a lowercase letter, or a missing default export will blank the page with a message. Read the first message.
 
@@ -421,7 +421,7 @@ Write `PRIMER.md` in the Vite project. One page, in your own words, tied to the 
 - Stale update. Record the two buttons and the two resulting numbers.
 - Derived count. Point at the `const` and confirm there is no setter for that number.
 
-Commit the source and `PRIMER.md`. Leave `node_modules` and the Vite cache out of the commit. This folder is the client. The server you built earlier stays a different project until the session that joins them. Do not paste Express into this one to make it feel finished. The finish line today is a screen whose next frame you can predict from the state.
+Run `git init` in `~/projects/primer` if you have not already; the scaffolded folder is not a repository until you do, and the template's `.gitignore` already lists `node_modules` and `dist`. Commit the source and `PRIMER.md`. This folder is the client. The server you built earlier stays a different project until the session that joins them. Do not paste Express into this one to make it feel finished. The finish line today is a screen whose next frame you can predict from the state.
 
 ## Side quests
 

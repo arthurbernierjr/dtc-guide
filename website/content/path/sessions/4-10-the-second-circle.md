@@ -204,7 +204,7 @@ The effect sets `'ready'` or `'error'`. The screen branches on `status`. Empty i
 
 ## The demonstration
 
-Start from the primer project. You already have Vite, a list, a controlled field, and id keys. Today you are rearranging memory, not scaffolding a toolchain. If the primer folder is a mess, scaffold again the same way you did last session and bring the lessons forward by hand. Do not import the primer file and wrap it. The lift has to happen in the code you can read top to bottom.
+Start from `~/projects/primer`. You already have Vite, a list, a controlled field, and id keys. Today you are rearranging memory, not scaffolding a toolchain. If the primer folder is a mess, scaffold again the same way you did last session and bring the lessons forward by hand. Do not import the primer file and wrap it. The lift has to happen in the code you can read top to bottom.
 
 `public/quests.json` holds the three records from the idea section. `src/App.jsx` becomes the parent.
 
@@ -277,7 +277,7 @@ function Watch() {
   return <p>Watch {ticks}</p>;
 }
 
-export function App() {
+export default function App() {
   const [quests, setQuests] = useState([]);
   const [status, setStatus] = useState('loading');
   const [loadError, setLoadError] = useState('');
@@ -494,4 +494,4 @@ Loading, empty, error, and ready are the State pattern once the branches pile up
 
 ## Before next session
 
-Next session the fixture is replaced by the JSON API you already built, and the screen learns to log in. The effect that loads quests will send a token. The handler that adds a quest will wait for a 2xx before it says the row is saved. Read [Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects) once more, with the fetch in your file under your finger, and skim the `useEffect` reference section on cleanup so the ignore flag is a choice you remember rather than a snippet you pasted. You are arriving with one array, living in the parent, and with a clear line between a render calculation and an effect. The next session puts a real server on the other side of that line. The line stays.
+Next session the fixture is replaced by a small new API built the same way as the courier, a todo list instead of a quest board, and the screen learns to log in. The effect that loads todos will send a token. The handler that adds a todo will wait for a 2xx before it says the row is saved. Read [Synchronizing with Effects](https://react.dev/learn/synchronizing-with-effects) once more, with the fetch in your file under your finger, and skim the `useEffect` reference section on cleanup so the ignore flag is a choice you remember rather than a snippet you pasted. You are arriving with one array, living in the parent, and with a clear line between a render calculation and an effect. The next session puts a real server on the other side of that line. The line stays.

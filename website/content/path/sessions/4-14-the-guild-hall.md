@@ -35,6 +35,20 @@ The inbox route checks that the token's user is the recipient. Anyone else's id 
 
 Three rooms, and the first one is already built in your hands. Accounts are register and login. The password is hashed. The login compares and signs a token whose `sub` is the user id. The middleware reads `Authorization: Bearer` and verifies, or it answers 401. [node-jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) is the same library. Set `audience: 'guild'` on sign and on verify so a token from the spellbook does not open the hall just because the secret was reused. You have seen that bug. The hall is where it would actually hurt, because the hall holds other people's letters. Give the user a display `name` as well as an email. The name is what an inbox shows for the sender. The email stays unique. The hash stays off every response. `populate('sender', 'name')` is how a message query asks for the name and not the hash. If you populate `sender` with no field list, the user document rides along, hash included, into the JSON. The second argument is a selection. Use it.
 
+The user schema is the slate's with one more field, and the register body carries it:
+
+```js
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  passwordHash: { type: String, required: true }
+});
+
+const User = mongoose.model('User', userSchema);
+```
+
+`POST /api/register` takes `{ "name": "Bran", "email": "bran@example.com", "password": "..." }`, hashes the password, and answers 201 with the name and the email. `POST /api/login` is unchanged: email and password in, token out.
+
 The inbox is the room people will model wrong, because the last session's join is fresh and every link starts to look like a pair that needs a membership. Draw one message. It has a body, a sender id, and a recipient id. Bran has many messages he sent. That is one-to-many: the many side is the message, the ref is `sender`. Sera has many messages she received. That is another one-to-many, the ref is `recipient`. A given message is not a crowd of recipients. Many-to-many would be a message linked to a set of users, or a join collection of participants with a role on the pair. You do not have that feature. You have a letter. Store it as a letter.
 
 ```js
@@ -187,9 +201,9 @@ The leak is a version of `readMessage` that returns the document whenever `findB
 
 ### The catalog, the holding, and the number
 
-Seed the catalog once, by a route you protect or by a small script you run against the database. Three items are enough: Lamp oil as `potion`, Short sword as `weapon`, Leather coat as `armor`. The script uses the model, so a typo in the kind fails validation instead of landing in the collection. After seeding, `GET /api/items` returns the three, and the JSON has no `qty`. If a teammate adds `qty` to the item "so the shop can show stock," drinking a potion updates that field and every account's picture of lamp oil changes. That is the diagnosis named Quantity as a catalog field. Stock, if you ever have a shop that can run out for everyone, is a different number from the number in a pack. This hall does not have a shared stock. It has personal holdings. Delete `qty` from the item schema if it appears.
+Seed the catalog once, through `POST /api/items/seed`, a route behind `requireUser` that inserts the three items when the collection is empty and otherwise returns what is already there. Three items are enough: Lamp oil as `potion`, Short sword as `weapon`, Leather coat as `armor`. The route uses the model, so a typo in the kind fails validation instead of landing in the collection. After seeding, `GET /api/items` returns the three, and the JSON has no `qty`. If you add `qty` to the item "so the shop can show stock," drinking a potion updates that field and every account's picture of lamp oil changes. That is the diagnosis named Quantity as a catalog field. Stock, if you ever have a shop that can run out for everyone, is a different number from the number in a pack. This hall does not have a shared stock. It has personal holdings. Delete `qty` from the item schema if it appears.
 
-The pack route:
+The pack routes. `GET /api/pack` lists the token user's holdings. `POST /api/pack/give` with `{ "item": "...", "amount": 2 }` credits the token user. `POST /api/pack/spend` with the same body debits through `spend`. `POST /api/pack/transfer` adds a `to` and does both.
 
 ```js
 async function pack(req, res) {
@@ -223,23 +237,73 @@ async function give(req, res) {
 
 The `11000` branch does not call `credit` again. `credit` upserts, and a second upsert can collide again. The branch increments the row the winner already inserted, with no upsert. The index is there to keep one row. The increment is the behavior the person asked for. A give they have to retry themselves means the branch failed to find the row, which is rare and worth a 409 rather than a third guess.
 
-A transfer route debits the token user with `spend`, and only then credits the other account. If `spend` throws 409, the handler answers 409 and does not credit. The catalog document is not loaded for update. It is loaded, if at all, to confirm the item exists. Its fields after the transfer are the same fields as before. Bran's `qty` went from 2 to 1. Sera's `qty` went from 0 to 1, or her holding was created at 1. Lamp oil's kind is still `potion`.
+`POST /api/pack/transfer` debits the token user with `spend`, and only then credits the account named in `to`. If `spend` throws 409, the JSON error handler you wrote for the slate answers 409 and the credit never runs.
+
+```js
+async function spendRoute(req, res) {
+  const holding = await spend(req.userId, req.body && req.body.item, req.body && req.body.amount);
+  res.json(holding);
+}
+
+async function transfer(req, res) {
+  const amount = req.body && req.body.amount;
+  const itemId = req.body && req.body.item;
+  const recipient = await User.findById(req.body && req.body.to).select('name');
+  if (!recipient) return res.status(404).json({ error: 'no such account' });
+  if (String(recipient._id) === String(req.userId)) {
+    return res.status(400).json({ error: 'choose another account' });
+  }
+  const debited = await spend(req.userId, itemId, amount);
+  const credited = await credit(recipient._id, itemId, amount);
+  res.json({ yours: debited, theirs: credited });
+}
+
+async function listItems(req, res) {
+  res.json(await Item.find().sort({ name: 1 }));
+}
+
+async function seedItems(req, res) {
+  const count = await Item.countDocuments();
+  if (count > 0) return res.json(await Item.find().sort({ name: 1 }));
+  const items = await Item.create([
+    { name: 'Lamp oil', kind: 'potion' },
+    { name: 'Short sword', kind: 'weapon' },
+    { name: 'Leather coat', kind: 'armor' }
+  ]);
+  res.status(201).json(items);
+}
+
+app.post('/api/register', register);
+app.post('/api/login', login);
+app.post('/api/messages', requireUser, sendMessage);
+app.get('/api/inbox', requireUser, inbox);
+app.get('/api/outbox', requireUser, outbox);
+app.get('/api/messages/:id', requireUser, readMessage);
+app.post('/api/items/seed', requireUser, seedItems);
+app.get('/api/items', requireUser, listItems);
+app.get('/api/pack', requireUser, pack);
+app.post('/api/pack/give', requireUser, give);
+app.post('/api/pack/spend', requireUser, spendRoute);
+app.post('/api/pack/transfer', requireUser, transfer);
+```
+
+Those twelve lines are the hall's whole surface. `register`, `login`, and `requireUser` are the slate's, written again with `name` on register and `audience: 'guild'` on sign and verify. The catalog document is not loaded for update. It is loaded, if at all, to confirm the item exists. Its fields after the transfer are the same fields as before. Bran's `qty` went from 2 to 1. Sera's `qty` went from 0 to 1, or her holding was created at 1. Lamp oil's kind is still `potion`.
 
 On the client, the pack renders `holding.qty` next to `holding.item.name`. There is no subtraction in the component. If the component computes `catalog.qty - carried` you have invented a debt on the screen and a quantity on the catalog in the same expression. Display the holding's number. Disable or ignore a spend button when you want, and still expect the server to be the thing that refuses. A disabled button is not the conditional update.
 
 ## The demonstration
 
-New projects, `hall-api` and `hall-client`, or one API plus a Vite client. Do not rename the spellbook and start deleting spells. The hall has users, messages, items, and holdings. The spellbook's schema will not become those by a careful edit. Port `4100` keeps it off the spellbook and the slate. Database name `guild`. `JWT_SECRET` from the environment. `audience: 'guild'`.
+Stop the oaths server first, with Ctrl-C in its terminal. New projects, `~/projects/hall-api` (Express) and `~/projects/hall-client` (Vite), scaffolded the way the spellbook was: `npm init -y` and `npm install express mongoose bcrypt jsonwebtoken cors` in the API, `npm create vite@latest hall-client -- --template react` for the client. Do not rename the spellbook and start deleting spells. The hall has users, messages, items, and holdings. The spellbook's schema will not become those by a careful edit. Port `4100` keeps it off the spellbook and the slate. Database name `guildhall`, not `guild`: the guild door's database already has a `users` collection with a unique index on `name`, and the hall's accounts would trip over it. The API's `.env` is `MONGODB_URI=mongodb://127.0.0.1:27017/guildhall`, `JWT_SECRET`, `PAGE_ORIGIN=http://localhost:5173`, and `PORT=4100`, started with `node --env-file=.env server.js` (`unset MONGODB_URI` first if an older export is still in the shell). `audience: 'guild'` on sign and on verify; the audience is a claim inside the token, not the database name.
 
-Register Bran, Sera, and Ivo. Seed the three items. Log each account in and keep the three tokens in three shells, or use the screen in two browsers and curl for Ivo.
+Register Bran, Sera, and Ivo with `POST /api/register`, each with a name, an email, and a password. Seed the three items with `POST /api/items/seed` and any one of the three tokens. Log each account in and keep the three tokens in three shells, or use the screen in two browsers and curl for Ivo.
 
 Bran posts a message to Sera. `GET /api/outbox` with Bran's token includes it, and the populated recipient name is Sera. `GET /api/inbox` with Sera's token includes it, and the populated sender name is Bran. `GET /api/inbox` with Bran's token does not include it. He is not the recipient. `GET /api/messages/:id` with Sera's token returns 200 and the body. The same URL with Ivo's token returns 403. The same URL with Bran's token returns 403. A random id returns 404. Write those four statuses down. They are the inbox evidence.
 
-Give Bran two lamp oils and one short sword. `GET /api/pack` with his token shows two holdings, quantities 2 and 1, items populated with kinds `potion` and `weapon`. Give him lamp oil again. The pack still has one lamp-oil holding, and the quantity is 3. That is the count evidence. `GET /api/items` shows lamp oil once, with kind and name, and no quantity. Spend one lamp oil as Bran. The holding quantity is 2. The item document is unchanged. Spend 50. The status is 409. The quantity is still 2. Force the negative bug once, on a branch you throw away: update with `$inc` and no `$gte` filter, from a quantity of 0, and watch `-1` land. Put the filter back. The pack must not be able to store a debt.
+Give Bran two lamp oils and one short sword with `POST /api/pack/give` and his token, `{ "item": "LAMP_OIL_ID", "amount": 2 }` and then the sword. `GET /api/pack` with his token shows two holdings, quantities 2 and 1, items populated with kinds `potion` and `weapon`. Give him lamp oil again. The pack still has one lamp-oil holding, and the quantity is 3. That is the count evidence. `GET /api/items` shows lamp oil once, with kind and name, and no quantity. Spend one lamp oil as Bran through `POST /api/pack/spend`. The holding quantity is 2. The item document is unchanged. Spend 50. The status is 409. The quantity is still 2. Transfer one to Sera through `POST /api/pack/transfer` with `{ "item": "LAMP_OIL_ID", "amount": 1, "to": "SERA_ID" }`. Bran's holding is 1, and Sera's pack has a lamp-oil holding at 1 that did not exist before. Force the negative bug once, on a branch you throw away: update with `$inc` and no `$gte` filter, from a quantity of 0, and watch `-1` land. Put the filter back. The pack must not be able to store a debt.
 
 The client is a hall, not a component museum. Login. A compose box whose draft survives a failed post. An inbox list and an outbox list. A catalog list with no counts. A pack list with counts, and a spend control that waits for a 2xx before it changes the number on screen. If the spend returns 409, the number stays. Keys are ids. The token is in the header and in `sessionStorage`, and it is absent from every URL, including the message URL. The message URL has an id. It does not have a token.
 
-CORS is the same constraint as the slate. The page origin and the API origin differ. Mount `cors` for the origin Vite prints. A silent API log and a browser CORS error means the preflight never reached `readMessage`, which is a different bug from a 403. A 403 means the request arrived and the recipient check ran. You want to see that 403 in the network panel with Ivo's token, so you know you are looking at the door and not at the browser's refusal to knock.
+CORS is the same constraint as the slate. The page origin and the API origin differ. Mount `cors({ origin })` with `PAGE_ORIGIN`, which is `http://localhost:5173`, the origin Vite prints when no other dev server is running. If Vite prints 5174, an older dev server is still up; stop it rather than chase the port. A silent API log and a browser CORS error means the preflight never reached `readMessage`, which is a different bug from a 403. A 403 means the request arrived and the recipient check ran. You want to see that 403 in the network panel with Ivo's token, so you know you are looking at the door and not at the browser's refusal to knock.
 
 The checkpoint models the recipient door, the two shapes, the kind enum, the holding quantity, and the conditional spend. The running hall is the evidence. This page does not listen on a port.
 
@@ -336,12 +400,12 @@ Build the hall on your machine.
 1. Users, with a name, a unique email, a password hash, register, login, and a bearer middleware. Audience `guild`. Secret from the environment.
 2. Messages with `sender` and `recipient`. Inbox and outbox filter by the token. `GET /api/messages/:id` returns 403 when the token user is not the recipient, including when the token user is the sender. 404 when the id does not exist. 200 for the recipient, with the body.
 3. Prove the inbox evidence with three accounts. Bran sends to Sera. Bran's outbox shows it. Sera's inbox shows it. Ivo's get-by-id is 403. Bran's get-by-id is 403.
-4. Items with `kind` limited to `potion`, `weapon`, and `armor`. No quantity on that schema. Seed three items. A bad kind is rejected.
+4. Items with `kind` limited to `potion`, `weapon`, and `armor`. No quantity on that schema. Seed three items through `POST /api/items/seed`. A bad kind is rejected.
 5. Holdings with `owner`, `item`, and `qty`, and a compound unique index on owner plus item. Give twice. One row, summed quantity. Populate `item` on the pack query.
-6. Spend or transfer through a conditional update. A spend larger than `qty` is 409 and leaves the number unchanged. The catalog document is unchanged. The client shows the new quantity only after a 2xx.
+6. `POST /api/pack/spend` and `POST /api/pack/transfer` go through the conditional update. A spend larger than `qty` is 409 and leaves the number unchanged. The catalog document is unchanged. The client shows the new quantity only after a 2xx.
 7. Confirm a message URL does not contain the token, and a pack request does not either.
 
-Keep the API and the client in folders you can run with two commands. Write down the ports. There is no third command that copies the process onto a machine in a data center. If a tutorial you are reading starts talking about a public IP, close it. That work is not this session.
+Keep the API and the client in folders you can run with two commands. Write down the ports: `4100` for the API and `5173` for the page. There is no third command that copies the process onto a machine in a data center. If a tutorial you are reading starts talking about a public IP, close it. That work is not this session.
 
 ## The quest
 
@@ -354,6 +418,8 @@ Write `HALL.md` in the API project.
 - Count. The holding after two gives of the same item: one row, one quantity. The catalog JSON for that item, showing the absence of a quantity. The status and the quantity after a spend that does not fit.
 - Shapes. Which link is one-to-many, and which link is the join. Where `qty` lives. Where `role` lived last session, and why a message does not have a role or a quantity.
 - Disk. One populated inbox payload, and what `mongosh` still shows for `sender` on that message. Populate filled the result.
+
+A finished guild hall to compare against after you build yours is at [github.com/arthurbernierjr/dtc-guild-hall](https://github.com/arthurbernierjr/dtc-guild-hall), running at [guild-hall-production.up.railway.app](https://guild-hall-production.up.railway.app/). It keeps this session's contract: the same twelve routes, `sender` and `recipient` on a message, the recipient-only read, `/api/pack/give`, `/api/pack/spend`, and `/api/pack/transfer`, the `guildhall` database, and the same `.env` names. Build yours first. Open it when a status disagrees with the list above, and notice that it is deployed, which your hall is not until Unit 6.
 
 Commit the hall and the note. Leave secrets out of the commit. This is the last project of the unit. It is finished when the three evidence lines are true on your machine, with the process you started and the process you can stop.
 

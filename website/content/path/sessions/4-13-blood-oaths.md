@@ -2,7 +2,7 @@
 editorial: true
 title: Blood Oaths
 subtitle: Many-to-many relationships in a MERN app
-hook: "A quest has one author. A party has many members, and a member stands in many parties. That second sentence is a different shape, and Mongoose will not invent it for you."
+hook: "A spell has one owner. A party has many members, and a member stands in many parties. That second sentence is a different shape, and Mongoose will not invent it for you."
 read: 55
 artifact: "Parties and adventurers as a many-to-many, with a join collection and populate"
 diagrams:
@@ -146,17 +146,42 @@ async function swear(req, res) {
 }
 ```
 
-`oath.populate('member')` here fills the document you just created, in memory, for the response. The insert already wrote ids. The 201 body can include Mara's name so the screen does not immediately refetch. Look at the collection afterward if you want the proof in both places. The id is what got stored.
+The two creates are one `create` each, and the five routes are mounted on `app` after `express.json()`, with the parameter names the handlers above read:
+
+```js
+async function createParty(req, res) {
+  const name = req.body && typeof req.body.name === 'string' ? req.body.name.trim() : '';
+  if (name === '') return res.status(400).json({ error: 'name required' });
+  const banner = req.body && typeof req.body.banner === 'string' ? req.body.banner : '';
+  const party = await Party.create({ name: name, banner: banner });
+  res.status(201).json(party);
+}
+
+async function createAdventurer(req, res) {
+  const name = req.body && typeof req.body.name === 'string' ? req.body.name.trim() : '';
+  if (name === '') return res.status(400).json({ error: 'name required' });
+  const adventurer = await Adventurer.create({ name: name });
+  res.status(201).json(adventurer);
+}
+
+app.post('/api/parties', createParty);
+app.post('/api/adventurers', createAdventurer);
+app.post('/api/memberships', swear);
+app.get('/api/parties/:partyId/members', membersOf);
+app.get('/api/adventurers/:adventurerId/parties', partiesOf);
+```
+
+`oath.populate('member')` in `swear` fills the document you just created, in memory, for the response. The insert already wrote ids. The 201 body can include Mara's name so the screen does not immediately refetch. Look at the collection afterward if you want the proof in both places. The id is what got stored.
 
 Changing a role is `findOneAndUpdate` on the pair, or on the membership id, setting `role`. It is not a rewrite of two arrays. Leaving the party is `findOneAndDelete` on the pair. One delete. The party document and the adventurer document do not change, because they never stored the relationship.
 
-The screen is a list. A party page fetches `GET /api/parties/:id/members` and renders `row.member.name` and `row.role`. The key is the membership `_id`, not the index, and not the member id alone if you ever showed a list that could contain the same person twice. Your index forbids that duplicate, so the member id would also be unique inside one party's list. The membership id is still the honest key, because the row is the oath. An adventurer page fetches the other route and renders `row.party.name` and `row.role`. Same component habits as the spell list. Different document.
+The screen is a list. A party page fetches `GET /api/parties/:partyId/members` and renders `row.member.name` and `row.role`. The key is the membership `_id`, not the index, and not the member id alone if you ever showed a list that could contain the same person twice. Your index forbids that duplicate, so the member id would also be unique inside one party's list. The membership id is still the honest key, because the row is the oath. An adventurer page fetches the other route and renders `row.party.name` and `row.role`. Same component habits as the spell list. Different document.
 
 If these routes sit on the app you already protect with a token, mount them behind the middleware. The relationship lesson does not replace the owner lesson. A party might be visible to every account, while only a leader can swear someone in. That is an authorization rule on the route. It is not a reason to encode the membership as two arrays. Get the document shape right first. The token check is the one you already know how to write.
 
 ## The demonstration
 
-Three models, from the schema block. A small Express app that can create an adventurer, create a party, create a membership, and list both directions with populate. Connect to a database named `oaths` so this experiment cannot be confused with the spellbook. You do not need a second React app unless you want the names on a screen. A screen is worth it for ten minutes, because `member.name` being undefined is easier to see in a row than in a terminal. The curl checks below are enough if you would rather stay in the shell.
+Stop the spellbook first, in both terminals, so nothing is listening when you start this one. Three models, from the schema block. A small Express app in a new folder, `~/projects/oaths` (`mkdir oaths && cd oaths && npm init -y && npm install express mongoose`), that can create an adventurer, create a party, create a membership, and list both directions with populate. No accounts and no token today; the relationship is the whole lesson. Its `.env` has one line, `MONGODB_URI=mongodb://127.0.0.1:27017/oaths`, so this experiment cannot be confused with the spellbook (`unset MONGODB_URI` if the shell still exports an older one), and `node --env-file=.env server.js` listens on `3000`. You do not need a second React app unless you want the names on a screen. A screen is worth it for ten minutes, because `member.name` being undefined is easier to see in a row than in a terminal. The curl checks below are enough if you would rather stay in the shell.
 
 Create the Watch and the River Company. Create Mara and Ivo.
 
@@ -167,9 +192,15 @@ curl -s -H 'Content-Type: application/json' -d '{"name":"Mara"}' http://localhos
 curl -s -H 'Content-Type: application/json' -d '{"name":"Ivo"}' http://localhost:3000/api/adventurers
 ```
 
-Swear Mara into the Watch as scout, using the ids the creates returned. Swear her into the River Company as healer. Swear Ivo into the Watch as warden. Then swear Mara into the Watch again. The second Watch oath is the 409. The River Company oath still exists. That is the compound index, not a ban on Mara.
+Swear Mara into the Watch as scout with `POST /api/memberships`, using the ids the creates returned:
 
-List the Watch. The JSON members are Mara and Ivo, with roles, and each `member` is an object with `name`. List Mara. The JSON parties are the Watch and the River Company. If either list shows a raw id where you expected a name, the route forgot `populate`. If the two lists disagree about whether the Watch oath exists, you are not reading memberships for both. You have a leftover array.
+```bash
+curl -s -H 'Content-Type: application/json' -d '{"party":"WATCH_ID","member":"MARA_ID","role":"scout"}' http://localhost:3000/api/memberships
+```
+
+Swear her into the River Company as healer. Swear Ivo into the Watch as warden. Then swear Mara into the Watch again. The second Watch oath is the 409. The River Company oath still exists. That is the compound index, not a ban on Mara.
+
+List the Watch with `GET /api/parties/:partyId/members`. The JSON members are Mara and Ivo, with roles, and each `member` is an object with `name`. List Mara with `GET /api/adventurers/:adventurerId/parties`. The JSON parties are the Watch and the River Company. If either list shows a raw id where you expected a name, the route forgot `populate`. If the two lists disagree about whether the Watch oath exists, you are not reading memberships for both. You have a leftover array.
 
 In `mongosh`, find one membership. `party` and `member` are ObjectIds. That is the evidence that populate filled the query result and did not rewrite the join. The HTTP response and the shell document are supposed to look different. If the shell document contains Mara's name inside `member`, something wrote an embedded object. The schema's ObjectId type should have rejected that on the way in, or cast it. An embedded name means the write path bypassed the model. Fix the write. Do not "fix" the read by embedding on purpose. You already decided these people are not subdocuments.
 
@@ -274,8 +305,8 @@ If the second insert succeeds and `getIndexes` shows the compound index, you are
 Build the three collections and the two directions.
 
 1. Models for adventurers, parties, and memberships. The membership has `party`, `member`, and `role`. The compound unique index is declared with `schema.index`, not with `unique: true` on each field.
-2. Routes to create a party, create an adventurer, and create a membership. The create path checks that both targets exist, and it turns code `11000` into 409.
-3. A route that lists memberships for one party and populates `member`. A route that lists memberships for one adventurer and populates `party`.
+2. `POST /api/parties`, `POST /api/adventurers`, and `POST /api/memberships`. The membership create checks that both targets exist, and it turns code `11000` into 409.
+3. `GET /api/parties/:partyId/members` lists memberships for one party and populates `member`. `GET /api/adventurers/:adventurerId/parties` lists memberships for one adventurer and populates `party`.
 4. Swear one person into two parties with two roles. Swear a second person into the first party. List both directions and write down the names you see.
 5. Insert the first pair again. Record the status and the index name from `getIndexes`.
 6. In `mongosh`, show that `member` on a stored membership is still an id after a populated request returned a name.

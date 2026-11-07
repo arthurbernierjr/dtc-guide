@@ -68,7 +68,7 @@
   "session-3-4/fig1-file-and-tree": {
     "composition": "DomTree",
     "fig": 1,
-    "alt": "Left, the index.html source as text in a panel; a green arrow; right, the same page as a tree of boxes: document at the root, then html, head with title, body with h3 main-title, div container holding two p.message, button change-btn and ul quest-list holding three li",
+    "alt": "Left, the index.html source as text in a panel; a green arrow; right, the same page as a tree of boxes: document at the root, then html, head with title, body with h3 main-title, p subtitle, div container holding two p.message, button change-btn and ul quest-list holding three li",
     "caption": "The file and the tree. The browser parses index.html once and builds the DOM; JavaScript changes the tree in memory and never the file on disk."
   },
   "session-3-4/fig2-three-selectors": {
@@ -3382,7 +3382,7 @@
   "session-4-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.4: Diagnose the failure. Data in a variable: Restart the process and the array is empty. The write never left memory.. No unique rule: Two documents claim the same email. The database allowed it because you never forbade it.. Scan: A find on an unindexed field reads the collection. Fine at twenty rows, a different program at two million..",
+    "alt": "Session 4.4: Diagnose the failure. Data in a variable: Restart the process and the array is empty. The write never left memory.. No unique rule: Two documents claim the same hero. The database allowed it because you never forbade it.. Scan: A find on an unindexed field reads the collection. Fine at twenty rows, a different program at two million..",
     "caption": "Diagnose the failure: Data in a variable · No unique rule · Scan",
     "props": {
       "session": "4.4",
@@ -3395,7 +3395,7 @@
         ],
         [
           "No unique rule",
-          "Two documents claim the same email. The database allowed it because you never forbade it."
+          "Two documents claim the same hero. The database allowed it because you never forbade it."
         ],
         [
           "Scan",
@@ -3486,7 +3486,7 @@
   "session-4-5/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.5: What done looks like. Reject: A quest with no title never reaches the collection.. Round trip: findById returns the document you created, including the default status.. Conflict: A second hero with the same name, if name is unique, fails with code 11000..",
+    "alt": "Session 4.5: What done looks like. Reject: A quest with no title never reaches the collection.. Round trip: findById returns the document you created, including the default status.. Conflict: A second quest with the same hero, if hero is unique, fails with code 11000..",
     "caption": "What done looks like: Reject · Round trip · Conflict",
     "props": {
       "session": "4.5",
@@ -3503,7 +3503,7 @@
         ],
         [
           "Conflict",
-          "A second hero with the same name, if name is unique, fails with code 11000."
+          "A second quest with the same hero, if hero is unique, fails with code 11000."
         ]
       ],
       "artifact": "A Mongoose model for quests with required fields, an enum, a unique index, and create, find, update, and delete"
@@ -3720,7 +3720,7 @@
   "session-4-8/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.8: What done looks like. Hash: The stored string is not the password and starts like a bcrypt hash.. Token: Login returns a token. The protected route rejects a request without it.. Postman: The same token, sent as a Bearer header, returns 200. A edited token returns 401..",
+    "alt": "Session 4.8: What done looks like. Hash: The stored string is not the password and starts like a bcrypt hash.. Token: Login returns a token. The protected route rejects a request without it.. Postman: The same token, sent as a Bearer header, returns 200. An edited token returns 401..",
     "caption": "What done looks like: Hash · Token · Postman",
     "props": {
       "session": "4.8",
@@ -3737,7 +3737,7 @@
         ],
         [
           "Postman",
-          "The same token, sent as a Bearer header, returns 200. A edited token returns 401."
+          "The same token, sent as a Bearer header, returns 200. An edited token returns 401."
         ]
       ],
       "artifact": "Register, login, and a protected route, exercised from Postman with a Bearer token"
@@ -3902,7 +3902,7 @@
   "session-4-11/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.11: The working model. Login: POST /login, keep the token in memory.. Load: GET /api/todos with the Bearer header. Render the array.. Change: POST, PATCH, or DELETE, then trust the response body, not the hope..",
+    "alt": "Session 4.11: The working model. Login: POST /api/login, keep the token in sessionStorage and in state.. Load: GET /api/todos with the Bearer header. Render the array.. Change: POST, PATCH, or DELETE, then trust the response body, not the hope..",
     "caption": "The working model: Login → Load → Change",
     "props": {
       "session": "4.11",
@@ -3911,7 +3911,7 @@
       "nodes": [
         [
           "Login",
-          "POST /login, keep the token in memory."
+          "POST /api/login, keep the token in sessionStorage and in state."
         ],
         [
           "Load",
@@ -4162,7 +4162,7 @@
   "session-4-14/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.14: Diagnose the failure. Mail leak: GET /messages/:id returns the document whenever the id exists. The recipient was never compared to the token.. Quantity as a catalog field: Buying a potion changed the catalog, so every user lost one. Quantity belongs on the holding.. Negative pack: A transfer subtracted past zero because the update was not conditional. The holding went to -1 and the UI showed a debt..",
+    "alt": "Session 4.14: Diagnose the failure. Mail leak: GET /api/messages/:id returns the document whenever the id exists. The recipient was never compared to the token.. Quantity as a catalog field: Buying a potion changed the catalog, so every user lost one. Quantity belongs on the holding.. Negative pack: A transfer subtracted past zero because the update was not conditional. The holding went to -1 and the UI showed a debt..",
     "caption": "Diagnose the failure: Mail leak · Quantity as a catalog field · Negative pack",
     "props": {
       "session": "4.14",
@@ -4171,7 +4171,7 @@
       "nodes": [
         [
           "Mail leak",
-          "GET /messages/:id returns the document whenever the id exists. The recipient was never compared to the token."
+          "GET /api/messages/:id returns the document whenever the id exists. The recipient was never compared to the token."
         ],
         [
           "Quantity as a catalog field",

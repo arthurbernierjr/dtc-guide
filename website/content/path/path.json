@@ -491,7 +491,7 @@
       ],
       "sideQuestWhy": [
         "MongoDB is one answer to SQL versus NoSQL. Read the trade-off before you treat documents as 'just easier tables.'",
-        "The unique email and the find-by-id you will write next week are indexes. This sheet is the cost of having them and the cost of not having them."
+        "The unique hero and the find-by-id you write next session are indexes. This sheet is the cost of having them and the cost of not having them."
       ],
       "week": 6,
       "day": "Sat"
@@ -556,7 +556,7 @@
       "title": "Seals and Signets",
       "subtitle": "bcrypt, JWT, and authentication in Postman",
       "slug": "4-8-seals-and-signets",
-      "hook": "No React yet. A password becomes a hash, a login returns a signed token, and Postman carries that token on the next request. The server is the only thing that believes it.",
+      "hook": "No React yet. A password becomes a hash, a login returns a signed token, and the next request carries that token in a header. The server is the only thing that believes it.",
       "sideQuests": [
         "SYS-C26",
         "SEC-07",
@@ -565,7 +565,7 @@
       "sideQuestWhy": [
         "Authentication is who you are. Authorization is what you may do. This sheet separates them before the token makes them feel like one thing.",
         "Authentication failures are an OWASP category of their own: weak hashes, missing expiry, tokens in logs. Read the fixes next to the code you just wrote.",
-        "Broken access control is the next bug, and it will not show up in Postman if you only call the route as yourself. The sheet's first case is calling it as someone else."
+        "Broken access control is the next bug, and it will not show up in curl if you only call the route as yourself. The sheet's first case is calling it as someone else."
       ],
       "week": 8,
       "day": "Tue"
@@ -648,7 +648,7 @@
       "title": "Blood Oaths",
       "subtitle": "Many-to-many relationships in a MERN app",
       "slug": "4-13-blood-oaths",
-      "hook": "A quest has one author. A party has many members, and a member stands in many parties. That second sentence is a different shape, and Mongoose will not invent it for you.",
+      "hook": "A spell has one owner. A party has many members, and a member stands in many parties. That second sentence is a different shape, and Mongoose will not invent it for you.",
       "sideQuests": [
         "SYS-C11",
         "SYS-C27"

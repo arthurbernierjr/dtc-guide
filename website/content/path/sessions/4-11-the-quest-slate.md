@@ -32,7 +32,7 @@ By the end of the session you can register two accounts against your own API, cr
 
 ## The idea
 
-Three motions, in order. Login: `POST /api/login` with the email and the password, and keep the token that comes back. Load: `GET /api/todos` with the bearer header, and render the array. Change: `POST`, `PATCH`, or `DELETE`, and trust the response body, not the hope. The screen is a client of the contract you already proved with curl and Postman. It does not get a softer contract because it is made of components.
+Three motions, in order. Login: `POST /api/login` with the email and the password, and keep the token that comes back. Load: `GET /api/todos` with the bearer header, and render the array. Change: `POST`, `PATCH`, or `DELETE`, and trust the response body, not the hope. The screen is a client of the contract you already proved with curl and Postman. It does not get a softer contract because it is made of components. Two things change on purpose. The slate's accounts use an `email` where the guild door used a `name`; that is the one field of the seal that changes, and the user schema below is written again for it. Error bodies from this API on are `{ "error": "..." }` where the guild door answered `{ "message": "..." }`; pick one key per project and keep it, and from here the key is `error`.
 
 The two processes stay two processes. Vite serves the page, usually at `http://localhost:5173`. Express serves the API at `http://localhost:3000`. The React bundle never imports a Mongoose model. The model lives in the server project, behind routes. The client knows paths, methods, status codes, and JSON shapes. That boundary is the point of having built the API before the screen. If a component file starts requiring `mongoose`, the boundary is gone and the browser cannot run the file anyway.
 
@@ -183,7 +183,7 @@ The login form and the board are two renders of one parent. The parent holds `to
 
 ## The demonstration
 
-Two folders, two terminals. The API folder is the Express project. The client folder is the Vite React project from the primer, or a new Vite app if you would rather not disturb the fixture exercise. They do not share a `package.json`. The client depends on `react`. The server depends on `express`, `mongoose`, `bcrypt`, `jsonwebtoken`, and `cors`. Copying `node_modules` from one to the other is how you get a client that thinks it can talk to the database.
+Two folders, two terminals. Stop the guild door first, with Ctrl-C in its terminal, so nothing else answers on 3000. The API is a new small server beside the guild door, built the same way as the courier: from `~/projects`, run `mkdir slate-api && cd slate-api && npm init -y && npm install express mongoose bcrypt jsonwebtoken cors`, then write `server.js` from the block below. The guild door stays as it was. The client is a fresh Vite app: from `~/projects`, run `npm create vite@latest slate-client -- --template react`, then `cd slate-client && npm install`, the same way you made the primer, and leave the primer as it is. `~/projects/slate-api` and `~/projects/slate-client` do not share a `package.json`. The client depends on `react`. The server depends on `express`, `mongoose`, `bcrypt`, `jsonwebtoken`, and `cors`. Copying `node_modules` from one to the other is how you get a client that thinks it can talk to the database.
 
 The server entry below is the whole API in one file so you can read the order. Splitting the middleware and the model into other files is fine when the file gets noisy. The behavior to preserve is the order: connect, refuse to listen without `JWT_SECRET`, mount `cors` and `express.json`, then the routes, then a JSON error handler.
 
@@ -271,13 +271,14 @@ app.post('/api/todos', requireUser, async function (req, res) {
 });
 
 app.patch('/api/todos/:id', requireUser, async function (req, res) {
+  const body = req.body || {};
   const updates = {};
-  if (typeof req.body.title === 'string') {
-    const title = req.body.title.trim();
+  if (typeof body.title === 'string') {
+    const title = body.title.trim();
     if (title === '') return res.status(400).json({ error: 'title required' });
     updates.title = title;
   }
-  if (typeof req.body.done === 'boolean') updates.done = req.body.done;
+  if (typeof body.done === 'boolean') updates.done = body.done;
   if (Object.keys(updates).length === 0) return res.status(400).json({ error: 'nothing to update' });
   const todo = await Todo.findOneAndUpdate(
     { _id: req.params.id, owner: req.userId },
@@ -317,7 +318,7 @@ main().catch(function (err) {
 
 `bcrypt.compare` still runs when the user is missing only if you structure it carefully. The code above skips `compare` when there is no user, and still returns the same 401. Timing will differ. For this slate, the shared message is the requirement. You can later hash a dummy when the user is missing if you want the timing closer. Do not return a different status.
 
-Start Mongo, export `JWT_SECRET` to a long random string in the shell that launches the server, and run `node server.js`. The listen line is the API being up. It is not the page.
+Start Mongo if it is not running. In `slate-api`, write a `.env` with three lines: `MONGODB_URI=mongodb://127.0.0.1:27017/slate`, `JWT_SECRET=` followed by a long random string, and `PAGE_ORIGIN=http://localhost:5173`. The database name matters. A `MONGODB_URI` still exported from the guild door's sessions points at `guild`, whose `users` collection carries a unique index on `name` that slate users do not have, and the second register would fail with a 409 that blames the email. Node's `--env-file` does not override a variable the shell already exports, so `unset MONGODB_URI` first if an earlier export is still in this shell. Then run `node --env-file=.env server.js`. The listen line is the API being up. It is not the page. In the second terminal, `cd ~/projects/slate-client && npm run dev` prints `http://localhost:5173`, the origin the `.env` named.
 
 The client talks to that origin explicitly.
 
@@ -442,7 +443,7 @@ function TodoBoard(props) {
   );
 }
 
-export function App() {
+export default function App() {
   const [token, setToken] = useState(function () {
     return sessionStorage.getItem('slateToken') || '';
   });
@@ -462,7 +463,7 @@ export function App() {
 }
 ```
 
-Register can be a second form beside login, posting to `/api/register` and showing the 201 or the 409. It is the same shape as login without storing a token. After 201, the person logs in. The password field is `type="password"` so the screen does not echo it. That is not the security boundary. The hash on the server is.
+The rows are the server's documents now. The fixture had `id`; MongoDB documents have `_id`, so the key on each row and the delete both use `todo._id`. The client above has no register form. Register the two accounts with curl, the way you registered at the guild door but with an email, `curl -s -H 'Content-Type: application/json' -d '{"email":"sera@example.com","password":"a-long-passphrase"}' http://localhost:3000/api/register`, or add a second form beside login that posts to `/api/register` and shows the 201 or the 409. It is the same shape as login without storing a token. After 201, the person logs in. The password field is `type="password"` so the screen does not echo it. That is not the security boundary. The hash on the server is.
 
 Try the failure on purpose. Stop the API and submit a todo. The notice says not saved. The draft is still in the field. Start the API and submit again. The notice says saved, and the row's text is the title the JSON returned. Refresh the browser. The effect runs because `sessionStorage` still has the token, and the row is there because MongoDB has the document. Log out. The form returns. That is the 401 path with the token cleared by you. Create a second user in another browser profile, or after logging out, and confirm the first todo is absent.
 
@@ -558,7 +559,7 @@ Use curl for the owner check if that is faster than a second profile. Use the sc
 
 ![](diagram:session-4-11/fig3-evidence)
 
-Write `SLATE.md` in the client folder, and point it at the server repo by path or remote name.
+Write `SLATE.md` in `~/projects/slate-client`, and point it at `~/projects/slate-api` by path or remote name.
 
 - Owner. The two accounts, the title the first created, and what the second account's `GET /api/todos` returned. Include the status you got when the second token called `PATCH` or `DELETE` on the first id.
 - 401. What you did to clear the token, and what the screen showed on the next load.
@@ -566,7 +567,7 @@ Write `SLATE.md` in the client folder, and point it at the server repo by path o
 - Header. One sentence confirming `Authorization` is present in the network panel and the token is absent from the URL.
 - The failure you forced by stopping the API: the notice text and whether the draft survived.
 
-Commit both projects. Leave `.env` uncommitted if that is where you put the secret. A `.env.example` with the key names and empty values is the file that belongs in git. The slate is the pattern the next session repeats with a different noun. You are not done with it until the three evidence lines are true of the running screen, not only of the code you meant to write.
+Commit both projects. Leave `.env` uncommitted; add it to `.gitignore` the way the guild door did. A `.env.example` with the key names and empty values is the file that belongs in git. The slate is the pattern the next session repeats with a different noun. You are not done with it until the three evidence lines are true of the running screen, not only of the code you meant to write.
 
 ## Side quests
 
