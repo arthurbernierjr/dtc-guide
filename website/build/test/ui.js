@@ -124,5 +124,5 @@ async function freePort() {
     if (browser) await browser.close();
     server.kill();
   }
-  g.done(`${targets.length * 3} page/viewport checks · 41 curriculum checkpoints · keyboard search · mobile menu · motion preferences · HTTP routes`);
+  g.done(`${targets.length * 3} page/viewport checks · ${added.length} curriculum checkpoints · keyboard search · mobile menu · motion preferences · HTTP routes`);
 })().catch((e) => { g.fail(e.stack || e.message); g.done('crashed'); });
