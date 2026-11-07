@@ -2420,8 +2420,8 @@
   "session-11-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 11.1: The working model. Need: Define the milestone and cash required. Route: Compare pre-sales, crowdfunding, and investment. Obligation: Account for fulfillment, disclosure, and ownership.",
-    "caption": "The working model: Need → Route → Obligation",
+    "alt": "Three-step flow: define the milestone and its cash need, compare pre-sales, crowdfunding, and investment routes, then account for fulfillment, disclosure, and ownership obligations.",
+    "caption": "The working model: price the milestone first, pick a route second, and count what each route obliges you to deliver.",
     "props": {
       "session": "11.1",
       "title": "The working model",
@@ -2446,8 +2446,8 @@
   "session-11-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 11.1: Diagnose the failure. Pledges treated as profit: Subtract fees, fulfillment, refunds, and taxes. Reward and security confused: Identify what the contributor receives. Audience assumed: Test demand with evidence before projecting a campaign.",
-    "caption": "Diagnose the failure: Pledges treated as profit → Reward and security confused → Audience assumed",
+    "alt": "Three failure diagnoses: pledges treated as profit, a reward confused with a security, and an audience assumed from a percentage rather than tested with real people.",
+    "caption": "Diagnose the failure: subtract before you spend, name what the contributor receives, and test demand before projecting it.",
     "props": {
       "session": "11.1",
       "title": "Diagnose the failure",
@@ -2472,8 +2472,8 @@
   "session-11-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 11.1: evidence to collect. Checkpoint assertion: Gross funding is not available cash Boundary assertion: Obligations remain visible Manual handoff: A funding-options brief and a hypothetical pre-sale fulfillment model",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence chain from the checkpoint assertions that gross funding is not available cash and obligations stay visible, to the handoff of docs/fundraising-research.md.",
+    "caption": "Evidence: the browser model proves the subtraction order; the committed research file proves you applied it to your own milestone.",
     "props": {
       "session": "11.1",
       "title": "Prove the handoff",
@@ -2498,8 +2498,8 @@
   "session-11-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 11.2: The working model. Instrument: Read the actual rights and conversion terms. Scenario: Calculate ownership under explicit assumptions. Review: Identify dilution, control, and unresolved legal questions.",
-    "caption": "The working model: Instrument → Scenario → Review",
+    "alt": "Three-step flow: read the SAFE's actual rights and conversion terms, calculate ownership under explicit assumptions, then review dilution, control, and unresolved legal questions.",
+    "caption": "The working model: instrument, then arithmetic, then the control terms the arithmetic does not show.",
     "props": {
       "session": "11.2",
       "title": "The working model",
@@ -2524,8 +2524,8 @@
   "session-11-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 11.2: Diagnose the failure. Cap treated as a guaranteed valuation: Explain its conversion role. Simple percentage treated as final ownership: Include later financing and option-pool effects. SAFE called ordinary debt: Read the instrument rather than importing loan assumptions.",
-    "caption": "Diagnose the failure: Cap treated as a guaranteed valuation → Simple percentage treated as final ownership → SAFE called ordinary debt",
+    "alt": "Three failure diagnoses: a valuation cap treated as a guaranteed valuation, a simple investment-over-cap percentage treated as final ownership, and a SAFE described as ordinary debt.",
+    "caption": "Diagnose the failure: the cap is a conversion term, the percentage is pre-round only, and a SAFE has no interest or maturity.",
     "props": {
       "session": "11.2",
       "title": "Diagnose the failure",
@@ -2550,8 +2550,8 @@
   "session-11-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 11.2: evidence to collect. Checkpoint assertion: Illustrative pre-round fraction Boundary assertion: New-money dilution changes ownership Manual handoff: A fictional cap table, SAFE scenario analysis, and term-sheet questions",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence chain from the checkpoint assertions on the pre-round SAFE fraction and new-money dilution, to the handoff of docs/cap-table.md with its term-sheet read.",
+    "caption": "Evidence: the browser model proves the conversion arithmetic; the three-stage cap table and the marked term sheet prove you applied it.",
     "props": {
       "session": "11.2",
       "title": "Prove the handoff",
@@ -2576,8 +2576,8 @@
   "session-11-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 11.3: The working model. Fit: Compare the business model with investor return expectations. Evidence: Support problem, traction, and market claims. Process: Track conversations, diligence, and decision criteria.",
-    "caption": "The working model: Fit → Evidence → Process",
+    "alt": "Three-step flow: compare the business model with a venture fund's return expectations, support problem, traction, and market claims with evidence, then track conversations and diligence as a process.",
+    "caption": "The working model: fit first, evidence second, and a pipeline with records behind the deck.",
     "props": {
       "session": "11.3",
       "title": "The working model",
@@ -2602,8 +2602,8 @@
   "session-11-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 11.3: Diagnose the failure. Funding mistaken for product success: Separate financing from customer value. Market size invented: Show a bottom-up calculation and its sources. Pitch overstates traction: Distinguish users, revenue, pilots, and commitments.",
-    "caption": "Diagnose the failure: Funding mistaken for product success → Market size invented → Pitch overstates traction",
+    "alt": "Three failure diagnoses: funding mistaken for product success, a market size invented from a top-down headline, and a traction slide that adds users, pilots, and pre-orders into one number.",
+    "caption": "Diagnose the failure: keep financing and customer value apart, build the market from a count times a price, and split traction into its four facts.",
     "props": {
       "session": "11.3",
       "title": "Diagnose the failure",
@@ -2628,8 +2628,8 @@
   "session-11-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 11.3: evidence to collect. Checkpoint assertion: Units: accounts times dollars per account per year Boundary assertion: A scenario is not a forecast Manual handoff: A venture-fit assessment, evidence-backed pitch narrative, and fundraising process map",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence chain from the checkpoint assertions on accounts times price per year and a scenario not being a forecast, to the handoff of docs/pitch-deck.md and docs/financial-narrative.md.",
+    "caption": "Evidence: the browser model proves the fund and market arithmetic; the deck outline, Slides link, and one-page narrative prove you built them for your capstone.",
     "props": {
       "session": "11.3",
       "title": "Prove the handoff",
@@ -2654,8 +2654,8 @@
   "session-11-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 11.4: The working model. Story: Connect user pain to the product evidence. Numbers: Tie the ask to costs, runway, and milestones. Rehearsal: Answer questions using assumptions and source notes.",
-    "caption": "The working model: Story → Numbers → Rehearsal",
+    "alt": "Three-step flow: connect user pain to product evidence in the story, tie the ask to costs, runway, and milestones in the numbers, then rehearse questions using the assumptions sheet and source notes.",
+    "caption": "The working model: story, numbers rendered from one model, and a rehearsal that answers from the assumptions rather than the script.",
     "props": {
       "session": "11.4",
       "title": "The working model",
@@ -2680,8 +2680,8 @@
   "session-11-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 11.4: Diagnose the failure. Deck and model disagree: Use one set of assumptions and reconcile totals. Gross revenue treated as available cash: Account for collection timing and costs. Rehearsal becomes memorization: Practice questions and uncertain cases.",
-    "caption": "Diagnose the failure: Deck and model disagree → Gross revenue treated as available cash → Rehearsal becomes memorization",
+    "alt": "Three failure diagnoses: the deck and the cash model disagreeing, gross revenue spent as if it were collected cash, and a rehearsal that memorized slides instead of practicing questions.",
+    "caption": "Diagnose the failure: one set of assumptions drives every slide, cash is read from the collected column, and questions are rehearsed on a recording.",
     "props": {
       "session": "11.4",
       "title": "Diagnose the failure",
@@ -2706,8 +2706,8 @@
   "session-11-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 11.4: evidence to collect. Checkpoint assertion: Only one complete month funded Boundary assertion: No net burn in this month Manual handoff: A complete fictional pitch deck narrative and auditable financial model",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence chain from the checkpoint assertions on months funded and the month with no net burn, to the handoff of the reconciled deck, narrative, runway check, and recorded pitch.",
+    "caption": "Evidence: the browser model proves the runway arithmetic; the printed runway check, the reconciled slides, and the scored recording prove you ran it on your own numbers.",
     "props": {
       "session": "11.4",
       "title": "Prove the handoff",

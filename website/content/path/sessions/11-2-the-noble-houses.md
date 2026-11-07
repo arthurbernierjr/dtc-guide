@@ -2,293 +2,186 @@
 editorial: true
 title: The Noble Houses
 subtitle: Angel Investors, SAFEs, and Term Sheets
-hook: "A fictional cap table, SAFE scenario analysis, and term-sheet questions. Read the actual rights and conversion terms."
-read: 60
-artifact: "A fictional cap table, SAFE scenario analysis, and term-sheet questions"
+hook: "A noble offers gold for a share of the treasure. Today you read the post-money SAFE, run four conversion scenarios until the arithmetic is yours, and find the red flags in a one-page term sheet before you ever see a real one."
+read: 55
+artifact: "docs/cap-table.md in the capstone repo: a three-stage fictional cap table (pre-investment, after a post-money SAFE, after a Series A) with share counts and percentages that sum to 100, four worked SAFE scenarios, and a term-sheet read with each red flag marked negotiate or walk away"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://www.ycombinator.com/safe
+  - https://www.ycombinator.com/documents
+  - https://www.sec.gov/resources-small-businesses
+  - https://www.angellist.com/
 say:
-  - "Instrument: Read the actual rights and conversion terms."
-  - "Scenario: Calculate ownership under explicit assumptions."
-  - "Review: Identify dilution, control, and unresolved legal questions."
+  - "A post-money SAFE converts to investment divided by cap, immediately before the priced round, then the new money dilutes it."
+  - "Shares first, percentages second. If the column does not sum to 100, the table is wrong."
+  - "Economics and control are different terms. A majority on paper can still lose the board."
 ---
 
 ## The hook
 
-In every isekai, there is a moment where a wealthy noble says, "I see potential in you, young adventurer. I will fund your quest... for a share of the treasure." That is an angel investor. They are not lending you gold. They are buying a piece of your future kingdom. And if you do not understand the deal they are offering, you could hand over the keys to your castle without even realizing it.
+In every isekai there is a scene where a wealthy noble says, "I see potential in you. I will fund your quest, for a share of the treasure." That is an angel. They are not lending gold. They are buying a piece of a kingdom that does not exist yet, and the document that decides how big a piece is six pages long and written so that founders sign it without reading. Today you read it. You take the thesis paragraph from last session, the one that said what you would still own, and you turn that claim into share counts.
 
-Today we enter the noble houses. We are going to learn the mechanics of angel investing so well that you could explain it to your parents at dinner. We will dissect SAFE agreements, the most founder-friendly investment instrument ever created, and we will do the dilution math that determines how much of your company you keep after someone else's money comes in. This is the math that most founders fumble, and it costs them dearly.
+By the end of the session you can run a post-money SAFE conversion by hand and in a small model here, four times with four different inputs, and get the same answers as the page. You know why "the investor owns 10 percent" is true the day before a priced round and false the day after. And you have read a one-page fictional term sheet with five things wrong in it, found at least four, and decided for each one whether you would negotiate or walk away. The cap table for your own capstone is the quest.
 
-By the end of today, you will have built a cap table, spotted red flags in a term sheet, and calculated exactly how much of your kingdom you give away when you accept a noble's gold. The numbers do not lie, and once you understand them, nobody can take advantage of you.
+> *The noble smiles and slides the parchment across the table. The numbers are small. The definitions are on page four.*
 
----
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+You arrive with `docs/fundraising-research.md` from [last session](/path/11-1-rallying-the-villagers/), its thesis paragraph in particular, and the capstone repo. Nothing today needs a server. No document on this page is a real offer, and no number is a current market figure; every valuation and check size is a made-up input for arithmetic practice.
 
 ## The idea
 
-### Interpret Early-Stage Investment Instruments and Model Ownership Dilution
+An angel investor is an individual investing their own money in an early company in exchange for ownership, or a contractual right to ownership later. Their own money is the important part. It makes them faster than a fund, more personal, smaller in check size, and more likely to decide on the strength of the founder than on a spreadsheet. A venture fund invests other people's money and answers to them; that is [next session](/path/11-3-the-royal-court/).
 
-Analyze SAFE notes, convertible notes, and term sheets to calculate founder dilution and build cap tables that model multi-round fundraising scenarios.
+### What angels look for, and where they are
 
-**You will:**
-- Explain how SAFE notes work, including valuation caps, discounts, and the distinction between pre-money and post-money SAFEs
-- Calculate investor ownership percentages using post-money SAFE conversion formulas
-- Build a multi-round cap table showing ownership changes through angel and Series A rounds
-- Identify red flags in term sheets, including unfavorable liquidation preferences, anti-dilution provisions, and board control terms
+At this stage, in roughly this order: the team (can these people build it, and will they keep going), the market (could this become a real business), traction (does anyone use it, pay for it, ask for it), and the product (does it work). You have the last one deployed. Most people who pitch angels do not.
 
-**You should be able to:**
-- You will be able to calculate dilution across multiple funding rounds using cap table models
-- You will be able to read a term sheet and identify terms that are unfavorable to founders
-- You will be able to explain the mechanics of a SAFE note to a non-technical audience
+Where they are: AngelList at angellist.com runs syndicates and rolling funds, where one lead invests and others follow into the same deal; Wellfound is the jobs site that was spun out of it, not an investing platform, so do not go there looking for a check. LinkedIn search for "angel investor" plus your industry, then look at who backed companies like yours. Accelerator demo days. Local founder meetups. Investors who post their thesis in public, where you can read what they want before you ask. The warm introduction through someone who knows both of you is the route that works; a cold message is the route that mostly does not, and the rule of thumb that an intro converts an order of magnitude better than a cold email is folklore with a lot of founders behind it, not a measured rate.
 
----
+The meeting itself is short. The first minutes decide whether they like you. Then a pitch of problem, solution, demo, traction, ask. Then questions, which is where the deal is won. Bring the deck you build next session, the live product, and two answers you can say without looking down: how much, and what it buys.
 
-**Concept 1: What Angel Investors Are and How to Find Them**
+### The SAFE
 
-An angel investor is a wealthy individual who invests their own personal money into early-stage startups in exchange for equity (ownership).
+The old problem: an investor gives $100K, and now someone has to say what the company is worth to know what share $100K buys. A company with $47 in revenue and a dream cannot be valued honestly, and the argument kills deals. The SAFE, the Simple Agreement for Future Equity, was Y Combinator's 2013 answer. It is not a loan and it is not shares. It is a contract: money now, equity later, when a priced round happens, at a price set by the SAFE's terms. No interest, no maturity date, no monthly payment. The investor is betting that a priced round comes.
 
-**Typical angel check sizes:** $5,000 to $250,000 (average around $25K-$50K)
+Read the actual document before you calculate anything. The YC documents page linked above hosts the current post-money SAFE forms, and the definitions in the form decide how every number below behaves. A social-media summary is not the instrument.
 
-**Angels vs VCs:**
-- Angels: their own money, faster decisions, smaller checks, more personal
-- VCs: other people's money (from a fund), slower process, bigger checks, more structured
+**Valuation cap.** A ceiling on the price the SAFE investor pays per share at conversion. A SAFE with a $5M cap converting into a round priced at $20M gets shares as if the company were worth $5M, so that investor gets four times the shares per dollar that the new investors get. The cap is the early investor's reward for believing first. It is not a valuation; nobody paid $5M for anything, and a cap does not promise that the next round clears at that number.
 
-**What angels look for (in order of importance at the early stage):**
-1. **Team:** Are the founders capable, passionate, and coachable? Can they actually build this?
-2. **Market:** Is the market big enough that this could be a real business?
-3. **Traction:** Do you have users, revenue, waitlist signups, or any proof that people want this?
-4. **Product:** Does the product work? Is it solving a real problem? (You have this. Your capstone is live!)
+**Discount.** A percentage off the priced round's share price, typically in the 15 to 25 percent range in the forms you will see; read the form, because YC's current standard forms are cap-only and the discount is a separate variant. Where both exist, the investor gets whichever gives them the better price.
 
-**Where to find angel investors:**
-- **AngelList (now Wellfound):** The LinkedIn of startup investing. Create a profile, browse investors.
-- **LinkedIn:** Search for "angel investor" + your industry. Look at who invested in companies similar to yours.
-- **Warm Intros (the gold standard):** Get introduced through mutual connections. A warm intro converts 10x better than a cold email.
-- **Demo Days:** Accelerator programs (Y Combinator, Techstars, etc.) end with demo days where founders pitch to rooms full of angels.
-- **Local Meetups:** Startup Grind, 1 Million Cups, local founder/investor meetups
-- **Twitter/X:** Many active angels share investment theses publicly. Engage with their content before pitching.
+**Pre-money versus post-money.** The pre-money SAFE, the old form, set the cap before the SAFE money itself, so with several SAFEs stacked up nobody knew the dilution until the round. The post-money SAFE, YC's standard since 2018, includes the SAFE money in the cap. Under it, the holder's ownership is investment divided by cap, measured immediately before the priced round, and the form's definition of the company's capitalization counts existing options and the pool that existed before the round, but not the new or increased pool adopted as part of the round. Two consequences follow, and both go on your cap table: the SAFE holder is then diluted by the new money like everyone else, and the SAFE holder is also diluted by any option-pool increase done as part of that round. $500K on a $5M post-money cap is 10 percent the day before the round, and less the day after.
 
-**The pitch meeting:**
-- Typically 30-60 minutes
-- First 5 minutes: they are deciding if they like you as a person
-- Next 10 minutes: your pitch (problem, solution, demo, traction, ask)
-- Remaining time: Q&A (this is where deals are won or lost)
-- What to bring: your pitch deck (we build this in 11.3), a working demo, and clear answers to "How much are you raising?" and "What will you do with it?"
+Three misconceptions to burn off. A SAFE is not free money; it is future equity sold today, and the investment can also be worth nothing. The cap is not the valuation; it only matters at conversion. SAFEs do not expire; a standard one sits on the cap table until a priced round converts it or an exit pays it out.
 
-**Concept 2: SAFE Notes Introduction**
+### The cap table
 
-The old way: you want $100K, an investor gives you $100K, and you figure out what percentage of the company they own. But wait... what IS the company worth? How do you value a startup that has $47 in revenue and a dream?
+A cap table is the list of who owns what, in shares first and percentages second. The percentage is a derived column: shares divided by the total. Dilution means the total grew because new shares were issued to someone else; your share count did not move, your fraction did. Name every category: founders, existing investors, option pool, converting instruments, new investors. State the total you divided by. Check that the percentage column sums to 100 in every stage. A table that leaves a category out can look precise while allocating ownership that does not exist.
 
-**The problem:** early-stage valuation is basically guessing. Arguments over valuation kill deals.
+The golden rule of dilution is that your smaller slice after the round should be worth more than your bigger slice before it. If 60 percent of a company that can now hire is worth more than 80 percent of one that cannot, you raised well. If it is not, you should not have raised.
 
-**The solution:** the SAFE (Simple Agreement for Future Equity)
-- Created by Y Combinator in 2013
-- Not a loan. Not equity. It is a contract that says: "I am giving you money now, and I will get equity LATER, when you raise a priced round."
-- No interest rate. No maturity date (usually). No monthly payments.
-- The investor is betting that you will raise a bigger round later, and their SAFE will convert into shares at that point.
+### The term sheet
 
-**Key SAFE terms:**
+A term sheet is the non-binding summary of a priced investment before lawyers write the long documents. Economics and control are separate families of terms. Read both.
 
-*Valuation Cap:*
-- A ceiling on the price the investor pays per share
-- Example: SAFE with a $5M cap. If your Series A values you at $20M, the angel's shares are priced as if the company were worth $5M. They get 4x more shares than the Series A investors per dollar invested.
-- The cap protects the early investor: "I believed in you when you were worth nothing, so I should get a better price than people who invest when you are clearly winning."
+| Term | What it means | What to watch for |
+|---|---|---|
+| Valuation | The agreed worth before the money goes in | Too low gives away too much; too high is hard to justify next round |
+| Investment amount | What goes in | Does it cover 12 to 18 months of the plan |
+| Equity percentage | The investor's share after the round | Do the arithmetic yourself; "it is standard" is not arithmetic |
+| Board seats | Who votes on the company's big decisions | Two founders and one investor is normal early; losing the majority is not |
+| Liquidation preference | Who is paid first when the company is sold | 1x non-participating is standard; 2x or more, or participating, is a flag |
+| Anti-dilution | Protects the investor if a later round prices lower | Broad-based weighted average is normal; full ratchet is not |
+| Pro rata rights | The investor's right to keep their percentage in later rounds | Standard, usually fine |
+| Founder vesting | How your own shares are earned over time | Four years with a one-year cliff is normal; re-vesting shares you already earned is not |
+| Information rights | What financials the investor sees and when | Quarterly updates are normal; monthly is normal for a board member |
+| Protective provisions | Decisions that need the investor's consent | Read the list; a long one is control without a board seat |
 
-*Discount:*
-- A percentage discount on the Series A price
-- Example: SAFE with a 20% discount. If Series A shares cost $1.00 each, the SAFE investor pays $0.80 per share.
-- Typical discount: 15-25%
+The convertible note is the SAFE's older cousin: structured as a loan, with an interest rate and a maturity date, converting at the next priced round, and callable for repayment if no round comes before maturity. SAFEs are friendlier to founders; notes are friendlier to investors. Read which one is on the table.
 
-*Cap vs Discount:*
-- Most SAFEs have a cap, a discount, or both (whichever gives the investor a better deal)
-- At the very early stage, a cap-only SAFE is most common
+The mistakes first-time founders make are not exotic. Raising too much too early at a valuation they have to grow into. Raising too little, so they are fundraising again in three months instead of building. Signing terms they did not understand; a 2x preference means the investor takes twice their money out before you see any. Taking money from the wrong person; a bad investor is worse than none, so ask other founders they backed what happened when things went wrong. Doing it without a startup lawyer; budget for one. Handshake deals; everything in writing, executed properly. Giving away 40 percent in the first round and having almost nothing after a Series A; the usual target is 10 to 20 percent per round, and your cap table will tell you why.
 
-*Pre-Money vs Post-Money SAFEs:*
-- **Pre-Money SAFE (old style):** The cap does NOT include the money from SAFEs. This means founders do not know their exact dilution until the priced round happens. Multiple SAFEs stack up and dilution is unpredictable.
-- **Post-Money SAFE (Y Combinator's current standard):** The cap INCLUDES all SAFE money. Founders know exactly how much dilution each SAFE causes.
-- Example: Post-money SAFE, $5M cap, $500K invested = the investor will own an illustrative 10% before new-money dilution, subject to the sample post-money instrument definitions ($500K / $5M)
-- This is cleaner math. Most modern SAFEs are post-money.
-
-**Common misconceptions:**
-- "A SAFE is free money." No. You are selling future equity. Conversion and dilution depend on the contractual events and terms; an investment can also lose value.
-- "Valuation cap = valuation." The cap is a ceiling, not a floor. It only matters at conversion.
-- "SAFEs expire." Standard SAFEs have no maturity date. They sit on your cap table until a priced round triggers conversion.
-
----
+What you should be able to draw on a napkin: a row of boxes, one per holder, with a share count in each. A SAFE arrives as a box whose size is investment over cap. A priced round adds a box whose size is new money over post-money valuation, and every existing box shrinks by the same factor. Under the boxes, two words: economics, control. The second word is not on the napkin's arithmetic and matters as much.
 
 ![](diagram:session-11-2/fig1-model)
 
-### Read the instrument before calculating
-
-A SAFE is a security that provides contractual rights to future equity under specified events. It is not an ordinary loan, and the standard YC form does not have interest or a maturity date. Different forms and jurisdictions can have different terms. Use the actual sample document and its definitions rather than relying on a social-media summary. [YC SAFE documents](https://www.ycombinator.com/safe).
-
-A valuation cap affects conversion pricing; it is not a guarantee of what the company is worth or what an investor will receive in every outcome. A discount and a cap may interact differently depending on the instrument. Read which mechanism applies and whether the sample form actually includes both. Do not add terms from one template to another without noticing the change.
-
-### Make a simplified scenario explicitly simplified
-
-For a fictional post-money capped SAFE, dividing investment by the post-money cap can illustrate an ownership relationship before new money in a later priced round, subject to the instrument's definitions and conversion mechanics. It does not establish final ownership after that round, option-pool changes, other securities, or unusual terms. Write those assumptions above the arithmetic so the example cannot be mistaken for a complete legal calculation.
-
-Build a cap table with named categories: founders, existing investors, employee pool, converting instruments, and new investors. State the denominator used for each percentage. Check that the final percentages sum to 100 percent in the modeled scenario. A table that omits a category can look precise while allocating ownership incorrectly. Keep units and share counts visible alongside percentages.
-
-### Separate economics from control
-
-Ownership percentage is only one part of a financing. Board composition, protective provisions, information rights, pro rata rights, liquidation preferences, and other terms can affect outcomes. A founder can retain a numerical majority while accepting meaningful constraints. Conversely, a minority investor may have specific negotiated rights. The exercise should identify these categories and generate questions, not reduce every deal to a single valuation number.
-
-Use a fictional term sheet to practice spotting ambiguity and unfavorable interactions. Ask what happens in a low-value sale, a future financing, or a disagreement about company actions. Read definitions and cross-references. A term that looks harmless in isolation may behave differently when combined with another provision. Record the question you would take to counsel instead of inventing certainty.
-
-### Model more than the optimistic exit
-
-Run a lower valuation, a higher valuation, and a follow-on financing scenario. Include an option-pool change if it is relevant to the sample terms. Observe which stakeholders are diluted and when. Do not assume all instruments convert identically or that every investor exercises every right. The model's value is making assumptions inspectable.
-
-This is an educational exercise using fictional values, not a recommendation to sign, offer, or purchase securities. The submission consists of the sample terms, assumptions, calculations, sensitivity cases, and unresolved questions. A strong result explains where the simplified math stops and where professional review of the actual documents begins.
-
 ## The demonstration
 
-All companies, valuations, growth rates, fees, and financing amounts in the worked examples are hypothetical classroom inputs unless a source and date are explicitly attached. The examples are not current market benchmarks or individualized legal, tax, or investment advice. Do not offer securities, solicit investment, or send documents as part of this exercise.
+Questboard again, with two founders. Everything in whole shares, rounded, with the percentage derived from the count.
 
-**Demo 1: SAFE Mechanics and Worked Examples**
+Stage 1, before any investment. The founders issued themselves ten million shares.
 
-**How a SAFE works, step by step:**
-1. Investor gives you $100K via SAFE
-2. You use the money to grow
-3. Later, you raise a Series A at a $10M valuation
-4. The SAFE converts: the investor gets shares based on the terms of the SAFE
-
-**How much to raise on a SAFE:**
-- Rule of thumb: raise 12-18 months of runway
-- Calculate your monthly burn (rent, servers, tools, food, etc.)
-- Multiply by 12-18
-- Example: $8K/month burn x 18 months = $144K. Round up to $150K.
-- Do not raise $2M on a SAFE unless you have serious traction. That cap table gets ugly fast.
-
-**Worked example, on paper:**
-```
-Scenario: You raise $200K on a post-money SAFE with a $2M cap
-
-Investor ownership in this simplified pre-round illustration: $200K / $2M = 10%
-Founder ownership after SAFE converts: 90%
-
-If you then raise a Series A at $10M pre-money:
-- Series A investors get shares at $10M valuation
-- SAFE investors get shares at $2M valuation (the cap)
-- SAFE investor paid 5x less per share than Series A investors
+```text
+Holder          Shares       %
+Founder (you)    8,000,000   80.00
+Co-founder       2,000,000   20.00
+Total           10,000,000  100.00
 ```
 
-**Demo 2: Term Sheets and Dilution Math**
+Stage 2, a $500K post-money SAFE with a $5M cap converts. The holder's fraction immediately before the priced round is $500,000 ÷ $5,000,000 = 10 percent. To give a new holder 10 percent of the total, issue shares equal to the existing total times 0.10 ÷ 0.90: 10,000,000 × 0.1111 = 1,111,111.
 
-A term sheet is a non-binding document that outlines the key terms of an investment. Think of it as a "deal summary" before the lawyers write the final contracts.
-
-**Key sections of a term sheet (walk through each one):**
-
-| Term | What It Means | What to Watch For |
-|------|--------------|-------------------|
-| Valuation | What the company is "worth" pre-investment | Too low = you give away too much. Too high = hard to justify in next round. |
-| Investment Amount | How much money the investor is putting in | Make sure it covers 12-18 months of runway |
-| Equity Percentage | What % of the company the investor gets | Do the math yourself. Do not trust "it is standard." |
-| Board Seats | Who sits on the board of directors | Keep board control early on. 2 founders + 1 investor is fine. |
-| Liquidation Preference | Who gets paid first if the company is sold | 1x is standard. 2x or higher is a red flag. |
-| Anti-Dilution | Protects investors if future rounds are at a lower valuation | "Broad-based weighted average" is founder-friendly. "Full ratchet" is not. |
-| Pro Rata Rights | Investor's right to invest in future rounds to maintain their percentage | Standard and usually fine to give |
-| Vesting | Schedule for founder shares to "vest" (you earn them over time) | 4-year vest with 1-year cliff is standard. Make sure you are not re-vesting all shares. |
-| Information Rights | Investor's right to see your financials | Quarterly updates are normal. Monthly board decks are normal for board members. |
-
-**Dilution Math (live cap table construction):**
-
-*What is dilution?*
-Your ownership percentage decreases when new shares are created for investors. You still own the same number of shares, but there are more total shares, so your percentage drops.
-
-*Cap Table Basics:*
-A cap table (capitalization table) is a spreadsheet that shows who owns what.
-
-**Example 1: Pre-investment cap table**
-```
-Shareholder       | Shares    | Ownership %
-------------------|-----------|------------
-Founder (You)     | 8,000,000 | 80%
-Co-Founder        | 2,000,000 | 20%
-------------------|-----------|------------
-TOTAL              | 10,000,000| 100%
+```text
+Holder          Shares       %
+Founder (you)    8,000,000   72.00
+Co-founder       2,000,000   18.00
+SAFE investor    1,111,111   10.00
+Total           11,111,111  100.00
 ```
 
-**Example 2: After a $500K angel round on a $5M post-money valuation**
+You went from 80 to 72, the co-founder from 20 to 18. Both were diluted by the same 10 percent. Your share count did not move.
+
+Stage 3, a Series A of $2M at a $10M pre-money valuation, which is a $12M post-money. The new investor's fraction is $2,000,000 ÷ $12,000,000 = 16.67 percent. Shares to issue: 11,111,111 × (1/6) ÷ (5/6) = 2,222,222.
+
+```text
+Holder          Shares       %
+Founder (you)    8,000,000   60.00
+Co-founder       2,000,000   15.00
+SAFE investor    1,111,111    8.33
+Series A         2,222,222   16.67
+Total           13,333,333  100.00
 ```
-Investor ownership: $500K / $5M = 10%
 
-Shareholder       | Shares      | Ownership %
-------------------|-------------|------------
-Founder (You)     | 8,000,000   | 72%
-Co-Founder        | 2,000,000   | 18%
-Angel Investor    | 1,111,111   | 10%
-------------------|-------------|------------
-TOTAL              | 11,111,111  | 100%
-```
-Notice: You went from 80% to 72%. Your co-founder went from 20% to 18%. You both got diluted by 10%.
+After two rounds, 80 became 60. Sixty percent of a $12M company is $7.2M on paper; eighty percent of a company that could not hire was worth whatever it was worth. Dilution is the price of growth, and the only question is whether what you bought with it was worth more than the slice.
 
-**Example 3: After a Series A ($2M at $10M pre-money, $12M post-money)**
-```
-Series A ownership: $2M / $12M = 16.67%
+Now the sentence most pages leave out. Suppose the Series A also requires a 10 percent option pool, measured after the round, created as part of it. Under the post-money SAFE form, that new pool is excluded from the capitalization the SAFE converts against, which in practice means the SAFE holder, the founders, and the co-founder all get diluted by the pool together. The Series A still owns 16.67 percent; the pool owns 10; the other 73.33 is shared by the three existing holders in their old ratio. The founder's 72 percent of 73.33 is 52.8 percent, not 60. The pool cost you 7.2 points. That is why the pool is a negotiated term, not a footnote.
 
-Shareholder       | Shares      | Ownership %
-------------------|-------------|------------
-Founder (You)     | 8,000,000   | 60%
-Co-Founder        | 2,000,000   | 15%
-Angel Investor    | 1,111,111   | 8.33%
-Series A VC       | 2,222,222   | 16.67%
-------------------|-------------|------------
-TOTAL              | 13,333,333  | 100%
-```
-After two rounds, you went from 80% to 60%. But here is the thing: 60% of a $12M company is $7.2M. 80% of a $0 company is $0. Dilution is not loss. It is the price of growth.
-
-**The Golden Rule of Dilution:**
-The value of your smaller slice should always be worth more than the value of your bigger slice before the investment. If it is not, you should not have raised.
-
-**Convertible Notes (brief comparison):**
-- Like a SAFE, but structured as a loan
-- Has an interest rate (typically 2-8%) and a maturity date (typically 18-24 months)
-- Converts to equity at the next priced round, just like a SAFE
-- If the company does not raise another round before maturity, the note can be called (investor can demand repayment)
-- SAFEs are more founder-friendly. Convertible notes are more investor-friendly.
-- Most early-stage deals in 2024+ use SAFEs
-
-**Demo 3: Common Mistakes First-Time Founders Make**
-
-Walk through each mistake with real-world examples:
-
-- **Mistake 1: Raising too much too early.** You set a high valuation, take a lot of money, and now you have to grow into those expectations. If your next round is at a lower valuation (a "down round"), everyone is unhappy.
-- **Mistake 2: Raising too little.** You take $50K, it runs out in 3 months, and now you are fundraising again instead of building. Always raise for 12-18 months of runway.
-- **Mistake 3: Not understanding the terms.** You signed a SAFE with a $1M cap and a 2x liquidation preference and you did not know what that meant. Now the investor gets paid 2x their money before you see a dime in an exit. READ EVERYTHING.
-- **Mistake 4: Taking money from the wrong people.** A toxic investor is worse than no investor. Check references. Talk to other founders they have invested in. Ask: "What happens when things go wrong?"
-- **Mistake 5: Not having a lawyer.** Startup law is specialized. A general practice attorney does not know SAFEs from sandwiches. Budget $2K-$5K for a startup lawyer. Clerky, Stripe Atlas, and LegalZoom can help with basics.
-- **Mistake 6: Handshake deals.** Everything in writing. EVERYTHING. "We agreed on 10% for $100K" can create serious ambiguity; obtain qualified advice and properly executed documents.
-- **Mistake 7: Giving away too much equity too early.** If you give away 40% in your angel round, you will have almost nothing left after a Series A. Target giving away 10-20% per round.
-
----
-
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Here is the same arithmetic as a small model you can run here. It proves that a post-money SAFE converts to investment over cap before the round, that the priced round and a pool dilute everyone, and that the share counts add up. It does not prove anything about a real instrument; the definitions in the actual document decide the real number, and a lawyer reads those with you.
 
 ```js run=checkpoint-11-2
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-// Simplified post-money illustration before new-money dilution; not legal cap-table software.
-const investment = 500000, cap = 5000000, newMoneyFraction = 0.2;
-const beforeRound = investment / cap;
-const afterRound = beforeRound * (1 - newMoneyFraction);
-check(Math.abs(beforeRound - 0.1) < 1e-9, 'Illustrative pre-round fraction');
-check(Math.abs(afterRound - 0.08) < 1e-9, 'New-money dilution changes ownership');
+
+// Fictional cap table. Shares first, percentages derived. Not legal cap-table software.
+function issueForFraction(existingTotal, fraction) {
+  return Math.round(existingTotal * fraction / (1 - fraction));
+}
+
+function pct(shares, total) {
+  return Math.round(shares / total * 10000) / 100;
+}
+
+const table = { founder: 8000000, cofounder: 2000000 };
+let total = table.founder + table.cofounder;
+check(total === 10000000, 'stage 1: ten million founder shares');
+
+// Stage 2: $500K post-money SAFE, $5M cap -> 10% immediately before the priced round.
+const safeFraction = 500000 / 5000000;
+table.safe = issueForFraction(total, safeFraction);
+total += table.safe;
+check(table.safe === 1111111, 'stage 2: SAFE converts to investment over cap');
+check(pct(table.founder, total) === 72, 'stage 2: founder 72 percent');
+
+// Stage 3: $2M Series A at $10M pre-money -> 2/12 of the post-money company.
+const seriesAFraction = 2000000 / 12000000;
+table.seriesA = issueForFraction(total, seriesAFraction);
+total += table.seriesA;
+check(table.seriesA === 2222222, 'stage 3: new money over post-money valuation');
+check(pct(table.founder, total) === 60, 'stage 3: founder 60 percent');
+check(pct(table.safe, total) === 8.33, 'stage 3: the SAFE holder is diluted by the new money too');
+
+let sum = 0;
+for (const holder in table) sum += pct(table[holder], total);
+check(Math.abs(sum - 100) < 0.02, 'percentages sum to 100');
+
+// Sensitivity: the same Series A with a 10% post-round option pool created in the round.
+const preRoundTotal = 11111111;
+const pooledTotal = Math.round(preRoundTotal / (1 - seriesAFraction - 0.10));
+check(pct(8000000, pooledTotal) === 52.8, 'a pool created in the round dilutes the founders and the SAFE holder');
+
+// Scenario B from Your turn: $250K on a $5M cap, then $1M at $10M pre.
+const b = { safe: 250000 / 5000000, a: 1000000 / 11000000 };
+const founderB = (1 - b.safe) * (1 - b.a);
+check(Math.round(founderB * 1000) / 10 === 86.4, 'scenario B: founder 86.4 percent');
+
+for (const holder in table) console.log(holder + ': ' + table[holder] + ' shares, ' + pct(table[holder], total) + '%');
 console.log('ok: checkpoint-11-2');
 ```
+
+Change the cap to $2,000,000 and predict the founder's stage 2 number before you run. Then change the Series A pre-money to $20,000,000 and watch who is diluted least. Put the inputs back.
 
 ## Where it breaks
 
@@ -296,112 +189,212 @@ console.log('ok: checkpoint-11-2');
 
 ### Cap treated as a guaranteed valuation
 
-You tell someone the company is worth the cap. The cap is a term in the conversion, a ceiling used later when the SAFE turns into shares. It is not a price the investor paid for a share today, and it is not a promise that the next round will clear at that number. Explain what the cap does on the day a priced round happens, and what the investor owns if that day is far away. Using it as a valuation in a conversation creates a disagreement you will have in writing later.
+You tell someone the company is worth $5M because that is the cap. The cause is reading the cap as a price paid rather than a ceiling applied later; nobody bought shares at that number. The fix is to explain what the cap does on the day a priced round happens, and what the investor owns if that day never comes, which under a SAFE is a contractual right, not shares. If you use the cap as a valuation in conversation, you will have the same disagreement in writing with a lawyer in the room.
 
 ### Simple percentage treated as final ownership
 
-You divide the check by the cap and announce that the founder still owns 90 percent. The next round, the option pool, and the conversion of the other SAFEs are not in that sentence. Ownership is what remains after those events, and the order of the events matters. Put the later round and the pool on the same cap table before you quote a percentage to a cofounder or an investor. A percentage that ignores them is a different company from the one you will be running.
+You divide the check by the cap, announce 90 percent, and put it in the thesis paragraph. The cause is stopping at stage 2: the next round, the option pool, and any other SAFEs are not in that sentence, and the order of those events decides the answer. The fix is a stage 3 on the same cap table before you quote a number to a co-founder or an investor. In the demonstration, 90 became 60 and then 52.8 without any term being unusual. A percentage that ignores the later events describes a different company from the one you will run.
 
 ### SAFE called ordinary debt
 
-You describe the SAFE as a loan with interest, because "agreement" and "money in" sound like debt. A standard SAFE is not a loan. It does not have a maturity date you must repay, and it does not behave like one if you call it that in a deck. Read the instrument you are actually using, including whether it is pre-money or post-money, and describe those terms. Importing loan instincts into a SAFE conversation produces promises the document does not contain.
+The deck says "Questboard borrowed $500K on a SAFE" or the narrative budgets interest payments. The cause is that "agreement" and "money in" sound like a loan. A standard SAFE has no interest, no maturity, and no repayment; a convertible note has all three. The fix is to open the form you are actually using, check its name and whether it is pre- or post-money, and describe those terms and no others. Loan instincts imported into a SAFE conversation produce promises the document does not contain, and an investor who notices will wonder what else you have not read.
 
 ## Your turn
 
-**Guided Exercise 1: SAFE Math Challenge**
+Open a terminal in the capstone repo.
 
-Work through 4 scenarios on paper or in a spreadsheet. Do the first one slowly, writing every step:
+1. Run the four scenarios before you read the answers. Scenario A: $100K on a post-money SAFE with a $2M cap.
 
-**Scenario A:** You raise $100K on a post-money SAFE with a $2M cap. What percentage will the investor own at conversion?
+   ```bash
+   node -e "console.log(100000 / 2000000)"
+   ```
 
-**Scenario B:** You raise $250K on a post-money SAFE with a $5M cap. Then you raise a Series A of $1M at a $10M pre-money valuation. Build the full cap table showing founder, SAFE investor, and Series A investor ownership.
+   Prints `0.05`. The investor owns 5 percent immediately before the priced round.
 
-**Scenario C:** An investor offers you $150K on a SAFE with a $1M cap. Another investor offers $150K on a SAFE with a $3M cap. Same amount of money. What is the difference in dilution?
+2. Scenario B: $250K on a $5M cap, then a $1M Series A at $10M pre-money, which is $11M post.
 
-**Scenario D:** You are a solo founder. You raise $500K on a post-money SAFE with a $5M cap. Then you raise a $2M Series A at $10M pre-money. How much of the company do you own after both rounds?
+   ```bash
+   node -e "const s = 250000 / 5000000, a = 1000000 / 11000000; console.log((1 - s) * (1 - a), s * (1 - a), a)"
+   ```
 
-**Answer Key:**
-- Scenario A: $100K / $2M = 5%
-- Scenario B: SAFE investor owns 5% ($250K/$5M). Series A: $1M / $11M post-money = 9.09%. After both: Founder ~85.9%, SAFE ~4.55%, Series A ~9.09% (dilution from Series A affects SAFE holder too)
-- Scenario C: $1M cap = 15% dilution. $3M cap = 5% dilution. Same money, 3x the dilution difference. The cap matters enormously.
-- Scenario D: After SAFE: 90%. After Series A ($2M at $10M pre, $12M post): Series A gets 16.67%. You own ~75% of remaining 83.33% = ~75%
+   Prints `0.8636363636363635 0.045454545454545456 0.09090909090909091`. Founder about 86.4 percent, SAFE about 4.5, Series A about 9.1, and those sum to 100. The SAFE holder is diluted by the round as well.
 
-Solutions reviewed together as a class.
+3. Scenario C: $150K on a $1M cap against $150K on a $3M cap.
 
----
+   ```bash
+   node -e "console.log(150000 / 1000000, 150000 / 3000000)"
+   ```
+
+   Prints `0.15 0.05`. Same money, three times the dilution. The cap is the term.
+
+4. Scenario D: solo founder, $500K on a $5M cap, then $2M at $10M pre.
+
+   ```bash
+   node -e "const s = 500000 / 5000000, a = 2000000 / 12000000; console.log((1 - s) * (1 - a))"
+   ```
+
+   Prints `0.75`. Ninety percent of 83.33 percent is 75 percent.
+
+5. Copy this into `docs/cap-table.md` and fill it in for your capstone with made-up but stated inputs. Pick your own cap and round size; the demonstration's numbers are the example, not the answer.
+
+   ```markdown
+   # Cap table: <capstone-name>
+
+   Fictional. All values hypothetical. Shares first, percentages derived, each stage sums to 100.
+
+   ## Inputs
+   Founder shares:
+   Co-founder shares (0 if solo):
+   SAFE: $          on a $          post-money cap
+   Series A: $          at $          pre-money ( $          post )
+   Option pool created in the round (0 if none):      %
+
+   ## Stage 1: before investment
+   | Holder | Shares | % |
+   |---|---|---|
+   | Founder | | |
+   | Co-founder | | |
+   | Total | | 100 |
+
+   ## Stage 2: after the SAFE converts
+   SAFE fraction = investment / cap =
+   Shares to issue = existing total x fraction / (1 - fraction) =
+   | Holder | Shares | % |
+   |---|---|---|
+   | Founder | | |
+   | Co-founder | | |
+   | SAFE investor | | |
+   | Total | | 100 |
+
+   ## Stage 3: after the Series A
+   Series A fraction = new money / post-money =
+   Shares to issue =
+   | Holder | Shares | % |
+   |---|---|---|
+   | Founder | | |
+   | Co-founder | | |
+   | SAFE investor | | |
+   | Series A | | |
+   | Option pool | | |
+   | Total | | 100 |
+
+   ## Four scenarios, my answers
+   A:
+   B:
+   C:
+   D:
+
+   ## Fundraising plan
+   One paragraph: how much at each stage, what it buys, what I own after both, and whether I am comfortable with that number.
+
+   ## Term sheet read
+   (filled in during the quest)
+   ```
+
+   A filled example of the two stages people get wrong, from the demonstration:
+
+   ```markdown
+   ## Stage 2: after the SAFE converts
+   SAFE fraction = 500,000 / 5,000,000 = 0.10
+   Shares to issue = 10,000,000 x 0.10 / 0.90 = 1,111,111
+   | Holder | Shares | % |
+   |---|---|---|
+   | Founder | 8,000,000 | 72.00 |
+   | Co-founder | 2,000,000 | 18.00 |
+   | SAFE investor | 1,111,111 | 10.00 |
+   | Total | 11,111,111 | 100 |
+
+   ## Fundraising plan
+   Questboard raises $500K on a $5M post-money SAFE to fund the pilot, one
+   engineer for a year, and a year of hosting and model credits. If the pilot
+   proves weekly retention, a $2M Series A at $10M pre funds the team plan and
+   two more hires. After both rounds I own 60% with no pool, or 52.8% if the
+   Series A requires a 10% pool. I am comfortable at 60. At 52.8 I would
+   negotiate the pool down or ask for it to be sized to the actual hiring plan.
+   ```
+
+6. Fill stage 3 with the percentages derived from shares, not typed in, and confirm each stage's column sums to 100. If it does not, a holder is missing or a fraction was applied to the wrong total.
+
+7. Commit.
+
+   ```bash
+   git add docs/cap-table.md
+   git commit -m "docs: fictional cap table with SAFE and Series A stages"
+   ```
 
 ## The quest
 
-**Independent Exercise 2: Term Sheet Red Flag Review**
-
-Take this fictional term sheet. Several red flags are hidden in it:
-- 3x liquidation preference (red flag, standard is 1x)
-- Full ratchet anti-dilution (red flag, should be broad-based weighted average)
-- Investor gets 2 of 3 board seats (red flag, founders should control the board early)
-- Founder shares re-vest on a 4-year schedule from the investment date (red flag, existing vesting should be credited)
-- No pro rata rights (unusual but not necessarily a red flag)
-
-**Instructions:**
-1. Read the provided fictional term sheet
-2. Circle or highlight every term that seems unusual or unfavorable
-3. For each red flag, write one sentence explaining why it is problematic
-4. Discuss with the class
-
-**Success Criteria:** Identify at least 3 of the 4 red flags and explain why they matter.
-
-Name the red flags and why each one is a problem. Then decide which you would negotiate and which would end the deal.
-
-**Recap and Homework Launch**
-
-Recap: SAFEs are the most founder-friendly way to raise early-stage money. Understand valuation caps, dilution, and cap tables before you sign anything.
-
-Next session: "We are going to the Royal Court. Venture capital, pitch decks, and the art of the raise."
-
----
-
-### Review the artifact
-
-Your deliverable is **A fictional cap table, SAFE scenario analysis, and term-sheet questions**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-11-2/fig3-evidence)
+
+One deliverable: `docs/cap-table.md`, complete, with the term-sheet read filled in. Here is the term sheet. It is fictional; the company, the investor, and every number are made up, and five of its terms are red flags. Read it cold before you look at the answer key further down.
+
+```markdown
+# TERM SHEET (non-binding, fictional)
+
+Issuer:            Questboard, Inc., a Delaware corporation
+Investor:          Greyhaven Capital Fund II (fictional)
+Security:          Series Seed Preferred Stock
+Amount:            $500,000
+Pre-money valuation: $4,500,000 (post-money $5,000,000), fully diluted,
+                   including an unallocated option pool of 10% post-closing
+Price per share:   to be calculated from the capitalization at closing
+
+Liquidation preference: 3x the original purchase price, participating,
+                   payable before any distribution to common stock
+Dividends:         8% non-cumulative, when and if declared
+Anti-dilution:     full ratchet on any issuance below the Series Seed price
+Conversion:        converts to common 1:1 at holder's option, automatically on a
+                   qualified IPO
+
+Board of directors: three seats. Two designated by the Investor, one by the
+                   founders (the CEO)
+Protective provisions: Investor consent required for any sale, new financing,
+                   debt over $25,000, hiring or firing of any officer, and
+                   annual budget approval
+Information rights: monthly financial statements within 15 days of month end,
+                   annual audited statements, inspection on request
+
+Founder vesting:   all founder shares subject to a new 4-year vesting schedule
+                   with a 1-year cliff, measured from the closing date
+Pro rata rights:   none
+Right of first refusal and co-sale: standard, on founder transfers
+Exclusivity:       60 days from signature
+Expenses:          company pays Investor's legal fees up to $40,000 at closing
+Governing law:     Delaware
+```
+
+For each term you think is unusual, write one sentence in the "Term sheet read" section of `docs/cap-table.md`: what it does to you in a low-value sale, in the next round, and in a disagreement, and then one word, negotiate or walk. Find at least four of the five before reading on.
+
+### Answer key, read after
+
+- **3x participating liquidation preference.** In a $6M sale the investor takes $1.5M first, then shares the rest as if they also held common. Standard is 1x non-participating: their money back or their percentage, not both. Negotiate to 1x non-participating; if they will not move, walk, because this term alone can leave founders with little in a modest exit.
+- **Full ratchet anti-dilution.** If any later round prices lower, their shares reprice to that lower price in full, and the founders absorb all of it. Standard is broad-based weighted average. Negotiate; it is commonly conceded.
+- **Two of three board seats to the investor.** You keep a majority of the shares and lose control of the company's decisions. Early boards are usually two founders and one investor, or two founders, one investor, one independent. Negotiate hard; a seed investor insisting on board control is a walk for most founders.
+- **Re-vesting all founder shares from closing.** The years you already worked are erased. Normal is to credit earned vesting and apply a schedule only to the unvested remainder. Negotiate; credit for time served is standard.
+- **No pro rata rights.** Unusual and slightly odd, but not harmful to you; it means they are not promised a place in the next round. Not a flag to fight.
+
+The monthly information rights are normal for a board member. The protective provisions list is on the long side; "hiring or firing of any officer" is worth a question. The $40,000 expense cap is high for a round this size and is negotiable. The 10 percent pool inside the pre-money is exactly the dilution the demonstration measured; ask for the pool to be sized to the hiring plan.
+
+Evidence that the quest is done:
+
+- Three stages in `docs/cap-table.md` with share counts, derived percentages, and a 100 at the bottom of each.
+- The four scenario answers match the lines printed in Your turn.
+- The fundraising plan paragraph names the ownership after both rounds and says whether you accept it.
+- At least four red flags found before the key, each with a negotiate-or-walk decision and a one-sentence reason.
+- Committed and pushed.
+
+```bash
+git add docs/cap-table.md
+git commit -m "docs: term sheet read with negotiate or walk decisions"
+git push
+```
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Back-of-the-envelope numbers are the cap table's whole discipline, shares first and percentages derived, and the long-return mindset is what lets you walk away from a term sheet that would fund the next six months and cost the next six years.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Session 11.1 completed; fundraising research brief submitted; basic math skills (percentages, fractions); capstone product deployed and functional
-**Materials:** SAFE template (Y Combinator post-money SAFE), fictional term sheet with red flags, cap table spreadsheet template, dilution calculation worksheet, scenario cards for SAFE math challenge
+Next session is [The Royal Court](/path/11-3-the-royal-court/): how a venture fund's arithmetic decides what it can invest in, a twelve-slide deck built around your deployed capstone, bottom-up market sizing, and the one-page financial narrative. Read the YC "How to pitch your company" article linked from that session's docs once; you will build the deck in Google Slides, so make sure you have a Google account and can open slides.google.com before you sit down.
 
----
-
-**Assignment: Your Cap Table Model**
-**Objective:** Build a cap table for your own capstone product, modeling a realistic fundraising path
-**Time Estimate:** 2-3 hours
-**Due:** Before Session 11.3
-
-**Tasks:**
-1. Create a spreadsheet (Google Sheets is fine) with three tabs:
-   - Tab 1: "Pre-Investment" ... Just you (and co-founder if applicable). 10,000,000 shares total.
-   - Tab 2: "After Angel Round" ... Model raising $100K-$300K on a post-money SAFE. Pick a valuation cap. Calculate dilution.
-   - Tab 3: "After Series A" ... Model raising $1M-$3M at a pre-money valuation. Calculate everyone's ownership.
-2. Write a 1-paragraph "fundraising plan" below the spreadsheet: How much would you raise at each stage? What would you spend it on?
-3. Answer: "After both rounds, what percentage do I own? Am I comfortable with that?"
-
-**Submission:** Share the Google Sheet link (view access) or screenshot in your capstone repo under `/docs/cap-table.md`
-
-**Stretch Goals (Optional):**
-- Research 3 real SAFE deals from AngelList or Crunchbase. What were the cap sizes and amounts raised?
-- Read Y Combinator's SAFE Primer: https://www.ycombinator.com/documents
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.ycombinator.com/safe)
+Nothing is running between sessions. The deployed capstone stays up on its own, and the two files in `docs/` are the only state this unit carries forward.

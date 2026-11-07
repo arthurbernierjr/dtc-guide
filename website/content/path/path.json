@@ -1171,10 +1171,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply need to this lesson's artifact: Define the milestone and cash required.",
-        "Apply route to this lesson's artifact: Compare pre-sales, crowdfunding, and investment."
+        "The pre-sale model is a back-of-the-envelope calculation: gross, minus fees, minus delivery, minus refunds, and a per-unit margin that sets the break-even count.",
+        "Deciding to raise nothing for the next milestone is the long-return choice, and this session treats it as a legitimate answer rather than a failure."
       ],
-      "hook": "A funding-options brief and a hypothetical pre-sale fulfillment model. Define the milestone and cash required."
+      "hook": "Your capstone is live and takes test payments. Before anyone hands you money, you decide whether you need it at all, and you model what a pre-sale leaves in the bank after fees, delivery, and refunds."
     },
     {
       "id": "11.2",
@@ -1189,10 +1189,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply instrument to this lesson's artifact: Read the actual rights and conversion terms.",
-        "Apply scenario to this lesson's artifact: Calculate ownership under explicit assumptions."
+        "A cap table is shares first and percentages derived, the same envelope discipline: each stage must sum to 100 or a holder is missing.",
+        "Walking away from a term sheet that funds six months and costs six years is the long-return decision this session rehearses on a fictional page."
       ],
-      "hook": "A fictional cap table, SAFE scenario analysis, and term-sheet questions. Read the actual rights and conversion terms."
+      "hook": "A noble offers gold for a share of the treasure. Today you read the post-money SAFE, run four conversion scenarios until the arithmetic is yours, and find the red flags in a one-page term sheet before you ever see a real one."
     },
     {
       "id": "11.3",
@@ -1207,10 +1207,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply fit to this lesson's artifact: Compare the business model with investor return expectations.",
-        "Apply evidence to this lesson's artifact: Support problem, traction, and market claims."
+        "Fund return, exit value from a stake percentage, and a bottom-up market are three envelope calculations this session runs before any slide is written.",
+        "An honest SOM often comes out small, and the long-return mindset is what lets you say so on slide 5 instead of borrowing a headline number."
       ],
-      "hook": "A venture-fit assessment, evidence-backed pitch narrative, and fundraising process map. Compare the business model with investor return expectations."
+      "hook": "A venture fund's arithmetic decides what it can invest in before it ever sees your deck. Today you run that arithmetic, decide honestly whether your capstone fits, and start the twelve slides around the product you already deployed."
     },
     {
       "id": "11.4",
@@ -1225,10 +1225,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply story to this lesson's artifact: Connect user pain to the product evidence.",
-        "Apply numbers to this lesson's artifact: Tie the ask to costs, runway, and milestones."
+        "runway.js is a back-of-the-envelope model made explicit: inputs at the top, one subtraction per month, and the month cash goes below zero as the answer.",
+        "Scoring a second take honestly after fixing three GROWs is the long-return habit; a first take described generously teaches nothing."
       ],
-      "hook": "A complete fictional pitch deck narrative and auditable financial model. Connect user pain to the product evidence."
+      "hook": "No new theory. You build the month-by-month cash model, let it overrule the slides it disagrees with, record the five-minute pitch against your live product, and score it yourself with the questions an investor would ask."
     },
     {
       "id": "12.1",

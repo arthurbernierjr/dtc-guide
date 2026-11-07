@@ -2,200 +2,229 @@
 editorial: true
 title: War Council
 subtitle: Pitch Deck and Financial Narrative Workshop
-hook: "A complete fictional pitch deck narrative and auditable financial model. Connect user pain to the product evidence."
+hook: "No new theory. You build the month-by-month cash model, let it overrule the slides it disagrees with, record the five-minute pitch against your live product, and score it yourself with the questions an investor would ask."
 read: 60
-artifact: "A complete fictional pitch deck narrative and auditable financial model"
+artifact: "The unit deliverable in the capstone repo: a reconciled twelve-slide deck (Google Slides link and docs/pitch-deck.pdf), docs/financial-narrative.md with an assumptions sheet and three scenarios, docs/runway.js and its printed runway check, and a rehearsal log with a recorded pitch, three self-scored GROWs, and the five questions you expect with sourced answers"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://www.ycombinator.com/library/4b-how-to-pitch-your-company
+  - https://support.apple.com/guide/quicktime-player/record-your-screen-qtp97b08e666/mac
+  - https://obsproject.com/
+  - https://www.loom.com/pricing
   - https://www.sec.gov/resources-small-businesses
 say:
-  - "Story: Connect user pain to the product evidence."
-  - "Numbers: Tie the ask to costs, runway, and milestones."
-  - "Rehearsal: Answer questions using assumptions and source notes."
+  - "The model is the source of truth. Slides are rendered from it, never the other way round."
+  - "Runway is months until cash goes below zero, computed month by month, not a raise divided by an average."
+  - "Record, watch, score, rewrite. The question you cannot answer on the recording is the one you will be asked."
 ---
 
 ## The hook
 
-Before the final battle, the hero gathers their allies to plan the assault. Maps on the table, strategies debated, weaknesses exposed and fixed. That is what we are doing today, but instead of a battle plan, it is your pitch deck. This is a War Council. No new lectures. No new theory. Today you build, you pitch, you get torn apart by honest feedback, and you rebuild stronger.
+Before the final battle the hero spreads the maps on the table, and the allies say the things nobody wanted to hear: the supply line is twelve weeks and the plan assumes eighteen, the right flank is a guess, the hero reads from notes. Today you are every seat at that table. You have twelve filled slides, a financial narrative, a cap table, and a live product. What you do not have yet is a month-by-month cash model, and until it exists every number on slides 10 and 11 is a hope.
 
-Here is what is about to happen. You are going to polish your deck. You are going to write your financial narrative. Then you are going to stand up in front of your peers and deliver your pitch while a timer counts down. They are going to tell you what worked and what did not. You are going to take that feedback, revise on the spot, and pitch again. This is the exact process that real founders go through before walking into an investor meeting.
+By the end of the session the model exists as a small script in `docs/`, it prints a runway check you can paste, and the deck says what the model says. You have recorded the full five-minute pitch with the deployed capstone on screen, watched it back as if you were the investor, scored it against seven questions, written three specific things to fix, and written the five questions you expect in the room with the answer and the source for each. That bundle is the unit's deliverable. It is also what you carry into Unit 12 and, if the venture-fit paragraph said yes, into the first real meeting.
 
-By the time you walk out of here, you will have a polished pitch deck, a one-page financial narrative, and the experience of delivering your pitch to a live audience. You are not just a developer anymore. You are a technical founder. The code is your weapon, capital is your supply line, and this deck is your battle standard. Let us get to work.
+> *The council does not vote. It asks what happens if the supply line is late. You answer from the ledger, or you do not answer.*
 
----
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+You arrive with the deck from [last session](/path/11-3-the-royal-court/), all twelve slides filled, `docs/pitch-deck.md`, `docs/financial-narrative.md`, `docs/cap-table.md`, and the capstone deployed at its public URL. You need a way to record your screen and voice: QuickTime Player on macOS, Game Bar on Windows, or OBS on anything, all linked above. Loom works too; its free plan has a per-recording length cap, so check the pricing page before you rely on it. Test a ten-second recording before the real take.
 
 ## The idea
 
-### Compose a One-Page Financial Narrative Integrating Revenue Model, Projections, and Path to Profitability
+A financial narrative that was written before the model is a story. A model that was built before the narrative is a spreadsheet nobody can read. You want both, in that order: plan, then costs and timing, then the model, then the slides rendered from the model, then the story told over the slides.
 
-Synthesize revenue model, unit economics, traction data, and growth projections into a concise one-page document that complements the pitch deck.
+### Build the model from the operating plan
 
-**You will:**
-- Define a revenue model with specific pricing tiers and monetization strategy
-- Calculate and present unit economics (CAC, LTV, ARPU, LTV:CAC ratio)
-- Develop 3-year revenue projections with stated assumptions and growth channels
-- Articulate a credible path to profitability including break-even customer count and timeline
+Start with what the company intends to do over the next period, in plain sentences. Hire one engineer in month 2. Spend on marketing in three steps as the channel proves out. Launch the Team plan in month 19. Translate each sentence into money and a date. Salaries, contractors, hosting, model credits, customer acquisition, legal and accounting, and one-time setup each behave differently; separate recurring from one-time. A single monthly burn number is a fine summary, as long as every dollar in it can be traced to a line underneath.
 
-**You should be able to:**
-- You will be able to write a one-page financial narrative covering all six required sections
-- You will be able to defend their projections and assumptions in a Q&A setting
+Distinguish revenue, cash collected, and profit. A subscription is collected monthly minus the processor's cut. An annual contract may be collected up front, or not. A pre-sale collects now and owes delivery later. Fees and refunds reduce what lands. The model should show enough timing to explain runway, which is the number of months before cash goes below zero, computed month by month. Dividing the raise by an average burn skips the month the engineer starts and the month marketing doubles, and those are the months that decide the answer.
 
----
+### The assumptions sheet comes first
 
-**Workshop Structure Overview**
+List every input with units: starting cash, starting customers, price, processor fee, churn, acquisition cost, each cost line with its start month. Mark each one observed, estimated, or hypothetical. Observed means you read it off the Stripe dashboard or the database. Estimated means a source and a date. Hypothetical means you made it up and said so. A reviewer should be able to change one input and see the effect without hunting through hidden formulas, which is why the model is a short script with the inputs at the top and no magic numbers below them.
 
-Today is different. No new concepts. This is all execution and iteration.
-
-Schedule for the day:
-- 0:10-0:50: Deck completion and polish (Work Block 1)
-- 0:50-1:20: Financial narrative writing (Work Block 2)
-- 1:20-1:30: Break
-- 1:30-2:15: First round of pitches + feedback
-- 2:15-2:25: Break
-- 2:25-2:45: Revision time (Work Block 3)
-- 2:45-2:55: Final pitch rehearsal
-- 2:55-3:00: Wrap up and unit project launch
-
----
-
-![](diagram:session-11-4/fig1-model)
-
-### Build the financial narrative from the operating plan
-
-Begin with what the fictional company intends to do over the next period. Translate that plan into costs and expected cash timing. Salaries, contractors, hosting, customer acquisition, and one-time setup costs may behave differently. Separate recurring expenses from one-time expenses. A single monthly burn number can be a useful summary, but it should be traceable to assumptions underneath.
-
-Distinguish revenue, cash collected, and profit. A signed annual contract may not be collected immediately. A pre-sale may create a delivery obligation. Payment fees and refunds reduce available cash. The model should show enough timing to explain runway rather than dividing a headline raise by an incomplete expense estimate. Use fictional values and avoid presenting the result as financial advice for a real company.
-
-### Create an assumptions sheet before a forecast
-
-List customer count, price, conversion, churn, costs, and hiring dates with units. Mark each value as observed, estimated, or hypothetical. If a number comes from a source, record the source and date. If it is a classroom assumption, say so. The purpose is to let a reviewer change one input and understand the effect without hunting through hidden formulas.
-
-Run at least three scenarios. A base case represents the working plan, a downside case tests slower adoption or higher costs, and an upside case tests capacity if demand is stronger. Avoid changing every assumption at once without explanation. Identify the variables that drive the result most strongly. Those variables become priorities for research and measurement.
+Then run three cases. The base case is the working plan. The downside tests slower adoption or higher costs, one input at a time. The upside tests whether the plan could even absorb stronger demand. Do not change every input at once; you learn nothing from a scenario you cannot explain. The inputs that move the result most are the ones to measure first, and they go in the "key assumptions" section of the narrative by name.
 
 ### Reconcile every slide with the model
 
-The ask slide, runway statement, hiring plan, and milestone timeline should agree. If the deck says eighteen months of runway while the model runs out of cash in twelve, resolve the inconsistency before practicing the pitch. A visually polished chart cannot repair incompatible assumptions. Keep the model as the source of numerical truth and update slides from it.
+The ask slide, the runway statement, the hiring plan, the projections, and the milestone date must agree with each other because they all come from the same script. If slide 11 says eighteen months of runway and the model runs out of cash in twelve, the slide changes. If slide 10 says 500 subscribers at year end and the model says 1,450, the slide changes. If the model says 2,559 subscribers at month 18 and the ask says 3,000, the ask changes or the assumptions change, and if the assumptions change the narrative says what new evidence justified it. A polished chart cannot repair incompatible numbers. Keep the model as the source of numerical truth and update the slides from it, every time.
 
-Use clear labels on charts. Show the period, unit, and whether values are actual or projected. Do not blend actual and forecast revenue into one unmarked line. Avoid truncating axes to exaggerate growth. A reviewer should understand the claim without a verbal explanation that changes what the chart appears to show. Financial communication is part of the product's credibility.
+Charts get labels: the period, the unit, and whether each point is actual or projected. Never blend actual and forecast revenue into one unmarked line. Never truncate an axis to make growth look steeper. A reviewer should understand the claim from the chart alone, without a verbal explanation that changes what the chart appears to show. Financial communication is part of the product's credibility.
 
-### Rehearse the questions that challenge the plan
+### Rehearse the questions, not the script
 
-Ask a peer to question the strongest assumption, the largest cost, and the reason for the funding route. Answer with evidence or acknowledge what remains unknown. “We have not measured that yet; this is the experiment we would run” is more credible than improvising a number. Keep a question log and revise the model or narrative when the question reveals a real gap.
+You are alone, so the council has to be you, and that works better than it sounds, because a recording does not flatter. Record the full pitch. Watch it back as the investor, not the founder. Ask the model's questions out loud: what if the price is wrong, what if acquisition costs half again as much, what happens to the hire if growth is slow, why this route and not customer funding. Answer each from the assumptions sheet or say "not measured yet; this is the experiment that measures it," which is a better answer than an invented number. Keep a question log and revise the model or the narrative when a question exposes a gap. A memorized deck breaks on the first interruption, and interruptions are the meeting.
 
-The workshop submission includes the deck outline, financial model, assumption register, scenario comparison, and rehearsal notes. Use a fictional company or clearly redacted educational version. Do not circulate an investment offer as part of the assignment. The result should demonstrate that the story and numbers describe the same plan and that uncertainty remains visible to the audience.
+A short design pass, after the numbers are right and never before: one font family, two colors plus black and white, left-aligned text, 24-point minimum and larger for headlines, one image or chart per slide, and white space you leave alone. If a slide needs more than a sentence to make its point, it is two slides or a cut.
+
+What you should be able to draw on a napkin: a box labeled assumptions at the top, an arrow into a box labeled model, and three arrows out of the model into slide 10, slide 11, and the narrative. No arrow runs the other way. Beside it, a loop: record, watch, score, rewrite.
+
+![](diagram:session-11-4/fig1-model)
 
 ## The demonstration
 
-All companies, valuations, growth rates, fees, and financing amounts in the worked examples are hypothetical classroom inputs unless a source and date are explicitly attached. The examples are not current market benchmarks or individualized legal, tax, or investment advice. Do not offer securities, solicit investment, or send documents as part of this exercise.
+TaskForge, with last session's draft numbers, tested. First the assumptions sheet, which goes at the top of `docs/financial-narrative.md`.
 
-**Work Block 1: Pitch Deck Completion**
-
-Finish the deck, then read it as if you had not written it. Mark the slide you cannot explain without the notes.
-
-**Common issues to address during this block:**
-- Too much text on slides (the 6-word rule: if a slide needs more than 6 words to make its point, redesign it)
-- Missing traction slide (even "500 users and growing" is better than nothing)
-- Vague problem statement (make it specific, use numbers, tell a story)
-- No screenshots or demo (you have a live product, show it!)
-- "The Ask" is missing or vague (specific dollar amount + use of funds)
-
-**Quick design tips for non-designers:**
-- Use one font family (Inter, Helvetica, or Arial are safe picks)
-- Two colors maximum plus white/black
-- Left-align text (centered text looks amateur)
-- Big font sizes (24pt minimum, 30pt+ for headlines)
-- One image or chart per slide maximum
-- White space is your friend. Cluttered slides are confusing slides.
-- Free templates: Canva, Google Slides templates, SlidesGo
-
-**Work Block 2: Financial Narrative Writing**
-
-Write the one-page financial narrative from Session 11.3. Each section below is a blank you fill:
-
-**Section 1: Revenue Model (3-4 sentences)**
-```
-My product, __________, makes money by __________.
-The primary pricing plan is $____ per __________.
-I also offer __________ at $____ per __________.
-My target customer is __________ because __________.
+```markdown
+## Assumptions
+| Input | Value | Status | Source |
+|---|---|---|---|
+| Starting cash | $500,000 | hypothetical | the ask, after close |
+| Starting Pro subscribers | 47 | observed | Stripe dashboard, this month |
+| Price | $12/month | observed | pricing page |
+| Processor fee | 3% | placeholder | read the processor's pricing page |
+| Monthly churn | 10% | hypothetical | 10-month average retention |
+| CAC | $40 | hypothetical | content plus small ads |
+| Founder pay | $5,000/month | hypothetical | |
+| Hosting, model credits, tools | $1,200/month | estimated | 10-3 usage log x 5 |
+| Legal and accounting | $800/month | hypothetical | |
+| Engineer | $11,000/month from month 2 | estimated | local salary data, this year |
+| Marketing | $6K months 1-6, $10K months 7-12, $16K months 13-18 | hypothetical | |
+| New subscribers per month | marketing / CAC | hypothetical | the channel is unproven |
 ```
 
-**Section 2: Unit Economics (fill in the numbers)**
-```
-CAC: $______ (I would acquire customers through __________)
-ARPU: $______/month
-Estimated LTV: $______ (based on ____ months average retention)
-LTV:CAC Ratio: ____:1
+Then the model, as a file at `docs/runway.js`. Inputs at the top; nothing below them is a number you would have to hunt for.
+
+```js
+// docs/runway.js: fictional TaskForge cash model. Every input is an assumption.
+const assumptions = {
+  startingCash: 500000,
+  startingSubscribers: 47,
+  price: 12,
+  processorFee: 0.03,
+  monthlyChurn: 0.10,
+  cac: 40,
+  fixedCosts: { founder: 5000, hosting: 1200, legalAccounting: 800 },
+  engineer: { salary: 11000, startsMonth: 2 },
+  marketing: (m) => (m <= 6 ? 6000 : m <= 12 ? 10000 : 16000),
+  months: 18
+};
+
+function model(a) {
+  let cash = a.startingCash;
+  let subs = a.startingSubscribers;
+  const rows = [];
+  for (let m = 1; m <= a.months; m++) {
+    const mrr = subs * a.price;
+    const collected = Math.round(mrr * (1 - a.processorFee));
+    const fixed = a.fixedCosts.founder + a.fixedCosts.hosting + a.fixedCosts.legalAccounting;
+    const payroll = m >= a.engineer.startsMonth ? a.engineer.salary : 0;
+    const expenses = fixed + payroll + a.marketing(m);
+    const net = collected - expenses;
+    cash += net;
+    rows.push({ month: m, subs: subs, mrr: mrr, collected: collected, expenses: expenses, net: net, cash: cash });
+    subs = Math.round(subs * (1 - a.monthlyChurn) + a.marketing(m) / a.cac);
+  }
+  return rows;
+}
+
+const rows = model(assumptions);
+console.log('month\tsubs\tmrr\tcollected\texpenses\tnet\tcash');
+for (const r of rows) {
+  if (r.month % 3 === 0 || r.month === 1) console.log([r.month, r.subs, r.mrr, r.collected, r.expenses, r.net, r.cash].join('\t'));
+}
+const lowest = rows.reduce((a, r) => (r.cash < a.cash ? r : a));
+const funded = rows.filter((r) => r.cash >= 0).length;
+const positive = rows.find((r) => r.net >= 0);
+console.log('lowest cash: ' + lowest.cash + ' (month ' + lowest.month + ')');
+console.log('months funded: ' + funded + ' of ' + rows.length);
+console.log('first cash-positive month: ' + (positive ? positive.month : 'none'));
+console.log('subscribers at month ' + rows.length + ': ' + rows[rows.length - 1].subs);
 ```
 
-**Section 3: Current Traction (be honest)**
-```
-Total users: ______
-Paying customers: ______
-MRR: $______
-Growth rate: ______% month-over-month
-Notable metrics: __________
+Run it from the capstone folder.
+
+```bash
+node docs/runway.js
 ```
 
-**Section 4: 3-Year Projections**
-```
-Year 1: $______ ARR (______ customers)
-Year 2: $______ ARR (______ customers)
-Year 3: $______ ARR (______ customers)
-Key assumption: __________
-```
-
-**Section 5: Use of Funds**
-```
-Raising: $______
-___% on __________
-___% on __________
-___% on __________
-This gets us to __________ by __________.
+```text
+month	subs	mrr	collected	expenses	net	cash
+1	47	564	547	13000	-12453	487547
+3	323	3876	3760	24000	-20240	445542
+6	642	7704	7473	24000	-16527	392515
+9	1065	12780	12397	28000	-15603	339920
+12	1454	17448	16925	28000	-11075	302492
+15	2023	24276	23548	34000	-10452	263174
+18	2559	30708	29787	34000	-4213	244737
+lowest cash: 244737 (month 18)
+months funded: 18 of 18
+first cash-positive month: none
+subscribers at month 18: 2559
 ```
 
-**Section 6: Path to Profitability**
-```
-Monthly operating costs: $______
-Break-even at ______ paying customers
-Expected break-even date: __________
-```
+Now read it against the deck. Slide 11 said "$500K reaches 3,000 Pro subscribers and cash-flow break-even in 18 months." The model says 2,559 subscribers at month 18 and a net of −$4,213 that month: close, not there, and still burning. Slide 10 said 500 subscribers at the end of year 1; the model says 1,454 at month 12, because the marketing budget on the assumptions sheet buys 150 to 250 new subscribers a month at a $40 CAC, and the slide was written before anyone did that multiplication. The narrative's path-to-profitability line said break-even at 2,234 subscribers; the model agrees on the count and says month 18 is not when it happens.
 
-This should be ONE PAGE when complete. If it is longer, cut the fluff.
+Three honest ways to reconcile, and the one a listener respects is whichever you can defend. Change the slides to match the model: "roughly 2,500 Pro subscribers by month 18, cash-flow break-even around month 20, with over $240K of the raise still in the bank." Change an assumption with evidence: if the content channel measured a $30 CAC last month, put $30 on the sheet with the source and rerun. Or change the plan: start the $16K marketing step at month 10 and rerun, and accept the lower minimum cash. What you may not do is leave 3,000 on the slide and 2,559 in the model.
 
----
+Then the downside, one input at a time. CAC $60 instead of $40: subscribers at month 18 fall to about 1,700, lowest cash about $163K, still funded for all 18 months. Churn 15 percent instead of 10: about 2,050 subscribers, lowest cash about $205K. Both go in the narrative as scenarios, and the sentence under them is the one that matters: "The plan survives either miss with more than $160K in reserve; it does not survive both at once without cutting the month-13 marketing step." That sentence is what an investor is actually asking for when they ask about runway.
 
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Here is the same model as a small model you can run here. It proves the runway arithmetic and that the base case and the deck disagree the way described. It does not prove any TaskForge input, and it says nothing about your capstone until you put your own assumptions sheet into `docs/runway.js` and run it on your machine.
 
 ```js run=checkpoint-11-4
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-// Hypothetical monthly cash simulation; all values use the same currency.
-function runway(cash, months) {
-  for (let i = 0; i < months.length; i++) {
-    cash += months[i].collected - months[i].expenses;
-    if (cash < 0) return i;
+
+// Fictional cash model. Inputs are assumptions; the arithmetic is the lesson.
+function model(a) {
+  let cash = a.startingCash;
+  let subs = a.startingSubscribers;
+  const rows = [];
+  for (let m = 1; m <= a.months; m++) {
+    const collected = Math.round(subs * a.price * (1 - a.processorFee));
+    const payroll = m >= a.engineer.startsMonth ? a.engineer.salary : 0;
+    const expenses = a.fixed + payroll + a.marketing(m);
+    const net = collected - expenses;
+    cash += net;
+    rows.push({ month: m, subs: subs, net: net, cash: cash });
+    subs = Math.round(subs * (1 - a.monthlyChurn) + a.marketing(m) / a.cac);
   }
-  return months.length;
+  return rows;
 }
-check(runway(100, [{collected: 10, expenses: 60}, {collected: 10, expenses: 70}]) === 1, 'Only one complete month funded');
-check(runway(100, [{collected: 50, expenses: 50}]) === 1, 'No net burn in this month');
+
+function summary(rows) {
+  const lowest = rows.reduce((a, r) => (r.cash < a.cash ? r : a));
+  const positive = rows.find((r) => r.net >= 0);
+  return {
+    monthsFunded: rows.filter((r) => r.cash >= 0).length,
+    lowestCash: lowest.cash,
+    firstPositive: positive ? positive.month : null,
+    subsAtEnd: rows[rows.length - 1].subs
+  };
+}
+
+const base = {
+  startingCash: 500000, startingSubscribers: 47, price: 12, processorFee: 0.03,
+  monthlyChurn: 0.10, cac: 40, fixed: 7000,
+  engineer: { salary: 11000, startsMonth: 2 },
+  marketing: function (m) { return m <= 6 ? 6000 : m <= 12 ? 10000 : 16000; },
+  months: 18
+};
+
+const b = summary(model(base));
+check(b.monthsFunded === 18, 'base case: cash never goes below zero in 18 months');
+check(b.lowestCash === 244737, 'base case: lowest cash is 244737, in month 18');
+check(b.firstPositive === null, 'base case: no cash-positive month yet, so the slide cannot say break-even at 18');
+check(b.subsAtEnd === 2559, 'base case: 2559 subscribers at month 18, not the 3000 on the draft slide');
+
+const tiny = summary(model(Object.assign({}, base, { startingCash: 100000 })));
+check(tiny.monthsFunded === 5, 'with $100K the same plan is funded for five months, not eighteen');
+
+const dearer = summary(model(Object.assign({}, base, { cac: 60 })));
+check(dearer.monthsFunded === 18 && dearer.lowestCash > 160000, 'downside CAC $60: still funded, lowest cash above $160K');
+
+const leakier = summary(model(Object.assign({}, base, { monthlyChurn: 0.15 })));
+check(leakier.subsAtEnd < b.subsAtEnd, 'downside churn 15%: fewer subscribers at month 18');
+
+console.log('base: funded ' + b.monthsFunded + '/18, lowest cash ' + b.lowestCash + ', subscribers ' + b.subsAtEnd);
 console.log('ok: checkpoint-11-4');
 ```
+
+Change `startingCash` to 300000 and predict the months funded before you run. Then put it back and change the marketing function so the third step starts at month 10. The slide you would have to rewrite after each change is the whole point of having the model.
 
 ## Where it breaks
 
@@ -203,256 +232,148 @@ console.log('ok: checkpoint-11-4');
 
 ### Deck and model disagree
 
-The deck says $18,000 in December and the spreadsheet says $14,500, because one of them still uses the old price. You will be asked, and "the deck is roughly right" is not an answer. Drive both from the same assumptions: price, conversion, churn, headcount. Change an assumption once and watch both update. Before you present, reconcile the totals out loud. A one-page model you can trace beats a beautiful chart that has drifted from the sheet.
+The deck says 3,000 subscribers and break-even at month 18; the script says 2,559 and no positive month. The cause is that the slide was written from a guess and the model from assumptions, and nobody rendered one from the other. The fix is a rule: the slide is a view of the model. Change the assumption, rerun, update the slide, every time, and before you record, read slides 10 and 11 out loud next to the script's last four lines. "The deck is roughly right" is not an answer in a room where someone has the spreadsheet open.
 
 ### Gross revenue treated as available cash
 
-The plan spends the month's revenue in the month it is booked. Some of it has not been collected. Some of it is a cost of delivery you have to pay first. Cash is what is in the account, on a date. Add collection timing and the costs that move with each sale. A profitable year that runs out of cash in June is a common way this mistake ends, and the spreadsheet already contains it if you look at the cash row instead of the revenue row.
+The plan spends the month's MRR in the month it is booked. The cause is confusing revenue with cash: the processor takes its cut first, an annual plan is collected once, a refund reverses a line you already spent. The fix is the `collected` column, separate from `mrr`, with timing and fees applied, and a `cash` column that is the only one runway is read from. A profitable year that runs out of cash in June is a common way this ends, and the script already contains it if you read the cash row instead of the revenue row.
 
 ### Rehearsal becomes memorization
 
-You can recite the twelve slides and you cannot answer "what if the price is wrong" without going back to slide six. Rehearse the questions. Have someone change an assumption and walk the model with you while you are standing up. Practice the sentence you will say when you do not know. A memorized deck breaks on the first interruption, and interruptions are the meeting. The goal is to stay with the model when the script is gone.
+You can recite twelve slides and cannot answer "what if the price is wrong" without going back to slide six. The cause is rehearsing the script instead of the model. The fix is the question log: record, watch, write the five questions the recording would make an investor ask, answer each from the assumptions sheet with the source beside it, and practice the sentence you say when the answer is "not measured yet." The goal is to stay with the model when the script is gone.
 
 ## Your turn
 
-**Guided Exercise 1: Pitch Practice Round 1**
+Open a terminal in the capstone repo and the deck in Google Slides.
 
-Pitch for 5 minutes to a person who will give you 3 or 4 minutes of structured feedback. If you are alone, record it and watch it back.
+1. Write the assumptions sheet at the top of `docs/financial-narrative.md`, in the table shape from the demonstration, with every row marked observed, estimated, or hypothetical and a source where one exists. Read the 47-style numbers off your own Stripe test dashboard and database; if a number is test-mode, say so.
 
-**Pitch rules:**
-- Screen share your deck (or if in person, present on a screen)
-- You have exactly 5 minutes. A timer will be visible.
-- Cover all 12 slides. If you run out of time, you know which slides to trim.
-- Include a 30-second live demo if possible (switch to your deployed product)
+2. Create `docs/runway.js` from the demonstration and replace every input in `assumptions` with your sheet. Then run it.
 
-**Feedback framework (the "GLOW and GROW" method):**
-- Each audience member gives:
-  - 1 GLOW: Something specific that worked well ("Your problem slide was really clear because you used a real story")
-  - 1 GROW: Something specific to improve ("Your market size numbers need a source citation")
-- The pitcher takes notes but does NOT argue or defend. Just listen and write.
+   ```bash
+   node docs/runway.js
+   ```
 
-**Feedback areas to evaluate:**
-- Clarity: Did I understand what the product does in the first 30 seconds?
-- Problem: Was the problem compelling and specific?
-- Demo: Did the product look real and functional?
-- Numbers: Were the market size, traction, and financial projections credible?
-- Ask: Was the fundraising ask clear and justified?
-- Delivery: Did the pitcher seem confident and enthusiastic?
-- Timing: Did they finish within 5 minutes?
+   The last four lines are your runway check: `lowest cash:`, `months funded:`, `first cash-positive month:`, and `subscribers at month 18:`. Paste them into the narrative under a heading "Runway check" with the date.
 
-Write down the one comment you did not expect.
+3. Run two downside cases by changing one input each, acquisition cost and churn, and paste their last four lines under "Scenarios." Write the one sentence that says what the plan survives.
 
-**Success Criteria:** You delivered all 12 slides in 5 minutes and received at least 3 pieces of actionable feedback.
+4. Reconcile. Open slides 10 and 11 beside the script output. Rewrite the projection table from the model's month 12 and month 18 rows, rewrite the ask's milestone to what the model reaches, and change the status line in `docs/pitch-deck.md` from draft to reconciled with the date. If you changed an assumption instead of a slide, write what evidence justified it.
 
----
+5. Do the design pass, numbers first and design last: one font, two colors, left-aligned, 24-point minimum, one image or chart per slide, every chart labeled with period, unit, and actual versus projected.
+
+6. Record the pitch: screen recording of the deck, your voice, your face in a corner if your tool allows it, and a thirty-second switch to the deployed capstone at its public URL for the product slide. Five minutes or less, all twelve slides. Start a timer you can see.
+
+   ```bash
+   mkdir -p docs/pitch
+   ls docs/pitch
+   ```
+
+   Put the recording in `docs/pitch/` or upload it unlisted and put the link in `docs/pitch-deck.md`; a file over 100 MB does not belong in Git, so prefer the link.
+
+7. Watch it back as the investor and score it in the rehearsal log section of `docs/pitch-deck.md`, copying this in:
+
+   ```markdown
+   ## Rehearsal log
+   Recording: <link or docs/pitch/take-1.mp4>, <length m:ss>, <date>
+
+   | Question | 0-2 | Note |
+   |---|---|---|
+   | Clarity: could a stranger say what the product does by 0:30? | | |
+   | Problem: specific person, specific pain, evidence? | | |
+   | Demo: did the live product look real and work? | | |
+   | Numbers: were market, traction, and projections credible and sourced? | | |
+   | Ask: amount, uses, one milestone, matching the model? | | |
+   | Delivery: no reading, steady pace, eye on the camera? | | |
+   | Timing: under 5:00 with all twelve slides? | | |
+
+   GLOW (one thing that worked and why):
+   GROW 1:
+   GROW 2:
+   GROW 3:
+
+   ## Expected questions
+   | Question | Answer | Source |
+   |---|---|---|
+   | | | |
+   ```
+
+   A filled example, TaskForge, after a first take:
+
+   ```markdown
+   ## Rehearsal log
+   Recording: https://youtu.be/<unlisted>, 5:41, this week
+
+   | Question | 0-2 | Note |
+   |---|---|---|
+   | Clarity | 2 | the ten-word line landed at 0:12 |
+   | Problem | 1 | said "developers struggle"; P3's story was on the slide and not in my mouth |
+   | Demo | 2 | live site, planner generated a day in 6 seconds |
+   | Numbers | 1 | slide 10 still showed the draft table; model says 1,454 at month 12 |
+   | Ask | 1 | said 3,000; model says ~2,500 |
+   | Delivery | 1 | read slide 9 word for word |
+   | Timing | 0 | 5:41; slides 5 and 9 ran long |
+
+   GLOW: the switch to the live product at 1:50 was the most convincing forty seconds.
+   GROW 1: tell P3's story on slide 2 instead of the adjective.
+   GROW 2: render slide 10 and 11 from runway.js before take 2.
+   GROW 3: cut slide 9 to three rows and say the moat in one sentence.
+
+   ## Expected questions
+   | Question | Answer | Source |
+   |---|---|---|
+   | What is your CAC really? | $40 is hypothetical; the measured figure arrives after the month-1 ad test | assumptions sheet |
+   | Why not customer-fund this? | the pre-sale covers the pilot; the hire is what needs the raise | fundraising-research.md |
+   | What if churn is 15%? | ~2,050 subscribers at month 18, lowest cash ~$205K, plan survives | runway.js scenario 2 |
+   | Who else does this? | Todoist, Linear, Notion; none plan tasks from code context | slide 9 |
+   | What do you own after this round? | 60% with no pool, 52.8% with a 10% pool | cap-table.md |
+   ```
+
+8. Fix the three GROWs and record take 2. Score it the same way. The second table is the one that goes in the log, with the first kept above it so the change is visible.
+
+9. Export the deck as PDF to `docs/pitch-deck.pdf` and commit everything.
+
+   ```bash
+   git add docs/runway.js docs/financial-narrative.md docs/pitch-deck.md docs/pitch-deck.pdf
+   git commit -m "docs: cash model, reconciled deck and narrative, rehearsal log"
+   git push
+   ```
 
 ## The quest
 
-**Work Block 3: Revision Time**
-
-Revise the deck and the delivery from the two or three comments that would change a listener's mind.
-
-**Common revisions:**
-- Rewriting the problem slide to be more specific
-- Adding real numbers to the traction slide
-- Simplifying the business model slide
-- Cutting slides that did not add value
-- Adjusting the fundraising ask to be more specific
-- Practice the delivery out loud
-
-**Independent Exercise 2: Final Pitch Rehearsal**
-
-Deliver the revised pitch once, in two minutes.
-- Partner gives one final GLOW and one final GROW
-- This is the "dress rehearsal" before the unit project submission
-You have a live product, a pitch deck, and a financial narrative. That is more than most people who try to raise money show up with.
-
-**Success Criteria:** You can deliver the core of your pitch clearly in 2 minutes.
-
-**Recap and Unit Project Launch**
-
-Recap of the full unit:
-- 11.1: Crowdfunding, community rounds, pre-sales (the people's money)
-- 11.2: Angels, SAFEs, term sheets, dilution math (the noble houses)
-- 11.3: VC, pitch decks, financial narratives (the Royal Court)
-- 11.4: Build, pitch, feedback, polish (the War Council)
-
-Unit project launch: Pitch Deck and One-Page Financial Narrative (details in Part 3).
-
-Next unit preview: "Unit 12. The final boss. You are going to sprint, ship, test, deploy, and present your capstone on Demo Day. Everything has led to this."
-
-"You walked into this unit as a developer. You are walking out as a founder. No other bootcamp teaches this. You have the rarest skill stack in tech: you can build AND you can pitch. Let us go finish this."
-
----
-
-### Review the artifact
-
-Your deliverable is **A complete fictional pitch deck narrative and auditable financial model**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
-### Unit project: completion contract
-
-### The Throne Room Address: Pitch Deck and Financial Narrative
-
-### Quest Arc
-
-The kingdom demands an audience. After weeks of adventuring, building your product, securing your defenses, and learning the language of the noble houses, the throne room doors swing open. The entire court is assembled: angels, venture lords, guild leaders, and fellow adventurers. You have exactly five minutes to make your case. Your pitch deck is your banner. Your financial narrative is your war ledger. Your live product is your proof of valor. This is not a test. This is a declaration: you are a founder, and your quest is worth funding.
-
-You will assemble your battle standard (a polished 10-12 slide pitch deck), draft your war ledger (a one-page financial narrative), and record your throne room address (a 3-5 minute pitch video). Every number must be defensible. Every slide must earn its place. Every word must serve the quest.
-
-### Technical Requirements
-
-**Must Have (Required):**
-
-1. **Pitch Deck (10-12 slides in Google Slides, PowerPoint, or Keynote)**
-   - Slide 1: Title/Hook with company name, logo (if you have one), and one-line description
-   - Slide 2: Problem statement with specific pain point, ideally with a data point or story
-   - Slide 3: Solution with clear value proposition
-   - Slide 4: Product demo with screenshots of your live, deployed capstone
-   - Slide 5: Market size with TAM, SAM, and SOM, with cited sources and bottom-up math
-   - Slide 6: Business model with pricing tiers and how you make money
-   - Slide 7: Traction/metrics with real numbers from your product (users, signups, engagement, revenue)
-   - Slide 8: Team slide with your name, photo, role, and relevant experience
-   - Slide 9: Competition analysis with comparison table or 2x2 matrix
-   - Slide 10: Financial projections with 3-year revenue forecast
-   - Slide 11: The Ask with specific dollar amount, use of funds breakdown, and milestone targets
-   - Slide 12: Contact information with name, email, website, and product URL
-
-2. **One-Page Financial Narrative (Google Doc, PDF, or markdown)**
-   - Revenue model (how you make money, pricing)
-   - Unit economics (CAC, LTV, ARPU, calculated with real or estimated numbers)
-   - Current traction (honest snapshot of where you are)
-   - 3-year revenue projections with key assumptions stated
-   - Use of funds (where the money goes, in percentages)
-   - Path to profitability (when you expect to break even and why)
-   - Must fit on ONE page when printed (single-spaced, reasonable margins)
-
-3. **Pitch Video (3-5 minutes)**
-   - Screen recording of you presenting the pitch deck
-   - Your face visible in a corner (webcam overlay) or separate face-to-camera intro
-   - Covers all slides within the time limit
-   - Hosted on Loom, YouTube (unlisted), or Google Drive
-
-**Should Have (Recommended):**
-
-4. **Cap table spreadsheet** showing pre-investment, post-angel, and post-Series A ownership (from homework in 11.2)
-5. **Market size math** showing your work for TAM, SAM, and SOM calculations with source links
-6. **Fundraising thesis** (1 paragraph): which path you would take (bootstrap, crowdfund, angel, VC) and why
-
-**Could Have (Stretch Goals / Legendary Loot):**
-
-7. A 60-second "elevator pitch" video (separate from the full pitch)
-8. A target investor list (5-10 firms or angels with rationale for each)
-9. A mock LOI (Letter of Intent) template customized for your product
-10. Landing page with waitlist signup form, deployed and collecting emails
-
-### Skill Points Rubric
-
-### Boss Clear (70 pts) - Core Requirements
-
-| Criteria | Points | Requirements |
-|----------|--------|--------------|
-| Problem Slide | 6 | Problem is specific and relatable. Includes a data point or story that makes the audience feel the pain. |
-| Solution Slide | 6 | Solution clearly addresses the stated problem in plain language. Value proposition is immediately understandable. |
-| Demo/Product Slide | 6 | Screenshots of the live, deployed product. Product clearly works and the "wow" feature is highlighted. |
-| Market Size | 6 | TAM, SAM, SOM calculated with cited sources. Bottom-up math included and defensible. |
-| Business Model | 6 | Clear pricing tiers and revenue model explained. Pricing justified by value or market comparison. |
-| Traction Metrics | 6 | Real numbers from the product (users, signups, engagement, revenue). Data is honest and contextualized. |
-| Team Slide | 4 | Photo, name, role, and 1-2 relevant credentials. Founder advantage articulated. |
-| Competition/Moat | 6 | Comparison table with 2-3 competitors. Differentiators identified. Moat explained. |
-| Financial Projections | 6 | 3-year forecast with stated assumptions. Projections tied to specific growth channels. |
-| The Ask | 6 | Specific dollar amount with use-of-funds breakdown tied to milestones and timeline. |
-| Financial Narrative | 6 | All 6 sections completed. Fits on one page. Numbers are defensible. Narrative is coherent. |
-| Pitch Video | 6 | 3-5 minute video covering all slides. Face visible. Delivered within time limit. |
-
-### Epic Loot (20 pts) - Polish and Depth
-
-| Criteria | Points | Requirements |
-|----------|--------|--------------|
-| Slide Design Quality | 5 | Professional design. Consistent fonts, 2-color palette, 24pt+ font, left-aligned, one message per slide. Strong visual hierarchy. |
-| Pitch Delivery | 5 | Confident delivery. Good pacing. No reading from slides. Energy and conviction visible. Handles the time constraint well. |
-| Cap Table Model | 5 | Complete 3-tab spreadsheet (pre-investment, post-angel, post-Series A) with correct dilution math and a written fundraising plan. |
-| Market Size Math | 5 | Detailed bottom-up calculation with multiple data sources. SAM and SOM clearly derived from TAM with stated methodology. |
-
-### Legendary (10 pts) - Above and Beyond
-
-| Criteria | Points | Requirements |
-|----------|--------|--------------|
-| Elevator Pitch Video | 3 | Separate 60-second video. Clear, compelling, and deliverable without slides. |
-| Investor Target List | 3 | 5-10 firms or angels researched with fund size, stage focus, portfolio examples, and rationale for each. |
-| Live Waitlist/Landing Page | 4 | Deployed landing page collecting real email signups. Functional Stripe pre-order or waitlist form. Demonstrates real-world validation effort. |
-
-**Total: 100 pts**
-
-### Submission Requirements
-
-- **Pitch Deck:** Google Slides link (view access) OR PDF uploaded to your capstone repo at `/docs/pitch-deck/`
-- **Financial Narrative:** Google Doc link OR markdown file at `/docs/financial-narrative.md`
-- **Pitch Video:** Loom link, unlisted YouTube link, or Google Drive link
-- **Cap Table (if completed):** Google Sheets link or file at `/docs/cap-table/`
-- **All links collected in a single submission document** at `/docs/unit-11-submission.md` with the following format:
-
-```markdown
-# Unit 11 Submission: Pitch Deck and Financial Narrative
-
-## Student: [Your Name]
-## Capstone: [Product Name]
-## Date: [Submission Date]
-
-### Deliverables
-
-1. Pitch Deck: [link]
-2. Financial Narrative: [link]
-3. Pitch Video: [link]
-4. Cap Table (optional): [link]
-5. Market Size Math (optional): [link]
-6. Fundraising Thesis (optional): [link]
-
-### Self-Assessment
-- Strongest slide: _______________
-- Weakest slide (and plan to improve): _______________
-- Feedback I incorporated: _______________
-- What I would do differently: _______________
-```
-
----
-
 ![](diagram:session-11-4/fig3-evidence)
+
+One deliverable, the unit's: the reconciled deck and narrative with the runway check, in the capstone repo. Concretely, `docs/pitch-deck.md` with the Slides link, the rehearsal log, and the expected questions; `docs/pitch-deck.pdf`; `docs/financial-narrative.md` with the assumptions sheet, the runway check, and two scenarios; `docs/runway.js`; and the recording, linked or in `docs/pitch/`. Score yourself honestly on this before you call it done.
+
+| Area | Points | Done means |
+|---|---|---|
+| Problem and solution (slides 2, 3) | 12 | A named person's specific pain with evidence; one value proposition in plain words |
+| Product (slide 4 and the live switch) | 10 | Two real screenshots and a working live demo in the recording |
+| Market (slide 5) | 10 | Count times price, sources and dates beside the inputs, SOM said out loud |
+| Business model and traction (slides 6, 7) | 12 | Prices, CAC and LTV labeled by status; users, paying, MRR, and growth as separate lines |
+| Team and competition (slides 8, 9) | 8 | One credential, one unfair advantage; three real alternatives and a one-sentence moat |
+| Projections and ask (slides 10, 11) | 14 | Rendered from runway.js; the milestone on slide 11 matches the model's month-18 row |
+| Financial narrative | 12 | One printed page; assumptions sheet, runway check, two scenarios, survival sentence |
+| Recording and rehearsal log | 12 | Two takes, both scored; three GROWs fixed between them; under 5:00 on take 2 |
+| Expected questions | 10 | Five questions with an answer and a source each; at least one answered "not measured yet" |
+
+Evidence that it is done:
+
+- `node docs/runway.js` prints the four check lines, and the same four lines appear under "Runway check" in the narrative with a date.
+- Slides 10 and 11 contain numbers that appear in that output, and `docs/pitch-deck.md` says reconciled with a date.
+- The rehearsal log has two scored tables and three GROWs that changed between them.
+- The expected-questions table has five rows with sources that are files in `docs/`.
+- `docs/pitch-deck.pdf` exists and the Slides link opens with view access.
+- Everything is committed and pushed.
+
+If the venture-fit paragraph from last session said no, the deliverable is the same. The deck pitches angels, grant committees, a bank, or a co-founder with the same twelve questions, and the model is the first thing any of them will ask to see.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Back-of-the-envelope numbers are the whole method behind `runway.js`, and the long-return mindset is why a second take scored honestly beats a first take described generously.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Sessions 11.1, 11.2, and 11.3 completed; pitch deck first draft (homework from 11.3); cap table spreadsheet (homework from 11.2); capstone product deployed and accessible for live demo
-**Materials:** Pitch deck polish checklist, financial narrative fill-in worksheet, GLOW and GROW feedback cards, timer (visible to all), design tips reference sheet, delivery tips reference card
+Unit 12 begins with [Sprint 1: Foundation](/path/12-1-sprint-1-foundation/). It does not start a new app. It takes the capstone you have been deploying since 10-4 and runs four sprints to finish, harden, and polish it, then a recorded demo day. Reread `docs/product-spec.md` and `docs/sprint-plan.md` from Unit 8 before then, and write down the three features the pitch promised that the product does not fully do yet; those become the first sprint's backlog.
 
----
-
-**Assignment: Unit Project Completion**
-**Objective:** Finalize your pitch deck and financial narrative for submission
-**Time Estimate:** 3-4 hours
-**Due:** Before Session 12.1
-
-**Tasks:**
-1. Incorporate ALL feedback from today's pitch practice sessions
-2. Polish your pitch deck: check fonts, alignment, spelling, slide order
-3. Finalize your one-page financial narrative
-4. Record a 3-5 minute video of yourself delivering the pitch with the deck (screen share + your face in a corner). Loom, Zoom recording, or phone camera are all fine.
-5. Submit everything per the Unit Project spec in Part 3
-
-**Stretch Goals (Optional):**
-- Get feedback on your deck from someone outside the program (a friend, family member, or mentor)
-- Research 3 VC firms that invest in your product's space and add them to a target list spreadsheet
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.ycombinator.com/library/4b-how-to-pitch-your-company)
-- [Official reference 2](https://www.sec.gov/resources-small-businesses)
+Nothing is running between sessions. The deployed capstone stays up at its public URL on its own, and the deck, the narrative, the model, and the recording live in `docs/` and in Google Slides.

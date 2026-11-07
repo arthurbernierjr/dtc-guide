@@ -2,253 +2,159 @@
 editorial: true
 title: Rallying the Villagers
 subtitle: Crowdfunding, Community Rounds, and Pre-Sales
-hook: "A funding-options brief and a hypothetical pre-sale fulfillment model. Define the milestone and cash required."
-read: 60
-artifact: "A funding-options brief and a hypothetical pre-sale fulfillment model"
+hook: "Your capstone is live and takes test payments. Before anyone hands you money, you decide whether you need it at all, and you model what a pre-sale leaves in the bank after fees, delivery, and refunds."
+read: 55
+artifact: "docs/fundraising-research.md in the capstone repo: a routes comparison, a milestone budget, a pre-sale fulfillment model with three scenarios, three funding histories, one campaign read, and a one-paragraph fundraising thesis"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding
+  - https://www.sec.gov/resources-small-businesses/small-business-compliance-guides/regulation-crowdfunding-small-entity-compliance-guide-issuers
+  - https://www.kickstarter.com/help/handbook
+  - https://docs.stripe.com/payments/checkout
+  - https://www.ycombinator.com/safe
 say:
-  - "Need: Define the milestone and cash required."
-  - "Route: Compare pre-sales, crowdfunding, and investment."
-  - "Obligation: Account for fulfillment, disclosure, and ownership."
+  - "Fundraising is a tool, not a milestone. Name the milestone first, then price it."
+  - "A pledge is not cash. Fees, delivery, and refunds come out before you can spend it."
+  - "A reward is a product you owe. A security is ownership you sold. Never mix the words."
 ---
 
 ## The hook
 
-You know that moment in every isekai where the hero has leveled up enough to be noticed by the kingdom's nobility? They show up at court, and suddenly the language changes. It is no longer about swords and spells. It is about alliances, territory, and power. The nobles speak in terms you have never heard before: "valuation cap," "dilution," "term sheet," "pro rata." And if you do not learn their language fast, they will take your kingdom from you while smiling and calling it a "partnership."
+Your capstone is deployed, it has a persona, it takes a test-mode card, and it has an AI feature behind a rate limit. That is more than most people who ask strangers for money have ever shown. So the question of this unit is not "how do I raise money." It is "do I need other people's money at all, and if I do, what kind, and what do I owe them for it." Today you answer the first half of that for your own product, on paper, with arithmetic you can defend.
 
-That is fundraising. And today, we learn the noble tongue. You have been adventuring alone. Now the villagers want to join your quest, and they are bringing gold. But before we let anyone hand us a single coin, we need to answer the most important question a founder can ask: do I actually need other people's money? Not every quest requires a war chest. Sometimes the smartest move is to keep adventuring solo and fund the journey from the loot you collect along the way.
+By the end of the session you have a file in the capstone repo, `docs/fundraising-research.md`, that compares five ways to fund the next milestone, puts a price on that milestone, models what a pre-sale actually leaves in the account after fees and delivery and refunds, and ends with one paragraph that says which route you would take and why. You can run the pre-sale model here in the browser, change one assumption, and watch a campaign that beat its goal lose money.
 
-Across these four sessions, we are going to cover the entire fundraising spectrum, from bootstrapping to venture capital. By the end of this unit, you will have a professional pitch deck, a one-page financial narrative, and the confidence to walk into any room and explain why your product deserves investment. Four sessions. Zero MBA required. Let us go claim our throne.
+> *The villagers want to join the quest, and they are bringing gold. Count what each coin costs before you take it.*
 
----
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+You arrive with: your deployed capstone at its public URL ([10-4](/path/10-4-warding-the-kingdom/)), the interview logs, empathy map, and persona in `docs/research.md` ([8-1](/path/8-1-listening-at-the-tavern/)), the product spec in `docs/product-spec.md` ([8-4](/path/8-4-field-work/)), Stripe Checkout in test mode ([10-2](/path/10-2-sealed-gates/)), and the AI feature ([10-3](/path/10-3-binding-the-great-spirits/)). Nothing in this unit needs a server running. Nothing in this unit sends a real invoice, opens a campaign, or offers a security. Every number you write is a made-up input until you attach a source and a date to it.
 
 ## The idea
 
-### Evaluate Fundraising Strategies Across the Capital Spectrum
+The fundraising spectrum runs from zero outside dollars to rounds that make headlines. Where your product sits on it is the first decision you make as a founder, and most people make it backwards: they decide to raise, then look for a reason. Do it the other way. Name the next uncertainty the business has to resolve. A prototype that proves the AI feature is worth paying for. A paid pilot with three real users. A repeatable way to find the persona from `docs/research.md` without you personally messaging each one. Each of those is a milestone with a price. Write the price down. Only then ask which pile of money, if any, buys it.
 
-Analyze the full range of funding options available to early-stage startups and select the appropriate strategy based on product maturity, market dynamics, and founder goals.
+### Why anyone raises, and why most should not
 
-**You will:**
-- Compare bootstrapping, rewards-based crowdfunding, equity crowdfunding (Reg CF), angel investing, and venture capital across key dimensions including speed, control, dilution, and risk
-- Assess product-market fit readiness and determine whether external funding is necessary or premature
-- Design a crowdfunding campaign with reward tiers, a marketing plan, and a fulfillment strategy
-- Validate product demand using pre-sales, landing pages, and letters of intent
+Companies take outside money for four honest reasons. Speed: hire before revenue can pay for the hire. Scale: infrastructure that has to exist before the customers who justify it. Survival: some models lose money before they make it, marketplaces and hardware especially. Credibility: the right investor opens doors you cannot knock on alone.
 
-**You should be able to:**
-- You will be able to map their own product to the correct fundraising path using a structured assessment framework
-- You will be able to articulate the trade-offs between bootstrapping and raising money for a given business context
-- You will be able to draft a crowdfunding campaign structure and a pre-sale landing page
+Companies should not raise when the product has not found a person who keeps coming back, when the business can be profitable soon without the money, when the founder does not want to share control, or because raising feels like what founders are supposed to do. That last one is the most common and the worst. Mailchimp, Basecamp, and Craigslist were built without venture money; the consulting-to-product pipeline, where services pay the bills while the product grows on the side, is older than the word "startup."
 
----
-
-**Concept 1: Why Fundraising Matters and When NOT to Raise**
-
-The fundraising spectrum runs from $0 (bootstrapping) to $100M+ (venture rounds). Understanding where your product falls on this spectrum is the first and most important decision you will make as a founder.
-
-**Why companies raise money:**
-- Speed: hire people, build faster, ship sooner
-- Scale: you need infrastructure before revenue covers it
-- Survival: some businesses lose money before they make money (marketplaces, hardware)
-- Credibility: investors as partners and advisors who open doors
-
-**Why companies should NOT raise money:**
-- You do not have product-market fit yet (raising too early)
-- Your business can be profitable quickly without outside money
-- You do not want to give up control or equity
-- You are raising because you think you are "supposed to" (this is the worst reason)
-
-**Bootstrapping explained:**
-- Fund it yourself, from revenue, or from savings
-- Famous bootstrapped companies: Mailchimp (bootstrapped to $12B acquisition), Basecamp, Craigslist
-- The consulting-to-product pipeline: sell services, build product on the side
-
-**The trade-off matrix:**
-
-| Factor | Bootstrapping | Fundraising |
-|--------|--------------|-------------|
+| Factor | Bootstrapping | Raising |
+|---|---|---|
 | Speed | Slower | Faster |
-| Control | 100% yours | Shared |
-| Equity | You keep it all | You give some away |
-| Pressure | Self-imposed | Investor expectations |
+| Control | Yours | Shared |
+| Equity | You keep it | You sell some |
+| Pressure | Self-imposed | Someone else's expectations |
 | Risk | Your money | Other people's money |
-| Network | You build it yourself | Investors open doors |
+| Network | You build it | Investors open doors |
 
-Key insight: "Fundraising is not a milestone. It is a tool. A hammer is great for nails, terrible for screws."
+Ownership is the whole game underneath this table. History pays the people who own a piece of a system, not the people who merely work inside it. The writer who created a beloved show but does not own the rights can be removed from their own story. The creator whose audience lives on someone else's platform can lose it to one algorithm change. You spent ten units learning to build. This unit exists so that when capital enters the picture you know exactly what you are trading away and what you are keeping. Every word you learn this week, equity, dilution, cap, SAFE, is an instrument for one question: how much of what you built do you still own when the dust settles. Investors are not villains. The good ones are force multipliers. But they negotiate ownership for a living and, until this week, you did not.
 
-**The deeper principle: ownership is the whole game.** Before we tour the fundraising spectrum, anchor on why any of this matters. History does not reward the people who merely participate in a system; it rewards the people who own a piece of it. The writer who creates a beloved show but does not own the rights can be removed from their own story. The creator who builds an audience on someone else's platform can lose it to an algorithm change overnight. The engineer who builds a billion-dollar feature owns none of it. You spent ten units learning to build. The reason this unit exists is so that when capital enters the picture, you understand exactly what you are trading away and what you are keeping. Every term you learn this week — equity, dilution, valuation caps, SAFEs — is ultimately a precision instrument for answering one question: **how much of what you built do you still own when the dust settles?** Investors are not villains; the good ones are force multipliers. But they negotiate ownership for a living and, until this week, you did not. Let us fix that asymmetry.
+### The five routes, and what each contributor receives
 
-**Concept 2: Crowdfunding Platforms and Campaign Design**
+**Bootstrapping.** Revenue, savings, or services pay for the product. Nobody receives anything but the product. Your Stripe Checkout from 10-2, switched from test mode to live keys, is a bootstrapping tool.
 
-Crowdfunding is raising small amounts from many people. This is the most accessible form of external funding.
+**Pre-sales.** A customer pays before the thing is finished. They receive a delivery promise and, usually, a refund right. Dropbox validated demand with a demo video and a waitlist before the product worked. Tesla and game studios take deposits and pre-orders against a date. A pre-sale is a contract to deliver, and the money is not yours until you have delivered or the refund window has closed.
 
-**The big platforms:**
-- **Kickstarter:** All-or-nothing model. Best for physical products, creative projects, games. You set a goal; if you do not hit it, nobody gets charged.
-- **Indiegogo:** Flexible funding available. Broader categories. InDemand program for post-campaign sales.
-- **GoFundMe:** Not really for businesses. Personal causes, emergencies, community projects.
+**Rewards crowdfunding.** Many people pay small amounts and receive a reward: the product, a tier above it, a name in the credits. Kickstarter is all-or-nothing; if the goal is not reached nobody is charged. Indiegogo offers flexible funding and a post-campaign store. A backer owns nothing of the company. What they own is your promise. Read the Creator Handbook linked above before you design a campaign; the platform's own rules decide what you may offer.
 
-**Anatomy of a successful crowdfunding campaign:**
+**Equity crowdfunding under Regulation Crowdfunding.** Many people pay small amounts and receive a security: shares, a SAFE, or a revenue-share note. In the United States this route has a specific legal frame. An eligible company can raise up to $5 million in a 12-month period, every transaction has to go through an SEC-registered funding portal or broker-dealer, and the issuer, which means you, files a Form C disclosure with the SEC before the offering and an annual Form C-AR afterwards. The portal hosts the offering and helps you prepare; it does not file for you. Financial statement requirements step up with the amount raised. Read the SEC's overview and the issuer compliance guide linked above for the current limits and tiers rather than trusting any number on a blog, including this page. Platforms such as Wefunder, Republic, and StartEngine publish their own fee schedules; read the current one on the platform's site, because fees change and are often part cash, part securities.
 
-*The Video (most important element):*
-- 2-3 minutes maximum
-- First 10 seconds must hook (show the product, state the problem)
-- Structure: Problem, Solution, Demo, Team, Call to Action
-- You do not need Hollywood production. Authenticity beats polish.
-- Film on your phone if you have to, but good audio is non-negotiable
+**Angels and venture capital.** One or a few people, or a fund, buy ownership or a right to future ownership. Those are the next two sessions.
 
-*Reward Tiers and Pricing:*
-- Tier 1: $5-$15 ... "Thanks" tier (sticker, shoutout, early access to updates)
-- Tier 2: $25-$50 ... "Early Bird" (the product at a discount, limited quantity)
-- Tier 3: $50-$100 ... "Standard" (the product at full crowdfunding price)
-- Tier 4: $150-$300 ... "Premium" (product + extras, exclusive features)
-- Tier 5: $500+ ... "VIP" (product + consultation, name in credits, limited)
-- Rule of thumb: your most popular tier should be priced so that (tier price) x (realistic backer count) exceeds your funding goal
+A follower count is not evidence for any of these. Look for behavior: repeated use, an unprompted request for a paid version, a referral, a pilot someone showed up for. A pre-sale page should say what the product does, when it ships, what it does not do yet, and how a refund works. Trust is an asset a campaign spends as well as earns.
 
-*Marketing and Outreach:*
-- Pre-launch email list is EVERYTHING (aim for 1,000+ emails before launch)
-- Social media cadence: 2-3 posts per day during campaign
-- Press outreach: tech blogs, niche publications, podcasts
-- Day 1 matters most: 30% of your goal in the first 48 hours or the algorithm buries you
-- Cross-promotion with other creators
+### Pledges are not cash
 
-*Fulfillment Planning:*
-- If physical: manufacturing timeline, shipping costs, customs
-- If digital: delivery mechanism, beta timelines, feature roadmap
-- The number one killer of crowdfunding campaigns: underestimating fulfillment costs
-- Always pad your budget by 20-30% for unexpected costs
+A campaign page shows gross pledges. What reaches your account is gross minus platform fee, minus payment processing, minus failed charges, minus refunds, and what you can spend is that minus the cost of delivering every reward. Separate one-time setup costs from per-unit costs. A campaign can beat its headline goal and still lose money if each additional reward costs more to deliver than it contributes after fees. Pad delivery estimates; underestimating fulfillment is the most common way a funded campaign ends in apology.
 
-**Common misconceptions:**
-- "Crowdfunding means free money." No. You owe backers a product or reward. It is a commitment.
-- "If I build it they will come." Crowdfunding success is 80% marketing and 20% product. Pre-launch preparation is everything.
-- "Crowdfunding equals equity." Rewards-based crowdfunding (Kickstarter, Indiegogo) gives backers a product, not ownership. Equity crowdfunding is a separate category with different rules.
+Model it as scenarios, not a single confident forecast. A base case, a lower-demand case, and a higher-cost case tell you which assumption matters. Label every number as hypothetical or sourced. The point is to practice reasoning about cash and commitments, not to predict what a real campaign will do.
 
----
+### Campaign anatomy, if you ever run one
+
+The video carries a rewards campaign: two to three minutes, the problem and the product in the first ten seconds, then solution, demo, who you are, and the ask. Phone footage is fine; bad audio is not. Reward tiers usually run from a small "thanks" tier through an early-bird price on the product, the product at campaign price, a premium bundle, and a limited high tier with something personal. Price the tier you expect most people to pick so that its price times a realistic backer count clears the goal. Build the email list before launch, because the first days decide most campaigns; Kickstarter publishes its own statistics, and the Creator Handbook describes what funded projects did before day one. Treat all of that as the platform's guidance, not as a law.
+
+What you should be able to draw on a napkin: a milestone with a price at the top. Five arrows under it, one per route. On each arrow, two words: what the contributor gets, what you owe. At the bottom, one subtraction: gross, minus fees, minus delivery, minus refunds, equals the money you can plan with.
 
 ![](diagram:session-11-1/fig1-model)
 
-### Funding is a means to a milestone
-
-Start with the next uncertainty the business needs to resolve. A prototype, a paid pilot, or a repeatable acquisition channel may require different amounts and kinds of capital. Write a budget for that milestone before selecting a funding route. Raising more money is not automatically a better outcome if it adds obligations the business cannot support or distracts from learning whether customers want the product.
-
-Compare cash from customers with cash from investors. A pre-sale creates a delivery promise and possible refund obligations. An investment creates rights defined by its legal instrument. A reward campaign may create fulfillment complexity even when it does not sell ownership. These are different arrangements, not interchangeable buttons on a funding website. The classroom brief should identify what each contributor receives and what the founder must deliver.
-
-### Model cash after obligations
-
-Suppose a fictional campaign collects a gross amount. Subtract payment and platform fees, production or service-delivery costs, shipping where relevant, refund reserves, and other obligations appropriate to the scenario. Separate one-time setup costs from per-unit costs. A campaign can exceed its headline goal and still lose money if each additional reward costs more to deliver than it contributes.
-
-Use scenarios rather than one confident forecast. A base case, lower-demand case, and higher-cost case reveal which assumptions matter. Label every number as hypothetical or sourced. Do not present classroom conversion rates or campaign totals as current market benchmarks. The purpose is to practice reasoning about cash and commitments, not to predict a specific founder's outcome.
-
-### Securities crowdfunding has a specific framework
-
-In the United States, Regulation Crowdfunding permits eligible issuers to raise up to an aggregate $5 million in a 12-month period through an SEC-registered intermediary. It includes disclosure requirements and investor limits. That is a regulatory route with conditions, not permission to collect investments through any ordinary checkout page. [SEC Regulation Crowdfunding overview](https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding).
-
-This lesson is a classroom comparison, not an offering or individualized legal advice. Use fictional companies and draft materials. A real securities campaign requires qualified legal and accounting guidance about eligibility, disclosures, solicitation, and ongoing obligations. Do not send investment invitations or accept funds as part of the exercise. The learning outcome is recognizing the questions that must be resolved before execution.
-
-### Community is evidence of relationships
-
-A follower count does not equal willingness to buy. Look for concrete behavior: repeated use, requests for a paid version, referrals, or participation in a pilot. A pre-sale experiment should explain the product, delivery timing, limitations, and refund terms clearly. Avoid artificial urgency or promises that the team cannot fulfill. Trust is an asset the campaign consumes as well as builds.
-
-Submit a comparison of plausible routes, a milestone budget, a fulfillment model, and a list of unanswered questions. Include the option of not raising outside capital now. The best route depends on the business model and founder's goals; the assignment should show a reasoned fit rather than treating venture funding as the only successful ending.
-
 ## The demonstration
 
-All companies, valuations, growth rates, fees, and financing amounts in the worked examples are hypothetical classroom inputs unless a source and date are explicitly attached. The examples are not current market benchmarks or individualized legal, tax, or investment advice. Do not offer securities, solicit investment, or send documents as part of this exercise.
+One fictional product, start to finish. Call it Questboard, a task tool for solo developers, the same shape as a capstone built on this path. Its owner's next milestone is a paid pilot: twenty people using the AI planner every week for a month. The milestone budget, written before any route is chosen:
 
-**Demo 1: Community Rounds and Regulation Crowdfunding**
+```text
+Milestone: 20 weekly-active paid pilot users for 30 days
+One-time: landing page copy and a 90-second demo video   $0 (own time)
+          model-provider credits for 20 users x 30 days    $300 (hypothetical)
+          legal review of the pre-sale terms and refund policy  $600 (hypothetical)
+Per unit: onboarding call, 30 minutes each                 $0 cash, 10 hours total
+          hosting and AI cost per user per month           $6 (hypothetical)
+Total cash needed before the pilot starts:                 ~$900 plus a buffer
+```
 
-Walk through the difference between rewards-based crowdfunding and equity crowdfunding:
+Nine hundred dollars does not need an investor. It barely needs a pre-sale. That is the first finding, and it is the finding most capstones produce when the milestone is written honestly: the next step is cheaper than the fundraising it would take to pay for it. The routes comparison goes in the file anyway, because the one after that might not be.
 
-- Rewards: people get a product or perk. They do NOT own part of your company.
-- Equity: people get actual shares (or a future right to shares). They DO own part of your company.
+Now the pre-sale model, in whole dollars. Questboard offers a founding-member plan: $50 once for a year of Pro, delivered when the pilot ends. Hypothetical inputs: payment processing 3 percent plus a platform fee that together round to 8 percent of gross; per-unit delivery cost $25 for the year (hosting, AI calls, support hours priced at nothing because it is the founder's time); a refund reserve of 10 percent of gross because the policy is "full refund before delivery, no questions"; one-time setup $2,000 for the landing page, legal review, and a month of ads.
 
-**Platforms for equity crowdfunding:**
-- **Republic:** Popular for tech startups. Minimum investment as low as $50.
-- **Wefunder:** Community-focused. Good for consumer products.
-- **StartEngine:** Larger rounds. Secondary market for trading shares.
+```text
+Base case: 200 founding members
+gross           200 x $50          = $10,000
+fees            8% of gross        =  -$800
+delivery        200 x $25          = -$5,000
+refund reserve  10% of gross       = -$1,000
+one-time setup                     = -$2,000
+available                          =  $1,200
+```
 
-**Regulation Crowdfunding (Reg CF) walkthrough:**
-- SEC regulation that lets non-accredited investors invest in startups
-- Companies can raise up to $5M in a 12-month period under Reg CF
-- You must file with the SEC (the platform handles most of this)
-- You must provide financial statements (reviewed or audited depending on amount)
-- Investors get real equity, SAFEs, or revenue-share notes
+The campaign page would show $10,000. The money you can plan with is $1,200. Now the two other cases. Lower demand: 120 members. Gross $6,000, fees $480, delivery $3,000, reserve $600, setup $2,000, available −$80. The campaign "succeeds" and loses money. Higher cost: delivery turns out to be $35 per member because the AI provider's price per call was a guess. Base demand, available −$800. Per unit, each member contributes $50 − $4 − $25 − $5 = $16 after fees, delivery, and reserve. The $2,000 setup needs $2,000 ÷ $16 = 125 members just to be paid back, so the break-even is 125 members, not the 100 you would guess from "goal $5,000 at $50 each."
 
-**Setting a valuation for crowdfunding (live calculation):**
-- Early stage (pre-revenue): typically $1M-$5M for a product with traction
-- Factors that increase valuation: revenue, users, growth rate, team experience, market size
-- Factors that decrease valuation: no revenue, no users, first-time founder, small market
-- Example: "You have 500 users and $2,000/month in revenue. A $2M-$3M valuation for a community round is reasonable."
-- Warning: do not set your valuation too high. It makes future rounds harder. Do not set it too low. You give away too much.
+Write those three cases into the file with the inputs above them and the word *hypothetical* on every line that is a guess. Then compare routes for the same milestone, in a table whose columns are what the contributor receives, what you owe, and what is left after obligations. For Questboard: bootstrap (nobody receives anything, you owe nobody, $900 from revenue or savings), pre-sale (members receive a delivery promise, you owe delivery and refunds, $1,200 in the base case), rewards campaign (backers receive the reward tier, you owe fulfillment and the platform's rules, similar arithmetic with a larger fee line), Reg CF (investors receive a security, you owe disclosure, Form C, the annual report, and a share of the company, far more than $900 of obligation), angel (a person receives future equity, next session).
 
-**Real numbers from actual Reg CF campaigns:**
-- Average successful raise: $200K-$500K
-- Average number of investors: 500-2,000
-- Average time to complete: 3-6 months
-- Platform fees: typically 6-8% of amount raised
-
-**When equity crowdfunding makes sense:**
-- You have a consumer product with a passionate community
-- Your users would love to be owners
-- You want to raise $100K-$1M without traditional investors
-- You want to build a community of advocates who are financially invested
-
-**Demo 2: Pre-Sales and Revenue-Based Validation**
-
-Walk through the most underrated fundraising strategy: selling before you build.
-
-**Pre-sales as validation:**
-- Create a landing page that describes your product
-- Add a "Buy Now" or "Pre-Order" button with real payment processing
-- If people pay, you have validation. If they do not, you have information.
-- This is not theoretical. Dropbox did this. Tesla does this. Every video game does this.
-
-**How to set up a pre-sale (live walkthrough):**
-- Landing page (you already know how to build this)
-- Stripe checkout (you already integrated this in Unit 10)
-- Clear delivery timeline ("Expected launch: Q1 2027")
-- Refund policy (be generous, it builds trust)
-
-**Letters of Intent (LOIs):**
-- A signed document from a potential customer saying "I intend to buy this when it is ready"
-- Not legally binding (usually), but incredibly powerful for fundraising
-- Template: "We, [Company Name], intend to purchase [Product] at a price of $X/month when it becomes available."
-- Getting 5-10 LOIs from real companies is worth more than 100 survey responses
-- How to get them: email your target customers, offer a discount for early commitment
-
-**Revenue-based validation metrics investors love:**
-- MRR (Monthly Recurring Revenue): even $500/month matters at this stage
-- Pre-orders collected: total dollar amount
-- LOIs signed: number and total contract value
-- Waitlist size: email signups are free validation
-
----
-
-### Runnable checkpoint: a small model
-
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+Here is the same arithmetic as a small model you can run here. It proves that the subtraction is in the right order and that a per-unit margin decides the break-even. It does not prove anything about a real campaign, a real fee schedule, or a real refund rate; those are numbers you look up on the platform's page the week you need them.
 
 ```js run=checkpoint-11-1
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-// Hypothetical classroom campaign, in cents; not a provider fee quote.
-const gross = 1000000, fees = 80000, fulfillment = 500000, refundReserve = 100000;
-const available = gross - fees - fulfillment - refundReserve;
-check(available === 320000, 'Gross funding is not available cash');
-check(available < gross, 'Obligations remain visible');
+
+// Hypothetical pre-sale, whole dollars. Not a fee quote from any provider.
+function presale(input) {
+  const gross = input.units * input.price;
+  const fees = Math.round(gross * input.feeRate);
+  const delivery = input.units * input.deliveryPerUnit;
+  const reserve = Math.round(gross * input.refundRate);
+  const available = gross - fees - delivery - reserve - input.setup;
+  return { gross: gross, fees: fees, delivery: delivery, reserve: reserve, available: available };
+}
+
+function breakEvenUnits(input) {
+  const perUnit = input.price - input.price * input.feeRate - input.deliveryPerUnit - input.price * input.refundRate;
+  return Math.ceil(input.setup / perUnit);
+}
+
+const base = { units: 200, price: 50, feeRate: 0.08, deliveryPerUnit: 25, refundRate: 0.10, setup: 2000 };
+const b = presale(base);
+check(b.gross === 10000, 'gross is units times price');
+check(b.available === 1200, 'available cash is gross minus fees, delivery, reserve, and setup');
+check(b.available < b.gross, 'gross funding is not available cash');
+
+const lowDemand = presale(Object.assign({}, base, { units: 120 }));
+check(lowDemand.available === -80, 'a campaign can clear its goal and still lose money');
+
+const highCost = presale(Object.assign({}, base, { deliveryPerUnit: 35 }));
+check(highCost.available === -800, 'a $10 delivery miss per unit erases the margin');
+
+check(breakEvenUnits(base) === 125, 'break-even comes from the per-unit margin, not the goal');
+
+const lines = ['gross', 'fees', 'delivery', 'reserve', 'available'];
+for (const line of lines) console.log(line + ': ' + b[line]);
 console.log('ok: checkpoint-11-1');
 ```
+
+Change `units` to 120 and `deliveryPerUnit` to 35 at the same time and predict the number before you run it. Then put the base case back. The file you write below has the same shape as this function: inputs at the top, subtraction in order, one line at the bottom you can plan with.
 
 ## Where it breaks
 
@@ -256,115 +162,157 @@ console.log('ok: checkpoint-11-1');
 
 ### Pledges treated as profit
 
-The campaign shows $10,000 pledged and the plan spends $10,000. Fees, refunds, failed charges, the cost of the rewards, and tax come out first. Write those lines under the pledge number before you convert it into a runway. A rewards campaign can raise a number that looks like profit and clear a much smaller amount of money, later than you think, in an order the platform decides. The figure you can plan on is what remains after those lines, not the number on the campaign page.
+The campaign page shows $10,000 and the plan spends $10,000. The cause is that the subtraction was never written: platform fee, processing, failed charges, refunds, delivery, and tax all come out before the first dollar is yours, in an order the platform decides and on a date later than you think. The fix is the model above, in the file, before the plan. If the "available" line is smaller than the milestone budget, the route does not fund the milestone, and the campaign page's big number does not change that.
 
 ### Reward and security confused
 
-You describe a pre-order of a physical book and a purchase of shares as if they were the same event. A reward is a product you fulfill. A security is an investment, with rules about who may be offered it and what you must disclose. Name which one the contributor receives. If you do not know, stop and find out before you write the page. Mixing the words is how a small campaign picks up an obligation it did not mean to sell.
+The landing-page copy says "back us and own a piece of Questboard" under a $50 pre-order button. The cause is treating a reward and an investment as the same event because both are money coming in. A reward is a product you owe. A security is ownership you sold, with rules about who may be offered it, through which intermediary, and what you must disclose first. The fix is one sentence on every page and in every table: what does the contributor receive. If you cannot answer in one word, product or security, stop writing copy and read the SEC overview linked above. Mixing the words is how a small campaign picks up an obligation it never meant to sell.
 
 ### Audience assumed
 
-The projection says two percent of "everyone who cares about quests" will pledge, and you have not spoken to any of them. A percentage of a guessed population is not demand. Run a small test: a page, a pre-order, a letter of intent, a list of people who asked for the thing unprompted. Then build the projection from that evidence. If the test is quiet, the campaign plan is the thing that changes, not the font on the header.
+The projection says two percent of "everyone who manages side projects" will buy, and you have not spoken to any of them. The cause is a percentage applied to a guessed population; a market is not demand. The fix is a small test with people you can name: the interviewees from `docs/research.md`, anonymised as P1, P2, and so on, a waitlist, a pre-order, a letter of intent. Build the projection from what those people did, not from a slice of a headline. If the test is quiet, the plan is what changes, not the headline font.
 
 ## Your turn
 
-**Guided Exercise 1: Fundraising Path Assessment**
+Everything happens in the capstone repo. Open a terminal there.
 
-Fill out a "Fundraising Fit" worksheet for your capstone, one question at a time.
+1. Create the file and confirm the folder is the one Unit 8 made.
 
-**Questions include:**
-1. Can your product generate revenue within 3 months without outside funding? (Yes/No)
-2. Do you need to hire people before you can grow? (Yes/No)
-3. Is your market winner-take-all (first to scale wins)? (Yes/No)
-4. Do you want to maintain 100% ownership? (Yes/No)
-5. Do you have a community of passionate users/followers? (Yes/No)
-6. What is your 12-month revenue projection without funding? $_____
-7. What could you do with $50K that you cannot do without it? _____
-8. What could you do with $500K? _____
+   ```bash
+   cd ~/projects/<capstone-name>
+   ls docs
+   ```
 
-**From your answers, pick a path:**
-- Mostly "stay lean" answers: Bootstrap
-- Strong community, consumer product: Crowdfunding
-- Need $50K-$500K, have some traction: Angels
-- Need $1M+, big market, want to scale fast: VC
+   You should see `research.md`, `user-stories.md`, `sprint-plan.md`, `product-spec.md`, and `board-sprint-1.png`, plus `system-design.md` and `security-audit.md` from Units 9 and 10. If `docs/` is missing you are in the wrong folder; `ls ~/projects` and look again.
 
-**Instructions:**
-1. Answer the 8-question Fundraising Fit worksheet honestly
-2. Tally your answers and map to the recommended path
-3. Write a 2-3 sentence explanation of why that path makes sense for your product
-4. Pair up and share your assessment. Your partner should challenge your assumptions.
+2. Copy this into `docs/fundraising-research.md` and fill it in. Keep the headings; the next three sessions read this file.
 
-**Success Criteria:** You have a clear, justified answer to "What kind of funding does my product need?"
+   ```markdown
+   # Fundraising research: <capstone-name>
 
-Read the assessment back to someone, or out loud to yourself, and notice which answer you cannot defend.
+   All numbers are hypothetical unless a source and date follow them.
 
----
+   ## The next milestone
+   What it is:
+   Why it is the next uncertainty to resolve:
+   One-time costs:
+   Per-unit costs:
+   Cash needed before it starts:
+
+   ## Fundraising fit
+   1. Can the product earn revenue within 3 months without outside money? (yes/no, why)
+   2. Do I need to hire before I can grow? (yes/no, why)
+   3. Is the market winner-take-all? (yes/no, why)
+   4. Do I want to keep 100% ownership? (yes/no, why)
+   5. Is there a community of people who already use it? (yes/no, evidence)
+   6. 12-month revenue without funding: $
+   7. What $50K buys that I cannot do without it:
+   8. What $500K buys:
+
+   ## Routes for this milestone
+   | Route | Contributor receives | I owe | Left after obligations |
+   |---|---|---|---|
+   | Bootstrap | | | |
+   | Pre-sale | | | |
+   | Rewards campaign | | | |
+   | Reg CF | | | |
+   | Angel | | | |
+
+   ## Pre-sale model
+   Inputs (price, fee rate, delivery per unit, refund rate, setup):
+   Base case:
+   Lower demand:
+   Higher cost:
+   Break-even units:
+
+   ## Three companies and how they funded their early stage
+   1.
+   2.
+   3.
+   (where found: Crunchbase, press, founder interviews, podcasts; give the link and date)
+
+   ## One campaign, read closely
+   Platform, goal, outcome, video, tiers, what I would copy, what I would not:
+
+   ## Landing-page copy
+   Headline:
+   Subheadline (who it is for, why):
+   Three to five benefits in the buyer's words:
+   Price:
+   Call to action (pre-order, join waitlist, buy now):
+   Delivery date and refund policy:
+
+   ## Fundraising thesis
+   One paragraph: which route, how much, what it buys, and what I would still own.
+
+   ## Open questions
+   -
+   ```
+
+   A filled example of the three sections people get wrong, using Questboard:
+
+   ```markdown
+   ## The next milestone
+   What it is: 20 paid pilot users active every week for 30 days
+   Why: the AI planner is the feature people say they want; nobody has paid for it yet
+   One-time costs: $300 model credits (hypothetical), $600 legal review of terms (hypothetical)
+   Per-unit costs: $6/user/month hosting and AI (hypothetical, from the 10-3 usage log)
+   Cash needed before it starts: ~$900 plus a 20% buffer = $1,100
+
+   ## Pre-sale model
+   Inputs: $50 once, 8% fees, $25 delivery per member, 10% refund reserve, $2,000 setup
+   Base case: 200 members, available $1,200
+   Lower demand: 120 members, available -$80
+   Higher cost: $35 delivery, available -$800
+   Break-even units: 125
+
+   ## Fundraising thesis
+   Questboard does not need outside money for its next milestone. The pilot costs
+   about $1,100 and the founding-member pre-sale covers it in the base case with
+   $1,200 to spare, while leaving 100% ownership intact. I would run the pre-sale
+   to 200 members, cap it there, and revisit an angel round only if the pilot
+   shows weekly retention above 60% and a channel that finds the persona
+   without my inbox.
+   ```
+
+3. Answer the eight fit questions honestly, then read the answers out loud to yourself once and mark the one you cannot defend. That answer is where your research goes first.
+
+4. Write the landing-page copy in a buyer's words, not a developer's. Read it to one person you know who does not write code, or record yourself reading it and listen back. Note the first sentence they would not understand, and rewrite that sentence.
+
+5. Run the pre-sale model with your own inputs by changing the numbers in the checkpoint above, and paste the five output lines under "Pre-sale model" in the file.
+
+6. Commit.
+
+   ```bash
+   git add docs/fundraising-research.md
+   git commit -m "docs: fundraising research for the next milestone"
+   git push
+   ```
+
+   The output ends with a line like `main -> main`, and `wc -w docs/fundraising-research.md` prints a number over 600 if the file is filled in rather than copied.
 
 ## The quest
 
-**Independent Exercise 2: Pre-Sale Landing Page Sketch**
-
-Draft the copy for a pre-sale landing page for your capstone:
-- Headline (one sentence that explains the value)
-- Subheadline (who it is for and why they need it)
-- 3-5 bullet points of features/benefits
-- Pricing (what would you charge?)
-- Call to action (Pre-order, Join Waitlist, or Buy Now)
-
-This is pen-and-paper or a quick Google Doc. No code needed. The goal is to say the product's value in the language a buyer uses, not the language a developer uses.
-
-Share with a partner: "Would you buy this based on what you just read?"
-
-**Success Criteria:** A complete landing page copy draft that a non-technical person can understand.
-
-**Recap and Homework Launch**
-
-Recap: fundraising is a tool, not a milestone. Bootstrap, crowdfund, angel, VC are all valid paths. The key question is not "How do I raise money?" but "Should I raise money, and if so, which kind?"
-
-Next session preview: "Tomorrow we enter the noble houses. Angel investors, SAFE agreements, term sheets, and dilution math. Bring a calculator."
-
----
-
-### Review the artifact
-
-Your deliverable is **A funding-options brief and a hypothetical pre-sale fulfillment model**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-11-1/fig3-evidence)
+
+One deliverable: `docs/fundraising-research.md`, complete, committed, and pushed. Evidence that it is done rather than copied:
+
+- The milestone has a dollar figure with one-time and per-unit costs separated.
+- The routes table has all five rows filled, and every "contributor receives" cell says either a product, a promise, or a security.
+- The pre-sale model shows three cases and a break-even count, with the word *hypothetical* on every guessed input.
+- Three companies, each with a link and the date you read it; one campaign read with its goal and outcome.
+- The landing-page copy was read to one non-technical person or recorded and listened back, and the sentence you rewrote is marked.
+- The thesis paragraph names a route, an amount, what it buys, and what you would still own, and "raise nothing right now" was considered as a real option.
+- The commit is on GitHub.
+
+Next session reads this file's thesis and asks what happens to the ownership number inside it.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Back-of-the-envelope numbers are the whole method of this session's model, and the long-return mindset is why "raise nothing now" is a legitimate answer rather than a failure.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Before you start:** Have a deployed capstone, a specific person it is for (Unit 8), payments (Unit 10), and a willingness to talk about the product as a business.
-**Materials:** Fundraising Fit worksheet (8 questions), pre-sale landing page template, crowdfunding campaign examples (Kickstarter/Republic links), fundraising spectrum diagram
+Next session is [The Noble Houses](/path/11-2-the-noble-houses/): angel investors, the post-money SAFE, dilution arithmetic, and a fictional term sheet with red flags in it. Read the YC SAFE page linked above once, just the "how it works" part; you will read the actual document next time. Bring your thesis paragraph, because the first thing you do is put a number on the ownership it promises.
 
----
-
-**Assignment: Fundraising Research Brief**
-**Objective:** Research the fundraising landscape for your specific product category
-**Time Estimate:** 2-3 hours
-**Due:** Before Session 11.2
-
-**Tasks:**
-1. Find 3 companies in your space (or adjacent) and research how they funded their early stages. Write 2-3 sentences about each. (Where did you find this info? Crunchbase, TechCrunch, podcasts, founder interviews.)
-2. Pick one crowdfunding campaign on Kickstarter or Republic that is similar to your product. Analyze: What was their goal? Did they hit it? What did their video look like? What were their reward tiers? Write a paragraph.
-3. Draft a one-paragraph "fundraising thesis" for your capstone: what path you would take, how much you would raise, and what you would use it for.
-
-**Submission:** Google Doc or markdown file in your capstone repo under `/docs/fundraising-research.md`
-
-**Stretch Goals (Optional):**
-- Create a 60-second selfie video pitch for your product (phone camera, no editing needed)
-- Set up a real landing page with a waitlist signup form using your existing deployment skills
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding)
+Nothing is running between sessions. The deployed capstone stays up at its public URL on its own; no local server was started today and none needs stopping.

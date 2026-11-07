@@ -2,350 +2,265 @@
 editorial: true
 title: The Royal Court
 subtitle: Venture Capital, Pitch Decks, and the Raise
-hook: "A venture-fit assessment, evidence-backed pitch narrative, and fundraising process map. Compare the business model with investor return expectations."
+hook: "A venture fund's arithmetic decides what it can invest in before it ever sees your deck. Today you run that arithmetic, decide honestly whether your capstone fits, and start the twelve slides around the product you already deployed."
 read: 60
-artifact: "A venture-fit assessment, evidence-backed pitch narrative, and fundraising process map"
+artifact: "docs/pitch-deck.md and docs/financial-narrative.md in the capstone repo: a venture-fit paragraph with a non-venture alternative, a twelve-slide outline with slides 1 to 4 filled from the deployed capstone and a Google Slides link, bottom-up market arithmetic with sources, a one-page financial narrative, and a pipeline table and data-room index"
 diagrams:
   - fig1-model
   - fig2-diagnosis
   - fig3-evidence
 docs:
   - https://www.ycombinator.com/library/4b-how-to-pitch-your-company
+  - https://www.ycombinator.com/library/2u-how-to-build-your-seed-round-pitch-deck
+  - https://support.google.com/docs/answer/2763168
+  - https://www.ycombinator.com/safe
+  - https://www.sec.gov/resources-small-businesses
 say:
-  - "Fit: Compare the business model with investor return expectations."
-  - "Evidence: Support problem, traction, and market claims."
-  - "Process: Track conversations, diligence, and decision criteria."
+  - "A fund has to return its whole size several times over, so each winner has to return the fund. That is the filter, not the deck."
+  - "Market size is a count you can defend times a price someone pays, with the source next to it."
+  - "Users, dollars collected, pilots with dates, and signed letters are four different facts. Never add them up."
 ---
 
 ## The hook
 
-We have covered the villagers and the noble houses. Today we enter the Royal Court: venture capital. The Royal Court is where the real power sits. The VCs are not investing their own gold. They are managing the treasury of an entire kingdom. Their job is to multiply that treasury 10x. If you want their money, you need to speak their language AND prove your quest is worth the kingdom's investment.
+The villagers bring small coins and the nobles bring their own gold. The court brings other people's money, a lot of it, and a rule about what it is allowed to buy. A venture fund has promised its backers a multiple of the whole fund, and almost every company it backs will return nothing, so the few that work have to return everything. That arithmetic is the filter. A profitable company earning $2M a year is a wonderful business and a bad venture investment, and nothing on a slide changes that. Today you run the numbers, decide whether your capstone is that kind of company, and build the deck either way, because the twelve slides are how you explain any business to anyone with money.
 
-But here is the important caveat before we begin: most startups should NOT raise venture capital. VC is a specific tool for a specific type of company. The math of venture capital demands enormous outcomes. A profitable business that generates $2M a year is a wonderful business and a terrible VC investment. Today, you will learn what type of company fits the VC model and how the entire game works, so you can make an informed decision about whether it is your path.
+By the end of the session you have a Google Slides deck with twelve titled slides, the first four filled from your deployed capstone, a market-size calculation built from the bottom up with a source beside each input, and a one-page financial narrative that says how the product makes money and when it would pay for itself. All of it lives in `docs/` in the capstone repo. Next session you build the cash model that tests every number in it.
 
-The centerpiece of today is the pitch deck. Twelve slides. That is all you get to convince someone to write you a check for $500K or more. We are going to build those slides together, and by the time you leave today, you will have the skeleton of a deck built around your actual, deployed, working product. Most founders who pitch VCs do not have a working product. You do. That is your superpower.
+> *The herald reads the rule of the court before you speak: whatever you ask for, it must be able to return the treasury ten times over, or the court cannot hear you.*
 
----
-
-### What the Run button does
-
-The Run button on this page runs a small model in your browser. It does not install a language, open a database, start a server, charge a card, call an AI provider, or move money. The longer walkthroughs are files and commands for a project on your own machine. Install those tools yourself from the official docs linked on this page, keep secrets in your own environment, and use made-up data in the exercises.
-
-A green checkpoint means this page's model behaved the way the checkpoint claims. It does not mean a service you have not started is working. If a tool is missing, keep designing, write down the result you expect, and mark that check as not run. A screenshot of a result you did not produce is not a result.
+You arrive with `docs/fundraising-research.md` ([11-1](/path/11-1-rallying-the-villagers/)) and `docs/cap-table.md` ([11-2](/path/11-2-the-noble-houses/)), the deployed capstone at its public URL, the empathy map and persona in `docs/research.md`, and the product spec in `docs/product-spec.md`. You need a Google account to use Google Slides, the default slide tool for this unit; Keynote, PowerPoint, or Canva work the same way if you already use one. Every valuation, round size, and rate on this page is a made-up input or a rule of thumb, and it says which.
 
 ## The idea
 
-### Construct a Professional Pitch Deck Using the Standard 10-12 Slide Format
+A venture capital firm raises a pool of money, the fund, from institutions and wealthy families and invests it in startups on their behalf. The people running the firm charge a management fee on the fund and keep a share of the profits, the carry. They sit on boards. They answer to the people whose money it is. Everything a VC does in a meeting with you follows from that structure.
 
-Create a pitch deck that effectively communicates problem, solution, traction, market size, business model, and fundraising ask using real data from a deployed product.
+### The arithmetic that runs the court
 
-**You will:**
-- Calculate TAM, SAM, and SOM using bottom-up market sizing methodology with cited data sources
-- Structure a pitch narrative using the standard 12-slide format covering all required investor-facing sections
-- Present unit economics including customer acquisition cost (CAC), lifetime value (LTV), and average revenue per user (ARPU)
-- Design slides that follow professional presentation best practices with visual hierarchy, minimal text, and clear messaging
+Take a fictional $100M fund whose backers expect three times their money. The fund has to return $300M. It invests in twenty companies. Most fail; say fifteen return little or nothing. The other five have to return the whole $300M between them, so each winner has to send $60M back to the fund. Now the step most explanations skip: the fund does not own the winner, it owns a stake in it. If the fund invested $5M for 20 percent, then for its 20 percent to be worth $60M the company has to be worth $300M at exit. Not $60M. That is why a fund cannot invest in a company whose best case is a $20M sale, however good the business is. The company would have to be a winner and still would not move the fund.
 
-**You should be able to:**
-- You will be able to build a complete pitch deck with real product data, defensible market size numbers, and a specific fundraising ask
-- You will be able to deliver a timed pitch and incorporate structured feedback to improve clarity and impact
+| A fund can fund | A fund cannot fund |
+|---|---|
+| Software with a very large market | A local restaurant |
+| Products that get stronger with each user | A consulting firm |
+| Platforms other businesses build on | A lifestyle business |
+| Deep technology with a moat | A nice-to-have tool |
+| Something that could grow a hundredfold | Something that cannot |
 
----
+Rounds have names, pre-seed, seed, Series A, B, C, and each name roughly maps to a stage: idea and early product, product and early traction, product-market fit and growth, scaling what works. The dollar sizes attached to those names move every year, and any figure printed here would be wrong by the time you read it. Carta and PitchBook publish current medians; the YC library articles linked above describe what each stage is for. Learn the stage, look up the number the month you need it.
 
-**Concept 1: How Venture Capital Works**
+Vocabulary you will hear: due diligence, the investigation before the money, including code review, financial review, customer calls, and background checks; lead investor, the one who sets terms and writes the largest check, with others following; syndicate, several investors pooling into one deal; portfolio, everything a fund has backed; exit, the sale or public listing where investors get money back.
 
-*What is a VC firm?*
-A company that raises a pool of money (a "fund") from wealthy people and institutions, then invests that money into startups. The VC firm is the middle layer between the money sources and the startups.
+### Does your capstone fit
 
-**VC Fund Structure:**
-```
-Limited Partners (LPs)         -->  The money sources
-- Pension funds                     They invest in the VC fund
-- University endowments             They expect returns
-- Wealthy families
-- Corporations
+Answer this before you write a slide. Could this product, in a market you can describe, become a company worth hundreds of millions? If yes, venture is a tool for you and the deck is a pitch. If no, the deck is still useful, because angels, banks, grant committees, and your own co-founder ask the same twelve questions, and the honest version of the fit paragraph says which route you would use instead. Separate your own goals from the financing story: how much control you want, how fast you want to grow, how much risk you can carry. A pitch that assumes every company must chase the same scale hides a bad fit, and investors can smell it.
 
-General Partners (GPs)         -->  The VC firm partners
-- They manage the fund              They decide which startups to invest in
-- They charge 2% management fee     They take 20% of profits ("carry")
-- They sit on boards
+### Evidence gives the story its weight
 
-Portfolio Companies            -->  The startups
-- They receive the investment       They try to grow and return money
-- 10-30 companies per fund
-```
+A pitch connects a problem, a user, a solution, a market, a business model, and a team that can execute. Every claim needs support appropriate to its stage. Interviews from `docs/research.md` support a problem; they do not prove revenue. A letter of intent is not a contract. A pilot is not recurring revenue. A user who signed up and never came back is not a user. Label each of these for what it is; an investor who finds one inflated number stops believing the rest.
 
-**The math that drives VC behavior:**
-- A typical VC fund: $100M
-- LPs expect 3x return: the fund needs to return $300M
-- The fund invests in 20 companies
-- Most startups fail. Maybe 15 out of 20 return $0 or very little.
-- The remaining 5 need to return ALL $300M
-- This means each winner needs to return $60M
-- If the VC invested $5M in a winner, that startup needs to be worth $60M+ at exit
-- **This is why VCs only fund companies that could be worth $100M+. Small, profitable businesses are great, but they do not fit the VC model.**
-
-**What VCs fund (and do not fund):**
-
-| VC Will Fund | VC Will NOT Fund |
-|-------------|-----------------|
-| Software with massive markets | A local restaurant |
-| Network-effect businesses | A consulting firm |
-| Platform plays | A lifestyle business |
-| Deep tech with moat | A "nice to have" tool |
-| Scalable tech products | Something that cannot 100x |
-
-**VC funding stages:**
-```
-Pre-Seed:  $100K - $1M    (idea + early product)
-Seed:      $1M - $5M      (product + early traction)
-Series A:  $5M - $20M     (product-market fit + growth)
-Series B:  $15M - $50M    (scaling what works)
-Series C+: $50M+          (domination mode)
-```
-
-**Key VC terminology:**
-- **Due Diligence:** The VC investigating your company before investing (code review, financials, customer calls, background checks)
-- **Lead Investor:** The VC who sets the terms and writes the biggest check. Other investors follow the lead.
-- **Syndicate:** A group of investors pooling money together
-- **Portfolio:** All the companies a VC has invested in
-- **Exit:** How investors get their money back (acquisition by a bigger company, or IPO)
-
-**Concept 2: The VC Fundraising Process**
-
-- **Step 1: Build a Target List (before you start pitching)**
-  - Research VC firms that invest in your industry and stage
-  - Tools: Crunchbase, PitchBook, VC firm websites, Twitter/X
-  - Create a spreadsheet with: Firm name, Partner name, Fund size, Stage focus, Industry focus, Portfolio companies
-  - Aim for 30-50 firms on your initial list
-  - Narrow to 15-20 that are the best fit
-
-- **Step 2: Get Warm Intros**
-  - Cold emails to VCs have a less than 1% response rate
-  - Warm intros through founders in their portfolio work 50%+ of the time
-  - LinkedIn: find mutual connections to the partner you want to reach
-  - The ask: "Hey [mutual connection], I am building [product]. I think [VC Partner] at [Firm] would be a great fit because they invested in [similar company]. Would you be willing to make an intro?"
-  - If you absolutely must cold email: keep it to 3 sentences. Problem, traction, ask.
-
-- **Step 3: First Meeting (30-45 minutes)**
-  - Usually a video call or coffee
-  - You pitch (10-15 minutes) then answer questions (20-30 minutes)
-  - The VC is evaluating: Do I believe in this founder? Is this market big enough? Is there traction?
-  - You should also be evaluating: Is this VC a good partner? Do they understand my market?
-
-- **Step 4: Partner Meeting**
-  - If the first meeting goes well, you present to the full partnership (2-5 partners)
-  - This is a more formal pitch, usually at their office
-  - They will ask harder questions. Prepare for pushback.
-
-- **Step 5: Due Diligence (1-4 weeks)**
-  - They review your code, financials, contracts, team backgrounds
-  - They call your customers, advisors, and references
-  - They check for legal issues, IP ownership, outstanding debts
-
-- **Step 6: Term Sheet (the offer)**
-  - If due diligence checks out, they send a term sheet
-  - You have 1-2 weeks to review and negotiate
-  - Get a lawyer. Seriously.
-
-- **Step 7: Close (2-4 weeks after term sheet)**
-  - Lawyers finalize documents
-  - Money hits your bank account
-  - You are now a funded startup with external investors and expectations
-
-- **Total timeline: 2-6 months from first meeting to money in the bank**
-
----
-
-![](diagram:session-11-3/fig1-model)
-
-### Ask whether venture capital fits the business
-
-Venture investors typically seek outcomes large enough to matter to their portfolios, which can favor businesses with substantial growth potential and particular risk profiles. That does not make other businesses inferior. A profitable service business or a focused software product may fit customer funding or another route better. Begin the assignment by explaining the business model and why outside equity would help reach a specific milestone.
-
-Separate the founder's goals from the financing story. Desired control, growth pace, lifestyle, and risk tolerance matter. A pitch that assumes every company must pursue the same scale can hide a poor fit. Include a reasoned alternative to venture funding in the assessment. The objective is understanding incentives, not persuading every fictional founder to raise a round.
-
-### Evidence gives the narrative its weight
-
-A pitch connects a problem, a user, a solution, a market, a business model, and a team capable of executing. Each claim needs support appropriate to its stage. Interviews support a problem hypothesis; they do not prove revenue. A letter of intent is not the same as a paid contract. A pilot is not necessarily recurring revenue. Label these distinctions so the audience can assess the evidence honestly.
-
-For market sizing, start with a countable customer segment and a plausible annual spend assumption. Show the arithmetic and the source or rationale for each input. A large industry total is not automatically the reachable market for a new product. Explain the initial segment and the path to adjacent segments. Use sensitivity analysis when the inputs are uncertain rather than presenting a precise-looking unsupported total.
+Market size is a count times a price, built from the bottom. Start with a segment you can count, from a source with a date. Multiply by what one of them pays per year for your product. That is the serviceable market. The slice you can reach in two to three years with the channels you actually have is the obtainable market. A headline industry total is not your market, and "one percent of a $7B market" is the sentence that ends more pitches than any other. Show the arithmetic and the source beside each input, and show the sensitivity when an input is a guess.
 
 ### The ask connects money to milestones
 
-State how much hypothetical capital is sought, what it funds, and which milestones it is expected to enable. Separate hiring, infrastructure, customer acquisition, and operating reserves. A runway calculation depends on net cash burn and timing, not only a monthly average. Include a lower-revenue or higher-cost case to reveal the plan's resilience. All workshop values should be clearly labeled as illustrative.
+State how much, what it funds, and which milestone it reaches. Separate hiring, marketing, infrastructure, and reserve. A runway number comes from net cash burn over time, not from a raise divided by an average, which is why next session builds a month-by-month model. Name the single assumption the milestone tests. An investor often judges your understanding of uncertainty more than the size of the opportunity.
 
-Avoid promising a return or implying that a funding outcome is assured. The narrative can be ambitious while remaining honest about risks and unknowns. Identify the most important assumption the next milestone will test. An investor conversation often examines the founder's understanding of uncertainty as much as the size of the opportunity.
+The process behind the deck is a pipeline with records: a target list of firms and people who invest at your stage and in your category, built from their portfolios and public theses; an introduction path for each, since a warm introduction through a founder they backed works far more often than a cold message, as a rule of thumb rather than a measured rate; a first meeting, usually a short pitch and a longer conversation; a meeting with the whole firm; diligence over weeks; a term sheet; a close weeks after that. Keep a table with firm, person, introduction source, stage, next action, and date, and keep real contact details out of the public repo. Keep a data-room index ready: company basics, product evidence, financial assumptions, the cap table, legal documents. A polished deck is only useful when the facts behind it survive questions.
 
-### Treat fundraising as a process with records
+### The twelve slides
 
-A fictional pipeline can track fit, introduction source, stage, questions, next action, and decision date. Keep confidential materials and personal contact details out of public classroom artifacts. Do not send outreach as part of this lesson without a separate real-world decision and appropriate review. Practice with role-play conversations and sample diligence questions.
+The deck is not a document. It is a visual aid for a story you tell. One message per slide, readable from across a room, with your voice carrying the rest. In the order investors expect: title, problem, solution, product, market, business model, traction, team, competition, projections, the ask, contact. Twelve is the ceiling, not the target.
 
-Prepare a concise data room index: company basics, product evidence, financial assumptions, cap table, and relevant legal documents. The exercise can use placeholders and fictional records. The final artifact should show a coherent story, a defensible ask, and a clear list of diligence gaps. A polished deck is useful only when the underlying facts can withstand questions.
+What you should be able to draw on a napkin: a fund at the top with a multiple next to it, an arrow down to one company with a stake percentage, and the exit value that stake has to reach. Under it, twelve small boxes in a row, with the word "evidence" written under the problem, market, and traction boxes, because those are the three a listener checks.
+
+![](diagram:session-11-3/fig1-model)
 
 ## The demonstration
 
-All companies, valuations, growth rates, fees, and financing amounts in the worked examples are hypothetical classroom inputs unless a source and date are explicitly attached. The examples are not current market benchmarks or individualized legal, tax, or investment advice. Do not offer securities, solicit investment, or send documents as part of this exercise.
+One fictional company, TaskForge, an AI task planner for solo developers, with the shape of a capstone built on this path. Hypothetical numbers throughout, marked as draft; next session's model replaces the ones it disagrees with. For each slide, the weak version and the strong one, and what a listener would notice.
 
-**Demo 1: Pitch Deck Construction, Slide by Slide**
+**Slide 1, title.** Name, a one-line description in ten words or fewer, your name and contact. "TaskForge. AI project management for solo developers." A bold claim is optional: "Solo devs ship more when something keeps the plan."
 
-This is the most important demonstration of the unit. For each slide, put a weak version next to a strong one and say which difference a listener would actually notice.
+**Slide 2, problem.** Weak: "Project management is hard." Strong: a specific person from your empathy map and a number you can source. "P3 keeps four client projects in three apps and a notebook, and abandoned two side projects this year because the next task was never written down." If you have a sourced statistic, use it with the source; if you have interviews, use the interviews and say how many.
 
-**The pitch deck is NOT a document. It is a visual aid for a story you tell.**
-- Do NOT put paragraphs of text on slides
-- Each slide should have ONE key message
-- If you can read the slide from the back of the room, it has the right amount of text
-- The slides support YOUR voice. They do not replace it.
+**Slide 3, solution.** One value proposition. Weak: "an AI-powered, cloud-native productivity platform." Strong: "TaskForge breaks any project into daily tasks and checks in when a day goes quiet." A screenshot does more than an adjective here.
 
-**Slide 1: Title / Hook**
-- Company name and logo
-- One-line description: what you do in 10 words or fewer
-- Your name, title, contact info
-- Example: "TaskForge ... AI-Powered Project Management for Solo Developers"
-- Optional: a bold claim or hook. "We help solo devs ship 3x faster."
+**Slide 4, product.** Two screenshots of the deployed capstone, or a fifteen-second recording, with the moment that makes someone say "oh" highlighted. You built the thing; most people pitching do not have this slide.
 
-**Slide 2: Problem**
-- What pain point exists in the world?
-- Make it specific and relatable
-- Use real numbers if you have them
-- BAD: "Project management is hard."
-- GOOD: "73% of solo developers abandon side projects within 3 months because they lose track of what to do next."
-- Tip: tell a story. "Meet Sarah. She is a freelance developer with 4 active clients and no system..."
+**Slide 5, market.** Bottom-up, with sources.
 
-**Slide 3: Solution**
-- How does your product solve the problem?
-- Keep it simple. One core value proposition.
-- BAD: "An AI-powered, blockchain-enabled, cloud-native synergy platform."
-- GOOD: "TaskForge breaks any project into daily tasks and keeps you accountable with AI check-ins."
-- Show, do not just tell. A screenshot or mockup is powerful here.
+```text
+Count:   solo developers in the US who freelance or run side projects
+         (hypothetical 2,000,000; replace with a sourced count and date)
+Pay:     those who already pay for a project tool, hypothetical 15%
+         = 300,000 accounts
+Price:   $12 per month = $144 per year
+SAM:     300,000 x $144 = $43,200,000 per year
+SOM:     3,000 paying accounts in three years = $432,000 per year
+```
 
-**Slide 4: Demo / Product**
-- Screenshots of your actual working product (you have this, your capstone is live!)
-- Or a short video demo (15-30 seconds, embedded or linked)
-- Highlight the "wow" moment: the feature that makes people say "Oh, that is cool."
-- This is your biggest advantage over non-technical founders. You BUILT the thing.
+Say the SOM out loud. Four hundred thousand dollars a year is a good business and not a venture outcome, and the market slide is where that becomes visible. The strong version of this slide says so and shows the adjacent segment, teams, that would change the count. The weak version says "the project management market is $7.1B."
 
-**Slide 5: Market Size (TAM, SAM, SOM)**
-- **TAM (Total Addressable Market):** The total revenue opportunity if you captured 100% of the market
-- **SAM (Serviceable Addressable Market):** The portion of TAM you can realistically reach with your current product and business model
-- **SOM (Serviceable Obtainable Market):** The portion of SAM you can realistically capture in the next 2-3 years
-- Example:
-  ```
-  TAM: Global project management software market = $7.1B
-  SAM: Solo developer project management tools = $890M
-  SOM: English-speaking solo devs who use AI tools = $120M
-  ```
-- Where to find market size data: Statista, IBISWorld, Grand View Research, Google "market size [your industry]"
-- Investors want to see a SOM of at least $50M-$100M for VC-scale
+**Slide 6, business model.** Free tier, one project. Pro at $12 a month, unlimited projects and the AI planner. Team at $29 per seat, planned. Current, hypothetical: 500 free users, 47 Pro subscribers, $564 MRR. Target: 3,000 Pro subscribers, $36K MRR, by month 18. Under it, the unit economics: CAC $40 through content and small ads, ARPU $12 a month, ten-month average retention, so LTV $120 and a 3:1 ratio. All hypothetical, all labeled.
 
-**Slide 6: Business Model**
-- How do you make money?
-- Be specific about pricing
-- Example:
-  ```
-  Free tier: 1 project, basic features
-  Pro: $12/month - unlimited projects, AI features
-  Team: $29/month per seat - collaboration, integrations
+**Slide 7, traction.** Numbers, not adjectives. Total users, active users, paying users, MRR, growth rate, each as its own line. 47 paying from 31 a month earlier is a 52 percent month-over-month jump on a very small base, and the slide says both halves of that sentence. If you are pre-revenue, show the waitlist, the pilots with dates, the letters of intent, separately.
 
-  Current: 500 free users, 47 Pro subscribers ($564 MRR)
-  Target: 5,000 Pro subscribers ($60K MRR) by Month 18
-  ```
-- Show the unit economics if you can:
-  - CAC (Customer Acquisition Cost): how much it costs to get one customer
-  - LTV (Lifetime Value): how much revenue one customer generates over their lifetime
-  - LTV > 3x CAC is the target
+**Slide 8, team.** Photo, name, role, one credential each. Solo is fine; the unfair advantage of a founder from this path is one sentence: you built the entire product and you understand the business.
 
-**Slide 7: Traction / Metrics**
-- This is where you prove people actually want what you built
-- Show numbers, not adjectives. "Growing fast" means nothing. "42% month-over-month growth" means everything.
-- What to show (use whatever you have):
-  - Users (total, active, growth rate)
-  - Revenue (MRR, ARR, growth rate)
-  - Engagement (DAU/MAU ratio, session length, retention)
-  - Waitlist size
-  - Pre-orders or LOIs
-  - Social proof (press mentions, notable users, partnerships)
-- If you are pre-revenue: show user growth, engagement, or waitlist
-- A chart going up and to the right is the most powerful image in all of fundraising
+**Slide 9, competition.** Never "there are no competitors." A table with three real alternatives and the dimensions that matter to the persona.
 
-**Slide 8: Team**
-- Who are you and why are you the right person to build this?
-- Photo, name, role, one-line credential for each team member
-- Example:
-  ```
-  [Photo] Alex Chen - CEO/CTO
-  Full stack developer. Built and shipped 3 products.
-  Previously: Senior Engineer at Stripe (2 years)
-  ```
-- If you are a solo founder: that is fine. Highlight your skills and your unfair advantage.
-- Your unfair advantage as a graduate of this program: "I am the rare founder who can build the entire product AND understand the business."
+```text
+                TaskForge   Todoist    Linear     Notion
+AI task plan    yes         no         no         basic
+Built for solo  yes         generic    teams      generic
+Code-aware      yes         no         yes        no
+Price           $12/mo      $5/mo      $8/seat    $10/mo
+```
 
-**Slide 9: Competition / Moat**
-- Who else is solving this problem?
-- Do NOT say "We have no competition." That either means the market does not exist or you did not look.
-- Use a 2x2 matrix or comparison table:
-  ```
-  Feature      | TaskForge | Todoist  | Linear   | Notion
-  -------------|-----------|----------|----------|--------
-  AI Tasks     |    Yes    |    No    |    No    |  Basic
-  Solo Dev     |  Built    |  Generic | Teams    | Generic
-  Price        |  $12/mo   | $5/mo    | $8/seat  | $10/mo
-  Code Aware   |    Yes    |    No    |    Yes   |   No
-  ```
-- Your "moat" is what makes you hard to copy: unique technology, data advantage, community, first-mover, brand, network effects
+Your moat is what makes you hard to copy: data, community, a workflow nobody else owns. Say which one.
 
-**Slide 10: Financial Projections**
-- 3-year revenue projection
-- Keep it simple: a table or line chart
-- Example:
-  ```
-  Year 1: $72K ARR (600 subscribers x $12/mo x 12)
-  Year 2: $480K ARR (growth to 3,000 subscribers + team plan)
-  Year 3: $2.4M ARR (10,000 subscribers + enterprise deals)
-  ```
-- Be ambitious but defensible. If asked "How do you get to 10,000 subscribers?", you need an answer.
-- Key assumptions to state: conversion rate, churn rate, growth channels
+**Slide 10, projections.** Three years, one table, draft.
 
-**Slide 11: The Ask**
-- How much are you raising?
-- What will you use it for?
-- Example:
-  ```
-  Raising: $500K Seed Round
+```text
+Year 1:  $72K ARR    (500 Pro subscribers x $12 x 12)
+Year 2:  $480K ARR   (3,000 Pro by month 18, Team plan from month 19)
+Year 3:  $2.4M ARR   (10,000 Pro plus Team)
+```
 
-  Use of Funds:
-  - 40% Engineering (hire 1 full-stack dev)
-  - 25% Marketing (content, ads, partnerships)
-  - 20% Operations (servers, tools, legal)
-  - 15% Runway buffer
+Check the multiplication on every line. 500 × 12 × 12 is $72,000; 600 would be $86,400, and a deck with that error on it tells the room you did not check. State the assumptions underneath: conversion, churn, channels. Next session's model replaces this table with whatever the cash model says, and the slide is labeled draft until then.
 
-  This gets us to 3,000 subscribers and profitability in 18 months.
-  ```
-- Be specific. "We need money to grow" is not an answer. "We need $500K to hire one engineer and run Facebook ads targeting solo developers" is an answer.
+**Slide 11, the ask.** "Raising $500K. 40 percent engineering, one full-stack hire. 25 percent marketing. 20 percent operations, hosting, tools, legal. 15 percent reserve. This reaches 3,000 Pro subscribers and cash-flow break-even in 18 months." Specific amount, specific uses, one milestone. "Money to grow" is not an ask.
 
-**Slide 12: Contact / Thank You**
-- Your name, email, phone, LinkedIn
-- Website URL
-- "Thank you. Questions?"
-- Optional: QR code to your live product
+**Slide 12, contact.** Name, email, site, product URL, and the sentence "Thank you. Questions?" A QR code to the live product is a nice touch.
 
----
+### The one-page financial narrative
 
-### Runnable checkpoint: a small model
+A companion document that tells the money story in prose, one page when printed. Copy this into `docs/financial-narrative.md` and fill it in; the filled TaskForge version follows.
 
-Predict the assertions before pressing Run. This model isolates one idea from the lesson; the manual walkthrough exercises the full environment. Change one input to violate the stated rule, observe the failure, then restore the valid case. Explain why the changed case should fail rather than editing the assertion to accept it.
+```markdown
+# Financial narrative: <capstone-name>
+
+Draft. Hypothetical unless a source and date follow the number.
+
+## Revenue model
+<Product> earns revenue through <pricing model>. The primary plan costs $<X> per
+<period> and provides <value>. A second plan at $<Y> per <period> serves <segment>.
+
+## Unit economics
+- CAC: $<X> (through <channels>)
+- ARPU: $<X> per month
+- LTV: $<X> (based on <N> months average retention)
+- LTV:CAC: <X>:1
+
+## Current traction
+As of <date>: <X> total users, <Y> paying customers, $<Z> MRR, <X>% month-over-month.
+
+## Projections
+- Year 1: $<X> ARR (<Y> customers; <assumptions>)
+- Year 2: $<X> ARR (<Y> customers; <assumptions>)
+- Year 3: $<X> ARR (<Y> customers; <assumptions>)
+
+## Key assumptions
+- Monthly churn: <X>%
+- Free-to-paid conversion: <X>%
+- Growth channels: <list>
+
+## Use of funds
+Raising $<X> to reach <milestone>:
+- <X>% <category>: <specific use>
+- <X>% <category>: <specific use>
+- <X>% <category>: <specific use>
+
+## Path to profitability
+Break-even at <N> paying customers, which covers monthly costs of $<Z>.
+Expected by <month/year>, at the current growth rate.
+```
+
+Filled for TaskForge:
+
+```markdown
+# Financial narrative: TaskForge
+
+Draft. Hypothetical unless a source and date follow the number.
+
+## Revenue model
+TaskForge earns revenue through subscriptions. Pro costs $12 per month and
+provides unlimited projects and the AI planner. A Team plan at $29 per seat per
+month, planned for month 19, serves small agencies.
+
+## Unit economics
+- CAC: $40 (content and small ads; hypothetical)
+- ARPU: $12 per month
+- LTV: $120 (based on 10 months average retention; hypothetical)
+- LTV:CAC: 3:1
+
+## Current traction
+As of this month: 500 total users, 47 paying customers, $564 MRR, 52% month-over-month
+on paying customers (47 from 31; one month, small base).
+
+## Projections
+- Year 1: $72K ARR (500 Pro; 500 x $12 x 12)
+- Year 2: $480K ARR (3,000 Pro by month 18, Team plan from month 19)
+- Year 3: $2.4M ARR (10,000 Pro plus Team)
+
+## Key assumptions
+- Monthly churn: 10%
+- Free-to-paid conversion: 9% (47 of 500)
+- Growth channels: content, developer communities, small paid ads
+
+## Use of funds
+Raising $500K to reach 3,000 Pro subscribers and cash-flow break-even in 18 months:
+- 40% engineering: one full-stack hire
+- 25% marketing: content, ads, community
+- 20% operations: hosting, model credits, tools, legal and accounting
+- 15% reserve
+
+## Path to profitability
+At the current cost base of $900 per month, break-even is 75 Pro customers
+(75 x $12 = $900). At the funded cost base of about $26,000 per month, it is
+2,234 Pro customers (26,000 / (12 x 0.97)). The month that happens comes from
+the cash model, not from this page.
+```
+
+Here is a small model you can run here. It proves the fund arithmetic, the ARR multiplication, and the bottom-up market shape. It does not prove that any of these inputs is true; the sources you attach in the file do that, or fail to.
 
 ```js run=checkpoint-11-3
 function check(condition, message) {
   if (!condition) throw new Error(message);
   console.log('PASS:', message);
 }
-// Hypothetical bottom-up annual market estimate.
-const reachableAccounts = 2000, annualPrice = 600;
-const market = reachableAccounts * annualPrice;
-check(market === 1200000, 'Units: accounts times dollars per account per year');
-check(market * 0.05 === 60000, 'A scenario is not a forecast');
+
+// Fictional fund. The stake must return the fund; the company must be worth stake-return / stake.
+const fund = { size: 100000000, multiple: 3, companies: 20, winners: 5, stake: 0.20 };
+const mustReturn = fund.size * fund.multiple;
+const perWinner = mustReturn / fund.winners;
+const exitNeeded = perWinner / fund.stake;
+check(mustReturn === 300000000, 'a $100M fund at 3x has to return $300M');
+check(perWinner === 60000000, 'five winners each return $60M to the fund');
+check(exitNeeded === 300000000, 'a 20% stake returning $60M means a $300M exit, not a $60M one');
+
+// Projection slide arithmetic.
+function arr(subscribers, monthlyPrice) {
+  return subscribers * monthlyPrice * 12;
+}
+check(arr(500, 12) === 72000, '500 subscribers at $12 is $72K ARR');
+check(arr(600, 12) === 86400, '600 subscribers at $12 is $86.4K, not $72K');
+check(arr(3000, 12) === 432000, '3,000 Pro subscribers is $432K ARR before the Team plan');
+
+// Bottom-up market: a count you can defend times a price someone pays.
+const market = { count: 2000000, payingShare: 0.15, annualPrice: 144 };
+const sam = market.count * market.payingShare * market.annualPrice;
+const som = 3000 * market.annualPrice;
+check(sam === 43200000, 'SAM: 300,000 paying accounts times $144');
+check(som === 432000, 'SOM: 3,000 accounts in three years, a business and not a venture outcome');
+check(som / sam === 0.01, 'the obtainable share here is one percent of the serviceable market');
+
+console.log('exit needed for one winner: ' + exitNeeded);
+console.log('SAM: ' + sam + '  SOM: ' + som);
 console.log('ok: checkpoint-11-3');
 ```
+
+Change `stake` to 0.10 and predict the exit before you run. Then change `winners` to 2. Both moves are things a fund does when it talks about "ownership targets" and "power law," and now you know what the words cost.
 
 ## Where it breaks
 
@@ -353,166 +268,120 @@ console.log('ok: checkpoint-11-3');
 
 ### Funding mistaken for product success
 
-The deck leads with the round you want, and the product is a slide near the end. Raising money is not evidence that a customer has the problem. Keep the two stories apart. One is who pays you for the product and why they keep paying. The other is how much capital that plan needs, and what it buys. A reader who confuses them will treat a closed round as traction. You should not. A company can raise and still have nothing anyone wants.
+The deck leads with the round and the product is slide nine. The cause is confusing two stories: who pays for the product and why they keep paying, and how much capital that plan needs. The fix is to keep them in order. Problem, solution, product, evidence first; the ask near the end, derived from the plan. A closed round is not traction, and a listener who sees you treat it as traction will assume the real traction slide is thin. A company can raise and still have nothing anyone wants.
 
 ### Market size invented
 
-The slide says the market is $40 billion because a report said so, and your product is a narrow tool inside one job. A top-down number is not your market. Build the size from the bottom: how many buyers you can name a channel to, what they pay, how often. Cite the source of each input. A bottom-up number you can defend is more useful than a huge number you found in a headline, and an investor who checks will ask for the inputs anyway.
+The slide says $7.1B because a report said so, and your product is a narrow tool inside one job. The cause is top-down sizing: a headline total with a percentage applied to it. The fix is the bottom-up calculation in slide 5, a count you can source, a price someone pays, the slice you can reach with the channels you have, and the source beside each input. If the honest number is $432K, say it, and show the adjacent segment that changes it. An investor who checks will ask for the inputs anyway; a number you built can survive that and a number you found cannot.
 
 ### Pitch overstates traction
 
-"Users" on the slide includes signups who never returned, a pilot that was a favor, and revenue that is a single pre-order. Split them. A user who did the core action, a dollar that was collected, a pilot with a start date, and a letter that commits to something are four different facts. Label each one. A combined number feels stronger in the room and falls apart on the first question. The question will come. Have the split ready.
+"Users" on slide 7 includes signups who never returned, a pilot that was a favor, and revenue that is one pre-order. The cause is adding four different facts into one bigger number. The fix is four lines: users who did the core action, dollars collected, pilots with a start date, and letters that commit to something. A combined number feels stronger in the room and collapses on the first question. The question comes. Have the split ready.
 
 ## Your turn
 
-**Guided Exercise 1: Storytelling, Financial Narrative, and Market Size**
+Open a terminal in the capstone repo and a browser at slides.google.com, signed in to your Google account. If you prefer another slide tool, use it; the file names below do not change.
 
-**Part A: Storytelling in pitches**
+1. Create a new presentation named `<capstone-name> pitch` and add twelve slides with only their titles: Title, Problem, Solution, Product, Market, Business model, Traction, Team, Competition, Projections, The ask, Contact. Twelve titled slides, nothing else yet. Copy the share link with view access.
 
-Use these storytelling principles on your own deck:
+2. Fill slides 1 to 4 from the capstone now. Slide 1: name and the ten-word line. Slide 2: one person from the interview logs in `docs/research.md`, anonymised as P1, P2, and so on, and the specific thing they could not do. Slide 3: the one-sentence value proposition from `docs/product-spec.md`. Slide 4: two screenshots of the deployed capstone at its public URL, with the moment you want noticed circled.
 
-- Your pitch is a story with a beginning (problem), middle (solution + progress), and end (the future you are building)
-- The emotional arc: "This is broken" (frustration) then "We fixed it" (hope) then "Here is the proof" (confidence) then "Here is what is next" (excitement)
-- Start with a specific person's pain, not an abstract market trend
-- Use "you" language: "Imagine you are a solo developer. You have 3 side projects and zero way to track your progress..."
-- End with a vision: "In 5 years, every solo developer in the world will manage their projects with TaskForge."
+3. Copy this into `docs/pitch-deck.md` and fill in the parts you have. This file is the outline and notes; the slides are the visual.
 
-**Common pitch mistakes to avoid:**
-1. Starting with your bio instead of the problem (nobody cares who you are until they care what you are solving)
-2. Too many slides (12 maximum for a pitch, fewer is better)
-3. Reading from slides (the slides are scenery, YOU are the main character)
-4. No demo (you are a technical founder with a live product, show it!)
-5. Vague ask ("We need money" vs "We are raising $500K to hit 3,000 subscribers in 18 months")
-6. No traction slide (if you have zero traction, why should they believe?)
-7. Ignoring competition (pretending competitors do not exist destroys credibility)
-8. Over-projecting revenue ("We will make $100M in year 2" ... no you will not)
+   ```markdown
+   # Pitch deck: <capstone-name>
 
-**Part B: The one-page financial narrative**
+   Slides: <Google Slides share link, view access>
+   Status: draft, slides 1-4 filled
 
-This is a companion document to your pitch deck. It tells the money story in prose.
+   ## Venture fit
+   One paragraph: could this become a company worth hundreds of millions, in what
+   market, and why or why not. Then the route I would take if the answer is no.
 
-**Template:**
-```
-FINANCIAL NARRATIVE: [Company Name]
+   ## Slides
+   1. Title: <ten-word line>
+   2. Problem: <person, specific pain, source or interview count>
+   3. Solution: <one value proposition>
+   4. Product: <two screenshots, the moment to notice>
+   5. Market: <count x price, sources; SAM; SOM>
+   6. Business model: <plans, prices, current numbers, CAC, LTV>
+   7. Traction: <users / active / paying / MRR / growth, as separate lines>
+   8. Team: <name, role, credential, unfair advantage>
+   9. Competition: <three alternatives, dimensions, moat>
+   10. Projections: <three years, draft, assumptions>
+   11. The ask: <amount, uses in %, one milestone>
+   12. Contact: <name, email, site, product URL>
 
-REVENUE MODEL
-[Company] generates revenue through [pricing model]. Our [primary plan]
-costs $[X]/month and provides [key value]. We also offer [secondary plan]
-at $[Y]/month for [different segment].
+   ## Market arithmetic
+   Count:   <segment> = <number> (<source>, <date>)
+   Pay:     <share who already pay for something like this> = <number>
+   Price:   $<X> per year
+   SAM:     <count x price>
+   SOM:     <reachable accounts in 3 years x price>
 
-UNIT ECONOMICS
-- Customer Acquisition Cost (CAC): $[X] (via [channels])
-- Average Revenue Per User (ARPU): $[X]/month
-- Lifetime Value (LTV): $[X] (based on [Z] month average retention)
-- LTV:CAC Ratio: [X]:1
+   ## Elevator pitch (60 seconds)
+   Sentence 1, what I built:
+   Sentence 2, who it is for:
+   Sentence 3, why it matters:
+   Sentence 4, why now:
+   Sentence 5, the ask:
 
-CURRENT TRACTION
-As of [date], we have [X] total users, [Y] paying customers, and
-$[Z] in monthly recurring revenue. Our month-over-month growth rate
-is [X]%.
+   ## Pipeline
+   | Firm or person | Role | Intro source | Stage | Next action | Date |
+   |---|---|---|---|---|---|
+   | | | | | | |
 
-PROJECTIONS (3-Year)
-Year 1: $[X] ARR ([Y] customers, [assumptions])
-Year 2: $[X] ARR ([Y] customers, [assumptions])
-Year 3: $[X] ARR ([Y] customers, [assumptions])
+   ## Data-room index
+   - Company basics:
+   - Product evidence:
+   - Financial assumptions:
+   - Cap table: docs/cap-table.md
+   - Legal:
 
-KEY ASSUMPTIONS
-- Monthly churn rate: [X]%
-- Free-to-paid conversion: [X]%
-- Primary growth channels: [list]
+   ## Rehearsal log
+   (filled in next session)
+   ```
 
-USE OF FUNDS
-We are raising $[X] to achieve [specific milestones]. This capital
-will be deployed as follows:
-- [X]% [Category]: [Specific use]
-- [X]% [Category]: [Specific use]
-- [X]% [Category]: [Specific use]
+   The TaskForge elevator pitch, as an example of the five sentences: "I built TaskForge, an AI planner for solo developers. Solo devs juggling several projects abandon the ones where the next task is never written down. TaskForge breaks a project into daily tasks and checks in when a day goes quiet. It has 500 users and 47 paying subscribers after two months. I am raising $500K to reach 3,000 subscribers and break-even in 18 months."
 
-PATH TO PROFITABILITY
-We expect to reach profitability at [X] paying customers, which
-requires $[Y] in monthly revenue to cover operating costs of
-$[Z]/month. At our current growth rate, we project reaching
-profitability by [month/year].
-```
+4. Do the market arithmetic for your capstone with a real count. Search for the segment, write the source and the date next to it, and if you cannot find a count, write the count you would need and mark it hypothetical. Fill slide 5 from this section.
 
-**Part C: Market Size Calculation (25 min guided exercise)**
+5. Copy the financial narrative template above into `docs/financial-narrative.md` and fill every section. Where you have no observed number, write the hypothetical one and say so. Check the ARR lines by multiplication.
 
-Calculate TAM, SAM, and SOM for your capstone, and show the arithmetic:
+6. Record the elevator pitch once on your phone, sixty seconds, no notes. Listen back and write down the sentence where you ran out of breath or out of facts. Fix that sentence in the file. Record it again.
 
-1. Define your broadest market (TAM): "All people/companies who could possibly use a product like mine"
-2. Find a market size number: Google "[your market] market size", check Statista, industry reports
-3. Define your reachable market (SAM): narrow by geography, segment, price point
-4. Define your realistic capture (SOM): what you can get in 2-3 years with your resources
-5. Show your math. A bottom-up calculation ("There are 2 million solo developers in the US. If we capture 0.5% at $12/month, that is $1.44M ARR") is more credible than a top-down one ("The project management market is $7B. If we get 1%, that is $70M.")
+7. Commit.
 
-Pressure-test the numbers. If you have a partner, trade sheets. If you do not, try to break your own arithmetic.
+   ```bash
+   git add docs/pitch-deck.md docs/financial-narrative.md
+   git commit -m "docs: pitch deck outline, slides 1-4, market arithmetic, financial narrative draft"
+   git push
+   ```
 
-**Success Criteria:** Three defensible market size numbers with clear assumptions and bottom-up math.
-
----
+   `wc -l docs/pitch-deck.md docs/financial-narrative.md` prints two numbers and a total; the total is over 100 if both files are filled rather than pasted.
 
 ## The quest
 
-**Independent Exercise 2: Elevator Pitch Draft**
-
-Write and practice a 60-second elevator pitch:
-- Sentence 1: What you built (the product)
-- Sentence 2: Who it is for (the customer)
-- Sentence 3: Why it matters (the problem it solves)
-- Sentence 4: Why now (traction or market timing)
-- Sentence 5: The ask (what you need)
-
-Example: "I built TaskForge, an AI-powered project manager for solo developers. Solo devs abandon 73% of their projects because they lose track of what to do next. TaskForge breaks any project into daily tasks and keeps you accountable. We have 500 users and 47 paying subscribers. I am raising $500K to get to 3,000 subscribers and profitability."
-
-Deliver it out loud, note where you ran out of breath or out of facts, and revise.
-
-**Success Criteria:** A clear, concise, compelling pitch deliverable in under 60 seconds.
-
----
-
-### Review the artifact
-
-Your deliverable is **A venture-fit assessment, evidence-backed pitch narrative, and fundraising process map**. Keep the result, the evidence, and the limitations together so a reviewer can reproduce the important behavior. Start the review with the user outcome, then trace the three boundaries shown in the working-model diagram. Explain what enters each boundary, what leaves it, and which condition would stop progress.
-
-Use the failure cases above as a rehearsal, not only as reading. Choose a valid fixture, change one relevant condition, and compare the result. Record expected and observed behavior separately. If they disagree, investigate the smallest boundary that could explain the difference. After correcting it, repeat the original valid case to check that the repair did not remove useful behavior.
-
-Ask a peer to review the artifact without your narration. Give them the setup instructions and acceptance criteria, then note where they need additional information. Improve the artifact or its instructions at that point. A complete submission is understandable without the author's memory. Include unresolved questions as explicit follow-up work with a reason and a next action; do not hide them behind a general claim that everything works.
-
 ![](diagram:session-11-3/fig3-evidence)
+
+One deliverable in two files: `docs/pitch-deck.md` with its Slides link and `docs/financial-narrative.md`, both committed. Evidence that it is done:
+
+- The venture-fit paragraph gives a yes or a no with a reason, and a non-venture route if the answer is no.
+- Slides 1 to 4 exist in the deck with content from the capstone, not placeholders; a reviewer opening the link can see two real screenshots.
+- The market arithmetic has a source and a date on the count, and the SAM and SOM are products you can recompute from the lines above them.
+- The financial narrative fits on one printed page, and `500 x $12 x 12` style arithmetic checks on every projection line.
+- The elevator pitch was recorded twice; the sentence you changed between takes is marked in the file.
+- The pipeline table has at least three rows of firms or people who invest at your stage, with the introduction source you would use and no private contact details.
+- The data-room index lists where each item lives in the repo.
+
+Next session builds the month-by-month cash model, and slides 10 and 11 change to whatever it says.
 
 ## Side quests
 
-Use these library pages to deepen the decisions in this lesson. Return to the main artifact and apply one idea rather than treating the references as a separate checklist.
+Back-of-the-envelope numbers are the method behind the fund arithmetic and the bottom-up market, and the long-return mindset is what keeps you honest when the obtainable market comes out small.
 
 ## Before next session
 
-**Duration:** 180 minutes
-**Pre-work:** Sessions 11.1 and 11.2 completed; cap table homework from 11.2; clear understanding of capstone product's value proposition; familiarity with target market (from Unit 8 user research)
-**Materials:** VC fund structure diagram, pitch deck slide-by-slide template, TAM/SAM/SOM calculation worksheet, financial narrative template, example pitch decks (Airbnb, Uber, Buffer early decks), market size data sources list
+Next session is [War Council](/path/11-4-war-council/): the cash model that tests every number in the deck, the reconciliation of slides 10 and 11 against it, and a recorded five-minute pitch you score yourself. Finish slides 5 to 12 in the deck before then, content first and design last; next session's first step assumes twelve filled slides. Make sure you can record your screen and your voice on your own machine: QuickTime on macOS, Game Bar on Windows, or OBS on anything, and test a ten-second recording so the first real take is not the test.
 
----
-
-**Assignment: Pitch Deck First Draft**
-**Objective:** Create the first draft of your pitch deck using the 10-12 slide format
-**Time Estimate:** 3-4 hours
-**Due:** Before Session 11.4
-
-**Tasks:**
-1. Create a Google Slides or PowerPoint presentation with ALL 12 slides from the template from this session
-2. Use real data from your capstone (screenshots, user numbers, revenue if any)
-3. Calculate and include your TAM/SAM/SOM numbers
-4. Write your "Ask" slide with a specific dollar amount and use of funds
-5. Keep each slide to ONE key message. Minimal text. Visual where possible.
-6. Do NOT worry about design or polish yet. Content first.
-
-**Submission:** Share the Google Slides link or upload to your capstone repo under `/docs/pitch-deck-v1`
-
-**Stretch Goals (Optional):**
-- Write your one-page financial narrative using the template from class
-- Record a 3-minute video of you pitching with the deck (phone camera, screen share, no editing)
-
----
-
-### Manual verification and further reading
-
-- [Official reference 1](https://www.ycombinator.com/library/4b-how-to-pitch-your-company)
+Nothing is running between sessions. The deployed capstone stays up on its own; the deck lives in Google Slides and its outline in `docs/`.
