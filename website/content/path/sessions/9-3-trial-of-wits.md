@@ -25,7 +25,7 @@ say:
 
 Last session you measured an `includes` loop going from a millisecond to six seconds and replaced it with a `Set`. That replacement has a name, the frequency counter, and it is one of a handful of moves that turn a nested loop into a single pass when the input has the right shape. Two pointers, sliding window, binary search, divide and conquer, memoized recursion. People call them patterns and teach them as a list. The list is the least useful part. What matters is the condition under which each one is safe, because applied without its condition a pattern produces an elegant wrong answer.
 
-Today you solve one problem the way you will solve every problem at a whiteboard and in a code review: understand the input, write the obvious slow version, state what makes it slow, then write the fast version with its invariant beside the loop and a test that runs both on the same generated cases. The slow version is not wasted. It is the oracle. By the end you have one pair of solutions in `~/projects/typescript-practice`, a hand table you can trust, a sentence that stays true inside the loop, a measurement showing which one you would ship and at what size it starts to matter, and four smaller functions that rehearse the other patterns. The six-problem set is not today. It is [next session](/path/9-4-trial-of-patience/), once this one pair is solid.
+Today you solve one problem the way you will solve every problem at a whiteboard and in a code review: understand the input, write the obvious slow version, state what makes it slow, then write the fast version with its invariant beside the loop and a test that runs both on the same generated cases. The slow version is not wasted. It is the oracle. By the end you have one pair of solutions in `~/projects/typescript-practice`, a hand table you can trust, a sentence that stays true inside the loop, a measurement showing which one you would ship and at what size it starts to matter, and, if there is time after the pair, four smaller functions that rehearse the other patterns. The six-problem set is not today. It is [next session](/path/9-4-trial-of-patience/), once this one pair is solid.
 
 > *A trial of wits is not won by knowing the answer. It is won by knowing how you would check one.*
 
@@ -361,7 +361,7 @@ Keep the slow function. Run both on the same generated cases, with a seed, and a
 
 ## Your turn
 
-In `~/projects/typescript-practice`, extend `src/patterns.ts` and `tests/patterns.test.ts`. Each step rehearses one more pattern from the idea section on a function small enough to trace by hand. Run `npm test` after each step. Step 1 also needs a second bench, `src/bench-search.ts`, which times ten thousand lookups through the binary search you are about to write against a linear scan, at three sizes:
+First, the stop line from The quest below, so you read it before this list and not after it: today's deliverable is the one window pair, `minSubarrayLenSlow` beside `minSubarrayLen`, with its tests, its bench lines, and its entry in `ALGORITHMS.md`. Finish that pair before anything here. The six steps below are practice for after the pair, optional today and fair game in a later sitting, and the quest needs none of them. In `~/projects/typescript-practice`, extend `src/patterns.ts` and `tests/patterns.test.ts`. Each step rehearses one more pattern from the idea section on a function small enough to trace by hand. Run `npm test` after each step. Step 1 also needs a second bench, `src/bench-search.ts`, which times ten thousand lookups through the binary search you are about to write against a linear scan, at three sizes:
 
 ```ts
 import { lowerBound } from './patterns.ts';
@@ -410,7 +410,7 @@ Evidence to keep:
 
 - The `ℹ pass` and `ℹ fail` lines from `npm test`, with the agreement test running at least five hundred seeded rounds.
 - `ALGORITHMS.md` with one entry, naming the condition that makes the window safe and the input size at which the slow version stops being acceptable, from the bench you ran.
-- The three lines from `node src/bench-window.ts`, and the three from `node src/bench-search.ts` once step 1 of Your turn is done.
+- The three lines from `node src/bench-window.ts`. The three from `node src/bench-search.ts` join them only if you did step 1 of Your turn, which is optional today.
 - One sentence saying which cell of your own hand table you got wrong the first time, or the sentence "none; my table matched the page on the first pass".
 
 Push to `typescript-practice`. The comparison habit, slow beside fast and a seeded test between them, is the one to carry into the capstone when a query gets clever.

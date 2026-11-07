@@ -2098,8 +2098,8 @@
   "session-9-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Evidence in three parts: the checkpoint asserts the lower-bound search handles an empty interval; the boundary assertion finds the first matching index among duplicates; the manual hand-off is the solutions file with an oracle per problem, seeded agreement tests, and a measured comparison.",
-    "caption": "Evidence: the browser model proves the search's boundaries and its agreement with a linear oracle; your seeded tests and bench lines prove the same for every problem in the set.",
+    "alt": "Evidence in three parts: the checkpoint asserts that the window's six-row run matches the hand table cell by cell and ends with best at 2; the agreement assertion runs the slow version and the window on three hundred seeded cases, all agreeing, and catches the one-shrink mistake; the manual hand-off is one generated case, [2, 0, 6, 6] with target 27, worked by hand through both versions and written at the bottom of the ALGORITHMS.md entry.",
+    "caption": "Evidence: the browser model proves the hand table and the pair's agreement on seeded cases; your own run of the table's input, the test's pass line, and one generated case on paper prove the same for the one pair you keep.",
     "props": {
       "session": "9.3",
       "title": "Prove the handoff",
@@ -2107,15 +2107,15 @@
       "nodes": [
         [
           "Checkpoint assertion",
-          "Empty interval"
+          "Hand table matched by the run"
         ],
         [
           "Boundary assertion",
-          "First matching boundary"
+          "Slow and fast agree on seeded cases"
         ],
         [
           "Manual handoff",
-          "Algorithm solutions with invariants, edge cases, and comparative complexity"
+          "One generated case worked on paper"
         ]
       ],
       "artifact": "Algorithm solutions with invariants, edge cases, and comparative complexity"

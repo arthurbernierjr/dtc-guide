@@ -32,7 +32,7 @@ The rule for the whole session is that behavior does not change. The Unit 7 suit
 
 ## The idea
 
-A migration has three stages. Baseline: freeze the working behavior and list the public contracts, which for the hall are twelve routes, their status codes, and their JSON bodies, already written down in `HALL.md` and enforced by `tests/`. Migrate: rename and then type one boundary at a time with strict checking on, fixing what the compiler finds and investigating each finding rather than silencing it. Explain: connect the result to an architecture decision, so the next person knows why the server is typed and the capstone is not. The [migration guide](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html) describes the same stages in the compiler's words.
+A migration has three stages. Baseline: freeze the working behavior and list the public contracts, which for the hall are the twelve routes from Unit 4 plus the unread count from [5.2](/path/5-2-advanced-incantations/), their status codes, and their JSON bodies, already written down in `HALL.md` and enforced by `tests/`. Migrate: rename and then type one boundary at a time with strict checking on, fixing what the compiler finds and investigating each finding rather than silencing it. Explain: connect the result to an architecture decision, so the next person knows why the server is typed and the capstone is not. The [migration guide](https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html) describes the same stages in the compiler's words.
 
 The compiler's findings are evidence, not obstacles. Under `strict`, a reported "possibly undefined" means one of three things: the absence is real and the code must handle it, the absence is impossible and a check upstream should say so where the compiler can see it, or the type is wrong. Each one is a decision. A non-null assertion or an `any` skips the decision and keeps the risk. The forge is finished when the holes that remain are named, not when `tsc` exits quietly.
 
@@ -148,6 +148,7 @@ interface Message {
   sender: Types.ObjectId;
   recipient: Types.ObjectId;
   body: string;
+  readAt: Date | null;
 }
 
 type ItemKind = 'potion' | 'weapon' | 'armor';
@@ -172,7 +173,7 @@ const userSchema = new Schema<User>({
 const UserModel = mongoose.model<User>('User', userSchema);
 ```
 
-The other three schemas take `Schema<Message>`, `Schema<Item>`, and `Schema<Holding>` the same way, with their fields unchanged, and `holdingSchema.index({ owner: 1, item: 1 }, { unique: true })` stays exactly as it was. The models are renamed `UserModel`, `MessageModel`, `ItemModel`, `HoldingModel` so the interface and the model do not fight over one name; the registered Mongoose name, `'User'`, does not change, which matters because `tests/helpers.js` looks it up by that string.
+The other three schemas take `Schema<Message>`, `Schema<Item>`, and `Schema<Holding>` the same way, with their fields unchanged, and `holdingSchema.index({ owner: 1, item: 1 }, { unique: true })` stays exactly as it was. Unchanged includes `readAt`, the `{ type: Date, default: null }` field that 5.2 added to `messageSchema` for the unread count. The interface says `readAt: Date | null` so the compiler knows the field starts empty, and the `countDocuments({ recipient: currentUser(req), readAt: null })` filter inside `unreadCount` types against it. If your `Message` interface has no `readAt`, the compiler rejects that filter and the write in `readMessage` below, which is the migration finding a field you forgot, not a reason to add `any`. The models are renamed `UserModel`, `MessageModel`, `ItemModel`, `HoldingModel` so the interface and the model do not fight over one name; the registered Mongoose name, `'User'`, does not change, which matters because `tests/helpers.js` looks it up by that string.
 
 Next the helpers that stop `any` and name the errors, placed above the middleware:
 
@@ -263,7 +264,7 @@ async function register(req: Request, res: Response): Promise<void> {
 }
 ```
 
-And one handler with a route parameter, `readMessage`, where `Request<{ id: string }>` types `req.params.id`:
+And one handler with a route parameter, `readMessage`, where `Request<{ id: string }>` types `req.params.id`. The `readAt` write from 5.2 stays where 5.2 put it, below the 403, because the migration moves nothing and the regression case "the sender's read is still 403" still has to hold:
 
 ```ts
 async function readMessage(req: Request<{ id: string }>, res: Response): Promise<void> {
@@ -275,6 +276,10 @@ async function readMessage(req: Request<{ id: string }>, res: Response): Promise
   if (String(message.recipient) !== String(req.userId)) {
     res.status(403).json({ error: 'forbidden' });
     return;
+  }
+  if (!message.readAt) {
+    message.readAt = new Date();
+    await message.save();
   }
   res.json(message);
 }

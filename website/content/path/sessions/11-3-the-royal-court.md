@@ -285,7 +285,7 @@ The slide says $7.1B because a report said so, and your product is a narrow tool
 
 Open a terminal in the capstone repo and a browser at slides.google.com, signed in to your Google account. If you prefer another slide tool, use it; the file names below do not change.
 
-On the Village road, steps 1 to 3 are replaced by the four slides and `docs/stakeholder-brief.md` in The quest below, so the instruction in step 2 to fill slides 1 to 4 of the twelve is not yours. Steps 4 to 7 are shared, and in step 7 the first path on the git add line is `docs/stakeholder-brief.md` in place of `docs/pitch-deck.md`.
+On the Village road, steps 1 to 3 are replaced by the four slides and `docs/stakeholder-brief.md` in The quest below, so the instruction in step 2 to fill slides 1 to 4 of the twelve is not yours. Steps 4 to 7 are shared, and in step 7 the first path on the git add line is `docs/stakeholder-brief.md` in place of `docs/pitch-deck.md`. Step 4 ends by filling slide 5, and your deck has no slide 5. Put that arithmetic in the Market arithmetic section of `docs/stakeholder-brief.md` instead, the count, the source and the date, the price, the SAM and the listed SOM. The four slides stay as the quest describes them.
 
 1. Create a new presentation named `<capstone-name> pitch` and add twelve slides with only their titles: Title, Problem, Solution, Product, Market, Business model, Traction, Team, Competition, Projections, The ask, Contact. Twelve titled slides, nothing else yet. Copy the share link with view access.
 
@@ -349,7 +349,7 @@ On the Village road, steps 1 to 3 are replaced by the four slides and `docs/stak
 
    The TaskForge elevator pitch, as an example of the five sentences: "I built TaskForge, an AI planner for solo developers. Solo devs juggling several projects abandon the ones where the next task is never written down. TaskForge breaks a project into daily tasks and checks in when a day goes quiet. It has 500 users and 47 paying subscribers after two months. I am raising $500K to reach 3,000 subscribers and break-even in 18 months."
 
-4. Do the market arithmetic for your capstone with a real count. Search for the segment, write the source and the date next to it, and if you cannot find a count, write the count you would need and mark it hypothetical. Fill slide 5 from this section.
+4. Do the market arithmetic for your capstone with a real count. Search for the segment, write the source and the date next to it, and if you cannot find a count, write the count you would need and mark it hypothetical. Fill slide 5 from this section, or on the Village road the Market arithmetic section of `docs/stakeholder-brief.md`.
 
 5. Copy the financial narrative template above into `docs/financial-narrative.md` and fill every section. Where you have no observed number, write the hypothetical one and say so. Check the ARR lines by multiplication.
 
