@@ -153,7 +153,7 @@ gh repo view
 
 The first `git remote -v` prints nothing: a fresh repository has no remotes. `git remote add origin <url>` writes one, and the second `-v` shows it twice, once for fetch and once for push, because Git allows them to differ (they almost never do). `git branch -M main` renames the current branch to `main` if it was not already; on your machine, with `init.defaultBranch` set last session, it is a no-op, but GitHub prints it for people with older defaults, so it does no harm. Then the line that matters: `git push -u origin main`. Read its output. Git counts objects, compresses them, writes them, and then prints `* [new branch] main -> main`: your `main` has created a `main` on origin. The `-u` (long form `--set-upstream`) records that your local `main` *tracks* `origin/main`, which is why the next `git status` can say *Your branch is up to date with 'origin/main'* and why, from now on, a bare `git push` and `git pull` know where to go without being told.
 
-Refresh the GitHub page on your machine and your files are there, with the README rendered. Then the second loop: edit, add, commit, push. This time push prints `4261e13..b538278 main -> main`, old hash to new hash, which is the shape of every ordinary push for the rest of your life. `git log --oneline` now decorates the top commit with both `HEAD -> main` and `origin/main`: your label and the remote's label on the same save, which is the picture of "in sync". `gh repo view` prints the README as GitHub would render its text. Look at that. Your code is on the internet.
+Refresh the GitHub page on your machine and your files are there, with the README rendered. Then the second loop: edit, add, commit, push. This time push prints `<old hash>..<new hash> main -> main`, the seven-character hash origin had followed by the one it has now, which is the shape of every ordinary push for the rest of your life. `git log --oneline` now decorates the top commit with both `HEAD -> main` and `origin/main`: your label and the remote's label on the same save, which is the picture of "in sync". `gh repo view` prints the README as GitHub would render its text. Look at that. Your code is on the internet.
 
 > **Tip:** The remote name `origin/main` is a label Git keeps for you, updated only when you push or fetch. It is not live. If a teammate pushes, your `origin/main` does not move until you ask. That is why Fig 3's loop starts with `pull`: it is how you find out where origin really is.
 
@@ -163,7 +163,7 @@ Fig 3 is the loop you will run every working day from now until you retire: pull
 
 **Walkthrough 3: clone, pull, and the fork.** Clone is how you get a repository that already exists on GitHub onto your machine, whether it is someone else's project or your own from a second computer. It copies *everything*: all commits, all branches, the whole history, and it sets up `origin` and the tracking for you, so a cloned repository is ready to push and pull the moment it lands. Pull is how you bring down changes made elsewhere; for now treat it as one verb, and know that it is really two, `fetch` (download their commits, touch nothing of yours) followed by `merge` (join them into your branch). We will take `fetch` apart later in the programme.
 
-The guild in the box has a repository called `newworld-guild/quest-board`. You are a member of the guild but not an owner of that repository, which is the normal situation for every open-source project you will ever meet. Watch what happens when you try to push to it, and then watch the right way.
+The guild in the box has a repository called `newworld-guild/quest-board`. It exists only inside the box, on the page's pretend GitHub, so rehearse this walkthrough here rather than on your machine (the real github.com has no `newworld-guild`, and a clone would answer *Repository not found*). You are a member of the guild but not an owner of that repository, which is the normal situation for every open-source project you will ever meet. Watch what happens when you try to push to it, and then watch the right way.
 
 ```bash term=clone-and-fork
 git config --global user.name "Arthur the Adventurer" && git config --global user.email "arthur@newworld.dev" && git config --global init.defaultBranch main
@@ -266,7 +266,7 @@ git show --stat HEAD
 git log --oneline --all --graph
 ```
 
-Follow the stash first. On `potions` with a half-written line, `git stash` reports *Saved working directory and index state WIP on potions*, and `git status` immediately says *nothing to commit, working tree clean*: the change is gone from the folder and safe in the pocket. Switch to `main`, make the urgent fix, commit, switch back. `git stash list` shows `stash@{0}` still waiting; `git stash pop` restores it and drops it from the list, and `cat hero.txt` shows the potion line back where you left it, with no sign of `main`'s mana line, because `potions` branched before that commit existed. Then the amend. The first commit's message has a typo. `git commit --amend -m "Carry potions"` *replaces* it: look at the two `git log --oneline` outputs and notice the hash changed, `1484172` to `90f2b28`. That is not the same commit with a new message; it is a new commit, and the old one is unreferenced. Add a forgotten file and `--amend --no-edit`, and the hash changes again while the message stays, and `git show --stat HEAD` lists both files in the one save.
+Follow the stash first. On `potions` with a half-written line, `git stash` reports *Saved working directory and index state WIP on potions*, and `git status` immediately says *nothing to commit, working tree clean*: the change is gone from the folder and safe in the pocket. Switch to `main`, make the urgent fix, commit, switch back. `git stash list` shows `stash@{0}` still waiting; `git stash pop` restores it and drops it from the list, and `cat hero.txt` shows the potion line back where you left it, with no sign of `main`'s mana line, because `potions` branched before that commit existed. Then the amend. The first commit's message has a typo. `git commit --amend -m "Carry potions"` *replaces* it: look at the two `git log --oneline` outputs and notice the hash at the top is different. That is not the same commit with a new message; it is a new commit, and the old one is unreferenced. Add a forgotten file and `--amend --no-edit`, and the hash changes again while the message stays, and `git show --stat HEAD` lists both files in the one save.
 
 > **Note:** Amend rewrites history, and that is fine exactly as long as nobody else has the history you are rewriting. Only amend commits you have **not pushed**. If you amend a pushed commit, your `main` and `origin/main` now disagree about what the last commit is, your next push is rejected, and the "fix" people reach for, `git push --force`, overwrites the remote and destroys whatever anyone else pulled in between. The rule is short: amend before push, never after. (The same warning covers `git rebase`, which you will meet later; it is amend at scale.)
 
@@ -355,11 +355,11 @@ gh repo view
 
 The box writes files with `printf` because it has no editor; on your machine, use `code .zshrc` and type or paste. Watch three moments in the transcript. `grep -c alias .zshrc` counts your aliases, thirteen here; the checkpoint is at least twelve. `./setup.sh` runs the script you just made executable, backs up any existing shell config, copies the new one into place, and `source ~/.zshrc` loads it into the running shell, which is why the welcome line prints and why `gs`, `ga`, `gc` and `gl` work as commands for the rest of the box. And `gh repo create dotfiles --public --source=. --remote=origin --push` creates the repository, adds the remote and pushes in one line; `gl` (your new alias for `git log --oneline --graph`) shows two commits with `origin/main` on top, and `gh repo view` prints the README. On your machine, do that last step as the three clicks and three commands from the first walkthrough, then open the page and read your README rendered. It should look like a project. It is one.
 
-**Part 1: the structure (20 minutes).** `mkdir ~/dotfiles`, `cd` in, `git init`. Create `.zshrc` (or `.bashrc` if your shell is Bash; `echo $SHELL` tells you) with this content, your name in the header:
+**Part 1: the structure (20 minutes).** `mkdir ~/dotfiles`, `cd` in, `git init`. Create `.zshrc` with this content, your name in the header:
 
 ```bash
 # ================================
-# Arthur's Shell Configuration
+# Arthur's Shell Configuration (zsh)
 # ================================
 
 # Aliases: shortcuts for commands you use all the time
@@ -381,16 +381,27 @@ alias projects="cd ~/projects"
 mkdir -p ~/projects
 
 # Custom prompt: current directory and git branch
-parse_git_branch() {
+git_branch() {
   git branch 2>/dev/null | grep '*' | sed 's/* //'
 }
-export PS1="\[\033[36m\]\w\[\033[33m\] \$(parse_git_branch)\[\033[00m\] $ "
+setopt PROMPT_SUBST
+PS1='%F{cyan}%~%F{yellow} $(git_branch)%f $ '
 
 # Welcome message
 echo "Welcome back, $(whoami). Let's build something."
 ```
 
-The prompt function is the one piece the box leaves out (its shell does not do functions yet); on your machine it puts the current branch in your prompt, which you will come to rely on. Then `mkdir -p vscode` and `vscode/settings.json`:
+Every machine has one shell, but your dotfiles will outlive this machine, so the repo ships **both** files: the `.zshrc` above for a Mac, and a `.bashrc` for WSL and Linux. The aliases, the `mkdir -p ~/projects` line, the function and the welcome line are identical in the two files; only the prompt changes, because the two shells describe a prompt differently. zsh wants `%~` for the folder and `%F{cyan}` for a colour, with `setopt PROMPT_SUBST` so the `$(git_branch)` is re-run every time the prompt is drawn. Bash wants `\w` for the folder and escape codes wrapped in `\[ \]` for the colours. So in `.bashrc`, replace the three prompt lines with these:
+
+```bash
+# Custom prompt: current directory and git branch (bash)
+git_branch() {
+  git branch 2>/dev/null | grep '*' | sed 's/* //'
+}
+export PS1="\[\033[36m\]\w\[\033[33m\] \$(git_branch)\[\033[00m\] $ "
+```
+
+Write the file for your own shell first (`echo $SHELL` tells you which) and copy it to the other name with the prompt lines swapped. The prompt function is the one piece the box leaves out (its shell does not do functions yet); on your machine it puts the current branch in your prompt, which you will come to rely on. Then `mkdir -p vscode` and `vscode/settings.json`:
 
 ```json
 {
@@ -409,7 +420,28 @@ The prompt function is the one piece the box leaves out (its shell does not do f
 }
 ```
 
-Then `vscode/extensions.txt`, one extension id per line, the identifiers from Session 1.1 (`dbaeumer.vscode-eslint`, `esbenp.prettier-vscode`, `ritwickdey.LiveServer`, `eamodio.gitlens`, `rangav.vscode-thunder-client`, `pkief.material-icon-theme`, `formulahendry.auto-rename-tag`, `formulahendry.auto-close-tag`); a `.gitignore` with `.DS_Store`, `*.log` and `.env`; and the first commit, `Initial commit: shell config, VS Code settings, and extensions list`. Checkpoints: `cat .zshrc` shows at least twelve aliases; `git log --oneline` shows one commit.
+Then `vscode/extensions.txt`, one extension id per line. An id is `publisher.name`, the string under the title on an extension's page in the VS Code marketplace, and `code --install-extension <id>` installs it from the terminal; these eight are the ones this path relies on, with what each does:
+
+```text
+dbaeumer.vscode-eslint
+esbenp.prettier-vscode
+ritwickdey.LiveServer
+eamodio.gitlens
+rangav.vscode-thunder-client
+pkief.material-icon-theme
+formulahendry.auto-rename-tag
+formulahendry.auto-close-tag
+```
+
+- `dbaeumer.vscode-eslint`: ESLint, underlines JavaScript mistakes as you type (Unit 3 on).
+- `esbenp.prettier-vscode`: Prettier, formats your code on save so indentation is never a debate.
+- `ritwickdey.LiveServer`: Live Server, serves an HTML page and reloads it when you save (Session 2.1 puts it to work).
+- `eamodio.gitlens`: GitLens, shows who changed each line and when, inside the editor.
+- `rangav.vscode-thunder-client`: Thunder Client, a small tool for sending requests to an API (Unit 4).
+- `pkief.material-icon-theme`: file-type icons in the explorer, so a `.css` and a `.js` look different at a glance.
+- `formulahendry.auto-rename-tag` and `formulahendry.auto-close-tag`: when you type an HTML opening tag the closing tag appears, and renaming one renames the other.
+
+Then a `.gitignore` with `.DS_Store`, `*.log` and `.env`; and the first commit, `Initial commit: shell config, VS Code settings, and extensions list`. Checkpoints: `cat .zshrc` (or `cat .bashrc`) shows at least twelve aliases; `ls -a` shows both rc files; `git log --oneline` shows one commit.
 
 **Part 2: the script, the README, and the push (25 minutes).** Create `setup.sh` with the full version below, `chmod +x setup.sh`, and `ls -la setup.sh` to confirm the `x` in the permissions:
 
@@ -429,20 +461,27 @@ mkdir -p ~/projects
 echo "Linking shell configuration..."
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-if [ -f ~/.zshrc ]; then
-  echo "Backing up existing .zshrc to .zshrc.backup"
-  cp ~/.zshrc ~/.zshrc.backup
+# Pick the rc file for the shell this machine uses: zsh on a Mac, bash on WSL and Linux
+case "$SHELL" in
+  */zsh) RC=.zshrc ;;
+  *)     RC=.bashrc ;;
+esac
+if [ -f ~/$RC ]; then
+  echo "Backing up existing $RC to $RC.backup"
+  cp ~/$RC ~/$RC.backup
 fi
-cp "$SCRIPT_DIR/.zshrc" ~/.zshrc
+cp "$SCRIPT_DIR/$RC" ~/$RC
+echo "Shell config linked: ~/$RC"
 
 echo "Copying VS Code settings..."
 VSCODE_DIR="$HOME/Library/Application Support/Code/User"
+[ -d "$HOME/.config/Code/User" ] && VSCODE_DIR="$HOME/.config/Code/User"
 if [ -d "$VSCODE_DIR" ]; then
   cp "$SCRIPT_DIR/vscode/settings.json" "$VSCODE_DIR/settings.json"
   echo "VS Code settings updated."
 else
   echo "VS Code settings directory not found. Skipping."
-  echo "(On Linux, try: ~/.config/Code/User/)"
+  echo "(On WSL, VS Code keeps settings on the Windows side: copy vscode/settings.json by hand via File > Preferences > Settings > Open Settings (JSON).)"
 fi
 
 echo "Installing VS Code extensions..."
@@ -461,19 +500,19 @@ echo "Restart your terminal to apply changes."
 echo "Welcome to the new world."
 ```
 
-Read it before you run it; every line is Session 1.2's shell. `SCRIPT_DIR` works out where the script lives so it can be run from anywhere. The `if [ -f … ]` guards back up anything they would overwrite. `command -v code` asks whether the `code` command exists before trying to use it, and the `while read` loop installs each extension from your list. Then `README.md`, in Markdown, with at least three sections; the model is the one the box wrote, expanded: a one-line description, **What is in here** as a bullet list of the files, **Quick start** as a fenced code block with the clone and setup commands, a **Shell aliases** table, **Built with**, and **Author**. Commit: `Add setup script and README`. Create `dotfiles` on GitHub, Public, no README; `git remote add origin git@github.com:YOU/dotfiles.git`, `git branch -M main`, `git push -u origin main`. Open the page. Read your README rendered. Share the link. You just shipped your first project.
+Read it before you run it; every line is Session 1.2's shell. `SCRIPT_DIR` works out where the script lives so it can be run from anywhere. The `case` on `$SHELL` picks `.zshrc` on a Mac and `.bashrc` on WSL and Linux, so the same script sets up either kind of machine, and the `if [ -f … ]` guard backs up anything it would overwrite. After it runs, `source ~/.zshrc` (or `source ~/.bashrc`) loads the new config into the terminal you are sitting in; from the next terminal on, it loads by itself. `command -v code` asks whether the `code` command exists before trying to use it, and the `while read` loop installs each extension from your list. Then `README.md`, in Markdown, with at least three sections; the model is the one the box wrote, expanded: a one-line description, **What is in here** as a bullet list of the files, **Quick start** as a fenced code block with the clone and setup commands, a **Shell aliases** table, **Built with**, and **Author**. Commit: `Add setup script and README`. Create `dotfiles` on GitHub, Public, no README; `git remote add origin git@github.com:YOU/dotfiles.git`, `git branch -M main`, `git push -u origin main`. Open the page. Read your README rendered. Share the link. You just shipped your first project.
 
-**Independent lab: Polish and personalise (the rest of the session, and homework).** No step-by-step. Requirements: at least five more aliases that are useful to *you*, such as `alias weather="curl wttr.in"`, `alias myip="curl ifconfig.me"`, `alias c="code ."`, `alias h="history | tail -20"`; a `git/` folder holding a `.gitconfig` with your `[user]` name and email, `[init] defaultBranch = main`, `[core] editor = code --wait`, and an `[alias]` section (`s = status`, `l = log --oneline --graph --all`, `co = checkout`, `br = branch`, `ci = commit`); `setup.sh` updated to copy that `.gitconfig` to `~/.gitconfig`; at least two more README sections ("Customisation ideas", "What I would add next", "Resources that helped me"). Make each change on its own branch (`add-more-aliases`, `add-gitconfig`, `update-readme`), merge each into `main`, and push after each merge. And at least one of them must go through a pull request on the site: push the branch, open the PR, read **Files changed**, merge it there, then `git pull` locally. Check every alias works by running `source ~/.zshrc` and trying it. Stretch goals: a `Brewfile` or `packages.txt` of the tools you want installed, with `setup.sh` installing them; a custom terminal colour scheme; a prompt from `oh-my-zsh` or `starship` with its config in the repo; a `Makefile` with `make install`, `make backup`, `make update`; and an hour reading other people's dotfiles, starting from the [awesome-dotfiles](https://github.com/webpro/awesome-dotfiles) list, stealing anything you like.
+**Independent lab: Polish and personalise (the rest of the session, and the days before Unit 2).** No step-by-step. Requirements: at least five more aliases that are useful to *you*, such as `alias weather="curl wttr.in"`, `alias myip="curl ifconfig.me"`, `alias c="code ."`, `alias h="history | tail -20"`; a `git/` folder holding a `.gitconfig` with your `[user]` name and email, `[init] defaultBranch = main`, `[core] editor = code --wait`, and an `[alias]` section (`s = status`, `l = log --oneline --graph --all`, `co = checkout`, `br = branch`, `ci = commit`); `setup.sh` updated to copy that `.gitconfig` to `~/.gitconfig`; at least two more README sections ("Customisation ideas", "What I would add next", "Resources that helped me"). Make each change on its own branch (`add-more-aliases`, `add-gitconfig`, `update-readme`), merge each into `main`, and push after each merge. And at least one of them must go through a pull request on the site: push the branch, open the PR, read **Files changed**, merge it there, then `git pull` locally. Check every alias works by running `source ~/.zshrc` (or `source ~/.bashrc`) and trying it. Stretch goals: a `Brewfile` or `packages.txt` of the tools you want installed, with `setup.sh` installing them; a custom terminal colour scheme; a prompt from `oh-my-zsh` or `starship` with its config in the repo; a `Makefile` with `make install`, `make backup`, `make update`; and an hour reading other people's dotfiles, starting from the [awesome-dotfiles](https://github.com/webpro/awesome-dotfiles) list, stealing anything you like.
 
 ## The quest
 
 By the start of Unit 2, have on GitHub:
 
 - `quest-log`, pushed, with `git status` on your machine saying *Your branch is up to date with 'origin/main'*.
-- `github.com/YOU/dotfiles`, public, with a README that renders cleanly and has at least five sections, at least seventeen aliases in your shell config, a `git/.gitconfig`, a `setup.sh` that is executable and handles the gitconfig, a commit history showing at least two branches created and merged, and at least one merged pull request visible under the **Pull requests** tab with its **Closed** filter.
+- `github.com/YOU/dotfiles`, public, with a README that renders cleanly and has at least five sections, at least seventeen aliases in your shell config (both `.zshrc` and `.bashrc`), a `git/.gitconfig`, a `setup.sh` that is executable and handles the gitconfig, a commit history showing at least two branches created and merged, and at least one merged pull request visible under the **Pull requests** tab with its **Closed** filter.
 - `ssh -T git@github.com` greeting you by name.
 
-Budget two to three hours for the independent lab if you did not finish it here. Submit the dotfiles URL. It is the first line of your portfolio.
+Budget two to three hours for the independent lab if you did not finish it here. Paste the dotfiles URL into your journal and into your résumé draft; it is the first line of your portfolio.
 
 ## Side quests
 
@@ -485,7 +524,9 @@ Run the loop. Every time you sit down this week: `git pull`; every time you stan
 
 Spend fifteen minutes on your profile. Add a photo and a one-line bio. Then look at three other people's dotfiles repositories from the awesome-dotfiles list and notice what their READMEs do that yours does not yet. Spend another fifteen on the [GitHub Docs page about pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests), which is the reference you will come back to when a PR does something you did not expect.
 
-Next time: Unit 2, HTML and CSS. You will build a personal landing page, your character sheet for the new world, and deploy it to the internet, where it will live in a repository you push to with the key you made today. Every project from here on starts with `git init` and ends with `git push`. The guild hall is open, and your map is on the wall.
+One more thing your `setup.sh` did: it created `~/projects`. That folder is the home of every project from here on, one folder and one repository each, never nested inside another. Session 2.1 opens by creating the first of them, `~/projects/html-css-foundations`, with `mkdir`, `git init` and `gh repo create`, so nothing else needs to exist there yet.
+
+Next time: Unit 2, HTML and CSS. You will build a personal landing page, your character sheet for the new world, and deploy it to the internet, where it will live in a repository you push to with the key you made today. Every project from here on starts with `git init` in its own folder under `~/projects` and ends with `git push`. Nothing is left running between sessions; there is no server yet to stop. The guild hall is open, and your map is on the wall.
 
 > **Say:** "Git is the tool on your machine; GitHub is one place to keep a copy, and a remote is a name for a URL. The public key is the padlock you hand out; the private key stays home and never leaves ~/.ssh. Commit locally, push to share, pull before you push; a rejected push means the remote is ahead, not that you are wrong. A pull request is a conversation about a branch that ends in a merge commit; on someone else's repo, fork first. Your dotfiles are a repository now: clone, run setup, and a new machine is yours in ten minutes."
 

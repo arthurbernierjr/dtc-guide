@@ -181,7 +181,7 @@ git add secrets.txt
 ls
 ```
 
-Before the `.gitignore` exists, `git status` lists all three intruders as untracked, with the folder shown as `node_modules/` rather than every file inside it. After, they are gone from the list and only `.gitignore` itself shows up, and yes, you commit that: the ignore rules are part of the project, so everyone who gets the repo gets them. The last two lines are the proof. `git add secrets.txt` refuses, tells you exactly which rule is responsible, and `ls` shows the file is still right there on disk. Ignored is not deleted. Git is simply never going to put it in a save.
+Before the `.gitignore` exists, `git status` lists all three intruders as untracked, with the folder shown as `node_modules/` rather than every file inside it. After, they are gone from the list and only `.gitignore` itself shows up, and yes, you commit that: the ignore rules are part of the project, so everyone who gets the repo gets them. The last two lines are the proof. `git add secrets.txt` refuses and says the file is ignored (`git check-ignore -v secrets.txt` names the rule responsible), and `ls` shows the file is still right there on disk. Ignored is not deleted. Git is simply never going to put it in a save.
 
 **Walkthrough 4: the side quest, a branch and a fast-forward.** A new timeline, a save on it, a look back at `main` to see that nothing there moved, and then the merge. Watch the folder change when you check out.
 
@@ -289,7 +289,7 @@ git log --oneline --graph --all
 
 **`fatal: not a git repository`.** You ran a Git command in a folder that is not inside a repository. Either you are in the wrong folder, in which case `pwd` and `cd`, or you have not run `git init` yet. Git looks for a `.git` folder here and in every parent folder up to the root, so this message really does mean there is none anywhere above you.
 
-**The `hint: Using 'master' as the name for the initial branch` wall.** Ten lines of advice because `init.defaultBranch` was never set on this machine. Harmless, but it means your first branch is called `master`, not `main`, and every tutorial will disagree with you. The fix for this repository is `git branch -m main`; the fix forever is the third config line from Walkthrough 0.
+**The `hint: Using 'master' as the name for the initial branch` wall.** Ten lines of advice because `init.defaultBranch` was never set on this machine. Harmless, but it means your first branch is called `master`, not `main`, and every tutorial will disagree with you. The fix for this repository is `git branch -m main`; the fix forever is the third config line from Walkthrough 0. You ran that line on your machine already, so your own `git init` will not print this wall; the box prints it because its config starts empty.
 
 **`Author identity unknown` and `*** Please tell me who you are.`** The commit refused because there is no name and email. Git prints the two `git config --global` lines you need; run them, with your real details, and commit again. The box did exactly that.
 

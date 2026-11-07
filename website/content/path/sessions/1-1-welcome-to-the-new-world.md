@@ -15,7 +15,9 @@ docs:
   - https://www.gnu.org/software/bash/manual/bash.html
   - https://www.gnu.org/software/coreutils/manual/html_node/index.html
   - https://explainshell.com
-  - https://code.visualstudio.com/docs/editor/command-line
+  - https://code.visualstudio.com/docs/configure/command-line
+  - https://nodejs.org/en/download
+  - https://git-scm.com
   - https://brew.sh
   - https://learn.microsoft.com/en-us/windows/wsl/install
 say:
@@ -50,7 +52,7 @@ Three words get used for this, and people lose a week worrying about the differe
 
 **Why developers live here.** Four reasons, and the fourth is the real one.
 
-*Speed.* Once you know the words, typing is faster than clicking. The demo every instructor does on day one: make a folder, put ten files in it, open the whole thing in your editor. About five seconds. Now do it with the mouse: right-click, New Folder, type the name, double-click into it, right-click, New File, type the name, ten times, then find the editor and drag the folder onto it. Try it here.
+*Speed.* Once you know the words, typing is faster than clicking. The classic day-one demo: make a folder, put ten files in it, open the whole thing in your editor. About five seconds. Now do it with the mouse: right-click, New Folder, type the name, double-click into it, right-click, New File, type the name, ten times, then find the editor and drag the folder onto it. Try it here.
 
 ```bash term=five-seconds
 mkdir speed-demo
@@ -63,7 +65,7 @@ code speed-demo
 
 *Automation.* Anything you can type, you can save in a file and run again. The boring work you did by hand on Monday is a script by Friday.
 
-*Servers.* Every server in the world runs on the command line. There is no desktop on the machine that serves your bank's website, no icons, no mouse. When you deploy something in Unit 11, this is the only interface that will exist. Every developer job posting assumes you can do this, because every developer does.
+*Servers.* Every server in the world runs on the command line. There is no desktop on the machine that serves your bank's website, no icons, no mouse. When you deploy something to a server of your own in Unit 6, this is the only interface that will exist. Every developer job posting assumes you can do this, because every developer does.
 
 **The anatomy of a command.** This is the single most useful idea on the page, so slow down for it. Every line you will ever type into a shell has the same shape:
 
@@ -112,25 +114,38 @@ Two walkthroughs. The first sets up your machine. The second builds something wi
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Then install the tools and confirm your shell:
+Then install Git and confirm your shell:
 
 ```bash
-brew install git node
+brew install git
 echo $SHELL
 ```
 
+For Node, go to [nodejs.org/en/download](https://nodejs.org/en/download), choose the **LTS** release (24 or newer), download the macOS installer and run it. Node is the one tool that moves fast enough that you want the official current build, not whatever a package manager happens to have cached.
+
 Download VS Code from [code.visualstudio.com](https://code.visualstudio.com), open it, press `Cmd+Shift+P`, type **Shell Command: Install 'code' command in PATH**, and run it. That one step is what lets you type `code .` in a terminal and have the editor open on that folder.
 
-*Windows.* Open PowerShell as Administrator and run `wsl --install`, then restart. That gives you WSL2, a real Ubuntu Linux inside Windows, which is where the rest of this programme happens. Pick a username and password when Ubuntu first opens. Install Windows Terminal from the Microsoft Store if it is not already there. Then, inside the Ubuntu terminal:
+*Windows.* Open PowerShell as Administrator and run `wsl --install`, then restart. That gives you WSL2, a real Ubuntu Linux inside Windows, which is where the rest of this programme happens. Pick a username and password when Ubuntu first opens. Install Windows Terminal from the Microsoft Store if it is not already there. Then, inside the Ubuntu terminal, update the system and install Git:
 
 ```bash
 sudo apt update && sudo apt upgrade -y
-sudo apt install git nodejs npm -y
+sudo apt install git -y
 ```
 
-Install VS Code from the same site, and in VS Code install the **WSL** extension so the editor opens your Linux files directly.
+Do **not** install Node with `apt`; Ubuntu's copy is years out of date and Unit 4 needs a current one. Install it the way [nodejs.org/en/download](https://nodejs.org/en/download) shows for Linux, with `nvm`, the Node version manager. Two lines, then close and reopen the terminal before the third:
 
-*Linux.* Open your terminal (`Ctrl+Alt+T` on most distributions) and run the same two `apt` lines. For VS Code, download the `.deb` from the website and `sudo dpkg -i code_*.deb`.
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+```
+
+```bash
+nvm install --lts
+node --version
+```
+
+The first line downloads and installs `nvm`; the second installs the current LTS release of Node (24 or newer) and makes it the default. Install VS Code from the same site, and in VS Code install the **WSL** extension so the editor opens your Linux files directly.
+
+*Linux.* Open your terminal (`Ctrl+Alt+T` on most distributions) and run the same `apt` lines for Git and the same two `nvm` lines for Node. For VS Code, download the `.deb` from the website and `sudo dpkg -i code_*.deb`.
 
 > **Note:** Installs are the one part of day one that goes wrong for reasons that have nothing to do with you: a slow network, a permissions prompt, an older macOS. If something fails, read the last few lines of the error out loud, search the exact sentence, and keep going. WSL2 in particular takes a while and wants a restart. Nobody gets left behind over an installer.
 
@@ -144,7 +159,7 @@ which git node code
 echo $SHELL
 ```
 
-Your numbers will differ from these and that is fine; what matters is that a number comes back at all. `which` is the fourth command here and it answers "where does this program live?": the shell found `git` in `/usr/local/bin`, which is how it knew what to run when you typed the word. If `code --version` says command not found on a Mac, you skipped the Shell Command step above.
+Your numbers will differ from these and that is fine; what matters is that a number comes back at all, and that `node --version` starts with `v24` or higher (if it says `v12` or `v18`, Node came from `apt`; go back to the `nvm` lines). `which` is the fourth command here and it answers "where does this program live?": the shell found `git` in `/usr/local/bin`, which is how it knew what to run when you typed the word. If `code --version` says command not found on a Mac, you skipped the Shell Command step above.
 
 Take a ten-minute break here if you are following along in real time. In isekai anime even the hero rests at the inn.
 
@@ -231,6 +246,12 @@ The rule for the week: first line with `>`, every line after it with `>>`, then 
 
 Two labs, then an independent build. Do all three in your real terminal. The page terminals above are for rehearsing; each one keeps whatever you type until you press Run again, so you can practise a step in the box, then do it for real.
 
+**Pro tips: the keyboard.** The mouse does not work on the command line, which feels like a loss for about a day and then becomes the reason the terminal is fast. These are the keys. Three of them today, the rest when a long line annoys you enough.
+
+![](diagram:session-1-1/fig5-keyboard-map)
+
+Learn `↑` (bring back the last command), `Tab` (finish a file or folder name; press it twice to see every option) and `Ctrl+C` (stop whatever is running, or throw away the line you are typing) right now. Tab in particular is the difference between typing `isekai-camp/inventory/weapons/wooden-sword.txt` and typing `is`, Tab, `in`, Tab, `w`, Tab, `w`, Tab. Then, as you need them: `Ctrl+A` and `Ctrl+E` jump to the start and end of the line; `Ctrl+U` erases everything before the cursor and `Ctrl+K` everything after it, and `Ctrl+Y` pastes back whatever either one erased; `Ctrl+W` deletes just the last word, which is the fastest way to fix a typo at the end of a long path; `Ctrl+R` searches your history as you type, so a command you ran an hour ago is three letters away; `Ctrl+L` clears the screen. The page terminals support `↑`, `↓`, `Tab`, `Ctrl+L` and `Ctrl+C`, so try them there first.
+
 **Lab 1: First Contact (20 minutes).** The goal is comfort: typing commands and reading output until the window stops feeling hostile. Follow each step exactly and look at every answer.
 
 1. Open your terminal.
@@ -300,7 +321,7 @@ echo '<body><h1>Hello from the terminal!</h1></body>' >> practice/hello-world/in
 echo '</html>' >> practice/hello-world/index.html
 ```
 
-Those five lines assume you have moved into `dev-environment-practice` with `cd`; if you have not, put the folder name in front of each path. When the tree is built, run `ls -R dev-environment-practice` from your home directory. We have not taught the `-R` flag; try it and see what happens, then work out from the output what it does. On your machine, take a screenshot of that output and save it in `screenshots/`.
+Those five lines assume you have moved into `dev-environment-practice` with `cd`; if you have not, put the folder name in front of each path. When the tree is built, run `ls -R dev-environment-practice` from your home directory. We have not taught the `-R` flag; try it and see what happens, then work out from the output what it does. Then run it once more with the arrow, `ls -R dev-environment-practice > dev-environment-practice/screenshots/tree.txt`, so the `screenshots/` folder holds a text snapshot of the whole tree, and `cat` that file to check it.
 
 Hints: `mkdir -p` builds nested folders in one command. `>` replaces, `>>` adds. If you forget a command, `history` has everything you have typed, and the `commands-learned.txt` you are writing is your own cheat sheet. Stretch goals, if you have time: write in your notes what `ls -R` does; try three commands we did not cover (`cal`, `uptime`, `df -h`) and add them to your list; search "customize zsh prompt" or "customize bash prompt" and give your prompt a colour.
 
@@ -308,20 +329,14 @@ Hints: `mkdir -p` builds nested folders in one command. `>` replaces, `>>` adds.
 
 ## The quest
 
-**Pro tips: the keyboard.** The mouse does not work on the command line, which feels like a loss for about a day and then becomes the reason the terminal is fast. These are the keys. Three of them today, the rest when a long line annoys you enough.
-
-![](diagram:session-1-1/fig5-keyboard-map)
-
-Learn `↑` (bring back the last command), `Tab` (finish a file or folder name; press it twice to see every option) and `Ctrl+C` (stop whatever is running, or throw away the line you are typing) right now. Tab in particular is the difference between typing `isekai-camp/inventory/weapons/wooden-sword.txt` and typing `is`, Tab, `in`, Tab, `w`, Tab, `w`, Tab. Then, as you need them: `Ctrl+A` and `Ctrl+E` jump to the start and end of the line; `Ctrl+U` erases everything before the cursor and `Ctrl+K` everything after it, and `Ctrl+Y` pastes back whatever either one erased; `Ctrl+W` deletes just the last word, which is the fastest way to fix a typo at the end of a long path; `Ctrl+R` searches your history as you type, so a command you ran an hour ago is three letters away; `Ctrl+L` clears the screen. The page terminals support `↑`, `↓`, `Tab`, `Ctrl+L` and `Ctrl+C`, so try them there first.
-
-**The quest itself.** By the start of Session 1.2, have on your machine:
+By the start of Session 1.2, have on your machine:
 
 - A verified environment: `git --version`, `node --version` and `code --version` all print a number in your real terminal.
 - `isekai-camp` built to the tree, with a three-line `day-01.txt` you have read with `cat`.
-- `dev-environment-practice` built to the requirements, with `session-01.txt`, `commands-learned.txt` and the HTML skeleton written entirely with `echo`, and the `ls -R` screenshot saved inside it.
+- `dev-environment-practice` built to the requirements, with `session-01.txt`, `commands-learned.txt` and the HTML skeleton written entirely with `echo`, and `screenshots/tree.txt` holding the `ls -R` output.
 - One honest sentence added to the bottom of `day-01.txt`, with `>>`, about how the first day felt.
 
-Next session uses the `dev-environment-practice` folder directly, so it must exist.
+Next session starts from the same home directory and builds new folders beside these two, so leave `isekai-camp` and `dev-environment-practice` exactly where they are.
 
 ## Side quests
 
@@ -331,9 +346,9 @@ Two pages in the library frame the week around today. Read them in this order; t
 
 Finish the independent lab if you did not finish it here; the folder must be on your machine, fully built, before Session 1.2. Budget one to two hours.
 
-Then open a terminal once a day for no reason. `pwd`, `ls`, `cd` into something, `ls` again, `cat` a file you made. Five minutes. The point is not to learn anything new; it is to stop noticing the window. By Saturday it is just a place you go.
+Then open a terminal once a day for no reason. `pwd`, `ls`, `cd` into something, `ls` again, `cat` a file you made. Five minutes. The point is not to learn anything new; it is to stop noticing the window. After a week it is just a place you go.
 
-Next time: Your Status Screen. We learn to move around the whole filesystem: absolute and relative paths, `cd` in every direction, the flags that make `ls` tell the truth, pipes that chain commands together, and permissions, which is why a file sometimes refuses you. Your status screen is about to get a lot more detailed. Nothing to read ahead. Arrive with the base camp built.
+Next time: Your Status Screen. We learn to move around the whole filesystem: absolute and relative paths, `cd` in every direction, the flags that make `ls` tell the truth, pipes that chain commands together, and permissions, which is why a file sometimes refuses you. Your status screen is about to get a lot more detailed. Nothing to read ahead. Start the next session with the base camp built.
 
 > **Say:** "The terminal is a conversation: you type, it answers. Command, options, arguments: what, how, to what. pwd before you build, ls after. One arrow replaces, two arrows add. Typos make errors, not disasters."
 

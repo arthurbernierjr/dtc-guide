@@ -66,7 +66,7 @@ A long-format line looks like noise the first time. Read it left to right, once,
 
 **Hidden files** are not secret and not dangerous. Any file whose name begins with a dot is skipped by plain `ls` to keep the listing tidy, because such files are almost always configuration: `.bashrc` and `.zshrc` set up your shell, `.gitignore` will matter next session, `.profile` runs when you log in. `ls -a` shows them. Count them in your own home today; there are more than you think.
 
-**When a command confuses you, ask it.** `man ls` opens the manual page for `ls` (press `q` to leave). `ls --help` prints the short form; it works everywhere on Linux and WSL and on most commands on a Mac. And [explainshell.com](https://explainshell.com) labels every piece of any line you paste.
+**When a command confuses you, ask it.** `man ls` opens the manual page for `ls` (press `q` to leave). `ls --help` prints the short form on Linux and WSL; a Mac's `ls` does not understand `--help`, so there use `man ls`. And [explainshell.com](https://explainshell.com) labels every piece of any line you paste.
 
 **Pipes.** This is where the terminal stops feeling like a list of tricks and starts feeling like a language. Every command has a *standard output*, the text it would print, which normally goes to your screen. The pipe character `|` sends that text somewhere else: into the *standard input* of the next command. `ls -la | grep ".txt"` runs `ls -la`, but instead of showing you the listing, hands it to `grep`, which keeps only the lines containing `.txt` and shows you those. `history | grep "mkdir"` finds every `mkdir` you have ever typed. `cat notes.txt | wc -l` counts the lines in a file.
 
@@ -154,7 +154,7 @@ The first three `ls` lines are the lesson in miniature: plain `ls` shows five fo
 
 ```bash term=pipes
 cd ~
-mkdir -p filesystem-quest/enemies
+mkdir -p filesystem-quest/enemies filesystem-quest/maps
 cd filesystem-quest
 echo "HP: 10, Attack: 2, Weakness: everything" > enemies/slime.txt
 echo "HP: 30, Attack: 8, Weakness: fire" > enemies/goblin.txt
@@ -179,13 +179,13 @@ echo "Location: $(pwd)" >> session-log.txt
 echo "Files here:" >> session-log.txt
 ls -la >> session-log.txt
 cat session-log.txt
-ls -lR . > enemies/inventory-report.txt
-head -4 enemies/inventory-report.txt
+ls -lR . > maps/inventory-report.txt
+head -4 maps/inventory-report.txt
 ```
 
 Two moments to slow down on. First, the two ways of asking which enemy is weak to fire. `cat enemies/*.txt | grep "fire"` glues all three files into one stream and finds the line, but it cannot tell you which file the line came from, because by the time `grep` sees the text the filenames are gone. `grep -r "fire" enemies/`, or `grep "fire" enemies/*.txt`, hands `grep` the files themselves, so it prints `enemies/goblin.txt:` in front of the hit. When you want to know *where*, give `grep` the files; when you only want the lines, pipe.
 
-Second, the session log. Six lines, one `>` and five `>>`, and two of them use `$(...)` to drop the output of `date`, `whoami` and `pwd` into the text. The last `>>` appends an entire `ls -la` listing. This is a shell script written one line at a time, and it is exactly how you will write real ones in Session 1.4. Pipes and redirection are where the terminal starts to feel like a superpower: small commands that each do one thing, chained together like combo attacks.
+Second, the session log. Six lines, one `>` and five `>>`, and three of them use `$(...)` to drop the output of `date`, `whoami` and `pwd` into the text. The last `>>` appends an entire `ls -la` listing. This is a shell script written one line at a time, and it is exactly how you will write real ones in Session 1.4. Pipes and redirection are where the terminal starts to feel like a superpower: small commands that each do one thing, chained together like combo attacks.
 
 > **Tip:** When a long pipeline gives you nothing, cut it at the first pipe and run the left half alone. If that prints what you expected, add the next stage back. Debugging a pipeline is always the same move: find the stage where the text stopped looking like what you thought it was.
 
@@ -312,7 +312,7 @@ explorers-journal/
     system-info.sh
 ```
 
-In `day-02/notes.txt`, write at least five things you learned today with `echo` and `>>`. In `day-02/commands.txt`, list every new command from this session with a one-line description. In `day-02/discoveries.txt`, use pipes and redirection: save the output of `ls -la ~` into it, then append a line count of your home listing to the bottom with `ls -la ~ | wc -l >> day-02/discoveries.txt`. Write the two scripts with `echo` lines in single quotes:
+`cd ~/explorers-journal` first; every path below is relative to it. In `day-02/notes.txt`, write at least five things you learned today with `echo` and `>>`. In `day-02/commands.txt`, list every new command from this session with a one-line description. In `day-02/discoveries.txt`, use pipes and redirection: save the output of `ls -la ~` into it, then append a line count of your home listing to the bottom with `ls -la ~ | wc -l >> day-02/discoveries.txt`. Write the two scripts with `echo` lines in single quotes:
 
 ```bash
 #!/bin/bash
@@ -335,7 +335,7 @@ echo "=== End ==="
 
 Make both executable with `chmod +x`, run both, and check the output is what the script says. Finally, `grep` your `day-02/commands.txt` for the word `file` and save the results to `day-02/grep-results.txt`; if it finds nothing, check your spelling in the commands file.
 
-Hints: `echo '#!/bin/bash' > scripts/greet.sh` writes the shebang line, then `>>` for the rest; single quotes keep `$(whoami)` from running too early; `chmod +x` before you try to run anything. Stretch goals: a third script `scripts/countdown.sh` that counts down from 5 using `sleep 1` between lines (the page terminal does not actually wait; your machine will); research `alias` and make a shortcut for a command you type a lot; and find out what the `$PATH` variable is, which Session 1.4 covers properly.
+Hints: `echo '#!/bin/bash' > scripts/greet.sh` writes the shebang line, then `>>` for the rest; single quotes keep `$(whoami)` from running too early; `chmod +x` before you try to run anything. Stretch goals: a third script `scripts/countdown.sh` that counts down from 5 using `sleep 1` between lines (the page terminal does not actually wait; your machine will); research `alias` and make a shortcut for a command you type a lot; and find out what the `$PATH` variable is and how the shell uses it to find `git` and `code` (the `which` command from Session 1.1 is the clue).
 
 > **Tip:** Build the tree, then `ls -R explorers-journal` before you write a single file. Fixing a misplaced folder is one `mv`; fixing it after five files are inside is five.
 
@@ -357,7 +357,7 @@ Two pages in the library look further down roads you walked today. They are writ
 
 Finish the Explorer's Journal if you did not finish it here; budget ninety minutes to two hours. The folder must exist before Session 1.3.
 
-Then make the status screen a reflex. Every time you open a terminal this week, before you do anything else: `pwd`, `ls -la`. Where am I, what is here. Ten seconds. By Saturday you will do it without deciding to.
+Then make the status screen a reflex. Every time you open a terminal this week, before you do anything else: `pwd`, `ls -la`. Where am I, what is here. Ten seconds. After a week you will do it without deciding to.
 
 Next time: Save Points and Respawns. Git. Every file you have made so far exists in exactly one place, and one careless `rm` or one broken edit loses it. Git gives you save points: snapshots of a whole folder you can go back to, branches you can experiment on without fear, and a way to merge the experiment back when it works. You will never lose your work again. This changes everything.
 
