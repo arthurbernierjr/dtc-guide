@@ -56,7 +56,7 @@ For each contract line, record the baseline behavior on `main`, the rebuilt beha
 
 ### Plan the chain before prompting
 
-Say the feature in one sentence. List the functions it touches: `spend` and its route line in `hall-api`, the pack component's spend control in `hall-client`. Map the prompts: plan first with the cases listed, then the route, then the control, then the edge cases, each one's output carried into the next, the way 5-2 did by hand and 5-3 did with files. Planning before prompting is faster than discovering what you need on the fly, and the plan is the first entry in the log, timed under preparation.
+Say the feature in one sentence. List the functions it touches: the `spend` helper, the `spendRoute` handler, and the route line in `hall-api`, the pack component's spend control in `hall-client`. `transfer` is not on the list. It calls `spend`, so it is a caller you re-run, not a function you rebuild. Map the prompts: plan first with the cases listed, then the route, then the control, then the edge cases, each one's output carried into the next, the way 5-2 did by hand and 5-3 did with files. Planning before prompting is faster than discovering what you need on the fly, and the plan is the first entry in the log, timed under preparation.
 
 ### Turn the result into a practice
 
@@ -82,7 +82,7 @@ Contract (written before the clock):
 6. Screen: number changes only after a 2xx; stays on 409.
 7. Two spends for the full qty at once: at most one succeeds (conditional update).
 
-Scope: spend and its route line in hall-api/server.js; the spend control in the pack component in hall-client.
+Scope: spend(ownerId, itemId, amount), spendRoute, and the route line in hall-api/server.js; the spend control in the pack component in hall-client. transfer is untouched and re-run, because it calls spend.
 Clock: prepare ___ implement ___ review ___ test ___ repair ___
 ```
 
@@ -93,7 +93,7 @@ cd ~/projects/hall-api
 git switch -c ai-feature-spend
 ```
 
-Delete the `spend` function and the `app.post('/api/pack/spend', ...)` line in `server.js`, nothing else. Start the server and prove the absence:
+Delete the `spend` helper, the `spendRoute` handler, and the `app.post('/api/pack/spend', ...)` line in `server.js`, nothing else. `transfer` stays exactly as 4-15 left it. It still names `spend`, and Node does not mind until a transfer runs, which none will until the rebuild lands. Start the server and prove the absence:
 
 ```bash
 node --env-file=.env server.js
@@ -110,10 +110,10 @@ curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4100/api/pack/
 **Implementation.** Ctrl-C the server. Start the agent in `hall-api`. The brief carries the contract, because the contract is the specification and the agent should be judged against it, not against what it guesses `spend` means.
 
 ```text
-Task: Rebuild POST /api/pack/spend. First list the cases you will satisfy, then write spend(req, res) and the route line, then stop.
+Task: Rebuild POST /api/pack/spend. First list the cases you will satisfy, then write the helper spend(ownerId, itemId, amount), the handler spendRoute(req, res), and the route line, then stop.
 Purpose: The pack screen debits a holding. Two spends for the whole quantity can arrive together; the quantity must never go below zero.
 Output: a diff to server.js only, then the curl commands for cases 1, 2, 4, and 5 below with their expected statuses.
-Constraints: Holding has owner, item, qty with min 0 and a unique index on owner plus item. Mount behind requireUser. Error bodies are { "error": "..." }. Do not add packages, do not change schemas, do not touch give, transfer, pack, or any message handler.
+Constraints: Holding has owner, item, qty with min 0 and a unique index on owner plus item. Mount behind requireUser. Error bodies are { "error": "..." }. transfer already calls spend(ownerId, itemId, amount) and expects it to return the updated holding or throw an Error with a status of 400 or 409; keep that signature and that behavior, and let the existing error handler turn the throw into the JSON body. Do not add packages, do not change schemas, do not touch give, transfer, pack, or any message handler.
 Contract:
 1. amount that fits: 200 with the updated holding.
 2. amount larger than qty: 409 { "error": "not enough" }, quantity unchanged.
@@ -126,25 +126,37 @@ Watch for the plan: it should name a single `findOneAndUpdate` with `qty: { $gte
 
 ```js
 // fragment: the shape to expect from the rebuild, reviewed before accepting
-async function spend(req, res) {
-  const amount = req.body && req.body.amount;
-  const item = req.body && req.body.item;
-  if (!item || !Number.isInteger(amount) || amount < 1) {
-    return res.status(400).json({ error: 'item and a positive integer amount are required' });
+async function spend(ownerId, itemId, amount) {
+  if (!itemId || !Number.isInteger(amount) || amount < 1) {
+    const error = new Error('item and a positive integer amount are required');
+    error.status = 400;
+    throw error;
   }
   const holding = await Holding.findOneAndUpdate(
-    { owner: req.userId, item: item, qty: { $gte: amount } },
+    { owner: ownerId, item: itemId, qty: { $gte: amount } },
     { $inc: { qty: -amount } },
     { new: true }
   ).populate('item');
-  if (!holding) return res.status(409).json({ error: 'not enough' });
-  res.json(holding);
+  if (!holding) {
+    const error = new Error('not enough');
+    error.status = 409;
+    throw error;
+  }
+  return holding;
 }
+
+async function spendRoute(req, res) {
+  res.json(await spend(req.userId, req.body && req.body.item, req.body && req.body.amount));
+}
+
+app.post('/api/pack/spend', requireUser, spendRoute);
 ```
+
+The helper keeps the signature `transfer` calls, and it throws instead of answering, because `transfer` has no `res` to hand it. The route handler is thin on purpose. If the draft folds the two into one `spend(req, res)`, `transfer` breaks the moment it runs, and the constraint said not to touch it. Send the draft back.
 
 Then the client, in its own repo and its own agent session, with the response shape pasted into Purpose: "`POST /api/pack/spend` answers 200 with the updated holding, 409 with `{ error }` when it does not fit; the number on screen changes only after a 2xx." Scope: the pack component only. Write the implementation minutes when the second diff exists. Expect ten to fifteen, including the time you spent reading the plan.
 
-**Review.** Outside the agent, in each repo, `git diff --stat` and then `git diff`. The API diff is one function and one route line. The client diff is one handler and the markup around it. Anything else is rejected with `git restore <file>` before testing starts. Read the function with the diagnosis named Lost understanding in mind: can you say why the filter has `$gte` and why `new: true` is there? Review minutes. Expect ten to fifteen for a diff you read properly; a review that takes two minutes was a skim.
+**Review.** Outside the agent, in each repo, `git diff --stat` and then `git diff`. The API diff is two functions and one route line, and `transfer` does not appear in it. The client diff is one handler and the markup around it. Anything else is rejected with `git restore <file>` before testing starts. Read the function with the diagnosis named Lost understanding in mind: can you say why the filter has `$gte` and why `new: true` is there? Review minutes. Expect ten to fifteen for a diff you read properly; a review that takes two minutes was a skim.
 
 **Testing.** Start the server. Run the contract.
 
@@ -157,7 +169,7 @@ curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4100/api/pack/
 curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4100/api/pack/spend -H 'Content-Type: application/json' -d '{"item":"LAMP_OIL_ID","amount":1}'
 ```
 
-Line one is the holding JSON with `"qty":1` if Bran had 2. Line two is `409`. Line three shows the lamp-oil holding still at `"qty":1`. Line four shows lamp oil with `name` and `kind` and no `qty`. Line five is `400`. Line six is `401`. For line 7 of the contract, fire two spends for the full quantity in one shell line with `&` between them and `wait`; one is 200 and one is 409, and the pack shows 0, never a negative. Then the screen: `npm run dev` in the client, log in as Bran, spend one, watch the number wait for the response, spend fifty, watch it stay. Then the regression set: the five message statuses from `HALL.md`, because the agent was told not to touch messages and the way to know it listened is to look. Testing minutes.
+Line one is the holding JSON with `"qty":1` if Bran had 2. Line two is `409`. Line three shows the lamp-oil holding still at `"qty":1`. Line four shows lamp oil with `name` and `kind` and no `qty`. Line five is `400`. Line six is `401`. For line 7 of the contract, fire two spends for the full quantity in one shell line with `&` between them and `wait`; one is 200 and one is 409, and the pack shows 0, never a negative. Then the screen: `npm run dev` in the client, log in as Bran, spend one, watch the number wait for the response, spend fifty, watch it stay. Then the regression set: one transfer from Bran to Sera through `POST /api/pack/transfer`, because `transfer` was not touched and calls the rebuilt `spend`, so a 200 with `yours` and `theirs` is the proof that the helper came back with the same signature; and the five message statuses from `HALL.md`, because the agent was told not to touch messages and the way to know it listened is to look. Testing minutes.
 
 **Repair.** The usual miss is case 4: the draft accepts `amount: "1"` because a string that parses is not an integer and the check was `amount < 1`. One follow-up, one more diff, rerun lines one through six. Repair minutes. Then the table:
 
@@ -234,7 +246,7 @@ The feature works and you cannot say why the filter has `$gte`. The cause is acc
 
 ### Demo-only success
 
-The happy path clicks through on your machine and the cases that failed in 4-15 were never run again. A demo is one input. The cause is treating the scripted click as the finish line. Rerun the original failure, the spend of fifty, the missing amount, the request with no token, and the five message statuses the agent was told not to touch. Write down which of those you actually ran. The branch goes into `main` when the old breaks stay fixed, not when the scripted click succeeds.
+The happy path clicks through on your machine and the cases that failed in 4-15 were never run again. A demo is one input. The cause is treating the scripted click as the finish line. Rerun the original failure, the spend of fifty, the missing amount, the request with no token, the transfer that calls the rebuilt helper, and the five message statuses the agent was told not to touch. Write down which of those you actually ran. The branch goes into `main` when the old breaks stay fixed, not when the scripted click succeeds.
 
 ## Your turn
 

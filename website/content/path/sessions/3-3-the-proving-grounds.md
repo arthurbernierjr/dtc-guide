@@ -412,7 +412,7 @@ Finish the book. Every step runs from inside `~/projects/js-fundamentals`, and t
 7. Log `spells.length` as the last line before the pool tests. It is `10`, or however many spells you wrote, because no query mutated the array.
 8. Commit and push: `git add spellbook.js`, `git commit -m "spellbook: all six queries, average damage, castable rule"`, `git push`. The last line of the push ends with `main -> main`.
 
-If `node` prints a `SyntaxError` after one of the additions, the line number points at the function you just added, and the usual cause is an arrow with braces and no `return`, which is 3.2's costume two.
+If `node` prints a `SyntaxError` after one of the additions, the line number points at the function you just added, or at the line just below it. The usual causes are an unbalanced brace or parenthesis, a missing comma between two spells in the list, or `=>` typed as `=<`. Fix the character and run again. An arrow with braces and no `return` is a different problem. It is not a syntax error. The file runs to the end, the function returns `undefined`, and the log line reads `names: undefined` or `total mana: undefined`. That is 3.2's costume two. Add the `return` and run again.
 
 ## The quest
 

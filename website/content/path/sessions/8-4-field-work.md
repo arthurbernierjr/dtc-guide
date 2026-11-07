@@ -98,12 +98,14 @@ The tutor ledger, with three real interviews in the log. The names are on the le
 - observation | Private clients pay per term; "I only find out someone has not paid when the term is half over." |
 - observation | "I would never send an automatic text. It would feel like a utility company." |
 - observation | Keeps a notes-app list per client with lessons and a running total. |
+- observation | Knows who has actually paid only from the bank app; checks it against the notes list "about once a term, and they never agree the first time". |
 
 ### P3
 - role: music teacher, paid per term or per block of eight
 - observation | Uses a paper diary; adds up what a client owes "by flipping back pages". |
 - observation | "If I could just send them a page that says here is what you have had and here is what is owed, I would do that tonight." |
 - observation | Has written off two blocks in a year rather than chase. |
+- observation | Asked about an automatic reminder: "Then it is still me nagging, just with a robot doing the typing." |
 ```
 
 The combined map, with ids on every entry.
@@ -119,7 +121,7 @@ The combined map, with ids on every entry.
 
 | Does | Feels |
 |---|---|
-| Opens two or more tools to answer who owes them (3 of 3). | Awkward when chasing (3 of 3). |
+| Opens more than one tool to answer who owes them (P1 row 2, P2 row 4); reads one diary backwards (P3 row 1). | Awkward when chasing (3 of 3). |
 | Tracks blocks or terms, not only lessons (P1, P2, P3). | Resigned about written-off money (P1, P3). |
 | Updates the record on a schedule, not at the lesson (P1). | Relieved when a client pays unprompted (P1). |
 | Has written money off rather than ask again (P1, P3). | |
@@ -130,9 +132,9 @@ The insight page. Counts, not adjectives.
 ```markdown
 ## Insights
 ### Patterns
-1. Answering "who owes me" means opening more than one tool. 3 of 3.
+1. Answering "who owes me" is slow and uncertain. 3 of 3 (P1 row 2, P2 row 4, P3 row 1). For two of three it means more than one tool (P1 row 2, P2 row 4); P3 flips back through one diary.
 2. Chasing is personal, and a third ask is where people give up. 3 of 3 (P1 row 3, P2 row 2, P3 row 3).
-3. Money is tracked per block or per term as often as per lesson. 3 of 3.
+3. Money is tracked per block or per term as often as per lesson. 3 of 3 (P1 row 4, P2 row 1, P3 role line).
 
 ### Pain points
 - Ten minutes and no confidence to answer one question (P1 row 2).
@@ -140,8 +142,8 @@ The insight page. Counts, not adjectives.
 - Written-off money: two blocks in a year (P3 row 3), "rather lose it" (P1 row 3).
 
 ### Surprises
-- Nobody wants automatic texts; two of three said a neutral page they could send would be different (P2 row 2, P3 row 2).
-- Blocks and terms, not lessons, are the unit two of three think in.
+- Nobody asked for an automatic text, and the two who talked about one refused it (P2 row 2, P3 row 4). One asked, unprompted, for a page to send by hand (P3 row 2). That a neutral page is what tutors want instead of a text is a hypothesis for the next round, with one row behind it, not a count.
+- Blocks and terms, not lessons, are the unit two of three think in (P2 row 1, P3 role line).
 
 ### Opportunities
 - One place that answers "who owes what" per client, without a text.
@@ -154,7 +156,7 @@ The insight page. Counts, not adjectives.
 
 ### Invalidated assumptions
 - "Tutors track per lesson" (Lesson model, story 3): two of three charge per term or block; a lesson-only model misses the unit they think in.
-- "A reminder text would help" (story 11): zero of three want it; two said it would feel robotic.
+- "A reminder text would help" (story 11): zero of three asked for it; the two who spoke about it said it would feel robotic (P2 row 2, P3 row 4), and P3 asked for the opposite, a page sent by hand (P3 row 2).
 ```
 
 The problem statement, and the two alternatives, including the one that is not software.
@@ -174,7 +176,8 @@ feels personal enough that two of three have written money off.
 3. The capstone: one place per tutor that answers who owes what, with a
    statement page per client the tutor sends by hand. Proportionate because
    the chasing, not the arithmetic, is the problem, and a neutral page is
-   what two of three asked for unprompted.
+   what one of three asked for unprompted (P3 row 2), with P2's refusal
+   of a text pointing the same way (P2 row 2).
 ```
 
 The backlog change log, every line with an id.
@@ -183,12 +186,13 @@ The backlog change log, every line with an id.
 ## Backlog changes (8.4)
 - #6 client page: Should → Must. 3 of 3 answer "what do you owe me" per
   client, not per lesson (P1 row 2, P2 row 3, P3 row 1).
-- #7 statement link: source assumption → evidence: P2, P3. Stays Should
+- #7 statement link: source assumption → evidence: P3 row 2 asked for
+  it; P2 row 2 rules out the alternative. Stays Should
   because it is a five; first card of Sprint 4.
 - #8 monthly total: Should → Could. 0 of 3 think in months; P2 and P3
   charge per term.
-- #11 reminder text: Could → Won't. 0 of 3 want it; P2 row 2, P3 row 2
-  argue against it.
+- #11 reminder text: Could → Won't. 0 of 3 want it; P2 row 2 and P3
+  row 4 refuse it, P3 row 2 asks for a page instead.
 - NEW #14 "As a tutor, I want to record a block of prepaid lessons for a
   client, so that each lesson draws down from it and the owed amount is
   right." Should, evidence: P1 row 4, P3 role line. Size M, 3. First pull

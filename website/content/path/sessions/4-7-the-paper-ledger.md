@@ -236,14 +236,15 @@ const path = require('path');
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
+
 app.use((req, res, next) => {
   console.log(req.method + ' ' + req.originalUrl);
   next();
 });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const quests = require('./quests-router');
@@ -253,7 +254,7 @@ app.use('/api/quests', quests);
 app.use('/quests', pages);
 ```
 
-Logger first, so you can see the `POST` and the following `GET` as two lines. Both parsers next; `express.json()` stays from the keeper session, and each parser skips the bodies it does not claim. Override next. Static next, so `/styles.css` is a file and not a route you hand-write. Then the two routers, then the 404, then the four-argument error handler.
+Both parsers first; `express.json()` stays from the keeper session, and each parser skips the bodies it does not claim. Override next. Then the logger, and the position is deliberate. It prints `req.method`, and after the override that is the effective method, the one the router is about to see. A saved edit logs `PUT /quests/` plus the id, then the redirect's `GET`, two lines. A `POST` in the log for a save means the override did not fire, and the log is the first place that tells you so. The browser's own method is still there as `req.originalMethod` if you ever want to print both. Static next, so `/styles.css` is a file and not a route you hand-write. Then the two routers, then the 404, then the four-argument error handler.
 
 The mounts are the step people skip. The JSON router from the keeper session was mounted at `/quests`. It moves to `/api/quests` now, in this one line, and nothing inside `quests-router.js` changes. Next session grows it there. `/quests` belongs to the paper router from today on. If both routers stay at `/quests`, whichever is mounted first answers, and the other one looks broken for no reason the log will explain. `path.join` keeps the public folder next to the server file even if you start Node from another working directory. The link in the HTML stays `/styles.css`, because that is a URL, not a disk path.
 
@@ -327,13 +328,13 @@ Stand up the seven routes against the model from the keeper session. Stop the ol
 2. `GET /quests/new` shows the form. The terminal logged `GET`, and `db.quests.countDocuments()` did not change.
 3. Submit a title of `Bell & "banner"` and a hero of `Ada`. The browser lands on the show page. The heading shows the ampersand and the quote as text. The terminal shows `POST /quests` and then `GET /quests/` plus the id.
 4. Refresh. One document in the shell, not two.
-5. Edit, change the status to `done`, submit. The show page shows `done`. Refresh. Still one document, still `done`.
+5. Edit, change the status to `done`, submit. The show page shows `done`. The terminal shows `PUT /quests/` plus the id, then the `GET` for the show page. The browser sent `POST`; the logger sits after the override, so it prints the method the router saw. Refresh. Still one document, still `done`.
 6. Open `/styles.css` in the same origin and confirm the file is the one in `public`.
 7. Delete. The browser lands on the index. The quest is gone from the list and from the shell.
 
 Then break order on purpose. Move `pages.get('/:id', show)` above `pages.get('/new', fresh)`, restart, and open `/quests/new`. You get the cast failure, a 400 if your error handler maps `CastError`, or a 500 if it does not. The log shows `GET /quests/new`. The show route ran. Put `/new` back above `/:id`.
 
-Then break the override. Remove `?_method=PUT` from the edit form's action, restart, and save. The terminal shows `POST /quests/` plus the id, and no `PUT` route handled it. The 404 middleware answers, or a `POST /:id` you accidentally registered creates a mess. Put the query back. If you are using the hidden-input getter instead, move it above `express.urlencoded` and watch the same symptom: the log stays `POST`. Parser first, then override. That order is the lesson, not a style.
+Then break the override. Remove `?_method=PUT` from the edit form's action, restart, and save. The terminal shows `POST /quests/` plus the id, and no `PUT` route handled it. That `POST` is the effective method, because the logger runs after the override; the override had no `_method` to read, so it left the method alone. The 404 middleware answers, or a `POST /:id` you accidentally registered creates a mess. Put the query back. If you are using the hidden-input getter instead, move it above `express.urlencoded` and watch the same symptom: the log stays `POST`. Parser first, then override. That order is the lesson, not a style.
 
 ```js run=checkpoint-4-7
 function check(condition, message) {
@@ -427,7 +428,7 @@ If edit 404s, check the path you registered. It is `/:id/edit` on a router mount
 
 The browser sent `POST` and the update route never ran. `_method` was missing, or method-override was mounted before the body parser.
 
-Look at the log's method. If it says `POST` and the path is the quest id, the override did not change `req.method`. Open the form in the page source. For `methodOverride('_method')`, the action must include `?_method=PUT` or `?_method=DELETE`. A hidden input without the query is invisible to that helper. Either add the query, or switch to the custom getter on the method-override page, the one that reads `req.body._method`.
+Look at the log's method. The logger is mounted after the override, so the method it prints is the one the router saw, not the one the browser sent. If it says `POST` and the path is the quest id, the override did not change `req.method`. Open the form in the page source. For `methodOverride('_method')`, the action must include `?_method=PUT` or `?_method=DELETE`. A hidden input without the query is invisible to that helper. Either add the query, or switch to the custom getter on the method-override page, the one that reads `req.body._method`.
 
 If the source already has the hidden input and you wrote the custom getter, check mount order. `express.urlencoded` has to run first, or `req.body` is empty and the getter returns nothing. The method stays `POST`. `pages.put` does not run. A `POST` handler for `/:id` might run instead, if you added one, and you will insert or 404 for reasons that look supernatural. Fix the order. Parser, then override, then routes. The default allowed original method is `POST`, so a real `GET` is left alone. Your form's method attribute stays `POST`.
 
@@ -441,7 +442,7 @@ If the redirect points at `/quests/new`, you are sending people back to an empty
 
 ## Your turn
 
-1. `npm install method-override`. Keep `express.urlencoded` from Express itself. Mount `express.json()`, the urlencoded parser, then `methodOverride('_method')`, then `express.static` for `public`.
+1. `npm install method-override`. Keep `express.urlencoded` from Express itself. Mount `express.json()`, the urlencoded parser, then `methodOverride('_method')`, then the logger, then `express.static` for `public`.
 2. Add `public/styles.css`, the layout function that links `/styles.css`, and `formFields`. Escape titles before they enter HTML.
 3. In `server.js`, move the JSON router's mount from `/quests` to `/api/quests`. Then create `quests-pages.js`, register all seven routes in the safe order, and mount it at `/quests`. Index, new, edit, show, create, update, delete. One resource, two doors.
 4. New renders the empty form. Create validates, inserts, and redirects to show. Show links to edit and contains the delete form. Edit's form posts with `?_method=PUT`. Update redirects to show. Delete redirects to index.
@@ -462,7 +463,7 @@ Write `LEDGER.md`. One line per INDUCES letter: the method, the path, and the on
 - The redirect proof: the 302 and `Location` from `curl -i` on create, and the document count after a browser refresh.
 - The CSS proof: the HTML link, the URL you opened for the file, and the status of that URL.
 
-Add the mount order as a short list: json, urlencoded, method-override, static, the JSON router at `/api/quests`, the pages router at `/quests`, 404, error handler. Commit the routes, the layout, `public/styles.css`, and `LEDGER.md`. Do not commit a template-engine dependency you do not use. Plain HTML strings and a static file are the whole view.
+Add the mount order as a short list: json, urlencoded, method-override, logger, static, the JSON router at `/api/quests`, the pages router at `/quests`, 404, error handler. Commit the routes, the layout, `public/styles.css`, and `LEDGER.md`. Do not commit a template-engine dependency you do not use. Plain HTML strings and a static file are the whole view.
 
 ## Side quests
 
