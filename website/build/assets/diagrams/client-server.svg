@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 260" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="13">
+  <rect width="760" height="260" rx="14" fill="#111114"/>
+  <rect x="40" y="70" width="180" height="120" rx="12" fill="#16161A" stroke="#00A868" stroke-width="1.5"/>
+  <text x="130" y="100" fill="#E8D800" text-anchor="middle" letter-spacing="2">CLIENT</text>
+  <text x="130" y="128" fill="#EAE6E1" text-anchor="middle">browser · mobile app</text>
+  <text x="130" y="150" fill="#8A8A94" text-anchor="middle" font-size="11">sends a request</text>
+  <text x="130" y="170" fill="#8A8A94" text-anchor="middle" font-size="11">renders the response</text>
+  <rect x="540" y="70" width="180" height="120" rx="12" fill="#16161A" stroke="#F03038" stroke-width="1.5"/>
+  <text x="630" y="100" fill="#E8D800" text-anchor="middle" letter-spacing="2">SERVER</text>
+  <text x="630" y="128" fill="#EAE6E1" text-anchor="middle">node · express</text>
+  <text x="630" y="150" fill="#8A8A94" text-anchor="middle" font-size="11">listens on a PORT</text>
+  <text x="630" y="170" fill="#8A8A94" text-anchor="middle" font-size="11">answers with data or HTML</text>
+  <g stroke="#00A868" stroke-width="2" fill="none"><path d="M220 110 H530"/><path d="M522 104 L532 110 L522 116"/></g>
+  <text x="380" y="100" fill="#00A868" text-anchor="middle">HTTP request → GET /api/users</text>
+  <g stroke="#F03038" stroke-width="2" fill="none"><path d="M540 160 H230"/><path d="M238 154 L228 160 L238 166"/></g>
+  <text x="380" y="182" fill="#F03038" text-anchor="middle">← HTTP response 200 · JSON</text>
+  <text x="380" y="236" fill="#8A8A94" text-anchor="middle" font-size="11">IP ADDRESS finds the machine · PORT finds the program · DNS turns the name into the address</text>
+</svg>

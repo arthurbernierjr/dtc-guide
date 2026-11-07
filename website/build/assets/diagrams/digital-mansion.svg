@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="12">
+  <rect width="760" height="420" rx="14" fill="#111114"/>
+  <text x="380" y="34" fill="#E8D800" text-anchor="middle" letter-spacing="2" font-size="11">THE DIGITAL MANSION · 8 PARTS</text>
+  <rect x="24" y="52" width="712" height="330" rx="18" fill="none" stroke="#F03038" stroke-width="1.5" stroke-dasharray="6 6"/>
+  <text x="40" y="74" fill="#F03038" font-size="11">8 · THE MOAT — security (HTTPS, auth, firewalls)</text>
+  <rect x="48" y="90" width="664" height="276" rx="14" fill="#16161A" stroke="#2A2A30"/>
+  <text x="64" y="110" fill="#8A8A94" font-size="11">6 · THE PROPERTY — cloud infrastructure</text>
+  <rect x="64" y="128" width="130" height="56" rx="10" fill="#111114" stroke="#E8D800"/>
+  <text x="129" y="152" fill="#E8D800" text-anchor="middle">7 · CDN</text>
+  <text x="129" y="170" fill="#8A8A94" text-anchor="middle" font-size="10">mail delivery · static files</text>
+  <rect x="64" y="210" width="130" height="120" rx="10" fill="#111114" stroke="#00A868"/>
+  <text x="129" y="240" fill="#00A868" text-anchor="middle">2 · FRONT DOOR</text>
+  <text x="129" y="260" fill="#EAE6E1" text-anchor="middle">load balancer</text>
+  <text x="129" y="280" fill="#8A8A94" text-anchor="middle" font-size="10">HAProxy · Nginx</text>
+  <text x="129" y="298" fill="#8A8A94" text-anchor="middle" font-size="10">routes guests to rooms</text>
+  <g>
+    <rect x="240" y="128" width="110" height="60" rx="10" fill="#111114" stroke="#00A868"/><text x="295" y="153" fill="#EAE6E1" text-anchor="middle">room</text><text x="295" y="172" fill="#8A8A94" text-anchor="middle" font-size="10">server</text>
+    <rect x="240" y="200" width="110" height="60" rx="10" fill="#111114" stroke="#00A868"/><text x="295" y="225" fill="#EAE6E1" text-anchor="middle">room</text><text x="295" y="244" fill="#8A8A94" text-anchor="middle" font-size="10">server</text>
+    <rect x="240" y="272" width="110" height="60" rx="10" fill="#111114" stroke="#00A868"/><text x="295" y="297" fill="#EAE6E1" text-anchor="middle">room</text><text x="295" y="316" fill="#8A8A94" text-anchor="middle" font-size="10">server</text>
+    <text x="295" y="350" fill="#00A868" text-anchor="middle" font-size="11">3 · THE ROOMS</text>
+  </g>
+  <rect x="400" y="160" width="140" height="130" rx="10" fill="#111114" stroke="#F03038"/>
+  <text x="470" y="190" fill="#F03038" text-anchor="middle">4 · THE VAULT</text>
+  <text x="470" y="212" fill="#EAE6E1" text-anchor="middle">databases</text>
+  <text x="470" y="232" fill="#8A8A94" text-anchor="middle" font-size="10">SQL · NoSQL · replicas</text>
+  <text x="470" y="252" fill="#8A8A94" text-anchor="middle" font-size="10">backups · sharding</text>
+  <rect x="580" y="128" width="116" height="92" rx="10" fill="#111114" stroke="#E8D800"/>
+  <text x="638" y="156" fill="#E8D800" text-anchor="middle">5 · CAMERAS</text>
+  <text x="638" y="176" fill="#EAE6E1" text-anchor="middle">monitoring</text>
+  <text x="638" y="194" fill="#8A8A94" text-anchor="middle" font-size="10">logging · alerts</text>
+  <rect x="580" y="240" width="116" height="90" rx="10" fill="#111114" stroke="#8A8A94"/>
+  <text x="638" y="268" fill="#EAE6E1" text-anchor="middle">1 · BLUEPRINT</text>
+  <text x="638" y="288" fill="#8A8A94" text-anchor="middle" font-size="10">5 nines · 100M users</text>
+  <text x="638" y="306" fill="#8A8A94" text-anchor="middle" font-size="10">plan before you build</text>
+  <g stroke="#8A8A94" stroke-width="1.5" fill="none">
+    <path d="M194 270 H240"/><path d="M194 270 L240 158"/><path d="M194 270 L240 302"/>
+    <path d="M350 230 H400" stroke-dasharray="4 4"/>
+  </g>
+  <text x="380" y="404" fill="#8A8A94" text-anchor="middle" font-size="11">guests arrive at the front door, get a room, the room reads and writes the vault; the cameras watch everything</text>
+</svg>

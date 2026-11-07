@@ -1,0 +1,24 @@
+{
+  "name": "respawn-diagrams",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remotion compositions for the guide: brand exports (cover, favicon) and the teaching diagrams rendered as stills. See ../DESIGN-REFERENCE-RESPAWN.md §R10 and §R12.",
+  "type": "commonjs",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "stills": "bash scripts/stills.sh",
+    "brand": "bash scripts/brand.sh"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.540",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "4.0.540"
+  },
+  "devDependencies": {
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
+  }
+}

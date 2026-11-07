@@ -1,0 +1,1320 @@
+{
+  "schedule": [
+    "Tue",
+    "Wed",
+    "Sat"
+  ],
+  "weeks": 21,
+  "acts": [
+    {
+      "id": "I",
+      "name": "Foundation",
+      "units": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "color": "green",
+      "weeks": "1–10"
+    },
+    {
+      "id": "II",
+      "name": "The cheat skill",
+      "units": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "color": "yellow",
+      "weeks": "10–15"
+    },
+    {
+      "id": "III",
+      "name": "The kingdom",
+      "units": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "color": "red",
+      "weeks": "15–21"
+    }
+  ],
+  "units": [
+    {
+      "n": 1,
+      "title": "I Woke Up in a Terminal and All I Had Was a Blinking Cursor",
+      "topics": "Command line, Unix basics, Git, GitHub, dev environment setup",
+      "artifact": "Dotfiles repo and scripted dev environment"
+    },
+    {
+      "n": 2,
+      "title": "The First Skill I Learned in This World Was Making Things Pretty",
+      "topics": "Semantic HTML, CSS fundamentals, Flexbox, Grid, responsive design, animations, BEM",
+      "artifact": "Personal landing page deployed on GitHub Pages"
+    },
+    {
+      "n": 3,
+      "title": "My Cheat Code Turned Out to Be JavaScript",
+      "topics": "JavaScript fundamentals, functions, OOP, DOM manipulation, events, browser game",
+      "artifact": "Browser game deployed on GitHub Pages (Project 1)"
+    },
+    {
+      "n": 4,
+      "title": "I Built a Party of Four: Mongo, Express, React, Node",
+      "topics": "Node.js, Express, REST and MVC, MongoDB, Mongoose, server-rendered INDUCES, JSON APIs, bcrypt and JWT, React, many-to-many, a guild hall with an inbox and an inventory",
+      "artifact": "A guild hall: accounts, an inbox, and an inventory, built with MongoDB, Express, React, and Node"
+    },
+    {
+      "n": 5,
+      "title": "Turns Out I Had a Cheat Skill All Along: Prompt Engineering",
+      "topics": "RTTPOC framework, advanced prompting, Claude Code, Cursor, agentic workflows",
+      "artifact": "Feature rebuilt with AI tools, documented prompt chain"
+    },
+    {
+      "n": 6,
+      "title": "I Bought Land in the Cloud and Nobody Can Stop Me",
+      "topics": "VPS, SSH, Nginx, reverse proxies, DNS, SSL, deployment",
+      "artifact": "Project 2 deployed to a real VPS with custom domain and HTTPS"
+    },
+    {
+      "n": 7,
+      "title": "The Training Dungeon Was Full of Edge Cases",
+      "topics": "Jest, unit testing, Supertest, integration testing, Playwright, E2E, CI basics",
+      "artifact": "Comprehensive test suite for Project 2"
+    },
+    {
+      "n": 8,
+      "title": "I Became the Guild Leader and Had to Actually Plan Things",
+      "topics": "User research, empathy mapping, user stories, Agile, SCRUM, sprint planning",
+      "artifact": "Product spec and sprint plan for capstone idea"
+    },
+    {
+      "n": 9,
+      "title": "The Ancient Language Was TypeScript and the Trials Were Algorithms",
+      "topics": "TypeScript, type safety, Big O, data structures, algorithms, system design",
+      "artifact": "TypeScript conversion of a project plus system design document"
+    },
+    {
+      "n": 10,
+      "title": "I Learned to Ward My Kingdom Before the Hackers Came",
+      "topics": "OWASP, security, Stripe, paid APIs, webhooks, LLM integration, cost control",
+      "artifact": "Capstone with payments and AI feature, securely integrated"
+    },
+    {
+      "n": 11,
+      "title": "The Nobles Wanted Equity and I Had to Learn Their Language",
+      "topics": "Crowdfunding, angel investing, SAFEs, term sheets, VC, pitch decks, fundraising",
+      "artifact": "Pitch deck and one-page financial narrative"
+    },
+    {
+      "n": 12,
+      "title": "The Final Boss Was a Live Demo and I Won",
+      "topics": "Capstone sprints, feature completion, testing, deployment, demo day",
+      "artifact": "Deployed, tested, secured capstone product with pitch deck"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "1.1",
+      "unit": 1,
+      "week": 1,
+      "day": "Tue",
+      "title": "Welcome to the New World",
+      "subtitle": "Terminal, Shell, and Your Dev Environment",
+      "slug": "1-1-welcome-to-the-new-world",
+      "hook": "Day one. You wake up in front of a blinking cursor, learn to talk to the machine, and build your first folders and files without touching the mouse.",
+      "sideQuests": [
+        "MIND-02",
+        "MIND-01"
+      ],
+      "sideQuestWhy": [
+        "Day one feels like progress because everything is a first. This page is the loop for the hour when it stops: get one explanation, watch one demonstration, copy it until it runs, then point the same moves at an idea that is yours.",
+        "The terminal is the first of about sixty concepts you will be asked to explain in a sentence; this guide is the list, written for the imposter-syndrome moment, and today you can already say the first few: what a terminal is, what a shell is, what `pwd` does."
+      ]
+    },
+    {
+      "id": "1.2",
+      "unit": 1,
+      "week": 1,
+      "day": "Wed",
+      "title": "Your Status Screen",
+      "subtitle": "Filesystem Navigation, Pipes, and Permissions",
+      "slug": "1-2-your-status-screen",
+      "hook": "Yesterday you learned to talk. Today you learn to see: where you are in the tree, what is around you, how to chain commands into combos, and why a file sometimes refuses you.",
+      "sideQuests": [
+        "DS-09",
+        "SEC-01"
+      ],
+      "sideQuestWhy": [
+        "`ls -R` and `grep -r` walk the filesystem the way this page walks a tree: into a folder, through everything under it, back up, next folder. That order has a name, depth-first, and you will write it yourself in Unit 9; today just recognise the shape in the first picture.",
+        "Owner, group, others and read, write, execute is the oldest access-control model in computing, and *Broken Access Control* is the number-one web vulnerability for the same reason `chmod 777` is a bad habit: someone could do something they should not have been allowed to. Read the opening; the code is for Unit 7."
+      ]
+    },
+    {
+      "id": "1.3",
+      "unit": 1,
+      "week": 1,
+      "day": "Sat",
+      "title": "Save Points and Respawns",
+      "subtitle": "Git Init, Commit, Branch, Merge",
+      "slug": "1-3-save-points-and-respawns",
+      "sideQuests": [
+        "DS-02",
+        "PAT-18",
+        "DS-15"
+      ],
+      "hook": "Three hours of work, one careless edit, everything gone. In a game that never happens, because you saved before the boss. Git is the save system for your code: snapshots you can return to, timelines you can try things in, and a merge that joins the best of both.",
+      "sideQuestWhy": [
+        "A commit holds the hash of its parent and nothing else points forward: `git log` is walking a linked list from the newest node back to the root. Read the opening and the first picture; the `next` pointer there is Fig 2's parent arrow with the direction reversed, and in Unit 9 you will build the structure yourself.",
+        "Memento is the save-point pattern written as code: capture an object's whole state so it can be restored later without the outside world knowing what is inside. A commit is a memento of a folder, `.git` is the caretaker, and `git checkout` is the restore. Read the intent and the first diagram; the Java-style class names can wait.",
+        "Once a merge commit has two parents the history is no longer a line, it is a graph, which is why the command is called `git log --graph` and why Git can find the shared ancestor of two branches before it merges them. Read what a node and an edge are and look at the first picture; the traversal code is for Unit 9."
+      ]
+    },
+    {
+      "id": "1.4",
+      "unit": 1,
+      "week": 2,
+      "day": "Tue",
+      "title": "Guild Sync",
+      "subtitle": "GitHub, Remotes, Pull Requests, and Your Dotfiles",
+      "slug": "1-4-guild-sync",
+      "sideQuests": [
+        "SEC-04",
+        "SEC-07",
+        "MIND-02"
+      ],
+      "hook": "Everything you have built lives on one laptop. If the laptop dies, the work dies with it. Today the save system goes online: you prove who you are with a key, push your repositories to GitHub, open your first pull request, and ship the project every developer eventually builds, a dotfiles repo that can set up a new machine in one command.",
+      "sideQuestWhy": [
+        "Your SSH key pair is public-key cryptography doing exactly what it is for: a signature anyone can check and only you can make. This page is the catalogue of ways that goes wrong in real systems: weak algorithms, secrets committed to repositories, keys that never rotate. Read the opening and the first example; the rule about never pushing a private key is item one on its list.",
+        "`Permission denied (publickey)` and `Hi adventurer-dev!` are the two outcomes of an authentication check, and GitHub chose keys over passwords for the reasons this page catalogues: credential stuffing, reuse, and secrets that cross the wire. Read the opening and the lockout example, and notice that a key never has to be typed anywhere.",
+        "You just watched a demonstration: a key, a remote, a push. This page is what to do next. Copy that loop until it works, then use it on a repository that is yours. The skill is coming back tomorrow, not the first green square."
+      ]
+    },
+    {
+      "id": "2.1",
+      "unit": 2,
+      "week": 2,
+      "day": "Wed",
+      "title": "The Skeleton Frame",
+      "subtitle": "Semantic HTML and How the Web Works",
+      "slug": "2-1-the-skeleton-frame",
+      "sideQuests": [
+        "SYS-C15",
+        "PAT-08",
+        "DS-09"
+      ],
+      "hook": "Everything you have built so far is a black screen and white text. Today the work becomes something a person can see. A web page is a file a server sends because a browser asked, and HTML is the language that file is written in: a skeleton of named regions, not a programming language, and not a pile of boxes.",
+      "sideQuestWhy": [
+        "Step two of Fig 1, the name becoming an address, is this page. The session only needs you to know the lookup happens before any request; the page is the lookup itself, root then top-level domain then the site's own nameserver, plus the TTL that makes a changed address linger. Read Say this and the four-line walk.",
+        "The tree you walked with the live script is the textbook composite: elements contain elements, and a leaf (an img, a piece of text) and a branch (a section, a list) share one node interface, which is why one recursive function could print the whole page. The page names the DOM under SEEN IN. Read the intent and look at the first picture; the class code is for later.",
+        "That same walk is a depth-first traversal: finish a region's children before moving to the next region, which is why the printed outline indents. This page is the traversal named and drawn. Read the opening and the first picture; the code that walks a binary tree is the same shape pointed at elements instead of numbers."
+      ]
+    },
+    {
+      "id": "2.2",
+      "unit": 2,
+      "week": 2,
+      "day": "Sat",
+      "title": "Armor and Cosmetics",
+      "subtitle": "CSS Fundamentals, the Cascade, and Specificity",
+      "slug": "2-2-armor-and-cosmetics",
+      "sideQuests": [
+        "PAT-15",
+        "PAT-09",
+        "PAT-23",
+        "ATELIER-01",
+        "ATELIER-02"
+      ],
+      "hook": "The skeleton from last session is sound, and it looks like a form from 1997. CSS is the armor: a separate file of rules that says which elements look like what. The work today is the system underneath the paint, because a rule that does not apply is almost never a mystery. It lost a fight you can learn to referee.",
+      "sideQuestWhy": [
+        "A selector is a tiny language, and the browser is its interpreter: it reads `nav a:hover` and decides which elements the sentence names. This page's SEEN IN list includes CSS selector matching in querySelector, which is the same match DevTools shows you when a rule is struck through. Read the intent. The grammar-as-classes code is for later.",
+        "A class adds a responsibility, color or spacing or a hover, without inventing a new element. Stacking `.card` and `.sale` is the move this page names: same interface, another layer, no SaleCard subclass. Read the intent and the first picture; the HTTP-client wrapping is the same shape pointed at a div.",
+        "The Styles panel is a visitor. It walks every rule, keeps the ones that matched, and shows you the winner. PostCSS, which this page names, walks declarations the same way, rule by rule. Read the intent. You already did the walk by hand with the columns in Fig 2.",
+        "The gift sites decide every color once, on :root, before a section exists. This is that file: King Chrissy's gold and xoxoshayla's lilac, and the one accent this guide uses instead. Read the two palettes and write the root.",
+        "A heading and a pill should already look like the gift sites before you draw a hero. This page is the reset, the container, the skip link, and the eyebrow. Read it after the tokens."
+      ]
+    },
+    {
+      "id": "2.3",
+      "unit": 2,
+      "week": 3,
+      "day": "Tue",
+      "title": "Formation Magic",
+      "subtitle": "Flexbox, CSS Grid, and Responsive Design",
+      "slug": "2-3-formation-magic",
+      "sideQuests": [
+        "PAT-08",
+        "ALG-03",
+        "PAT-10",
+        "ATELIER-03",
+        "ATELIER-04",
+        "ATELIER-05"
+      ],
+      "hook": "The armor is on, and everything is still one column. A navigation bar, a row of cards, a sidebar beside the story, a page that rearranges when the window gets narrow: that is layout. Flexbox handles one direction. Grid handles both. You write the small screen first, and each wider screen adds to it.",
+      "sideQuestWhy": [
+        "A page is a container of containers: the grid holds regions, a region holds a flex row, the row holds links. That is the composite, a tree where a branch and a leaf answer to the same idea of 'a node with children.' The page names the DOM. Read the intent and the first picture; the class code is for later.",
+        "Flex or grid is not a rule to memorize, it is a choice with a context, which is the only lesson on this page that survives contact with a real stylesheet. There is no always. Read the mindset section and bring it back to the table in this session: a bar is one axis, a page is two, and a wrapping card row can honestly be either.",
+        "grid-template-areas is one door in front of tracks, lines, and placement. You write a picture made of names, and the grid does the bookkeeping. That is a facade: a simpler interface over a subsystem that does not know you simplified it. Read the intent. The order-and-inventory example is the same shape.",
+        "The nav on both gift sites is a fixed bar whose underline grows and whose links become a full-screen menu. Flex is the row. The menu is the column. Read the fixed nav before you invent a third layout for links.",
+        "The hero is the split you just learned: type in one track, a portrait in the other, the title sized with clamp so the phone and the desktop share one rule. Read the split and write it.",
+        "A grid of cards is the auto-fit track from this session, with a hover that lifts the paint and not the layout. Read the link grid and build six of them."
+      ]
+    },
+    {
+      "id": "2.4",
+      "unit": 2,
+      "week": 3,
+      "day": "Wed",
+      "title": "Enchantments",
+      "subtitle": "Animations, Transforms, Images, and BEM",
+      "slug": "2-4-enchantments",
+      "sideQuests": [
+        "PAT-09",
+        "PAT-20",
+        "PAT-08",
+        "ATELIER-06",
+        "ATELIER-07",
+        "ATELIER-08"
+      ],
+      "hook": "The page is structured, colored, and arranged, and it is still a still picture. A hover that eases, a card that lifts, a spinner that turns, a photograph that fits its frame: motion and fit are how a page tells you it can be touched. The names have to stay readable while you add them, which is what BEM is for.",
+      "sideQuestWhy": [
+        "A modifier is a variation hung on a component that already exists: quest-card and quest-card--featured, not a second component. That is the decorator: same interface, another layer. Read the intent and the first picture. The wrapping example is the same move as a modifier class.",
+        "Rest, hover, and pressed are three states of one button, and each state has its own declarations. The transition is only the trip between them. Read the intent. The class diagram is that idea pointed at a control instead of a quest card.",
+        "A block is a tree of named parts: the card contains a badge, a title, a description, a reward. The composite page is a tree where a part and a whole are addressed the same way. Read the intent and look at the first picture. Fig 4 on this session is that tree with the names written on it.",
+        "object-fit and a shared aspect ratio are how the gift-site galleries stay even when the photographs do not. Read Pictures and crop six images on purpose.",
+        "The loader, the marquee, and the scroll reveal are the motion from this session, written as classes. Reduced motion turns them off. Read Motion and add one reveal.",
+        "The gate, the cursor, and the mute button are the same idea: the stylesheet holds the look, the script only adds a class. The cursor is limited to a fine pointer. Read that page before you hide the real cursor."
+      ]
+    },
+    {
+      "id": "2.5",
+      "unit": 2,
+      "week": 3,
+      "day": "Sat",
+      "title": "The Character Sheet Forge",
+      "subtitle": "Build and Deploy Your Landing Page",
+      "slug": "2-5-the-character-sheet-forge",
+      "sideQuests": [
+        "PAT-08",
+        "PAT-09",
+        "ATELIER-09",
+        "ATELIER-10"
+      ],
+      "sideQuestWhy": [
+        "Apply content to this lesson's artifact: Name the visitor and the action they should take.",
+        "Apply layout to this lesson's artifact: Use semantic sections and fluid components.",
+        "The two widths where a gift site simplifies: the hero stacks, the menu swaps, the grid collapses. Read Breakpoints and check 390 and 1440 before you deploy.",
+        "Assembly is the landing page you are shipping, written in the order of the two stylesheets. Read it last, then build one file."
+      ],
+      "hook": "A responsive personal landing page, deployment URL, and accessibility review. Name the visitor and the action they should take."
+    },
+    {
+      "id": "3.1",
+      "unit": 3,
+      "week": 4,
+      "day": "Tue",
+      "title": "Mana Basics",
+      "subtitle": "Variables, Data Types, Operators, and Control Flow",
+      "slug": "3-1-mana-basics",
+      "hook": "Your first mana bar: where values live, the seven kinds they come in, and how a program picks a road.",
+      "sideQuests": [
+        "LANG-JS-11",
+        "LANG-JS-05",
+        "LANG-JS-03",
+        "LANG-JS-08"
+      ],
+      "sideQuestWhy": [
+        "The full table behind fig. 5: ===, == and Object.is, the falsy six, typeof, and every coercion rule as runnable asserts.",
+        "Why 0.1 + 0.2 is not 0.3, how to round and format, parseInt versus Number, and the limits of the number type.",
+        "Everything the template literal did not cover: indexing, slicing, splitting, the immutability trap.",
+        "var versus let versus const, the classic loop bug, and hoisting explained from scope up; read this one after Session 3.2 if it feels early."
+      ]
+    },
+    {
+      "id": "3.2",
+      "unit": 3,
+      "week": 4,
+      "day": "Wed",
+      "title": "Spell Crafting",
+      "subtitle": "Functions, Scope, Closures, and Array Methods",
+      "slug": "3-2-spell-crafting",
+      "hook": "Write the incantation once, name it, and cast it anywhere; then learn why some spells remember.",
+      "sideQuests": [
+        "LANG-JS-08",
+        "LANG-JS-01",
+        "LANG-JS-06",
+        "LANG-JS-02"
+      ],
+      "sideQuestWhy": [
+        "The reference sheet for today: scope, the backpack, the classic loop, and function hoisting as runnable asserts.",
+        "Every array method in one place, mutating versus copying, 2D grids, and the aliasing trap behind the shallow-copy demo.",
+        "Destructuring, spread, rest and the copy table in full, including when structuredClone is the right tool.",
+        "The comparator function sort wants, why sort mutates, and how to sort by two keys without destroying the input."
+      ]
+    },
+    {
+      "id": "3.3",
+      "unit": 3,
+      "week": 4,
+      "day": "Sat",
+      "title": "Objects and Orcs",
+      "subtitle": "Object-Oriented Programming in JavaScript",
+      "slug": "3-3-objects-and-orcs",
+      "hook": "One blueprint, five hundred knights, and the word that keeps losing its character.",
+      "sideQuests": [
+        "LANG-JS-07",
+        "LANG-JS-06",
+        "LANG-JS-08",
+        "PAT-04",
+        "PAT-03"
+      ],
+      "sideQuestWhy": [
+        "The reference sheet for today: class syntax, the four rules of this, and the prototype chain as runnable asserts.",
+        "Everything about reading and copying objects: destructuring, spread, Object.entries, shallow versus deep copies.",
+        "The closure that made the factory's secret private, explained from scope and hoisting up.",
+        "The design pattern named after today's mechanism: cloning from an existing object instead of a class.",
+        "What createHero grows into when the kind of object depends on the input."
+      ]
+    },
+    {
+      "id": "3.4",
+      "unit": 3,
+      "week": 5,
+      "day": "Tue",
+      "title": "Casting on the World",
+      "subtitle": "The DOM, Events, and Dynamic Interfaces",
+      "slug": "3-4-casting-on-the-world",
+      "hook": "Your JavaScript leaves the training dungeon: select a corner of the page, change it, and make it answer when someone clicks.",
+      "sideQuests": [
+        "PAT-19",
+        "PAT-17",
+        "PAT-14",
+        "LANG-JS-07"
+      ],
+      "sideQuestWhy": [
+        "addEventListener is the Observer pattern with the browser as the subject: attach, detach, notify. See it written out in plain objects.",
+        "The quest board's controller, one handler that coordinates the form, the list and the counter, is a Mediator; this sheet names the shape and its trade-off.",
+        "A button click that becomes an object with execute() and undo() is the Command pattern, and the Quest Log's stretch goals want it.",
+        "The Quest class meets `this` inside event handlers; this sheet is where arrow functions versus methods stops being a mystery."
+      ]
+    },
+    {
+      "id": "3.5",
+      "unit": 3,
+      "week": 5,
+      "day": "Wed",
+      "title": "The Arena",
+      "subtitle": "Build and Deploy Your Browser Game",
+      "slug": "3-5-the-arena",
+      "hook": "Project day. Everything from Unit 3 becomes one playable, deployed game with a URL you can hand to anyone.",
+      "sideQuests": [
+        "PAT-20",
+        "PAT-22",
+        "LANG-JS-05",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "idle → playing → over is a state machine, and every `if (winner) return` guard is one of its transitions; this sheet shows each state as an object, which is where your game goes when the ifs pile up.",
+        "A `Game` class whose `start()` runs the fixed sequence and whose `buildBoard()` is filled in by each specific game is the Template Method; this sheet names the parts so you can explain your own architecture.",
+        "`randomInt` is `Math.floor(Math.random() * (max - min + 1)) + min`, and every off-by-one in a dice roll or a timer lives in that line; this sheet covers floor versus round versus trunc, parsing, and why `parseInt` of a label is NaN.",
+        "Project day is where a copied demonstration stops being enough. This page says copying is the third step. The fourth is your own idea, and it will not work the first time. Stay with that hour."
+      ]
+    },
+    {
+      "id": "4.1",
+      "unit": 4,
+      "title": "The Runtime Beyond the Browser",
+      "subtitle": "What Node.js is, and what Express is",
+      "slug": "4-1-the-runtime-beyond-the-browser",
+      "hook": "JavaScript leaves the page. Node is the runtime that runs it on a machine, and Express is the small library that turns that machine into a server.",
+      "sideQuests": [
+        "PAT-10",
+        "PAT-12"
+      ],
+      "sideQuestWhy": [
+        "Express is a facade: a small, pleasant surface over Node's http module. This sheet names that shape, a simple interface in front of a messier subsystem.",
+        "The Proxy pattern is the other half of the word you will meet again in Unit 6. Read it now so 'the server' and 'the thing in front of the server' are already different objects in your head."
+      ],
+      "week": 5,
+      "day": "Sat"
+    },
+    {
+      "id": "4.2",
+      "unit": 4,
+      "title": "The Listening Door",
+      "subtitle": "Create a server with Express",
+      "slug": "4-2-the-listening-door",
+      "hook": "One process, one port, and a stack of functions. Today you build the door: routes, middleware, and an error handler that actually answers.",
+      "sideQuests": [
+        "PAT-13",
+        "PAT-10"
+      ],
+      "sideQuestWhy": [
+        "Middleware is a chain of responsibility: each function does its part and calls next, or it ends the response. This sheet is that pattern without Express around it.",
+        "The app object is still the facade from last session. Come back to it once you have seen the chain it hides."
+      ],
+      "week": 6,
+      "day": "Tue"
+    },
+    {
+      "id": "4.3",
+      "unit": 4,
+      "title": "The Counter's Three Laws",
+      "subtitle": "REST, MVC, and JSON",
+      "slug": "4-3-the-counters-three-laws",
+      "hook": "A URL is not a page. It is a noun, the method is the verb, and the body is JSON. MVC is how you keep those three from collapsing into one file.",
+      "sideQuests": [
+        "SYS-C02",
+        "PAT-17"
+      ],
+      "sideQuestWhy": [
+        "REST is one choice among API styles. This sheet puts it next to GraphQL and gRPC so you can say why a quest board wants resources and verbs, not a single query language.",
+        "A controller that coordinates the model and the response, and does not let them talk past it, is a mediator. The sheet shows the shape you are about to write by hand."
+      ],
+      "week": 6,
+      "day": "Wed"
+    },
+    {
+      "id": "4.4",
+      "unit": 4,
+      "title": "The Vault",
+      "subtitle": "MongoDB and databases in general",
+      "slug": "4-4-the-vault",
+      "hook": "A variable dies when the process dies. A database is the other kind of memory: documents on disk, queried by fields, shared by every request.",
+      "sideQuests": [
+        "SYS-C27",
+        "SYS-C11"
+      ],
+      "sideQuestWhy": [
+        "MongoDB is one answer to SQL versus NoSQL. Read the trade-off before you treat documents as 'just easier tables.'",
+        "The unique email and the find-by-id you will write next week are indexes. This sheet is the cost of having them and the cost of not having them."
+      ],
+      "week": 6,
+      "day": "Sat"
+    },
+    {
+      "id": "4.5",
+      "unit": 4,
+      "title": "The Vault Keeper",
+      "subtitle": "Mongoose and ODMs",
+      "slug": "4-5-the-vault-keeper",
+      "hook": "MongoDB will store whatever you hand it. Mongoose is the keeper at the door: a schema, a model, validators, and queries that return promises.",
+      "sideQuests": [
+        "SYS-C11",
+        "SYS-C27"
+      ],
+      "sideQuestWhy": [
+        "schema.index and unique: true become indexes. Go read what an index costs on a write, now that you are about to add one.",
+        "An ODM is not a different database. MongoDB is still a document store. This sheet keeps that line from blurring once the API feels like objects."
+      ],
+      "week": 7,
+      "day": "Tue"
+    },
+    {
+      "id": "4.6",
+      "unit": 4,
+      "title": "The Paper Ledger",
+      "subtitle": "Server-rendered HTML with Express, Mongoose, and INDUCES",
+      "slug": "4-6-the-paper-ledger",
+      "hook": "Before React, the server sends the page. Seven routes, one resource, plain HTML and CSS. The name of the seven is INDUCES.",
+      "sideQuests": [
+        "PAT-17",
+        "PAT-13"
+      ],
+      "sideQuestWhy": [
+        "The controller is a mediator between the Mongoose model and the HTML you send. The sheet is the pattern with the participants named.",
+        "method-override and the body parser are middleware in a chain. Order is the whole bug. The chain-of-responsibility sheet is why calling next is the design, not a quirk."
+      ],
+      "week": 7,
+      "day": "Wed"
+    },
+    {
+      "id": "4.7",
+      "unit": 4,
+      "title": "The Courier",
+      "subtitle": "A RESTful API that returns JSON",
+      "slug": "4-7-the-courier",
+      "hook": "The same quests, with the HTML left behind. The client sends JSON and receives JSON. Status codes do the talking that a redirect used to do.",
+      "sideQuests": [
+        "SYS-C02",
+        "SYS-C27"
+      ],
+      "sideQuestWhy": [
+        "You just chose a resource style on purpose. The API-design sheet is the argument you should be able to repeat.",
+        "The documents are still documents. If a teammate asks why this is not a table with joins, you want the SQL-versus-NoSQL page in reach."
+      ],
+      "week": 7,
+      "day": "Sat"
+    },
+    {
+      "id": "4.8",
+      "unit": 4,
+      "title": "Seals and Signets",
+      "subtitle": "bcrypt, JWT, and authentication in Postman",
+      "slug": "4-8-seals-and-signets",
+      "hook": "No React yet. A password becomes a hash, a login returns a signed token, and Postman carries that token on the next request. The server is the only thing that believes it.",
+      "sideQuests": [
+        "SYS-C26",
+        "SEC-07",
+        "SEC-01"
+      ],
+      "sideQuestWhy": [
+        "Authentication is who you are. Authorization is what you may do. This sheet separates them before the token makes them feel like one thing.",
+        "Authentication failures are an OWASP category of their own: weak hashes, missing expiry, tokens in logs. Read the fixes next to the code you just wrote.",
+        "Broken access control is the next bug, and it will not show up in Postman if you only call the route as yourself. The sheet's first case is calling it as someone else."
+      ],
+      "week": 8,
+      "day": "Tue"
+    },
+    {
+      "id": "4.9",
+      "unit": 4,
+      "title": "The Illusionist's Primer",
+      "subtitle": "React, the basics",
+      "slug": "4-9-the-illusionists-primer",
+      "hook": "The page stops being a string you send once. React is a description of the UI from state. Change the state, and React updates the DOM.",
+      "sideQuests": [
+        "PAT-08",
+        "PAT-19"
+      ],
+      "sideQuestWhy": [
+        "A screen made of components that contain components is the composite pattern. The sheet is the tree you are already drawing.",
+        "onClick is the observer pattern with React as the subject. Read the subscribe and notify language so the handler stops feeling like magic."
+      ],
+      "week": 8,
+      "day": "Wed"
+    },
+    {
+      "id": "4.10",
+      "unit": 4,
+      "title": "The Second Circle",
+      "subtitle": "Effects, forms, and shared state",
+      "slug": "4-10-the-second-circle",
+      "hook": "State inside one component is not enough. Today the data lives above the children that need it, and effects are reserved for synchronizing with something outside React.",
+      "sideQuests": [
+        "PAT-20",
+        "PAT-19"
+      ],
+      "sideQuestWhy": [
+        "Loading, empty, error, and ready are states of the screen. The State pattern sheet is what this becomes when the ifs pile up.",
+        "The effect that subscribes, and the cleanup that unsubscribes, is the observer pattern with a return function. Read the cleanup as detach."
+      ],
+      "week": 8,
+      "day": "Sat"
+    },
+    {
+      "id": "4.11",
+      "unit": 4,
+      "title": "The Quest Slate",
+      "subtitle": "A React todo on your API, with JWT auth",
+      "slug": "4-11-the-quest-slate",
+      "hook": "The pieces meet. A todo list in React, a JSON API in Express, a token from the login you already proved in Postman. The screen waits for the server before it says saved.",
+      "sideQuests": [
+        "SEC-01",
+        "SYS-C26"
+      ],
+      "sideQuestWhy": [
+        "The UI hiding the delete button is not the control. Call the route as the other user. This sheet is that bug, written out.",
+        "Login established identity. The todo route has to decide authorization separately, per record. Re-read the split before you check only that a token exists."
+      ],
+      "week": 9,
+      "day": "Tue"
+    },
+    {
+      "id": "4.12",
+      "unit": 4,
+      "title": "The Second Contract",
+      "subtitle": "Another CRUD app with the same JWT auth",
+      "slug": "4-12-the-second-contract",
+      "hook": "You have built this shape once, with the notes open. Today you build it again, a spellbook instead of a todo list, and the notes stay closed until something actually breaks.",
+      "sideQuests": [
+        "PAT-10",
+        "SEC-07"
+      ],
+      "sideQuestWhy": [
+        "The API your React app calls is a facade over Mongoose. If the second app's client knows about schemas, the facade has leaked. The sheet is the line.",
+        "You will be tempted to loosen the password rules to make the demo easier. The authentication-failures page is the argument against that shortcut."
+      ],
+      "week": 9,
+      "day": "Wed"
+    },
+    {
+      "id": "4.13",
+      "unit": 4,
+      "title": "Blood Oaths",
+      "subtitle": "Many-to-many relationships in a MERN app",
+      "slug": "4-13-blood-oaths",
+      "hook": "A quest has one author. A party has many members, and a member stands in many parties. That second sentence is a different shape, and Mongoose will not invent it for you.",
+      "sideQuests": [
+        "SYS-C11",
+        "SYS-C27"
+      ],
+      "sideQuestWhy": [
+        "The compound unique index on party plus member is the indexing page in miniature. Read the write cost now, while the collection is small enough to feel free.",
+        "A join collection is the document version of a join table. The SQL-versus-NoSQL sheet is how you explain that to someone who only knows rows."
+      ],
+      "week": 9,
+      "day": "Sat"
+    },
+    {
+      "id": "4.14",
+      "unit": 4,
+      "title": "The Guild Hall",
+      "subtitle": "Messages, inventory, and a small social world",
+      "slug": "4-14-the-guild-hall",
+      "hook": "The unit's project. Accounts you already know how to seal, an inbox between them, and a pack of potions, weapons, and armor. Not every link is many-to-many. You have to say which is which.",
+      "sideQuests": [
+        "SEC-01",
+        "PAT-08",
+        "SYS-C11"
+      ],
+      "sideQuestWhy": [
+        "The inbox is broken access control waiting to happen: change the id, read someone else's mail. The sheet's first example is this request.",
+        "A pack that contains items, and an item that is itself a simple leaf, is a composite if you later nest kits inside kits. Read the pattern before you reach for recursion.",
+        "Holdings will be queried by owner constantly. The index on owner is the difference between a pack that opens and a pack that scans every row you have ever stored."
+      ],
+      "week": 10,
+      "day": "Tue"
+    },
+    {
+      "id": "5.1",
+      "unit": 5,
+      "week": 10,
+      "day": "Wed",
+      "title": "Awakening the Cheat Skill",
+      "subtitle": "The RTTPOC Prompt Framework",
+      "slug": "5-1-awakening-the-cheat-skill",
+      "sideQuests": [
+        "MIND-02",
+        "SYS-03"
+      ],
+      "sideQuestWhy": [
+        "Apply intent to this lesson's artifact: State role, task, and target audience.",
+        "Apply contract to this lesson's artifact: Specify process, output, and constraints."
+      ],
+      "hook": "An RTTPOC prompt packet with a baseline, revised output, and evaluation rubric. State role, task, and target audience."
+    },
+    {
+      "id": "5.2",
+      "unit": 5,
+      "week": 10,
+      "day": "Sat",
+      "title": "Advanced Incantations",
+      "subtitle": "Prompt Patterns, Context Windows, and Iteration",
+      "slug": "5-2-advanced-incantations",
+      "sideQuests": [
+        "MIND-02",
+        "PAT-21"
+      ],
+      "sideQuestWhy": [
+        "Apply context to this lesson's artifact: Select evidence relevant to the decision.",
+        "Apply iteration to this lesson's artifact: Change one instruction and compare outputs."
+      ],
+      "hook": "A versioned prompt workflow with examples, context selection, and regression cases. Select evidence relevant to the decision."
+    },
+    {
+      "id": "5.3",
+      "unit": 5,
+      "week": 11,
+      "day": "Tue",
+      "title": "Summoned Familiars",
+      "subtitle": "Claude Code, Cursor, and Agentic Workflows",
+      "slug": "5-3-summoned-familiars",
+      "sideQuests": [
+        "SEC-03",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply inspect to this lesson's artifact: Read repository rules and identify the affected behavior.",
+        "Apply edit to this lesson's artifact: Make a scoped change with explicit boundaries."
+      ],
+      "hook": "An agent task brief, reviewed patch, and reproducible verification log. Read repository rules and identify the affected behavior."
+    },
+    {
+      "id": "5.4",
+      "unit": 5,
+      "week": 11,
+      "day": "Wed",
+      "title": "Cheat Skill Trials",
+      "subtitle": "Rebuild a Feature at 10x Speed",
+      "slug": "5-4-cheat-skill-trials",
+      "sideQuests": [
+        "MIND-02",
+        "SYS-03"
+      ],
+      "sideQuestWhy": [
+        "Apply baseline to this lesson's artifact: Measure a known feature and its acceptance cases.",
+        "Apply rebuild to this lesson's artifact: Use a bounded agent workflow on a separate branch."
+      ],
+      "hook": "A before-and-after feature rebuild with timing, tests, and a retrospective. Measure a known feature and its acceptance cases."
+    },
+    {
+      "id": "6.1",
+      "unit": 6,
+      "week": 11,
+      "day": "Sat",
+      "title": "Claiming Territory",
+      "subtitle": "Cloud Machines, SSH, and Server Setup",
+      "slug": "6-1-claiming-territory",
+      "sideQuests": [
+        "SYS-C26",
+        "SEC-02"
+      ],
+      "sideQuestWhy": [
+        "Apply access to this lesson's artifact: Use a named account and SSH key.",
+        "Apply boundary to this lesson's artifact: Permit required traffic before enabling the firewall."
+      ],
+      "hook": "A manually provisioned server access plan with a verified recovery path. Use a named account and SSH key."
+    },
+    {
+      "id": "6.2",
+      "unit": 6,
+      "week": 12,
+      "day": "Tue",
+      "title": "The Gatekeeper",
+      "subtitle": "Nginx, Reverse Proxies, and Process Management",
+      "slug": "6-2-the-gatekeeper",
+      "sideQuests": [
+        "SYS-C23",
+        "SYS-C22"
+      ],
+      "sideQuestWhy": [
+        "Apply edge to this lesson's artifact: Nginx accepts public HTTP requests.",
+        "Apply upstream to this lesson's artifact: Forward API traffic to a loopback application port."
+      ],
+      "hook": "An Nginx reverse proxy and process-management runbook. Nginx accepts public HTTP requests."
+    },
+    {
+      "id": "6.3",
+      "unit": 6,
+      "week": 12,
+      "day": "Wed",
+      "title": "The Teleportation Network",
+      "subtitle": "DNS, Domains, and SSL Certificates",
+      "slug": "6-3-the-teleportation-network",
+      "sideQuests": [
+        "SYS-C15",
+        "SEC-04"
+      ],
+      "sideQuestWhy": [
+        "Apply dns to this lesson's artifact: Resolve a hostname to the intended endpoint.",
+        "Apply tls to this lesson's artifact: Verify identity and encrypt the connection."
+      ],
+      "hook": "A DNS and HTTPS configuration with renewal and troubleshooting evidence. Resolve a hostname to the intended endpoint."
+    },
+    {
+      "id": "6.4",
+      "unit": 6,
+      "week": 12,
+      "day": "Sat",
+      "title": "Opening the World Gate",
+      "subtitle": "Deploy Your Full Stack App to the Internet",
+      "slug": "6-4-opening-the-world-gate",
+      "sideQuests": [
+        "SYS-C22",
+        "SYS-C04",
+        "SEC-02"
+      ],
+      "sideQuestWhy": [
+        "Apply build to this lesson's artifact: Create a reproducible release from a known revision.",
+        "Apply deploy to this lesson's artifact: Apply configuration and start the intended services.",
+        "Apply verify to this lesson's artifact: Exercise the public journey and preserve rollback."
+      ],
+      "hook": "A reproducible full-stack deployment with smoke tests and rollback instructions. Create a reproducible release from a known revision."
+    },
+    {
+      "id": "7.1",
+      "unit": 7,
+      "week": 13,
+      "day": "Tue",
+      "title": "Sparring Grounds",
+      "subtitle": "Jest, Unit Testing, and the TDD Mindset",
+      "slug": "7-1-sparring-grounds",
+      "sideQuests": [
+        "ALG-03",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply arrange to this lesson's artifact: Choose inputs that expose a behavior.",
+        "Apply act to this lesson's artifact: Call the smallest relevant unit."
+      ],
+      "hook": "A focused unit-test suite with boundary cases and a demonstrated failing test. Choose inputs that expose a behavior."
+    },
+    {
+      "id": "7.2",
+      "unit": 7,
+      "week": 13,
+      "day": "Wed",
+      "title": "Dungeon Trials",
+      "subtitle": "Supertest, API Testing, and Integration Tests",
+      "slug": "7-2-dungeon-trials",
+      "sideQuests": [
+        "SYS-C02",
+        "SEC-01"
+      ],
+      "sideQuestWhy": [
+        "Apply request to this lesson's artifact: Send real HTTP-shaped inputs through the app.",
+        "Apply boundary to this lesson's artifact: Exercise routing, middleware, and persistence."
+      ],
+      "hook": "API integration tests with isolated data and authorization failures. Send real HTTP-shaped inputs through the app."
+    },
+    {
+      "id": "7.3",
+      "unit": 7,
+      "week": 13,
+      "day": "Sat",
+      "title": "The Gauntlet",
+      "subtitle": "Playwright, E2E Testing, and CI Basics",
+      "slug": "7-3-the-gauntlet",
+      "sideQuests": [
+        "SYS-C22",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply journey to this lesson's artifact: Describe the user-visible goal.",
+        "Apply browser to this lesson's artifact: Use accessible locators and awaited assertions."
+      ],
+      "hook": "A browser test for a core journey and a CI workflow that retains failure evidence. Describe the user-visible goal."
+    },
+    {
+      "id": "7.4",
+      "unit": 7,
+      "week": 14,
+      "day": "Tue",
+      "title": "Clearing the Training Dungeon",
+      "subtitle": "Build a Real Test Suite",
+      "slug": "7-4-clearing-the-training-dungeon",
+      "sideQuests": [
+        "SEC-11",
+        "SYS-C22"
+      ],
+      "sideQuestWhy": [
+        "Apply risk to this lesson's artifact: Identify failures that would harm the user.",
+        "Apply coverage to this lesson's artifact: Assign unit, integration, and browser checks."
+      ],
+      "hook": "A risk-based test suite and release-quality evidence report. Identify failures that would harm the user."
+    },
+    {
+      "id": "8.1",
+      "unit": 8,
+      "week": 14,
+      "day": "Wed",
+      "title": "Listening at the Tavern",
+      "subtitle": "User Research, Interviews, and Empathy Maps",
+      "slug": "8-1-listening-at-the-tavern",
+      "sideQuests": [
+        "MIND-01",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply observe to this lesson's artifact: Ask about a recent concrete experience.",
+        "Apply separate to this lesson's artifact: Keep quotations distinct from interpretations."
+      ],
+      "hook": "An interview guide, anonymized notes, and an evidence-based empathy map. Ask about a recent concrete experience."
+    },
+    {
+      "id": "8.2",
+      "unit": 8,
+      "week": 14,
+      "day": "Sat",
+      "title": "The Quest Board",
+      "subtitle": "User Stories, Backlogs, and Prioritization",
+      "slug": "8-2-the-quest-board",
+      "sideQuests": [
+        "SYS-03",
+        "PAT-21"
+      ],
+      "sideQuestWhy": [
+        "Apply need to this lesson's artifact: Connect a user problem to evidence.",
+        "Apply slice to this lesson's artifact: Define a small observable outcome."
+      ],
+      "hook": "A prioritized backlog with user stories and testable acceptance criteria. Connect a user problem to evidence."
+    },
+    {
+      "id": "8.3",
+      "unit": 8,
+      "week": 15,
+      "day": "Tue",
+      "title": "Guild Operations",
+      "subtitle": "Agile, SCRUM, Sprints, and Retros",
+      "slug": "8-3-guild-operations",
+      "sideQuests": [
+        "MIND-02",
+        "SYS-03"
+      ],
+      "sideQuestWhy": [
+        "Apply plan to this lesson's artifact: Choose a coherent goal within actual capacity.",
+        "Apply inspect to this lesson's artifact: Review working outcomes and impediments."
+      ],
+      "hook": "A sprint goal, working board, review agenda, and retrospective action. Choose a coherent goal within actual capacity."
+    },
+    {
+      "id": "8.4",
+      "unit": 8,
+      "week": 15,
+      "day": "Wed",
+      "title": "Field Work",
+      "subtitle": "Real User Interviews and Sprint Planning",
+      "slug": "8-4-field-work",
+      "sideQuests": [
+        "MIND-02",
+        "SYS-03"
+      ],
+      "sideQuestWhy": [
+        "Apply evidence to this lesson's artifact: Synthesize real interviews without inventing certainty.",
+        "Apply decision to this lesson's artifact: Choose a problem and document alternatives."
+      ],
+      "hook": "A research-to-backlog handoff and a realistic first sprint plan. Synthesize real interviews without inventing certainty."
+    },
+    {
+      "id": "9.1",
+      "unit": 9,
+      "week": 15,
+      "day": "Sat",
+      "title": "Ancient Runes",
+      "subtitle": "TypeScript Fundamentals and Type Safety",
+      "slug": "9-1-ancient-runes",
+      "sideQuests": [
+        "LANG-JS-10",
+        "SYS-03"
+      ],
+      "sideQuestWhy": [
+        "Apply unknown to this lesson's artifact: External data begins without trusted structure.",
+        "Apply narrow to this lesson's artifact: Runtime checks establish the required shape."
+      ],
+      "hook": "A strict TypeScript module with validated external input and explicit domain types. External data begins without trusted structure."
+    },
+    {
+      "id": "9.2",
+      "unit": 9,
+      "week": 16,
+      "day": "Tue",
+      "title": "Trial of Blades",
+      "subtitle": "Arrays, Objects, Big O, and Core Data Structures",
+      "slug": "9-2-trial-of-blades",
+      "sideQuests": [
+        "ALG-01",
+        "ALG-02",
+        "ALG-19"
+      ],
+      "sideQuestWhy": [
+        "Apply operation to this lesson's artifact: Identify the frequent reads and writes.",
+        "Apply structure to this lesson's artifact: Choose representation for those operations.",
+        "Apply growth to this lesson's artifact: Explain how time and memory scale with input."
+      ],
+      "hook": "Typed data structures with operation tests and time/space analysis. Identify the frequent reads and writes."
+    },
+    {
+      "id": "9.3",
+      "unit": 9,
+      "week": 16,
+      "day": "Wed",
+      "title": "Trial of Wits",
+      "subtitle": "Algorithm Patterns and Whiteboard Practice",
+      "slug": "9-3-trial-of-wits",
+      "sideQuests": [
+        "ALG-05",
+        "ALG-21",
+        "ALG-22"
+      ],
+      "sideQuestWhy": [
+        "Apply example to this lesson's artifact: Work a small input by hand.",
+        "Apply invariant to this lesson's artifact: State what remains true during each step.",
+        "Apply proof to this lesson's artifact: Check termination, correctness, and resource growth."
+      ],
+      "hook": "Algorithm solutions with invariants, edge cases, and comparative complexity. Work a small input by hand."
+    },
+    {
+      "id": "9.4",
+      "unit": 9,
+      "week": 16,
+      "day": "Sat",
+      "title": "Grand Architecture",
+      "subtitle": "System Design Fundamentals",
+      "slug": "9-4-grand-architecture",
+      "sideQuests": [
+        "SYS-01",
+        "SYS-02",
+        "SYS-C06"
+      ],
+      "sideQuestWhy": [
+        "Apply requirements to this lesson's artifact: Define users, operations, and quality needs.",
+        "Apply architecture to this lesson's artifact: Assign responsibilities and data ownership.",
+        "Apply tradeoffs to this lesson's artifact: Explain capacity, failure, and consistency choices."
+      ],
+      "hook": "A system design document with estimates, failure paths, and explicit tradeoffs. Define users, operations, and quality needs."
+    },
+    {
+      "id": "9.5",
+      "unit": 9,
+      "week": 17,
+      "day": "Tue",
+      "title": "The Runesmith's Forge",
+      "subtitle": "TypeScript Conversion and Design Doc",
+      "slug": "9-5-the-runesmiths-forge",
+      "sideQuests": [
+        "SYS-03",
+        "SYS-04",
+        "ALG-03"
+      ],
+      "sideQuestWhy": [
+        "Apply baseline to this lesson's artifact: Freeze working behavior and identify public contracts.",
+        "Apply migrate to this lesson's artifact: Type one boundary at a time with strict checking.",
+        "Apply explain to this lesson's artifact: Connect the implementation to an architecture decision."
+      ],
+      "hook": "A reviewed TypeScript migration and a capstone architecture decision record. Freeze working behavior and identify public contracts."
+    },
+    {
+      "id": "10.1",
+      "unit": 10,
+      "week": 17,
+      "day": "Wed",
+      "title": "Barrier Magic",
+      "subtitle": "OWASP, Input Validation, and Secrets Management",
+      "slug": "10-1-barrier-magic",
+      "sideQuests": [
+        "SEC-01",
+        "SEC-05",
+        "SEC-11"
+      ],
+      "sideQuestWhy": [
+        "Apply boundary to this lesson's artifact: Identify untrusted input and protected resources.",
+        "Apply control to this lesson's artifact: Validate, authorize, and limit each operation.",
+        "Apply evidence to this lesson's artifact: Test abuse cases and record useful security events."
+      ],
+      "hook": "A threat model, validated server boundaries, and a secrets-handling checklist. Identify untrusted input and protected resources."
+    },
+    {
+      "id": "10.2",
+      "unit": 10,
+      "week": 17,
+      "day": "Sat",
+      "title": "Sealed Gates",
+      "subtitle": "Stripe, Paid APIs, Webhooks, and Rate Limits",
+      "slug": "10-2-sealed-gates",
+      "sideQuests": [
+        "SYS-C17",
+        "SYS-C24",
+        "SEC-08"
+      ],
+      "sideQuestWhy": [
+        "Apply checkout to this lesson's artifact: Server chooses the approved price and account.",
+        "Apply event to this lesson's artifact: Verify the signature over the original body.",
+        "Apply entitlement to this lesson's artifact: Apply a durable, idempotent state transition."
+      ],
+      "hook": "A sandbox checkout and verified, durable payment-event processing design. Server chooses the approved price and account."
+    },
+    {
+      "id": "10.3",
+      "unit": 10,
+      "week": 18,
+      "day": "Tue",
+      "title": "Binding the Great Spirits",
+      "subtitle": "LLM APIs, Safe Integration, and Cost Control",
+      "slug": "10-3-binding-the-great-spirits",
+      "sideQuests": [
+        "SEC-06",
+        "SYS-C24",
+        "SYS-C22"
+      ],
+      "sideQuestWhy": [
+        "Apply input to this lesson's artifact: Authenticate, validate, and minimize context.",
+        "Apply generation to this lesson's artifact: Use a configured model with time and token limits.",
+        "Apply output to this lesson's artifact: Validate the result and preserve a useful fallback."
+      ],
+      "hook": "A server-side AI feature with bounded input, output, cost, and evaluation cases. Authenticate, validate, and minimize context."
+    },
+    {
+      "id": "10.4",
+      "unit": 10,
+      "week": 18,
+      "day": "Wed",
+      "title": "Warding the Kingdom",
+      "subtitle": "Add Payments and AI to Your Capstone",
+      "slug": "10-4-warding-the-kingdom",
+      "sideQuests": [
+        "SEC-11",
+        "SYS-C17",
+        "SYS-C22"
+      ],
+      "sideQuestWhy": [
+        "Apply inventory to this lesson's artifact: List protected assets and paid operations.",
+        "Apply exercise to this lesson's artifact: Test success, abuse, retry, and outage paths.",
+        "Apply release to this lesson's artifact: Resolve blockers and document remaining limitations."
+      ],
+      "hook": "A capstone security and integration release packet with explicit go/no-go criteria. List protected assets and paid operations."
+    },
+    {
+      "id": "11.1",
+      "unit": 11,
+      "week": 18,
+      "day": "Sat",
+      "title": "Rallying the Villagers",
+      "subtitle": "Crowdfunding, Community Rounds, and Pre-Sales",
+      "slug": "11-1-rallying-the-villagers",
+      "sideQuests": [
+        "SYS-02",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply need to this lesson's artifact: Define the milestone and cash required.",
+        "Apply route to this lesson's artifact: Compare pre-sales, crowdfunding, and investment."
+      ],
+      "hook": "A funding-options brief and a hypothetical pre-sale fulfillment model. Define the milestone and cash required."
+    },
+    {
+      "id": "11.2",
+      "unit": 11,
+      "week": 19,
+      "day": "Tue",
+      "title": "The Noble Houses",
+      "subtitle": "Angel Investors, SAFEs, and Term Sheets",
+      "slug": "11-2-the-noble-houses",
+      "sideQuests": [
+        "SYS-02",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply instrument to this lesson's artifact: Read the actual rights and conversion terms.",
+        "Apply scenario to this lesson's artifact: Calculate ownership under explicit assumptions."
+      ],
+      "hook": "A fictional cap table, SAFE scenario analysis, and term-sheet questions. Read the actual rights and conversion terms."
+    },
+    {
+      "id": "11.3",
+      "unit": 11,
+      "week": 19,
+      "day": "Wed",
+      "title": "The Royal Court",
+      "subtitle": "Venture Capital, Pitch Decks, and the Raise",
+      "slug": "11-3-the-royal-court",
+      "sideQuests": [
+        "SYS-02",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply fit to this lesson's artifact: Compare the business model with investor return expectations.",
+        "Apply evidence to this lesson's artifact: Support problem, traction, and market claims."
+      ],
+      "hook": "A venture-fit assessment, evidence-backed pitch narrative, and fundraising process map. Compare the business model with investor return expectations."
+    },
+    {
+      "id": "11.4",
+      "unit": 11,
+      "week": 19,
+      "day": "Sat",
+      "title": "War Council",
+      "subtitle": "Pitch Deck and Financial Narrative Workshop",
+      "slug": "11-4-war-council",
+      "sideQuests": [
+        "SYS-02",
+        "MIND-02"
+      ],
+      "sideQuestWhy": [
+        "Apply story to this lesson's artifact: Connect user pain to the product evidence.",
+        "Apply numbers to this lesson's artifact: Tie the ask to costs, runway, and milestones."
+      ],
+      "hook": "A complete fictional pitch deck narrative and auditable financial model. Connect user pain to the product evidence."
+    },
+    {
+      "id": "12.1",
+      "unit": 12,
+      "week": 20,
+      "day": "Tue",
+      "title": "Sprint 1 — Foundation",
+      "subtitle": "Core Features and Architecture",
+      "slug": "12-1-sprint-1-foundation",
+      "sideQuests": [
+        "SYS-03",
+        "SYS-04"
+      ],
+      "sideQuestWhy": [
+        "Apply scope to this lesson's artifact: Choose one user and one valuable journey.",
+        "Apply foundation to this lesson's artifact: Connect client, server, and persistence."
+      ],
+      "hook": "A capstone foundation with one complete vertical slice and an architecture record. Choose one user and one valuable journey."
+    },
+    {
+      "id": "12.2",
+      "unit": 12,
+      "week": 20,
+      "day": "Wed",
+      "title": "Sprint 2 — Build",
+      "subtitle": "Feature Completion and Integration",
+      "slug": "12-2-sprint-2-build",
+      "sideQuests": [
+        "PAT-06",
+        "PAT-20",
+        "SYS-C02"
+      ],
+      "sideQuestWhy": [
+        "Apply build to this lesson's artifact: Implement the prioritized user outcomes.",
+        "Apply integrate to this lesson's artifact: Connect real boundaries through explicit contracts.",
+        "Apply recover to this lesson's artifact: Handle empty, invalid, pending, and failed states."
+      ],
+      "hook": "A feature-complete core journey with integration and recovery evidence. Implement the prioritized user outcomes."
+    },
+    {
+      "id": "12.3",
+      "unit": 12,
+      "week": 20,
+      "day": "Sat",
+      "title": "Sprint 3 — Harden",
+      "subtitle": "Testing, Security, and Deployment",
+      "slug": "12-3-sprint-3-harden",
+      "sideQuests": [
+        "SEC-11",
+        "SYS-C22",
+        "SYS-C04"
+      ],
+      "sideQuestWhy": [
+        "Apply candidate to this lesson's artifact: Freeze a known revision for review.",
+        "Apply harden to this lesson's artifact: Exercise risks and fix reproducible failures.",
+        "Apply recover to this lesson's artifact: Verify deployment, backups, and rollback."
+      ],
+      "hook": "A tested release candidate with a security review and deployment recovery drill. Freeze a known revision for review."
+    },
+    {
+      "id": "12.4",
+      "unit": 12,
+      "week": 21,
+      "day": "Tue",
+      "title": "Sprint 4 — Polish",
+      "subtitle": "Final Touches and Presentation Prep",
+      "slug": "12-4-sprint-4-polish",
+      "sideQuests": [
+        "MIND-02",
+        "PAT-20"
+      ],
+      "sideQuestWhy": [
+        "Apply polish to this lesson's artifact: Fix friction in the core user journey.",
+        "Apply rehearse to this lesson's artifact: Tell the problem, show the product, explain the decision."
+      ],
+      "hook": "A polished release, timed demo script, and tested presentation fallback. Fix friction in the core user journey."
+    },
+    {
+      "id": "12.5",
+      "unit": 12,
+      "week": 21,
+      "day": "Wed",
+      "title": "Coronation Day",
+      "subtitle": "Demo Day, Launch, and Your Next Quest",
+      "slug": "12-5-coronation-day",
+      "sideQuests": [
+        "MIND-01",
+        "MIND-02",
+        "SYS-C22"
+      ],
+      "sideQuestWhy": [
+        "Apply demonstrate to this lesson's artifact: Show the outcome with evidence and honest limits.",
+        "Apply handoff to this lesson's artifact: Package setup, operations, and known issues.",
+        "Apply continue to this lesson's artifact: Choose the next learning or product experiment."
+      ],
+      "hook": "A final capstone handoff, demo retrospective, and measurable next-step plan. Show the outcome with evidence and honest limits."
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+website/node_modules/
+website/public/
+diagrams/node_modules/
+diagrams/out/
+.DS_Store

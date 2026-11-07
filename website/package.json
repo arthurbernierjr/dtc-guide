@@ -1,0 +1,40 @@
+{
+  "name": "deeper-than-code-guide",
+  "version": "1.0.0",
+  "description": "Super Coder \u2014 the path and library. A 54-session curriculum and 226-page programming library, served on port 31803.",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "node build/index.js",
+    "test": "node build/test/run.js",
+    "test:registry": "node build/test/registry.js",
+    "test:links": "node build/test/links.js",
+    "test:prep": "node build/test/prep.js",
+    "test:live": "node build/test/live.js",
+    "test:code": "node build/test/codeblocks.js",
+    "test:algocasts": "jest --config build/test/algocasts.jest.config.js --silent",
+    "test:search": "node build/test/search.js",
+    "test:verification": "node build/test/verification.js",
+    "test:budget": "node build/test/budget.js",
+    "screenshots": "node scripts/screenshots.js",
+    "verify:ledger": "node scripts/verify-ledger.js",
+    "test:ui": "node build/test/ui.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "marked": "^18.1.3",
+    "minisearch": "^7.2.0",
+    "playwright": "^1.64.1",
+    "shiki": "^4.6.0"
+  },
+  "overrides": {
+    "glob": "^14.0.3",
+    "minimatch": "^11.0.4"
+  }
+}

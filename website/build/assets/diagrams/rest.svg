@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="13">
+  <rect width="760" height="300" rx="14" fill="#111114"/>
+  <text x="40" y="44" fill="#E8D800" letter-spacing="2" font-size="11">REST · RESOURCES + VERBS</text>
+  <g fill="#EAE6E1">
+    <text x="40" y="90">GET</text><text x="190" y="90">/posts</text><text x="420" y="90" fill="#8A8A94">index · list them all</text>
+    <text x="40" y="122">GET</text><text x="190" y="122">/posts/:id</text><text x="420" y="122" fill="#8A8A94">show · one by id</text>
+    <text x="40" y="154">POST</text><text x="190" y="154">/posts</text><text x="420" y="154" fill="#8A8A94">create · body = new post</text>
+    <text x="40" y="186">PUT · PATCH</text><text x="190" y="186">/posts/:id</text><text x="420" y="186" fill="#8A8A94">update · body = changes</text>
+    <text x="40" y="218">DELETE</text><text x="190" y="218">/posts/:id</text><text x="420" y="218" fill="#8A8A94">destroy · gone</text>
+  </g>
+  <g fill="none" stroke="#2A2A30"><path d="M40 100h680"/><path d="M40 132h680"/><path d="M40 164h680"/><path d="M40 196h680"/></g>
+  <rect x="26" y="72" width="4" height="156" rx="2" fill="#00A868"/>
+  <text x="380" y="270" fill="#8A8A94" text-anchor="middle" font-size="11">stateless · the URL names the thing, the method names the action, the status code names the result</text>
+</svg>

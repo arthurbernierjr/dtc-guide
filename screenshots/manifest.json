@@ -1,0 +1,295 @@
+{
+  "takenAt": "2026-11-05T03:02:58.838Z",
+  "base": "http://127.0.0.1:36755",
+  "fullPage": false,
+  "shots": [
+    {
+      "file": "home-1440.png",
+      "url": "/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "path-1440.png",
+      "url": "/path/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "session-1440.png",
+      "url": "/path/1-1-welcome-to-the-new-world/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "enchantments-1440.png",
+      "url": "/path/2-4-enchantments/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "landing-1440.png",
+      "url": "/algorithms/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "lesson-1440.png",
+      "url": "/algorithms/analysis/big-o/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "article-1440.png",
+      "url": "/system-design/digital-mansion-primer/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "prep-1440.png",
+      "url": "/algorithms/sorting/sorting-in-practice/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "exercise-1440.png",
+      "url": "/practice/algocasts/reversestring/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "lang-index-1440.png",
+      "url": "/languages/python/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "lang-1440.png",
+      "url": "/languages/python/api/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "frontend-1440.png",
+      "url": "/languages/frontend/react/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "mindset-1440.png",
+      "url": "/mindset/knowing-what-you-are-talking-about/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "search-1440.png",
+      "url": "/search/?q=binary",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "credits-1440.png",
+      "url": "/credits/",
+      "viewport": "1440x900",
+      "status": 200
+    },
+    {
+      "file": "404-1440.png",
+      "url": "/this-page-does-not-exist/",
+      "viewport": "1440x900",
+      "status": 404
+    },
+    {
+      "file": "home-834.png",
+      "url": "/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "path-834.png",
+      "url": "/path/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "session-834.png",
+      "url": "/path/1-1-welcome-to-the-new-world/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "enchantments-834.png",
+      "url": "/path/2-4-enchantments/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "landing-834.png",
+      "url": "/algorithms/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "lesson-834.png",
+      "url": "/algorithms/analysis/big-o/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "article-834.png",
+      "url": "/system-design/digital-mansion-primer/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "prep-834.png",
+      "url": "/algorithms/sorting/sorting-in-practice/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "exercise-834.png",
+      "url": "/practice/algocasts/reversestring/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "lang-index-834.png",
+      "url": "/languages/python/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "lang-834.png",
+      "url": "/languages/python/api/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "frontend-834.png",
+      "url": "/languages/frontend/react/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "mindset-834.png",
+      "url": "/mindset/knowing-what-you-are-talking-about/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "search-834.png",
+      "url": "/search/?q=binary",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "credits-834.png",
+      "url": "/credits/",
+      "viewport": "834x1112",
+      "status": 200
+    },
+    {
+      "file": "404-834.png",
+      "url": "/this-page-does-not-exist/",
+      "viewport": "834x1112",
+      "status": 404
+    },
+    {
+      "file": "home-390.png",
+      "url": "/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "path-390.png",
+      "url": "/path/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "session-390.png",
+      "url": "/path/1-1-welcome-to-the-new-world/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "enchantments-390.png",
+      "url": "/path/2-4-enchantments/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "landing-390.png",
+      "url": "/algorithms/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "lesson-390.png",
+      "url": "/algorithms/analysis/big-o/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "article-390.png",
+      "url": "/system-design/digital-mansion-primer/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "prep-390.png",
+      "url": "/algorithms/sorting/sorting-in-practice/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "exercise-390.png",
+      "url": "/practice/algocasts/reversestring/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "lang-index-390.png",
+      "url": "/languages/python/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "lang-390.png",
+      "url": "/languages/python/api/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "frontend-390.png",
+      "url": "/languages/frontend/react/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "mindset-390.png",
+      "url": "/mindset/knowing-what-you-are-talking-about/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "search-390.png",
+      "url": "/search/?q=binary",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "credits-390.png",
+      "url": "/credits/",
+      "viewport": "390x844",
+      "status": 200
+    },
+    {
+      "file": "404-390.png",
+      "url": "/this-page-does-not-exist/",
+      "viewport": "390x844",
+      "status": 404
+    }
+  ]
+}

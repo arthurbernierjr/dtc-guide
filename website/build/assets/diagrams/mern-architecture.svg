@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace" font-size="13">
+  <rect width="760" height="320" rx="14" fill="#111114"/>
+  <g font-size="11" letter-spacing="2" fill="#E8D800">
+    <text x="110" y="42" text-anchor="middle">REACT</text>
+    <text x="330" y="42" text-anchor="middle">EXPRESS</text>
+    <text x="540" y="42" text-anchor="middle">NODE</text>
+    <text x="690" y="42" text-anchor="middle">MONGODB</text>
+  </g>
+  <rect x="30" y="60" width="160" height="200" rx="12" fill="#16161A" stroke="#00A868" stroke-width="1.5"/>
+  <text x="110" y="92" fill="#EAE6E1" text-anchor="middle">components</text>
+  <text x="110" y="114" fill="#8A8A94" text-anchor="middle" font-size="11">state · props · hooks</text>
+  <text x="110" y="150" fill="#EAE6E1" text-anchor="middle">fetch()</text>
+  <text x="110" y="172" fill="#8A8A94" text-anchor="middle" font-size="11">client-side rendering</text>
+  <text x="110" y="238" fill="#8A8A94" text-anchor="middle" font-size="11">runs in the browser</text>
+  <rect x="240" y="60" width="180" height="200" rx="12" fill="#16161A" stroke="#E8D800" stroke-width="1.5"/>
+  <text x="330" y="92" fill="#EAE6E1" text-anchor="middle">routes · controllers</text>
+  <text x="330" y="114" fill="#8A8A94" text-anchor="middle" font-size="11">GET POST PUT DELETE</text>
+  <text x="330" y="150" fill="#EAE6E1" text-anchor="middle">middleware</text>
+  <text x="330" y="172" fill="#8A8A94" text-anchor="middle" font-size="11">auth · json · cors</text>
+  <text x="330" y="238" fill="#8A8A94" text-anchor="middle" font-size="11">REST API over HTTP</text>
+  <rect x="470" y="60" width="140" height="200" rx="12" fill="#16161A" stroke="#F03038" stroke-width="1.5"/>
+  <text x="540" y="92" fill="#EAE6E1" text-anchor="middle">runtime</text>
+  <text x="540" y="114" fill="#8A8A94" text-anchor="middle" font-size="11">event loop · npm</text>
+  <text x="540" y="150" fill="#EAE6E1" text-anchor="middle">process</text>
+  <text x="540" y="172" fill="#8A8A94" text-anchor="middle" font-size="11">listens on :3000</text>
+  <text x="540" y="238" fill="#8A8A94" text-anchor="middle" font-size="11">runs on the server</text>
+  <rect x="640" y="60" width="100" height="200" rx="12" fill="#16161A" stroke="#00A868" stroke-width="1.5"/>
+  <text x="690" y="92" fill="#EAE6E1" text-anchor="middle">models</text>
+  <text x="690" y="114" fill="#8A8A94" text-anchor="middle" font-size="11">mongoose</text>
+  <text x="690" y="150" fill="#EAE6E1" text-anchor="middle">documents</text>
+  <text x="690" y="172" fill="#8A8A94" text-anchor="middle" font-size="11">collections</text>
+  <text x="690" y="238" fill="#8A8A94" text-anchor="middle" font-size="11">persistent store</text>
+  <g stroke="#8A8A94" stroke-width="1.5" fill="none" stroke-dasharray="4 4"><path d="M190 160 H240"/><path d="M420 160 H470"/><path d="M610 160 H640"/></g>
+  <text x="380" y="296" fill="#8A8A94" text-anchor="middle" font-size="11">client → JSON over HTTP → API → queries → database, and the same path back</text>
+</svg>
