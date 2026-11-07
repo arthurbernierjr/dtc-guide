@@ -85,6 +85,13 @@ Stills generate wide and tall crops, plus an updated path map. New lessons need 
 - Extended browser coverage to every new lesson and made all 62 published sessions a regression requirement.
 - Left language-toolchain installation and external account setup to the learner.
 
+## Completed review and rebuild — November 7, 2026
+
+- Put all eight backend tracks and four frontend guides on one Todos contract; every example repo deployed on Railway and checked with `website/scripts/check-todos-api.mjs` (16/16 each). Go and Rust api pages rewritten as standalone todos lessons.
+- Built and deployed React, Vue, Svelte and Angular example apps, each pointed at a different backend, smoke-tested in Chromium.
+- Reviewed all 62 sessions against a learner-state ledger (440 findings); fixed Units 1–4 in place; rewrote 2.5 and Units 5–12 (35 sessions) in the hand-written voice for a solo learner. Names, ports and folders now follow `DESIGN-REFERENCE-RESPAWN.md` §R12.
+- Aligned the guild hall reference build with session 4.14; linked the language tracks and frontend guides as side quests from the Unit 4 API sessions.
+
 ## Production launch
 
 The configured canonical origin is `https://guide.bigpoppacode.io` in `website/build/site.config.js`. Confirm the destination before deploying; rebuild if the origin changes. No public deployment, DNS change, TLS setup or social-preview scrape was performed in this pass.
