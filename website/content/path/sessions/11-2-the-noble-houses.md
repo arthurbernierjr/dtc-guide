@@ -28,7 +28,7 @@ By the end of the session you can run a post-money SAFE conversion by hand and i
 
 > *The noble smiles and slides the parchment across the table. The numbers are small. The definitions are on page four.*
 
-You arrive with `docs/fundraising-research.md` from [last session](/path/11-1-rallying-the-villagers/), its thesis paragraph in particular, and the capstone repo. Nothing today needs a server. No document on this page is a real offer, and no number is a current market figure; every valuation and check size is a made-up input for arithmetic practice.
+You arrive with `docs/fundraising-research.md` from [last session](/path/11-1-rallying-the-villagers/), its thesis paragraph in particular, and the capstone repo. On the Village road you also arrive with `docs/operating-budget.md`, and its "raise nothing" decision is the paragraph this session reads in place of the thesis. Nothing today needs a server. No document on this page is a real offer, and no number is a current market figure; every valuation and check size is a made-up input for arithmetic practice.
 
 ## The idea
 
@@ -203,6 +203,8 @@ The deck says "Questboard borrowed $500K on a SAFE" or the narrative budgets int
 
 Open a terminal in the capstone repo.
 
+On the Village road, steps 1 to 4 are yours, and the four answers go in the Scenarios section of `docs/ownership.md`, the file The quest below gives you. Skip steps 5 to 7: you do not write `docs/cap-table.md`, and the commit at the end of The quest carries your file instead.
+
 1. Run the four scenarios before you read the answers. Scenario A: $100K on a post-money SAFE with a $2M cap.
 
    ```bash
@@ -354,6 +356,13 @@ If they leave before the cliff they hold: 0 shares, and the grant returns to the
 | Collaborator (fully vested) | | |
 | Total | | 100 |
 
+## Scenarios
+The four answers from Your turn, because the SAFE arithmetic is the grant arithmetic:
+A:
+B:
+C:
+D:
+
 ## Term sheet read
 (filled in below, the same five terms as the Noble Houses)
 
@@ -363,7 +372,7 @@ If they leave before the cliff they hold: 0 shares, and the grant returns to the
 
 The grant is new shares, not a transfer of yours, so the arithmetic is the SAFE stage's arithmetic from the demonstration: a 10 percent grant on a 10,000,000-share base is 10,000,000 × 0.10 ÷ 0.90 = 1,111,111 new shares, the founder's count does not move, and the founder's percentage goes to 90.00. Four years with a one-year cliff is the standard schedule, and you write it as a choice, not a default: the cliff means a collaborator who leaves in month eight holds nothing, and monthly vesting after it means one who leaves in year three holds what three years earned. If you would choose differently, say what and why; "I would skip the cliff for a friend" is a decision you can be asked about later, and the file is where you answer in advance.
 
-**The Noble Houses road** fills the "Term sheet read" section of `docs/cap-table.md`. Here is the term sheet, for both roads. It is fictional; the company, the investor, and every number are made up, and five of its terms are unusual. Four of them hurt you. One is odd and does you no harm. Read it cold before you look at the answer key further down, find the four, and decide which one is the harmless one.
+**The Noble Houses road** fills the "Term sheet read" section of `docs/cap-table.md`. Here is the term sheet, for both roads. It is a priced-round document, the kind a fund or an angel leading a priced round hands you, and it is fictional; the company, the investor, and every number are made up. More than five of its lines are unusual, but only five are the puzzle: the ones that change your ownership, your seat at the board, or your payout. The rest earn a sentence in your read, and the key says which. Four of the five hurt you. One is odd and does you no harm. Read it cold before you look at the answer key further down, find the four, and decide which one is the harmless one.
 
 ```markdown
 # TERM SHEET (non-binding, fictional)
@@ -404,7 +413,7 @@ For each term you think is unusual, write one sentence in the "Term sheet read" 
 
 ### Answer key, read after
 
-- **Harmful.** 3x participating liquidation preference. In a $6M sale the investor takes $1.5M first (3 × their $500,000), then takes their 10 percent (of the $5M post-money) of the remaining $4.6M as if they also held common. Standard is 1x non-participating: their money back or their percentage, not both. Negotiate to 1x non-participating; if they will not move, walk, because this term alone can leave founders with little in a modest exit.
+- **Harmful.** 3x participating liquidation preference. In a $6M sale the investor takes $1.5M first (3 × their $500,000), then takes their 10 percent (of the $5M post-money) of the remaining $4.5M as if they also held common. Standard is 1x non-participating: their money back or their percentage, not both. Negotiate to 1x non-participating; if they will not move, walk, because this term alone can leave founders with little in a modest exit.
 - **Harmful.** Full ratchet anti-dilution. If any later round prices lower, their shares reprice to that lower price in full, and the founders absorb all of it. Standard is broad-based weighted average. Negotiate; it is commonly conceded.
 - **Harmful.** Two of three board seats to the investor. You keep a majority of the shares and lose control of the company's decisions. Early boards are usually two founders and one investor, or two founders, one investor, one independent. Negotiate hard; a seed investor insisting on board control is a walk for most founders.
 - **Harmful.** Re-vesting all founder shares from closing. The years you already worked are erased. Normal is to credit earned vesting and apply a schedule only to the unvested remainder. Negotiate; credit for time served is standard.
@@ -431,7 +440,7 @@ On the Village road:
 
 - The "Today" table in `docs/ownership.md` has a share count and a 100 at the bottom, and the collaborator table sums to 100 with the percentages derived from shares.
 - The grant names its base and shows the shares-to-issue arithmetic, and the vesting schedule is stated as a choice with a reason.
-- The four scenario answers from Your turn are in the file too, because the SAFE arithmetic is the grant arithmetic.
+- The four scenario answers from Your turn are in the Scenarios section of the file, because the SAFE arithmetic is the grant arithmetic.
 - The four harmful terms found before the key, each with negotiate or walk and a reason, and the harmless one named.
 - "What I would never sign" has at least three lines, each tied to a term on the sheet.
 - Committed and pushed.

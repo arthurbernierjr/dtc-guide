@@ -29,7 +29,7 @@ By the end of the session you have a file in the capstone repo, `docs/fundraisin
 
 > *The villagers want to join the quest, and they are bringing gold. Count what each coin costs before you take it.*
 
-You arrive with: your deployed capstone at its public URL ([10-4](/path/10-4-warding-the-kingdom/)), the interview logs, empathy map, and persona in `docs/research.md` ([8-1](/path/8-1-listening-at-the-tavern/)), the product spec in `docs/product-spec.md` ([8-4](/path/8-4-field-work/)), Stripe Checkout in test mode ([10-2](/path/10-2-sealed-gates/)), and the AI feature ([10-3](/path/10-3-binding-the-great-spirits/)). Nothing in this unit needs a server running. Nothing in this unit sends a real invoice, opens a campaign, or offers a security. Every number you write is a made-up input until you attach a source and a date to it.
+You arrive with: your deployed capstone at its public URL ([10-4](/path/10-4-warding-the-kingdom/)), the interview logs, empathy map, and persona in `docs/research.md` ([8-1](/path/8-1-listening-at-the-tavern/)), the product spec in `docs/product-spec.md` ([8-4](/path/8-4-field-work/)), Stripe Checkout in test mode ([10-2](/path/10-2-sealed-gates/)), and the AI feature ([10-3](/path/10-3-binding-the-great-spirits/)). There is no Village file yet, because both roads start on this page: if you take the Village road, the file you write today is `docs/operating-budget.md`, and it waits in The quest below. Nothing in this unit needs a server running. Nothing in this unit sends a real invoice, opens a campaign, or offers a security. Every number you write is a made-up input until you attach a source and a date to it.
 
 ## The idea
 
@@ -116,7 +116,7 @@ one-time setup                     = -$2,000
 available                          =  $1,200
 ```
 
-The campaign page would show $10,000. The money you can plan with is $1,200. Now the two other cases. Lower demand: 120 members. Gross $6,000, fees $480, delivery $3,000, reserve $600, setup $2,000, available −$80. The campaign "succeeds" and loses money. Higher cost: delivery turns out to be $35 per member because the AI provider's price per call was a guess. Base demand, available −$800. Per unit, each member contributes $50 − $4 − $25 − $5 = $16 after fees, delivery, and reserve. The $2,000 setup needs $2,000 ÷ $16 = 125 members just to be paid back, so the break-even is 125 members, not the 100 you would guess from "goal $5,000 at $50 each."
+The campaign page would show $10,000. The money you can plan with is $1,200. Now the two other cases. Lower demand: 120 members. Gross $6,000, fees $480, delivery $3,000, reserve $600, setup $2,000, available −$80. The campaign "succeeds" and loses money. Higher cost: delivery turns out to be $35 per member because the AI provider's price per call was a guess. Base demand, available −$800. Per unit, each member contributes $50 − $4 − $25 − $5 = $16 after fees, delivery, and reserve. The $2,000 setup needs $2,000 ÷ $16 = 125 members just to be paid back, so the break-even is 125 members, not the 100 you would guess if the campaign page set a $5,000 goal at $50 each.
 
 Write those three cases into the file with the inputs above them and the word *hypothetical* on every line that is a guess. Then compare routes for the same milestone, in a table whose columns are what the contributor receives, what you owe, and what is left after obligations. For Questboard: bootstrap (nobody receives anything, you owe nobody, $900 from revenue or savings), pre-sale (members receive a delivery promise, you owe delivery and refunds, $1,200 in the base case), rewards campaign (backers receive the reward tier, you owe fulfillment and the platform's rules, similar arithmetic with a larger fee line), Reg CF (investors receive a security, you owe disclosure, Form C, the annual report, and a share of the company, far more than $900 of obligation), angel (a person receives future equity, next session).
 
@@ -183,6 +183,8 @@ The projection says two percent of "everyone who manages side projects" will buy
 ## Your turn
 
 Everything happens in the capstone repo. Open a terminal there.
+
+On the Village road, steps 1, 3, 4 and 6 are yours as written. In step 2 fill the milestone section and the routes table, and leave the pre-sale model, the three companies and the thesis paragraph to The quest, which makes the first two optional and replaces the third; step 5 is optional on your road for the same reason. Your own file, `docs/operating-budget.md`, is in The quest below.
 
 1. Create the file and confirm the folder is the one Unit 8 made.
 
@@ -265,7 +267,7 @@ Everything happens in the capstone repo. Open a terminal there.
    Why: the AI planner is the feature people say they want; nobody has paid for it yet
    One-time costs: $300 model credits (hypothetical), $600 legal review of terms (hypothetical)
    Per-unit costs: $6/user/month hosting and AI (hypothetical, from the 10-3 usage log)
-   Cash needed before it starts: ~$900 plus a 20% buffer = $1,100
+   Cash needed before it starts: ~$900 plus a 20% buffer = about $1,100
 
    ## Pre-sale model
    Inputs: $50 once, 8% fees, $25 delivery per member, 10% refund reserve, $2,000 setup
@@ -276,8 +278,9 @@ Everything happens in the capstone repo. Open a terminal there.
 
    ## Fundraising thesis
    Questboard does not need outside money for its next milestone. The pilot costs
-   about $1,100 and the founding-member pre-sale covers it in the base case with
-   $1,200 to spare, while leaving 100% ownership intact. I would run the pre-sale
+   about $1,100 and the founding-member pre-sale leaves $1,200 in the base case,
+   so it covers the pilot with about $100 to spare and does not cover it at all
+   in the lower-demand case, while leaving 100% ownership intact. I would run the pre-sale
    to 200 members, cap it there, and revisit an angel round only if the pilot
    shows weekly retention above 60% and a channel that finds the persona
    without my inbox.
@@ -328,7 +331,7 @@ Every number is read off a bill or a dashboard, with the date. Guesses say so.
 | Hosting (Railway usage page, or the 6-1 droplet) | $ | | |
 | Database (Railway add-on usage, or the Atlas free cluster) | $ | | |
 | Domain (renewal price from docs/domain.md, divided by twelve) | $ | | |
-| Model credits (AI_DAILY_TOKEN_BUDGET x users x the pricing page) | $ | | |
+| Model credits (AI_DAILY_TOKEN_BUDGET x users x the pricing page x 30 days) | $ | | |
 | Anything else with a card on file | $ | | |
 | Total per month | $ | | |
 
@@ -349,7 +352,7 @@ This is a decision, not a default. Reasons:
 What would make me revisit it (a number, not a feeling):
 ```
 
-What goes in the hosting line depends on where you deployed in 10-4. On Railway the plan is usage-based and the number is on your project's usage page this month; the course prints no figure for it because the price list moves, and [9-5](/path/9-5-grand-architecture/) links the pricing page. On the Unit 6 droplet the figure is the one [6-4](/path/6-4-opening-the-world-gate/) states: $6.00 a month at the time of writing, with a snapshot at $0.06 per GB per month if you ever pause it. The Atlas free cluster is $0 and says so in its own row. The domain renews once a year at the price you wrote in `docs/domain.md` in Unit 6; divide it by twelve. Model credits are the daily token budget from 10-3 multiplied by the users you expect and the rate on the provider's pricing page, done once in this file and dated, not in code.
+What goes in the hosting line depends on where you deployed in 10-4. On Railway the plan is usage-based and the number is on your project's usage page this month; the course prints no figure for it because the price list moves, and [9-5](/path/9-5-grand-architecture/) links the pricing page. On the Unit 6 droplet the figure is the one [6-4](/path/6-4-opening-the-world-gate/) states: $6.00 a month at the time of writing, with a snapshot at $0.06 per GB per month if you ever pause it. The Atlas free cluster is $0 and says so in its own row. The domain renews once a year at the price you wrote in `docs/domain.md` in Unit 6; divide it by twelve. Model credits are the daily token budget from 10-3 multiplied by the users you expect and the rate on the provider's pricing page, then by 30, because the budget is per day and every line in this table is per month. Do that once in this file and date it, not in code.
 
 Evidence that the Village deliverable is done rather than copied:
 

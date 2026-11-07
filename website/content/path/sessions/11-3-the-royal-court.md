@@ -29,7 +29,7 @@ By the end of the session you have a Google Slides deck with twelve titled slide
 
 > *The herald reads the rule of the court before you speak: whatever you ask for, it must be able to return the treasury ten times over, or the court cannot hear you.*
 
-You arrive with `docs/fundraising-research.md` ([11-1](/path/11-1-rallying-the-villagers/)) and `docs/cap-table.md` ([11-2](/path/11-2-the-noble-houses/)), the deployed capstone at its public URL, the empathy map and persona in `docs/research.md`, and the product spec in `docs/product-spec.md`. You need a Google account to use Google Slides, the default slide tool for this unit; Keynote, PowerPoint, or Canva work the same way if you already use one. Every valuation, round size, and rate on this page is a made-up input or a rule of thumb, and it says which.
+You arrive with `docs/fundraising-research.md` ([11-1](/path/11-1-rallying-the-villagers/)) and `docs/cap-table.md` ([11-2](/path/11-2-the-noble-houses/)), the deployed capstone at its public URL, the empathy map and persona in `docs/research.md`, and the product spec in `docs/product-spec.md`. On the Village road you arrive with `docs/operating-budget.md` and `docs/ownership.md` in place of the cap table. You need a Google account to use Google Slides, the default slide tool for this unit; Keynote, PowerPoint, or Canva work the same way if you already use one. Every valuation, round size, and rate on this page is a made-up input or a rule of thumb, and it says which.
 
 ## The idea
 
@@ -135,7 +135,7 @@ Check the multiplication on every line. 500 × 12 × 12 is $72,000; 600 would be
 
 ### The one-page financial narrative
 
-A companion document that tells the money story in prose, one page when printed. Copy this into `docs/financial-narrative.md` and fill it in; the filled TaskForge version follows.
+A companion document that tells the money story in prose, one page when printed. Copy this into `docs/financial-narrative.md` and fill it in; the filled TaskForge version follows. Both roads fill it. On the Village road the raise line reads $0, and CAC and LTV stay: CAC is what the first ten users cost you, from `docs/operating-budget.md`, and LTV is the price times the months those users stay.
 
 ```markdown
 # Financial narrative: <capstone-name>
@@ -166,7 +166,7 @@ As of <date>: <X> total users, <Y> paying customers, $<Z> MRR, <X>% month-over-m
 - Growth channels: <list>
 
 ## Use of funds
-Raising $<X> to reach <milestone>:
+Raising $<X>, or $0 on the Village road, to reach <milestone>:
 - <X>% <category>: <specific use>
 - <X>% <category>: <specific use>
 - <X>% <category>: <specific use>
@@ -205,7 +205,7 @@ on paying customers (47 from 31; one month, small base).
 
 ## Key assumptions
 - Monthly churn: 10%
-- Free-to-paid conversion: 9% (47 of 500)
+- Free-to-paid conversion: 9.4% (47 of 500)
 - Growth channels: content, developer communities, small paid ads
 
 ## Use of funds
@@ -218,8 +218,9 @@ Raising $500K to reach 3,000 Pro subscribers and cash-flow break-even in 18 mont
 ## Path to profitability
 At the current cost base of $900 per month, break-even is 78 Pro customers
 (900 / (12 x 0.97), rounded up; the processor keeps 3%). At a funded cost base of about
-$26,000 per month (a $26,000 base before the marketing step-ups), it is
-2,234 Pro customers (26,000 / (12 x 0.97)). The cost base steps up as marketing
+$26,000 per month (a rough guess at founder, engineer, hosting, legal and early
+marketing, written before the model), it is 2,234 Pro customers
+(26,000 / (12 x 0.97)). The cost base steps up as marketing
 does, so next session recomputes break-even per step from the cash model, and
 the month it happens comes from that model, not from this page.
 ```
@@ -283,6 +284,8 @@ The slide says $7.1B because a report said so, and your product is a narrow tool
 ## Your turn
 
 Open a terminal in the capstone repo and a browser at slides.google.com, signed in to your Google account. If you prefer another slide tool, use it; the file names below do not change.
+
+On the Village road, steps 1 to 3 are replaced by the four slides and `docs/stakeholder-brief.md` in The quest below, so the instruction in step 2 to fill slides 1 to 4 of the twelve is not yours. Steps 4 to 7 are shared, and in step 7 the first path on the git add line is `docs/stakeholder-brief.md` in place of `docs/pitch-deck.md`.
 
 1. Create a new presentation named `<capstone-name> pitch` and add twelve slides with only their titles: Title, Problem, Solution, Product, Market, Business model, Traction, Team, Competition, Projections, The ask, Contact. Twelve titled slides, nothing else yet. Copy the share link with view access.
 

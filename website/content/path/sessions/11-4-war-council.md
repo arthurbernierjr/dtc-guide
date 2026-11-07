@@ -29,7 +29,7 @@ By the end of the session the model exists as a small script in `docs/`, it prin
 
 > *The council does not vote. It asks what happens if the supply line is late. You answer from the ledger, or you do not answer.*
 
-You arrive with the deck from [last session](/path/11-3-the-royal-court/), all twelve slides filled, `docs/pitch-deck.md`, `docs/financial-narrative.md`, `docs/cap-table.md`, and the capstone deployed at its public URL. You need a way to record your screen and voice: QuickTime Player on macOS, Game Bar on Windows, or OBS on anything, all linked above. Loom works too; its free plan has a per-recording length cap, so check the pricing page before you rely on it. Test a ten-second recording before the real take.
+You arrive with the deck from [last session](/path/11-3-the-royal-court/), all twelve slides filled, `docs/pitch-deck.md`, `docs/financial-narrative.md`, `docs/cap-table.md`, and the capstone deployed at its public URL. On the Village road you arrive with the four slides, `docs/stakeholder-brief.md`, `docs/operating-budget.md`, and `docs/ownership.md` in place of the twelve slides, the pitch-deck outline, and the cap table. You need a way to record your screen and voice: QuickTime Player on macOS, Game Bar on Windows, or OBS on anything, all linked above. Loom works too; its free plan has a per-recording length cap, so check the pricing page before you rely on it. Test a ten-second recording before the real take.
 
 ## The idea
 
@@ -257,6 +257,8 @@ You can recite twelve slides and cannot answer "what if the price is wrong" with
 
 Open a terminal in the capstone repo and the deck in Google Slides.
 
+On the Village road every step is yours and none is skipped; the inputs come from The quest below. The sheet in step 1 is the $0-raise sheet, the two scenarios in step 3 are three paying users and a doubled hosting line, and step 4 reconciles `docs/operating-budget.md` and slide 4 instead of slides 10 and 11. Step 6 is a three-minute demo of four slides, the log in step 7 lives in `docs/stakeholder-brief.md` with two rows changed, and step 9 has its own git add line.
+
 1. Write the assumptions sheet at the top of `docs/financial-narrative.md`, in the table shape from the demonstration, with every row marked observed, estimated, or hypothetical and a source where one exists. Read the 47-style numbers off your own Stripe test dashboard and database; if a number is test-mode, say so.
 
 2. Create `docs/runway.js` from the demonstration and replace every input in `assumptions` with your sheet. Then run it.
@@ -349,6 +351,8 @@ Open a terminal in the capstone repo and the deck in Google Slides.
    git commit -m "docs: cash model, reconciled deck and narrative, rehearsal log"
    git push
    ```
+
+   On the Village road the first line is `git add docs/runway.js docs/financial-narrative.md docs/stakeholder-brief.md docs/stakeholder-brief.pdf`, with the PDF exported from the four slides. Stage whichever files your road wrote and no others; `git add` refuses a path that does not exist and stages nothing at all.
 
 ## The quest
 
