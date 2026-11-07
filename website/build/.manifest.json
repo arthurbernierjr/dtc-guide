@@ -1,5 +1,5 @@
 {
- "buildId": "202611071824",
+ "buildId": "202611071828",
  "total": 299,
  "pages": {
   "/": {
@@ -16583,73 +16583,85 @@
    "url": "/algorithms/sorting/sorting-in-practice/",
    "rel": "algorithms/sorting.js",
    "mode": "worker",
-   "ok": "algorithms/sorting.js"
+   "ok": "algorithms/sorting.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/sorting.js"
   },
   {
    "url": "/algorithms/searching/binary-search-patterns/",
    "rel": "algorithms/binary-search.js",
    "mode": "worker",
-   "ok": "algorithms/binary-search.js"
+   "ok": "algorithms/binary-search.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/binary-search.js"
   },
   {
    "url": "/algorithms/recursion/recursion-patterns/",
    "rel": "algorithms/recursion.js",
    "mode": "worker",
-   "ok": "algorithms/recursion.js"
+   "ok": "algorithms/recursion.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/recursion.js"
   },
   {
    "url": "/algorithms/recursion/backtracking/",
    "rel": "algorithms/backtracking.js",
    "mode": "worker",
-   "ok": "algorithms/backtracking.js"
+   "ok": "algorithms/backtracking.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/backtracking.js"
   },
   {
    "url": "/algorithms/recursion/dynamic-programming/",
    "rel": "algorithms/dynamic-programming.js",
    "mode": "worker",
-   "ok": "algorithms/dynamic-programming.js"
+   "ok": "algorithms/dynamic-programming.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/dynamic-programming.js"
   },
   {
    "url": "/algorithms/patterns/arrays/",
    "rel": "algorithms/arrays.js",
    "mode": "worker",
-   "ok": "algorithms/arrays.js"
+   "ok": "algorithms/arrays.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/arrays.js"
   },
   {
    "url": "/algorithms/patterns/strings/",
    "rel": "algorithms/strings.js",
    "mode": "worker",
-   "ok": "algorithms/strings.js"
+   "ok": "algorithms/strings.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/strings.js"
   },
   {
    "url": "/algorithms/patterns/two-pointers/",
    "rel": "algorithms/two-pointers.js",
    "mode": "worker",
-   "ok": "algorithms/two-pointers.js"
+   "ok": "algorithms/two-pointers.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/two-pointers.js"
   },
   {
    "url": "/algorithms/patterns/sliding-window/",
    "rel": "algorithms/sliding-window.js",
    "mode": "worker",
-   "ok": "algorithms/sliding-window.js"
+   "ok": "algorithms/sliding-window.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/sliding-window.js"
   },
   {
    "url": "/algorithms/patterns/intervals/",
    "rel": "algorithms/intervals.js",
    "mode": "worker",
-   "ok": "algorithms/intervals.js"
+   "ok": "algorithms/intervals.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/intervals.js"
   },
   {
    "url": "/algorithms/patterns/matrices/",
    "rel": "algorithms/matrices.js",
    "mode": "worker",
-   "ok": "algorithms/matrices.js"
+   "ok": "algorithms/matrices.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/matrices.js"
   },
   {
    "url": "/algorithms/patterns/bit-manipulation/",
    "rel": "algorithms/bit-manipulation.js",
    "mode": "worker",
-   "ok": "algorithms/bit-manipulation.js"
+   "ok": "algorithms/bit-manipulation.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/bit-manipulation.js"
   },
   {
    "url": "/algorithms/naive-vs-optimal/",
@@ -16662,325 +16674,379 @@
    "url": "/data-structures/lists/linked-list-patterns/",
    "rel": "algorithms/linked-lists.js",
    "mode": "worker",
-   "ok": "algorithms/linked-lists.js"
+   "ok": "algorithms/linked-lists.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/linked-lists.js"
   },
   {
    "url": "/data-structures/lists/stacks-queues/",
    "rel": "algorithms/stacks-queues.js",
    "mode": "worker",
-   "ok": "algorithms/stacks-queues.js"
+   "ok": "algorithms/stacks-queues.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/stacks-queues.js"
   },
   {
    "url": "/data-structures/hashing/hash-maps/",
    "rel": "algorithms/hash-maps.js",
    "mode": "worker",
-   "ok": "algorithms/hash-maps.js"
+   "ok": "algorithms/hash-maps.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/hash-maps.js"
   },
   {
    "url": "/data-structures/trees/trees-bst-patterns/",
    "rel": "algorithms/trees-bst.js",
    "mode": "worker",
-   "ok": "algorithms/trees-bst.js"
+   "ok": "algorithms/trees-bst.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/trees-bst.js"
   },
   {
    "url": "/data-structures/trees/heaps/",
    "rel": "algorithms/heaps.js",
    "mode": "worker",
-   "ok": "algorithms/heaps.js"
+   "ok": "algorithms/heaps.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/heaps.js"
   },
   {
    "url": "/data-structures/trees/tries-patterns/",
    "rel": "algorithms/tries.js",
    "mode": "worker",
-   "ok": "algorithms/tries.js"
+   "ok": "algorithms/tries.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/tries.js"
   },
   {
    "url": "/data-structures/graphs/graph-patterns/",
    "rel": "algorithms/graphs.js",
    "mode": "worker",
-   "ok": "algorithms/graphs.js"
+   "ok": "algorithms/graphs.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/algorithms/graphs.js"
   },
   {
    "url": "/practice/post-mortems/even-degrees-with-two-edges/",
    "rel": "post-mortems/even-degrees-with-two-edges.js",
    "mode": "worker",
-   "ok": "post-mortems/even-degrees-with-two-edges.js"
+   "ok": "post-mortems/even-degrees-with-two-edges.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/post-mortems/even-degrees-with-two-edges.js"
   },
   {
    "url": "/practice/projects/ica-project-skeletons/",
    "rel": "javascript/ica-project-skeletons.js",
    "mode": "worker",
-   "ok": "javascript/ica-project-skeletons.js"
+   "ok": "javascript/ica-project-skeletons.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/ica-project-skeletons.js"
   },
   {
    "url": "/languages/javascript/arrays/",
    "rel": "javascript/arrays.js",
    "mode": "worker",
-   "ok": "javascript/arrays.js"
+   "ok": "javascript/arrays.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/arrays.js"
   },
   {
    "url": "/languages/javascript/sorting/",
    "rel": "javascript/sorting.js",
    "mode": "worker",
-   "ok": "javascript/sorting.js"
+   "ok": "javascript/sorting.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/sorting.js"
   },
   {
    "url": "/languages/javascript/strings/",
    "rel": "javascript/strings.js",
    "mode": "worker",
-   "ok": "javascript/strings.js"
+   "ok": "javascript/strings.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/strings.js"
   },
   {
    "url": "/languages/javascript/map-set/",
    "rel": "javascript/map-set.js",
    "mode": "worker",
-   "ok": "javascript/map-set.js"
+   "ok": "javascript/map-set.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/map-set.js"
   },
   {
    "url": "/languages/javascript/numbers-math/",
    "rel": "javascript/numbers-math.js",
    "mode": "worker",
-   "ok": "javascript/numbers-math.js"
+   "ok": "javascript/numbers-math.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/numbers-math.js"
   },
   {
    "url": "/languages/javascript/objects-destructuring/",
    "rel": "javascript/objects-destructuring.js",
    "mode": "worker",
-   "ok": "javascript/objects-destructuring.js"
+   "ok": "javascript/objects-destructuring.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/objects-destructuring.js"
   },
   {
    "url": "/languages/javascript/classes-this/",
    "rel": "javascript/classes-this.js",
    "mode": "worker",
-   "ok": "javascript/classes-this.js"
+   "ok": "javascript/classes-this.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/classes-this.js"
   },
   {
    "url": "/languages/javascript/closures-scope-hoisting/",
    "rel": "javascript/closures-scope-hoisting.js",
    "mode": "worker",
-   "ok": "javascript/closures-scope-hoisting.js"
+   "ok": "javascript/closures-scope-hoisting.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/closures-scope-hoisting.js"
   },
   {
    "url": "/languages/javascript/async-promises/",
    "rel": "javascript/async-promises.js",
    "mode": "worker",
-   "ok": "javascript/async-promises.js"
+   "ok": "javascript/async-promises.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/async-promises.js"
   },
   {
    "url": "/languages/javascript/regex/",
    "rel": "javascript/regex.js",
    "mode": "worker",
-   "ok": "javascript/regex.js"
+   "ok": "javascript/regex.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/regex.js"
   },
   {
    "url": "/languages/javascript/equality-coercion-gotchas/",
    "rel": "javascript/equality-coercion-gotchas.js",
    "mode": "worker",
-   "ok": "javascript/equality-coercion-gotchas.js"
+   "ok": "javascript/equality-coercion-gotchas.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/equality-coercion-gotchas.js"
   },
   {
    "url": "/languages/javascript/errors-generators-misc/",
    "rel": "javascript/errors-generators-misc.js",
    "mode": "worker",
-   "ok": "javascript/errors-generators-misc.js"
+   "ok": "javascript/errors-generators-misc.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/javascript/errors-generators-misc.js"
   },
   {
    "url": "/patterns/creational/abstract-factory/",
    "rel": "system-design/design-patterns/creational/abstract-factory.js",
    "mode": "worker",
-   "ok": "design-patterns/creational/abstract-factory.js"
+   "ok": "design-patterns/creational/abstract-factory.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/creational/abstract-factory.js"
   },
   {
    "url": "/patterns/creational/builder/",
    "rel": "system-design/design-patterns/creational/builder.js",
    "mode": "worker",
-   "ok": "design-patterns/creational/builder.js"
+   "ok": "design-patterns/creational/builder.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/creational/builder.js"
   },
   {
    "url": "/patterns/creational/factory-method/",
    "rel": "system-design/design-patterns/creational/factory-method.js",
    "mode": "worker",
-   "ok": "design-patterns/creational/factory-method.js"
+   "ok": "design-patterns/creational/factory-method.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/creational/factory-method.js"
   },
   {
    "url": "/patterns/creational/prototype/",
    "rel": "system-design/design-patterns/creational/prototype.js",
    "mode": "worker",
-   "ok": "design-patterns/creational/prototype.js"
+   "ok": "design-patterns/creational/prototype.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/creational/prototype.js"
   },
   {
    "url": "/patterns/creational/singleton/",
    "rel": "system-design/design-patterns/creational/singleton.js",
    "mode": "worker",
-   "ok": "design-patterns/creational/singleton.js"
+   "ok": "design-patterns/creational/singleton.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/creational/singleton.js"
   },
   {
    "url": "/patterns/structural/adapter/",
    "rel": "system-design/design-patterns/structural/adapter.js",
    "mode": "worker",
-   "ok": "design-patterns/structural/adapter.js"
+   "ok": "design-patterns/structural/adapter.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/structural/adapter.js"
   },
   {
    "url": "/patterns/structural/bridge/",
    "rel": "system-design/design-patterns/structural/bridge.js",
    "mode": "worker",
-   "ok": "design-patterns/structural/bridge.js"
+   "ok": "design-patterns/structural/bridge.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/structural/bridge.js"
   },
   {
    "url": "/patterns/structural/composite/",
    "rel": "system-design/design-patterns/structural/composite.js",
    "mode": "worker",
-   "ok": "design-patterns/structural/composite.js"
+   "ok": "design-patterns/structural/composite.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/structural/composite.js"
   },
   {
    "url": "/patterns/structural/decorator/",
    "rel": "system-design/design-patterns/structural/decorator.js",
    "mode": "worker",
-   "ok": "design-patterns/structural/decorator.js"
+   "ok": "design-patterns/structural/decorator.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/structural/decorator.js"
   },
   {
    "url": "/patterns/structural/facade/",
    "rel": "system-design/design-patterns/structural/facade.js",
    "mode": "node",
-   "ok": "design-patterns/structural/facade.js"
+   "ok": "design-patterns/structural/facade.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/structural/facade.js"
   },
   {
    "url": "/patterns/structural/flyweight/",
    "rel": "system-design/design-patterns/structural/flyweight.js",
    "mode": "worker",
-   "ok": "design-patterns/structural/flyweight.js"
+   "ok": "design-patterns/structural/flyweight.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/structural/flyweight.js"
   },
   {
    "url": "/patterns/structural/proxy/",
    "rel": "system-design/design-patterns/structural/proxy.js",
    "mode": "worker",
-   "ok": "design-patterns/structural/proxy.js"
+   "ok": "design-patterns/structural/proxy.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/structural/proxy.js"
   },
   {
    "url": "/patterns/behavioral/chain-of-responsibility/",
    "rel": "system-design/design-patterns/behavioral/chain-of-responsibility.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/chain-of-responsibility.js"
+   "ok": "design-patterns/behavioral/chain-of-responsibility.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/chain-of-responsibility.js"
   },
   {
    "url": "/patterns/behavioral/command/",
    "rel": "system-design/design-patterns/behavioral/command.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/command.js"
+   "ok": "design-patterns/behavioral/command.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/command.js"
   },
   {
    "url": "/patterns/behavioral/interpreter/",
    "rel": "system-design/design-patterns/behavioral/interpreter.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/interpreter.js"
+   "ok": "design-patterns/behavioral/interpreter.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/interpreter.js"
   },
   {
    "url": "/patterns/behavioral/iterator/",
    "rel": "system-design/design-patterns/behavioral/iterator.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/iterator.js"
+   "ok": "design-patterns/behavioral/iterator.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/iterator.js"
   },
   {
    "url": "/patterns/behavioral/mediator/",
    "rel": "system-design/design-patterns/behavioral/mediator.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/mediator.js"
+   "ok": "design-patterns/behavioral/mediator.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/mediator.js"
   },
   {
    "url": "/patterns/behavioral/memento/",
    "rel": "system-design/design-patterns/behavioral/memento.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/memento.js"
+   "ok": "design-patterns/behavioral/memento.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/memento.js"
   },
   {
    "url": "/patterns/behavioral/observer/",
    "rel": "system-design/design-patterns/behavioral/observer.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/observer.js"
+   "ok": "design-patterns/behavioral/observer.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/observer.js"
   },
   {
    "url": "/patterns/behavioral/state/",
    "rel": "system-design/design-patterns/behavioral/state.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/state.js"
+   "ok": "design-patterns/behavioral/state.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/state.js"
   },
   {
    "url": "/patterns/behavioral/strategy/",
    "rel": "system-design/design-patterns/behavioral/strategy.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/strategy.js"
+   "ok": "design-patterns/behavioral/strategy.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/strategy.js"
   },
   {
    "url": "/patterns/behavioral/template-method/",
    "rel": "system-design/design-patterns/behavioral/template-method.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/template-method.js"
+   "ok": "design-patterns/behavioral/template-method.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/template-method.js"
   },
   {
    "url": "/patterns/behavioral/visitor/",
    "rel": "system-design/design-patterns/behavioral/visitor.js",
    "mode": "worker",
-   "ok": "design-patterns/behavioral/visitor.js"
+   "ok": "design-patterns/behavioral/visitor.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/system-design/design-patterns/behavioral/visitor.js"
   },
   {
    "url": "/security/owasp/a01-broken-access-control/",
    "rel": "owasp/a01-broken-access-control.js",
    "mode": "node",
-   "ok": "owasp/a01-broken-access-control.js"
+   "ok": "owasp/a01-broken-access-control.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a01-broken-access-control.js"
   },
   {
    "url": "/security/owasp/a02-security-misconfiguration/",
    "rel": "owasp/a02-security-misconfiguration.js",
    "mode": "worker",
-   "ok": "owasp/a02-security-misconfiguration.js"
+   "ok": "owasp/a02-security-misconfiguration.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a02-security-misconfiguration.js"
   },
   {
    "url": "/security/owasp/a03-software-supply-chain-failures/",
    "rel": "owasp/a03-software-supply-chain-failures.js",
    "mode": "node",
-   "ok": "owasp/a03-software-supply-chain-failures.js"
+   "ok": "owasp/a03-software-supply-chain-failures.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a03-software-supply-chain-failures.js"
   },
   {
    "url": "/security/owasp/a04-cryptographic-failures/",
    "rel": "owasp/a04-cryptographic-failures.js",
    "mode": "node",
-   "ok": "owasp/a04-cryptographic-failures.js"
+   "ok": "owasp/a04-cryptographic-failures.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a04-cryptographic-failures.js"
   },
   {
    "url": "/security/owasp/a05-injection/",
    "rel": "owasp/a05-injection.js",
    "mode": "worker",
-   "ok": "owasp/a05-injection.js"
+   "ok": "owasp/a05-injection.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a05-injection.js"
   },
   {
    "url": "/security/owasp/a06-insecure-design/",
    "rel": "owasp/a06-insecure-design.js",
    "mode": "worker",
-   "ok": "owasp/a06-insecure-design.js"
+   "ok": "owasp/a06-insecure-design.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a06-insecure-design.js"
   },
   {
    "url": "/security/owasp/a07-authentication-failures/",
    "rel": "owasp/a07-authentication-failures.js",
    "mode": "node",
-   "ok": "owasp/a07-authentication-failures.js"
+   "ok": "owasp/a07-authentication-failures.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a07-authentication-failures.js"
   },
   {
    "url": "/security/owasp/a08-software-data-integrity-failures/",
    "rel": "owasp/a08-software-data-integrity-failures.js",
    "mode": "node",
-   "ok": "owasp/a08-software-data-integrity-failures.js"
+   "ok": "owasp/a08-software-data-integrity-failures.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a08-software-data-integrity-failures.js"
   },
   {
    "url": "/security/owasp/a09-security-logging-alerting-failures/",
    "rel": "owasp/a09-security-logging-alerting-failures.js",
    "mode": "node",
-   "ok": "owasp/a09-security-logging-alerting-failures.js"
+   "ok": "owasp/a09-security-logging-alerting-failures.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a09-security-logging-alerting-failures.js"
   },
   {
    "url": "/security/owasp/a10-mishandling-exceptional-conditions/",
    "rel": "owasp/a10-mishandling-exceptional-conditions.js",
    "mode": "worker",
-   "ok": "owasp/a10-mishandling-exceptional-conditions.js"
+   "ok": "owasp/a10-mishandling-exceptional-conditions.js",
+   "abs": "/home/bigpoppacode/code/obelisk/_scratchbox/prep/owasp/a10-mishandling-exceptional-conditions.js"
   }
  ],
  "lives": [

@@ -3,6 +3,7 @@ const path = require('path');
 const S = require('../sources.config');
 const U = require('../util');
 const { parsePrepFile } = require('../parsers/prepfile');
+const { prepSource } = require('../parsers/prepsource');
 const { renderMarkdown } = require('../parsers/markdown');
 const { highlightToLines, escapeHtml } = require('../highlight');
 const { renderDoc, creatorCard, glanceCard } = require('../render/doc');
@@ -60,7 +61,7 @@ const DOCS_FOR = {
 
 async function renderPrepPage(ctx, page) {
   const rel = prepRelFromSource(page.source);
-  const abs = path.join(S.PREP, rel);
+  const { abs } = prepSource(rel);
   const f = parsePrepFile(abs, rel);
   const rawUrl = `/assets/src/prep/${rel}`;
   U.copy(abs, path.join(S.PUBLIC, 'assets', 'src', 'prep', rel));
@@ -140,7 +141,7 @@ async function renderPrepPage(ctx, page) {
     html,
     search: { headings: headings.map((h) => h.text), say: sayKey ? sayKey.value : '', text: lede },
     facts: { headerKeys: f.keys.map((k) => k.key), sectionCount: f.sections.length, sectionTitles: f.sections.map((s) => s.title), okLine: f.ok ? `ok: ${f.ok}` : null, runMode: f.runMode, lesson: !!lesson },
-    runnable: { rel, mode: f.runMode, ok: f.ok },
+    runnable: { rel, mode: f.runMode, ok: f.ok, abs },
     codeBlocks: lesson ? lesson.codeBlocks : [],
   };
 }

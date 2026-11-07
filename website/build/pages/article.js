@@ -7,6 +7,7 @@ const S = require('../sources.config');
 const U = require('../util');
 const { renderMarkdown, parseFrontmatter } = require('../parsers/markdown');
 const { loadWithOverride } = require('../parsers/polyglot');
+const { prepSource } = require('../parsers/prepsource');
 const { renderDoc, creatorCard } = require('../render/doc');
 const { chip, icon, callout, codePanel, badgeComplexity } = require('../render/components');
 const { highlightToLines, escapeHtml } = require('../highlight');
@@ -75,7 +76,7 @@ function dropLeadParagraph(html, firstParagraph) {
 }
 
 async function renderPrepMarkdown(ctx, page, rel) {
-  const abs = path.join(S.PREP, rel);
+  const { abs } = prepSource(rel);
   const md = U.read(abs);
   const r = await renderMarkdown(md, {
     resolveImage: imageResolver(path.dirname(abs), 'prep', { diagrams: false }),
@@ -116,7 +117,7 @@ async function renderPrepMarkdown(ctx, page, rel) {
 }
 
 async function renderWhichPatternWhen(ctx, page) {
-  const abs = path.join(S.PREP, 'algorithms', 'README.md');
+  const { abs } = prepSource(path.join('algorithms', 'README.md'));
   const md = U.read(abs);
   // (?![\s\S]) = end of input; JS has no \Z, which silently dropped the last section before.
   const pick = (title) => { const m = md.match(new RegExp(`^## ${title.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}[^\n]*\n([\\s\\S]*?)(?=^## |(?![\\s\\S]))`, 'm')); if (!m) throw new Error(`which-pattern-when: section "${title}" not found in algorithms/README.md`); return `## ${title}\n${m[1]}`; };
@@ -222,7 +223,9 @@ async function renderNaiveVsOptimal(ctx, page) {
 }
 
 async function renderDigitalMansion(ctx, page) {
-  const abs = S.DIGITAL_MANSION;
+  // content/overrides/system-design/digital-mansion.md wins over the vendored original, like the mindset pages.
+  const ov = path.join(S.OVERRIDES, 'system-design', 'digital-mansion.md');
+  const abs = fs.existsSync(ov) ? ov : S.DIGITAL_MANSION;
   let md = U.read(abs);
   // The deck opens with a bold title line and an italic lede; the template renders the title.
   md = md.replace(/^\*\*System Design Primer[^\n]*\*\*\n+/, '');
