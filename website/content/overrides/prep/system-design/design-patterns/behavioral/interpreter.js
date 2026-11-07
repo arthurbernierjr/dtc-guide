@@ -22,6 +22,25 @@ const assert = require('node:assert/strict');
 // ── 0. Why this page is linked from CSS: nav a:hover
 // Session 2.2 wrote `nav a:hover`. A selector is a tiny language. The browser splits it into pieces,
 // builds a tree from them, and asks each element on the page "do you match?". That is the whole pattern.
+//
+// The four pieces of `nav a:hover` (the space is one of them), and the question each piece asks an element:
+//
+//   piece      kind          question asked of the element
+//   nav        type          is your tag nav?
+//   (space)    descendant    is there an element above you that answers yes to the piece on the left?
+//   a          type          is your tag a?
+//   :hover     pseudo-class  is the pointer over you right now?
+//
+// Three elements, asked in turn. One "no" anywhere means the rule does not apply:
+//
+//   element                                   nav above?   tag a?   hovered?   matches
+//   an <a> inside <nav>, pointer over it      yes          yes      yes        yes
+//   the same <a>, pointer elsewhere           yes          yes      no         no
+//   a hovered <a> inside <body>, no <nav>     no           yes      yes        no
+//
+// Stop here on your first visit from Session 2.2; those two tables are the visit. Come back after Session 3.4 to
+// run the code below, which is the same four pieces and three elements in JavaScript. Sections 1 and 2 are the
+// interview shapes for Unit 9.
 const tokenizeSelector = (sel) => sel.match(/:[a-z]+|\s+|[a-z]+/g).map((t) => (/^\s+$/.test(t) ? ' ' : t));
 assert.deepEqual(tokenizeSelector('nav a:hover'), ['nav', ' ', 'a', ':hover']);   // four pieces; the space is one of them
 

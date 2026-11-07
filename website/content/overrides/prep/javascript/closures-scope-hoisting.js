@@ -10,8 +10,9 @@
 // SAY     : "lexical scoping", "closure captures the binding, not the value",
 //           "IIFE", "module pattern", "memoization", "currying", "partial
 //           application", "debounce/throttle are closures over a timer".
-//           First visit from Session 3.2 or 3.4: read section 0, then 1 to 3.
-//           Sections 4 to 7 are tagged "after Unit 3"; come back for them later.
+//           First visit from Session 3.2: read sections 0 to 3, or section 0 only if
+//           3.2 was today. Sections 4 to 7 are tagged "after Unit 3", and 8 and 9 go
+//           with them; come back for all six later.
 // ─────────────────────────────────────────────────────────────────────────────
 'use strict';
 const assert = require('node:assert/strict');
@@ -30,8 +31,8 @@ const other = makeCounter();                                 // a second makeCou
 assert.equal(other(), 1);                                    // other's count: 0 -> 1; tally's count is still 2
 assert.equal(tally(), 3);                                    // tally's count: 2 -> 3; the two counters never share
 assert.equal(typeof tally.count, 'undefined');               // no way in from outside; only the function can touch it
-// Stop here on your first visit from Session 3.2; sections 4 to 7 are for after Unit 3.
-// Sections 1 to 3 are the scope rules; read them when Session 3.4 sends you back.
+// If Session 3.2 was today, stop here. Otherwise read sections 1 to 3 next; they are the scope rules, and 3.4
+// sends you back for them. Sections 4 to 7 are for after Unit 3, and so are 8 and 9.
 
 // ── 1. var vs let vs const
 {
@@ -155,12 +156,14 @@ assert.equal(Store.size(), 1);
 assert.equal(typeof Store.items, 'undefined');
 
 // ── 8. Closure gotcha: captured binding changes
+// After Unit 3, like sections 4 to 7.
 let shared = 'a';
 const read = () => shared;
 shared = 'b';
 assert.equal(read(), 'b');                                   // sees the latest value, not a snapshot
 
 // ── 9. Scope chain / shadowing
+// After Unit 3, like sections 4 to 7.
 const x = 'outer';
 function shadow() { const x = 'inner'; return x; }
 assert.equal(shadow(), 'inner');

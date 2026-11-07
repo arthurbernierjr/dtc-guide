@@ -23,7 +23,19 @@ const assert = require('node:assert/strict');
 
 // ── 0. Start here: three elements, two visitors
 // Session 2.2 showed the DevTools Styles panel: pick one element and the panel walks the rules that matched
-// it, asking each rule the same question ("what do you set?"). Visitor is that walk, written as code.
+// it, asking each rule the same question ("what do you set?"). Visitor is that walk, written as code: the element
+// is the rule the panel is looking at, the visitor is the question it asks every rule.
+//
+// Here the document is three elements and two visitors ask them questions. The element's kind picks which method
+// runs; the visitor supplies what that method answers. Same three elements, two visitors, two sets of answers:
+//
+//   element      method called     toText returns                      wordCount returns
+//   heading      visitHeading      'GUILD NOTICES'                     2
+//   paragraph    visitParagraph    'Two quests remain open tonight.'   5
+//   image        visitImage        '[quest board]'                     0
+//
+// Stop here on your first visit from Session 2.2; that table is the visit. Come back after Session 3.4 to run the
+// code below, which builds the table and checks it. Sections 1 and 2 are the interview shapes for Unit 9.
 const page = [                                              // a literal three-element document
   { kind: 'heading', text: 'Guild notices' },
   { kind: 'paragraph', text: 'Two quests remain open tonight.' },
@@ -41,11 +53,6 @@ const wordCount = {                                         // visitor 2: the sa
 };
 const methodFor = { heading: 'visitHeading', paragraph: 'visitParagraph', image: 'visitImage' };
 const accept = (node, visitor) => visitor[methodFor[node.kind]](node);   // the element picks the method by its kind
-//
-//   element      method called     toText returns                      wordCount returns
-//   heading      visitHeading      'GUILD NOTICES'                     2
-//   paragraph    visitParagraph    'Two quests remain open tonight.'   5
-//   image        visitImage        '[quest board]'                     0
 assert.deepEqual(page.map((n) => accept(n, toText)), ['GUILD NOTICES', 'Two quests remain open tonight.', '[quest board]']);
 assert.deepEqual(page.map((n) => accept(n, wordCount)), [2, 5, 0]);
 // Two choices decide what runs: the element's kind picks the method, the visitor object supplies the body.

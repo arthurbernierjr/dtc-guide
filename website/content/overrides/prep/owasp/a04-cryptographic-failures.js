@@ -42,6 +42,10 @@ const crypto = require('node:crypto');
 //
 // The SSH key pair from 1.4 does the middle job with two keys instead of one: your private key makes the
 // tag, the public key checks it, so the public key proves who you are. That is the signature job.
+//
+// Stop here on your first visit from Session 1.4. The code below is JavaScript, which you meet in Unit 3; it runs
+// each row of the table once so the page can check itself. Sections 1 to 6 are for Unit 10, when the capstone
+// stores a password.
 const jobKey = crypto.randomBytes(32);                                   // one 256-bit secret for the demos below
 
 // hide data: encrypt, then decrypt with the same key and get the exact text back

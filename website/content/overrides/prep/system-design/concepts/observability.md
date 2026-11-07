@@ -22,6 +22,8 @@ Sera's browser:  GET /api/inbox   (token in the header)   ->  200, 3 messages, 1
 
 A log is line 1: one event with named fields, so you search for `trace_id=7f3a` instead of reading a wall of text. A metric is line 2: a count or a timing with a few labels, cheap to keep for months, and the thing a dashboard or an alert reads. A trace is line 3: the same request as a tree of timed steps, each step a span, so a slow request shows which step took the time. The `trace_id` is the thread through all three: the alert comes from the metric, the request is found in the log, and the slow step is read off the trace. The bullets below are interview vocabulary; the ones tagged (later) are tools you will meet when a second service exists.
 
+For the hall today, write the log line: a JSON object with `method`, `route`, `status`, `ms` and a request id. The metric and the trace arrive when there is a second service, and the design document can say so.
+
 - **Three pillars** — logs (events), metrics (numbers over time), traces (request paths).
 - **Structured logging** — JSON with fields (`level`, `trace_id`, `user_id`), not printf strings.
 - **Correlation ID / trace ID / span ID** — propagated via headers (W3C `traceparent`, `X-Request-ID`).

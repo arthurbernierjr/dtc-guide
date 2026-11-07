@@ -28,7 +28,7 @@ gRPC      GetQuest(GetQuestRequest{ id: 7 })      a function call; the shape is 
           The reply travels as binary, not text; curl and the browser cannot read it without a translator.
 ```
 
-The hall uses REST because `curl` can read the reply, the browser caches a `GET` by its URL, and there is one client, the hall's own page, so nobody needs to pick their own field shape. The bullets below are interview vocabulary; the ones tagged (later) are features you will not need until a second client appears.
+The hall uses REST because `curl` can read the reply, the browser caches a `GET` by its URL, and there is one client, the hall's own page, so nobody needs to pick their own field shape. That sentence, with your route names in it, is what goes in the API section of `docs/system-design.md`. The bullets below are interview vocabulary; the ones tagged (later) are features you will not need until a second client appears.
 
 - **Resource / noun-based URLs** — `/users/{id}/orders`; verbs are HTTP methods.
 - **Idempotent methods** — GET, PUT, DELETE (HEAD, OPTIONS); POST and PATCH are not by default.

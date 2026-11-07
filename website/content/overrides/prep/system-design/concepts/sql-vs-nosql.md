@@ -34,7 +34,7 @@ This path teaches MongoDB first because one document is one thing, the same shap
 
 - **Relational (SQL)** — tables, schema-on-write, joins, ACID, SQL. Postgres, MySQL, SQL Server, Oracle, Aurora, Spanner, CockroachDB.
 - **Key-value** — opaque value by key, O(1). Redis, Memcached, DynamoDB (also wide-column-ish), Riak, etcd.
-- **Document** — JSON-like docs, nested, flexible schema, secondary indexes. MongoDB, Couchbase, DynamoDB, Firestore, Postgres JSONB.
+- **Document** — JSON-like docs, nested, flexible schema, secondary indexes. MongoDB, Couchbase, DynamoDB, Firestore, Postgres JSONB (a JSON column inside a Postgres table).
 - **Wide-column** — rows with dynamic columns grouped by partition key, LSM-backed, write-optimized. Cassandra, HBase, ScyllaDB, Bigtable. (later)
 - **Graph** — nodes/edges, traversal queries. Neo4j, Neptune, JanusGraph, TigerGraph. (later)
 - **Time-series** — timestamped append-heavy data, downsampling, retention. InfluxDB, TimescaleDB, Prometheus, ClickHouse (OLAP).

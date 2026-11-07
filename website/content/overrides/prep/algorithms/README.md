@@ -80,6 +80,6 @@ Rows marked ★ use only moves Session 9.3 already handed you: the frequency cou
 | n <= 10^8 | O(n) | single pass, hash map, two pointers, sliding window |
 | bigger | O(log n) / O(1) | binary search, math, bit tricks |
 
-Rule of thumb: ~10^8 simple operations per second in JS. Multiply the complexity by n and compare.
+Rule of thumb: ~10^8 simple operations per second in JS. Put your n into the formula once and compare the result with 10^8.
 
-Worked once, with n = 10,000 items. The nested-loop version is n^2 = 10,000 × 10,000 = 100,000,000 operations, about one second in JS. The sort-first version is n log n ≈ 10,000 × 14 = 140,000 operations, well under a millisecond. The n^2 already counts both loops (the outer runs n times, the inner runs n times inside each), so you do not multiply by n again; "multiply the complexity by n" above means put your n into the formula, once.
+Worked once, with n = 10,000 items. The nested-loop version is n^2 = 10,000 × 10,000 = 100,000,000 operations, about one second in JS. The sort-first version is n log n ≈ 10,000 × 14 = 140,000 operations, well under a millisecond. The n^2 already counts both loops (the outer runs n times, the inner runs n times inside each), so you do not multiply by n again.

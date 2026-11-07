@@ -58,6 +58,9 @@ assert.equal(shortestSumAtLeastSlow([3, -2, 4, 1], 5), 2);            // one neg
 assert.equal(shortestSumAtLeast([3, -2, 4, 1], 5), 3);                // the window says [3, -2, 4] and never sees [4, 1]:
 // at r = 2 the sum hit 5, it dropped the 3, the sum fell to 2, and shrinking stopped. The -2 stays in the window
 // for good because the loop only shrinks while the sum is still >= target. Negatives: use a prefix-sum map instead.
+//
+// From Session 9.3, stop here: Template A, Template C and this section are the visit. Sections 1 and 2 are the two
+// shapes you already wrote; sections 3 to 7 are interview practice for after Session 9.4.
 
 // ── 1. Max sum subarray of size k (fixed)  —  add right, drop left  —  O(n) / O(1)
 function maxSumK(nums, k) {
