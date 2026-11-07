@@ -275,7 +275,7 @@ disagrees is wrong and gets edited to match.
 |---|---|---|
 | 1-1 | Git, Node (24 LTS or newer, via the official installer or `nvm`; never `apt install nodejs`), VS Code with the `code` command | nodejs.org/en/download, git-scm.com, code.visualstudio.com |
 | 1-4 | GitHub account, SSH key, `gh` CLI | github.com, cli.github.com |
-| 1-4 / 2-1 | VS Code **Live Server** extension (ritwickdey.LiveServer) | 1-4's dotfiles `setup.sh` installs it with the other listed ids; 2-1 verifies with `code --list-extensions` and installs it if missing |
+| 1-4 / 1-5 / 2-1 | VS Code **Live Server** extension (ritwickdey.LiveServer) | 1-4 installs it by hand with `code --install-extension`; 1-5's `setup.sh` loop installs every id in `vscode/extensions.txt`; 2-1 verifies with `code --list-extensions` and installs it if missing |
 | 4-1 | `curl` (present on macOS/WSL/Linux; say so) | — |
 | 4-5 | MongoDB Community Server + `mongosh`, local, port 27017 | mongodb.com/docs/manual/installation (one link per OS); Atlas is NOT used before Unit 6 |
 | 4-6 | `.env` files read with Node's built-in `node --env-file=.env server.js` (no dotenv package until 10-1 mentions it as the library alternative) | nodejs.org docs `--env-file` |

@@ -116,7 +116,7 @@ Before the first file, the four shapes in Fig 4, because every line you are abou
 
 A pair, a void element, or an opening tag carrying attributes. Plus the outline rule, which Fig 4 puts under them because it is the rule people violate while thinking about font sizes. You have one `h1`, the page. Sections are `h2`. Things inside a section are `h3`. You do not skip from `h2` to `h4` because you wanted the `h3` size to be smaller; size is the stylesheet's decision, and it is the entire subject of the next session. Today the level means the depth, and the browser's default sizes are good enough to see the depth while you work.
 
-Before the first file, the place it lives. Nothing earlier on the path made this folder, so make it now, in the terminal, the way Session 1.4 made `quest-log`. Every project from here on sits under `~/projects`, one repository per folder, never one inside another.
+Before the first file, the place it lives. Nothing earlier on the path made this folder, so make it now, in the terminal, the way Session 1.4 made `quest-log`. Every project from here on sits under `~/projects`, the folder [Session 1.5](/path/1-5-the-scribes-hand/)'s `setup.sh` created (the `-p` below makes it again, harmlessly, if it is missing), one repository per folder, never one inside another.
 
 ```bash
 mkdir -p ~/projects
@@ -129,7 +129,7 @@ gh repo create html-css-foundations --public --source=. --remote=origin
 
 `git init` prints `Initialized empty Git repository in /home/you/projects/html-css-foundations/.git/`, and `gh repo create` answers with two ticks: `Created repository YOU/html-css-foundations on GitHub` and `Added remote git@github.com:YOU/html-css-foundations.git`. There is nothing to push yet; the first push comes at the end of Your turn, and because the repository is new it is `git push -u origin main` once, and a bare `git push` after that. Open the folder in VS Code with `code .`.
 
-One tool, and this is the session that puts it to work: the VS Code **Live Server** extension, `ritwickdey.LiveServer`. Session 1.4's dotfiles `setup.sh` installed it along with the other listed extension ids. Check with `code --list-extensions | grep -i liveserver`; it prints `ritwickdey.LiveServer`. If it prints nothing, install it with `code --install-extension ritwickdey.LiveServer`. It serves whichever folder is open at `http://127.0.0.1:5500/` and reloads the browser every time you save, which is how you will watch every page in this unit.
+One tool, and this is the session that puts it to work: the VS Code **Live Server** extension, `ritwickdey.LiveServer`. [Session 1.5](/path/1-5-the-scribes-hand/)'s dotfiles `setup.sh` installed it, one `code --install-extension` per line of your extension list. Check with `code --list-extensions | grep -i liveserver`; it prints `ritwickdey.LiveServer`. If it prints nothing, install it with `code --install-extension ritwickdey.LiveServer`. It serves whichever folder is open at `http://127.0.0.1:5500/` and reloads the browser every time you save, which is how you will watch every page in this unit.
 
 **Walkthrough 1: the adventure log.** In `html-css-foundations`, create `index.html` and type this. Do not paste it over a file the editor generated until you have typed the boilerplate once yourself.
 

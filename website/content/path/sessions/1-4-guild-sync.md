@@ -325,7 +325,7 @@ Two more that the box cannot show. **Pushing the private key**, by running `git 
 
 First, the promise from last session, for real, on your machine: push `quest-log`. Create an empty `quest-log` repository on GitHub, no README, then in your terminal `cd ~/quest-log`, `git remote add origin git@github.com:YOU/quest-log.git`, `git branch -M main`, `git push -u origin main`, and refresh the page. Your two merged timelines are on the internet, with the graph visible under **Insights → Network** if you want to see GitHub draw it.
 
-**Guided lab: Build your dotfiles repo (45 minutes).** This is the mini project, your first real shipped artefact. A dotfiles repository is the collection of configuration files, the ones whose names start with a dot, that make a machine *yours*: your shell aliases, your editor settings, the extensions you rely on, and a script that installs all of it. Every experienced developer has one; search "dotfiles" on GitHub and you will find hundreds of thousands. Yours starts today and grows for the rest of your career. The box builds the whole thing; follow along in it, then do it on your machine with your own name in it.
+**Guided lab: Build your dotfiles repo (45 minutes).** This is the mini project, your first real shipped artefact. A dotfiles repository is the collection of configuration files, the ones whose names start with a dot, that make a machine *yours*: your shell aliases, your editor settings, the extensions you rely on, and a script that puts it all in place. Every experienced developer has one; search "dotfiles" on GitHub and you will find hundreds of thousands. Yours starts today and grows for the rest of your career. The box builds the whole thing; follow along in it, then do it on your machine with your own name in it.
 
 ![](diagram:session-1-4/fig5-dotfiles-anatomy)
 
@@ -380,28 +380,21 @@ alias projects="cd ~/projects"
 # Create a projects folder if it does not exist
 mkdir -p ~/projects
 
-# Custom prompt: current directory and git branch
-git_branch() {
-  git branch 2>/dev/null | grep '*' | sed 's/* //'
-}
-setopt PROMPT_SUBST
-PS1='%F{cyan}%~%F{yellow} $(git_branch)%f $ '
+# Custom prompt: the current folder (Session 1.5 adds the git branch)
+PS1='%F{cyan}%~%f $ '
 
 # Welcome message
 echo "Welcome back, $(whoami). Let's build something."
 ```
 
-Every machine has one shell, but your dotfiles will outlive this machine, so the repo ships **both** files: the `.zshrc` above for a Mac, and a `.bashrc` for WSL and Linux. The aliases, the `mkdir -p ~/projects` line, the function and the welcome line are identical in the two files; only the prompt changes, because the two shells describe a prompt differently. zsh wants `%~` for the folder and `%F{cyan}` for a colour, with `setopt PROMPT_SUBST` so the `$(git_branch)` is re-run every time the prompt is drawn. Bash wants `\w` for the folder and escape codes wrapped in `\[ \]` for the colours. So in `.bashrc`, replace the three prompt lines with these:
+Every machine has one shell, but your dotfiles will outlive this machine, so the repo ships **both** files: the `.zshrc` above for a Mac, and a `.bashrc` for WSL and Linux. The aliases, the `mkdir -p ~/projects` line and the welcome line are identical in the two files; only the prompt line changes, because the two shells describe a prompt differently. zsh wants `%~` for the folder and `%F{cyan}` for a colour. Bash wants `\w` for the folder and escape codes wrapped in `\[ \]` for the colours. So in `.bashrc`, replace the prompt line with this one:
 
 ```bash
-# Custom prompt: current directory and git branch (bash)
-git_branch() {
-  git branch 2>/dev/null | grep '*' | sed 's/* //'
-}
-export PS1="\[\033[36m\]\w\[\033[33m\] \$(git_branch)\[\033[00m\] $ "
+# Custom prompt: the current folder (bash; Session 1.5 adds the git branch)
+export PS1="\[\033[36m\]\w\[\033[00m\] $ "
 ```
 
-Write the file for your own shell first (`echo $SHELL` tells you which) and copy it to the other name with the prompt lines swapped. The prompt function is the one piece the box leaves out (its shell does not do functions yet); on your machine it puts the current branch in your prompt, which you will come to rely on. Then `mkdir -p vscode` and `vscode/settings.json`:
+Write the file for your own shell first (`echo $SHELL` tells you which) and copy it to the other name with the prompt line swapped. The prompt is deliberately plain today: it shows the folder and nothing else, so that every line in the file is one you can read. [Session 1.5](/path/1-5-the-scribes-hand/) adds a small function that puts the current branch next to it, which you will come to rely on. Then `mkdir -p vscode` and `vscode/settings.json`:
 
 ```json
 {
@@ -443,76 +436,34 @@ formulahendry.auto-close-tag
 
 Then a `.gitignore` with `.DS_Store`, `*.log` and `.env`; and the first commit, `Initial commit: shell config, VS Code settings, and extensions list`. Checkpoints: `cat .zshrc` (or `cat .bashrc`) shows at least twelve aliases; `ls -a` shows both rc files; `git log --oneline` shows one commit.
 
-**Part 2: the script, the README, and the push (25 minutes).** Create `setup.sh` with the full version below, `chmod +x setup.sh`, and `ls -la setup.sh` to confirm the `x` in the permissions:
+**Part 2: the script, the README, and the push (25 minutes).** Create `setup.sh` with exactly the seven lines the box wrote, `chmod +x setup.sh`, and `ls -la setup.sh` to confirm the `x` in the permissions:
 
 ```bash
 #!/bin/bash
-# ================================
-# Dev Environment Setup Script
-# Arthur's Dotfiles
-# ================================
-
 echo "=== Starting Dev Environment Setup ==="
-echo ""
-
-echo "Creating projects directory..."
 mkdir -p ~/projects
-
-echo "Linking shell configuration..."
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-
-# Pick the rc file for the shell this machine uses: zsh on a Mac, bash on WSL and Linux
-case "$SHELL" in
-  */zsh) RC=.zshrc ;;
-  *)     RC=.bashrc ;;
-esac
-if [ -f ~/$RC ]; then
-  echo "Backing up existing $RC to $RC.backup"
-  cp ~/$RC ~/$RC.backup
-fi
-cp "$SCRIPT_DIR/$RC" ~/$RC
-echo "Shell config linked: ~/$RC"
-
-echo "Copying VS Code settings..."
-VSCODE_DIR="$HOME/Library/Application Support/Code/User"
-[ -d "$HOME/.config/Code/User" ] && VSCODE_DIR="$HOME/.config/Code/User"
-if [ -d "$VSCODE_DIR" ]; then
-  cp "$SCRIPT_DIR/vscode/settings.json" "$VSCODE_DIR/settings.json"
-  echo "VS Code settings updated."
-else
-  echo "VS Code settings directory not found. Skipping."
-  echo "(On WSL, VS Code keeps settings on the Windows side: copy vscode/settings.json by hand via File > Preferences > Settings > Open Settings (JSON).)"
-fi
-
-echo "Installing VS Code extensions..."
-if command -v code > /dev/null 2>&1; then
-  while IFS= read -r extension; do
-    code --install-extension "$extension" --force
-  done < "$SCRIPT_DIR/vscode/extensions.txt"
-  echo "Extensions installed."
-else
-  echo "VS Code CLI not found. Install extensions manually from vscode/extensions.txt"
-fi
-
-echo ""
+[ -f ~/.zshrc ] && cp ~/.zshrc ~/.zshrc.backup
+cp .zshrc ~/.zshrc
+echo "Shell config linked."
 echo "=== Setup Complete ==="
-echo "Restart your terminal to apply changes."
-echo "Welcome to the new world."
 ```
 
-Read it before you run it; every line is Session 1.2's shell. `SCRIPT_DIR` works out where the script lives so it can be run from anywhere. The `case` on `$SHELL` picks `.zshrc` on a Mac and `.bashrc` on WSL and Linux, so the same script sets up either kind of machine, and the `if [ -f … ]` guard backs up anything it would overwrite. After it runs, `source ~/.zshrc` (or `source ~/.bashrc`) loads the new config into the terminal you are sitting in; from the next terminal on, it loads by itself. `command -v code` asks whether the `code` command exists before trying to use it, and the `while read` loop installs each extension from your list. Then `README.md`, in Markdown, with at least three sections; the model is the one the box wrote, expanded: a one-line description, **What is in here** as a bullet list of the files, **Quick start** as a fenced code block with the clone and setup commands, a **Shell aliases** table, **Built with**, and **Author**. Commit: `Add setup script and README`. Create `dotfiles` on GitHub, Public, no README; `git remote add origin git@github.com:YOU/dotfiles.git`, `git branch -M main`, `git push -u origin main`. Open the page. Read your README rendered. Share the link. You just shipped your first project.
+Read it before you run it; every line is Session 1.2's shell except one. The shebang names bash, `echo` reports, `mkdir -p ~/projects` makes the folder every project from Unit 2 on lives in, and `cp` puts your shell config where the shell looks for it. The one new line is the fourth: `[ -f ~/.zshrc ]` is a test that succeeds if that file exists, and `&&` runs the backup only when it does, so the first run on a fresh machine backs up nothing and a later run backs up whatever is there. On WSL or Linux, write `.bashrc` in both places on those two lines, since bash is the shell that machine runs. That is the whole script for today. The longer one, which picks the rc file by reading `$SHELL`, copies your editor settings and installs the extensions from your list in a loop, needs three shapes of shell sentence you have not met, and [Session 1.5](/path/1-5-the-scribes-hand/) teaches each one on its own before it hands you the file. Run `./setup.sh`, then `source ~/.zshrc` (or `source ~/.bashrc`) to load the new config into the terminal you are sitting in; from the next terminal on, it loads by itself, and `gs` answers as `git status`.
+
+The extensions are installed by hand today, one line each: `code --install-extension dbaeumer.vscode-eslint`, and the same for the other seven ids in `vscode/extensions.txt`. Eight commands is the price of not yet knowing the loop; `code --list-extensions` afterwards lists all eight, and `ritwickdey.LiveServer` in that list is the one Session 2.1 checks for. Then `README.md`, in Markdown, with at least three sections; the model is the one the box wrote, expanded: a one-line description, **What is in here** as a bullet list of the files, **Quick start** as a fenced code block with the clone and setup commands, a **Shell aliases** table, **Built with**, and **Author**. Commit: `Add setup script and README`. Create `dotfiles` on GitHub, Public, no README; `git remote add origin git@github.com:YOU/dotfiles.git`, `git branch -M main`, `git push -u origin main`. Open the page. Read your README rendered. Share the link. You just shipped your first project.
 
 **Independent lab: Polish and personalise (the rest of the session, and the days before Unit 2).** No step-by-step. Requirements: at least five more aliases that are useful to *you*, such as `alias weather="curl wttr.in"`, `alias myip="curl ifconfig.me"`, `alias c="code ."`, `alias h="history | tail -20"`; a `git/` folder holding a `.gitconfig` with your `[user]` name and email, `[init] defaultBranch = main`, `[core] editor = code --wait`, and an `[alias]` section (`s = status`, `l = log --oneline --graph --all`, `co = checkout`, `br = branch`, `ci = commit`); `setup.sh` updated to copy that `.gitconfig` to `~/.gitconfig`; at least two more README sections ("Customisation ideas", "What I would add next", "Resources that helped me"). Make each change on its own branch (`add-more-aliases`, `add-gitconfig`, `update-readme`), merge each into `main`, and push after each merge. And at least one of them must go through a pull request on the site: push the branch, open the PR, read **Files changed**, merge it there, then `git pull` locally. Check every alias works by running `source ~/.zshrc` (or `source ~/.bashrc`) and trying it. Stretch goals: a `Brewfile` or `packages.txt` of the tools you want installed, with `setup.sh` installing them; a custom terminal colour scheme; a prompt from `oh-my-zsh` or `starship` with its config in the repo; a `Makefile` with `make install`, `make backup`, `make update`; and an hour reading other people's dotfiles, starting from the [awesome-dotfiles](https://github.com/webpro/awesome-dotfiles) list, stealing anything you like.
 
 ## The quest
 
-By the start of Unit 2, have on GitHub:
+By the start of Session 1.5, have on GitHub:
 
-- `quest-log`, pushed, with `git status` on your machine saying *Your branch is up to date with 'origin/main'*.
-- `github.com/YOU/dotfiles`, public, with a README that renders cleanly and has at least five sections, at least seventeen aliases in your shell config (both `.zshrc` and `.bashrc`), a `git/.gitconfig`, a `setup.sh` that is executable and handles the gitconfig, a commit history showing at least two branches created and merged, and at least one merged pull request visible under the **Pull requests** tab with its **Closed** filter.
 - `ssh -T git@github.com` greeting you by name.
+- `quest-log`, pushed, with `git status` on your machine saying *Your branch is up to date with 'origin/main'*.
+- At least one pull request you opened, read under **Files changed**, and merged on a repository of your own, visible under the **Pull requests** tab with its **Closed** filter.
+- `github.com/YOU/dotfiles`, public, with a README that renders cleanly and has at least three sections, both `.zshrc` and `.bashrc` with at least twelve aliases, `vscode/settings.json` and `vscode/extensions.txt`, and the seven-line `setup.sh`, executable, run once on your machine.
 
-Budget two to three hours for the independent lab if you did not finish it here. Paste the dotfiles URL into your journal and into your résumé draft; it is the first line of your portfolio.
+The independent lab is the stretch, not the gate: the extra aliases, the `git/.gitconfig` and the branch-per-change habit can land over the next few days, and every one of them is a pull request waiting to happen. Paste the dotfiles URL into your journal and into your résumé draft; it is the first line of your portfolio.
 
 ## Side quests
 
@@ -522,11 +473,9 @@ Three pages in the library look further down roads you walked today. They are wr
 
 Run the loop. Every time you sit down this week: `git pull`; every time you stand up: `git push`. Make the dotfiles changes on branches and merge them. By the time Unit 2 starts, a bare `git push` with nothing to send should feel slightly disappointing, and your GitHub profile page should show a row of green squares on its contribution graph. That graph is public, it is what the industry glances at first, and from today every commit you push paints it.
 
-Spend fifteen minutes on your profile. Add a photo and a one-line bio. Then look at three other people's dotfiles repositories from the awesome-dotfiles list and notice what their READMEs do that yours does not yet. Spend another fifteen on the [GitHub Docs page about pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests), which is the reference you will come back to when a PR does something you did not expect.
+Spend fifteen minutes on your profile. Add a photo and a one-line bio. Then look at three other people's dotfiles repositories from the awesome-dotfiles list and notice what their READMEs do that yours does not yet; notice, too, that their setup scripts have lines you cannot read yet, an `if` here, a `case` there, a loop, a function or two. Spend another fifteen on the [GitHub Docs page about pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests), which is the reference you will come back to when a PR does something you did not expect.
 
-One more thing your `setup.sh` did: it created `~/projects`. That folder is the home of every project from here on, one folder and one repository each, never nested inside another. Session 2.1 opens by creating the first of them, `~/projects/html-css-foundations`, with `mkdir`, `git init` and `gh repo create`, so nothing else needs to exist there yet.
-
-Next time: Unit 2, HTML and CSS. You will build a personal landing page, your character sheet for the new world, and deploy it to the internet, where it will live in a repository you push to with the key you made today. Every project from here on starts with `git init` in its own folder under `~/projects` and ends with `git push`. Nothing is left running between sessions; there is no server yet to stop. The guild hall is open, and your map is on the wall.
+Here is what exists when the next session opens. `~/dotfiles` is a repository on GitHub with both rc files and a plain prompt, your editor settings, the extension list, a README, and the seven-line `setup.sh`, which has already created `~/projects` on your machine. [Session 1.5](/path/1-5-the-scribes-hand/), The Scribe's Hand, starts from exactly that folder. It teaches the shell as a language, one sentence shape at a time, with a prediction written down before every run, and it ends with the full setup script in this same repository, proven on a fresh clone, and the current branch in your prompt. Nothing is left running between sessions; there is no server yet to stop. The guild hall is open, and your map is on the wall.
 
 > **Say:** "Git is the tool on your machine; GitHub is one place to keep a copy, and a remote is a name for a URL. The public key is the padlock you hand out; the private key stays home and never leaves ~/.ssh. Commit locally, push to share, pull before you push; a rejected push means the remote is ahead, not that you are wrong. A pull request is a conversation about a branch that ends in a merge commit; on someone else's repo, fork first. Your dotfiles are a repository now: clone, run setup, and a new machine is yours in ten minutes."
 

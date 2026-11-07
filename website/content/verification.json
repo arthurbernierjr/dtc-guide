@@ -80,6 +80,20 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 7 terminal script(s) (147 commands) replayed in the lesson terminal in headless Chromium by the live gate (every line ran, nothing unintended was \"command not found\"; broken is tagged may-fail and hits a deliberate one, a typed command answered, run twice). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
+  "/path/1-5-the-scribes-hand/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) · first-wave pass",
+    "docs": [
+      "https://www.gnu.org/software/bash/manual/html_node/Shell-Parameters.html",
+      "https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html",
+      "https://www.gnu.org/software/bash/manual/html_node/Looping-Constructs.html",
+      "https://www.gnu.org/software/bash/manual/html_node/Shell-Functions.html",
+      "https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html",
+      "https://git-scm.com/docs/git-branch"
+    ],
+    "exec": "ran",
+    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 8 terminal script(s) (78 commands) replayed in the lesson terminal in headless Chromium by the live gate (every line ran, nothing unintended was \"command not found\"; broken is tagged may-fail and hits a deliberate one, a typed command answered, run twice). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
+  },
   "/path/2-1-the-skeleton-frame/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",

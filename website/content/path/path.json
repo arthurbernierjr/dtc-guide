@@ -16,7 +16,7 @@
         4
       ],
       "color": "green",
-      "weeks": "1–10"
+      "weeks": "1–11"
     },
     {
       "id": "II",
@@ -195,10 +195,28 @@
       ]
     },
     {
+      "id": "1.5",
+      "unit": 1,
+      "week": 2,
+      "day": "Wed",
+      "title": "The Scribe's Hand",
+      "subtitle": "The Shell as a Language, and the Setup Script You Can Read",
+      "slug": "1-5-the-scribes-hand",
+      "hook": "Your dotfiles repo ships a seven-line setup script, and you can read every line of it. The full one has branches, a loop and a function, and you cannot read those yet. Today you learn the shell's sentence shapes one at a time, write down what each will print before you run it, and then assemble the script that sets up a new machine in one command.",
+      "sideQuests": [
+        "MIND-02",
+        "SEC-07"
+      ],
+      "sideQuestWhy": [
+        "Six miniatures, six predictions, and at least one of them wrong is the deliberate-practice loop this page is about: a small rep, immediate feedback, and the return the next day. Read the opening and the training-circle section, and notice that the wrong prediction is the rep that counts.",
+        "Your rc file runs every time a terminal opens and your dotfiles are public, so the one thing a setup script must never carry is a credential: no token in an alias, no password in a variable, and `.env` in `.gitignore` from the first commit. Read the opening and the session-store section; the reasons a stolen secret is worse than a stolen laptop are the reasons the script copies config and nothing else."
+      ]
+    },
+    {
       "id": "2.1",
       "unit": 2,
       "week": 2,
-      "day": "Wed",
+      "day": "Sat",
       "title": "The Skeleton Frame",
       "subtitle": "Semantic HTML and How the Web Works",
       "slug": "2-1-the-skeleton-frame",
@@ -217,8 +235,8 @@
     {
       "id": "2.2",
       "unit": 2,
-      "week": 2,
-      "day": "Sat",
+      "week": 3,
+      "day": "Tue",
       "title": "Armor and Cosmetics",
       "subtitle": "CSS Fundamentals, the Cascade, and Specificity",
       "slug": "2-2-armor-and-cosmetics",
@@ -242,7 +260,7 @@
       "id": "2.3",
       "unit": 2,
       "week": 3,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Formation Magic",
       "subtitle": "Flexbox, CSS Grid, and Responsive Design",
       "slug": "2-3-formation-magic",
@@ -268,7 +286,7 @@
       "id": "2.4",
       "unit": 2,
       "week": 3,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Enchantments",
       "subtitle": "Animations, Transforms, Images, and BEM",
       "slug": "2-4-enchantments",
@@ -293,8 +311,8 @@
     {
       "id": "2.5",
       "unit": 2,
-      "week": 3,
-      "day": "Sat",
+      "week": 4,
+      "day": "Tue",
       "title": "The Character Sheet Forge",
       "subtitle": "Build and Deploy Your Landing Page",
       "slug": "2-5-the-character-sheet-forge",
@@ -316,7 +334,7 @@
       "id": "3.1",
       "unit": 3,
       "week": 4,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Mana Basics",
       "subtitle": "Variables, Data Types, Operators, and Control Flow",
       "slug": "3-1-mana-basics",
@@ -338,7 +356,7 @@
       "id": "3.2",
       "unit": 3,
       "week": 4,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Spell Crafting",
       "subtitle": "Functions, Scope, Closures, and Array Methods",
       "slug": "3-2-spell-crafting",
@@ -359,8 +377,8 @@
     {
       "id": "3.3",
       "unit": 3,
-      "week": 4,
-      "day": "Sat",
+      "week": 5,
+      "day": "Tue",
       "title": "The Proving Grounds",
       "subtitle": "Destructuring, copying, counting, and three problems without a net",
       "slug": "3-3-the-proving-grounds",
@@ -378,7 +396,7 @@
       "id": "3.4",
       "unit": 3,
       "week": 5,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Objects and Orcs",
       "subtitle": "Object-Oriented Programming in JavaScript",
       "slug": "3-4-objects-and-orcs",
@@ -402,7 +420,7 @@
       "id": "3.5",
       "unit": 3,
       "week": 5,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Casting on the World",
       "subtitle": "The DOM, Events, and Dynamic Interfaces",
       "slug": "3-5-casting-on-the-world",
@@ -423,8 +441,8 @@
     {
       "id": "3.6",
       "unit": 3,
-      "week": 5,
-      "day": "Sat",
+      "week": 6,
+      "day": "Tue",
       "title": "The Arena",
       "subtitle": "Build and Deploy Your Browser Game",
       "slug": "3-6-the-arena",
@@ -458,13 +476,13 @@
         "The Proxy pattern is the other half of the word you will meet again in Unit 6. Read it now so 'the server' and 'the thing in front of the server' are already different objects in your head."
       ],
       "week": 6,
-      "day": "Tue"
+      "day": "Wed"
     },
     {
       "id": "4.2",
       "unit": 4,
       "week": 6,
-      "day": "Wed",
+      "day": "Sat",
       "title": "The Waiting Room",
       "subtitle": "Promises, await, and the three ways a request ends",
       "slug": "4-2-the-waiting-room",
@@ -493,8 +511,8 @@
         "Middleware is a chain of responsibility: each function does its part and calls next, or it ends the response. This sheet is that pattern without Express around it.",
         "The app object is still the facade from last session. Come back to it once you have seen the chain it hides."
       ],
-      "week": 6,
-      "day": "Sat"
+      "week": 7,
+      "day": "Tue"
     },
     {
       "id": "4.4",
@@ -512,7 +530,7 @@
         "A controller that coordinates the model and the response, and does not let them talk past it, is a mediator. The sheet shows the shape you are about to write by hand."
       ],
       "week": 7,
-      "day": "Tue"
+      "day": "Wed"
     },
     {
       "id": "4.5",
@@ -530,7 +548,7 @@
         "The unique hero and the find-by-id you write next session are indexes. This sheet is the cost of having them and the cost of not having them."
       ],
       "week": 7,
-      "day": "Wed"
+      "day": "Sat"
     },
     {
       "id": "4.6",
@@ -547,8 +565,8 @@
         "schema.index and unique: true become indexes. Go read what an index costs on a write, now that you are about to add one.",
         "An ODM is not a different database. MongoDB is still a document store. This sheet keeps that line from blurring once the API feels like objects."
       ],
-      "week": 7,
-      "day": "Sat"
+      "week": 8,
+      "day": "Tue"
     },
     {
       "id": "4.7",
@@ -566,7 +584,7 @@
         "method-override and the body parser are middleware in a chain. Order is the whole bug. The chain-of-responsibility sheet is why calling next is the design, not a quirk."
       ],
       "week": 8,
-      "day": "Tue"
+      "day": "Wed"
     },
     {
       "id": "4.8",
@@ -588,7 +606,7 @@
         "Go is the other end of the spectrum from JavaScript: typed, compiled, one binary. Its track ends with the same todos contract you just spoke to with curl, so you can compare a Go handler with the courier's route line by line."
       ],
       "week": 8,
-      "day": "Wed"
+      "day": "Sat"
     },
     {
       "id": "4.9",
@@ -607,8 +625,8 @@
         "Authentication failures are an OWASP category of their own: weak hashes, missing expiry, tokens in logs. Read the fixes next to the code you just wrote.",
         "Broken access control is the next bug, and it will not show up in curl if you only call the route as yourself. The sheet's first case is calling it as someone else."
       ],
-      "week": 8,
-      "day": "Sat"
+      "week": 9,
+      "day": "Tue"
     },
     {
       "id": "4.10",
@@ -628,7 +646,7 @@
         "The cheatsheet is the reference card for the hooks and patterns this session introduces; keep it open while you build the primer and come back to it whenever a hook's signature slips."
       ],
       "week": 9,
-      "day": "Tue"
+      "day": "Wed"
     },
     {
       "id": "4.11",
@@ -646,7 +664,7 @@
         "The effect that subscribes, and the cleanup that unsubscribes, is the observer pattern with a return function. Read the cleanup as detach."
       ],
       "week": 9,
-      "day": "Wed"
+      "day": "Sat"
     },
     {
       "id": "4.12",
@@ -665,8 +683,8 @@
         "Login established identity. The todo route has to decide authorization separately, per record. Re-read the split before you check only that a token exists.",
         "The React guide in the library builds a todo client against the shared todos API, the same list, show, create, edit, delete flow as the slate, with the finished app deployed; read it after today to see the same shape without the login."
       ],
-      "week": 9,
-      "day": "Sat"
+      "week": 10,
+      "day": "Tue"
     },
     {
       "id": "4.13",
@@ -684,7 +702,7 @@
         "You will be tempted to loosen the password rules to make the demo easier. The authentication-failures page is the argument against that shortcut."
       ],
       "week": 10,
-      "day": "Tue"
+      "day": "Wed"
     },
     {
       "id": "4.14",
@@ -702,7 +720,7 @@
         "A join collection is the document version of a join table. The SQL-versus-NoSQL sheet is how you explain that to someone who only knows rows."
       ],
       "week": 10,
-      "day": "Wed"
+      "day": "Sat"
     },
     {
       "id": "4.15",
@@ -723,14 +741,14 @@
         "Holdings will be queried by owner constantly. The index on owner is the difference between a pack that opens and a pack that scans every row you have ever stored.",
         "Every backend guide in the library serves one contract and every frontend guide consumes it; the hall is your first client-plus-server pair, and this index shows you can mix any of the four clients with any of the eight servers."
       ],
-      "week": 10,
-      "day": "Sat"
+      "week": 11,
+      "day": "Tue"
     },
     {
       "id": "5.1",
       "unit": 5,
       "week": 11,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Awakening the Cheat Skill",
       "subtitle": "The RTTPOC Prompt Framework",
       "slug": "5-1-awakening-the-cheat-skill",
@@ -748,7 +766,7 @@
       "id": "5.2",
       "unit": 5,
       "week": 11,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Advanced Incantations",
       "subtitle": "Prompt Patterns, Context Windows, and Iteration",
       "slug": "5-2-advanced-incantations",
@@ -765,8 +783,8 @@
     {
       "id": "5.3",
       "unit": 5,
-      "week": 11,
-      "day": "Sat",
+      "week": 12,
+      "day": "Tue",
       "title": "Summoned Familiars",
       "subtitle": "Claude Code, Cursor, and Agentic Workflows",
       "slug": "5-3-summoned-familiars",
@@ -784,7 +802,7 @@
       "id": "5.4",
       "unit": 5,
       "week": 12,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Cheat Skill Trials",
       "subtitle": "Rebuild a Feature at 10x Speed",
       "slug": "5-4-cheat-skill-trials",
@@ -802,7 +820,7 @@
       "id": "6.1",
       "unit": 6,
       "week": 12,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Claiming Territory",
       "subtitle": "Cloud Machines, SSH, and Server Setup",
       "slug": "6-1-claiming-territory",
@@ -819,8 +837,8 @@
     {
       "id": "6.2",
       "unit": 6,
-      "week": 12,
-      "day": "Sat",
+      "week": 13,
+      "day": "Tue",
       "title": "The Gatekeeper",
       "subtitle": "Nginx, Reverse Proxies, and Process Management",
       "slug": "6-2-the-gatekeeper",
@@ -838,7 +856,7 @@
       "id": "6.3",
       "unit": 6,
       "week": 13,
-      "day": "Tue",
+      "day": "Wed",
       "title": "The Teleportation Network",
       "subtitle": "DNS, Domains, and SSL Certificates",
       "slug": "6-3-the-teleportation-network",
@@ -856,7 +874,7 @@
       "id": "6.4",
       "unit": 6,
       "week": 13,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Opening the World Gate",
       "subtitle": "Deploy Your Full Stack App to the Internet",
       "slug": "6-4-opening-the-world-gate",
@@ -875,8 +893,8 @@
     {
       "id": "7.1",
       "unit": 7,
-      "week": 13,
-      "day": "Sat",
+      "week": 14,
+      "day": "Tue",
       "title": "Sparring Grounds",
       "subtitle": "Jest, Unit Testing, and the TDD Mindset",
       "slug": "7-1-sparring-grounds",
@@ -894,7 +912,7 @@
       "id": "7.2",
       "unit": 7,
       "week": 14,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Dungeon Trials",
       "subtitle": "Supertest, API Testing, and Integration Tests",
       "slug": "7-2-dungeon-trials",
@@ -912,7 +930,7 @@
       "id": "7.3",
       "unit": 7,
       "week": 14,
-      "day": "Wed",
+      "day": "Sat",
       "title": "The Gauntlet",
       "subtitle": "Playwright, E2E Testing, and CI Basics",
       "slug": "7-3-the-gauntlet",
@@ -929,8 +947,8 @@
     {
       "id": "7.4",
       "unit": 7,
-      "week": 14,
-      "day": "Sat",
+      "week": 15,
+      "day": "Tue",
       "title": "Clearing the Training Dungeon",
       "subtitle": "Build a Real Test Suite",
       "slug": "7-4-clearing-the-training-dungeon",
@@ -948,7 +966,7 @@
       "id": "8.1",
       "unit": 8,
       "week": 15,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Listening at the Tavern",
       "subtitle": "User Research, Interviews, and Empathy Maps",
       "slug": "8-1-listening-at-the-tavern",
@@ -966,7 +984,7 @@
       "id": "8.2",
       "unit": 8,
       "week": 15,
-      "day": "Wed",
+      "day": "Sat",
       "title": "The Quest Board",
       "subtitle": "User Stories, Backlogs, and Prioritization",
       "slug": "8-2-the-quest-board",
@@ -983,8 +1001,8 @@
     {
       "id": "8.3",
       "unit": 8,
-      "week": 15,
-      "day": "Sat",
+      "week": 16,
+      "day": "Tue",
       "title": "Guild Operations",
       "subtitle": "Agile, SCRUM, Sprints, and Retros",
       "slug": "8-3-guild-operations",
@@ -1002,7 +1020,7 @@
       "id": "8.4",
       "unit": 8,
       "week": 16,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Field Work",
       "subtitle": "Real User Interviews and Sprint Planning",
       "slug": "8-4-field-work",
@@ -1020,7 +1038,7 @@
       "id": "9.1",
       "unit": 9,
       "week": 16,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Ancient Runes",
       "subtitle": "TypeScript Fundamentals and Type Safety",
       "slug": "9-1-ancient-runes",
@@ -1037,8 +1055,8 @@
     {
       "id": "9.2",
       "unit": 9,
-      "week": 16,
-      "day": "Sat",
+      "week": 17,
+      "day": "Tue",
       "title": "Trial of Blades",
       "subtitle": "Arrays, Objects, Big O, and Core Data Structures",
       "slug": "9-2-trial-of-blades",
@@ -1058,7 +1076,7 @@
       "id": "9.3",
       "unit": 9,
       "week": 17,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Trial of Wits",
       "subtitle": "Algorithm Patterns and Whiteboard Practice",
       "slug": "9-3-trial-of-wits",
@@ -1078,7 +1096,7 @@
       "id": "9.4",
       "unit": 9,
       "week": 17,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Trial of Patience",
       "subtitle": "Attacking a Problem You Have Not Seen",
       "slug": "9-4-trial-of-patience",
@@ -1097,8 +1115,8 @@
     {
       "id": "9.5",
       "unit": 9,
-      "week": 17,
-      "day": "Sat",
+      "week": 18,
+      "day": "Tue",
       "title": "Grand Architecture",
       "subtitle": "System Design Fundamentals",
       "slug": "9-5-grand-architecture",
@@ -1118,7 +1136,7 @@
       "id": "9.6",
       "unit": 9,
       "week": 18,
-      "day": "Tue",
+      "day": "Wed",
       "title": "The Runesmith's Forge",
       "subtitle": "TypeScript Conversion and Design Doc",
       "slug": "9-6-the-runesmiths-forge",
@@ -1138,7 +1156,7 @@
       "id": "10.1",
       "unit": 10,
       "week": 18,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Barrier Magic",
       "subtitle": "OWASP, Input Validation, and Secrets Management",
       "slug": "10-1-barrier-magic",
@@ -1157,8 +1175,8 @@
     {
       "id": "10.2",
       "unit": 10,
-      "week": 18,
-      "day": "Sat",
+      "week": 19,
+      "day": "Tue",
       "title": "Sealed Gates",
       "subtitle": "Stripe, Paid APIs, Webhooks, and Rate Limits",
       "slug": "10-2-sealed-gates",
@@ -1178,7 +1196,7 @@
       "id": "10.3",
       "unit": 10,
       "week": 19,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Binding the Great Spirits",
       "subtitle": "LLM APIs, Safe Integration, and Cost Control",
       "slug": "10-3-binding-the-great-spirits",
@@ -1198,7 +1216,7 @@
       "id": "10.4",
       "unit": 10,
       "week": 19,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Warding the Kingdom",
       "subtitle": "Add Payments and AI to Your Capstone",
       "slug": "10-4-warding-the-kingdom",
@@ -1217,8 +1235,8 @@
     {
       "id": "11.1",
       "unit": 11,
-      "week": 19,
-      "day": "Sat",
+      "week": 20,
+      "day": "Tue",
       "title": "Rallying the Villagers",
       "subtitle": "Crowdfunding, Community Rounds, and Pre-Sales",
       "slug": "11-1-rallying-the-villagers",
@@ -1236,7 +1254,7 @@
       "id": "11.2",
       "unit": 11,
       "week": 20,
-      "day": "Tue",
+      "day": "Wed",
       "title": "The Noble Houses",
       "subtitle": "Angel Investors, SAFEs, and Term Sheets",
       "slug": "11-2-the-noble-houses",
@@ -1254,7 +1272,7 @@
       "id": "11.3",
       "unit": 11,
       "week": 20,
-      "day": "Wed",
+      "day": "Sat",
       "title": "The Royal Court",
       "subtitle": "Venture Capital, Pitch Decks, and the Raise",
       "slug": "11-3-the-royal-court",
@@ -1271,8 +1289,8 @@
     {
       "id": "11.4",
       "unit": 11,
-      "week": 20,
-      "day": "Sat",
+      "week": 21,
+      "day": "Tue",
       "title": "War Council",
       "subtitle": "Pitch Deck and Financial Narrative Workshop",
       "slug": "11-4-war-council",
@@ -1290,7 +1308,7 @@
       "id": "12.1",
       "unit": 12,
       "week": 21,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Sprint 1 — Foundation",
       "subtitle": "Core Features and Architecture",
       "slug": "12-1-sprint-1-foundation",
@@ -1308,7 +1326,7 @@
       "id": "12.2",
       "unit": 12,
       "week": 21,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Sprint 2 — Build",
       "subtitle": "Feature Completion and Integration",
       "slug": "12-2-sprint-2-build",
@@ -1327,8 +1345,8 @@
     {
       "id": "12.3",
       "unit": 12,
-      "week": 21,
-      "day": "Sat",
+      "week": 22,
+      "day": "Tue",
       "title": "Sprint 3 — Harden",
       "subtitle": "Testing, Security, and Deployment",
       "slug": "12-3-sprint-3-harden",
@@ -1348,7 +1366,7 @@
       "id": "12.4",
       "unit": 12,
       "week": 22,
-      "day": "Tue",
+      "day": "Wed",
       "title": "Sprint 4 — Polish",
       "subtitle": "Final Touches and Presentation Prep",
       "slug": "12-4-sprint-4-polish",
@@ -1366,7 +1384,7 @@
       "id": "12.5",
       "unit": 12,
       "week": 22,
-      "day": "Wed",
+      "day": "Sat",
       "title": "Coronation Day",
       "subtitle": "Demo Day, Launch, and Your Next Quest",
       "slug": "12-5-coronation-day",

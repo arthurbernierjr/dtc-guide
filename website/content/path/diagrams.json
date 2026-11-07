@@ -2,7 +2,7 @@
   "_comment": "The diagram ledger, machine-readable twin of DESIGN-REFERENCE-RESPAWN.md §R10. Key = <set>/<file>; the build expects <file>-wide.png (1600×900) and <file>-tall.png (900×1200) under build/assets/diagrams/<set>/. A referenced figure with no alt text fails the build.",
   "path/path-map": {
     "composition": "PathMap",
-    "alt": "The complete curriculum: twenty-two weeks, sixty-five published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
+    "alt": "The complete curriculum: twenty-two weeks, sixty-six published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
     "caption": "The route: 22 weeks, three acts, the flag marks the latest written session."
   },
   "session-3-1/fig1-three-containers": {
@@ -346,6 +346,100 @@
     "fig": 5,
     "alt": "The dotfiles repository as six rows, each tagged with the Unit 1 session it came from: .zshrc (aliases, welcome line), vscode/settings.json, vscode/extensions.txt, setup.sh, README.md, .gitignore, each with a one-line sample; below, three steps for a new machine: git clone, cd and ./setup.sh, source ~/.zshrc",
     "caption": "The dotfiles repo. Every file is a Unit 1 session kept; three commands rebuild the whole environment on a new machine."
+  },
+  "session-1-5/fig1-model": {
+    "composition": "CurriculumDiagram",
+    "fig": 1,
+    "alt": "Flow from reading a three-line miniature to writing a prediction, running it, comparing the result, and assembling the full setup script",
+    "caption": "The loop for every construct today: read, predict, run, compare, and only then assemble.",
+    "props": {
+      "session": "1.5",
+      "title": "Predict, run, compare",
+      "mode": "flow",
+      "nodes": [
+        [
+          "Read the miniature",
+          "three lines, one construct: a variable, a test, a case, a loop, or a function"
+        ],
+        [
+          "Write the prediction",
+          "one line in predictions.txt saying exactly what will print"
+        ],
+        [
+          "Run it",
+          "the box for what it can run; your own terminal for if, case, while and functions"
+        ],
+        [
+          "Compare",
+          "right means you can read it; wrong names the exact piece you were missing"
+        ],
+        [
+          "Assemble",
+          "six miniatures stapled together are the full setup.sh"
+        ]
+      ],
+      "artifact": "One construct at a time, predicted before it runs, then combined into the fifty-line script"
+    }
+  },
+  "session-1-5/fig2-diagnosis": {
+    "composition": "CurriculumDiagram",
+    "fig": 2,
+    "alt": "Three diagnoses: a bracket without spaces, a case branch missing its double semicolon, and a script run without the executable bit or under sh instead of bash",
+    "caption": "Read the message first, then the line it names, then the line above it.",
+    "props": {
+      "session": "1.5",
+      "title": "Three ways a script breaks",
+      "mode": "diagnosis",
+      "nodes": [
+        [
+          "[-f: command not found",
+          "the bracket is a command, so it needs a space on each side; the same mistake from the other side is [: missing ']'"
+        ],
+        [
+          "syntax error near unexpected token ')'",
+          "a case branch lost its ;; and the shell names the next branch's line, one below the real one"
+        ],
+        [
+          "Permission denied, or the wrong shell",
+          "no x bit means chmod +x; sh setup.sh ignores the shebang and runs dash on Ubuntu, where source is not found"
+        ]
+      ],
+      "artifact": "Symptom, cause, fix for the bracket, the case branch, and the way the script is started"
+    }
+  },
+  "session-1-5/fig3-evidence": {
+    "composition": "CurriculumDiagram",
+    "fig": 3,
+    "alt": "Evidence list for the quest: the executable full script, a fresh clone that ran it, the branch-aware prompt, the predictions file, and the projects folder with Live Server installed",
+    "caption": "Each item is one command's output or one screenshot, and together they are the session's deliverable.",
+    "props": {
+      "session": "1.5",
+      "title": "What a finished dotfiles repo proves",
+      "mode": "evidence",
+      "nodes": [
+        [
+          "setup.sh, -rwxr-xr-x",
+          "the full script, committed and pushed, with case, if, while and command -v you can explain"
+        ],
+        [
+          "Fresh clone ran it",
+          "git clone into fresh-check, ./setup.sh prints the backup line, folder deleted after"
+        ],
+        [
+          "Branch in the prompt",
+          "git_branch in both rc files; ~/dotfiles main in the prompt and nothing in ~"
+        ],
+        [
+          "predictions.txt",
+          "six lines, each marked right or wrong by hand"
+        ],
+        [
+          "~/projects and Live Server",
+          "ls -d ~/projects prints the folder; code --list-extensions includes ritwickdey.LiveServer"
+        ]
+      ],
+      "artifact": "A public repository whose setup script you can defend line by line, proven on a second clone"
+    }
   },
   "session-2-1/fig1-request-cycle": {
     "composition": "RequestCycle",
