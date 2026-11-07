@@ -165,7 +165,7 @@ Open the site at each viewport (Playwright screenshots for the record; a real br
 
 **§1–§4 Home**
 - [ ] Hero: wordmark stacks `IT'S / DEEPER / THAN / CODE` with the colour split, signature, two pills, disc, four stats. 834: stacked and centred, disc 360px. 390: wordmark 64px, disc 240px, pills full width, stats 2+2.
-- [ ] The five stats (pages · 62 · 26 · 9 · 23; the page count moves as the library grows) match the registry (gate 1 asserts it; eyeball it anyway).
+- [ ] The five stats (pages · 63 · 26 · 9 · 23; the page count moves as the library grows) match the registry (gate 1 asserts it; eyeball it anyway).
 - [ ] 01 Tracks: 4×2 cards at 1440, 2×4 at 834, 1 column at 390; the page counts on cards match the section landings.
 - [ ] 02 Which pattern when: strip rows; 834 drops column 3 to an arrow; 390 two-line rows.
 - [ ] 03 Naive vs optimal: two code panels side by side (stacked at 390); **Run both** prints two `ok` lines.
@@ -393,7 +393,7 @@ Done means: `npm test` green, every block has a sign-off row, zero open `high` f
 
 ## Completed curriculum verification scope
 
-All 62 scheduled lessons must be published. The registry gate enforces completion, eight teaching beats, word floors, side quests, diagram assets, and navigation. The UI gate visits all 41 newly completed lessons at desktop, tablet, and phone widths and executes their browser checkpoints. No language toolchains are installed by this workflow. Local server, database, provider, and deployment walkthroughs remain manual integration checks; the verification ledger explicitly distinguishes them from executed browser models.
+All 63 scheduled lessons must be published. The registry gate enforces completion, eight teaching beats, word floors, side quests, diagram assets, and navigation. The UI gate visits all 41 newly completed lessons at desktop, tablet, and phone widths and executes their browser checkpoints. No language toolchains are installed by this workflow. Local server, database, provider, and deployment walkthroughs remain manual integration checks; the verification ledger explicitly distinguishes them from executed browser models.
 
 ## 4.6 The Todos contract (backend and frontend guides)
 

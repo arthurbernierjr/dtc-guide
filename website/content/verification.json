@@ -176,11 +176,11 @@
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"
     ],
     "exec": "ran",
-    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 6 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
+    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 5 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
   "/path/3-4-objects-and-orcs/": {
     "date": "2026-11-07",
@@ -229,6 +229,20 @@
       "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
       "https://expressjs.com/en/starter/installing.html",
       "https://expressjs.com/en/starter/hello-world.html"
+    ],
+    "exec": "ran",
+    "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
+  },
+  "/path/4-2-the-waiting-room/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) · first-wave pass",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Response/ok",
+      "https://nodejs.org/api/globals.html#fetch"
     ],
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."

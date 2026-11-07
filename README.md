@@ -2,7 +2,7 @@
 
 **I Respawned As A Super Coder In A World With AI**, by Arthur Bernier Jr (Big Poppa Code). A static programming guide served by Express, with a sequential curriculum, searchable reference library, runnable JavaScript, live browser demonstrations, and simulated terminals.
 
-The current build contains **289 pages**: the original 226-page library/global site, the path index, and **all 62 published sessions across 12 units and 21 weeks**. Every scheduled lesson is complete, including Session 2.5 and Units 4–12. The new lessons include 123 teaching figures in two responsive crops, 41 runnable browser checkpoints, guided practice, independent work, side quests, and manual verification instructions.
+The current build contains **289 pages**: the original 226-page library/global site, the path index, and **all 63 published sessions across 12 units and 21 weeks**. Every scheduled lesson is complete, including Session 2.5 and Units 4–12. The new lessons include 123 teaching figures in two responsive crops, 41 runnable browser checkpoints, guided practice, independent work, side quests, and manual verification instructions.
 
 ## Run locally
 

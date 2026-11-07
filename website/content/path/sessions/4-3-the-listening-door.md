@@ -99,7 +99,7 @@ It has three parameters. It runs when nothing earlier answered and nothing earli
 
 ### Async, in the version you are actually running
 
-Read the asynchronous section of the error-handling guide with your `package.json` open. Express 5 is the behavior this unit uses. An async route looks like this:
+[The waiting room](/path/4-2-the-waiting-room/) showed you a promise settle three ways: fulfilled with a yes, fulfilled with a no, and rejected with nothing at all. Here is what that means for a route. Express 5 is the behavior this unit uses. An async route looks like this:
 
 ```js
 app.get('/boom', async (req, res) => {
@@ -107,7 +107,7 @@ app.get('/boom', async (req, res) => {
 });
 ```
 
-The function throws. The promise rejects. Express calls `next` with that error. Your four-argument handler runs. You send 500. The process is still listening. That is the whole feature. Older posts written for Express 4 show a wrapper around every route, or a `.catch(next)` on every call, and they were right for that version. They are not the guide you follow when `express` in your lockfile is 5.
+The function throws, so the promise it returns rejects. Express is holding that promise, so Express is the one whose catch runs. It calls `next` with the error, your four-argument handler sends 500, and the process is still listening. That is the whole feature. Posts written for Express 4 wrap every route or add `.catch(next)` to every call, and they were right for that version. They are not the guide you follow when `express` in your lockfile is 5.
 
 The hole that remains is the promise you do not return.
 
@@ -117,17 +117,7 @@ app.get('/boom', (req, res) => {
 });
 ```
 
-This handler is not `async`. It returns `undefined`. The rejected promise is not the return value. Express has nothing to forward. The guide describes that rejection as unhandled, and an unhandled rejection is the crash the diagnosis is pointing at. The same handler, repaired, returns the chain:
-
-```js
-app.get('/boom', (req, res) => {
-  return Promise.reject(new Error('bell cracked'));
-});
-```
-
-Or you attach `.catch(next)`. Or you mark the function `async` and `await` the work, which forces the promise to be the return value even when you do not think about returning it. Pick `async` and `await` for every route that talks to a database later in this unit. The forgotten-return bug shows up when someone "just fires" a promise inside a non-async function, often inside an `if`, and the `return` keyword is sitting on a different line.
-
-Callback APIs are the other hole the guide names. `fs.readFile` does not return a promise and does not throw when the file is missing. The error arrives as the first argument of the callback. You pass it yourself: `if (err) { next(err); return; }`. A `try/catch` around the `readFile` call does not catch that error. The call returns before the disk does. This unit mostly awaits promises, but the moment you copy a Node sample that uses a callback, the rule changes, and `next(err)` is your job again.
+This handler is not `async`. It returns `undefined`. Express has nothing to hold, and the rejection is the unhandled one from 4.2's second diagnosis, now inside a server: a stack trace and a dead process instead of a 500. Put `return` in front of `Promise.reject`, attach `.catch(next)`, or mark the function `async` and `await` the work so the promise is the return value whether or not you think about returning it. Pick `async` and `await` for every route that talks to a database later in this unit. Callback APIs such as `fs.readFile` are the other hole the guide names. The error arrives as the callback's first argument, and `next(err)` is your job again, because a `try/catch` around the call returns before the disk does.
 
 ### One error handler, mounted last
 

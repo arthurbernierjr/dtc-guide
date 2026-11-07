@@ -2,7 +2,7 @@
   "_comment": "The diagram ledger, machine-readable twin of DESIGN-REFERENCE-RESPAWN.md §R10. Key = <set>/<file>; the build expects <file>-wide.png (1600×900) and <file>-tall.png (900×1200) under build/assets/diagrams/<set>/. A referenced figure with no alt text fails the build.",
   "path/path-map": {
     "composition": "PathMap",
-    "alt": "The complete curriculum: twenty-one weeks, sixty-two published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
+    "alt": "The complete curriculum: twenty-one weeks, sixty-three published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
     "caption": "The route: 21 weeks, three acts, the flag marks the latest written session."
   },
   "session-3-1/fig1-three-containers": {
@@ -3195,6 +3195,84 @@
         ]
       ],
       "artifact": "A one-file Express app that answers GET / with text, and a note of what Node is doing underneath"
+    }
+  },
+  "session-4-2/fig1-model": {
+    "composition": "CurriculumDiagram",
+    "fig": 1,
+    "alt": "Three stages of a fetch: pending, then settled as fulfilled or rejected, then checked with response.ok or catch",
+    "caption": "The promise is a receipt. It is stamped once, and the stamp is either a Response or a reason.",
+    "props": {
+      "session": "4.2",
+      "title": "A promise settles once",
+      "mode": "flow",
+      "nodes": [
+        [
+          "Pending",
+          "fetch(url) returned a promise; nothing has arrived yet"
+        ],
+        [
+          "Settled",
+          "fulfilled with a Response, or rejected with a TypeError"
+        ],
+        [
+          "Checked",
+          "response.ok decides yes or no; catch decides no response"
+        ]
+      ],
+      "artifact": "client.js: one try for the rejection, one if for the refusal"
+    }
+  },
+  "session-4-2/fig2-diagnosis": {
+    "composition": "CurriculumDiagram",
+    "fig": 2,
+    "alt": "Three diagnoses for a fetch in Node: a forgotten await, an unhandled rejection that exits the process, and await used outside an async function",
+    "caption": "Symptom, cause, fix: a receipt printed as a value, a rejection nobody held, a parser that refused the file.",
+    "props": {
+      "session": "4.2",
+      "title": "Three ways the waiting breaks",
+      "mode": "diagnosis",
+      "nodes": [
+        [
+          "Forgot await",
+          "Promise { <pending> } where a value should be; response.ok is undefined"
+        ],
+        [
+          "Unhandled rejection",
+          "TypeError: fetch failed, a stack trace, and exit code 1"
+        ],
+        [
+          "await outside async",
+          "SyntaxError before any line runs; add async to the function"
+        ]
+      ],
+      "artifact": "client.js with the try/catch and async in place; echo $? prints 0"
+    }
+  },
+  "session-4-2/fig3-evidence": {
+    "composition": "CurriculumDiagram",
+    "fig": 3,
+    "alt": "Three terminal transcripts from client.js: a 200 with a body, a 404 with ok false, and a rejected fetch after the server was stopped",
+    "caption": "Same first line every time. Only the second line knows how the request ended.",
+    "props": {
+      "session": "4.2",
+      "title": "Three transcripts, one client",
+      "mode": "evidence",
+      "nodes": [
+        [
+          "Run one: answered",
+          "pending, then answered: 200 The door is open., then result: ok"
+        ],
+        [
+          "Run two: said no",
+          "pending, then said no: 404, then result: said no (404)"
+        ],
+        [
+          "Run three: no response",
+          "pending, then no response: fetch failed, then result: no response"
+        ]
+      ],
+      "artifact": "NOTES.md in guild-door: three predictions, three transcripts, the pattern by hand"
     }
   },
   "session-4-3/fig1-model": {
