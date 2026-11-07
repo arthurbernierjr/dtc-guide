@@ -5,7 +5,7 @@ const S = require('../sources.config');
 const U = require('../util');
 const { renderMarkdown } = require('../parsers/markdown');
 const { renderDoc, sourceCard } = require('../render/doc');
-const { chip, icon } = require('../render/components');
+const { chip, icon, callout } = require('../render/components');
 
 const HOLT_REPO = 'https://github.com/btholt/complete-intro-to-computer-science';
 const HOLT_SITE = 'https://btholt.github.io/complete-intro-to-computer-science';
@@ -78,6 +78,13 @@ async function renderHoltPage(ctx, page) {
 
   // Personal asides: drop paragraphs that are about Brian personally (photos already dropped).
   let html = r.html.replace(/<p>\s*<\/p>/g, '');
+  // An optional editorial note above a lesson (content/overrides/holt/<slug>.note.md): the lesson text stays
+  // verbatim; the note ties it to the path session that assigns it. No headings or fences, so the facts hold.
+  const noteFile = path.join(S.OVERRIDES, 'holt', `${slug}.note.md`);
+  if (U.exists(noteFile)) {
+    const note = await renderMarkdown(U.read(noteFile), { stripFrontmatter: true, dropH1: false });
+    html = callout('editorial', 'Read with the path', note.html) + html;
+  }
   const csCount = (html.match(/class="cs-link"/g) || []).length;
   const videoCount = (html.match(/<video/g) || []).length;
   const fm = r.frontmatter || {};

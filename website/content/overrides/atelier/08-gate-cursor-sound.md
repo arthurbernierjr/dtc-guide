@@ -6,11 +6,25 @@ exec: n/a
 verified_note: "Gate, cursor, and mute rules were read from both gift stylesheets. The cursor is limited to fine pointers."
 docs:
   - https://developer.mozilla.org/en-US/docs/Web/CSS/@media/hover
+changes:
+  - "2026-11-07: a Read this first paragraph marks the gate, cursor and sound as optional polish on the Unit 2 deliverable, and a four-row dependency list names the CSS you can write now, the JavaScript event each effect needs, and the session (3.5 or 3.6) that teaches it."
+  - "2026-11-07: Write the gate shell gains a numbered keyboard-only walkthrough with the expected focus ring after each step, the tabindex of -1 and .focus() hand-off to the first heading, Escape doing nothing, and what a screen reader announces."
 ---
 
 # Gate, cursor, and sound
 
 ## The welcome gate
+
+**Read this first.** The page without any of these effects is already the deliverable of Unit 2: the character sheet from [2.5](/path/2-5-the-character-sheet-forge/) ships with no gate, no custom cursor and no sound, and loses nothing. The gate, the cursor and the mute button are optional polish, and each one is two halves. The CSS half, the classes and the stylesheet rules on this page, is this unit's and you can write it now. The JavaScript half, the click that adds the class, the `transitionend` that hides the gate, the line that moves focus, and the `play()` that may only run after a user gesture, is unlocked in [3.5](/path/3-5-casting-on-the-world/) (Casting on the World) and [3.6](/path/3-6-the-arena/) (The Arena). Until then, write the classes and leave the page ungated.
+
+| Effect | CSS you can write now | JavaScript event it needs | Session that teaches it |
+|---|---|---|---|
+| The gate opens on Enter | `.gate`, the ring, `.gate.is-leaving` fading and scaling | a `click` listener that does `classList.add("is-leaving")` | 3.5, events and `classList` |
+| The gate is removed after the fade | the `opacity` and `transform` transition on `.gate` | `transitionend`, then set `hidden` (the moment 2.4 said could wait) | 3.5, the event object |
+| Focus lands inside the page | a visible `:focus-visible` ring on the first heading | `heading.focus()` on an element with `tabindex="-1"` | 3.5, `.focus()` after a submit |
+| Sound starts, and the mute button toggles it | `.mute-btn`, `.active`, `.muted` | `audio.play()` inside the same click handler, never on load | 3.6, one click driving a run of state changes |
+
+The cursor is the fifth piece and the one to leave for last: its CSS is the two elements and the fine-pointer query below, and its script is a `mousemove` listener, the same `addEventListener` from 3.5 with a different event name.
 
 xoxoshayla's `.gate` is `position: fixed; inset: 0; z-index: 2000`, a grid that centers its content. A video or poster sits behind it, `object-fit: cover`, darkened with `filter: brightness(.4)`. A scrim gradient sits above the video and under the type. The enter control is a pill with a ring: `::before` is a larger rounded border, animated with `gate-ring` so it breathes. `.gate.is-leaving` fades and scales to `1.02`, then the script sets `hidden`. `.gated .nav` is invisible until the gate is gone, so the nav does not flash behind it.
 
@@ -37,3 +51,14 @@ A gate at `z-index: 2` loses to a nav at `z-index: 100`, so the door never cover
 ## Write the gate shell
 
 Build the fixed gate: poster, scrim, eyebrow, title, one enter pill. Clicking enter adds `.is-leaving` and then hides the gate. Do not add a custom cursor unless you also add the fine-pointer query and `pointer-events: none`. A mute button can be a second step. Sound stays off until that click.
+
+Then test the gate with the mouse unplugged. Each step says where the focus ring should be when the step ends.
+
+1. Load the page. Nothing is focused yet; the ring is nowhere. The gate covers the nav, so there is nothing else to reach.
+2. Press Tab. The ring is on the Enter pill, because it is a `<button>` and the only focusable thing inside the gate. If the ring lands on a nav link instead, the nav is reachable behind the door: put `visibility: hidden` on `.gated .nav`, not only `opacity: 0`, because opacity leaves links in the tab order.
+3. Press Enter. The click handler adds `.is-leaving`, the fade runs, and `transitionend` sets `hidden`. The ring vanishes with the button; a removed button cannot hold focus, and if the script does nothing more, focus falls back to the body and the next Tab starts from the top of the document.
+4. So the same handler ends with `document.querySelector("h1").focus()`, on an `h1` that carries `tabindex="-1"`. The ring is now on the page's first heading. Minus one means scriptable but not in the Tab order, so the heading is never a tab stop on its own; it only receives focus when the gate hands it over.
+5. Press Escape before entering, on a fresh load. Nothing happens and the ring stays on the Enter pill. The gate is a front door, not a dialog, and there is no close.
+6. Press Tab once more after entering. The ring moves from the heading to the first link in the nav, which is now visible. That is the whole proof: Tab, Enter, heading, nav, in that order, with a ring you can see at every stop.
+
+With a screen reader on, step 2 announces "Enter, button" (give the pill real text, not an icon alone); step 4 announces the heading's text and "heading level 1", which tells the listener the door is open and where they are; the mute button, when it exists, announces its `aria-label`, "Mute music" or "Play music", and must change that label with the state.
