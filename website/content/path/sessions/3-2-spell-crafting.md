@@ -47,9 +47,9 @@ Four ideas again, and this time they stack: each one is built from the one befor
 
 ![](diagram:session-3-2/fig1-three-spellings)
 
-A **function declaration** starts with the word `function` and is **hoisted**: the whole thing is registered in the first pass you met last session, so you can call it on a line above the one where it is written. A **function expression** stores a function in a variable, usually a `const`; it is not hoisted, because the variable is in the temporal dead zone until its line. An **arrow function** is the short modern spelling: `(a, b) => a + b`. If the body is a single expression, it is returned without the word `return`. Arrows also have no `this` of their own, which matters a great deal in Session 3.4 and not at all today.
+A **function declaration** starts with the word `function` and is **hoisted**: the whole thing is registered in the first pass you met last session, so you can call it on a line above the one where it is written. A **function expression** stores a function in a variable, usually a `const`; it is not hoisted, because the variable is in the temporal dead zone until its line. That zone is the one 3.1's two passes left behind: pass one registers the name, pass two reaches the line that fills it, and reading the name anywhere between the two throws a `ReferenceError`. An **arrow function** is the short modern spelling: `(a, b) => a + b`. If the body is a single expression, it is returned without the word `return`. Arrows also have no `this` of their own, which matters a great deal in Session 3.4 and not at all today.
 
-Which to use? Declarations for the named, top-level spells in a file. Arrows for everything you pass to something else: callbacks, the little transformers inside `map` and `filter`. Expressions when you need a function in a variable and want the long spelling for some reason, which is rare. **Default parameters** (`name = "Adventurer"`) fill in missing arguments. And the distinction you will trip on this week: `calculateDamage(25, 10)` with parentheses *casts* the spell and gives you `15`; `calculateDamage` without them *refers to* the spell itself, the scroll rather than the fire. You hand scrolls to `map`. You cast fire everywhere else.
+Which to use? Declarations for the named, top-level spells in a file. Arrows for everything you pass to something else, which has a name: a **callback** is a function you hand to another function so that it can call it for you, and the little transformers inside `map` and `filter` are the callbacks you will write most. Expressions when you need a function in a variable and want the long spelling for some reason, which is rare. **Default parameters** (`name = "Adventurer"`) fill in missing arguments. And the distinction you will trip on this week: `calculateDamage(25, 10)` with parentheses *casts* the spell and gives you `15`; `calculateDamage` without them *refers to* the spell itself, the scroll rather than the fire. You hand scrolls to `map`. You cast fire everywhere else.
 
 **Scope is a set of nested rings, and lookups walk outward.** A variable declared outside every function and block is **global**; it is visible everywhere, which is why you want as few of them as possible. A variable declared inside a function is **function-scoped**; it exists only while that function runs. A `let` or `const` inside braces is **block-scoped**; it exists only inside those braces.
 
@@ -77,7 +77,7 @@ There is one more toolset that appears in every modern file you will read, the t
 
 ## The demonstration
 
-Five files, in the order you would write them at the desk. Press **Run** on each and read the output against the code.
+Five files, in the order you would write them at the desk. Press **Run** on each and read the output against the code. Two of these blocks wrap a line in `try { ... } catch (e) { ... }`. That is a way of letting the file keep going after an error, so the block can print the error's name, `e.constructor.name`, instead of stopping on the spot. Session 4.2 teaches it properly; today you only need to read past it.
 
 ### 1. One spell, three spellings
 
@@ -186,7 +186,7 @@ The demo uses `typeof` to probe for `boss` and `dungeonLevel` from outside their
 
 ### 3. Backpacks
 
-The three closures from fig. 3, the loop bug that `let` was invented to fix, and the shape the lab's mana pool will take.
+The three closures from fig. 3, the loop bug that `let` was invented to fix, and the shape the lab's mana pool will take. Part 4 uses a `for` loop before 3.4 teaches loops in full; for today, read `for (let j = 0; j < 3; j++)` as "run the body three times, with `j` counting 0, 1, 2".
 
 ```js run=closures
 'use strict';
@@ -331,9 +331,9 @@ Notice the parentheses around the object in `createHero`: `=> ({ ... })`. Withou
 
 ## Where it breaks
 
-**The missing `return`, in its three costumes.**
+**The missing `return`, in its five costumes.**
 
-Every function hands something back. If you do not say what, it hands back `undefined`, silently, and the bug shows up three lines later as `NaN` in an addition or `[undefined, undefined, undefined]` out of a `map`. It is the most common bug of the week by a wide margin, and it wears three costumes.
+Every function hands something back. If you do not say what, it hands back `undefined`, silently, and the bug shows up three lines later as `NaN` in an addition or `[undefined, undefined, undefined]` out of a `map`. It is the most common bug of the week by a wide margin, and it wears five costumes.
 
 ![](diagram:session-3-2/fig5-missing-return)
 

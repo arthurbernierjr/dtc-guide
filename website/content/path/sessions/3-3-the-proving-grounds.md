@@ -25,13 +25,13 @@ say:
 
 Last session you wrote `spellbook.js`: ten spells, a mana pool that refuses to be overdrawn, and two `filter` queries. Every one of those was written with an example open beside you. That is how a skill starts. It is not how you find out whether the skill is yours. The difference between following a Run block and writing a query from a one-sentence description is the gap most people fall into between Unit 3 and everything after it, and today's session exists to close it on purpose, before the Monster Manual asks you to build a class with nothing to copy.
 
-Today has two halves. The first half adds three small tools with a prediction in front of every Run: destructuring, which pulls values out of an object by name; spread and rest, which copy and gather with the same three dots; and the frequency counter, the `reduce` that counts how many of each kind there are. The second half is the proving grounds: three tiny problems on your own spellbook, set with no scaffolding, with a clear line that says stop and try, and the worked answers only after that line. If they go well, you finish the book's four remaining queries and push it. If they do not, there is a slower route, named in full, that takes you back to the exact section of 3.2 to reread and the exact miniature to redo, and then back here.
+Today has two halves. The first half adds four small tools with a prediction in front of every Run: destructuring, which pulls values out of an object by name; spread and rest, which copy and gather with the same three dots; the copy rules, which say when those dots copy enough and when they do not; and the frequency counter, the `reduce` that counts how many of each kind there are. The second half is the proving grounds: three tiny problems on your own spellbook, set with no scaffolding, with a clear line that says stop and try, and the worked answers only after that line. If they go well, you finish the book's four remaining queries and push it. If they do not, there is a slower route, named in full, that takes you back to the exact section of 3.2 to reread and the exact miniature to redo, and then back here.
 
 > *Every guild has a yard behind the hall where the new recruit swings alone. Nobody corrects the first ten swings. They watch the eleventh.*
 
 ## The idea
 
-Three ideas, and each one is smaller than anything in 3.2. That is deliberate. The load today is not in the ideas. It is in the fact that you will write a prediction before every Run and check it after, and then write three answers with no example in sight.
+Four ideas, and each one is smaller than anything in 3.2. That is deliberate. The load today is not in the ideas. It is in the fact that you will write a prediction before every Run and check it after, and then write three answers with no example in sight.
 
 ### Unpack: destructuring pulls values out by name
 
@@ -47,7 +47,7 @@ Arrays destructure by position instead of by name: `const [first, second] = loot
 
 **Rest** is the same three dots in the other position: on the left of `=` in a destructuring pattern, or as the last name in a parameter list. There it gathers. `function partyUp(leader, ...members)` takes the first argument as `leader` and packs every remaining argument into an array called `members`. `const [mvp, ...bench] = party` takes the first element and packs the rest. Position decides which job the dots do. In a literal they spread. In a pattern or a parameter list they gather.
 
-Here is the first miniature. It is the block you may have seen at the end of 3.2's demonstration, now in the place where it belongs. Before you press Run, write down three predictions on paper: what the first `console.log` prints, what `benchwarmers` holds, and whether `oldParty` has two or three elements after `newParty` is built. Then run it and check each one.
+Here is the first miniature. It is new: 3.2 used the three dots exactly once, to copy an array before sorting it, and this block is their full introduction. Before you press Run, write down three predictions on paper: what the first `console.log` prints, what `benchwarmers` holds, and whether `oldParty` has two or three elements after `newParty` is built. Then run it and check each one.
 
 ```js run=unpack
 'use strict';
@@ -272,7 +272,7 @@ const getAverageDamage = (list, element) => {
 };
 ```
 
-For `'fire'` the chosen spells are Ember 25, Inferno 80 and Flame Wall 45, the total is 150, and the average is `50`. For `'dark'` nothing is chosen and the guard returns `0`. A version without the guard returns `NaN` for `'dark'`, and `NaN` is the third diagnosis below arriving early.
+For `'fire'` the chosen spells are Ember 25, Inferno 80 and Flame Wall 45, the total is 150, and the average is `50`. For `'dark'` nothing is chosen and the guard returns `0`. A version without the guard returns `NaN` for `'dark'`, and `NaN` is the second diagnosis below arriving early.
 
 Problem three. The changed rule is one more condition in the same callback, and the default parameter from 3.2 is what keeps the two-argument call working: `Infinity` is higher than every level, so with no third argument the level test always passes.
 

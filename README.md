@@ -92,6 +92,14 @@ Stills generate wide and tall crops, plus an updated path map. New lessons need 
 - Reviewed all 62 sessions against a learner-state ledger (440 findings); fixed Units 1–4 in place; rewrote 2.5 and Units 5–12 (35 sessions) in the hand-written voice for a solo learner. Names, ports and folders now follow `DESIGN-REFERENCE-RESPAWN.md` §R12.
 - Aligned the guild hall reference build with session 4.15; linked the language tracks and frontend guides as side quests from the Unit 4 API sessions.
 
+## Student-review follow-through — November 7, 2026
+
+- Five independent simulated-student reviews (445 entries, reading-only) were run against the finished build; every verified finding was acted on.
+- Four bridge sessions close the "follow the example to build it alone" gap: 1.5 The Scribe's Hand (shell constructs before the dotfiles script), 3.3 The Proving Grounds (unpacking, copying and counting, then three unscaffolded spellbook problems), 4.2 The Waiting Room (promises and the three outcomes of a fetch before any async route), 9.4 Trial of Patience (the six-problem set as guided practice, with 9.3 now showing a correct sliding-window table first). The path is 66 sessions over 22 weeks; later sessions were renumbered and their figures re-rendered.
+- Unit 11 offers two roads chosen in 11.1: the Noble Houses (investors) and the Village (bootstrap or community project), each with its own quests and evidence; Unit 12 accepts either.
+- Unit 12 carries Unit 10's exact contract (`api/`, `apiBase`, `capstoneToken`, an idempotent seed); Unit 11 arithmetic reconciles; 5.2 and 8.4 accept honest non-findings; 4.11 catches a rejected fetch; Unit 6 shows where you are at the start and close of every session plus a pause checklist; Unit 7 test totals carry a case ledger.
+- Eleven library pages the reviewers scored 2/5 open with a first-visit route, a stop line and the worked example they asked for (the system design primer is now one traced house). Prep-sourced pages and the primer can be overridden under `content/overrides/`, and Holt lessons accept a labelled editorial note.
+
 ## Production launch
 
 The configured canonical origin is `https://guide.bigpoppacode.io` in `website/build/site.config.js`. Confirm the destination before deploying; rebuild if the origin changes. No public deployment, DNS change, TLS setup or social-preview scrape was performed in this pass.
