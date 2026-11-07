@@ -393,7 +393,7 @@ Done means: `npm test` green, every block has a sign-off row, zero open `high` f
 
 ## Completed curriculum verification scope
 
-All 54 scheduled lessons must be published. The registry gate enforces completion, eight teaching beats, word floors, side quests, diagram assets, and navigation. The UI gate visits all 41 newly completed lessons at desktop, tablet, and phone widths and executes their browser checkpoints. No language toolchains are installed by this workflow. Local server, database, provider, and deployment walkthroughs remain manual integration checks; the verification ledger explicitly distinguishes them from executed browser models.
+All 62 scheduled lessons must be published. The registry gate enforces completion, eight teaching beats, word floors, side quests, diagram assets, and navigation. The UI gate visits all 41 newly completed lessons at desktop, tablet, and phone widths and executes their browser checkpoints. No language toolchains are installed by this workflow. Local server, database, provider, and deployment walkthroughs remain manual integration checks; the verification ledger explicitly distinguishes them from executed browser models.
 
 ## 4.6 The Todos contract (backend and frontend guides)
 
