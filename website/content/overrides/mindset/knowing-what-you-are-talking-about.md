@@ -2,7 +2,7 @@
 title: "The Ultimate Guide to Knowing What the Heck You're Talking About"
 lede: "Sixty one-breath definitions — HTML to MapReduce, closures to Discord — so every concept you have touched has a sentence you can say out loud. The original lecture text, refreshed where a tool or version moved on."
 updated_from: "the 2021 MERN & Systems lecture"
-verified: 2026-11-02
+verified: 2026-11-07
 docs:
   - https://nodejs.org/docs/latest-v24.x/api/worker_threads.html
   - https://nodejs.org/docs/latest-v24.x/api/cluster.html
@@ -23,6 +23,9 @@ changes:
   - "\"JavaScript Questions You Should Be Able To Answer\": 12 of the question headings now point at the matching practice page in /languages/javascript/ (plus SOLID and Recursion to their own pages)."
   - "\"Design Systems\": all 23 Gang-of-Four pattern names link to their pattern pages on this site."
   - "\"Build Twitter\" through \"Discord\" each open with a pointer to The Digital Mansion primer, which is the structured version of the same walkthrough."
+  - "A \"Your first visit\" route under the first heading: the twelve entries to read on day one from Session 1.1, a STOP line, and a \"When to come back\" table by unit (4, 6, 9, 10)."
+  - "Every entry the route names, and its neighbours in a shared heading group, carries an italic \"First needed in Session X.Y\" line under the heading, linking the session where the concept first appears on the path; entries that no session builds say so."
+  - "Twenty-six \"So, in short, it's like...\" analogy repeats (and the DNS and PORT \"In summary\" repeats) replaced with one concrete example each: a real command, header, URL, or config line, marked editorial."
 ---
 
 
@@ -44,9 +47,26 @@ changes:
 
 </center>
 
+**Your first visit.** If you came from [Session 1.1](/path/1-1-welcome-to-the-new-world/), this page is not a reading assignment. It is a glossary of sixty entries, and most of them belong to Units 6 and 9. Read these twelve today, in this order, each one breath long: [HTML](#html), [CSS](#css), [JavaScript](#javascript), [Node JS](#node-js), [CRUD](#crud), [REST](#rest), [Client-Server Model](#client-server-model), [IP Address](#ip-address), [PORT](#port), [DNS](#dns), [Databse](#databse), and [Latency and Throughput](#latency-and-throughput). If you already know a better dozen for yourself, read that dozen instead.
+
+**STOP here on day one. Go back to Session 1.1 and keep going.** Every entry below carries an italic line naming the session that first needs it; an entry whose session you have not reached is one you are allowed to skip. The rest of the page comes back to you by unit:
+
+| When to come back | Read these entries |
+|---|---|
+| After Unit 4 (your first API and React app) | [MVC](#mvc), [Consuming an API](#consuming-an-api), [Seperation of Concerns](#seperation-of-concerns), [Component Driven Development](#component-driven-development), [Relational](#relational-databases) vs [Non Relational Databases](#non-relational-databases), [Key-Value Stores](#key-value-stores) |
+| After Unit 6 (the hall behind Nginx on a real machine) | [Proxy](#proxy), [Reverse Proxy](#reverse-proxy), [Nginx](#nginx), [Load Balancer](#load-balancer), [Logging and Monitoring](#logging-and-monitoring) |
+| After Unit 9 (system design) | everything else: the [Cache](#cache) entries, the [Hashing](#hashing) entries, [Replication and Sharding](#replication-and-sharding-note-mongodb-does-this-under-the-hood), [Leader Election](#leader-election), [Rate Limiting](#rate-limiting), [Publish/Subscribe](#publish-subscribe-pattern), [MapReduce](#mapreduce), [Build Twitter](#build-twitter) and the four platforms after it |
+| After Unit 10 (security) | [Secure Hash Algorithms (SHA)](#secure-hash-algorithms-sha) |
+
 ##  HTML
+
+*First needed in [Session 2.1](/path/2-1-the-skeleton-frame/).*
 ##  CSS
+
+*First needed in [Session 2.2](/path/2-2-armor-and-cosmetics/).*
 ##  JavaScript
+
+*First needed in [Session 3.1](/path/3-1-mana-basics/).*
      
 
   Alright, so HTML, CSS, and JavaScript are like the ingredients for a cake. You know how when you're making a cake, you need certain ingredients like flour, sugar, and eggs to make the cake? HTML, CSS, and JavaScript are like those ingredients, but for making websites.
@@ -59,7 +79,7 @@ changes:
   
   Together, HTML, CSS, and JavaScript are used to create the overall look and feel of a website, and make it interactive for users.
   
-  So, in short, HTML, CSS, and JavaScript are like the ingredients for a cake, HTML stands for Hypertext Markup Language, it's like the flour in the cake recipe, it's the structure and content of the website, CSS stands for Cascading Style Sheets, it's like the sugar in the cake recipe, it's the design and layout of the website, JavaScript is like the eggs in the cake recipe, it's the interactive part of the website, Together, HTML, CSS, and JavaScript are used to create the overall look and feel of a website, and make it interactive for users.
+  <span class="editorial-mark" title="refreshed 2026-11-07">Press Ctrl+U on any page and all three are there: `<h1>` is HTML, `style="color: red"` is CSS, and `onclick=` is JavaScript.</span>
 
 ***JS also has an event driven architecture.***
 
@@ -79,6 +99,8 @@ This is also why Brendan Eich is a genius... literally.
 
 ## Node JS
 
+*First needed in [Session 4.1](/path/4-1-the-runtime-beyond-the-browser/).*
+
 ![](/images/nodejs.png)
 
 Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allows developers to run JavaScript on the server side, which was previously only possible on the client side (in web browsers). <span class="editorial-mark" title="refreshed 2026-11-02">Node 24 is the current LTS line; Deno and Bun are the two other server-side JavaScript runtimes you will hear named, and they run the same language with different standard libraries.</span> One of the key characteristics of Node.js is its single-threaded architecture.
@@ -96,29 +118,43 @@ In summary, Node.js's single-threaded architecture is a design choice that allow
 
 ## CRUD: 
 
+*First needed in [Session 4.4](/path/4-4-the-counters-three-laws/).*
+
 CRUD is like a to-do list. You can Create a new task, Read the tasks you already have, Update a task you've already created, and Delete a task you no longer need. It's a basic set of operations that allows you to manage data in a database.
 
 ## REST: 
+
+*First needed in [Session 4.4](/path/4-4-the-counters-three-laws/).*
 
 REST is like a menu at a restaurant. Just like how a menu lists different dishes available at the restaurant, REST defines different endpoints (or "dishes") that are available in a web service. Each endpoint represents a specific resource that can be accessed and manipulated using standard HTTP methods (GET, POST, PUT, DELETE).
 
 ## MVC: 
 
+*First needed in [Session 4.4](/path/4-4-the-counters-three-laws/).*
+
 MVC is like a chef in a kitchen. The chef separates the different aspects of preparing a meal (the model, the view, and the controller) and assigns specific tasks to each aspect. In software development, the model represents the data, the view is the user interface, and the controller handles the logic and communication between the model and the view.
 
 ## Server Side Rendering: 
+
+*First needed in [Session 4.7](/path/4-7-the-paper-ledger/).*
 
 Server-side rendering is like a chef preparing a dish in the kitchen before bringing it out to the customers. The chef (server) prepares the dish (HTML) and then serves it to the customer (browser) who requested it. With server-side rendering, the server generates the HTML for a web page and sends it to the browser, as opposed to the browser generating the HTML.
 
 ## Client Side Rendering: 
 
+*First needed in [Session 4.10](/path/4-10-the-illusionists-primer/).*
+
 Client-side rendering is like a customer ordering a dish at a restaurant and then being able to customize it themselves. The customer (browser) receives the basic ingredients (data) and then prepares the dish (HTML) to their liking. With client-side rendering, the browser receives the data and generates the HTML, as opposed to the server generating the HTML.
 
 ## Consuming an API: 
 
+*First needed in [Session 4.2](/path/4-2-the-waiting-room/).*
+
 Consuming an API is like ordering food at a restaurant. Just like how you would order a dish from a menu, you make a request to an API to retrieve or manipulate data. The API then sends back the appropriate response, just like a server bringing your dish to the table.
 
 ## Seperation of Concerns: 
+
+*First needed in [Session 4.4](/path/4-4-the-counters-three-laws/).*
 ***MVC, Component Driven Development and RESTFUL Routing are all examples of seperation of concerns***
 <center>
 
@@ -136,26 +172,36 @@ Separation of concerns is like a chef having different stations in the kitchen. 
 
 ## Component Driven Development
 
+*First needed in [Session 4.10](/path/4-10-the-illusionists-primer/).*
 
-Component-driven development is like building with LEGOs. Each LEGO piece represents a component, and you can use different components to build different things. Each component has its own function and purpose, and you can easily swap out or reuse components to create different designs. In software development, components are reusable pieces of code that can be used to build different parts of a website or application. By breaking down a website or application into smaller, reusable components, developers can easily build and maintain complex projects. Additionally, component-driven development makes it easy to update and change specific parts of an application without affecting the entire system. It also allows for better collaboration between developers as each component can be worked on by different team members and integrated later. So, in short, component-driven development is like building with LEGOs, it allows for the creation of reusable and modular code that can be easily integrated and updated in a complex project.
+
+Component-driven development is like building with LEGOs. Each LEGO piece represents a component, and you can use different components to build different things. Each component has its own function and purpose, and you can easily swap out or reuse components to create different designs. In software development, components are reusable pieces of code that can be used to build different parts of a website or application. By breaking down a website or application into smaller, reusable components, developers can easily build and maintain complex projects. Additionally, component-driven development makes it easy to update and change specific parts of an application without affecting the entire system. It also allows for better collaboration between developers as each component can be worked on by different team members and integrated later. <span class="editorial-mark" title="refreshed 2026-11-07">In the hall client, `<LetterRow>` is written once and rendered once for every letter in the inbox.</span>
 
 ## How we seperated concerns in the MERN Project
 
 ![MERN architecture](/assets/diagrams/mern-architecture.svg)
 
 ## Client-Server Model
+
+*First needed in [Session 2.1](/path/2-1-the-skeleton-frame/).*
 The client-server model is similar to a game of chess where the client, like the player, makes requests and the server, like the opponent, receives requests and responds, both parties are necessary for the game to progress.
 
 ## IP Address
+
+*First needed in [Session 2.1](/path/2-1-the-skeleton-frame/).*
 An IP address is a unique set of numbers that acts as a digital address for devices on the internet, similar to a street address. It is used to identify and locate devices on a network, and allows them to communicate with each other. There are two types of IP addresses, private and public, with private being used within a network and public being used for external communication.
 
 ## PORT
 
-A port on a computer is like a doorway that provides access to specific services or applications running on the device. Each port corresponds to a specific function and directs different types of internet traffic to the appropriate service or application. For example, port 80 is used for accessing the web<span class="editorial-mark" title="refreshed 2026-11-02"> over plain HTTP</span>, port 25 is used for <span class="editorial-mark" title="refreshed 2026-11-02">sending email between mail servers (SMTP)</span>, and port 443 is used for secure connections<span class="editorial-mark" title="refreshed 2026-11-02"> (HTTPS, which is what almost every site uses now)</span>. In summary, a port is a way for a computer to know where to send and receive data from, it is a doorway to a specific service or application on the device.
+*First needed in [Session 4.3](/path/4-3-the-listening-door/).*
+
+A port on a computer is like a doorway that provides access to specific services or applications running on the device. Each port corresponds to a specific function and directs different types of internet traffic to the appropriate service or application. For example, port 80 is used for accessing the web<span class="editorial-mark" title="refreshed 2026-11-02"> over plain HTTP</span>, port 25 is used for <span class="editorial-mark" title="refreshed 2026-11-02">sending email between mail servers (SMTP)</span>, and port 443 is used for secure connections<span class="editorial-mark" title="refreshed 2026-11-02"> (HTTPS, which is what almost every site uses now)</span>. <span class="editorial-mark" title="refreshed 2026-11-07">`http://localhost:4100/api/inbox` names the port in the URL; `https://github.com` does not, because 443 is the default for `https`.</span>
 
 ## DNS
 
-DNS (Domain Name System) is like a personal navigator for the internet, similar to a friend who knows all the shortcuts in the neighborhood. When a user types a website name into their browser, the computer doesn't know where to find it. It requests help from a DNS server, which acts like a translator, and converts the website name into an IP address that the computer can understand and use to locate the website. In summary, DNS functions like the GPS of the internet, it helps users find the right website by translating the website name into an IP address that the computer can use to locate it.
+*First needed in [Session 2.1](/path/2-1-the-skeleton-frame/).*
+
+DNS (Domain Name System) is like a personal navigator for the internet, similar to a friend who knows all the shortcuts in the neighborhood. When a user types a website name into their browser, the computer doesn't know where to find it. It requests help from a DNS server, which acts like a translator, and converts the website name into an IP address that the computer can understand and use to locate the website. <span class="editorial-mark" title="refreshed 2026-11-07">`nslookup github.com` prints the IP addresses that name resolves to right now; that answer came from DNS.</span>
 
 ## IP Packets
 
@@ -166,6 +212,8 @@ DNS (Domain Name System) is like a personal navigator for the internet, similar 
 In summary, IP (Internet Protocol) is a unique set of numbers that acts as a digital address for devices on the internet, similar to a street address. It is used to identify and locate devices on a network and allows them to communicate with each other. TCP (Transmission Control Protocol) is responsible for ensuring that data is transmitted to the correct destination and in the correct order. HTTP (Hypertext Transfer Protocol) is the standard language used for transferring data on the web and is used by browsers and websites to communicate with each other. HTTPS (Hypertext Transfer Protocol Secure) is an enhanced version of HTTP that encrypts data in transit, providing an added layer of security for online communications. Together, these protocols allow devices to communicate and access information on the internet.
 
 ## Databse
+
+*First needed in [Session 4.5](/path/4-5-the-vault/).*
 
 A database is a collection of organized and stored information that can be easily accessed and understood by computers. It functions like a large notebook where important information is recorded and stored in one place. This information can be searched and accessed, much like flipping through a notebook to find a specific note or contact. Databases are used to store and organize information, making it easily accessible for computers.
 
@@ -180,6 +228,8 @@ Persistent storage, in a computer, is similar to keeping items in a attic. Just 
 Blob storage can be thought of as a digital warehouse. Just like how a warehouse stores and organizes physical goods, blob storage stores and organizes large amounts of digital data such as video, audio, and image files. The data is stored in "blobs" (binary large objects) and can be easily accessed, retrieved, and managed. Each blob can be labeled and categorized, similar to how goods in a warehouse are labeled and organized on shelves. Blob storage provides a secure and efficient way to store and access large amounts of digital data, much like a warehouse does for physical goods. Amazon s3, cloudinary, google cloud all provide blob storage very few places setup their own blob storage.
 
 ## Latency and Throughput
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
 
 ![](/images/latency.jpg)
 
@@ -212,6 +262,8 @@ So, in short:
 
 
 ## Cache
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
      
 ![](/images/cache.jpg)
 
@@ -221,9 +273,11 @@ So, in short:
   
   For example, when you visit a website, your browser stores a copy of the webpage in the cache, so the next time you visit the same website, the browser can grab the cached version, which loads faster than fetching the page again.
   
-  So, in short, a cache is like a stash, it's a temporary storage area where a computer or a network device stores frequently accessed data, it's a way of speeding up the access to data by keeping a copy of it in a location that is faster to access than the original source.
+  <span class="editorial-mark" title="refreshed 2026-11-07">The response header `Cache-Control: max-age=31536000` is a server telling your browser it may keep that file for a year.</span>
     
 ## Cache Hit
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
   
   A cache hit, it's like when you go to your stash and find exactly what you're looking for. You know when you go to your stash and the toy or snack you wanted is right there, waiting for you? A cache hit is like that, but for computers.
   
@@ -231,9 +285,11 @@ So, in short:
   
   For example, when you visit a website, your browser looks for the webpage in its cache. If it finds the cached version of the page, it's a cache hit, and the page loads faster.
   
-  So, in short, a cache hit is like when you go to your stash and find exactly what you're looking for, it's when a computer or a network device looks for data in its cache, and it finds the data it needs, it's a quick and efficient way to access the data because the computer doesn't have to go through the process of fetching it again from the original source.
+  <span class="editorial-mark" title="refreshed 2026-11-07">Reload a page with the DevTools Network tab open: a row whose Size column says `(memory cache)` or `(disk cache)` is a hit.</span>
   
 ## Cache Miss
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
     
   
   A cache miss, it's like when you go to your stash and the toy or snack you wanted isn't there. You know when you go to your stash and the toy or snack you wanted is not there? A cache miss is like that, but for computers.
@@ -242,9 +298,11 @@ So, in short:
   
   For example, when you visit a website, your browser looks for the webpage in its cache. If it doesn't find the cached version of the page, it's a cache miss, and the browser has to fetch the page again from the original source.
   
-  So, in short, a cache miss is like when you go to your stash and the toy or snack you wanted isn't there, it's when a computer or a network device looks for data in its cache, but it doesn't find the data it needs, it happens when the data the computer is looking for is not in the cache, so the computer has to go through the process of fetching it again from the original source.
+  <span class="editorial-mark" title="refreshed 2026-11-07">The first time you ever load a site, every row in that Network tab is a miss and the Size column shows real kilobytes.</span>
   
 ##  Cache Eviction Policy
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
     
   
   Alright, so a cache eviction policy, it's like how you decide what to keep and what to throw away in your stash. You know how when your stash gets full, you have to decide what to keep and what to throw away? A cache eviction policy is like that, but for computers.
@@ -254,9 +312,11 @@ So, in short:
   For example, a common cache eviction policy is the Least Recently Used (LRU) policy, it removes the data that hasn't been used for the longest time, it's like when you haven't played with a toy for a while, you might decide to throw it away or give it to someone else.
   Another example is the Least Frequently Used (LFU) policy, it removes the data that has been accessed less often, it's like when you haven't eaten a snack for a while, you might decide to throw it away or give it to someone else.
   
-  So, in short, a cache eviction policy is like how you decide what to keep and what to throw away in your stash, it's a set of rules that a computer or a network device uses to decide which data to keep in its cache and which data to remove.
+  <span class="editorial-mark" title="refreshed 2026-11-07">In Redis the policy is one config line, `maxmemory-policy allkeys-lru`: when memory is full, drop the key that was used longest ago.</span>
   
 ##  Content Delivery Network
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
     
   
   Alright, so a Content Delivery Network (CDN) is like a team of helpers for your delivery business. You know how when you run a delivery business, you got a team of helpers that work together to get the packages to the customers on time? A CDN is like that, but for the internet.
@@ -265,13 +325,23 @@ So, in short:
   
   For example, when a user in New York wants to access a website hosted in California, instead of the user connecting to the website's main server in California, the user will connect to a server in a nearby location, like New York, that is part of the CDN. This helps to reduce the time it takes to access the website, and it also helps to reduce the load on the main server.
   
-  So, in short, a Content Delivery Network (CDN) is like a team of helpers for your delivery business, it's a network of servers that are strategically placed around the world, these servers work together to deliver content, like web pages, images, videos, and other files, to users faster and more efficiently.
+  <span class="editorial-mark" title="refreshed 2026-11-07">Open `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js`: that file is handed to you by a Cloudflare server near you, not by one origin machine.</span>
   
 ##  Proxy
+
+*First needed in [Session 6.2](/path/6-2-the-gatekeeper/).*
 ##  Forward Proxy
+
+*First needed in [Session 6.2](/path/6-2-the-gatekeeper/), as the contrast to the reverse proxy you configure there.*
 ##  Reverse Proxy
+
+*First needed in [Session 6.2](/path/6-2-the-gatekeeper/).*
 ##  Nginx
+
+*First needed in [Session 6.2](/path/6-2-the-gatekeeper/).*
 ##  Load Balancer
+
+*First needed in [Session 6.2](/path/6-2-the-gatekeeper/), where Nginx stands in front of the hall; named as a load balancer in [Session 9.5](/path/9-5-grand-architecture/).*
 
 ![](/images/forwardproxy.png)
   
@@ -295,9 +365,11 @@ So, in short:
   
   For example, if a website has many visitors, the load balancer will distribute the incoming traffic among multiple servers that host the website, this ensures that the website's performance is not affected by the high traffic and the visitors get the content fast.
   
-  So, in short, a load balancer is a device or a software that sits in front of multiple servers, and it directs incoming traffic to the appropriate server, it helps to ensure that the servers are not overloaded, and that the traffic is distributed evenly, it helps to improve the performance of the website, and the visitors get the content fast.
+  <span class="editorial-mark" title="refreshed 2026-11-07">In Nginx, an `upstream hall { server 127.0.0.1:4100; server 127.0.0.1:4101; }` block and a `proxy_pass http://hall;` line is a load balancer in two lines.</span>
   
 ##  Server-Selection Strategy
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
     
   
   Alright, so there are different ways that a load balancer can decide which server to send the traffic to, these are called server-selection strategies.
@@ -310,9 +382,11 @@ So, in short:
   
   Weighted Round Robin is like choosing based on a person's preference. You know how when you're choosing who to play with, you choose based on a person's preference? Weighted Round Robin is like that, but for servers. The load balancer chooses the server based on a predefined weight assigned to each server.
   
-  So, in short, load balancers use different server-selection strategies to decide which server to send the traffic to, these strategies include: Round Robin, Least Connections, IP Hash, and Weighted Round Robin.
+  <span class="editorial-mark" title="refreshed 2026-11-07">Nginx's default is round robin; one line, `least_conn;`, inside the `upstream` block switches it to least connections.</span>
   
 ##  HotSpot
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
     
   
   Alright, a HotSpot is like a bottleneck in your delivery business. You know how when you run a delivery business and one of your drivers gets stuck in traffic, it slows down all the other deliveries? A HotSpot is like that, but for servers.
@@ -321,9 +395,11 @@ So, in short:
   
   To avoid HotSpots, load balancers can use different server-selection strategies, or they can use health checks to monitor the servers and redirect the traffic to a different server if one server is not able to handle the traffic. Regular monitoring and maintenance of the servers can also help to prevent HotSpots.
   
-  So, in short, a HotSpot is like a bottleneck in your delivery business, it's a situation where a single server in a load-balanced environment receives a disproportionate amount of traffic, it can cause the server to slow down, crash or even cause a failure in the service, to avoid HotSpots, load balancers can use different server-selection strategies, or they can use health checks to monitor the servers and redirect the traffic to a different server if one server is not able to handle the traffic, regular monitoring and maintenance of the servers can also help to prevent HotSpots.
+  <span class="editorial-mark" title="refreshed 2026-11-07">If IP hash sends every member on one office network to the same server, that server is the hot spot while the other sits idle.</span>
   
 ##  Hashing
+
+*First needed in [Session 4.9](/path/4-9-seals-and-signets/), where bcrypt hashes the first password.*
     
   
   Alright, so a Hashing Algorithm is like a secret recipe for your cookies. You know how when you make cookies, you have a secret recipe that you follow to make sure they turn out perfect every time? A Hashing Algorithm is like that, but for computers.
@@ -334,9 +410,11 @@ So, in short:
   
   There are different types of Hashing Algorithms such as MD5, SHA-1, SHA-2 and SHA-3. Each one of them has its own way of encrypting the data and level of security.
   
-  So, in short, a Hashing Algorithm is like a secret recipe for your cookies, it's a mathematical function that takes an input (or 'message') and returns a fixed-size string of characters, the same input will always produce the same hash, but even a small change to the input will produce a very different hash, it's a way of encrypting data and keep it secure, there are different types of Hashing Algorithms such as MD5, SHA-1, SHA-2, and SHA-3, each one of them has its own way of encrypting the data and level of security.
+  <span class="editorial-mark" title="refreshed 2026-11-07">`echo -n hello | sha256sum` prints the same 64 hex characters every time; `echo -n hellp | sha256sum` prints 64 completely different ones.</span>
   
 ##  Consistent Hashing
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/); it is interview vocabulary that no session builds.*
     
   
   Alright, so consistent hashing is like using a master key for your deliveries. You know how when you run a delivery business, you have a master key that can open all the locks, so you don't have to keep switching keys for each delivery? Consistent Hashing is like that, but for servers.
@@ -345,9 +423,11 @@ So, in short:
   
   For example, if you have a system that needs to distribute requests among 10 servers, with consistent hashing, instead of re-mapping all requests to new servers when one server goes down or when new servers are added, only a fraction of the requests would need to be remapped.
   
-  So, in short, consistent Hashing is like using a master key for your deliveries, it's a method of distributing requests to servers in a distributed system, it's a way to distribute requests among servers in a way that is less sensitive to changes in the number of servers, it works by assigning each server a unique hash value, and then mapping the requests to the server with the closest hash value.
+  <span class="editorial-mark" title="refreshed 2026-11-07">With ten cache servers and plain `hash(key) % 10`, adding an eleventh moves about nine keys in ten; with consistent hashing about one in eleven moves.</span>
   
 ##  Rendevous Hashing
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/); it is interview vocabulary that no session builds.*
     
   
   Alright, so Rendezvous Hashing is like using a master list for your deliveries. You know how when you run a delivery business, you have a master list of all the addresses, so you know exactly where to deliver the packages? Rendezvous Hashing is like that, but for servers.
@@ -356,9 +436,11 @@ So, in short:
   
   For example, if you have a system that needs to distribute requests among 10 servers, some with more capacity than others, with Rendezvous Hashing, you can assign more weight to servers with more capacity, and requests will be distributed accordingly, ensuring that servers with less capacity are not overloaded while the servers with more capacity will have less load.
   
-  So, in short, Rendezvous Hashing is like using a master list for your deliveries, it's a method of distributing requests to servers in a distributed system, it works by assigning a weight to each server, based on its capacity, and then mapping the requests to the server with the highest weight for that specific request, it's more suited for systems where servers have different capacity, by assigning more weight to servers with more capacity, it ensures that servers with less capacity are not overloaded while the servers with more capacity will have less load.
+  <span class="editorial-mark" title="refreshed 2026-11-07">For each key, score every server with `hash(key + serverName)` and pick the highest score; that one line is the whole algorithm.</span>
   
 ##  Secure Hash Algorithms (SHA)
+
+*First needed in [Session 10.1](/path/10-1-barrier-magic/); the JWT you signed in [Session 4.9](/path/4-9-seals-and-signets/) already uses one, since HS256 is an HMAC over SHA-256.*
     
   
   Alright, so Secure Hashing Algorithm (SHA) is like using a secret recipe for your cookies, but the recipe is super secure. You know how when you make cookies, you have a secret recipe that you follow to make sure they turn out perfect every time? A Secure Hashing Algorithm is like that, but for computers and it's super secure.
@@ -367,11 +449,15 @@ So, in short:
   
   For example, when you create a password, the computer uses a Secure Hashing Algorithm to encrypt it, so even if someone gets access to the password, they wouldn't be able to know the actual password. It is also used for digital signature, to ensure that the message is not tampered with during the transmission and for file integrity validation, to check if the file is corrupted or not.
   
-  So, in short, Secure Hashing Algorithm (SHA) is like using a secret recipe for your cookies but the recipe is super secure, it's a type of Hashing Algorithm that is used to encrypt data and keep it secure, it's considered to be more secure than other types of Hashing Algorithms, it's widely used in various applications like password storage, digital signature, and file integrity validation.
+  <span class="editorial-mark" title="refreshed 2026-11-07">`git log` shows one: every commit id is the SHA-1 of the commit's contents, and a release page that lists a SHA-256 beside each download lets you check the file was not altered.</span>
   
 ##  Relational Databases 
+
+*First needed in [Session 4.5](/path/4-5-the-vault/).*
 ## VS
 ##  Non Relational Databases
+
+*First needed in [Session 4.5](/path/4-5-the-vault/).*
     
   
   Alright, so a Relational Database is like a family tree. You know how when you have a family tree, it shows you how everyone is related to each other? A Relational Database is like that, but for data.
@@ -382,9 +468,11 @@ So, in short:
   
   A Non-Relational Database is a type of database that stores data in a format that is not organized into tables with rows and columns. It's more flexible and allows for data to be stored in a variety of formats, such as JSON or BSON. It's like a big box of memories that can store different types of data in no specific order.
   
-  So, in short, a Relational Database is like a family tree, it organizes data into tables, with rows and columns, each table has a unique key, called the primary key, that is used to link it to other tables, a Non-Relational Database is like a big box of memories, it stores data in a format that is not organized into tables with rows and columns, it's more flexible and allows for data to be stored in a variety of formats, such as JSON or BSON, it can store different types of data in no specific order.
+  <span class="editorial-mark" title="refreshed 2026-11-07">`SELECT * FROM users JOIN orders ON orders.user_id = users.id` is relational; `db.users.find({ name: 'Sera' })` returning one JSON document is not.</span>
   
 ##  Key-Value Stores
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/); read it after [Session 4.5](/path/4-5-the-vault/), because it is MongoDB's simpler cousin.*
     
   
   Alright, so a Key-Value Store is like a key-lock storage unit. You know how when you rent a storage unit, you get a key and you use it to open the unit and store your stuff? A Key-Value Store is like that, but for data.
@@ -395,9 +483,11 @@ So, in short:
   
   Key-Value Stores are highly scalable and can handle large amounts of data quickly and efficiently. They're often used in cases where the data structure is simple, and the primary concern is quick lookups and data retrieval.
   
-  So, in short, a Key-Value Store is like a key-lock storage unit, it's a type of NoSQL database that stores data in the form of key-value pairs, similar to a dictionary, each piece of data is stored with a unique key that is used to retrieve it, it's highly scalable and can handle large amounts of data quickly and efficiently, it's often used in cases where the data structure is simple, and the primary concern is quick lookups and data retrieval.
+  <span class="editorial-mark" title="refreshed 2026-11-07">In Redis, `SET session:abc123 '{"user":42}'` and then `GET session:abc123` is the whole API.</span>
   
 ##  Replication and Sharding (Note MongoDB does this under the hood)
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
     
   ![](/images/replicationandsharding.png)
 
@@ -409,9 +499,11 @@ So, in short:
   
   Sharding is the process of breaking down a large amount of data into smaller chunks and distributing them across multiple servers. It helps to improve the performance and scalability of the system by distributing the load across multiple servers.
   
-  So, in short, Replication is like making copies of your delivery routes, it's the process of creating multiple copies of the same data and distributing them across multiple servers, it helps to improve the availability and reliability of the system. Sharding is like breaking down your deliveries into smaller packages, it's the process of breaking down a large amount of data into smaller chunks and distributing them across multiple servers, it helps to improve the performance and scalability of the system by distributing the load across multiple servers.
+  <span class="editorial-mark" title="refreshed 2026-11-07">A MongoDB Atlas free cluster is already a three-member replica set; `rs.status()` in `mongosh` lists the primary and the two copies.</span>
   
 ##  Leader Election
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/); it is interview vocabulary that no session builds.*
     
   
   Alright, so Leader Election is like choosing a leader for your group project. You know how when you're working on a group project, you have to choose a leader to make sure everyone is on the same page? Leader Election is like that, but for servers.
@@ -422,7 +514,7 @@ So, in short:
   
   There are different algorithms that can be used to elect a leader, such as the Bully Algorithm or the Paxos Algorithm.
   
-  So, in short, Leader Election is like choosing a leader for your group project, it's the process of selecting a single server to be the leader among a group of servers, this leader server is responsible for coordinating and managing the other servers in the group. There are different algorithms that can be used to elect a leader, such as the Bully Algorithm or the Paxos Algorithm.
+  <span class="editorial-mark" title="refreshed 2026-11-07">In that same replica set, if the primary dies the remaining members vote and one becomes primary within seconds; that vote is leader election.</span>
   
 ##  Peer to Peer Networks
     
@@ -433,9 +525,11 @@ So, in short:
   
   For example, in a P2P file-sharing network, each node can share and download files from other nodes, instead of relying on a central server. In a P2P network, each node is responsible for maintaining the data and security of its own network.
   
-  So, in short, a Peer-to-Peer (P2P) network is like a group of friends sharing music files, it's a type of network where each computer, or node, has the same capabilities and responsibilities, there is no central server controlling the network, and all nodes can act as both clients and servers, for example, in a P2P file-sharing network, each node can share and download files from other nodes, instead of relying on a central server, in a P2P network, each node is responsible for maintaining the data and security of its own network.
+  <span class="editorial-mark" title="refreshed 2026-11-07">BitTorrent is one: a `magnet:?xt=urn:btih:...` link names a file by its hash, and every computer holding a piece serves it to the others.</span>
   
 ##  Rate Limiting
+
+*First needed in [Session 10.2](/path/10-2-sealed-gates/).*
     
   
   Alright, so Rate Limiting is like setting a speed limit on the highway. You know how when you're driving on the highway, there's a speed limit to make sure everyone is driving safely? Rate Limiting is like that, but for requests.
@@ -446,7 +540,7 @@ So, in short:
   
   There are various ways to implement rate limiting, such as token bucket, leaky bucket and fixed window algorithms.
   
-  So, in short, Rate Limiting is like setting a speed limit on the highway, it's the process of controlling the rate at which a service is accessed, it's a way to prevent one user or service from overloading the system by making too many requests. For example, in a web application, rate limiting can be used to prevent a single user from making too many requests to the server in a short period of time, which can cause the server to crash, it can also be used to prevent a malicious user from launching a Distributed Denial of Service (DDOS) attack by overwhelming the server with too many requests, there are various ways to implement rate limiting, such as token bucket, leaky bucket and fixed window algorithms.
+  <span class="editorial-mark" title="refreshed 2026-11-07">GitHub's API answers every call with `X-RateLimit-Remaining: 59`, and when that reaches zero you get a `403` until the `X-RateLimit-Reset` time.</span>
   
   Alright, so there are different ways to set speed limits on the highway, just like there are different ways to implement rate limiting.
   
@@ -456,9 +550,11 @@ So, in short:
   
   The Fixed Window algorithm is like the police monitoring the speed limit for a certain period of time, like a hour. They keep track of the number of speeders caught during that time and if it exceeds a certain threshold, they take action. Similarly, in this algorithm, requests are tracked over a fixed period of time, and if they exceed a certain threshold, they are blocked.
   
-  So, in short, there are different ways to set speed limits on the highway, just like there are different ways to implement rate limiting, Token Bucket algorithm is like giving each driver a certain number of tokens, like a certain number of speeding tickets, each time a driver exceeds the speed limit, they lose a token, if they don't have any more tokens, they get pulled over by the police. Leaky Bucket algorithm is like the police catching speeders and putting them in a bucket, the bucket has a certain capacity and the police
+  <span class="editorial-mark" title="refreshed 2026-11-07">`express-rate-limit` with `{ windowMs: 15 * 60 * 1000, limit: 100 }` is a fixed window: a hundred requests per IP per fifteen minutes, then `429`.</span>
   
 ##  Logging and Monitoring
+
+*First needed in [Session 6.2](/path/6-2-the-gatekeeper/), where pm2 and the Nginx logs are the first tools.*
     
   
   Alright, so logging and monitoring is like keeping a diary and checking in on your progress. You know how when you're working on a project, you keep a diary to keep track of your progress and check in on it from time to time? Logging and monitoring is like that, but for computer systems.
@@ -469,9 +565,11 @@ So, in short:
   
   For example, in a web application, logging can be used to record information about requests, errors and performance, while monitoring can be used to check the usage of resources such as CPU, memory, and network.
   
-  So, in short, logging and monitoring is like keeping a diary and checking in on your progress, logging is the process of recording information about a system's activity, such as events, errors, and performance data, it's like keeping a diary of what you did, when you did it, and how it went, this information can be later used for troubleshooting, auditing and performance analysis. Monitoring, on the other hand, is the process of continuously checking the status of a system and its components, it's like checking in on your progress to see how you're doing and if everything is working as expected, this information can be used to detect issues early and take corrective actions.
+  <span class="editorial-mark" title="refreshed 2026-11-07">`pm2 logs hall-api --lines 5` is logging; `pm2 list`, with its restart count and memory column, is monitoring.</span>
   
 ##  Publish/Subscribe Pattern
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/); it is interview vocabulary that no session builds.*
     
   
   Alright, so the Publish/Subscribe pattern is like a newspaper delivery service. You know how when you subscribe to a newspaper, the newspaper company delivers the newspaper to you every day? The Publish/Subscribe pattern is like that, but for computer systems.
@@ -482,9 +580,11 @@ So, in short:
   
   For example, in a social media application, a user can "subscribe" to other users' updates and receive their posts, without the need for the users to be directly connected.
   
-  So, in short, The Publish/Subscribe pattern is like a newspaper delivery service, it allows for loose coupling between the publishers and subscribers, meaning that the publishers don't need to know who is subscribed to their messages and the subscribers don't need to know who is publishing them, this allows for a more flexible and scalable system. There are three main components: publishers, subscribers, and a message broker, the publishers are like the newspaper company, they send out messages, the subscribers are like the people who subscribe to the newspaper, they receive the messages and the message broker is like the delivery service, it receives messages from the publishers and delivers them to the subscribers who have expressed an interest in receiving them.
+  <span class="editorial-mark" title="refreshed 2026-11-07">In Redis, one terminal runs `SUBSCRIBE letters` and another runs `PUBLISH letters "the gate is shut"`; the first prints it without either knowing the other exists.</span>
   
 ##  MapReduce
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/); it is interview vocabulary that no session builds.*
     
   
   Alright, so MapReduce is like cooking a big meal for a party. You know how when you're cooking a big meal for a party, you have to do certain tasks like chopping vegetables and then cooking them, then combining them all together? MapReduce is like that, but for big data processing.
@@ -495,7 +595,7 @@ So, in short:
   
   For example, in a search engine, MapReduce can be used to process large amounts of data, such as web pages and their contents, to generate indexes for faster search results.
   
-  So, in short, MapReduce is like cooking a big meal for a party, it's a programming model that allows for the processing of large amounts of data in parallel across a cluster of machines, it consists of two main phases: the map phase and the reduce phase, the map phase is like chopping vegetables, it takes the input data and processes it into a intermediate form. The reduce phase is like cooking and combining the vegetables, it takes the intermediate data and combines it to produce the final output, it allows for the processing of large data sets in parallel by breaking down the data into smaller chunks and processing them on different machines, this allows for a more efficient use of resources and faster processing times.
+  <span class="editorial-mark" title="refreshed 2026-11-07">In JavaScript it is `letters.map(l => l.sender)` followed by a `reduce` that counts, except the map runs on a thousand machines and the reduce gathers their results.</span>
   
 
 
@@ -770,6 +870,8 @@ These design patterns are commonly used in software development to solve common 
 
 ## Build Twitter
 
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
+
 > *Same house, labelled room by room:* [The Digital Mansion primer](/system-design/digital-mansion-primer/) walks this exact design through the eight parts of the mansion.
 
 Designing a system like Twitter from scratch is like building a house from the ground up. You gotta have a plan, and you gotta make sure it's solid.
@@ -803,7 +905,11 @@ So in short, to build a system like Twitter from scratch, we would use technolog
 
 ## Keeping that in mind you can use that framework to explain how to build anything
 
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
+
 ## Myspace
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
 
 > *Same house, labelled room by room:* [The Digital Mansion primer](/system-design/digital-mansion-primer/) walks this exact design through the eight parts of the mansion.
 
@@ -820,6 +926,8 @@ In summary, while the basic architecture of building a system like MySpace and T
 
 
 ## Facebook Messenger
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
 
 > *Same house, labelled room by room:* [The Digital Mansion primer](/system-design/digital-mansion-primer/) walks this exact design through the eight parts of the mansion.
 
@@ -838,6 +946,8 @@ In summary, while the basic architecture of building a system like Facebook mess
 
 ## Instagram
 
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
+
 > *Same house, labelled room by room:* [The Digital Mansion primer](/system-design/digital-mansion-primer/) walks this exact design through the eight parts of the mansion.
 
 Designing a system like Instagram would have similarities as well as some differences compared to building a system like Twitter, MySpace or Facebook Messenger. These include:
@@ -853,6 +963,8 @@ In summary, while the basic architecture of building a system like Instagram wou
 
 
 ## Discord
+
+*First needed in [Session 9.5](/path/9-5-grand-architecture/).*
 
 > *Same house, labelled room by room:* [The Digital Mansion primer](/system-design/digital-mansion-primer/) walks this exact design through the eight parts of the mansion.
 

@@ -442,7 +442,7 @@ flowchart TB
 | SYS-01 | `/system-design/interview-framework/` | The 45-Minute System Design Interview | Playbook | T-ARTICLE | `_scratchbox/prep/system-design/interview-framework.md` | H2s (9): Time budget · Opening script (memorize) · Questions to ask (pick the r… · Code blocks: 0 |
 | SYS-02 | `/system-design/back-of-envelope-numbers/` | Back-of-the-Envelope Numbers | Playbook | T-ARTICLE | `_scratchbox/prep/system-design/back-of-envelope-numbers.md` | H2s (7): Latency numbers every programmer should know (Dean/Norvig, ~2020 revis… · Code blocks: 2 |
 | SYS-03 | `/system-design/solid-principles/` | SOLID and Friends (JS flavored) | Playbook | T-ARTICLE | `_scratchbox/prep/system-design/solid-principles.md` | H2s (3): SOLID · The rest of the vocabulary · In the interview (one breath each) · Code blocks: 12 |
-| SYS-04 | `/system-design/digital-mansion-primer/` | System design primer: building your digital mansion | Playbook | T-ARTICLE | `content/source/system-design/digital-mansion.md` | H2s (5): Keeping that in mind you can use that framework to explain how to buil… · Code blocks: 0 · 8 numbered H3 steps (Introduction → Security) + 5 H2 applications (framework, M… |
+| SYS-04 | `/system-design/digital-mansion-primer/` | System design primer: building your digital mansion | Playbook | T-ARTICLE | `content/source/system-design/digital-mansion.md → content/overrides/system-design/digital-mansion.md` | H2s (5): One request through the house · The numbers that justify each room · The first failure · The room we did not build · Then the big houses · Code blocks: 0 · 8 numbered H3 steps + the big houses as one table |
 | SYS-C01 | `/system-design/concepts/acid-vs-base/` | ACID vs BASE | Concepts | T-ARTICLE | `_scratchbox/prep/system-design/concepts/acid-vs-base.md` | H2s (5): Say this · How it works · Trade-offs · Numbers · In the interview · Code blocks: 2 |
 | SYS-C02 | `/system-design/concepts/api-design-rest-graphql-grpc/` | API Design: REST vs GraphQL vs gRPC | Concepts | T-ARTICLE | `_scratchbox/prep/system-design/concepts/api-design-rest-graphql-grpc.md` | H2s (5): Say this · How it works · Trade-offs · Numbers · In the interview · Code blocks: 2 |
 | SYS-C03 | `/system-design/concepts/api-gateway/` | API Gateway | Concepts | T-ARTICLE | `_scratchbox/prep/system-design/concepts/api-gateway.md` | H2s (5): Say this · How it works · Trade-offs · Numbers · In the interview · Code blocks: 2 |
@@ -3973,12 +3973,12 @@ Each page = its template criteria + the global criteria + the specific items bel
   - [ ] All 3 H2 headings present in source order
 
 #### SYS-04 · `/system-design/digital-mansion-primer/` — System design primer: building your digital mansion
-- **Template:** T-ARTICLE · **Section:** System Design · **Group:** Playbook · **Source:** `content/source/system-design/digital-mansion.md` · **License:** Yours
+- **Template:** T-ARTICLE · **Section:** System Design · **Group:** Playbook · **Source:** `content/source/system-design/digital-mansion.md → content/overrides/system-design/digital-mansion.md` · **License:** Yours
 - **Story:** As a learner, I want the "Digital Mansion" primer so a full system (LB, servers, DB, monitoring, cloud, CDN, security) is one story.
 - **Facts the build must reproduce:**
-  - H2s (5): Keeping that in mind you can use that framework to explain how to build anything · Myspace · Facebook Messenger · Instagram · Discord
+  - H2s (5): One request through the house · The numbers that justify each room · The first failure · The room we did not build · Then the big houses
   - Code blocks: 0
-  - 8 numbered H3 steps (Introduction → Security) + 5 H2 applications (framework, Myspace, Facebook Messenger, Instagram, Discord)
+  - 8 numbered H3 steps (Introduction → Security) carry one traced request through the guild hall; 5 H2s: the trace, the workload numbers, the first failure, the room not built (a decision record), and the big houses as one comparison table
   - 2 external images (dead hosts) are dead → replaced by our own SVG diagram of the 8-part architecture
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
