@@ -24,7 +24,7 @@ say:
 
 ## The hook
 
-Last session you pinned the quests to the board and ranked them. The board is honest, every card knows where it came from, and nothing is in the Sprint 1 column, because moving a card there is a promise and a promise needs a size. Today you put a number on every Must and Should story, and you do it without guessing hours, by comparing each story with something you have already built. The guild hall's login took you one session in 4.8 and again in 4.14. That is a five. A list page that fetches one resource is a two. Everything else is measured against those.
+Last session you pinned the quests to the board and ranked them. The board is honest, every card knows where it came from, and nothing is in the Sprint 1 column, because moving a card there is a promise and a promise needs a size. Today you put a number on every Must and Should story, and you do it without guessing hours, by comparing each story with something you have already built. The guild hall's login took you one session in 4.9 and again in 4.15. That is a five. A list page that fetches one resource is a two. Everything else is measured against those.
 
 Then the backlog becomes a plan with the shape Unit 12 actually has: four sprints, one per session from 12.1 to 12.4, each with the session's hours plus the hours you will really give it before the next one, each with a capacity in points and a visible line for slack. Sprint 1 gets a goal in one sentence and a Definition of Done you can check with your eyes. And because a retrospective is a skill you practise, not a form you fill, you run one tonight on the Unit 7 test suite you finished last week and pick one experiment to carry into Unit 12.
 
@@ -75,7 +75,7 @@ T-shirt sizes are the beginner's scale and Fibonacci points are the one teams us
 | XS | 1 | Under an hour, no unknowns | A Mongoose field with validation; a label change |
 | S | 2 | A few hours, one known shape | A list page that fetches one resource; an owner-scoped `PATCH` with a 404 for other owners |
 | M | 3 | Most of a session | A create form with validation and an error state; a model, its seed, and its first route |
-| L | 5 | A whole session, maybe spilling | Register and login with JWT, as in 4.8 and 4.14; a Supertest suite for the Must routes; deploying to Railway with variables and a domain |
+| L | 5 | A whole session, maybe spilling | Register and login with JWT, as in 4.9 and 4.15; a Supertest suite for the Must routes; deploying to Railway with variables and a domain |
 | XL | none | Too big to estimate | "Build messaging", "add reminders by text" |
 
 An 8 exists on the Fibonacci scale, and you may use it for an L that you know will spill; a 13 is a story that should already have been split; a 21 is a project. XL has no points at all. If you cannot estimate it, you do not understand it yet, and a story you do not understand does not enter a sprint. Split it until each piece has a number. The reminder text in the tutor ledger needs a text-message provider, a scheduler, and a consent flow, three things you have never built; it is XL, and it stays in Could until it is three stories or until Unit 10 changes what you know.
@@ -184,7 +184,7 @@ The sizes table, with the sentence that justifies every number. The story number
 ## Sizes
 | # | story | size | points | why |
 |---|---|---|---|---|
-| 1 | Sign up and log in | L | 5 | Did it in 4.8 and 4.14; still the most lines, two routes, a hash, a token, and a guard. |
+| 1 | Sign up and log in | L | 5 | Did it in 4.9 and 4.15; still the most lines, two routes, a hash, a token, and a guard. |
 | — | Client and Lesson models with a seed | S | 2 | Two models, one ref, a seed script; written four times in Unit 4. |
 | 3 | Log a lesson | M | 3 | A form with a client select, a date, a fee, validation, and an error state. |
 | 4 | Unpaid list | S | 2 | One query with paid = false and owner = me, sorted; a table and an empty state. |

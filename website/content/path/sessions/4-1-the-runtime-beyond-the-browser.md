@@ -71,7 +71,7 @@ Node loads code from files. CommonJS is `require` and `module.exports`. ECMAScri
 
 ## The demonstration
 
-One folder, one manifest, one file. The folder is `~/projects/guild-door`, and it is the project you keep through the rest of this half of the unit: every session up to the seals in 4-8 edits this same folder. From a terminal:
+One folder, one manifest, one file. The folder is `~/projects/guild-door`, and it is the project you keep through the rest of this half of the unit: every session up to the seals in 4-9 edits this same folder. From a terminal:
 
 ```bash
 cd ~/projects
@@ -148,7 +148,7 @@ The log says listening. The browser spins. The handler ran, logged `req.method`,
 
 ## Your turn
 
-Make the door yours. The folder is the one you just made, `~/projects/guild-door`. There is no separate sample and no second folder: this is the project, and sessions 4-2 through 4-8 all build in it.
+Make the door yours. The folder is the one you just made, `~/projects/guild-door`. There is no separate sample and no second folder: this is the project, and sessions 4-3 through 4-9 all build in it.
 
 1. `git init` in `~/projects/guild-door`, then `npm init` and install Express. Confirm `express` is in `dependencies` and that `node_modules` is not something you are about to commit. Add a `.gitignore` with `node_modules` on its own line before the first commit.
 2. Answer `GET /` with your name and the Node version. `process.version` is the string. Send it in the body so you can see it from curl.
@@ -171,7 +171,7 @@ Write a one-page note, `RUNTIME.md`, in the same folder, in your own words. Six 
 - the version of Node you are on, and the version of Express in your lockfile
 - where you would look if an old tutorial disagrees with your error-handling behavior
 
-Then commit the manifest, the lockfile, `server.js`, `.gitignore`, and the note. Do not commit `node_modules`. Create an empty GitHub repository named `guild-door` and push, the way you did in 1-4; do not let GitHub add a README, since the folder already has files. This repository is the door. Every session through 4-8 builds in `~/projects/guild-door`.
+Then commit the manifest, the lockfile, `server.js`, `.gitignore`, and the note. Do not commit `node_modules`. Create an empty GitHub repository named `guild-door` and push, the way you did in 1-4; do not let GitHub add a README, since the folder already has files. This repository is the door. Every session through 4-9 builds in `~/projects/guild-door`.
 
 ## Side quests
 

@@ -26,15 +26,15 @@ say:
 
 Every isekai has the trial: the tournament, the dungeon, the moment the hero proves the skill is real. This is yours. You know the six lines, you know how to show the model your own code and make it list the cases before it writes, and you have an agent installed that edits files on a branch you control. What you do not have is a number. "10x" is the subtitle of this session, and it is the claim made about tools like these on every landing page. Today you measure it on your own hall, with the scope held still, and you write down whatever comes out.
 
-The feature is one you built by hand in 4-14. The demonstration uses the spend flow: `POST /api/pack/spend` with its conditional update, the 409 that leaves the quantity alone, and the control on the pack screen that waits for a 2xx before the number changes. You write the acceptance cases from `HALL.md` before anything else, you delete the feature on a branch named `ai-feature-spend`, and the agent rebuilds it to the same contract while you time five categories, including the review and the repair. When the old cases pass again, the branch is merged into `main`, because Unit 6 deploys `main` and this unit ends with the hall in a state that can be deployed. The retrospective is written with the assistant closed.
+The feature is one you built by hand in 4-15. The demonstration uses the spend flow: `POST /api/pack/spend` with its conditional update, the 409 that leaves the quantity alone, and the control on the pack screen that waits for a 2xx before the number changes. You write the acceptance cases from `HALL.md` before anything else, you delete the feature on a branch named `ai-feature-spend`, and the agent rebuilds it to the same contract while you time five categories, including the review and the repair. When the old cases pass again, the branch is merged into `main`, because Unit 6 deploys `main` and this unit ends with the hall in a state that can be deployed. The retrospective is written with the assistant closed.
 
 > *Any fool can claim a power. The guild wants the spellbook with the timings in the margin.*
 
 ## The idea
 
-A comparison is only as honest as its two ends. The assisted end is easy to measure: a clock and five categories. The unassisted end is the problem, because you built spend three sessions ago and did not time it. There are two honest sources. If you committed as you went in 4-14, `git log --format='%ci %s'` gives timestamps for the commits that touched the pack, and the gap between the first and the last is a baseline with a source. If you did not, you estimate, and you label the estimate as one, with how you arrived at it. An unlabeled guess sitting next to a measured number is how a 1.8x becomes a 10x in the retelling.
+A comparison is only as honest as its two ends. The assisted end is easy to measure: a clock and five categories. The unassisted end is the problem, because you built spend three sessions ago and did not time it. There are two honest sources. If you committed as you went in 4-15, `git log --format='%ci %s'` gives timestamps for the commits that touched the pack, and the gap between the first and the last is a baseline with a source. If you did not, you estimate, and you label the estimate as one, with how you arrived at it. An unlabeled guess sitting next to a measured number is how a 1.8x becomes a 10x in the retelling.
 
-Then hold everything else still. Same acceptance cases, written before the clock starts. Same starting commit, which is why the feature is deleted on a branch rather than rebuilt beside itself. Same definition of done: the cases pass, the diff is read, the explanation is yours, the old breaks were rerun. If the rebuilt version has fewer cases than the original, it is not the same feature and the number means nothing. If the agent reused a design you handed it, say so; a brief that contains the conditional update is a head start the 4-14 version did not have.
+Then hold everything else still. Same acceptance cases, written before the clock starts. Same starting commit, which is why the feature is deleted on a branch rather than rebuilt beside itself. Same definition of done: the cases pass, the diff is read, the explanation is yours, the old breaks were rerun. If the rebuilt version has fewer cases than the original, it is not the same feature and the number means nothing. If the agent reused a design you handed it, say so; a brief that contains the conditional update is a head start the 4-15 version did not have.
 
 Measure elapsed time in five categories: preparation, implementation, review, testing, and repair. Waiting for the agent counts. Reading its diff counts. The follow-up that fixed the 400 it wrote where a 409 belonged counts. The number people quote is the implementation column alone, and that column is the one that makes the tool look like magic. The whole row is the number you keep.
 
@@ -71,7 +71,7 @@ One trial, timed, with the spend flow. Both servers are stopped from last sessio
 ```markdown
 ## 5-4 trial: spend
 
-Baseline: 4-14 commits touching the pack ran from 14:05 to 15:40 by git log, about 95 minutes, including the negative-pack bug I forced on purpose. Source: git log --format='%ci %s' on main.
+Baseline: 4-15 commits touching the pack ran from 14:05 to 15:40 by git log, about 95 minutes, including the negative-pack bug I forced on purpose. Source: git log --format='%ci %s' on main.
 
 Contract (written before the clock):
 1. POST /api/pack/spend with amount that fits: 200, body has the new qty.
@@ -105,7 +105,7 @@ and in the second terminal, with Bran's token in `$BRAN` and a lamp-oil id in `L
 curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4100/api/pack/spend -H "Authorization: Bearer $BRAN" -H 'Content-Type: application/json' -d '{"item":"LAMP_OIL_ID","amount":1}'
 ```
 
-`404`, from the 404 middleware you mounted in 4-2. Commit: `git commit -am "5-4: remove spend for the trial"`. Do the same in `hall-client`, same branch name, deleting the spend control from the pack component and committing. Write the preparation minutes. Expect eight to ten.
+`404`, from the 404 middleware you mounted in 4-3. Commit: `git commit -am "5-4: remove spend for the trial"`. Do the same in `hall-client`, same branch name, deleting the spend control from the pack component and committing. Write the preparation minutes. Expect eight to ten.
 
 **Implementation.** Ctrl-C the server. Start the agent in `hall-api`. The brief carries the contract, because the contract is the specification and the agent should be judged against it, not against what it guesses `spend` means.
 
@@ -234,11 +234,11 @@ The feature works and you cannot say why the filter has `$gte`. The cause is acc
 
 ### Demo-only success
 
-The happy path clicks through on your machine and the cases that failed in 4-14 were never run again. A demo is one input. The cause is treating the scripted click as the finish line. Rerun the original failure, the spend of fifty, the missing amount, the request with no token, and the five message statuses the agent was told not to touch. Write down which of those you actually ran. The branch goes into `main` when the old breaks stay fixed, not when the scripted click succeeds.
+The happy path clicks through on your machine and the cases that failed in 4-15 were never run again. A demo is one input. The cause is treating the scripted click as the finish line. Rerun the original failure, the spend of fifty, the missing amount, the request with no token, and the five message statuses the agent was told not to touch. Write down which of those you actually ran. The branch goes into `main` when the old breaks stay fixed, not when the scripted click succeeds.
 
 ## Your turn
 
-Your trial, on your hall, with the tool from 5-3. Pick one of three features from 4-14, each with a route and a screen: the spend flow from the demonstration, the inbox read with its recipient door plus the inbox list, or the transfer between two accounts plus whatever control you built for it. Pick the one you understand best, because you are the verifier.
+Your trial, on your hall, with the tool from 5-3. Pick one of three features from 4-15, each with a route and a screen: the spend flow from the demonstration, the inbox read with its recipient door plus the inbox list, or the transfer between two accounts plus whatever control you built for it. Pick the one you understand best, because you are the verifier.
 
 1. Write the `## 5-4 trial: <feature>` entry: the baseline with its source (`git log --format='%ci %s'` on `main`, or an estimate labeled as one), the contract as numbered lines taken from `HALL.md`, the scope as function names in each repo, and an empty clock line.
 2. In `hall-api`: `git switch -c ai-feature-<feature>`, delete the handler and its route line, start the server, curl the route, read `404`. Commit the removal. Same in `hall-client` for the control. Write the preparation minutes.

@@ -217,7 +217,7 @@ Open a terminal in the capstone repo.
    node -e "const s = 250000 / 5000000, a = 1000000 / 11000000; console.log((1 - s) * (1 - a), s * (1 - a), a)"
    ```
 
-   Prints `0.8636363636363635 0.045454545454545456 0.09090909090909091`. Founder about 86.4 percent, SAFE about 4.5, Series A about 9.1, and those sum to 100. The SAFE holder is diluted by the round as well.
+   Prints `0.8636363636363635 0.045454545454545456 0.09090909090909091`. Founder about 86.4 percent, SAFE about 4.6, Series A about 9.1, and those sum to 100. The SAFE holder is diluted by the round as well.
 
 3. Scenario C: $150K on a $1M cap against $150K on a $3M cap.
 
@@ -367,7 +367,7 @@ For each term you think is unusual, write one sentence in the "Term sheet read" 
 
 ### Answer key, read after
 
-- **Harmful.** 3x participating liquidation preference. In a $6M sale the investor takes $1.5M first (3 × their $500,000), then takes their 10 percent (of the $5M post-money) of the remaining $4.5M as if they also held common. Standard is 1x non-participating: their money back or their percentage, not both. Negotiate to 1x non-participating; if they will not move, walk, because this term alone can leave founders with little in a modest exit.
+- **Harmful.** 3x participating liquidation preference. In a $6M sale the investor takes $1.5M first (3 × their $500,000), then takes their 10 percent (of the $5M post-money) of the remaining $4.6M as if they also held common. Standard is 1x non-participating: their money back or their percentage, not both. Negotiate to 1x non-participating; if they will not move, walk, because this term alone can leave founders with little in a modest exit.
 - **Harmful.** Full ratchet anti-dilution. If any later round prices lower, their shares reprice to that lower price in full, and the founders absorb all of it. Standard is broad-based weighted average. Negotiate; it is commonly conceded.
 - **Harmful.** Two of three board seats to the investor. You keep a majority of the shares and lose control of the company's decisions. Early boards are usually two founders and one investor, or two founders, one investor, one independent. Negotiate hard; a seed investor insisting on board control is a walk for most founders.
 - **Harmful.** Re-vesting all founder shares from closing. The years you already worked are erased. Normal is to credit earned vesting and apply a schedule only to the unvested remainder. Negotiate; credit for time served is standard.

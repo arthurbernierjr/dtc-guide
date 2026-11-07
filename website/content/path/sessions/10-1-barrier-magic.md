@@ -66,13 +66,13 @@ A MongoDB query is an object, and so is a JSON body. That is the whole of NoSQL 
 
 [Helmet](https://helmetjs.github.io/) is one middleware that sets a bundle of response headers: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Strict-Transport-Security`, `Referrer-Policy`, and a few more. `app.use(helmet())` with no options is the right call for an API that serves JSON. The CSP it sets on a JSON response does not govern your React page, because the page comes from Vite in development and from a static host in production. The page's CSP belongs to whoever serves the page. Do not spend the evening tuning `scriptSrc` on an API.
 
-CORS you already know from 4-11. The origin is `PAGE_ORIGIN` from the environment, a single string, not `*`. A wildcard with credentials is a misconfiguration the browser will refuse anyway, and a wildcard without credentials means any page on the internet can call your API with a stolen token in a header. One origin in development, one in production, both from the environment.
+CORS you already know from 4-12. The origin is `PAGE_ORIGIN` from the environment, a single string, not `*`. A wildcard with credentials is a misconfiguration the browser will refuse anyway, and a wildcard without credentials means any page on the internet can call your API with a stolen token in a header. One origin in development, one in production, both from the environment.
 
 [express-rate-limit](https://express-rate-limit.mintlify.app/) counts requests per key inside a window and answers 429 once the count passes `limit`. The option is `limit`. Older tutorials write `max`, which was the name in version 6, and current versions accept it only as a deprecated alias. Two limiters are enough today: a general one on `/api` with a generous number, and a strict one on `/api/login` and `/api/register` with a number you can hit by hand in a loop. The login limiter is the control for A07. Ten attempts in fifteen minutes is a wall for a script and not a wall for a person who forgot a password twice.
 
 ### Secrets, and the process that refuses to start
 
-The capstone reads `.env` the way every project since 4-5 has: `node --env-file=.env server.js`. There is no package for it. The `dotenv` package you will see in other codebases does the same job from inside the program, with `require('dotenv').config()` as the first line; it is the library alternative, and you only need it when you cannot control the command line, which you can. What you add today is a check that runs before `app.listen`: a short list of required names, a loop that prints `FATAL: missing environment variable X` and exits with code 1 if one is absent. A process that starts without `JWT_SECRET` and signs tokens with `undefined` is a worse outcome than a process that refuses to start.
+The capstone reads `.env` the way every project since 4-6 has: `node --env-file=.env server.js`. There is no package for it. The `dotenv` package you will see in other codebases does the same job from inside the program, with `require('dotenv').config()` as the first line; it is the library alternative, and you only need it when you cannot control the command line, which you can. What you add today is a check that runs before `app.listen`: a short list of required names, a loop that prints `FATAL: missing environment variable X` and exits with code 1 if one is absent. A process that starts without `JWT_SECRET` and signs tokens with `undefined` is a worse outcome than a process that refuses to start.
 
 The secret-handling rules fit on a card. `.env` is in `.gitignore` before the first commit, and `git check-ignore api/.env` proves it. A `.env.example` with names and empty values is the file that belongs in the repo. A secret that was ever committed is public, even if the next commit deleted it, because history keeps it; rotate first, then clean. Secrets never go in a log line and never in a URL. The bearer token lives in `sessionStorage` and in the `Authorization` header, which is a deliberate choice you record, not a cookie you forgot to set.
 
@@ -82,7 +82,7 @@ Here is the napkin version. Untrusted input crosses a boundary. A chain turns it
 
 ## The demonstration
 
-Stop any server from Unit 9 with Ctrl-C in its terminal. Nothing else should be on port 3000. Mongo is running locally on 27017 from 4-4.
+Stop any server from Unit 9 with Ctrl-C in its terminal. Nothing else should be on port 3000. Mongo is running locally on 27017 from 4-5.
 
 The capstone repo already exists from 8-1, with `docs/` inside it. Scaffold the two halves beside the docs. Replace `<capstone-name>` with your folder's name in every command.
 
@@ -99,7 +99,7 @@ printf 'node_modules/\n.env\ndist/\n' >> .gitignore
 
 The repo root `.gitignore` covers both halves: `node_modules/` and `.env` match at any depth. Run `git check-ignore api/.env` after you create the file. It prints the path back when the rule works, and prints nothing when it does not.
 
-Now the four pieces from the hall. Open `~/projects/hall-api` beside the capstone. If you finished 9-5's conversion, the hall's code is TypeScript under `src/`; the JavaScript below is what those files are without the type annotations, so copy the shape and drop the types as you paste. Copy the `userSchema` and the `User` model into `api/models/user.js`. Copy `requireUser` into `api/middleware/require-user.js`. Copy `register` and `login` into `api/routes/auth.js`. Rename three things as you go: the audience `'guild'` becomes `'capstone'`, the port `4100` becomes `3000`, and the database `guildhall` becomes `<capstone-name>`.
+Now the four pieces from the hall. Open `~/projects/hall-api` beside the capstone. If you finished 9-6's conversion, the hall's code is TypeScript under `src/`; the JavaScript below is what those files are without the type annotations, so copy the shape and drop the types as you paste. Copy the `userSchema` and the `User` model into `api/models/user.js`. Copy `requireUser` into `api/middleware/require-user.js`. Copy `register` and `login` into `api/routes/auth.js`. Rename three things as you go: the audience `'guild'` becomes `'capstone'`, the port `4100` becomes `3000`, and the database `guildhall` becomes `<capstone-name>`.
 
 `api/models/user.js` is the hall's schema with timestamps:
 

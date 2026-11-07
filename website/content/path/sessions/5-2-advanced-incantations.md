@@ -57,7 +57,7 @@ The [best practices](https://platform.claude.com/docs/en/build-with-claude/promp
 
 ### Iterate with a controlled comparison
 
-Change one meaningful part of the prompt, such as adding the negative example or clarifying the output shape. Run both versions on the same small set of cases. Record which cases improved, which regressed, and whether the new version cost more tokens or time. A single successful output does not establish that a revision is better. Version your prompts in the log, v1, v2, v3, with the one line that changed named at the top of each. The regression set for the hall is already written: the five statuses from `HALL.md` in 4-14. Outbox 200, inbox 200, Ivo 403, Bran 403, random id 404. Every revision of anything that touches messages reruns those five before it is adopted.
+Change one meaningful part of the prompt, such as adding the negative example or clarifying the output shape. Run both versions on the same small set of cases. Record which cases improved, which regressed, and whether the new version cost more tokens or time. A single successful output does not establish that a revision is better. Version your prompts in the log, v1, v2, v3, with the one line that changed named at the top of each. The regression set for the hall is already written: the five statuses from `HALL.md` in 4-15. Outbox 200, inbox 200, Ivo 403, Bran 403, random id 404. Every revision of anything that touches messages reruns those five before it is adopted.
 
 A workflow also needs a stop condition. After three revisions that do not improve the score, stop and either accept the best validated version or go find the information the prompt is missing. An unbounded loop alternates between two imperfect answers while the window fills with both.
 
@@ -162,7 +162,7 @@ async function readMessage(req, res) {
 
 Run the checklist. `countDocuments` is on the Model API page. `save` is a document method. The write is under the 403. Mount it: `app.get('/api/inbox/unread', requireUser, unreadCount)` next to `GET /api/inbox`, behind the same `requireUser`, because registration order is the program and a route without the middleware is a count anyone can read. Add `readAt: { type: Date, default: null }` to the schema. Restart the server with Ctrl-C and the same command.
 
-Now the curl evidence, with the three tokens from 4-14 in shell variables, `BRAN`, `SERA`, `IVO`. Bran sends a new letter, then:
+Now the curl evidence, with the three tokens from 4-15 in shell variables, `BRAN`, `SERA`, `IVO`. Bran sends a new letter, then:
 
 ```bash
 curl -s -H "Authorization: Bearer $SERA" http://localhost:4100/api/inbox/unread
@@ -176,7 +176,7 @@ curl -s -H "Authorization: Bearer $SERA" http://localhost:4100/api/inbox/unread
 
 Seven lines back: `{"count":1}`, `403`, `{"count":1}`, `200`, `{"count":0}`, `200`, `{"count":0}`. The third line is the one that matters. Ivo's 403 did not touch the count. The seventh is the idempotence. Paste all seven into the log.
 
-**Prompt 3, the screen.** Paste the response shape, `{ "count": n }`, and the route path into Purpose, together with the component in `hall-client` that renders the inbox list, as the style example. Ask for a badge in the inbox header that fetches the count after login and after a successful read, and for nothing else. The shape of a good answer is a small component that owns `count` in state, fetches in an effect keyed on the token and a `refreshKey`, and bumps the key from the read handler, which is the lift you did in 4-10. Start the client in the third terminal, `cd ~/projects/hall-client && npm run dev`, log in as Sera, and watch the badge say 1, then 0 after you open the letter.
+**Prompt 3, the screen.** Paste the response shape, `{ "count": n }`, and the route path into Purpose, together with the component in `hall-client` that renders the inbox list, as the style example. Ask for a badge in the inbox header that fetches the count after login and after a successful read, and for nothing else. The shape of a good answer is a small component that owns `count` in state, fetches in an effect keyed on the token and a `refreshKey`, and bumps the key from the read handler, which is the lift you did in 4-11. Start the client in the third terminal, `cd ~/projects/hall-client && npm run dev`, log in as Sera, and watch the badge say 1, then 0 after you open the letter.
 
 **Prompt 4, the edge cases.** "Using the three outputs above, list the inputs that could still produce a wrong count, and the smallest change for each." A deleted message, a message sent to yourself (already 400 in `sendMessage`), a `readAt` set by a route other than the recipient's read. Decide which ones you take. Record the ones you do not, with the reason.
 
@@ -241,7 +241,7 @@ console.log('ok: checkpoint-5-2');
 
 ### Context overload
 
-You pasted the whole of `server.js`, the client's `App.jsx`, and the 4-14 session text, and the answer follows the oaths app's membership shape instead of the hall's. More context is not more accuracy. Models attend unevenly, and a long prompt gives them more wrong sentences to prefer. The cause is the belief that the model will find the relevant lines for you. Cut to the fact that decides this change: the schema, the handler, the one rule. Put that fact next to the question, at the end, not after a wall of background. If a paragraph would not change your review of the answer, it does not belong in the prompt.
+You pasted the whole of `server.js`, the client's `App.jsx`, and the 4-15 session text, and the answer follows the oaths app's membership shape instead of the hall's. More context is not more accuracy. Models attend unevenly, and a long prompt gives them more wrong sentences to prefer. The cause is the belief that the model will find the relevant lines for you. Cut to the fact that decides this change: the schema, the handler, the one rule. Put that fact next to the question, at the end, not after a wall of background. If a paragraph would not change your review of the answer, it does not belong in the prompt.
 
 ### Example overfitting
 
@@ -269,7 +269,7 @@ cd ~/projects/hall-api && git add -A && git commit -m "5-2: unread count, prompt
 cd ~/projects/hall-client && git add -A && git commit -m "5-2: unread badge on the inbox"
 ```
 
-Each commit prints one summary line with the file count. `.env` is not in the first one, because 4-14's `.gitignore` is still there; if `git status` ever lists it, stop and fix the ignore before anything else.
+Each commit prints one summary line with the file count. `.env` is not in the first one, because 4-15's `.gitignore` is still there; if `git status` ever lists it, stop and fix the ignore before anything else.
 
 ## The quest
 

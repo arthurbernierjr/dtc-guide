@@ -65,85 +65,85 @@
     "alt": "Three panels titled costume one the forgotten word, costume two braces without return, and costume three map with a block body; each shows red code producing undefined or an array of undefined, then the green one-line fix producing 5, 8, and the array of names",
     "caption": "The missing return in its three costumes. A function with no return hands back undefined; braces make a block, so an arrow with braces needs the word."
   },
-  "session-3-4/fig1-file-and-tree": {
+  "session-3-5/fig1-file-and-tree": {
     "composition": "DomTree",
     "fig": 1,
     "alt": "Left, the index.html source as text in a panel; a green arrow; right, the same page as a tree of boxes: document at the root, then html, head with title, body with h3 main-title, p subtitle, div container holding two p.message, button change-btn and ul quest-list holding three li",
     "caption": "The file and the tree. The browser parses index.html once and builds the DOM; JavaScript changes the tree in memory and never the file on disk."
   },
-  "session-3-4/fig2-three-selectors": {
+  "session-3-5/fig2-three-selectors": {
     "composition": "ThreeSelectors",
     "fig": 2,
     "alt": "Three rows: getElementById subtitle lights up one node and returns one element; querySelector .message lights up only the first of two matching nodes; querySelectorAll .message lights up both and returns a NodeList, with notes that the first two return null when nothing matches and that a NodeList needs Array.from for map",
     "caption": "Three selectors. By id and querySelector hand back one element or null; querySelectorAll hands back every match as a NodeList, which has forEach but not map."
   },
-  "session-3-4/fig3-four-dials": {
+  "session-3-5/fig3-four-dials": {
     "composition": "FourDials",
     "fig": 3,
     "alt": "Four cards, textContent, innerHTML marked careful, classList and style, each with the line of code and a before and after of the element's markup: text replaced, tags parsed in, classes added, inline style written; a footer names setAttribute and removeAttribute for everything else",
     "caption": "Four dials on every element. textContent for text, innerHTML only for markup you wrote yourself, classList for state the stylesheet styles, style for one-off inline rules."
   },
-  "session-3-4/fig4-event-delegation": {
+  "session-3-5/fig4-event-delegation": {
     "composition": "EventBubbles",
     "fig": 4,
     "alt": "Nested boxes document, body and ul quest-list; inside the list four items, one highlighted as the clicked event.target and one dashed as added later; a single addEventListener badge on the ul; to the right the bubbling path li to ul to body to document and the delegation code using event.target.matches",
     "caption": "Event delegation. A click bubbles up from the element to the document; one listener on the parent hears every child, including children created after the listener was attached."
   },
-  "session-3-4/fig5-null-and-reload": {
+  "session-3-5/fig5-null-and-reload": {
     "composition": "NullAndReload",
     "fig": 5,
     "alt": "Two timelines: a script in the head running before the body is parsed, getElementById returning null and a TypeError, fixed with defer or moving the script to the end of body; and a form submit whose default action reloads the page and erases every variable, fixed with event.preventDefault as the first line of the handler",
     "caption": "Null and the reload. The script ran before the tree existed, or the form's default action rebuilt the page; both feel like code that does nothing."
   },
-  "session-3-3/fig1-hand-copied": {
+  "session-3-4/fig1-hand-copied": {
     "composition": "OoHandCopied",
     "fig": 1,
     "alt": "A grid of many small player cards, each with a name, hp and its own red attack function block; a counter reads 500 players, 500 copies of attack, one bug fixed 500 times",
     "caption": "Five hundred hand-copied players. Every card carries its own copy of attack(), so one bug is five hundred fixes."
   },
-  "session-3-3/fig2-blueprint": {
+  "session-3-4/fig2-blueprint": {
     "composition": "OoBlueprint",
     "fig": 2,
     "alt": "A yellow blueprint sheet labelled class Character listing takeDamage, heal, attackTarget; three arrows labelled new lead to three small cards, Warrior, Mage, Healer, each holding only name, hp and attack values",
     "caption": "One blueprint. The instances hold their own fields; the methods live once, on the class, and every instance reaches them."
   },
-  "session-3-3/fig3-prototype-chain": {
+  "session-3-4/fig3-prototype-chain": {
     "composition": "OoPrototypeChain",
     "fig": 3,
     "alt": "Four linked boxes in a row, conan, Warrior.prototype, Character.prototype, Object.prototype, ending at null; a green path labelled berserk stops at the first box; a yellow path labelled toString walks all the way to Object.prototype; a red x marks null",
     "caption": "The prototype chain. conan.berserk() is found one hop up; conan.toString() walks to the top and finds it on Object.prototype; the chain ends at null."
   },
-  "session-3-3/fig4-this-loses-character": {
+  "session-3-4/fig4-this-loses-character": {
     "composition": "OoThisRules",
     "fig": 4,
     "alt": "Four panels: method call, this is the hero object; plain call, a lone function with this undefined and a red question mark; bind, a rope ties the function back to hero; new, a fresh empty object. The arrow-function note says arrows have no this of their own",
     "caption": "The four rules of this. Rule 2 is the bug: a method pulled off its object loses its character."
   },
-  "session-3-5/fig1-game-loop": {
+  "session-3-6/fig1-game-loop": {
     "composition": "GameLoop",
     "fig": 1,
     "alt": "Five boxes in a row joined by green arrows: event (click, keydown, submit, tick), handler (guard, update state, render), state (board, turn, winner, score, timer, lives), render() (renderBoard, renderScore, renderMessage) and DOM (what the player sees); a loop-back line under them reads the player sees the new screen and acts again",
     "caption": "The game loop. An event arrives, the handler guards and updates state, render() writes the DOM, the player reacts, and the loop turns again. State is the only source of truth."
   },
-  "session-3-5/fig2-single-source-of-truth": {
+  "session-3-6/fig2-single-source-of-truth": {
     "composition": "SingleSourceOfTruth",
     "fig": 2,
     "alt": "Two panels of wrong and right code: rule one, the DOM is a display not a database, contrasts parseInt of scoreEl.textContent with state.score += 1 then render(); rule two, never store what you can compute, contrasts a moveCount variable with isTie computed from board.every; below, three one-line habits: constants, grouped state, cached elements",
     "caption": "The rules of the arena. Never read game data back out of the DOM, never keep a second copy of something you can compute, and name your magic numbers."
   },
-  "session-3-5/fig3-skeleton-and-order": {
+  "session-3-6/fig3-skeleton-and-order": {
     "composition": "FileSkeleton",
     "fig": 3,
     "alt": "Left, an app.js file with five labelled comment sections: constants, state variables, cached DOM elements, event listeners, functions, each with one or two example lines; right, seven numbered steps in the proven order, from declaring state through init and render to handlers, ending with commit at every milestone in yellow",
     "caption": "The skeleton and the order. Five sections in every game file, and the seven steps that take you from an empty file to a working first screen without stalling."
   },
-  "session-3-5/fig4-timer-leak": {
+  "session-3-6/fig4-timer-leak": {
     "composition": "TimerLeak",
     "fig": 4,
     "alt": "Left, a table of seconds: Start at 0 s begins interval one, Start again at 2 s begins interval two while one is still alive, then two ticks a second until the timer passes zero and Game Over prints every second in red; right, the three-line fix: a guard on isPlaying, clearInterval before setInterval, and clearInterval again in endGame",
     "caption": "The interval that never died. Start pressed twice means two timers; nothing cleared them, so the game over fires forever. Keep the id and clear it on restart and on end."
   },
-  "session-3-5/fig5-four-arenas": {
+  "session-3-6/fig5-four-arenas": {
     "composition": "FourArenas",
     "fig": 5,
     "alt": "Four cards lettered A to D: Memory Card Game with class Card, Whack-a-Mole with class Mole, Quiz Game with class Quiz, RPG Battle with Character, Player, Enemy and Battle; each card lists the state it tracks, a green win condition, a red lose condition and the utilities it leans on, such as shuffle, setInterval or Math.max",
@@ -1949,13 +1949,13 @@
       "artifact": "Algorithm solutions with invariants, edge cases, and comparative complexity"
     }
   },
-  "session-9-4/fig1-model": {
+  "session-9-5/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
     "alt": "Three steps left to right: Requirements, defining the users, their operations, and the quality needs; Architecture, assigning responsibilities and data ownership to a small set of components; Tradeoffs, explaining capacity, failure, and consistency choices with numbers.",
     "caption": "The working model: a workload and its quality requirements, the smallest architecture that owns each record, and the tradeoffs stated with numbers.",
     "props": {
-      "session": "9.4",
+      "session": "9.5",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -1975,13 +1975,13 @@
       "artifact": "A system design document with estimates, failure paths, and explicit tradeoffs"
     }
   },
-  "session-9-4/fig2-diagnosis": {
+  "session-9-5/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
     "alt": "Three diagnoses side by side: premature microservices point at starting with one deployable process and marking the seam; a cache that becomes the authority points at naming the source of truth and the invalidation event; a scale claim without numbers points at estimating the workload and stating the assumption in the same sentence.",
     "caption": "Diagnose the failure: boxes borrowed from a scale you have not seen, a second copy of the truth with no owner, or an adjective where a number belongs.",
     "props": {
-      "session": "9.4",
+      "session": "9.5",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -2001,13 +2001,13 @@
       "artifact": "A system design document with estimates, failure paths, and explicit tradeoffs"
     }
   },
-  "session-9-4/fig3-evidence": {
+  "session-9-5/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
     "alt": "Evidence in three parts: the checkpoint asserts the peak factor changes the estimate; the boundary assertion reproduces an illustrative workload number from stated inputs; the manual hand-off is docs/system-design.md with a traced request, a failure walkthrough, a scaling plan, and a named decision record.",
     "caption": "Evidence: the browser model proves the estimate follows from the inputs you chose; the committed design document is verified by reading one request through both the diagram and the plan.",
     "props": {
-      "session": "9.4",
+      "session": "9.5",
       "title": "Prove the handoff",
       "mode": "evidence",
       "nodes": [
@@ -2027,13 +2027,13 @@
       "artifact": "A system design document with estimates, failure paths, and explicit tradeoffs"
     }
   },
-  "session-9-5/fig1-model": {
+  "session-9-6/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
     "alt": "Three stages left to right: Baseline, freezing working behavior with the existing tests and listing the public contracts; Migrate, typing one boundary at a time under strict checking with a build to dist; Explain, connecting the typed server to a recorded architecture decision.",
     "caption": "The working model: tests green before the branch, types added boundary by boundary with the same tests green after, and a decision record that says why.",
     "props": {
-      "session": "9.5",
+      "session": "9.6",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -2053,13 +2053,13 @@
       "artifact": "A reviewed TypeScript migration and a capstone architecture decision record"
     }
   },
-  "session-9-5/fig2-diagnosis": {
+  "session-9-6/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
     "alt": "Three diagnoses side by side: a mass rename that hides defects points at migrating in reviewable slices with a pure rename commit first; any used as an escape hatch points at listing and justifying every remaining unsafe boundary; a design that diverges from the code points at tracing one real request through both the document and the branch.",
     "caption": "Diagnose the failure: a rewrite hidden inside a rename, holes opened to silence the compiler, or a design document nobody has walked against the code.",
     "props": {
-      "session": "9.5",
+      "session": "9.6",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -2079,13 +2079,13 @@
       "artifact": "A reviewed TypeScript migration and a capstone architecture decision record"
     }
   },
-  "session-9-5/fig3-evidence": {
+  "session-9-6/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
     "alt": "Evidence in three parts: the checkpoint asserts that types alone do not validate runtime input; the boundary assertion explains the rejected environment value; the manual hand-off is the merged TypeScript branch with the Unit 7 tests passing on dist and ADR-2 in the capstone's design document.",
     "caption": "Evidence: the browser model proves a typed boundary still needs a running check; npm test on the merged branch and the 401 from dist prove the migration kept its behavior.",
     "props": {
-      "session": "9.5",
+      "session": "9.6",
       "title": "Prove the handoff",
       "mode": "evidence",
       "nodes": [
@@ -3197,13 +3197,13 @@
       "artifact": "A one-file Express app that answers GET / with text, and a note of what Node is doing underneath"
     }
   },
-  "session-4-2/fig1-model": {
+  "session-4-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.2: The working model. Request: Method, path, headers, and maybe a body arrive on a socket. Middleware: Each function reads or changes req and res, then calls next, or answers. Handler: The first route that matches writes the status and the body, then stops.",
+    "alt": "Session 4.3: The working model. Request: Method, path, headers, and maybe a body arrive on a socket. Middleware: Each function reads or changes req and res, then calls next, or answers. Handler: The first route that matches writes the status and the body, then stops.",
     "caption": "The working model: Request → Middleware → Handler",
     "props": {
-      "session": "4.2",
+      "session": "4.3",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3223,13 +3223,13 @@
       "artifact": "An Express server with a router, JSON parsing, a logging middleware, and a four-argument error handler"
     }
   },
-  "session-4-2/fig2-diagnosis": {
+  "session-4-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.2: Diagnose the failure. Hanging request: A branch returned without next() and without a response. Headers sent: A second res.send ran after the first. Return after you answer. Async crash: A promise was not returned and the rejection never reached next.",
+    "alt": "Session 4.3: Diagnose the failure. Hanging request: A branch returned without next() and without a response. Headers sent: A second res.send ran after the first. Return after you answer. Async crash: A promise was not returned and the rejection never reached next.",
     "caption": "Diagnose the failure: Hanging request · Headers sent · Async crash",
     "props": {
-      "session": "4.2",
+      "session": "4.3",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3249,13 +3249,13 @@
       "artifact": "An Express server with a router, JSON parsing, a logging middleware, and a four-argument error handler"
     }
   },
-  "session-4-2/fig3-evidence": {
+  "session-4-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.2: What done looks like. Order: Log lines print in the order the middleware was mounted. Status: A thrown error becomes 500 from the error handler, not a dead process. Router: A router mounted at /quests only sees paths under that prefix.",
+    "alt": "Session 4.3: What done looks like. Order: Log lines print in the order the middleware was mounted. Status: A thrown error becomes 500 from the error handler, not a dead process. Router: A router mounted at /quests only sees paths under that prefix.",
     "caption": "What done looks like: Order · Status · Router",
     "props": {
-      "session": "4.2",
+      "session": "4.3",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3275,13 +3275,13 @@
       "artifact": "An Express server with a router, JSON parsing, a logging middleware, and a four-argument error handler"
     }
   },
-  "session-4-3/fig1-model": {
+  "session-4-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.3: The working model. Resource: Quests, not doQuestSearch. The path names the thing. Verb: GET reads, POST creates, PUT replaces, PATCH changes, DELETE removes. Representation: The same quest can be HTML later and JSON now. The resource stays.",
+    "alt": "Session 4.4: The working model. Resource: Quests, not doQuestSearch. The path names the thing. Verb: GET reads, POST creates, PUT replaces, PATCH changes, DELETE removes. Representation: The same quest can be HTML later and JSON now. The resource stays.",
     "caption": "The working model: Resource → Verb → Representation",
     "props": {
-      "session": "4.3",
+      "session": "4.4",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3301,13 +3301,13 @@
       "artifact": "A resource map for quests: method, path, status, and which of model, view, or controller owns it"
     }
   },
-  "session-4-3/fig2-diagnosis": {
+  "session-4-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.3: Diagnose the failure. Verb in the path: /getQuests hides the method, so caches and clients cannot tell a read from a write. Wrong status: A create that returns 200 forces the client to guess. 201 says the resource exists. JSON as a string: res.send of a hand-built string forgets the content type, and a quote in the title breaks the body.",
+    "alt": "Session 4.4: Diagnose the failure. Verb in the path: /getQuests hides the method, so caches and clients cannot tell a read from a write. Wrong status: A create that returns 200 forces the client to guess. 201 says the resource exists. JSON as a string: res.send of a hand-built string forgets the content type, and a quote in the title breaks the body.",
     "caption": "Diagnose the failure: Verb in the path · Wrong status · JSON as a string",
     "props": {
-      "session": "4.3",
+      "session": "4.4",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3327,13 +3327,13 @@
       "artifact": "A resource map for quests: method, path, status, and which of model, view, or controller owns it"
     }
   },
-  "session-4-3/fig3-evidence": {
+  "session-4-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.3: What done looks like. Map: Every route on the board has a method, a path, and one status for success. Split: The model has no req. The controller has no schema. The response function has no database call. Type: The response content-type is application/json.",
+    "alt": "Session 4.4: What done looks like. Map: Every route on the board has a method, a path, and one status for success. Split: The model has no req. The controller has no schema. The response function has no database call. Type: The response content-type is application/json.",
     "caption": "What done looks like: Map · Split · Type",
     "props": {
-      "session": "4.3",
+      "session": "4.4",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3353,13 +3353,13 @@
       "artifact": "A resource map for quests: method, path, status, and which of model, view, or controller owns it"
     }
   },
-  "session-4-4/fig1-model": {
+  "session-4-5/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.4: The working model. Process: Express holds a connection, not the data. Collection: A named set of documents. Quests live here. Users live in another. Document: One record. Fields can differ, and that freedom is also how bad data gets in.",
+    "alt": "Session 4.5: The working model. Process: Express holds a connection, not the data. Collection: A named set of documents. Quests live here. Users live in another. Document: One record. Fields can differ, and that freedom is also how bad data gets in.",
     "caption": "The working model: Process → Collection → Document",
     "props": {
-      "session": "4.4",
+      "session": "4.5",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3379,13 +3379,13 @@
       "artifact": "A written model of a quest collection: documents, a unique field, and the difference between a find and a scan"
     }
   },
-  "session-4-4/fig2-diagnosis": {
+  "session-4-5/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.4: Diagnose the failure. Data in a variable: Restart the process and the array is empty. The write never left memory. No unique rule: Two documents claim the same hero. The database allowed it because you never forbade it. Scan: A find on an unindexed field reads the collection. Fine at twenty rows, a different program at two million.",
+    "alt": "Session 4.5: Diagnose the failure. Data in a variable: Restart the process and the array is empty. The write never left memory. No unique rule: Two documents claim the same hero. The database allowed it because you never forbade it. Scan: A find on an unindexed field reads the collection. Fine at twenty rows, a different program at two million.",
     "caption": "Diagnose the failure: Data in a variable · No unique rule · Scan",
     "props": {
-      "session": "4.4",
+      "session": "4.5",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3405,13 +3405,13 @@
       "artifact": "A written model of a quest collection: documents, a unique field, and the difference between a find and a scan"
     }
   },
-  "session-4-4/fig3-evidence": {
+  "session-4-5/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.4: What done looks like. Durability: A document inserted before the restart is still there after it. Identity: _id is assigned by the database and does not collide with the next insert. Shape: You can say which fields a quest must have, even before Mongoose enforces them.",
+    "alt": "Session 4.5: What done looks like. Durability: A document inserted before the restart is still there after it. Identity: _id is assigned by the database and does not collide with the next insert. Shape: You can say which fields a quest must have, even before Mongoose enforces them.",
     "caption": "What done looks like: Durability · Identity · Shape",
     "props": {
-      "session": "4.4",
+      "session": "4.5",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3431,13 +3431,13 @@
       "artifact": "A written model of a quest collection: documents, a unique field, and the difference between a find and a scan"
     }
   },
-  "session-4-5/fig1-model": {
+  "session-4-6/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.5: The working model. Schema: Fields, types, required, enum, defaults. Model: Quest.create, Quest.find, Quest.findById, Quest.findByIdAndUpdate. Document: The object you get back knows its id and can save itself.",
+    "alt": "Session 4.6: The working model. Schema: Fields, types, required, enum, defaults. Model: Quest.create, Quest.find, Quest.findById, Quest.findByIdAndUpdate. Document: The object you get back knows its id and can save itself.",
     "caption": "The working model: Schema → Model → Document",
     "props": {
-      "session": "4.5",
+      "session": "4.6",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3457,13 +3457,13 @@
       "artifact": "A Mongoose model for quests with required fields, an enum, a unique index, and create, find, update, and delete"
     }
   },
-  "session-4-5/fig2-diagnosis": {
+  "session-4-6/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.5: Diagnose the failure. Cast error: An id that is not 24 hex characters throws before the find. That is 400, not 500. Duplicate key: E11000 on a unique field is a conflict, 409, not an explosion. Update strips fields: Passing req.body as the replacement, or skipping runValidators, drops or skips the rules.",
+    "alt": "Session 4.6: Diagnose the failure. Cast error: An id that is not 24 hex characters throws before the find. That is 400, not 500. Duplicate key: E11000 on a unique field is a conflict, 409, not an explosion. Update strips fields: Passing req.body as the replacement, or skipping runValidators, drops or skips the rules.",
     "caption": "Diagnose the failure: Cast error · Duplicate key · Update strips fields",
     "props": {
-      "session": "4.5",
+      "session": "4.6",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3483,13 +3483,13 @@
       "artifact": "A Mongoose model for quests with required fields, an enum, a unique index, and create, find, update, and delete"
     }
   },
-  "session-4-5/fig3-evidence": {
+  "session-4-6/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.5: What done looks like. Reject: A quest with no title never reaches the collection. Round trip: findById returns the document you created, including the default status. Conflict: A second quest with the same hero, if hero is unique, fails with code 11000.",
+    "alt": "Session 4.6: What done looks like. Reject: A quest with no title never reaches the collection. Round trip: findById returns the document you created, including the default status. Conflict: A second quest with the same hero, if hero is unique, fails with code 11000.",
     "caption": "What done looks like: Reject · Round trip · Conflict",
     "props": {
-      "session": "4.5",
+      "session": "4.6",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3509,13 +3509,13 @@
       "artifact": "A Mongoose model for quests with required fields, an enum, a unique index, and create, find, update, and delete"
     }
   },
-  "session-4-6/fig1-model": {
+  "session-4-7/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.6: The working model. Index: GET /quests lists every document. New and Create: GET /quests/new renders the empty form. POST /quests inserts and redirects. Show, Edit, Update, Delete: The id routes read or change one document, then redirect back to a GET.",
+    "alt": "Session 4.7: The working model. Index: GET /quests lists every document. New and Create: GET /quests/new renders the empty form. POST /quests inserts and redirects. Show, Edit, Update, Delete: The id routes read or change one document, then redirect back to a GET.",
     "caption": "The working model: Index → New and Create → Show, Edit, Update, Delete",
     "props": {
-      "session": "4.6",
+      "session": "4.7",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3535,13 +3535,13 @@
       "artifact": "A server-rendered quest board: index, new, delete, update, create, edit, show, backed by a Mongoose model"
     }
   },
-  "session-4-6/fig2-diagnosis": {
+  "session-4-7/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.6: Diagnose the failure. new is an id: /quests/new was registered after /quests/:id, so new is passed to findById and casts fail. Form cannot PUT: The browser sent POST and the update route never ran. _method was missing, or method-override was mounted before the body parser. Double submit: Create did not redirect, so a refresh inserts a second document.",
+    "alt": "Session 4.7: Diagnose the failure. new is an id: /quests/new was registered after /quests/:id, so new is passed to findById and casts fail. Form cannot PUT: The browser sent POST and the update route never ran. _method was missing, or method-override was mounted before the body parser. Double submit: Create did not redirect, so a refresh inserts a second document.",
     "caption": "Diagnose the failure: new is an id · Form cannot PUT · Double submit",
     "props": {
-      "session": "4.6",
+      "session": "4.7",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3561,13 +3561,13 @@
       "artifact": "A server-rendered quest board: index, new, delete, update, create, edit, show, backed by a Mongoose model"
     }
   },
-  "session-4-6/fig3-evidence": {
+  "session-4-7/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.6: What done looks like. Seven: Each INDUCES letter has one route and one job. Redirect: A successful POST responds 302 to a GET, so refresh is safe. CSS: The stylesheet is a static file. The HTML links it. Express does not invent the design.",
+    "alt": "Session 4.7: What done looks like. Seven: Each INDUCES letter has one route and one job. Redirect: A successful POST responds 302 to a GET, so refresh is safe. CSS: The stylesheet is a static file. The HTML links it. Express does not invent the design.",
     "caption": "What done looks like: Seven · Redirect · CSS",
     "props": {
-      "session": "4.6",
+      "session": "4.7",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3587,13 +3587,13 @@
       "artifact": "A server-rendered quest board: index, new, delete, update, create, edit, show, backed by a Mongoose model"
     }
   },
-  "session-4-7/fig1-model": {
+  "session-4-8/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.7: The working model. Parse: express.json() turns the body into req.body or rejects bad JSON. Decide: The handler validates, calls the model, and picks a status. Serialize: res.status(code).json(value) sets the type and ends the response.",
+    "alt": "Session 4.8: The working model. Parse: express.json() turns the body into req.body or rejects bad JSON. Decide: The handler validates, calls the model, and picks a status. Serialize: res.status(code).json(value) sets the type and ends the response.",
     "caption": "The working model: Parse → Decide → Serialize",
     "props": {
-      "session": "4.7",
+      "session": "4.8",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3613,13 +3613,13 @@
       "artifact": "A JSON API for quests: GET, POST, PUT, DELETE, validation errors as 400, missing records as 404"
     }
   },
-  "session-4-7/fig2-diagnosis": {
+  "session-4-8/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.7: Diagnose the failure. Undefined body: The client sent JSON and req.body is undefined. The parser is missing, mounted too late, or the content type is text. HTML error: A thrown error hit the default handler and returned a stack trace page. The API client cannot parse it. 200 on create: The resource exists and the client treats it as a maybe. 201, with the document, is the contract.",
+    "alt": "Session 4.8: Diagnose the failure. Undefined body: The client sent JSON and req.body is undefined. The parser is missing, mounted too late, or the content type is text. HTML error: A thrown error hit the default handler and returned a stack trace page. The API client cannot parse it. 200 on create: The resource exists and the client treats it as a maybe. 201, with the document, is the contract.",
     "caption": "Diagnose the failure: Undefined body · HTML error · 200 on create",
     "props": {
-      "session": "4.7",
+      "session": "4.8",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3639,13 +3639,13 @@
       "artifact": "A JSON API for quests: GET, POST, PUT, DELETE, validation errors as 400, missing records as 404"
     }
   },
-  "session-4-7/fig3-evidence": {
+  "session-4-8/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.7: What done looks like. Collection: GET /api/quests returns an array. One: GET /api/quests/:id returns the document or 404. Reject: POST with an empty title returns 400 and writes nothing.",
+    "alt": "Session 4.8: What done looks like. Collection: GET /api/quests returns an array. One: GET /api/quests/:id returns the document or 404. Reject: POST with an empty title returns 400 and writes nothing.",
     "caption": "What done looks like: Collection · One · Reject",
     "props": {
-      "session": "4.7",
+      "session": "4.8",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3665,13 +3665,13 @@
       "artifact": "A JSON API for quests: GET, POST, PUT, DELETE, validation errors as 400, missing records as 404"
     }
   },
-  "session-4-8/fig1-model": {
+  "session-4-9/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.8: The working model. Register: Hash the password with a cost factor and store the user. Login: Compare the guess. If it matches, sign a token whose subject is the user id. Protect: Read Authorization: Bearer, verify, attach the user, or 401.",
+    "alt": "Session 4.9: The working model. Register: Hash the password with a cost factor and store the user. Login: Compare the guess. If it matches, sign a token whose subject is the user id. Protect: Read Authorization: Bearer, verify, attach the user, or 401.",
     "caption": "The working model: Register → Login → Protect",
     "props": {
-      "session": "4.8",
+      "session": "4.9",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3691,13 +3691,13 @@
       "artifact": "Register, login, and a protected route, exercised from Postman with a Bearer token"
     }
   },
-  "session-4-8/fig2-diagnosis": {
+  "session-4-9/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.8: Diagnose the failure. Plain password: The database shows the password you typed. The hash step never ran, or you stored password instead of passwordHash. Secret in the repo: The signing key is in a commit. Anyone can mint tokens. Rotate it and read it from the environment. Expired token still works: verify was skipped, or the expiry was never set. A 401 is the correct failure.",
+    "alt": "Session 4.9: Diagnose the failure. Plain password: The database shows the password you typed. The hash step never ran, or you stored password instead of passwordHash. Secret in the repo: The signing key is in a commit. Anyone can mint tokens. Rotate it and read it from the environment. Expired token still works: verify was skipped, or the expiry was never set. A 401 is the correct failure.",
     "caption": "Diagnose the failure: Plain password · Secret in the repo · Expired token still works",
     "props": {
-      "session": "4.8",
+      "session": "4.9",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3717,13 +3717,13 @@
       "artifact": "Register, login, and a protected route, exercised from Postman with a Bearer token"
     }
   },
-  "session-4-8/fig3-evidence": {
+  "session-4-9/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.8: What done looks like. Hash: The stored string is not the password and starts like a bcrypt hash. Token: Login returns a token. The protected route rejects a request without it. Postman: The same token, sent as a Bearer header, returns 200. An edited token returns 401.",
+    "alt": "Session 4.9: What done looks like. Hash: The stored string is not the password and starts like a bcrypt hash. Token: Login returns a token. The protected route rejects a request without it. Postman: The same token, sent as a Bearer header, returns 200. An edited token returns 401.",
     "caption": "What done looks like: Hash · Token · Postman",
     "props": {
-      "session": "4.8",
+      "session": "4.9",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3743,13 +3743,13 @@
       "artifact": "Register, login, and a protected route, exercised from Postman with a Bearer token"
     }
   },
-  "session-4-9/fig1-model": {
+  "session-4-10/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.9: The working model. State: useState gives you the current value and a setter. Render: The function runs again and returns the next tree. Commit: React updates the DOM to match. You do not call the DOM yourself.",
+    "alt": "Session 4.10: The working model. State: useState gives you the current value and a setter. Render: The function runs again and returns the next tree. Commit: React updates the DOM to match. You do not call the DOM yourself.",
     "caption": "The working model: State → Render → Commit",
     "props": {
-      "session": "4.9",
+      "session": "4.10",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3769,13 +3769,13 @@
       "artifact": "A small React app: components, props, useState, a list with keys, and a controlled input"
     }
   },
-  "session-4-9/fig2-diagnosis": {
+  "session-4-10/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.9: Diagnose the failure. Stale increment: Two clicks computed count + 1 from the same render. The setter needs the functional form. Index key: Deleting the second row leaves the third row's typed text on the second component. Derived state copied: A prop was copied into state and then went stale. Render the prop, or derive it while rendering.",
+    "alt": "Session 4.10: Diagnose the failure. Stale increment: Two clicks computed count + 1 from the same render. The setter needs the functional form. Index key: Deleting the second row leaves the third row's typed text on the second component. Derived state copied: A prop was copied into state and then went stale. Render the prop, or derive it while rendering.",
     "caption": "Diagnose the failure: Stale increment · Index key · Derived state copied",
     "props": {
-      "session": "4.9",
+      "session": "4.10",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3795,13 +3795,13 @@
       "artifact": "A small React app: components, props, useState, a list with keys, and a controlled input"
     }
   },
-  "session-4-9/fig3-evidence": {
+  "session-4-10/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.9: What done looks like. Props: A child renders the title it was given and calls the callback it was given. Input: The field shows state, and typing calls the setter. It is controlled. Key: Each row's key is the record id.",
+    "alt": "Session 4.10: What done looks like. Props: A child renders the title it was given and calls the callback it was given. Input: The field shows state, and typing calls the setter. It is controlled. Key: Each row's key is the record id.",
     "caption": "What done looks like: Props · Input · Key",
     "props": {
-      "session": "4.9",
+      "session": "4.10",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3821,13 +3821,13 @@
       "artifact": "A small React app: components, props, useState, a list with keys, and a controlled input"
     }
   },
-  "session-4-10/fig1-model": {
+  "session-4-11/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.10: The working model. Lift: The parent holds the array. Children receive items and callbacks. Form: The input's value is state. Submit reads state, not the DOM. Effect: After paint, load or subscribe. Return a cleanup if you subscribed.",
+    "alt": "Session 4.11: The working model. Lift: The parent holds the array. Children receive items and callbacks. Form: The input's value is state. Submit reads state, not the DOM. Effect: After paint, load or subscribe. Return a cleanup if you subscribed.",
     "caption": "The working model: Lift → Form → Effect",
     "props": {
-      "session": "4.10",
+      "session": "4.11",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3847,13 +3847,13 @@
       "artifact": "A quest list with the state lifted, a controlled form, and one effect that loads a fixture"
     }
   },
-  "session-4-10/fig2-diagnosis": {
+  "session-4-11/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.10: Diagnose the failure. Infinite effect: The effect set state that was also a dependency, or the dependency was a fresh object each render. Forgotten cleanup: A subscription or a timer from the previous quest is still running after the component left the screen. Effect for math: A total was stored in state and updated in an effect. It should have been computed while rendering.",
+    "alt": "Session 4.11: Diagnose the failure. Infinite effect: The effect set state that was also a dependency, or the dependency was a fresh object each render. Forgotten cleanup: A subscription or a timer from the previous quest is still running after the component left the screen. Effect for math: A total was stored in state and updated in an effect. It should have been computed while rendering.",
     "caption": "Diagnose the failure: Infinite effect · Forgotten cleanup · Effect for math",
     "props": {
-      "session": "4.10",
+      "session": "4.11",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3873,13 +3873,13 @@
       "artifact": "A quest list with the state lifted, a controlled form, and one effect that loads a fixture"
     }
   },
-  "session-4-10/fig3-evidence": {
+  "session-4-11/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.10: What done looks like. One source: Two children show the same quests because they read the same state. Cleanup: Leaving the screen clears the timer. The log stops. No extra state: The filtered list is a const during render, not another useState.",
+    "alt": "Session 4.11: What done looks like. One source: Two children show the same quests because they read the same state. Cleanup: Leaving the screen clears the timer. The log stops. No extra state: The filtered list is a const during render, not another useState.",
     "caption": "What done looks like: One source · Cleanup · No extra state",
     "props": {
-      "session": "4.10",
+      "session": "4.11",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3899,13 +3899,13 @@
       "artifact": "A quest list with the state lifted, a controlled form, and one effect that loads a fixture"
     }
   },
-  "session-4-11/fig1-model": {
+  "session-4-12/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.11: The working model. Login: POST /api/login, keep the token in sessionStorage and in state. Load: GET /api/todos with the Bearer header. Render the array. Change: POST, PATCH, or DELETE, then trust the response body, not the hope.",
+    "alt": "Session 4.12: The working model. Login: POST /api/login, keep the token in sessionStorage and in state. Load: GET /api/todos with the Bearer header. Render the array. Change: POST, PATCH, or DELETE, then trust the response body, not the hope.",
     "caption": "The working model: Login → Load → Change",
     "props": {
-      "session": "4.11",
+      "session": "4.12",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -3925,13 +3925,13 @@
       "artifact": "A todo app: register, login, and CRUD against your API, with the token on each request"
     }
   },
-  "session-4-11/fig2-diagnosis": {
+  "session-4-12/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.11: Diagnose the failure. Saved too early: The row says saved and a reload shows the old text. The setter ran before the response. Missing header: Postman worked and the browser got 401. fetch did not send Authorization. CORS: The API log is silent and the browser reports a CORS failure. The page's origin is not allowed.",
+    "alt": "Session 4.12: Diagnose the failure. Saved too early: The row says saved and a reload shows the old text. The setter ran before the response. Missing header: Postman worked and the browser got 401. fetch did not send Authorization. CORS: The API log is silent and the browser reports a CORS failure. The page's origin is not allowed.",
     "caption": "Diagnose the failure: Saved too early · Missing header · CORS",
     "props": {
-      "session": "4.11",
+      "session": "4.12",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -3951,13 +3951,13 @@
       "artifact": "A todo app: register, login, and CRUD against your API, with the token on each request"
     }
   },
-  "session-4-11/fig3-evidence": {
+  "session-4-12/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.11: What done looks like. Owner: A todo created by one account is not listed for another. 401: Clearing the token and loading again sends you to the login form. Reload: A refresh after a real 201 still shows the todo, because it was stored.",
+    "alt": "Session 4.12: What done looks like. Owner: A todo created by one account is not listed for another. 401: Clearing the token and loading again sends you to the login form. Reload: A refresh after a real 201 still shows the todo, because it was stored.",
     "caption": "What done looks like: Owner · 401 · Reload",
     "props": {
-      "session": "4.11",
+      "session": "4.12",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -3977,13 +3977,13 @@
       "artifact": "A todo app: register, login, and CRUD against your API, with the token on each request"
     }
   },
-  "session-4-12/fig1-model": {
+  "session-4-13/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.12: The working model. Noun: A spell has a name, a school, and a level. That is the whole schema. Contract: The same four operations and the same token header as the todo API. Screen: List, form, and a logout. No new ideas. The repetition is the point.",
+    "alt": "Session 4.13: The working model. Noun: A spell has a name, a school, and a level. That is the whole schema. Contract: The same four operations and the same token header as the todo API. Screen: List, form, and a logout. No new ideas. The repetition is the point.",
     "caption": "The working model: Noun → Contract → Screen",
     "props": {
-      "session": "4.12",
+      "session": "4.13",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -4003,13 +4003,13 @@
       "artifact": "A second authenticated CRUD app, a spellbook, built from the same contract without copying the todo files"
     }
   },
-  "session-4-12/fig2-diagnosis": {
+  "session-4-13/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.12: Diagnose the failure. Renamed todo: The files are the todo app with the word spell pasted over todo. A field the spell needs was never added. Shared token bug: Logging into the spellbook authorizes the todo API because they share a secret and you never checked which app issued the token. Fine for today, fatal if you do not know you did it. Copied bug: The early-saved state from last session is in this app too. Repetition copied the defect.",
+    "alt": "Session 4.13: Diagnose the failure. Renamed todo: The files are the todo app with the word spell pasted over todo. A field the spell needs was never added. Shared token bug: Logging into the spellbook authorizes the todo API because they share a secret and you never checked which app issued the token. Fine for today, fatal if you do not know you did it. Copied bug: The early-saved state from last session is in this app too. Repetition copied the defect.",
     "caption": "Diagnose the failure: Renamed todo · Shared token bug · Copied bug",
     "props": {
-      "session": "4.12",
+      "session": "4.13",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -4029,13 +4029,13 @@
       "artifact": "A second authenticated CRUD app, a spellbook, built from the same contract without copying the todo files"
     }
   },
-  "session-4-12/fig3-evidence": {
+  "session-4-13/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.12: What done looks like. Different shape: A spell without a school is rejected. A todo route does not exist in this process. Closed notes: You can draw the request on paper before you open yesterday's repo. Both apps: Each app only lists its own user's records.",
+    "alt": "Session 4.13: What done looks like. Different shape: A spell without a school is rejected. A todo route does not exist in this process. Closed notes: You can draw the request on paper before you open yesterday's repo. Both apps: Each app only lists its own user's records.",
     "caption": "What done looks like: Different shape · Closed notes · Both apps",
     "props": {
-      "session": "4.12",
+      "session": "4.13",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -4055,13 +4055,13 @@
       "artifact": "A second authenticated CRUD app, a spellbook, built from the same contract without copying the todo files"
     }
   },
-  "session-4-13/fig1-model": {
+  "session-4-14/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.13: The working model. Refs: ObjectId plus ref: 'Adventurer' names the other collection. Join: A Membership document holds party, member, and role. The relationship can have fields of its own. Populate: The query asks Mongoose to swap the ids for documents before you send JSON.",
+    "alt": "Session 4.14: The working model. Refs: ObjectId plus ref: 'Adventurer' names the other collection. Join: A Membership document holds party, member, and role. The relationship can have fields of its own. Populate: The query asks Mongoose to swap the ids for documents before you send JSON.",
     "caption": "The working model: Refs → Join → Populate",
     "props": {
-      "session": "4.13",
+      "session": "4.14",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -4081,13 +4081,13 @@
       "artifact": "Parties and adventurers as a many-to-many, with a join collection and populate"
     }
   },
-  "session-4-13/fig2-diagnosis": {
+  "session-4-14/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.13: Diagnose the failure. Array drift: The party lists the member and the member does not list the party. Two arrays were updated in two requests, and one failed. Populate missed: The client received ids and tried to read member.name. You sent the foreign key and called it the object. Duplicate oath: The same pair was inserted twice because the unique index was never created. Mongoose unique on a nested path is not the same as a compound index you declared.",
+    "alt": "Session 4.14: Diagnose the failure. Array drift: The party lists the member and the member does not list the party. Two arrays were updated in two requests, and one failed. Populate missed: The client received ids and tried to read member.name. You sent the foreign key and called it the object. Duplicate oath: The same pair was inserted twice because the unique index was never created. Mongoose unique on a nested path is not the same as a compound index you declared.",
     "caption": "Diagnose the failure: Array drift · Populate missed · Duplicate oath",
     "props": {
-      "session": "4.13",
+      "session": "4.14",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -4107,13 +4107,13 @@
       "artifact": "Parties and adventurers as a many-to-many, with a join collection and populate"
     }
   },
-  "session-4-13/fig3-evidence": {
+  "session-4-14/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.13: What done looks like. Pair: One membership ties one party to one adventurer and stores a role. Both ways: Listing a party's members and listing an adventurer's parties tell the same story. Reject: Inserting the pair again returns a duplicate-key error.",
+    "alt": "Session 4.14: What done looks like. Pair: One membership ties one party to one adventurer and stores a role. Both ways: Listing a party's members and listing an adventurer's parties tell the same story. Reject: Inserting the pair again returns a duplicate-key error.",
     "caption": "What done looks like: Pair · Both ways · Reject",
     "props": {
-      "session": "4.13",
+      "session": "4.14",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [
@@ -4133,13 +4133,13 @@
       "artifact": "Parties and adventurers as a many-to-many, with a join collection and populate"
     }
   },
-  "session-4-14/fig1-model": {
+  "session-4-15/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 4.14: The working model. Accounts: Register and login, the same seal as the todo app. Inbox: Create a message to another user. List only the ones sent to you. Pack: A catalog of items, and holdings that say how many of each you carry.",
+    "alt": "Session 4.15: The working model. Accounts: Register and login, the same seal as the todo app. Inbox: Create a message to another user. List only the ones sent to you. Pack: A catalog of items, and holdings that say how many of each you carry.",
     "caption": "The working model: Accounts → Inbox → Pack",
     "props": {
-      "session": "4.14",
+      "session": "4.15",
       "title": "The working model",
       "mode": "flow",
       "nodes": [
@@ -4159,13 +4159,13 @@
       "artifact": "A guild hall: JWT accounts, an inbox of messages, and an inventory of catalog items with quantities"
     }
   },
-  "session-4-14/fig2-diagnosis": {
+  "session-4-15/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 4.14: Diagnose the failure. Mail leak: GET /api/messages/:id returns the document whenever the id exists. The recipient was never compared to the token. Quantity as a catalog field: Buying a potion changed the catalog, so every user lost one. Quantity belongs on the holding. Negative pack: A transfer subtracted past zero because the update was not conditional. The holding went to -1 and the UI showed a debt.",
+    "alt": "Session 4.15: Diagnose the failure. Mail leak: GET /api/messages/:id returns the document whenever the id exists. The recipient was never compared to the token. Quantity as a catalog field: Buying a potion changed the catalog, so every user lost one. Quantity belongs on the holding. Negative pack: A transfer subtracted past zero because the update was not conditional. The holding went to -1 and the UI showed a debt.",
     "caption": "Diagnose the failure: Mail leak · Quantity as a catalog field · Negative pack",
     "props": {
-      "session": "4.14",
+      "session": "4.15",
       "title": "Diagnose the failure",
       "mode": "diagnosis",
       "nodes": [
@@ -4185,13 +4185,13 @@
       "artifact": "A guild hall: JWT accounts, an inbox of messages, and an inventory of catalog items with quantities"
     }
   },
-  "session-4-14/fig3-evidence": {
+  "session-4-15/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.14: What done looks like. Inbox: User A sends to user B. A's outbox shows it. B's inbox shows it. User C gets 403. Kinds: Items are potions, weapons, or armor, enforced by an enum. Count: Two holdings of the same item for the same user cannot exist. The quantity is a number on the one holding.",
+    "alt": "Session 4.15: What done looks like. Inbox: User A sends to user B. A's outbox shows it. B's inbox shows it. User C gets 403. Kinds: Items are potions, weapons, or armor, enforced by an enum. Count: Two holdings of the same item for the same user cannot exist. The quantity is a number on the one holding.",
     "caption": "What done looks like: Inbox · Kinds · Count",
     "props": {
-      "session": "4.14",
+      "session": "4.15",
       "title": "What done looks like",
       "mode": "evidence",
       "nodes": [

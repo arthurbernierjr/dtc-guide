@@ -245,7 +245,7 @@ console.log(pool.rest(), pool.getStatus(), '| currentMana from outside:', pool.c
 console.log('ok: closures');
 ```
 
-Part 4 is the most famous closure bug in the language, and it is worth a minute. The `for (let j = 0; j < 3; j++)` line is a counting loop: start `j` at 0, run the body while `j < 3`, add one after each pass; loops get their full introduction in 3.3, and this is the only one you need today. With `var`, there is one `i` for the whole loop, every arrow carries the same backpack, and by the time anyone opens it the loop has finished and `i` is `3`. With `let`, each pass through the loop gets its own `j`, so each arrow carries its own backpack with its own value. That is the actual reason `let` has the scoping rules it has. Part 5 is a closure wearing an object: three methods, one shared `currentMana`, and `pool.currentMana` from outside is `undefined` because the mana was never a property. That shape is the lab.
+Part 4 is the most famous closure bug in the language, and it is worth a minute. The `for (let j = 0; j < 3; j++)` line is a counting loop: start `j` at 0, run the body while `j < 3`, add one after each pass; loops get their full introduction in 3.4, and this is the only one you need today. With `var`, there is one `i` for the whole loop, every arrow carries the same backpack, and by the time anyone opens it the loop has finished and `i` is `3`. With `let`, each pass through the loop gets its own `j`, so each arrow carries its own backpack with its own value. That is the actual reason `let` has the scoping rules it has. Part 5 is a closure wearing an object: three methods, one shared `currentMana`, and `pool.currentMana` from outside is `undefined` because the mana was never a property. That shape is the lab.
 
 ### 4. Three dots
 
@@ -484,13 +484,13 @@ Four pages in the library go deeper than one session can. Read them in this orde
 
 Three things, in this order.
 
-First, finish the Spell Book if it did not get done in the session. It is the artifact for this session, and Session 3.3 assumes `filter`, `map` and `reduce` are in your hands, not just in your notes.
+First, finish the Spell Book if it did not get done in the session. It is the artifact for this session, and Session 3.4 assumes `filter`, `map` and `reduce` are in your hands, not just in your notes.
 
 Second, write three arrow functions of your own in the console: one single-expression, one with braces and an explicit `return`, and one that returns an object literal in parentheses. Thirty seconds each, and costume two and three will never catch you again.
 
 Third, read MDN's [Closures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures) page, the whole thing. It is one of the best explanations on the web, and you now have the backpack picture to hang it on. When it reaches the loop example, you will recognise it.
 
-Session 3.3 is called Objects and Orcs. The `createManaPool` you wrote today is already an object with methods and private state; next session you meet the `class` keyword, which is the other way to build that, and the word `this`, which is why arrow functions were careful not to have one. The spells you catalogued are about to become characters that cast them.
+Session 3.4 is called Objects and Orcs. The `createManaPool` you wrote today is already an object with methods and private state; next session you meet the `class` keyword, which is the other way to build that, and the word `this`, which is why arrow functions were careful not to have one. The spells you catalogued are about to become characters that cast them.
 
 > **Say:** "A function is a named spell: write it once, cast it anywhere. Parentheses cast it; the bare name is the scroll. Lookups walk outward through the rings, never inward. A closure is a function carrying a backpack, and each call to the factory packs a new one. Filter fewer, map the same, reduce to one, and never touch the original. No `return` means `undefined`."
 

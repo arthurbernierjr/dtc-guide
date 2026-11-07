@@ -66,7 +66,7 @@ Semantic sectioning. `header`, `nav`, `main`, `section`, `footer` are landmarks 
 
 Alt text on every image. The portrait describes the person. A decorative flourish gets `alt=""`. An image with no `alt` attribute at all is unfinished.
 
-Contrast. Normal text needs a ratio of at least 4.5 to 1 against its background, and the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/) will tell you the number for any two colours. This matters today because the obvious choice is wrong. White text on the green this page uses, `#00A868`, is 3.09 to 1, which fails. The near-black ink on the same green is 6.21 to 1, which passes. The muted grey `#8A8A94` on the page background `#0f0f1a` is 5.57 to 1, which passes, and it would fail if you made it a little greyer. Check the pairs you are tempted to eyeball.
+Contrast. Normal text needs a ratio of at least 4.6 to 1 against its background, and the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/) will tell you the number for any two colours. This matters today because the obvious choice is wrong. White text on the green this page uses, `#00A868`, is 3.09 to 1, which fails. The near-black ink on the same green is 6.21 to 1, which passes. The muted grey `#8A8A94` on the page background `#0f0f1a` is 5.57 to 1, which passes, and it would fail if you made it a little greyer. Check the pairs you are tempted to eyeball.
 
 Keyboard. Every link and button must be reachable with Tab and must show where focus is. Browsers draw a focus ring by default; a stylesheet that sets `outline: none` to make a mockup look clean has removed the only sign a keyboard user has. Replace it, never remove it. `:focus-visible` draws the ring only for keyboard focus, which is the behaviour people usually wanted when they reached for `none`.
 
@@ -329,7 +329,7 @@ body {
 }
 
 .hero__title {
-    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-size: clamp(2rem, 6vw, 3.6rem);
     color: var(--color-heading);
     margin-bottom: 1rem;
     animation: fade-in-up 0.8s ease forwards;
@@ -615,7 +615,7 @@ The page looks finished at a wide window and fails the moment a person tries to 
 1. Make the folder and the repository as a sibling of `html-css-foundations`, with `mkdir -p ~/projects/landing-page`, `cd ~/projects/landing-page`, `git init`, and `gh repo create landing-page --public --source=. --remote=origin`. The last command prints `✓ Created repository YOU/landing-page on GitHub`. Run `git status` and confirm it says `No commits yet`, not a line about a parent repository.
 2. Put the image in place: `mkdir images` and either `cp ~/projects/html-css-foundations/portrait.png images/portrait.png` or your own picture after Squoosh. `file images/portrait.png` prints its size; those are the `width` and `height` for the `img`.
 3. Write `index.html` with your name, your one sentence, three skills, two or three sentences about you, two projects that link to real pages, and one contact action whose text says what it does. Every nav `href` matches a section `id`. Open it in Live Server and press Tab once: the skip link appears.
-4. Write `style.css`, mobile-first. At 320 pixels in the device toolbar nothing scrolls sideways. At 768 the nav and the about section become rows. Check your button text against its background in the WebAIM checker and write the ratio in a comment next to the rule; it must be 4.5 or more.
+4. Write `style.css`, mobile-first. At 320 pixels in the device toolbar nothing scrolls sideways. At 768 the nav and the about section become rows. Check your button text against its background in the WebAIM checker and write the ratio in a comment next to the rule; it must be 4.6 or more.
 5. Turn on reduced motion in the Rendering panel and reload. The hero does not rise and a nav click does not glide. Turn it off and confirm both come back.
 6. Commit and push: `git add .`, `git status`, `git commit -m "Landing page: first release"`, `git push -u origin main`. The push answers `* [new branch] main -> main`.
 7. Enable Pages, in the browser from `gh browse --settings` or with the `gh api` line from the demonstration. Then run `gh api repos/{owner}/{repo}/pages --jq '.html_url + " " + .status'` until it prints `https://YOU.github.io/landing-page/ built`.

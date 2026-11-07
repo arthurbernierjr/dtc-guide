@@ -38,7 +38,7 @@ A release candidate is a commit with a name. `git tag rc-1` on the commit you in
 
 The second idea is that security is reviewed by operating the app wrongly on purpose. Helmet from 10-1 sets headers, and `curl -I` shows them in three seconds. That is a configuration check. A security review is a second account, created with the seed script, sending a direct request for the first account's record by id. Either the route answers 404 or 403, or it answers 200 and you have the most important bug of the week. You do the same with a field the client never sends, such as `owner` or `isPro` in a request body, and with an expired token. Headers are the easy screenshot. Ownership is the thing a reviewer will try first.
 
-The third idea is recovery. Your capstone has a database with the fixture account and whatever real sign-ups you collected since 10-4. A backup is a copy of it that exists somewhere else. A restore is proof that the copy can be read. Those are different facts, and only the second one matters on the day you need it. The drill is to dump the live database, restore it into a database with a different name on your local MongoDB from 4-4, count the records, and time the whole thing. Then you know what a bad day costs: the age of the newest backup, plus the minutes the restore took.
+The third idea is recovery. Your capstone has a database with the fixture account and whatever real sign-ups you collected since 10-4. A backup is a copy of it that exists somewhere else. A restore is proof that the copy can be read. Those are different facts, and only the second one matters on the day you need it. The drill is to dump the live database, restore it into a database with a different name on your local MongoDB from 4-5, count the records, and time the whole thing. Then you know what a bad day costs: the age of the newest backup, plus the minutes the restore took.
 
 The fourth idea is that deployment is already solved. The Railway project, database, domain, and variables from 10-4 exist, or the server, Nginx site, pm2 app, and certificate from 6-4 do if you took the VPS path. Redeploying is one command on either path. The thing you have not rehearsed is the step backwards: checking out the previous tag, deploying it, confirming the public journey still works, and coming forward again. A rollback you have performed once under no pressure is a procedure. One you have only read about is a hope.
 
@@ -110,7 +110,7 @@ Running 3 tests using 1 worker
   ✓ e2e/core-flow.spec.js:5 sign in, create an entry, see it after reload (4.1s)
   ✓ e2e/core-flow.spec.js:21 a failed save keeps the draft (2.3s)
   ✓ e2e/auth.spec.js:4 wrong password shows an error (1.2s)
-3 passed (9.4s)
+3 passed (9.5s)
 ```
 
 `e2e/` is empty after the install, because 7-3's inbox spec belongs to `hall-api`, so write `e2e/core-flow.spec.js` now; the journey you walked by hand in 12-2 is the script, step for step. One browser test of the real path outranks ten that check a heading exists.
@@ -175,7 +175,7 @@ An expired token is the last request: take a token you saved two hours ago from 
 
 ### The drill: dump, restore elsewhere, count, time
 
-`mongodump` and `mongorestore` ship in the MongoDB Database Tools, a separate download from the server you installed in 4-4. The [installation page](https://www.mongodb.com/docs/database-tools/installation/installation/) has one section per operating system. `mongodump --version` printing a version is the check that it is installed.
+`mongodump` and `mongorestore` ship in the MongoDB Database Tools, a separate download from the server you installed in 4-5. The [installation page](https://www.mongodb.com/docs/database-tools/installation/installation/) has one section per operating system. `mongodump --version` printing a version is the check that it is installed.
 
 The dump runs wherever the live database is reachable. On Railway, where 10-4 put it, the MongoDB service's connection string is in the service's variables, `railway variable list` prints it, and the tools connect from your laptop. On the VPS from 6-4, it is the server itself, as the `deploy` user, because the database listens on `127.0.0.1` only. Either way, `MONGODB_URI` is the same value the running app uses, with the database name in it, and the dump folder is named for the candidate:
 
@@ -193,7 +193,7 @@ mongodump --uri="$MONGODB_URI" --out="backups/rc-1-$(date +%Y%m%d)"
 
 Add `backups/` to `.gitignore` immediately. A dump holds password hashes and whatever your users typed; it never enters the repository. If the dump ran on the VPS, bring it down with `scp -r deploy@YOUR-DOMAIN:~/backups/rc-1-20261107 ./backups/`.
 
-The restore goes into your local MongoDB from 4-4, into a database with a different name, so the live data is never touched by a rehearsal. `--nsFrom` and `--nsTo` do the renaming:
+The restore goes into your local MongoDB from 4-5, into a database with a different name, so the live data is never touched by a rehearsal. `--nsFrom` and `--nsTo` do the renaming:
 
 ```bash
 time mongorestore --nsFrom='capstone.*' --nsTo='capstone_restore.*' backups/rc-1-20261107

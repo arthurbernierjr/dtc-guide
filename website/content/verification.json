@@ -182,7 +182,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 6 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/3-3-objects-and-orcs/": {
+  "/path/3-4-objects-and-orcs/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -194,7 +194,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 6 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/3-4-casting-on-the-world/": {
+  "/path/3-5-casting-on-the-world/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -208,7 +208,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 5 live stage file(s) executed in headless Chromium by the live gate (Run live printed its ok line, every stage button clicked, run twice). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/3-5-the-arena/": {
+  "/path/3-6-the-arena/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -233,7 +233,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-2-the-listening-door/": {
+  "/path/4-3-the-listening-door/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -246,7 +246,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-3-the-counters-three-laws/": {
+  "/path/4-4-the-counters-three-laws/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -257,7 +257,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-4-the-vault/": {
+  "/path/4-5-the-vault/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -270,7 +270,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-5-the-vault-keeper/": {
+  "/path/4-6-the-vault-keeper/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -284,7 +284,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-6-the-paper-ledger/": {
+  "/path/4-7-the-paper-ledger/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -296,7 +296,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-7-the-courier/": {
+  "/path/4-8-the-courier/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -308,7 +308,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-8-seals-and-signets/": {
+  "/path/4-9-seals-and-signets/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -321,7 +321,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-9-the-illusionists-primer/": {
+  "/path/4-10-the-illusionists-primer/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -335,7 +335,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-10-the-second-circle/": {
+  "/path/4-11-the-second-circle/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -348,7 +348,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-11-the-quest-slate/": {
+  "/path/4-12-the-quest-slate/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -360,7 +360,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-12-the-second-contract/": {
+  "/path/4-13-the-second-contract/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -371,7 +371,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-13-blood-oaths/": {
+  "/path/4-14-blood-oaths/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -382,7 +382,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/4-14-the-guild-hall/": {
+  "/path/4-15-the-guild-hall/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -655,7 +655,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/9-4-grand-architecture/": {
+  "/path/9-5-grand-architecture/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [
@@ -669,7 +669,7 @@
     "exec": "ran",
     "note": "Path session: docs are the references listed in the session frontmatter; the registry gate checked the H2 order, diagram count and side-quest links. 1 runnable file(s) executed by the prep gate (node <file> printed its ok line). Only the named interactive examples were executed. Other walkthrough files, language toolchains, databases, cloud deployments, payment providers, and AI services require the documented manual checks; no toolchains were installed."
   },
-  "/path/9-5-the-runesmiths-forge/": {
+  "/path/9-6-the-runesmiths-forge/": {
     "date": "2026-11-07",
     "who": "Claude (Cursor agent) · first-wave pass",
     "docs": [

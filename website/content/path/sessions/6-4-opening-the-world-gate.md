@@ -17,7 +17,7 @@ docs:
   - https://pm2.keymetrics.io/docs/usage/application-declaration/
   - https://docs.railway.com/quick-start
 say:
-  - "The four variable names from 4.14 plus NODE_ENV, in a file only the owner can read, loaded by Node itself."
+  - "The four variable names from 4.15 plus NODE_ENV, in a file only the owner can read, loaded by Node itself."
   - "Behind Nginx the page and the API are one origin; the empty API base is the production setting."
   - "A code rollback is a redeploy; a data rollback is a restore. Decide which before you type."
 ---
@@ -50,7 +50,7 @@ The hall reads `MONGODB_URI`, `JWT_SECRET`, `PAGE_ORIGIN`, `PORT`, and the guard
 
 pm2 does not read `.env` either. It starts Node, and Node reads the file if you pass the flag. The ecosystem file has a field for exactly that, `node_args: '--env-file=.env'`, with `cwd` set to the repo so the relative path resolves. Without it, pm2 starts the process, the guard throws, pm2 restarts it, the guard throws again, and `pm2 list` shows a restart count climbing into the hundreds while the status flickers. That loop is the signature of a missing variable under a process manager, and it is the first thing to check when `pm2 logs` shows the same error repeating.
 
-`PAGE_ORIGIN` on the server is `https://YOUR-DOMAIN`. Behind Nginx the page and the API share that origin, so the browser never sends a cross-origin request and the `cors` middleware from 4-11 never has to say yes. Setting the variable anyway costs nothing and makes the API honest if you ever put the page on a different host, which the Railway section does. A `PORT` of `4100` keeps the number the hall has always used; Nginx will be told to proxy to it.
+`PAGE_ORIGIN` on the server is `https://YOUR-DOMAIN`. Behind Nginx the page and the API share that origin, so the browser never sends a cross-origin request and the `cors` middleware from 4-12 never has to say yes. Setting the variable anyway costs nothing and makes the API honest if you ever put the page on a different host, which the Railway section does. A `PORT` of `4100` keeps the number the hall has always used; Nginx will be told to proxy to it.
 
 ### The one line in the client
 
@@ -293,9 +293,9 @@ content-type: application/json; charset=utf-8
 HTTP/2 404
 ```
 
-The first is the build, served by Nginx. The second is Express refusing an unauthenticated request, through the proxy, over TLS, with the JSON error shape from 4-11; the message text is whatever your `requireUser` says. The third proves the proxy block beats the fallback: an unknown API path gets Express's 404, not the page. If the third returns `200` and HTML, `/api/` is not reaching the proxy block.
+The first is the build, served by Nginx. The second is Express refusing an unauthenticated request, through the proxy, over TLS, with the JSON error shape from 4-12; the message text is whatever your `requireUser` says. The third proves the proxy block beats the fallback: an unknown API path gets Express's 404, not the page. If the third returns `200` and HTML, `/api/` is not reaching the proxy block.
 
-The journey, in a browser on the laptop first. `https://YOUR-DOMAIN` shows the hall's login. Register Sera through the form or with the curl from earlier against `https://YOUR-DOMAIN/api/register`. Seed the catalog once with any token, the way 4-14 did, from the laptop:
+The journey, in a browser on the laptop first. `https://YOUR-DOMAIN` shows the hall's login. Register Sera through the form or with the curl from earlier against `https://YOUR-DOMAIN/api/register`. Seed the catalog once with any token, the way 4-15 did, from the laptop:
 
 ```bash
 # laptop
@@ -386,7 +386,7 @@ railway domain
 
 `railway init` creates a project and links the folder. `railway add --database mongo` provisions a MongoDB service that publishes a `MONGO_URL` variable; the `${{MongoDB.MONGO_URL}}` form is a reference, so the API gets the real string without you ever pasting a password. `railway up` builds from the folder, runs `npm start`, which is why the `start` script exists, and injects `PORT`. `railway domain` generates a public `*.up.railway.app` name with TLS already in front of it. Set `PAGE_ORIGIN` after the client exists.
 
-The client is a second service in the same project: `cd ~/projects/hall-client`, `railway link` to the project, `railway add --service hall-client`, `railway variable set VITE_API_URL=https://THE-API-DOMAIN.up.railway.app`, and `railway up`. Railway's builder runs `npm run build`; if the deploy log says it could not find a start command, `npm install serve` and set the start command to `npx serve -s dist -l $PORT`. Then `railway domain` for the client, and back in `hall-api`, `railway variable set PAGE_ORIGIN=https://THE-CLIENT-DOMAIN.up.railway.app`. On Railway the page and the API are different origins, so this time the `cors` middleware from 4-11 is doing real work, and a wrong `PAGE_ORIGIN` is a blocked preflight in the browser console. The reference hall avoids that by serving its built client from Express as static files in one service; both layouts are fine, and `railway logs` is where `listening on` appears. The variable names are the same five. The release is still a revision, a lockfile, and a set of names; only the machine moved out of view.
+The client is a second service in the same project: `cd ~/projects/hall-client`, `railway link` to the project, `railway add --service hall-client`, `railway variable set VITE_API_URL=https://THE-API-DOMAIN.up.railway.app`, and `railway up`. Railway's builder runs `npm run build`; if the deploy log says it could not find a start command, `npm install serve` and set the start command to `npx serve -s dist -l $PORT`. Then `railway domain` for the client, and back in `hall-api`, `railway variable set PAGE_ORIGIN=https://THE-CLIENT-DOMAIN.up.railway.app`. On Railway the page and the API are different origins, so this time the `cors` middleware from 4-12 is doing real work, and a wrong `PAGE_ORIGIN` is a blocked preflight in the browser console. The reference hall avoids that by serving its built client from Express as static files in one service; both layouts are fine, and `railway logs` is where `listening on` appears. The variable names are the same five. The release is still a revision, a lockfile, and a set of names; only the machine moved out of view.
 
 A small model you can run here. It does not build, connect, or deploy. It models how the API base resolves in each mode, what counts as release evidence, and the difference between rolling code back and rolling data back. It proves you can say those rules. The phone on mobile data and the `deploy.sh` output prove your hall.
 
@@ -474,7 +474,7 @@ If step 4 prints the listen line and then a `MongooseServerSelectionError`, go b
 Write `docs/release.md` in `~/projects/hall-api`, commit it beside `deploy.sh`, push. It is the handoff for the live hall: another developer with SSH access and this page could operate it tonight. No secrets, no connection strings.
 
 - The public URL and the two short hashes `deploy.sh` printed, with the date.
-- The five variable names in `.env` (the four from 4.14 plus `NODE_ENV`), with one phrase each on where their values come from, and the `ls -l` line showing the mode.
+- The five variable names in `.env` (the four from 4.15 plus `NODE_ENV`), with one phrase each on where their values come from, and the `ls -l` line showing the mode.
 - The service name in pm2, the ecosystem path, and the `pm2 list` row.
 - The Nginx site path, the `proxy_pass` port, and the `try_files` line.
 - The three curl results from step 8, pasted.

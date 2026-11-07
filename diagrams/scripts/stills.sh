@@ -40,25 +40,25 @@ for layout in wide tall; do
   still ComboChain session-3-2 fig4-combo-chain "$layout"
   still MissingReturn session-3-2 fig5-missing-return "$layout"
 
-  # Session 3.3 · Objects and Orcs
-  still OoHandCopied session-3-3 fig1-hand-copied "$layout"
-  still OoBlueprint session-3-3 fig2-blueprint "$layout"
-  still OoPrototypeChain session-3-3 fig3-prototype-chain "$layout"
-  still OoThisRules session-3-3 fig4-this-loses-character "$layout"
+  # Session 3.4 · Objects and Orcs
+  still OoHandCopied session-3-4 fig1-hand-copied "$layout"
+  still OoBlueprint session-3-4 fig2-blueprint "$layout"
+  still OoPrototypeChain session-3-4 fig3-prototype-chain "$layout"
+  still OoThisRules session-3-4 fig4-this-loses-character "$layout"
 
-  # Session 3.4 · Casting on the World
-  still DomTree session-3-4 fig1-file-and-tree "$layout"
-  still ThreeSelectors session-3-4 fig2-three-selectors "$layout"
-  still FourDials session-3-4 fig3-four-dials "$layout"
-  still EventBubbles session-3-4 fig4-event-delegation "$layout"
-  still NullAndReload session-3-4 fig5-null-and-reload "$layout"
+  # Session 3.5 · Casting on the World
+  still DomTree session-3-5 fig1-file-and-tree "$layout"
+  still ThreeSelectors session-3-5 fig2-three-selectors "$layout"
+  still FourDials session-3-5 fig3-four-dials "$layout"
+  still EventBubbles session-3-5 fig4-event-delegation "$layout"
+  still NullAndReload session-3-5 fig5-null-and-reload "$layout"
 
-  # Session 3.5 · The Arena
-  still GameLoop session-3-5 fig1-game-loop "$layout"
-  still SingleSourceOfTruth session-3-5 fig2-single-source-of-truth "$layout"
-  still FileSkeleton session-3-5 fig3-skeleton-and-order "$layout"
-  still TimerLeak session-3-5 fig4-timer-leak "$layout"
-  still FourArenas session-3-5 fig5-four-arenas "$layout"
+  # Session 3.6 · The Arena
+  still GameLoop session-3-6 fig1-game-loop "$layout"
+  still SingleSourceOfTruth session-3-6 fig2-single-source-of-truth "$layout"
+  still FileSkeleton session-3-6 fig3-skeleton-and-order "$layout"
+  still TimerLeak session-3-6 fig4-timer-leak "$layout"
+  still FourArenas session-3-6 fig5-four-arenas "$layout"
 
   # Session 1.1 · Welcome to the New World
   still TerminalShellConsole session-1-1 fig1-terminal-shell-conversation "$layout"

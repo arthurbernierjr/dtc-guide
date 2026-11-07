@@ -133,7 +133,7 @@ Watch what it does. It reads `server.js`, quotes the `sendMessage` lines, and sa
 node --env-file=.env server.js
 ```
 
-and, in another terminal, with Bran's token in `$BRAN` and Sera's id in `SERA_ID` from 4-14:
+and, in another terminal, with Bran's token in `$BRAN` and Sera's id in `SERA_ID` from 4-15:
 
 ```bash
 curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4100/api/messages -H "Authorization: Bearer $BRAN" -H 'Content-Type: application/json' -d "{\"recipient\":\"SERA_ID\",\"body\":\"$(printf 'a%.0s' $(seq 1 2001))\"}"
@@ -284,6 +284,6 @@ An agent that can add a package is a supply-chain door, so the sheet on software
 
 ## Before next session
 
-Next session is the trial. You pick one feature of the hall that you built by hand in 4-14, write down its acceptance cases from `HALL.md`, delete it on a branch, and have the agent rebuild it to the same contract while a clock runs. The point is not a number. It is that you can hold scope constant, rerun the old cases, and say what the rebuild cost in review and repair. Reread the `### Result` paragraphs in your log and the time you recorded today; next session's comparison is built from the same four lines. Skim the [quickstart](https://code.claude.com/docs/en/quickstart) for the slash commands that clear and compact a session, because a rebuild is long enough to need them.
+Next session is the trial. You pick one feature of the hall that you built by hand in 4-15, write down its acceptance cases from `HALL.md`, delete it on a branch, and have the agent rebuild it to the same contract while a clock runs. The point is not a number. It is that you can hold scope constant, rerun the old cases, and say what the rebuild cost in review and repair. Reread the `### Result` paragraphs in your log and the time you recorded today; next session's comparison is built from the same four lines. Skim the [quickstart](https://code.claude.com/docs/en/quickstart) for the slash commands that clear and compact a session, because a rebuild is long enough to need them.
 
 Nothing is running. Both servers are stopped, both repos are on `main` with the merge, and the agent is installed and logged in. The next session starts in `~/projects/hall-api` with `HALL.md` open beside `docs/prompt-log.md`.

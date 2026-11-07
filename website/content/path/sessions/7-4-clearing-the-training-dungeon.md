@@ -110,7 +110,7 @@ A filled version for the hall looks like this. Yours will have the same first si
 
 ## Not covered by any suite, and why
 
-- The transfer's second write failing after the first succeeded (the lost-item window from 4-14): needs a transaction before it can be observed; listed as a known gap.
+- The transfer's second write failing after the first succeeded (the lost-item window from 4-15): needs a transaction before it can be observed; listed as a known gap.
 - The TLS certificate renewing: checked by hand each month; certbot's timer, not the suite.
 
 ## Rehearsed regressions

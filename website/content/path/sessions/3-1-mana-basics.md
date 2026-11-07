@@ -262,7 +262,7 @@ console.log(describeClass('bard', 12));
 console.log('ok: quest');
 ```
 
-Read the `hpReport` output against fig. 4. Seventy-five enters at the top, the first gate is true, and the other three gates are never consulted. That is why order matters: if you wrote the `> 0` test first, a player with 75 HP would be told to run away. The `for (const hp of [75, 40, 5, 0])` line that feeds it is a loop: it runs the statement after it once for each value in the list, with `hp` holding that value. Read `for ... of` as "for each of these" for now; loops get their proper introduction in 3.3. The `samples` loop is the falsy six and their look-alikes printed by the engine; `"0"` is a string with a character in it, so it counts as true, and that one bites people in form handling for years.
+Read the `hpReport` output against fig. 4. Seventy-five enters at the top, the first gate is true, and the other three gates are never consulted. That is why order matters: if you wrote the `> 0` test first, a player with 75 HP would be told to run away. The `for (const hp of [75, 40, 5, 0])` line that feeds it is a loop: it runs the statement after it once for each value in the list, with `hp` holding that value. Read `for ... of` as "for each of these" for now; loops get their proper introduction in 3.4. The `samples` loop is the falsy six and their look-alikes printed by the engine; `"0"` is a string with a character in it, so it counts as true, and that one bites people in form handling for years.
 
 The `rarityLabel` function is the `switch` trap shown on purpose. With no `break` after a matching case, execution falls through into the next case and the next, which is why three stars collects all three words. Occasionally that is what you want. Usually it is a bug, and the fix is a `break` on every case. Finally, `describeClass` is the three tools together: a ternary for the tier because it produces a value, a `switch` for the class because it matches one value against several, and an early `return` in `default` so the bad input never reaches the template.
 
@@ -349,7 +349,7 @@ That gives you the two-line rule for the week:
 
 Two short builds before the quest. Keep the Run output open beside you; every operator you need is in it.
 
-**First, the folder (5 minutes).** Every file in this unit lives in one repository, `~/projects/js-fundamentals`. Make it now, before the first file, so every exercise and quest from here to 3.4 has a home and a remote:
+**First, the folder (5 minutes).** Every file in this unit lives in one repository, `~/projects/js-fundamentals`. Make it now, before the first file, so every exercise and quest from here to 3.5 has a home and a remote:
 
 ```bash
 mkdir -p ~/projects/js-fundamentals

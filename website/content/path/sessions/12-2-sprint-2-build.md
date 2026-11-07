@@ -25,7 +25,7 @@ say:
 
 Sprint 1 ended with a table that tells the truth and one slice that survives a reload. Sprint 2 is the only session in this unit that adds features. The Should-haves that survived the cut get built today, each one as a full slice, and nothing from the Could column comes anywhere near the editor. By the end of the session a stranger with the fixture account can walk from sign-in to the valuable outcome and back without you narrating, and every step on that walk has a visible answer for "what is happening right now."
 
-That second half is the real work. In 4-10 you learned that loading, empty, error, and ready are one `status` string, not four booleans. Your capstone was written three units after that lesson, and some of its forms have a `loading` flag, an `error` string, a `success` toast, and a button that can be clicked twice while the first request is in flight. Today the core flow gets one small state machine: a pure function that says which event is allowed in which state, and a component that cannot do anything the function did not permit. The same discipline wraps the provider you already call, Stripe or the AI route, in an adapter with fixtures so the build keeps moving when the key is missing.
+That second half is the real work. In 4-11 you learned that loading, empty, error, and ready are one `status` string, not four booleans. Your capstone was written three units after that lesson, and some of its forms have a `loading` flag, an `error` string, a `success` toast, and a button that can be clicked twice while the first request is in flight. Today the core flow gets one small state machine: a pure function that says which event is allowed in which state, and a component that cannot do anything the function did not permit. The same discipline wraps the provider you already call, Stripe or the AI route, in an adapter with fixtures so the build keeps moving when the key is missing.
 
 > *A bridge is finished when the far bank is reached, not when every plank is cut. Today you lay the planks that are left, in order, and you nail each one down before stepping on the next.*
 
@@ -35,7 +35,7 @@ A feature is complete when the user can reach it, perform it, understand the res
 
 The core flow is the path from the empathy map: the one journey your persona takes to get the outcome they came for. It has a shape that every other feature copies, so it is the flow that gets the state machine first. The machine is small. There are four states: `idle`, `pending`, `saved`, `error`. There are five events: `edit`, `send`, `success`, `failure`, `retry`. A pure function `transition(state, event)` returns the next state, and for a pair that is not allowed, it returns the same state. That last rule is the whole point. A second `send` while `pending` returns `pending`. The function ignores the duplicate; the user's self-control is not the mechanism.
 
-Explicit states fix the data-loss bug too. The draft lives in its own `useState`, exactly as 4-10 put it. The machine's `failure` event moves to `error` and touches nothing else, so the draft is still in the field and the user reads the message and clicks retry. Optimistic UI is allowed, but the optimism has to be reconcilable: keep the previous server value, keep the draft, and if the server refuses, show the previous value and the error together. Confirm the row only when the response says the write landed.
+Explicit states fix the data-loss bug too. The draft lives in its own `useState`, exactly as 4-11 put it. The machine's `failure` event moves to `error` and touches nothing else, so the draft is still in the field and the user reads the message and clicks retry. Optimistic UI is allowed, but the optimism has to be reconcilable: keep the previous server value, keep the draft, and if the server refuses, show the previous value and the error together. Confirm the row only when the response says the write landed.
 
 Empty is not an error. A new account has no records and a working app, and the empty state says what to do next. A failed request is a different sentence with a retry. If the list shows "no entries yet" when the server actually returned 500, the user believes a lie, and so do your tests. One `status` for the list, separate from the form's machine: `loading`, `ready`, `error`, with `ready && items.length === 0` as the empty branch computed during render, never stored.
 
@@ -123,7 +123,7 @@ export default function EntryForm(props) {
 
 ### The error body is a string
 
-Every error body since 4-11 is `{ "error": "..." }`. The capstone's error handler stays in that shape, because the client reads `body.error` as a message and shows it.
+Every error body since 4-12 is `{ "error": "..." }`. The capstone's error handler stays in that shape, because the client reads `body.error` as a message and shows it.
 
 ```js
 // api/app.js, mounted last

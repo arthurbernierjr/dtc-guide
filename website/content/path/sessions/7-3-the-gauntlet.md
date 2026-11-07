@@ -48,7 +48,7 @@ Sera's user id is inside her token. The hall signs `{ sub: userId }`, and the mi
 
 ### Find elements the way a person does
 
-Playwright's locators have an order of preference, and the order is about how a person finds things, not about what is easy for a script. `getByRole('button', { name: 'Log in' })` finds the button by what it is and what it says, the way a screen reader and a sighted person both do. `getByLabel('Email')` finds the input by its label or its `aria-label`, which is how your hall client's inputs are labelled since 4-11. `getByText('The gate is shut.')` finds the letter by its words. `getByTestId` is the fallback when an accessible name is honestly duplicated. A CSS selector such as `.form input:nth-child(2)` is the last resort, because it breaks when the markup changes for reasons that have nothing to do with the journey.
+Playwright's locators have an order of preference, and the order is about how a person finds things, not about what is easy for a script. `getByRole('button', { name: 'Log in' })` finds the button by what it is and what it says, the way a screen reader and a sighted person both do. `getByLabel('Email')` finds the input by its label or its `aria-label`, which is how your hall client's inputs are labelled since 4-12. `getByText('The gate is shut.')` finds the letter by its words. `getByTestId` is the fallback when an accessible name is honestly duplicated. A CSS selector such as `.form input:nth-child(2)` is the last resort, because it breaks when the markup changes for reasons that have nothing to do with the journey.
 
 Locators are strict. If `getByRole('heading', { name: 'Inbox' })` matches two headings, the action fails with an error that lists both, rather than silently picking the first. That strictness is a feature. A page with two elements that a person could confuse is a page with a usability problem, and the test found it. When the match is legitimately plural, a list of letters for example, scope the locator with `.filter({ hasText: 'The gate is shut.' })` and assert on the one row.
 
@@ -122,7 +122,7 @@ module.exports = defineConfig({
 
 `testDir` is `./e2e`, so Playwright never looks in `tests/`, and last session's `testPathIgnorePatterns` keeps Jest out of `e2e/`. The two runners share a repository and ignore each other's folders. One browser project keeps the run short; add Firefox and WebKit later if you want, and know that each one triples the time.
 
-The journey file. The accessible names it uses are the ones the hall client has carried since 4-11: inputs labelled `Email` and `Password`, a button that says `Log in`, and a list of letters. If your client has no heading over the inbox, add `<h2>Inbox</h2>` now; the test is going to ask for it.
+The journey file. The accessible names it uses are the ones the hall client has carried since 4-12: inputs labelled `Email` and `Password`, a button that says `Log in`, and a list of letters. If your client has no heading over the inbox, add `<h2>Inbox</h2>` now; the test is going to ask for it.
 
 ```js
 // e2e/inbox.spec.js
@@ -194,7 +194,7 @@ test('a refresh keeps Sera signed in', async ({ page, request }) => {
 });
 ```
 
-The emails carry a timestamp so a second run does not collide with the first on the unique index; `guildhall_e2e` is never wiped by these tests, and that is fine, because nothing in them depends on the database being empty. The first test arranges everything through `request`, then the browser begins at `page.goto('/')`, which resolves against `baseURL`. The second test waits for the login response before asserting that the inbox did not appear, so the negative assertion cannot pass early. The third test is the `sessionStorage` rule from 4-11, checked by a machine.
+The emails carry a timestamp so a second run does not collide with the first on the unique index; `guildhall_e2e` is never wiped by these tests, and that is fine, because nothing in them depends on the database being empty. The first test arranges everything through `request`, then the browser begins at `page.goto('/')`, which resolves against `baseURL`. The second test waits for the login response before asserting that the inbox did not appear, so the negative assertion cannot pass early. The third test is the `sessionStorage` rule from 4-12, checked by a machine.
 
 ```bash
 npx playwright test

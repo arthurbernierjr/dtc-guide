@@ -223,7 +223,7 @@ git version 2.43.0
 
 Your patch numbers will differ; the `v24` is what matters, and it must match the major version on your laptop. If `node --version` prints `v18`, the NodeSource step did not run and apt installed Ubuntu's own package; the Unsupported runtime diagnosis below is the fix.
 
-Now the repos. This is the step older notes skipped: 4-14 ended with a commit, not a push, and the AI feature from Unit 5 was merged on a branch on your laptop. Both repos have to be on GitHub before the server can have them. On the laptop:
+Now the repos. This is the step older notes skipped: 4-15 ended with a commit, not a push, and the AI feature from Unit 5 was merged on a branch on your laptop. Both repos have to be on GitHub before the server can have them. On the laptop:
 
 ```bash
 # laptop
@@ -258,7 +258,7 @@ node server.js
 Error: JWT_SECRET is required
 ```
 
-That is the right failure. The guard you wrote in 4-11 refuses to listen without a secret, and this machine has no `.env`. Try `node --env-file=.env server.js` and Node tells you the file does not exist. Do not create it today. The database it would point at does not exist on this machine either, and 6-4 builds both the file and the database in one sitting. Note the error text in your docs and move on.
+That is the right failure. The guard you wrote in 4-12 refuses to listen without a secret, and this machine has no `.env`. Try `node --env-file=.env server.js` and Node tells you the file does not exist. Do not create it today. The database it would point at does not exist on this machine either, and 6-4 builds both the file and the database in one sitting. Note the error text in your docs and move on.
 
 A small model you can run here. It does not open a socket or edit a file. It models two rules from this session: how `sshd` picks a value when a drop-in and the main file disagree, and the order gate that decides when you may close the old door. It proves that you can state those rules. It does not prove your droplet is hardened; `sshd -T` and the second terminal prove that.
 

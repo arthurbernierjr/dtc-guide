@@ -36,7 +36,7 @@ A test is a claim with an executable witness. The claim is a sentence: `formatCu
 
 The pyramid people draw has three layers. Unit tests at the base: one function, no database, no network, hundreds of them, each finishing in a millisecond. Integration tests in the middle: a real request through your real router into a disposable database, dozens of them. Browser tests at the top: a real browser clicking your real page, a handful of them, because each one costs seconds. This session is the base. The next two sessions are the other layers, against the hall. The shape of the pyramid is advice about where to spend effort, not a quota.
 
-Jest is the runner this path uses for Node code. It bundles the runner, the assertion library, mocks, and coverage in one install, and it finds files named `*.test.js` or `*.spec.js` without configuration. It is the common choice for Express projects. Your Vite React client from 4-9 would normally use Vitest instead, which speaks the same `describe`, `it`, and `expect`, so what you learn today transfers; this unit tests the API, not the React tree.
+Jest is the runner this path uses for Node code. It bundles the runner, the assertion library, mocks, and coverage in one install, and it finds files named `*.test.js` or `*.spec.js` without configuration. It is the common choice for Express projects. Your Vite React client from 4-10 would normally use Vitest instead, which speaks the same `describe`, `it`, and `expect`, so what you learn today transfers; this unit tests the API, not the React tree.
 
 ![](diagram:session-7-1/fig1-model)
 
@@ -530,6 +530,6 @@ Every test is a trade-off between the confidence it buys and the time it costs, 
 
 ## Before next session
 
-Next session the tests stop being about pure functions and start being about the hall. You will open `~/projects/hall-api`, split `server.js` into a file that builds the app and a file that listens, point Jest at a throwaway database called `guildhall_test`, and send real HTTP requests through the real router with Supertest. Before then, reread the first half of your `HALL.md` from 4-14, the inbox statuses: 200 for Sera, 403 for Ivo, 403 for Bran, 404 for a random id. Those four lines become four `it` blocks, and the fact that you already wrote them down by hand is why the next session goes quickly.
+Next session the tests stop being about pure functions and start being about the hall. You will open `~/projects/hall-api`, split `server.js` into a file that builds the app and a file that listens, point Jest at a throwaway database called `guildhall_test`, and send real HTTP requests through the real router with Supertest. Before then, reread the first half of your `HALL.md` from 4-15, the inbox statuses: 200 for Sera, 403 for Ivo, 403 for Bran, 404 for a random id. Those four lines become four `it` blocks, and the fact that you already wrote them down by hand is why the next session goes quickly.
 
 Nothing is left running after today. The dojo has no server. Make sure the hall is also stopped on your machine (the deployed copy from Unit 6 stays up on its own and is not touched by anything in this unit). Confirm `mongod` is still installed and starts, because next session's tests need it on `127.0.0.1:27017`. The next session starts in `~/projects/hall-api` on a new branch called `add-tests`.

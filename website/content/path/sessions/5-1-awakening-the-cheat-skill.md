@@ -23,7 +23,7 @@ say:
 
 ## The hook
 
-Every isekai protagonist has the moment. The party is down, the mid-tier monster is winning, and then they find the overpowered skill that was in the inventory the whole time. You have been in this world for four units. You built the guild hall in 4-14: `hall-api` on port 4100, `hall-client` on 5173, the `guildhall` database, three accounts and a letter between two of them. The whole time, a model that writes Express routes was one browser tab away, and if you tried it, the results were inconsistent. Sometimes a route that looked right. Sometimes a route that returned anyone's mail to anyone with an id. The reason is not that the model is bad. You were casting without an incantation.
+Every isekai protagonist has the moment. The party is down, the mid-tier monster is winning, and then they find the overpowered skill that was in the inventory the whole time. You have been in this world for four units. You built the guild hall in 4-15: `hall-api` on port 4100, `hall-client` on 5173, the `guildhall` database, three accounts and a letter between two of them. The whole time, a model that writes Express routes was one browser tab away, and if you tried it, the results were inconsistent. Sometimes a route that looked right. Sometimes a route that returned anyone's mail to anyone with an id. The reason is not that the model is bad. You were casting without an incantation.
 
 Today you learn one. RTTPOC is Role, Task, Tone, Purpose, Output, Constraints, six lines you write before you paste any code. You aim it at a function you already wrote by hand, `readMessage`, the one that answers 403 when the token's user is not the recipient. You run a lazy prompt and a structured prompt on the same task, score both outputs with a rubric you wrote first, and keep the whole packet in a file inside the hall. By the end, you have an AI chat account, a `docs/` folder in `hall-api` with two files that every later session of this unit adds to, and one honest comparison that says what the six lines bought you.
 
@@ -77,7 +77,7 @@ The six lines work in any chat tool. If you already have another provider's acco
 
 ## The demonstration
 
-One function, end to end, in a chat tab. The target is `readMessage` from 4-14, the handler behind `GET /api/messages/:id`. You already know its contract, which is the point: you can only score what you can already specify. Open the hall's `server.js` next to the chat so you can copy the schema and nothing else.
+One function, end to end, in a chat tab. The target is `readMessage` from 4-15, the handler behind `GET /api/messages/:id`. You already know its contract, which is the point: you can only score what you can already specify. Open the hall's `server.js` next to the chat so you can copy the schema and nothing else.
 
 First, make the folder the whole unit writes to. The hall's API project is the repo that holds the docs, because the API is where the contract lives.
 
@@ -127,7 +127,7 @@ router.get('/messages/:id', async (req, res) => {
 });
 ```
 
-Score it against the rubric. Rule 1, yes. Rule 2, no: anyone with an id reads anyone's letter, which is exactly the leak 4-14 called the mail leak. Rule 3, yes, but for everyone. Rule 4, no: the key is `message`, the hall uses `error`. Rule 5, no: a try/catch that turns every failure into a 500 body with the raw error message, hiding the error handler you built in 4-2. Two out of five. The model did not do anything wrong. It answered the question it was asked, and the question did not mention a recipient.
+Score it against the rubric. Rule 1, yes. Rule 2, no: anyone with an id reads anyone's letter, which is exactly the leak 4-15 called the mail leak. Rule 3, yes, but for everyone. Rule 4, no: the key is `message`, the hall uses `error`. Rule 5, no: a try/catch that turns every failure into a 500 body with the raw error message, hiding the error handler you built in 4-3. Two out of five. The model did not do anything wrong. It answered the question it was asked, and the question did not mention a recipient.
 
 Now the six lines, then the paste.
 
@@ -163,7 +163,7 @@ async function readMessage(req, res) {
 }
 ```
 
-Five out of five, and it reads like the one you wrote in 4-14, because you told it what you already knew. Notice what the structured prompt did not do. It did not make the model smarter. It removed the choices the model would otherwise have made for you: the error key, the auth boundary, the version, the error-handling style. Each of those lines was a blank in the baseline.
+Five out of five, and it reads like the one you wrote in 4-15, because you told it what you already knew. Notice what the structured prompt did not do. It did not make the model smarter. It removed the choices the model would otherwise have made for you: the error key, the auth boundary, the version, the error-handling style. Each of those lines was a blank in the baseline.
 
 Then one round of iteration, because the first answer is rarely the last. Ask: "What happens when `req.params.id` is not a valid ObjectId?" The honest answer is that `findById` throws a `CastError`, the rejection reaches your error handler, and the client gets whatever status your handler maps it to. If you want that to be a 404, say so and get a second version. Record the round in the log. The pattern of a follow-up is always one of four: refine ("close, but change X to Y"), add a constraint ("it works but does not handle Z"), change approach ("good logic, rewrite using the conditional update"), or check understanding ("explain line 3 before I paste it"). Three rounds is normal for code you will keep.
 
@@ -244,7 +244,7 @@ The output got better because you pasted the whole `.env`, a real user document,
 
 ## Your turn
 
-Same packet, different function. The target is `spend` from 4-14, the handler behind `POST /api/pack/spend`, whose rule is that a spend larger than the holding's `qty` answers 409 and leaves the number unchanged.
+Same packet, different function. The target is `spend` from 4-15, the handler behind `POST /api/pack/spend`, whose rule is that a spend larger than the holding's `qty` answers 409 and leaves the number unchanged.
 
 1. Sign up at [claude.ai](https://claude.ai) if you have not. Open a new chat. Write the tool and model name at the top of a new entry, `## 5-1 spend: baseline vs RTTPOC`, in `~/projects/hall-api/docs/prompt-log.md`.
 2. Write the rubric first, in the log, before any prompt. At least: 400 when `item` or `amount` is missing or `amount` is not a positive integer; 409 when the holding does not have enough; the quantity after a refused spend is unchanged; the catalog document is never written; the decrement is one conditional update, not a read followed by a save.
@@ -302,7 +302,7 @@ Output: Separate blocks per file: model, route handler, component.
 Constraints: No TypeScript. No UI libraries. Bearer token in the Authorization header. [Versions.]
 ```
 
-A filled example under each one, taken from the hall: the Debugger on the negative-pack bug you forced in 4-14, the Reviewer on your own `readMessage`, the Feature Builder left for 5-2 with a note saying so.
+A filled example under each one, taken from the hall: the Debugger on the negative-pack bug you forced in 4-15, the Reviewer on your own `readMessage`, the Feature Builder left for 5-2 with a note saying so.
 
 Evidence:
 

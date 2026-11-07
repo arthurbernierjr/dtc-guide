@@ -5,10 +5,10 @@ import { CoverCorrection, COVER_SIZE, CoverFormat } from "./brand/CoverCorrectio
 import { Favicon, FaviconSize } from "./brand/Favicon";
 import { RespawnMark } from "./brand/RespawnMark";
 import { PathMap } from "./path/PathMap";
-import { OoHandCopied } from "./session-3-3/OoHandCopied";
-import { OoBlueprint } from "./session-3-3/OoBlueprint";
-import { OoPrototypeChain } from "./session-3-3/OoPrototypeChain";
-import { OoThisRules } from "./session-3-3/OoThisRules";
+import { OoHandCopied } from "./session-3-4/OoHandCopied";
+import { OoBlueprint } from "./session-3-4/OoBlueprint";
+import { OoPrototypeChain } from "./session-3-4/OoPrototypeChain";
+import { OoThisRules } from "./session-3-4/OoThisRules";
 import { ManaContainers } from "./session-3-1/ManaContainers";
 import { SevenPrimitives } from "./session-3-1/SevenPrimitives";
 import { HoistingTwoPasses } from "./session-3-1/HoistingTwoPasses";
@@ -19,16 +19,16 @@ import { ScopeRings } from "./session-3-2/ScopeRings";
 import { ClosureBackpack } from "./session-3-2/ClosureBackpack";
 import { ComboChain } from "./session-3-2/ComboChain";
 import { MissingReturn } from "./session-3-2/MissingReturn";
-import { DomTree } from "./session-3-4/DomTree";
-import { ThreeSelectors } from "./session-3-4/ThreeSelectors";
-import { FourDials } from "./session-3-4/FourDials";
-import { EventBubbles } from "./session-3-4/EventBubbles";
-import { NullAndReload } from "./session-3-4/NullAndReload";
-import { GameLoop } from "./session-3-5/GameLoop";
-import { SingleSourceOfTruth } from "./session-3-5/SingleSourceOfTruth";
-import { FileSkeleton } from "./session-3-5/FileSkeleton";
-import { FourArenas } from "./session-3-5/FourArenas";
-import { TimerLeak } from "./session-3-5/TimerLeak";
+import { DomTree } from "./session-3-5/DomTree";
+import { ThreeSelectors } from "./session-3-5/ThreeSelectors";
+import { FourDials } from "./session-3-5/FourDials";
+import { EventBubbles } from "./session-3-5/EventBubbles";
+import { NullAndReload } from "./session-3-5/NullAndReload";
+import { GameLoop } from "./session-3-6/GameLoop";
+import { SingleSourceOfTruth } from "./session-3-6/SingleSourceOfTruth";
+import { FileSkeleton } from "./session-3-6/FileSkeleton";
+import { FourArenas } from "./session-3-6/FourArenas";
+import { TimerLeak } from "./session-3-6/TimerLeak";
 import { TerminalShellConsole } from "./session-1-1/TerminalShellConsole";
 import { CommandAnatomy } from "./session-1-1/CommandAnatomy";
 import { CampTree } from "./session-1-1/CampTree";
@@ -102,7 +102,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="RespawnMark" component={RespawnMark} {...still} width={600} height={240} />
     </Folder>
     <Folder name="path">
-      <Composition id="PathMap" component={PathMap} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout, written: ["3.3"] }} calculateMetadata={byLayout} />
+      <Composition id="PathMap" component={PathMap} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout, written: ["3.4"] }} calculateMetadata={byLayout} />
     </Folder>
     <Folder name="session-3-1">
       <Composition id="ManaContainers" component={ManaContainers} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
@@ -118,20 +118,20 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="ComboChain" component={ComboChain} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
       <Composition id="MissingReturn" component={MissingReturn} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
     </Folder>
-    <Folder name="session-3-3">
+    <Folder name="session-3-4">
       <Composition id="OoHandCopied" component={OoHandCopied} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout }} calculateMetadata={byLayout} />
       <Composition id="OoBlueprint" component={OoBlueprint} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout }} calculateMetadata={byLayout} />
       <Composition id="OoPrototypeChain" component={OoPrototypeChain} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout }} calculateMetadata={byLayout} />
       <Composition id="OoThisRules" component={OoThisRules} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout }} calculateMetadata={byLayout} />
     </Folder>
-    <Folder name="session-3-4">
+    <Folder name="session-3-5">
       <Composition id="DomTree" component={DomTree} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
       <Composition id="ThreeSelectors" component={ThreeSelectors} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
       <Composition id="FourDials" component={FourDials} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
       <Composition id="EventBubbles" component={EventBubbles} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
       <Composition id="NullAndReload" component={NullAndReload} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
     </Folder>
-    <Folder name="session-3-5">
+    <Folder name="session-3-6">
       <Composition id="GameLoop" component={GameLoop} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
       <Composition id="SingleSourceOfTruth" component={SingleSourceOfTruth} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />
       <Composition id="FileSkeleton" component={FileSkeleton} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />

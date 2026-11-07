@@ -75,7 +75,7 @@ Row 3 is a fix today. Row 7 is a fix if the three dead ends are done, otherwise 
 
 ### The 404 page and the two kinds of not-found
 
-The API's 404 is JSON because its clients are programs. The client's 404 is a page because its clients are people. If your capstone uses React Router, the page is the last `<Route path="*">`. If it does not, and you have kept to the 4-10 shape of one `App` switching on state, the page is the branch for a `window.location.pathname` that none of your screens claim. Either way it has three things: a sentence that says the page does not exist, a link to the dashboard, and the same header as every other screen, so the user still knows where they are.
+The API's 404 is JSON because its clients are programs. The client's 404 is a page because its clients are people. If your capstone uses React Router, the page is the last `<Route path="*">`. If it does not, and you have kept to the 4-11 shape of one `App` switching on state, the page is the branch for a `window.location.pathname` that none of your screens claim. Either way it has three things: a sentence that says the page does not exist, a link to the dashboard, and the same header as every other screen, so the user still knows where they are.
 
 ```jsx
 export default function NotFound() {

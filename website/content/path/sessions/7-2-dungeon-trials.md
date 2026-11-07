@@ -2,7 +2,7 @@
 editorial: true
 title: Dungeon Trials
 subtitle: Supertest, a throwaway database, and the hall's real routes under test
-hook: "You proved the inbox by hand in 4-14 and wrote four statuses in a note. Today those four lines become four tests that send real requests through the real router into a database that exists only to be wiped."
+hook: "You proved the inbox by hand in 4-15 and wrote four statuses in a note. Today those four lines become four tests that send real requests through the real router into a database that exists only to be wiped."
 read: 60
 artifact: "hall-api split into app.js and server.js, a guildhall_test database that refuses to be anything else, and a Supertest suite for accounts, letters, and the pack on the add-tests branch"
 diagrams:
@@ -24,7 +24,7 @@ say:
 
 ## The hook
 
-In 4-14 you proved the inbox with three accounts and a list of statuses: 200 for Sera, 403 for Ivo, 403 for Bran, 404 for an id that matches nothing. You typed the curls, read the numbers, and wrote them into `HALL.md`. Then Unit 5 let a model rewrite parts of the hall and Unit 6 moved the process onto a server. You have not re-run those curls since. If the recipient check went missing during either unit, the hall is leaking mail right now and the note still says 403.
+In 4-15 you proved the inbox with three accounts and a list of statuses: 200 for Sera, 403 for Ivo, 403 for Bran, 404 for an id that matches nothing. You typed the curls, read the numbers, and wrote them into `HALL.md`. Then Unit 5 let a model rewrite parts of the hall and Unit 6 moved the process onto a server. You have not re-run those curls since. If the recipient check went missing during either unit, the hall is leaking mail right now and the note still says 403.
 
 Today the note becomes a file that checks itself. You split `server.js` in `~/projects/hall-api` into an `app.js` that builds the Express application and a `server.js` that connects and listens, so a test can import the app without binding port 4100. You point Jest at a database called `guildhall_test` that exists to be emptied. You install Supertest and send real HTTP requests, with real bearer tokens, through the real router. By the end, `npm test` in `hall-api` registers Bran, Sera, and Ivo, sends a letter, and asserts those four statuses in under two seconds, on a branch called `add-tests`.
 
@@ -84,7 +84,7 @@ main().catch(function (err) {
 
 Tests delete rows. They delete every row, before every test, so that each test starts from nothing. That is correct behavior against `guildhall_test` and a catastrophe against `guildhall`. The protection is not care. It is a rule in code: the test setup reads a second variable, `TEST_MONGODB_URI`, never `MONGODB_URI`, and it refuses to connect unless the database name ends in `_test`. There is no fallback. If the variable is missing, the suite throws before any test runs, with a sentence that says what to set.
 
-Use `127.0.0.1` rather than `localhost`, as you have since 4-5. On some machines `localhost` resolves to the IPv6 address first while `mongod` listens on the IPv4 one, and the resulting error, a connection refused after a long pause, has nothing to do with your tests.
+Use `127.0.0.1` rather than `localhost`, as you have since 4-6. On some machines `localhost` resolves to the IPv6 address first while `mongod` listens on the IPv4 one, and the resulting error, a connection refused after a long pause, has nothing to do with your tests.
 
 The setup file wipes every collection in `beforeEach`, not `afterEach`. The reason is practical. A hook that cleans after a test also cleans after a failing test, so by the time you open `mongosh` to look at what the route actually wrote, the rows are gone. Cleaning before each test leaves the last test's rows in place for inspection and still guarantees every test begins empty. The connection closes in `afterAll` so the Jest process can exit.
 
@@ -146,7 +146,7 @@ That is Jest 30 and Supertest 7 as development dependencies of the hall itself. 
 }
 ```
 
-The test script uses the same `--env-file` flag you have used since 4-5, pointed at a second file. `.env.test` is committed, because it contains nothing secret: a localhost database that ends in `_test`, a throwaway signing secret, and the page origin the CORS middleware expects. `.env` stays ignored. If your `.gitignore` says `.env*` rather than `.env`, add a line `!.env.test` under it, or the file never reaches GitHub and next session's CI run fails on the first line of `tests/setup.js`.
+The test script uses the same `--env-file` flag you have used since 4-6, pointed at a second file. `.env.test` is committed, because it contains nothing secret: a localhost database that ends in `_test`, a throwaway signing secret, and the page origin the CORS middleware expects. `.env` stays ignored. If your `.gitignore` says `.env*` rather than `.env`, add a line `!.env.test` under it, or the file never reaches GitHub and next session's CI run fails on the first line of `tests/setup.js`.
 
 ```dotenv
 # .env.test (committed; nothing in here is a secret)
@@ -478,7 +478,7 @@ In `~/projects/hall-api`, on `add-tests`, with `mongod` running and the hall sto
 
 ![](diagram:session-7-2/fig3-evidence)
 
-The deliverable is the `add-tests` branch of `hall-api` with a suite that proves the three evidence lines from 4-14 without a human reading a status: the inbox door, the kinds, and the count. Add one more file, `tests/errors.test.js`, for the failures the hall must answer on purpose: a malformed id on `GET /api/messages/not-an-id` is 400 through the `CastError` branch, a `POST /api/messages` with no body at all is 400, `GET /api/pack` with `Bearer totally.fake.token` is 401, and a token signed with a different secret is 401.
+The deliverable is the `add-tests` branch of `hall-api` with a suite that proves the three evidence lines from 4-15 without a human reading a status: the inbox door, the kinds, and the count. Add one more file, `tests/errors.test.js`, for the failures the hall must answer on purpose: a malformed id on `GET /api/messages/not-an-id` is 400 through the `CastError` branch, a `POST /api/messages` with no body at all is 400, `GET /api/pack` with `Bearer totally.fake.token` is 401, and a token signed with a different secret is 401.
 
 Evidence to keep:
 
