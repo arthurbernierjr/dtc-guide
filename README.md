@@ -33,7 +33,7 @@ The full test command rebuilds the site and runs eleven gates: build, registry, 
 
 The UI gate checks 48 pages at 1440, 834, and 390 pixels, keyboard search, mobile-menu focus restoration, language-step scrolling, reduced-motion behavior, redirects, and real 404 responses. The live gate runs 25 browser stages twice and replays 29 terminal scripts containing 482 commands. AlgoCasts contributes 26 suites and 136 tests.
 
-`website/content/verification.json` and `website/qa/VERIFICATION.md` record 279 content pages (search and 404 are exempt). A ledger entry is coverage, not proof that every language example ran. **35 backend-language pages remain marked `exec: not run`**. The historical Angular/Django version and backend-toolchain findings remain open in `website/qa/findings.md`; this integration pass does not claim to close them.
+`website/content/verification.json` and `website/qa/VERIFICATION.md` record 279 content pages (search and 404 are exempt). A ledger entry is coverage, not proof that every language example ran. **28 backend-language pages remain marked `exec: not run`** (the intro, oop, routing and models pages of the Ruby, Go, Java, C#, PHP, Rust and Dart tracks). The eight api pages are `exec: ran`: each one's code is the example repo deployed on Railway and checked by `website/scripts/check-todos-api.mjs`. The Angular CLI finding (F-001) remains open in `website/qa/findings.md`.
 
 After changing content, build, run the relevant execution gates, regenerate the ledger, then run the full suite:
 
@@ -82,7 +82,7 @@ Stills generate wide and tall crops, plus an updated path map. New lessons need 
 - Completed Session 2.5 and every session in Units 4–12, preserving the existing lessons.
 - Added 123 authored figures with wide/tall crops and 41 executable browser checkpoints.
 - Adapted the original local Full Stack Founder curriculum into the site’s eight-beat lesson structure, with current boundary checks and explicit manual integration steps.
-- Extended browser coverage to every new lesson and made all 54 published sessions a regression requirement.
+- Extended browser coverage to every new lesson and made all 62 published sessions a regression requirement.
 - Left language-toolchain installation and external account setup to the learner.
 
 ## Production launch
@@ -90,6 +90,16 @@ Stills generate wide and tall crops, plus an updated path map. New lessons need 
 The configured canonical origin is `https://guide.bigpoppacode.io` in `website/build/site.config.js`. Confirm the destination before deploying; rebuild if the origin changes. No public deployment, DNS change, TLS setup or social-preview scrape was performed in this pass.
 
 Run Express with `NODE_ENV=production` behind the deployment's TLS reverse proxy. HSTS belongs at that proxy. Page CSP, worker-scoped evaluation, source-file text responses, security headers, and real 404 handling are implemented in `server.js` and checked by the suite. Do not expose a development build or use a verification bypass for release.
+
+## Example repos and the Todos contract
+
+Every backend side quest builds the same API, and every frontend guide consumes it. The contract (no trailing slashes; objects exactly `{id, subject, details}`; `GET /health`; JSON `{"error"}` bodies on 400 and 404; `DELETE` answers 204; CORS open to any origin) is stated on each api page and checked by:
+
+```bash
+node website/scripts/check-todos-api.mjs https://your-api.up.railway.app
+```
+
+Example code lives in `github.com/arthurbernierjr/dtc-*`: eight backends (`dtc-python-api`, `dtc-ruby-api`, `dtc-go-api`, `dtc-java-api`, `dtc-cs-api`, `dtc-php-api`, `dtc-rust-api`, `dtc-dart-api`), four frontends (`dtc-react`, `dtc-vue`, `dtc-svelte`, `dtc-angular`), the Unit 4 guild hall (`dtc-guild-hall`), the Unit 2 landing page and Unit 3 game (`dtc-landing`), and the atelier page (`dtc-atelier`). Each is deployed on Railway from the owner's account; the live URLs are on the pages. Local clones sit in `~/code/dtc-apps/`. The deploy-and-verify loop for a backend is: edit, `railway up -p <project> -s api -e production --detach -y`, wait for SUCCESS, run `check.mjs` against the domain, then commit and push.
 
 ## Attribution
 

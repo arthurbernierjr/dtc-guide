@@ -324,7 +324,7 @@ Every hunk that changes meaning must appear in the override's `changes:` list. F
 | Python / Django / DRF | `python3 -m venv .venv && pip install django djangorestframework django-cors-headers dj-database-url gunicorn whitenoise "psycopg[binary]"`; create the project exactly as the five pages say; `python manage.py check --deploy`, run the test client against `/todos/` | ran (Django 5.2 LTS on Python 3.10; identical code) |
 | React / Vue / Svelte | Scaffold with the command on the page, copy every labelled file verbatim, `npm run build` | ran (real builds) |
 | Angular | `ng new`, copy files, `ng build`. **Needs Node ≥ 24.15** — the first wave had 24.13, so it AOT-compiled the files with `ngc` instead and said so in `verified_note`. Run the real CLI and replace that note. | partially (ngc only) |
-| Ruby, Go, Java, C#, PHP, Rust, Dart | Install the toolchain in the table above, follow the five pages literally, hit the CRUD routes with `curl` | **not run** — each page's `verified_note` says "doc-verified only". Upgrading these to `exec: ran` is the highest-value thing an agent with the toolchains can do. |
+| Ruby, Go, Java, C#, PHP, Rust, Dart | The api page of each track is the example repo `github.com/arthurbernierjr/dtc-<lang>-api`, deployed on Railway (`railway up -p <project> -s api -e production --detach -y`, no local toolchain) and checked with `node website/scripts/check-todos-api.mjs <live url>` (16 checks, all PASS on 2026-11-07). To re-verify after a change: deploy, run the script, update the page's `verified_note`, re-run `verify:ledger`. | api pages **ran**; intro/oop/routing/models **not run** (doc-verified; 28 pages). Running those four pages per track needs the toolchain and is still the highest-value manual check. |
 
 A quick way to extract labelled code blocks into files: every file block on a language page starts with a bold path line (`**`src/app.js`**` or a heading); the first wave's extractor pattern is in the transcript notes — but a `grep -n '^\*\*`' page.md` and copy-paste is enough for five files.
 
@@ -394,3 +394,19 @@ Done means: `npm test` green, every block has a sign-off row, zero open `high` f
 ## Completed curriculum verification scope
 
 All 54 scheduled lessons must be published. The registry gate enforces completion, eight teaching beats, word floors, side quests, diagram assets, and navigation. The UI gate visits all 41 newly completed lessons at desktop, tablet, and phone widths and executes their browser checkpoints. No language toolchains are installed by this workflow. Local server, database, provider, and deployment walkthroughs remain manual integration checks; the verification ledger explicitly distinguishes them from executed browser models.
+
+## 4.6 The Todos contract (backend and frontend guides)
+
+Every backend api page and every frontend page implements one contract, so any frontend works with any backend:
+
+| Request | Response |
+|---|---|
+| `GET /health` | 200 `{"ok":true}` |
+| `GET /todos` | 200 `[{id,subject,details}]` ordered by id |
+| `GET /todos/:id` | 200 the object, or 404 `{"error":"not found"}` |
+| `POST /todos` `{subject,details}` | 201 the new object |
+| `PUT /todos/:id` `{subject,details}` | 200 the updated object, or 404 |
+| `DELETE /todos/:id` | 204 with no body, or 404 |
+| blank or missing `subject`/`details`, or malformed JSON | 400 `{"error":"…"}` |
+
+Objects contain exactly `id` (integer), `subject`, `details`. No trailing slashes. CORS: any origin, methods GET POST PUT DELETE OPTIONS, header Content-Type. The process reads `PORT`. `website/scripts/check-todos-api.mjs` (copied verbatim into each repo as `check.mjs`) asserts all of it; a page may only say `exec: ran` for its api step when that script printed 16/16 PASS against the deploy named in `verified_note`. Live deployments and repos as of 2026-11-07: see the "Pick any backend" table on any frontend page.

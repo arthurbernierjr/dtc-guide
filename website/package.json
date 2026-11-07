@@ -1,7 +1,7 @@
 {
   "name": "deeper-than-code-guide",
   "version": "1.0.0",
-  "description": "Super Coder \u2014 the path and library. A 54-session curriculum and 226-page programming library, served on port 31803.",
+  "description": "Super Coder \u2014 the path and library. A 62-session curriculum and 226-page programming library, served on port 31803.",
   "main": "server.js",
   "private": true,
   "scripts": {
