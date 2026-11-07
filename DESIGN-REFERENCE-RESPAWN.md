@@ -324,8 +324,7 @@ Error bodies are `{ "error": "..." }` from 4-11 on (4-1…4-8 use `{ "message": 
   `https://YOUR-DOMAIN` (Nginx in front of hall-api on 4100; hall-client built to static files).
 - The capstone (Units 8–12) is **"your capstone"** with a learner-chosen folder `~/projects/<capstone-name>`; sessions
   use `<capstone-name>` literally where a path is needed.
-- Unit 8 artifacts: `~/projects/<capstone-name>/docs/` holds `research.md`, `empathy-map.md`, `user-stories.md`,
-  `sprint-plan.md`; Units 9–12 refer to these file names.
+- Unit 8 artifacts: `~/projects/<capstone-name>/docs/` holds `research.md` (script, interview logs, the combined empathy map, insights), `user-stories.md`, `sprint-plan.md` (four sprints mapped to 12.1–12.4), `product-spec.md`; Units 9–12 refer to these file names.
 - Week numbers are taken from path.json (5-1 is week 10, not "seven weeks in").
 
 ### Voice and structure (for rewrites)
