@@ -1,7 +1,7 @@
 ---
 editorial: true
 title: Blood Oaths
-subtitle: Many-to-many relationships in a MERN app
+subtitle: Many-to-many relationships with Express and Mongoose
 hook: "A spell has one owner. A party has many members, and a member stands in many parties. That second sentence is a different shape, and Mongoose will not invent it for you."
 read: 55
 artifact: "Parties and adventurers as a many-to-many, with a join collection and populate"

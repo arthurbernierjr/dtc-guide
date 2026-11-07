@@ -654,7 +654,7 @@
       "id": "4.13",
       "unit": 4,
       "title": "Blood Oaths",
-      "subtitle": "Many-to-many relationships in a MERN app",
+      "subtitle": "Many-to-many relationships with Express and Mongoose",
       "slug": "4-13-blood-oaths",
       "hook": "A spell has one owner. A party has many members, and a member stands in many parties. That second sentence is a different shape, and Mongoose will not invent it for you.",
       "sideQuests": [
@@ -921,10 +921,10 @@
         "MIND-02"
       ],
       "sideQuestWhy": [
-        "Apply observe to this lesson's artifact: Ask about a recent concrete experience.",
-        "Apply separate to this lesson's artifact: Keep quotations distinct from interpretations."
+        "The one-breath definitions are how you answer an interviewee who asks what you actually build, in one sentence, so the warm-up never turns into a pitch.",
+        "Recruiting five strangers and getting three to say yes is the kind of week where nothing seems to move; read the grit story before the third unanswered message."
       ],
-      "hook": "An interview guide, anonymized notes, and an evidence-based empathy map. Ask about a recent concrete experience."
+      "hook": "The guild hall is built. Nobody asked for it. Today you pick the capstone idea in one afternoon, open its repo, write seven questions that cannot be answered with a polite lie, and book the people who will answer them."
     },
     {
       "id": "8.2",
@@ -939,10 +939,10 @@
         "PAT-21"
       ],
       "sideQuestWhy": [
-        "Apply need to this lesson's artifact: Connect a user problem to evidence.",
-        "Apply slice to this lesson's artifact: Define a small observable outcome."
+        "Single Responsibility is INVEST's 'small' said about code: a story that touches four modules is a story to split, and the page gives you the smell test for spotting it.",
+        "RICE and ICE are two interchangeable scoring strategies behind one score(story) call; the Strategy page shows that shape, and the model on this page is a plain object map of functions selected by key."
       ],
-      "hook": "A prioritized backlog with user stories and testable acceptance criteria. Connect a user problem to evidence."
+      "hook": "An idea sentence and one practice interview become a backlog: fifteen to twenty user stories, each tagged evidence or assumption, acceptance examples for the top five, a MoSCoW cut, RICE scores, and a board with four columns where the capstone will be built."
     },
     {
       "id": "8.3",
@@ -957,10 +957,10 @@
         "SYS-03"
       ],
       "sideQuestWhy": [
-        "Apply plan to this lesson's artifact: Choose a coherent goal within actual capacity.",
-        "Apply inspect to this lesson's artifact: Review working outcomes and impediments."
+        "A sprint is a promise to yourself with a date on it, and the grit story's training circle is the same plan, inspect, adapt loop told as fiction.",
+        "Open/Closed and Dependency Inversion are what make a story Independent on the board: if finishing card four means reopening card two, the SOLID page names the coupling to cut before you estimate."
       ],
-      "hook": "A sprint goal, working board, review agenda, and retrospective action. Choose a coherent goal within actual capacity."
+      "hook": "A board on the wall does not clear dungeons. Today every Must story gets a size, the backlog becomes the four sprints Unit 12 actually runs, Sprint 1 gets a goal that fits, and you run your first retrospective on the work you already did in Unit 7."
     },
     {
       "id": "8.4",
@@ -975,10 +975,10 @@
         "SYS-03"
       ],
       "sideQuestWhy": [
-        "Apply evidence to this lesson's artifact: Synthesize real interviews without inventing certainty.",
-        "Apply decision to this lesson's artifact: Choose a problem and document alternatives."
+        "Three interviews that disagree with your idea are the plateau the grit story is about; the move is to write the finding down and keep going, not to recruit friendlier people.",
+        "Interface Segregation is the Sprint 1 goal in code form: the first increment exposes one thin path a tester can walk, not every method the finished product will have."
       ],
-      "hook": "A research-to-backlog handoff and a realistic first sprint plan. Synthesize real interviews without inventing certainty."
+      "hook": "Three real people have talked to you. Today their words become a combined empathy map, a set of insights with counts instead of adjectives, a backlog revised line by line with a reason for every change, and the product spec that Unit 12 opens on its first morning."
     },
     {
       "id": "9.1",

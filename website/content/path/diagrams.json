@@ -1406,8 +1406,8 @@
   "session-8-1/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 8.1: The working model. Observe: Ask about a recent concrete experience. Separate: Keep quotations distinct from interpretations. Synthesize: Find patterns without erasing contradictory evidence.",
-    "caption": "The working model: Observe → Separate → Synthesize",
+    "alt": "The working model for session 8.1: observe by asking about a recent concrete experience, separate quotations from interpretations on their own rows, then synthesize patterns without erasing contradictory evidence.",
+    "caption": "The working model: observe a recent experience, separate quote from interpretation, synthesize without erasing the contradictions.",
     "props": {
       "session": "8.1",
       "title": "The working model",
@@ -1432,8 +1432,8 @@
   "session-8-1/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 8.1: Diagnose the failure. Leading question: Ask what happened instead of suggesting the answer. Friends flatter the idea: Recruit people who experience the problem. Private detail retained: Collect only necessary notes with consent.",
-    "caption": "Diagnose the failure: Leading question → Friends flatter the idea → Private detail retained",
+    "alt": "Three ways an interview goes wrong in session 8.1: a leading question that hands over the answer, friends who flatter the idea instead of describing the task, and private detail retained in the shared notes.",
+    "caption": "Diagnose the failure: a leading question, friends flattering the idea, private detail retained in the pushed file.",
     "props": {
       "session": "8.1",
       "title": "Diagnose the failure",
@@ -1458,8 +1458,8 @@
   "session-8-1/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 8.1: evidence to collect. Checkpoint assertion: Interpretations are not counted as observations Boundary assertion: Explain the rejected or incomplete case Manual handoff: An interview guide, anonymized notes, and an evidence-based empathy map",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for session 8.1: the browser model shows interpretations are not counted as observations and names never reach the shared log; the handoff is docs/research.md with a seven-question script, a P0 practice log, and three booked interviews.",
+    "caption": "Evidence: the model separates observation from interpretation and strips names; the real artifact is docs/research.md with the script, the P0 log, and three booked calls.",
     "props": {
       "session": "8.1",
       "title": "Prove the handoff",
@@ -1484,8 +1484,8 @@
   "session-8-2/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 8.2: The working model. Need: Connect a user problem to evidence. Slice: Define a small observable outcome. Prioritize: Order work by value, uncertainty, and dependency.",
-    "caption": "The working model: Need → Slice → Prioritize",
+    "alt": "The working model for session 8.2: connect a user need to evidence from the research log, slice it into a small observable outcome with acceptance examples, then prioritize by value, uncertainty, and dependency.",
+    "caption": "The working model: need tied to evidence, a thin end-to-end slice, then MoSCoW and RICE to order it.",
     "props": {
       "session": "8.2",
       "title": "The working model",
@@ -1510,8 +1510,8 @@
   "session-8-2/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 8.2: Diagnose the failure. Technical task masquerades as value: Explain the user outcome it enables. Story too large: Split by workflow or capability, not only by layer. Ambiguous done: Write concrete acceptance examples.",
-    "caption": "Diagnose the failure: Technical task masquerades as value → Story too large → Ambiguous done",
+    "alt": "Three ways a backlog goes wrong in session 8.2: a technical task masquerading as user value, a story too large to finish in one sprint, and a card whose definition of done is ambiguous.",
+    "caption": "Diagnose the failure: a task with no user outcome, a story too large, and done without an example.",
     "props": {
       "session": "8.2",
       "title": "Diagnose the failure",
@@ -1536,8 +1536,8 @@
   "session-8-2/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 8.2: evidence to collect. Checkpoint assertion: Illustrative ranking Boundary assertion: Source backlog preserved Manual handoff: A prioritized backlog with user stories and testable acceptance criteria",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for session 8.2: the browser model ranks stories by RICE without reordering the source file and keeps a low-scoring dependency in Must; the handoff is docs/user-stories.md and a board with Backlog, Sprint 1, In Progress, Done.",
+    "caption": "Evidence: story cards with acceptance examples, a visible cut line, and a board whose four columns match the file.",
     "props": {
       "session": "8.2",
       "title": "Prove the handoff",
@@ -1562,8 +1562,8 @@
   "session-8-3/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 8.3: The working model. Plan: Choose a coherent goal within actual capacity. Inspect: Review working outcomes and impediments. Adapt: Change the next plan using observed results.",
-    "caption": "The working model: Plan → Inspect → Adapt",
+    "alt": "The working model for session 8.3: plan a sprint goal within real capacity, inspect the working increment and the impediments at the review, then adapt the next sprint's plan from what was observed.",
+    "caption": "The working model: plan within capacity, inspect the increment, adapt the next sprint from the evidence.",
     "props": {
       "session": "8.3",
       "title": "The working model",
@@ -1588,8 +1588,8 @@
   "session-8-3/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 8.3: Diagnose the failure. Ceremony without outcome: Tie meetings to decisions and evidence. Velocity used as a target: Use estimates for planning, not ranking people. Retro produces no change: Assign one small experiment and review it.",
-    "caption": "Diagnose the failure: Ceremony without outcome → Velocity used as a target → Retro produces no change",
+    "alt": "Three ways a solo sprint goes wrong in session 8.3: ceremonies that produce no decision, velocity treated as a target instead of a forecast, and a retrospective that files observations but changes nothing.",
+    "caption": "Diagnose the failure: ceremony without outcome, velocity used as a target, a retro that produces no experiment.",
     "props": {
       "session": "8.3",
       "title": "Diagnose the failure",
@@ -1614,8 +1614,8 @@
   "session-8-3/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 8.3: evidence to collect. Checkpoint assertion: Plan fits illustrative capacity Boundary assertion: Unallocated capacity remains visible Manual handoff: A sprint goal, working board, review agenda, and retrospective action",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for session 8.3: the browser model shows four sprints each fitting their capacity with slack visible and an XL refused a number; the handoff is docs/sprint-plan.md with sizes, a Sprint 1 goal, a Definition of Done, and a Unit 7 retro.",
+    "caption": "Evidence: a sprint table at or under capacity with the slack row filled, a goal sentence, a Definition of Done, and one retro experiment.",
     "props": {
       "session": "8.3",
       "title": "Prove the handoff",
@@ -1640,8 +1640,8 @@
   "session-8-4/fig1-model": {
     "composition": "CurriculumDiagram",
     "fig": 1,
-    "alt": "Session 8.4: The working model. Evidence: Synthesize real interviews without inventing certainty. Decision: Choose a problem and document alternatives. Plan: Commit to a small testable product increment.",
-    "caption": "The working model: Evidence → Decision → Plan",
+    "alt": "The working model for session 8.4: synthesize the real interviews into counted patterns without inventing certainty, decide on one problem statement with documented alternatives, then plan a small testable increment with a learning criterion.",
+    "caption": "The working model: evidence with counts, one problem and two alternatives, a first increment that can fail a stated test.",
     "props": {
       "session": "8.4",
       "title": "The working model",
@@ -1666,8 +1666,8 @@
   "session-8-4/fig2-diagnosis": {
     "composition": "CurriculumDiagram",
     "fig": 2,
-    "alt": "Session 8.4: Diagnose the failure. Interview notes become feature votes: Interpret context and frequency carefully. Scope ignores capacity: Cut to one coherent end-to-end goal. No learning criterion: State what result would change the plan.",
-    "caption": "Diagnose the failure: Interview notes become feature votes → Scope ignores capacity → No learning criterion",
+    "alt": "Three ways synthesis goes wrong in session 8.4: interview notes treated as feature votes, a sprint scope that ignores capacity after good evidence, and a review with no learning criterion written in advance.",
+    "caption": "Diagnose the failure: notes as votes, scope that outgrew the hours, and no criterion written before the test.",
     "props": {
       "session": "8.4",
       "title": "Diagnose the failure",
@@ -1692,8 +1692,8 @@
   "session-8-4/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 8.4: evidence to collect. Checkpoint assertion: Unproven idea remains a hypothesis Boundary assertion: Explain the rejected or incomplete case Manual handoff: A research-to-backlog handoff and a realistic first sprint plan",
-    "caption": "Evidence: execute the model assertions, then verify the full artifact in your own environment.",
+    "alt": "Evidence for session 8.4: the browser model demotes any story that cites a participant missing from the log and refuses an insight page with nothing invalidated; the handoff is docs/product-spec.md v1.0 with a change log, a learning criterion, and a recorded walkthrough.",
+    "caption": "Evidence: every story tagged by participants who exist in the log, a change log with ids, a learning criterion, and the spec v1.0 with its walkthrough.",
     "props": {
       "session": "8.4",
       "title": "Prove the handoff",
