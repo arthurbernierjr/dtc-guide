@@ -64,7 +64,7 @@ export function transition(state, event) {
 
 Read the table, not the function. `pending` accepts `success` and `failure` and nothing else, so a second `send` is `pending` again. `error` accepts `retry`, which goes back to `pending`, and `edit`, which goes back to `idle` because the user changed the draft and the old error no longer describes it. `saved` only accepts `edit`. There is no event that goes from `saved` to `pending` directly, so the user cannot resend a record they already saved by clicking the same button; they have to change something first.
 
-The component keeps `status` in `useState('idle')` and calls `setStatus(transition(status, 'send'))` instead of `setStatus('pending')`. That one substitution is what makes the table enforceable. Grep the component for string literals of state names. If any remain outside the table, the machine has a back door.
+The component keeps `status` in `useState('idle')` and never writes a state name into it directly. Every change goes through `transition`. The submit handler picks one event from the current state, `retry` when the state is `error` and `send` otherwise, and hands it to one function that asks the table once. That substitution, `transition(status, event)` where `setStatus('pending')` used to be, is what makes the table enforceable. Grep the component for string literals of state names. If any remain outside the table and the comparisons, the machine has a back door.
 
 ### The component that obeys it
 
@@ -82,8 +82,8 @@ export default function EntryForm(props) {
     setStatus(function (current) { return transition(current, 'edit'); });
   }
 
-  async function send() {
-    const next = transition(status, 'send');
+  async function send(event) {
+    const next = transition(status, event);
     if (next === status) return;
     setStatus(next);
     try {
@@ -97,12 +97,9 @@ export default function EntryForm(props) {
     }
   }
 
-  function onFormSend(event) {
-    event.preventDefault();
-    if (status === 'error') {
-      setStatus(function (current) { return transition(current, 'retry'); });
-    }
-    send();
+  function onFormSend(formEvent) {
+    formEvent.preventDefault();
+    send(status === 'error' ? 'retry' : 'send');
   }
 
   return (
@@ -119,7 +116,7 @@ export default function EntryForm(props) {
 }
 ```
 
-`disabled` on the button is a courtesy. The `if (next === status) return;` line is the guarantee, and it holds even when the user presses Enter twice faster than React repaints. On `failure`, `draft` is untouched, so the paragraph of text the user typed is exactly where they left it. Read `onFormSend` for the retry path, because it is easy to miss that it sends anything. In `error`, the form's submit fires `retry`, the table moves the state to `pending`, and then `send()` runs: the same function, the same `props.onSave(draft)`, the same fetch, with the draft that survived. There is no separate retry request. `retry` is the permission; `send()` is the request. `props.onSave` is the parent's function, which calls the API and throws on a non-2xx, which is the next piece.
+`disabled` on the button is a courtesy. The `if (next === status) return;` line is the guarantee. It holds even when the user presses Enter twice faster than React repaints, because the second press reads the same `status`, asks the table the same question, gets the same state back, and returns before the request. It guards the retry the same way. Read `onFormSend` once, because it is two lines and both matter. In `error` it picks `retry`, not `send`, since the `error` row has no `send` and the table would hand `error` straight back. `send('retry')` asks the table once, moves to `pending`, and runs the same `props.onSave(draft)`, the same fetch, with the draft that survived. There is no separate retry request and no second trip through the table. One event is chosen once and checked once. On `failure`, `draft` is untouched, so the paragraph of text the user typed is exactly where they left it. `props.onSave` is the parent's function, which calls the API and throws on a non-2xx, which is the next piece.
 
 ### The error body is a string
 
@@ -146,13 +143,18 @@ import { apiBase, getToken } from '../api';
 
 export async function request(path, options) {
   const token = getToken();
-  const res = await fetch(apiBase + path, Object.assign({}, options, {
-    headers: Object.assign(
-      { 'Content-Type': 'application/json' },
-      token ? { Authorization: 'Bearer ' + token } : {},
-      (options && options.headers) || {}
-    )
-  }));
+  let res;
+  try {
+    res = await fetch(apiBase + path, Object.assign({}, options, {
+      headers: Object.assign(
+        { 'Content-Type': 'application/json' },
+        token ? { Authorization: 'Bearer ' + token } : {},
+        (options && options.headers) || {}
+      )
+    }));
+  } catch (err) {
+    throw new Error('No response from the server');
+  }
   if (res.status === 204) return null;
   const body = await res.json().catch(function () { return {}; });
   if (!res.ok) throw new Error(body.error || ('Request failed with ' + res.status));
@@ -160,7 +162,7 @@ export async function request(path, options) {
 }
 ```
 
-`apiBase` and `getToken` come from `client/src/api.js`, the file 10-1 wrote. `apiBase` is `VITE_API_BASE` with `http://localhost:3000` as the development fallback, and the empty value 10-4 put in `client/.env.production` means same origin, so the built page calls the host it was served from. `getToken` reads `capstoneToken` from `sessionStorage`, so the key is named in one file and this wrapper never spells it. Paths start with `/api`, the way they did for `api()` in 10-1: `request('/api/entries', { method: 'POST', body: JSON.stringify(draft) })`. One wrapper, so a missing token and a 500 produce messages in the same place and the machine never sees a raw `TypeError`.
+`apiBase` and `getToken` come from `client/src/api.js`, the file 10-1 wrote. `apiBase` is `VITE_API_BASE` with `http://localhost:3000` as the development fallback, and the empty value 10-4 put in `client/.env.production` means same origin, so the built page calls the host it was served from. `getToken` reads `capstoneToken` from `sessionStorage`, so the key is named in one file and this wrapper never spells it. Paths start with `/api`, the way they did for `api()` in 10-1: `request('/api/entries', { method: 'POST', body: JSON.stringify(draft) })`. One wrapper, so a missing token and a 500 produce messages in the same place and the machine never sees a raw `TypeError`. The `try` around `fetch` is the half of [4-2](/path/4-2-the-waiting-room/) that handles no response at all; the `if (!res.ok)` is the half that handles a response that says no.
 
 ### An adapter with four fixtures
 
@@ -236,10 +238,10 @@ Sign in, create an entry, double-click the Save button on purpose. Two `POST /ap
 Now the failure path. Stop the server with Ctrl-C, type a title and body, press Save.
 
 ```text
-Request failed with 0
+No response from the server
 ```
 
-That is `fetch` rejecting with a `TypeError` on a refused connection, which the wrapper turns into a message, which the machine turns into `error`. The draft is still in the fields. Start the server again, press Save, and the `retry` event moves through `pending` to `saved`. The proof that `retry` sent a request is in the Network tab: a second `POST /api/entries` row appears the moment you press Save, with `201` beside it, where the first row shows `(failed)`; the API terminal prints the same `POST /api/entries` from 10-1's logger. Write those three observations down; they are this session's evidence.
+Those are the two failures from [4-2](/path/4-2-the-waiting-room/), and this is the second one. A response that says no is a `Response` with `ok` false; the wrapper reads `body.error` and throws your sentence. No response at all is `fetch` rejecting with a `TypeError` before any `Response` exists, because the connection was refused; the `try` around `fetch` catches it and throws the plain sentence above instead of the browser's `Failed to fetch`. Either way the machine receives an `Error` with a message, `failure` moves it to `error`, and the draft is still in the fields. Start the server again, press Save, and `onFormSend` picks `retry`, which moves through `pending` to `saved`. The proof that `retry` sent a request is in the Network tab: a second `POST /api/entries` row appears the moment you press Save, with `201` beside it, where the first row shows `(failed)`; the API terminal prints the same `POST /api/entries` from 10-1's logger. Write those three observations down; they are this session's evidence.
 
 Then the adapter. Write `api/services/draft.js` and the four fixtures, mount the route, and run it by hand in each mode.
 
@@ -271,7 +273,7 @@ And `DRAFT_MODE=unavailable`:
 
 Three modes, three bodies, one shape. The screen that calls this route shows the summary, or the error with a retry, and it was finished without the key being present. Set `DRAFT_MODE=provider` once at the end, with the key in `.env`, and run the normal curl one more time to prove the real path still works. That single manual check against the real provider is the one you keep; everything else is fixtures.
 
-Here is a small model you can run here. It is the same `transition` table as `flow.js`, driven by sequences of events, plus the empty-versus-error rule for a list. It proves the table refuses a duplicate send and that failure always has a route back to pending. It does not click your button or hit your route; those are the two terminals you just used.
+Here is a small model you can run here. It is the same `transition` table as `flow.js`, driven by sequences of events, plus the handler's rule that picks one event from the current state, plus the empty-versus-error rule for a list. It proves the table refuses a duplicate send, that failure always has a route back to pending, and that a second press during the retry is refused by the same guard. It does not click your button or hit your route; those are the two terminals you just used.
 
 ```js run=checkpoint-12-2
 function check(condition, message) {
@@ -313,6 +315,21 @@ check(recovered.requests === 2 && recovered.state === 'saved', 'Failure has a re
 
 check(transition('saved', 'send') === 'saved', 'a saved record cannot be resent without an edit');
 check(transition('error', 'edit') === 'idle', 'editing after an error clears the error state');
+
+function pick(state) {
+  return state === 'error' ? 'retry' : 'send';
+}
+
+function press(state) {
+  const next = transition(state, pick(state));
+  return { state: next, sent: next !== state };
+}
+
+check(transition('error', 'send') === 'error', 'send in error is refused, which is why the handler picks retry there');
+const firstPress = press('error');
+const secondPress = press(firstPress.state);
+check(firstPress.sent && firstPress.state === 'pending', 'one press in error picks retry and sends once');
+check(!secondPress.sent && secondPress.state === 'pending', 'a second press before the answer is refused by the same guard');
 
 function listView(status, items) {
   if (status === 'loading') return 'loading';

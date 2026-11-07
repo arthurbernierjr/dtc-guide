@@ -64,15 +64,22 @@ Add `"test": "node --env-file=.env.test node_modules/jest/bin/jest.js"` to the `
 
 ```dotenv
 # api/.env.test (committed; nothing in here is a secret)
+PORT=3000
 MONGODB_URI=mongodb://127.0.0.1:27017/<capstone-name>_test
 TEST_MONGODB_URI=mongodb://127.0.0.1:27017/<capstone-name>_test
 JWT_SECRET=test-only-not-a-secret-but-at-least-thirty-two-characters
 PAGE_ORIGIN=http://localhost:5173
 STRIPE_SECRET_KEY=sk_test_placeholder
 STRIPE_WEBHOOK_SECRET=whsec_placeholder
+STRIPE_PRICE_ID=price_placeholder
 ANTHROPIC_API_KEY=placeholder
+AI_MODEL=claude-haiku-5-5
+AI_DAILY_TOKEN_BUDGET=50000
+AI_ENABLED=true
 NODE_ENV=test
 ```
+
+The list must match `grep -r process.env api/` name for name: every name `config.js` requires is here with a dummy value, 12-1's `.env.example` is the same list, and the one name that can wait is `DRAFT_MODE`, because the adapter gives it a default and a failing test below asks for it.
 
 `jest.config.js` and `tests/setup.js` are 7-2's files, copied in with one change: the setup requires the app with braces, `const { app } = require('../app')`, because 10-1 exported an object and the hall exported the app itself. The guard that refuses any database not ending in `_test` stays word for word. Then the first test files. `tests/auth.test.js` is 7-2's register-and-login pair against `/api/register` and `/api/login`. `tests/entries.test.js` is the two curls from 12-1 as assertions, create then list, as the fixture account and then as a stranger. `tests/draft.test.js` posts to the adapter route from 12-2 and expects `200` with a `summary` field. `npm test` with no files prints `No tests found, exiting with code 1`, which is correct; with the files in place it prints a `Tests:` line and exits on its own, and if it hangs, 7-2's `--detectOpenHandles` note applies here too.
 

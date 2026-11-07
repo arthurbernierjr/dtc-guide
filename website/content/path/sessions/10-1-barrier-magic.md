@@ -384,7 +384,7 @@ curl -i -H 'Content-Type: application/json' \
 
 The status is `400 Bad Request` with `{"error":"invalid input"}`. `rejectOperators` answered before the chain ran, and the chain's `isString()` would have answered if it had not. The handler never saw the body.
 
-Third, the headers. `curl -i http://localhost:3000/api/health` and read the top of the response: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Strict-Transport-Security`, and `RateLimit-Limit: 100` beside `RateLimit-Remaining`. Then the loop:
+Third, the headers. `curl -i http://localhost:3000/api/health` and read the top of the response: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Strict-Transport-Security`, and `RateLimit-Limit: 100` beside `RateLimit-Remaining`. Then the loop, after one restart. `authLimiter` is a single instance mounted on both `/api/login` and `/api/register`, its count lives in the process's memory, and the register and login curls you just sent are already in it, so the eleventh line below would arrive early. Press Ctrl-C in the API terminal and start it again with `node --env-file=.env server.js`. The window is fresh and the count starts at zero.
 
 ```bash
 for i in $(seq 1 11); do
@@ -575,7 +575,7 @@ Build the barrier in `~/projects/<capstone-name>`. Everything below is on your m
 3. Write `api/app.js` in the order shown: Helmet, CORS, logger, the two limiters, `express.json({ limit: '10kb' })`, `rejectOperators`, routes, 404, error handler. `node --env-file=.env server.js` prints `listening on 3000`.
 4. Register with an extra `role` key. The status is `201` and the body has no `role`. Register the same email again: `409`.
 5. Send the `$gt` login body. The status is `400` and the body is `{"error":"invalid input"}`.
-6. Read the headers on `/api/health`. `X-Content-Type-Options: nosniff` and `RateLimit-Remaining` are both there. Run the eleven-login loop. Ten `401` lines and one `429`.
+6. Read the headers on `/api/health`. `X-Content-Type-Options: nosniff` and `RateLimit-Remaining` are both there. Restart the API with Ctrl-C and `node --env-file=.env server.js` so the limiter's count is zero, then run the eleven-login loop. Ten `401` lines and one `429`.
 7. Start the client, register and log in on the page, and confirm the network panel shows the bearer header on `/api/me` and no token in any URL.
 8. Run `npm audit` in `api/` and in `client/`. Read the report. Fix what has a fix without `--force`, rerun the three curls, and commit the lockfiles separately.
 
