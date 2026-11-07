@@ -241,7 +241,8 @@ console.log('3 stars ->', rarityLabel(3), '| 1 star ->', rarityLabel(1));
 // 4. Ternary: a one-line if/else that produces a value.
 const level = 25;
 const rank = level >= 50 ? 'Elite' : 'Novice';
-console.log(rank, `| Player is ${0 > 0 ? 'alive' : 'dead'}`);
+const currentHP = 0;
+console.log(rank, `| Player is ${currentHP > 0 ? 'alive' : 'dead'}`);
 
 // 5. The class selector, all three tools together.
 function describeClass(playerClass, level) {
@@ -261,7 +262,7 @@ console.log(describeClass('bard', 12));
 console.log('ok: quest');
 ```
 
-Read the `hpReport` output against fig. 4. Seventy-five enters at the top, the first gate is true, and the other three gates are never consulted. That is why order matters: if you wrote the `> 0` test first, a player with 75 HP would be told to run away. The `samples` loop is the falsy six and their look-alikes printed by the engine; `"0"` is a string with a character in it, so it counts as true, and that one bites people in form handling for years.
+Read the `hpReport` output against fig. 4. Seventy-five enters at the top, the first gate is true, and the other three gates are never consulted. That is why order matters: if you wrote the `> 0` test first, a player with 75 HP would be told to run away. The `for (const hp of [75, 40, 5, 0])` line that feeds it is a loop: it runs the statement after it once for each value in the list, with `hp` holding that value. Read `for ... of` as "for each of these" for now; loops get their proper introduction in 3.3. The `samples` loop is the falsy six and their look-alikes printed by the engine; `"0"` is a string with a character in it, so it counts as true, and that one bites people in form handling for years.
 
 The `rarityLabel` function is the `switch` trap shown on purpose. With no `break` after a matching case, execution falls through into the next case and the next, which is why three stars collects all three words. Occasionally that is what you want. Usually it is a bug, and the fix is a `break` on every case. Finally, `describeClass` is the three tools together: a ternary for the tier because it produces a value, a `switch` for the class because it matches one value against several, and an early `return` in `default` so the bad input never reaches the template.
 
@@ -348,7 +349,18 @@ That gives you the two-line rule for the week:
 
 Two short builds before the quest. Keep the Run output open beside you; every operator you need is in it.
 
-**1. The Adventurer's Calculator (15 minutes).** In a new file `calculator.js`, declare a character: `name`, `level`, `baseAttack`, `baseDefense`, `weapon` (a string), `weaponBonus` (a number). Calculate `totalAttack = baseAttack + weaponBonus` and `powerLevel = (totalAttack + baseDefense) * level`. Use the modulo operator to decide whether the level is even or odd. Then print one character sheet with a single multi-line template literal, the way demo 5 does. Run it with `node calculator.js`. Success looks like: a printed sheet with every stat, a correct power level, and the even/odd line. If the power level prints as a long string of digits glued together, you have a `+` joining strings somewhere; check that every number is a number.
+**First, the folder (5 minutes).** Every file in this unit lives in one repository, `~/projects/js-fundamentals`. Make it now, before the first file, so every exercise and quest from here to 3.4 has a home and a remote:
+
+```bash
+mkdir -p ~/projects/js-fundamentals
+cd ~/projects/js-fundamentals
+git init
+gh repo create js-fundamentals --public --source=. --remote=origin
+```
+
+`git init` prints `Initialized empty Git repository in …/js-fundamentals/.git/`, and `gh repo create` answers `✓ Created repository YOU/js-fundamentals on GitHub` and adds the `origin` remote, the way 1.4 did it. Open the folder with `code .`, write every file below inside it, and commit after each exercise runs clean.
+
+**1. The Adventurer's Calculator (15 minutes).** In `calculator.js`, declare a character: `name`, `level`, `baseAttack`, `baseDefense`, `weapon` (a string), `weaponBonus` (a number). Calculate `totalAttack = baseAttack + weaponBonus` and `powerLevel = (totalAttack + baseDefense) * level`. Use the modulo operator to decide whether the level is even or odd. Then print one character sheet with a single multi-line template literal, the way demo 5 does. Run it with `node calculator.js`. Success looks like: a printed sheet with every stat, a correct power level, and the even/odd line. If the power level prints as a long string of digits glued together, you have a `+` joining strings somewhere; check that every number is a number.
 
 **2. The Quest Decision Engine (20 minutes).** In `quest.js`, declare `playerLevel` (number), `hasGuildCard` (boolean), `questRank` (one of `"S"`, `"A"`, `"B"`, `"C"`, `"D"`) and `playerGold` (number). Write an `if / else if / else` chain that sets `canAccept`: S rank needs level 50 and a guild card; A rank needs level 30 and a guild card; B needs level 15; C needs level 5; D is open to anyone. Then a `switch` on `questRank` that prints the quest description, a ternary that decides whether they can afford the 100-gold fee, and a final template literal that reports all three answers. Change the inputs and run it at least three times; you should be able to produce an accepted quest, a refused quest, and a quest they qualify for but cannot afford.
 
@@ -361,7 +373,7 @@ Two short builds before the quest. Keep the Run output open beside you; every op
 **The NPC Dialogue System.** Create `npc-dialogue.js` and give the receptionist a mind.
 
 1. Declare at least eight variables for the player: `name`, `level`, `playerClass`, `gold`, `hp`, `maxHP`, `reputation`, `hasMagic`. Pick `const` or `let` deliberately for each one.
-2. Build the reputation ladder. Above 80, she is friendly and offers a discount. Between 40 and 80, she is neutral and businesslike. Below 40, she is hostile and charges double. If the player has no gold at all, she says something funny, whatever the reputation.
+2. Build the reputation ladder. At 80 or above, she is friendly and offers a discount. From 40 to 79, she is neutral and businesslike. Below 40, she is hostile and charges double. If the player has no gold at all, she says something funny, whatever the reputation.
 3. Add a `switch` on `playerClass` that changes how she reacts: a mage gets offered scrolls, a warrior gets pointed at the bounty board, and so on, with a `default` for classes she has never heard of.
 4. Use at least three ternaries somewhere in the dialogue, for example the health remark (`hp < maxHP / 2 ? 'You look terrible.' : 'You look well.'`).
 5. Every string the receptionist says is a template literal. No `+` between strings anywhere in the file.
@@ -369,7 +381,7 @@ Two short builds before the quest. Keep the Run output open beside you; every op
 
 Hints that save an hour: declare every variable at the top before you write a single line of dialogue; build one branch, run it, change a value, run it again; and if a branch never fires no matter what you type, check whether an earlier test in the chain is catching it first, the way fig. 4 showed.
 
-Stretch goals, in order of difficulty: a bartering rule using modulo (gold divisible by 7 earns a lucky discount); a second NPC with entirely different logic; a `timeOfDay` variable that changes her mood (cheerful in the morning, suspicious at night). Push the file to a GitHub repo called `js-fundamentals`; this repo collects the whole unit's work.
+Stretch goals, in order of difficulty: a bartering rule using modulo (gold divisible by 7 earns a lucky discount); a second NPC with entirely different logic; a `timeOfDay` variable that changes her mood (cheerful in the morning, suspicious at night). Commit `npc-dialogue.js` and push it: `git add -A`, `git commit -m "npc dialogue"`, `git push -u origin main`. The `js-fundamentals` repo collects the whole unit's work.
 
 ## Side quests
 

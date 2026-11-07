@@ -29,7 +29,7 @@ say:
 
 Picture a wizard who has to recite the whole incantation from the first syllable every single time she wants a fireball.
 
-That is you, right now. Last session you learned to hold values and choose between roads, and the NPC you wrote works. But look at the file. Every time the receptionist needed to check a reputation, you wrote the whole ladder out again. If you wanted a second NPC, you copied the ladder. If the ladder had a bug, it had the bug in two places. The wizard who recites everything from scratch does not get much done, and neither does the programmer who does.
+That is you, right now. Last session you learned to hold values and choose between roads, and the NPC you wrote works. But look at the file. The reputation ladder is written out in full at the one place the receptionist uses it, and nothing else can use it. If you wanted a second NPC you would copy the ladder, and a bug in it would then live in two places. The wizard who recites everything from scratch does not get much done, and neither does the programmer who does.
 
 A **function** is a named spell. You write the incantation once, you give it a name, and from then on you cast it with a single word and a pair of parentheses. That alone would be worth the session. But we are going further, because functions bring two companions that most beginners meet without being introduced.
 
@@ -61,11 +61,11 @@ When code mentions a name, JavaScript looks in the current ring, then the ring a
 
 ![](diagram:session-3-2/fig3-backpack)
 
-`createCounter` runs, declares `count`, returns an inner function, and finishes. Its ring should be gone. But the inner function mentioned `count`, so when it left, it took `count` with it in a backpack. Every call to `hitCounter()` opens the backpack, adds one, and puts it back. Nothing outside can reach into that backpack; `count` is as private as a variable can be in JavaScript. And a second call to `createCounter()` packs a brand-new backpack with its own `count`, which is why `comboCounter` starts at one while `hitCounter` is on four.
+`createCounter` runs, declares `count`, returns an inner function, and finishes. Its ring should be gone. But the inner function mentioned `count`, so when it left, it took `count` with it in a backpack. Every call to `hitCounter()` opens the backpack, adds one, and puts it back. Nothing outside can reach into that backpack; `count` is as private as a variable can be in JavaScript. And a second call to `createCounter()` packs a brand-new backpack with its own `count`, which is why `comboCounter` starts at one while `hitCounter`, on three in the figure, carries on to four when the run block calls it once more.
 
 This is not an advanced feature you will use someday. It happens every time an inner function mentions an outer variable, which is to say constantly. Counters, private state, factories that produce configured functions (`createAttack(50)` gives you a `fireball` that always knows its base damage), the mana pool in today's lab. Closures are also the mechanism under event handlers and asynchronous code, so the backpack picture will keep paying you back for the rest of the course.
 
-**Array methods are combo attacks: filter fewer, map the same, reduce to one.** An array is an ordered list, counted from zero. Some of its methods **mutate** it in place (`push`, `pop`, `shift`, `unshift`, `splice`, `sort`); others leave it alone and hand back something new (`slice`, `concat`, `includes`, `indexOf`). Then there is the family that takes a function and applies it per element.
+**Array methods are combo attacks: filter fewer, map the same, reduce to one.** An array is an ordered list, counted from zero. Some of its methods **mutate** it in place (`push`, `pop`, `shift`, `unshift`, `splice`, `sort`); others leave it alone: `slice` and `concat` hand back a new array, `includes` and `indexOf` an answer. Then there is the family that takes a function and applies it per element.
 
 ![](diagram:session-3-2/fig4-combo-chain)
 
@@ -245,7 +245,7 @@ console.log(pool.rest(), pool.getStatus(), '| currentMana from outside:', pool.c
 console.log('ok: closures');
 ```
 
-Part 4 is the most famous closure bug in the language, and it is worth a minute. With `var`, there is one `i` for the whole loop, every arrow carries the same backpack, and by the time anyone opens it the loop has finished and `i` is `3`. With `let`, each pass through the loop gets its own `j`, so each arrow carries its own backpack with its own value. That is the actual reason `let` has the scoping rules it has. Part 5 is a closure wearing an object: three methods, one shared `currentMana`, and `pool.currentMana` from outside is `undefined` because the mana was never a property. That shape is the lab.
+Part 4 is the most famous closure bug in the language, and it is worth a minute. The `for (let j = 0; j < 3; j++)` line is a counting loop: start `j` at 0, run the body while `j < 3`, add one after each pass; loops get their full introduction in 3.3, and this is the only one you need today. With `var`, there is one `i` for the whole loop, every arrow carries the same backpack, and by the time anyone opens it the loop has finished and `i` is `3`. With `let`, each pass through the loop gets its own `j`, so each arrow carries its own backpack with its own value. That is the actual reason `let` has the scoping rules it has. Part 5 is a closure wearing an object: three methods, one shared `currentMana`, and `pool.currentMana` from outside is `undefined` because the mana was never a property. That shape is the lab.
 
 ### 4. Three dots
 

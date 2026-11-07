@@ -72,7 +72,26 @@ Events **bubble**: a click on an `li` fires on the `li`, then its `ul`, then `bo
 
 > **Say:** "The DOM is the live tree, not the file. Select, then check for null, then change. textContent for text, innerHTML only for markup you wrote. One listener on the parent hears every child, even the ones born later. preventDefault first, every time, in every submit handler."
 
-A word on where the script goes. The browser runs `<script>` tags the moment it reaches them. A script in `<head>` runs before `<body>` has been parsed, so every selector returns `null`. Either give the tag `defer`, which waits until the tree is built, or put it as the last thing in `<body>`. Both work; `defer` is the modern habit.
+A word on where the script goes, because today is the first time a `.js` file is linked to a page. This is the whole skeleton of a page that uses one:
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quest Log</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <h1>Quest Log</h1>
+    <ul id="quest-list"></ul>
+  </body>
+</html>
+```
+
+The browser runs a `<script>` tag the moment it reaches it, so a script in `<head>` without `defer` runs before `<body>` has been parsed and every selector returns `null`. `defer` tells the browser to download the file now but run it only after the whole tree is built, which is exactly when your selectors start working. The older habit, a plain `<script src="app.js"></script>` as the last thing in `<body>`, works for the same reason; `defer` in `<head>` is the modern one, and the one this unit uses. Swap `app.js` for the file's real name: `character-creator.js` and `quest-log.js` today, `app.js` for the game in 3.5.
 
 ## The demonstration
 
@@ -286,7 +305,7 @@ Run it, then: click the button a few times and watch the title; click inside the
 
 ### 4. The whole loop: form → state → render
 
-Everything above, assembled into the Interactive Quest Board: a form with a difficulty select, colour-coded cards, Complete buttons via delegation, and a counter that stays honest because it is recomputed from the DOM every time.
+Everything above, assembled into the Interactive Quest Board: a form with a difficulty select, colour-coded cards, Complete buttons via delegation, and a counter that stays honest because it is derived from an array of quest objects, never from the screen.
 
 ```html stage=quest-board
 <p class="counter" id="qb-count">0 quests</p>
@@ -310,16 +329,21 @@ const difficultySelect = document.getElementById("qb-difficulty");
 const board = document.getElementById("qb-board");
 const count = document.getElementById("qb-count");
 
+// The state: one object per quest. The board is a picture of this array, never the other way round.
+let quests = [];
+let nextId = 1;
+
 // One place that knows how a quest looks. Everything else calls it.
-function createQuestCard(name, difficulty) {
+function createQuestCard(quest) {
   const card = document.createElement("div");
-  card.classList.add("card", difficulty);           // .easy / .medium / .hard / .legendary colour the border
+  card.classList.add("card", quest.difficulty);     // .easy / .medium / .hard / .legendary colour the border
+  card.dataset.id = quest.id;                        // the bridge from the card back to its object
 
   const h4 = document.createElement("h4");
-  h4.textContent = name;                             // user text → textContent, never innerHTML
+  h4.textContent = quest.name;                       // user text → textContent, never innerHTML
   const tag = document.createElement("span");
   tag.classList.add("tag");
-  tag.textContent = difficulty;
+  tag.textContent = quest.difficulty;
   const done = document.createElement("button");
   done.textContent = "Complete";
   done.classList.add("complete-btn");
@@ -333,40 +357,49 @@ function createQuestCard(name, difficulty) {
   return card;
 }
 
-// The counter is derived from the DOM, so it cannot drift from what is on screen.
+// The counter is derived from the array: never from a separate number, never from the screen.
 function updateCounter() {
-  const n = board.querySelectorAll(".card").length;
+  const n = quests.length;
   count.textContent = `${n} quest${n === 1 ? "" : "s"}`;
+}
+
+// State first, then the DOM catches up.
+function addQuest(name, difficulty) {
+  const quest = { id: nextId++, name, difficulty };
+  quests.push(quest);
+  board.appendChild(createQuestCard(quest));
+  updateCounter();
 }
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   const name = nameInput.value.trim();
   if (!name) return;
-  board.appendChild(createQuestCard(name, difficultySelect.value));
+  addQuest(name, difficultySelect.value);
   nameInput.value = "";
   nameInput.focus();
-  updateCounter();
-  console.log(`added: ${name} (${difficultySelect.value})`);
+  console.log(`added: ${name} (${difficultySelect.value}) · quests in state: ${quests.length}`);
 });
 
 // One listener for every Complete button that will ever exist on the board.
 board.addEventListener("click", (event) => {
   if (!event.target.matches(".complete-btn")) return;
   const card = event.target.closest(".card");
-  console.log(`completed: ${card.querySelector("h4").textContent}`);
-  card.remove();
+  const id = Number(card.dataset.id);
+  const quest = quests.find((q) => q.id === id);     // the card found its object
+  quests = quests.filter((q) => q.id !== id);        // state first
+  card.remove();                                     // then the DOM
   updateCounter();
+  console.log(`completed: ${quest.name} · quests in state: ${quests.length}`);
 });
 
 // Seed two so the board is not empty on arrival.
-board.appendChild(createQuestCard("Defeat the Goblin King", "hard"));
-board.appendChild(createQuestCard("Collect 10 Herbs", "easy"));
-updateCounter();
+addQuest("Defeat the Goblin King", "hard");
+addQuest("Collect 10 Herbs", "easy");
 console.log("ok: quest-board");
 ```
 
-Add a quest of each difficulty, complete one, and watch the counter. Three design choices are doing the work. `createQuestCard` is the single place that knows what a card looks like, so the seed quests and the form use the same function. `updateCounter` counts cards in the DOM instead of keeping a separate number, so it can never disagree with the screen. And the Complete handler is one listener on the board using `event.target.closest(".card")` to find the card that owns the button, which is the delegation pattern you will use in the lab. Note what is *not* here: no `innerHTML`, because the quest name came from a person.
+Add a quest of each difficulty, complete one, and watch the counter. Three design choices are doing the work. `createQuestCard` is the single place that knows what a card looks like, so the seed quests and the form use the same function. The `quests` array is the state and the board is a view of it: every handler changes the array first and then makes the DOM match, `updateCounter` reads `quests.length` and never counts cards on screen, and `data-id` on each card is the bridge back from a click to the object it belongs to. A number computed from the state cannot drift from the state; a number read off the screen can, and 3.5 shows what that looks like. And the Complete handler is one listener on the board using `event.target.closest(".card")` to find the card that owns the button, which is the delegation pattern you will use in the lab. Note what is *not* here: no `innerHTML`, because the quest name came from a person.
 
 ## Where it breaks
 
@@ -419,7 +452,7 @@ console.log("type something and press Add");
 console.log("ok: broken");
 ```
 
-Run it, then type a word and press **Add**. The handler runs, the `li` is appended, and then a red line appears in the console: in your own page, that is the moment the browser reloads. The `li` you just added, every variable, every card, all gone, and the page looks exactly as it did when it loaded. This stage stops the reload and tells you instead, because reloading the lesson is the one thing a stage is not allowed to do; your `quest-board.html` will not be so kind. Add `event.preventDefault()` as the first line of the handler and the list keeps what you typed.
+Run it, then type a word and press **Add**. The handler runs, the `li` is appended, and then a red line appears in the console: in your own page, that is the moment the browser reloads. The `li` you just added, every variable, every card, all gone, and the page looks exactly as it did when it loaded. This stage stops the reload and tells you instead, because reloading the lesson is the one thing a stage is not allowed to do; your own `quest-log.html` will not be so kind. Add `event.preventDefault()` as the first line of the handler and the list keeps what you typed.
 
 The first failure is worth reading closely too. `getElementById("main-titel")` is `null`, and the error is not "no such element"; it is `TypeError: Cannot set properties of null (setting 'textContent')` (or `Cannot read properties of null` when you read instead of assign), which points at the line that *used* the null, not the line that *made* it. When you see that message, look one line up for the selector. The same message with a correct id means the script ran before the body was parsed: move the `<script>` to the end of `<body>` or add `defer`.
 
@@ -434,9 +467,9 @@ The two-line rule for the week:
 
 Two builds. The first is a prediction exercise; the second is the Character Creator, where last session's classes meet today's DOM.
 
-**1. DOM detective (10 minutes).** Predict what each of these prints or does, then verify in a stage above or a scratch file. (a) `document.querySelectorAll(".message").map(m => m.textContent)`. (b) `document.getElementById("#main-title")`, with the `#`. (c) An `li` created with `createElement` and given text, but never appended: is it on the page? (d) A click listener added to each `li` in a loop, and then a new `li` appended: does clicking the new one fire it? (e) A submit handler that calls `preventDefault()` *after* an `if (!text) return;` line, when the input is empty. Four out of five is the bar. Every one of these has appeared on this page.
+**1. DOM detective (10 minutes).** Predict what each of these prints or does, then verify in the DevTools console with this page open (the playground stage's markup is part of the page, so `document.getElementById("main-title")` finds its title) or in a scratch page of your own built from the skeleton in The idea. (a) `document.querySelectorAll(".message").map(m => m.textContent)`. (b) `document.getElementById("#main-title")`, with the `#`. (c) An `li` created with `createElement` and given text, but never appended: is it on the page? (d) A click listener added to each `li` in a loop, and then a new `li` appended: does clicking the new one fire it? (e) A submit handler that calls `preventDefault()` *after* an `if (!text) return;` line, when the input is empty. Four out of five is the bar. Every one of these has appeared on this page.
 
-**2. The Character Creator (25 minutes).** In `character-creator.html` + `character-creator.js`: a form with a name input, a class select (Warrior, Mage, Healer, Thief) and a level number input (`min="1" max="50"`). On submit, build a `Character` with an ES6 class whose constructor sets `hp`, `mp` and `attack` from the chosen class (reuse the numbers from your Monster Manual if you like), then render it as a `.card` with every stat visible. Each card has an **Attack Dummy** button that shows a damage number on the card (random within a range based on `attack`) and a **Delete** button that removes the card. Keep every created character in an array as well as on the screen. Use delegation: one listener on the card container, `event.target.matches(".attack-btn")` / `.matches(".delete-btn")`, and `closest(".card")` to find the card. Success looks like: two characters of different classes on screen with correct stats, the Attack button writes a number into the right card, Delete removes only its own card, and the array's length matches the number of cards.
+**2. The Character Creator (25 minutes).** In `character-creator.html` + `character-creator.js`: a form with a name input, a class select (Warrior, Mage, Healer, Thief) and a level number input (`min="1" max="50"`). On submit, build a `Character` with an ES6 class whose constructor sets `hp`, `mp` and `attack` from the chosen class (reuse the numbers from your `rpg-classes.js` if you like) and gives each character an `id` from a module-level counter (`let nextId = 1;` at the top of the file, `this.id = nextId++` in the constructor), then render it as a `.card` with every stat visible. Each card has an **Attack Dummy** button that shows a damage number on the card (random within a range based on `attack`) and a **Delete** button that removes the card. Keep every created character in an array as well as on the screen. Use delegation: one listener on the card container, `event.target.matches(".attack-btn")` / `.matches(".delete-btn")`, and `closest(".card")` to find the card. Success looks like: two characters of different classes on screen with correct stats, the Attack button writes a number into the right card, Delete removes only its own card, and the array's length matches the number of cards.
 
 > **Tip:** Give each card a `data-id` attribute when you create it (`card.dataset.id = character.id`) so a click can find the matching object in your array with `find`. That is the bridge between the DOM and your state, and you will build it again in every framework.
 
@@ -447,7 +480,7 @@ Two builds. The first is a prediction exercise; the second is the Character Crea
 **The To-Do Quest Log.** Create `quest-log.html` and `quest-log.js` and build the Guild's new system.
 
 1. A form that adds quests: a name input and a priority select (Low, Medium, High, Urgent). `preventDefault()` first.
-2. A `Quest` class with `name`, `priority`, `completed` (starts `false`) and `createdAt` (`new Date().toLocaleString()`), plus a `render()` method that builds and returns the card element. Keep every quest in an array.
+2. A `Quest` class with `id` (the same `nextId++` counter as the Character Creator), `name`, `priority`, `completed` (starts `false`) and `createdAt` (`new Date().toLocaleString()`), plus a `render()` method that builds and returns the card element. Keep every quest in an array.
 3. Each quest is a `.card` showing name, priority and timestamp, with the border coloured by priority (your own `.low/.medium/.high/.urgent` classes in your stylesheet).
 4. **Mark Complete** toggles `quest.completed`, adds the `completed` class to the card (strikethrough), and re-renders the counter. **Delete** removes the card and the object from the array.
 5. A counter that reads "X active quests" and updates after every add, complete and delete. Derive it from your array (`quests.filter(q => !q.completed).length`), not from a separate number.
@@ -456,7 +489,7 @@ Two builds. The first is a prediction exercise; the second is the Character Crea
 
 Hints that save an hour: write `render()` first and call it with a hard-coded quest so you see a card before you touch the form; give each card `data-id` so the delegated handler can find the right `Quest` in the array; and if a button click does nothing, log `event.target` and read what it actually is (often the text node's parent, which is why `closest(".card")` beats `parentElement.parentElement`).
 
-Stretch goals, in order of difficulty: a search input that hides cards whose name does not include the search text (listen to the `input` event, toggle `.hidden`); a **Sort by priority** button that re-appends the cards in priority order (`appendChild` on an element already in the tree *moves* it); saving the array to `localStorage` as JSON on every change and rebuilding the cards from it on load; and drag-and-drop reordering with the HTML Drag and Drop API. Push to `js-fundamentals`, deploy to GitHub Pages, and check the live URL in an incognito window.
+Stretch goals, in order of difficulty: a search input that hides cards whose name does not include the search text (listen to the `input` event, toggle `.hidden`); a **Sort by priority** button that re-appends the cards in priority order (`appendChild` on an element already in the tree *moves* it); saving the array to `localStorage` as JSON on every change and rebuilding the cards from it on load; and drag-and-drop reordering with the HTML Drag and Drop API. Push to `js-fundamentals`, turn on GitHub Pages for it (Settings → Pages → Deploy from a branch → `main` → `/ (root)`, as in 2.5), and open `https://YOU.github.io/js-fundamentals/quest-log.html` in an incognito window. The repo has no `index.html`, so its root URL is a 404; the page lives at its own file name.
 
 ## Side quests
 
@@ -472,7 +505,7 @@ Second, open DevTools on any site you use daily, pick an element with the inspec
 
 Third, read MDN's [Introduction to events](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Events) through the section on event bubbling. You have the picture from fig. 4; the page gives you the vocabulary (`capture`, `stopPropagation`) you will meet in interviews.
 
-Fourth, **plan your game**. Session 3.5 is Project 1: you build and deploy a browser game in one session, and the people who finish are the people who arrive with a plan. Pick one: Memory Card Game, Whack-a-Mole, Quiz Game, Simple RPG Battle, or your own idea at that size. Then write down, on paper or in a text file: the HTML elements you need; the CSS classes you will toggle; the JavaScript state (what variables describe the game at any moment); the events you will listen for; and the classes, if any. Half a page is enough. Bring it.
+Fourth, **plan your game**. Session 3.5 is Project 1: you build and deploy a browser game in one session, and the people who finish are the people who arrive with a plan. Pick one: Memory Card Game, Whack-a-Mole, Quiz Game, Simple RPG Battle, or your own idea at that size. Then write down, on paper or in a text file: the HTML elements you need; the CSS classes you will toggle; the JavaScript state (what variables describe the game at any moment); the events you will listen for; and the classes, if any. Half a page is enough. Have it open when you start 3.5.
 
 > **Say:** "The DOM is the live tree, not the file. Select, then check for null, then change. textContent for text, innerHTML only for markup you wrote. Make it in memory, place it with appendChild. One listener on the parent hears every child, even the ones born later. preventDefault first, every time, in every submit handler."
 

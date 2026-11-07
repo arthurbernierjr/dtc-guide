@@ -27,7 +27,7 @@ say:
 
 Pause the game for a second and look at what is in your bag.
 
-After two sessions you have variables, the three kinds of loop, functions that take functions, closures that remember, and the array methods that turn a list into another list. That is a real toolkit. If I handed you a spreadsheet of orc names and asked for the ones over level ten, sorted, you would be done before I finished the sentence.
+After two sessions you have variables, branches, functions that take functions, closures that remember, and the array methods that turn a list into another list. (Loops have appeared twice without an introduction; they get one below, before this session leans on them.) That is a real toolkit. If I handed you a spreadsheet of orc names and asked for the ones over level ten, sorted, you would be done before I finished the sentence.
 
 Now I hand you something different. Not a list of names. A *character*. She has a name, a class, hit points, a maximum, an attack stat, a bag of skills, and a flag that says whether she is still standing. She can take damage. She can heal. She can tell you how she is doing. Where does all of that live?
 
@@ -70,6 +70,37 @@ When you write `class Warrior extends Character`, you are adding one link to tha
 > **Say:** "An object is state plus behaviour. A class is the blueprint, an instance is the thing built from it. Methods live once, on the prototype, and instances reach them through the chain."
 
 One more tool before we build, because you will reach for it in the lab. A **factory function** is a plain function that builds and returns an object. No `class`, no `new`, no `this`. Combined with a closure from last session, a factory gives you something classes cannot give you as easily: state that is truly private, because it lives in the closure and nothing outside can touch it. The trade is that every object gets its own copy of each method (the card grid again, on purpose this time) and `instanceof` does not work. Use classes when you want many instances or inheritance; use a factory when you want a small object with a secret.
+
+And one tool the last two sessions used without naming it: the **loop**. A loop runs a block more than once, and JavaScript has three you will write constantly. The counting `for` runs a fixed number of times with a counter you control, `for (let i = 0; i < 3; i++)`, which you met in 3.2's closure bug. `for ... of` walks a list and hands you one element per pass with no counter at all, `for (const orc of orcs)`, which is what the `hpReport` demo in 3.1 used. `while` repeats as long as a condition holds and does not know in advance how many times that will be, which makes it the loop for a battle: `while (hero.isAlive && !monster.isDefeated)`. The one rule of `while` is that something inside the body must move the condition toward `false`, or the loop never ends and the tab freezes. The array methods from 3.2 replace most `for ... of` loops over a list; reach for a loop when you need a counter, an early `break`, or a condition that is not about an array.
+
+```js run=loops
+'use strict';
+// A counting for: the counter is yours. i goes 0, 1, 2.
+for (let i = 0; i < 3; i++) console.log('round', i + 1);
+
+// for...of: one element per pass, no counter.
+const orcs = ['Grunt', 'Brute', 'Chieftain'];
+for (const orc of orcs) console.log(orc, 'charges!');
+
+// while: repeat until the condition fails. The body must move it toward false.
+let hp = 100;
+let turns = 0;
+while (hp > 0) {
+  hp -= 35;
+  turns++;
+}
+console.log(`the training dummy fell after ${turns} hits (hp ${hp})`);
+
+// break leaves a loop early; continue skips to the next pass.
+for (const orc of orcs) {
+  if (orc === 'Brute') continue;
+  if (orc === 'Chieftain') break;
+  console.log('still fighting', orc);
+}
+console.log('ok: loops');
+```
+
+Three passes, three orcs, three hits, and then a `continue` that skips the Brute and a `break` that stops before the Chieftain. That is the whole vocabulary; the quest's battle is the `while` with the hero and the monster in the condition.
 
 ## The demonstration
 
@@ -320,7 +351,7 @@ One design note before the lab, because the lab invites you to overuse the tool 
 
 Same idea without the ceremony, and with something a class cannot easily offer: a value that nothing outside can read.
 
-```js
+```js run=factory
 'use strict';
 function createHero(name, level) {
   let secretWeakness = 'spiders';          // private: lives in the closure, not on the object
@@ -337,6 +368,7 @@ const kai = createHero('Kai', 12);
 console.log(kai.secretWeakness);          // undefined — it was never a property
 console.log(kai.revealWeakness('wrong')); // "Nice try."
 console.log(kai.revealWeakness('guildmaster'));
+console.log('ok: factory');
 ```
 
 And, for the record, the same `Player` written twice, once with state and once as a pure function, so you can see that neither is "the right way":
@@ -424,9 +456,9 @@ That gives you the two-line rule for the week:
 
 Two short builds before the quest. Keep the Run output from the demos open beside you.
 
-**1. The pet (15 minutes).** Write a `pet` object literal with `name`, `species`, `hunger`, `happiness` and `energy`, each stat between 0 and 100. Give it four methods. `feed()` lowers hunger and raises energy. `play()` raises happiness, raises hunger, lowers energy. `sleep()` raises energy and lowers happiness a little. `getStatus()` returns one readable line. Clamp every stat with `Math.max` / `Math.min` so nothing goes below 0 or above 100. Call each method a few times and watch the numbers move. If a method ever prints `NaN`, you reached for a property that is not there; check your spelling against the literal.
+**1. The pet (15 minutes).** In `pet.js`, write a `pet` object literal with `name`, `species`, `hunger`, `happiness` and `energy`, each stat between 0 and 100. Give it four methods. `feed()` lowers hunger and raises energy. `play()` raises happiness, raises hunger, lowers energy. `sleep()` raises energy and lowers happiness a little. `getStatus()` returns one readable line. Clamp every stat with `Math.max` / `Math.min` so nothing goes below 0 or above 100. Call each method a few times and watch the numbers move. If a method ever prints `NaN`, you reached for a property that is not there; check your spelling against the literal.
 
-**2. The RPG class system (35 minutes).** In `rpg-classes.js`, write a base `Character` with `name`, `hp`, `maxHp`, `attack`, `defense`, `level`, `isAlive` and the three methods `takeDamage`, `heal`, `getStatus`. Then at least three subclasses from this list: Warrior, Mage, Archer, Healer, Assassin, Paladin, Necromancer. Every subclass must call `super()` with stats that fit the role, add at least one unique property (rage, mana, arrows, stealth), add at least one unique method (berserk, fireball, snipe, backstab), and override at least one parent method. Build one of each and run a three-round battle, printing every character's status after each round.
+**2. The RPG class system (35 minutes).** In `rpg-classes.js`, write a base `Character` with `name`, `hp`, `maxHp`, `attack`, `defense`, `level`, `isAlive` and the three methods `takeDamage`, `heal`, `getStatus`. Then at least three subclasses from this list: Warrior, Mage, Archer, Healer, Assassin, Paladin, Necromancer. Every subclass must call `super()` with stats that fit the role, add at least one unique property (rage, mana, arrows, stealth), add at least one unique method (berserk, fireball, snipe, backstab), and override at least one parent method. Build one of each and run a three-round battle (a counting `for` over the rounds), printing every character's status after each round.
 
 Success looks like: the battle runs with no errors, the three classes behave visibly differently, and you can point at one line and say "that is the override."
 
@@ -456,7 +488,7 @@ Five pages in the library go deeper than one session can. Read them in this orde
 
 Three things, in this order, and the last one is the fun one.
 
-First, finish the Monster Manual if it did not get done in the session. It is the artifact for this week, and Session 3.4 assumes you can write a class with an override without looking it up.
+First, finish the Monster Manual if it did not get done in the session. It is the artifact for this session, and Session 3.4 assumes you can write a class with an override without looking it up.
 
 Second, read the MDN page on [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes). Focus on `constructor`, `extends` and `super`, and skim the rest; you now know enough to recognise what you are skimming.
 

@@ -129,7 +129,7 @@ gh repo create html-css-foundations --public --source=. --remote=origin
 
 `git init` prints `Initialized empty Git repository in /home/you/projects/html-css-foundations/.git/`, and `gh repo create` answers with two ticks: `Created repository YOU/html-css-foundations on GitHub` and `Added remote git@github.com:YOU/html-css-foundations.git`. There is nothing to push yet; the first push comes at the end of Your turn, and because the repository is new it is `git push -u origin main` once, and a bare `git push` after that. Open the folder in VS Code with `code .`.
 
-One tool to install, and this is the session that installs it. Open the Extensions panel in VS Code (Ctrl+Shift+X, or Cmd+Shift+X on a Mac), search for **Live Server**, pick the one whose identifier is `ritwickdey.LiveServer`, and press Install. It serves whichever folder is open at `http://127.0.0.1:5500/` and reloads the browser every time you save, which is how you will watch every page in this unit.
+One tool, and this is the session that puts it to work: the VS Code **Live Server** extension, `ritwickdey.LiveServer`. Session 1.4's dotfiles `setup.sh` installed it along with the other listed extension ids. Check with `code --list-extensions | grep -i liveserver`; it prints `ritwickdey.LiveServer`. If it prints nothing, install it with `code --install-extension ritwickdey.LiveServer`. It serves whichever folder is open at `http://127.0.0.1:5500/` and reloads the browser every time you save, which is how you will watch every page in this unit.
 
 **Walkthrough 1: the adventure log.** In `html-css-foundations`, create `index.html` and type this. Do not paste it over a file the editor generated until you have typed the boilerplate once yourself.
 
@@ -247,7 +247,7 @@ console.log("ok: adventure-log");
 
 Press **Run live** and read the console against the file. `header`, then `h2`, then `nav`, then a `ul` of three `li`, each holding an `a`. Then `main`, three `section`s, the quests section holding two `article`s. Then `footer`. That printout is the document outline, and it is the same one a screen reader's heading list builds. Count the `main` elements. There is one. Read the alt text, which is present, which is the whole test.
 
-On your machine, save the file and open it. The fastest way, with the Live Server extension you just installed, is to right-click the file and choose **Open with Live Server**. It serves the folder and reloads the browser when you save. Opening the file directly, by double-clicking it, also works for a page with no server logic, and the address will start with `file://`. Either way you should see the heading, the three links, and the links should jump. Then right-click the page and choose **View Page Source**. That is the file the browser received, exactly what you typed. Keep that gesture. Every site you admire is readable this way, and reading real source is how this skeleton stops being theory.
+On your machine, save the file and open it. The fastest way, with the Live Server extension you just checked, is to right-click the file and choose **Open with Live Server**. It serves the folder and reloads the browser when you save. Opening the file directly, by double-clicking it, also works for a page with no server logic, and the address will start with `file://`. Either way you should see the heading, the three links, and the links should jump. Then right-click the page and choose **View Page Source**. That is the file the browser received, exactly what you typed. Keep that gesture. Every site you admire is readable this way, and reading real source is how this skeleton stops being theory.
 
 **Walkthrough 2: one of everything.** `elements.html` is your reference sheet. Build it, keep it, and add to it when you meet a new element. The file's head is the boilerplate you now know, with the title `HTML Elements Reference`. The body is this.
 
@@ -595,7 +595,7 @@ Read the [CSS first steps guide](https://developer.mozilla.org/en-US/docs/Learn_
 
 Spend ten minutes on a site you respect. Right-click, View Page Source, and find the `header`, the `nav`, the `main`. Then Inspect, and watch the tree. You will see semantic elements doing the jobs you used today, and you will see divs, and with a little practice you can tell which divs are earning their place.
 
-Check that Live Server still opens a page when you right-click it; if the extension did not stick, install it again from the Extensions panel. And type the boilerplate from memory, once, into an empty file, before you open the next session. If you stall, it is Fig 2, and it is short.
+Check that Live Server still opens a page when you right-click it; if it does not, `code --install-extension ritwickdey.LiveServer` puts it back. And type the boilerplate from memory, once, into an empty file, before you open the next session. If you stall, it is Fig 2, and it is short.
 
 Next time: Armor and Cosmetics. Selectors, the cascade, specificity, the box model, colour and type. The guild board is going to look like you meant it. Keep the HTML as it is; next session restyles it without changing the structure. The structure is done.
 

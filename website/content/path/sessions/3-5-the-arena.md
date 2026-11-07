@@ -74,7 +74,7 @@ function handleMove(evt) {
 
 *Split big renders.* When `render()` grows, break it into `renderBoard()`, `renderScore()`, `renderMessage()` and have `render()` call all three.
 
-**Three utilities you have not met.** `setInterval(callback, ms)` calls a function again and again at a fixed interval and returns an id; `clearInterval(id)` stops it. That is your countdown clock and, in Whack-a-Mole, your mole scheduler. `Math.random()` returns a float from 0 up to but not including 1, so `Math.floor(Math.random() * (max - min + 1)) + min` is a random integer from `min` to `max` inclusive; the `+ 1` is the part people forget, and without it the top value never appears. The **Fisher-Yates shuffle** randomises an array in place by walking from the end and swapping each element with a random earlier one; it is the right way to shuffle a deck or a question list, and `array.sort(() => Math.random() - 0.5)` is the wrong way, because it is biased and some engines will not even finish it.
+**Three utilities you have not met.** `setInterval(callback, ms)` calls a function again and again at a fixed interval and returns an id; `clearInterval(id)` stops it. That is your countdown clock and, in Whack-a-Mole, your mole scheduler. `Math.random()` returns a float from 0 up to but not including 1, so `Math.floor(Math.random() * (max - min + 1)) + min` is a random integer from `min` to `max` inclusive; the `+ 1` is the part people forget, and without it the top value never appears. The **Fisher-Yates shuffle** randomises an array in place by walking from the end and swapping each element with a random earlier one; it is the right way to shuffle a deck or a question list, and `array.sort(() => Math.random() - 0.5)` is the wrong way, because it is biased: the comparator breaks `sort`'s rules, and the order it gives is visibly skewed.
 
 **Deployment.** GitHub Pages serves static files straight from a repository. The main file must be `index.html`, in the root of the repo. Push, then in the repo's **Settings → Pages** set the source to *Deploy from a branch*, pick `main` and `/ (root)`, save, and the site is live at `https://USERNAME.github.io/REPO-NAME/` within a minute or two. Every push after that redeploys automatically.
 
@@ -88,7 +88,7 @@ Write **user stories** first, one per feature, from the player's side: *"As a pl
 
 ## The demonstration
 
-Four stages and one worker demo. The first stage is the architecture in miniature: a complete game in forty lines with the five labelled sections. The second is the class-based shape from the studio walkthrough, with a real timer. The third is a full reference game you can read top to bottom. The worker demo proves the utilities. The fourth stage is saved for *Where it breaks*.
+Four stages and one worker demo. The first stage is the architecture in miniature: a complete game in forty lines with the five labelled sections. The second is the same architecture written as a class, with a real timer. The third is a full reference game you can read top to bottom. The worker demo proves the utilities. The fourth stage is saved for *Where it breaks*.
 
 The stage stylesheet gains a few classes today, for game pieces:
 
@@ -200,7 +200,7 @@ Play it once to a win and once to a loss, then read the console. The first line 
 
 ### 2. The class shape, with a timer
 
-The studio walkthrough shows the same architecture as a class, which is how most of you will build Option B or D. Dungeon Whacker: nine holes, a ten-second round, a mole that moves every second. This is the shape to copy for anything with a clock.
+Stage 2 is the same architecture written as a class, the shape to copy for Option B or D. Dungeon Whacker: nine holes, a ten-second round, a mole that moves every second. This is the shape to copy for anything with a clock.
 
 ```html stage=arena-timer
 <h3>Dungeon Whacker</h3>
@@ -331,7 +331,7 @@ Start a round and watch the console count hits and misses while the clock runs d
 
 ### 3. The reference game: Tic-Tac-Toe
 
-A whole game, in the labelled-sections style, that you can read in five minutes and that passes every *Must Have* on the project checklist except deployment. It is also where "do not store what you can compute" stops being a slogan: there is no `moveCount`, and the tie is a one-liner.
+A whole game, in the labelled-sections style, that you can read in five minutes and that passes the architecture must-haves on the project checklist (state in JavaScript, DOM manipulation, win, lose, restart); your game must add a class, a second event type, a phone layout and a deploy. It is also where "do not store what you can compute" stops being a slogan: there is no `moveCount`, and the tie is a one-liner.
 
 ```html stage=tictactoe
 <h3>Tic-Tac-Toe</h3>
@@ -630,26 +630,26 @@ Then press **+1 by reading the label**. The label said `Score: 0`; `parseInt("Sc
 
 Project day is structured as three build sprints with checkpoints, and the sprints are the plan. Do them in order. Do not skip Sprint 1 because "the HTML is the easy part"; a game with no layout has nowhere to render, and you will write the JavaScript twice.
 
-**Sprint 1: HTML + CSS foundation (25 minutes).** Create `index.html`, `style.css` and `app.js`; link the CSS in `<head>` and the script at the end of `<body>` or with `defer`. Build the whole layout with no JavaScript at all: the board area, the score and timer displays, the message line, the start/restart button, and any form your game needs. Hard-code a few pieces (two cards face up, a mole in a hole, the first question) so you can style the states before they exist. Checkpoint: the game is visible, styled and responsive in the browser, and `app.js` is still empty.
+**Sprint 1: HTML + CSS foundation (25 minutes).** Make the folder and the repository first, so every checkpoint below can be a commit: `mkdir -p ~/projects/memory-game && cd ~/projects/memory-game && git init`. The examples on this page use `memory-game`; if you chose another arena, name the folder for that game and nothing else changes. Create `index.html`, `style.css` and `app.js`; link the CSS in `<head>` and the script with `<script src="app.js" defer></script>`, the skeleton from 3.4. A finished example of exactly this layout is the `game/` folder of https://github.com/arthurbernierjr/dtc-landing (`index.html`, `style.css`, `app.js`: a memory game with one `MemoryGame` class, click and keydown, a 45-second timer, a win, a loss and a restart). It is a finished example to read after you try, not a template: read its `index.html` for the script tag, then close it. Build the whole layout with no JavaScript at all: the board area, the score and timer displays, the message line, the start/restart button, and any form your game needs. Hard-code a few pieces (two cards face up, a mole in a hole, the first question) so you can style the states before they exist. Checkpoint: the game is visible, styled and responsive in the browser, and `app.js` is still empty.
 
 **Sprint 2: core game logic (40 minutes).** Open `app.js` and write the five comment headers. Fill them in the proven order: declare state; write `init()` ending in `render()`; stub `render()` as a `console.log` of the state; call `init()`; add the listeners; then write the handlers one user story at a time, each one guard → update → `render()`. By the end of the sprint the game should respond to input and the score should change. Checkpoint: you can play, badly, and the console shows the state changing with every click. Commit.
 
 **Sprint 3: win, lose and polish (30 minutes).** Add the win condition and the lose condition (timer, lives or wrong answers), and make sure both are *communicated* to the player: a message, a colour, a disabled board. Add restart without reloading the page: that is `init()` on a button, plus `clearInterval` on whatever was running. Then polish whatever time allows: feedback on every action, a transition on the cards, a difficulty select. Checkpoint: the game can be played to a win, to a loss, and restarted, and it feels like a game rather than an exercise. Commit.
 
-Then **deploy (20 minutes)**. In the game folder:
+Then **deploy (20 minutes)**. On GitHub, create an empty public repository called `memory-game` (no README, no `.gitignore`; the files already exist on your machine). Then, in the game folder:
 
 ```bash
-git init
+cd ~/projects/memory-game
 git add .
-git commit -m "initial game commit"
+git commit -m "win, lose and restart"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+git remote add origin git@github.com:YOUR_USERNAME/memory-game.git
 git push -u origin main
 # then on GitHub: Settings → Pages → Source: Deploy from a branch → main → / (root) → Save
-# live in a minute or two at https://YOUR_USERNAME.github.io/YOUR_REPO/
+# live in a minute or two at https://YOUR_USERNAME.github.io/memory-game/
 ```
 
-Open the URL in an incognito window. If you see a 404, the file is not called `index.html` or it is not in the root of the repo; those two account for nearly every failed deploy. Then spend the rest of the time **playtesting**: swap URLs with someone and ask four questions. Does it work? Is it fun? Is anything confusing? Any bugs? Write down what they say before you argue with it.
+The remote is the SSH form, `git@github.com:…`, because 1.4 set you up with a key; an `https://` remote would ask for a username and a token on every push. The GitHub step and the remote can also be one line, as in 1.4: `gh repo create memory-game --public --source=. --remote=origin --push`. Open the URL in an incognito window. If you see a 404, the file is not called `index.html` or it is not in the root of the repo; those two account for nearly every failed deploy. Then spend the rest of the time **playtesting**: send the URL to a friend or someone in your house and ask four questions. Does it work? Is it fun? Is anything confusing? Any bugs? Write down what they say before you argue with it.
 
 > **Tip:** Test after every handler, not after every hundred lines. Save, refresh, click, read the console. The bug you introduced thirty seconds ago is easy to find; the one from forty minutes ago has friends.
 
@@ -661,7 +661,7 @@ Open the URL in an incognito window. If you see a 404, the file is not called `i
 
 ![](diagram:session-3-5/fig5-four-arenas)
 
-- **Option A, Memory Card Game (The Matching Spell).** A grid of 12 to 20 face-down cards (6 to 10 pairs). Click two to flip them; after a short delay they stay up if they match and flip back if they do not. Track attempts and time. Win when every pair is matched. Suggested class: `Card` with `value`, `isFlipped`, `isMatched`, `element`. You will want `shuffle` and a `setTimeout` for the flip-back.
+- **Option A, Memory Card Game (The Matching Spell).** A grid of 12 to 20 face-down cards (6 to 10 pairs). Click two to flip them; after a short delay they stay up if they match and flip back if they do not. Track attempts and time. Win when every pair is matched. Suggested class: `Card` with `value`, `isFlipped`, `isMatched`, `element`. You will want `shuffle` and a `setTimeout` for the flip-back. A finished example to read after you try: the `game/` folder of https://github.com/arthurbernierjr/dtc-landing.
 - **Option B, Whack-a-Mole (Dungeon Whacker).** 9 to 12 holes; moles appear at random for one to two seconds and come faster as time goes on; a 30 to 60 second limit; score and high score. Suggested class: `Mole` with `holeIndex`, `isVisible`, `speed`, `element`. You will want `setInterval`, `clearInterval` and `randomInt`, and you have the shape in stage 2.
 - **Option C, Quiz Game (The Sage's Trial).** At least ten questions with four choices each, shuffled every playthrough; a correct answer gives +10 and green feedback; a wrong answer costs one of three lives and shows red. Win by finishing the questions, lose by running out of lives, then show the final score and a play-again. Suggested class: `Quiz` with `questions`, `currentIndex`, `score`, `lives`.
 - **Option D, Simple RPG Battle (Arena Combat Simulator).** Create a character (name, class); fight three to five enemies in turns; each turn choose normal attack, special, defend or potion; enemies pick attacks at random; damage is attack minus defence (never below zero); potions are limited; a battle log shows every action. Win by defeating every enemy; lose when HP hits zero. Suggested classes: `Character` as the base, `Player` and `Enemy` extending it, and `Battle`. Your Monster Manual from 3.3 is most of this.
@@ -669,9 +669,9 @@ Open the URL in an incognito window. If you see a 404, the file is not called `i
 
 **Must have** (required to pass): HTML, CSS and vanilla JavaScript only; at least one ES6 class used meaningfully; DOM manipulation that creates, modifies or removes elements; at least two different event types (click, submit, keydown…); game state tracked in JavaScript (score, turns, lives, timer or equivalent); a win condition **and** a lose condition; restart without refreshing; a responsive layout playable on a phone; deployed on GitHub Pages; clean, readable code with comments on the key logic. **Should have**: styled beyond browser defaults; feedback for every action; smooth play with no layout jumps; a README with title, description, how to play and the live link; no major bugs. **Could have**: sound, CSS animations, difficulty levels, a `localStorage` high score, a leaderboard, touch controls, an instruction screen, a dark-mode toggle.
 
-**How it is scored.** 70 points for the boss clear: loads and runs (10), win and lose conditions (10), restart without refresh (5), DOM manipulation (10), event handling with delegation where it fits (10), a meaningful class (10), state management (10), deployment (5). 20 points of epic loot: visual design, user feedback, code quality, README, five each. 10 points of legendary status: advanced features and professional polish, five each. 90 and up is Legendary (S-Rank); 80 to 89 Epic (A); 70 to 79 Boss Clear (B); 60 to 69 Approaching (C); below that, retry. Read the list before you start, not after: half of it is architecture you get for free by following the skeleton.
+**How to score yourself.** Before you call it done, score the game against this list. 70 points for the boss clear: loads and runs (10), win and lose conditions (10), restart without refresh (5), DOM manipulation (10), event handling with delegation where it fits (10), a meaningful class (10), state management (10), deployment (5). 20 points of epic loot: visual design, user feedback, code quality, README, five each. 10 points of legendary status: advanced features and professional polish, five each. 90 and up is Legendary (S-Rank); 80 to 89 Epic (A); 70 to 79 Boss Clear (B); 60 to 69 Approaching (C); below that, retry. Read the list before you start, not after: half of it is architecture you get for free by following the skeleton.
 
-**Submit** a public repo with a descriptive name (`memory-card-game`, not `project1`), the GitHub Pages URL verified in an incognito window, and a `README.md` with the game title, a one- or two-sentence description, a screenshot or GIF, the live link, the technologies used and how to play. Deadline: before session 4.1 begins.
+**Your evidence.** A public repo named for the game (`memory-game`, not `project1`); the GitHub Pages URL, verified in an incognito window; and a `README.md` with the game title, a one- or two-sentence description, a screenshot or GIF, the live link, the technologies used and how to play. Both URLs go in the README, which is the one place anyone, including you in six months, will look. Finish it before you start 4.1.
 
 ## Side quests
 
@@ -679,7 +679,7 @@ Four pages in the library go deeper than one session can. Read them in this orde
 
 ## Before next session
 
-Due before Unit 4 begins, in this order.
+Before Unit 4 begins, in this order.
 
 First, **fix what playtesting found.** Every note someone gave you is a bug report from a real user; that is the most valuable thing you will get this week.
 
@@ -689,9 +689,9 @@ Third, **make it playable on a phone.** Open the live URL on your own phone. But
 
 Fourth, **write the README**: title, description, how to play, technologies used, the live link, a screenshot or GIF. It is five points on the rubric and the first thing anyone, including a future employer, sees in the repo.
 
-Fifth, **push, verify in an incognito window, and submit both URLs**.
+Fifth, **push, verify in an incognito window, and check that both URLs are in the README**.
 
-Then rest for a day. Unit 4 is a new arc: the Summoner, where you leave the browser for the first time and run JavaScript on a server with Node, npm and Express. Nothing to read ahead; arrive with a game you can show.
+Then rest for a day. Unit 4 is a new arc, and 4.1, The Runtime Beyond the Browser, is where you leave the browser for the first time and run JavaScript on a server with Node, npm and Express. Nothing to read ahead; arrive with a game you can show. Nothing will still be running: the game is static files on GitHub Pages, and there is no server to stop.
 
 > **Say:** "State is the single source of truth; the DOM is a display. Guard, update state, render: every handler, in that order. Do not store what you can compute. Whoever starts a timer owns its id and must clear it. An ugly working game beats a perfect plan with no code."
 
