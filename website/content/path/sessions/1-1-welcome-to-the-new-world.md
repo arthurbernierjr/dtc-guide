@@ -30,6 +30,8 @@ say:
 
 ## The hook
 
+This adventure is self-paced: 66 sessions, in order. Three sessions a week gives you a suggested 22-week route; one a day gives you 66 days. Choose the days yourself. For a route that includes every side quest, roughly 100 days can be a planning target, with more time wherever the work needs it. The week labels are map coordinates, not a clock chasing you. Finish the quest's evidence before moving on, whether that takes one sitting or several.
+
 Welcome to the New World. You are here because you chose to be here, and that already makes you different from most people.
 
 In every isekai story the main character gets pulled into another world and has to work out the rules from nothing. No tutorial. No map. A strange place, a few starter items, and the choice to either stand there or start walking. Today you are that character. The terminal is the new world. The blinking cursor is the spot where you spawned. By the end of this session you will have your first skills unlocked, a working developer environment on your machine, and two folder trees you built by typing, not clicking.
@@ -40,7 +42,7 @@ Here is the plan. First we set up a professional development environment on your
 
 I do not care if you have never opened a terminal before. I do not care if you have decided this is not for you. That is old-world thinking. In this world the only stat that matters is whether you show up and do the work. Day one. Right now.
 
-One thing about this page before we start. Shell sessions cannot run in the little JavaScript boxes the later units use, so this page carries something new: **a terminal of its own**. Under some code panels you will find a dark screen with a prompt. Press **Run in terminal** and the page types the commands for you, one by one, and shows exactly what a real shell would answer. Then the prompt is yours: type anything, press Enter, and it answers you too. It is a faithful imitation of Bash with a small pretend filesystem (your home there is `/home/adventurer`), and nothing you type in it can touch your actual computer, which makes it the perfect place to make mistakes. It is not a substitute for the real thing. Do everything here, then do it again in the real terminal on your machine. The versions and dates it prints are the page's, not yours.
+The practice boxes on this page are **browser-based shell simulators**. Press **Run in terminal** to replay the example, or type a supported command at the prompt. Commands such as `mkdir`, `ls`, and `cat` work against temporary files inside that box. They do not run a real Bash process or access your computer. The simulator supports a subset of shell behavior; it cannot install packages, launch VS Code, run arbitrary programs, or verify your installed tools. Its tool versions are example responses. Rerunning an example or reloading the page resets its virtual files. Use these boxes to rehearse, then repeat the exercises in your real terminal.
 
 ## The idea
 
@@ -234,7 +236,7 @@ cat nots.txt
 
 ![](diagram:session-1-1/fig4-overwrite-vs-append)
 
-The rule for the week: first line with `>`, every line after it with `>>`, then `cat` to check. When in doubt, `>>` is the safe one; the worst it can do is add a duplicate line, which you can see and fix.
+The rule to practise: first line with `>`, every line after it with `>>`, then `cat` to check. When in doubt, `>>` is the safe one; the worst it can do is add a duplicate line, which you can see and fix.
 
 **The typo.** `mkidr notes` gets `bash: mkidr: command not found`. That is the shell telling you, politely, that there is no program by that name. Nothing happened. Nothing broke. The error names the word it did not recognise, so read it, find the typo, press the up arrow, fix the line, press Enter. This is what "typos make errors, not disasters" looks like in practice.
 
@@ -340,7 +342,7 @@ Next session starts from the same home directory and builds new folders beside t
 
 ## Side quests
 
-Two pages in the library frame the week around today. Read them in this order; they are short, and they are about you rather than the shell.
+Two pages in the library frame the adventure you are beginning. Read them in this order; they are short, and they are about you rather than the shell.
 
 ## Before next session
 

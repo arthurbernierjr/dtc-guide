@@ -245,209 +245,91 @@
     writeClipboard(activeRaw(fig)).then(() => flash(btn, 'Copied', true), () => flash(btn, 'Copy failed', false));
   }
 
-  /* ---------- run in worker ---------- */
-  let worker = null;
-  let runSeq = 0;
-  const runs = new Map();
-  function getWorker() {
-    if (worker) return worker;
-    worker = new Worker(`/worker.js${scriptVersion()}`);
-    worker.onmessage = (ev) => {
-      const m = ev.data; const r = runs.get(m.id); if (!r) return;
-      if (m.type === 'log') appendOut(r, m.text, m.level);
-      else {
-        if (m.type === 'done') appendOut(r, `✓ finished in ${m.ms} ms${r.ok ? (r.sawOk ? '' : ` — expected "${r.ok}" was not printed`) : ''}`, r.ok && !r.sawOk ? 'err' : 'ok');
-        else appendOut(r, m.text, 'err');
-        finishRun(r);
-      }
-    };
-    worker.onerror = (ev) => { for (const r of runs.values()) { appendOut(r, `Worker error: ${ev.message}`, 'err'); finishRun(r); } ev.preventDefault(); };
-    return worker;
-  }
+  /* Examples execute in an opaque-origin frame, never in the lesson document.
+     Only build-approved sources are fetched; communication uses a private MessagePort. */
+  const activeExamples = new Map();
+  let approvedSources;
   function scriptVersion() { const s = $('script[src^="/app.js"]'); const m = s && s.getAttribute('src').match(/\?v=[^&]+/); return m ? m[0] : ''; }
   function appendOut(r, text, level) {
+    if (typeof text !== 'string') return;
+    text = text.slice(0, 8000);
     if (r.ok && text.includes(r.ok)) { r.sawOk = true; level = 'ok'; }
+    if (r.body.childElementCount >= 250) r.body.firstElementChild.remove();
     const line = doc.createElement('div');
-    if (level && level !== 'log') line.className = level === 'warn' ? 'dim' : level;
+    if (level && level !== 'log') line.className = level === 'warn' ? 'dim' : level === 'ok' ? 'ok' : 'err';
     line.textContent = text;
-    r.body.appendChild(line);
-    r.body.scrollTop = r.body.scrollHeight;
+    r.body.appendChild(line); r.body.scrollTop = r.body.scrollHeight;
   }
-  function finishRun(r) {
-    clearTimeout(r.timer);
-    r.btn.classList.remove('is-running');
-    runs.delete(r.id);
+  async function approvedSource(src, mode) {
+    const target = new URL(src, location.href);
+    if (target.origin !== location.origin || target.search || target.hash) throw new Error('This example source is not approved.');
+    if (!approvedSources) approvedSources = fetch('/runner-sources.json' + scriptVersion(), {credentials:'omit'}).then(r => { if (!r.ok) throw new Error('Could not load example list.'); return r.json(); }).catch(e => { approvedSources = null; throw e; });
+    const approved = await approvedSources;
+    if (!Object.hasOwn(approved, target.pathname) || approved[target.pathname] !== mode) throw new Error('This example source is not approved.');
+    const response = await fetch(target.pathname, {credentials:'omit'});
+    if (!response.ok) throw new Error('Could not load the example.');
+    const code = await response.text();
+    if (code.length > 500000) throw new Error('Example exceeds the size limit.');
+    return code;
   }
-  function runInWorker(btn) {
-    const fig = btn.closest('.code');
-    const out = $('.code-out', fig);
-    const body = $('.code-out-body', out);
-    out.hidden = false; body.textContent = '';
-    btn.classList.add('is-running');
-    const id = ++runSeq;
-    const r = { id, btn, body, ok: btn.getAttribute('data-ok') || '', sawOk: false };
-    runs.set(id, r);
-    appendOut(r, `$ node ${btn.getAttribute('data-run').replace(/^\/assets\/src\//, '')}`, 'dim');
-    r.timer = setTimeout(() => {
-      appendOut(r, 'Stopped after 15 s — the file did not finish. Run it locally with node to inspect.', 'err');
-      finishRun(r);
-      if (worker) { worker.terminate(); worker = null; }
-    }, 15000);
-    try { getWorker().postMessage({ id, src: btn.getAttribute('data-run') }); }
-    catch (e) { appendOut(r, `Could not start the runner: ${e.message}`, 'err'); finishRun(r); }
-  }
-
-  /* ---------- live stages (session DOM demos run against a fenced corner of this page) ----------
-     A `js live=<name>` file is loaded as a module script. Its first line asks for the stage:
-     `const { document, console, setTimeout, setInterval, clearTimeout, clearInterval } =
-     globalThis.__dtcStage(name)` — `document` is scoped to the stage root (selectors,
-     createElement, events, body), `console` streams to the panel under the code, and the four
-     timer functions are the real ones with their ids remembered per stage. Every Run swaps in a
-     fresh root from the <template>, so old listeners and state go with it, stops any timer the
-     previous run left ticking (and says so), and the module URL gets a new query so the browser
-     evaluates the file again. */
-  const stages = new Map();
-  let liveSeq = 0;
-  function fmtDom(v, depth) {
-    depth = depth === undefined ? 2 : depth;
-    if (v === null) return 'null';
-    const t = typeof v;
-    if (t === 'string') return v;
-    if (t === 'undefined' || t === 'number' || t === 'boolean' || t === 'bigint' || t === 'symbol') return String(v);
-    if (t === 'function') return `[Function${v.name ? ': ' + v.name : ''}]`;
-    if (v instanceof Element) return `<${v.tagName.toLowerCase()}${v.id ? '#' + v.id : ''}${v.classList.length ? '.' + Array.from(v.classList).join('.') : ''}>`;
-    if (v instanceof Text) return `#text "${v.data.length > 40 ? v.data.slice(0, 40) + '…' : v.data}"`;
-    if (v instanceof NodeList || v instanceof HTMLCollection) return `${v.constructor.name}(${v.length}) [ ${Array.from(v).slice(0, 8).map((x) => fmtDom(x, depth - 1)).join(', ')}${v.length > 8 ? ', …' : ''} ]`;
-    if (v instanceof Event) return `${v.constructor.name} { type: '${v.type}', target: ${fmtDom(v.target, 0)} }`;
-    if (v instanceof Error) return `${v.name}: ${v.message}`;
-    if (v instanceof Date) return v.toISOString();
-    if (depth < 0) return Array.isArray(v) ? '[Array]' : '[Object]';
-    if (Array.isArray(v)) return `[ ${v.slice(0, 50).map((x) => (typeof x === 'string' ? `'${x}'` : fmtDom(x, depth - 1))).join(', ')}${v.length > 50 ? ', …' : ''} ]`;
-    const keys = Object.keys(v);
-    return `{ ${keys.slice(0, 30).map((k) => `${k}: ${typeof v[k] === 'string' ? `'${v[k]}'` : fmtDom(v[k], depth - 1)}`).join(', ')}${keys.length > 30 ? ', …' : ''} }`;
-  }
-  function stageConsole(st) {
-    const out = (level) => function () { appendOut(st.run, Array.prototype.map.call(arguments, (a) => fmtDom(a)).join(' '), level); console[level === 'err' ? 'error' : level === 'dim' ? 'warn' : 'log'].apply(console, arguments); };
-    return { log: out('log'), info: out('log'), warn: out('dim'), error: out('err'), debug: out('dim'), table: out('log'), dir: out('log'), group: out('log'), groupEnd() {}, clear() { st.run.body.textContent = ''; }, assert(c) { if (!c) out('err').apply(null, ['Assertion failed'].concat(Array.prototype.slice.call(arguments, 1))); }, count() {}, time() {}, timeEnd() {}, trace: out('dim') };
-  }
-  function stageDocument(st) {
-    const root = () => st.root;
-    return {
-      getElementById(id) { return root().querySelector('#' + CSS.escape(String(id))); },
-      querySelector(sel) { return root().querySelector(sel); },
-      querySelectorAll(sel) { return root().querySelectorAll(sel); },
-      getElementsByClassName(c) { return root().getElementsByClassName(c); },
-      getElementsByTagName(t) { return root().getElementsByTagName(t); },
-      createElement(tag, opts) { return doc.createElement(tag, opts); },
-      createTextNode(t) { return doc.createTextNode(t); },
-      createDocumentFragment() { return doc.createDocumentFragment(); },
-      addEventListener(type, fn, opts) { root().addEventListener(type, fn, opts); },
-      removeEventListener(type, fn, opts) { root().removeEventListener(type, fn, opts); },
-      contains(n) { return root().contains(n); },
-      get body() { return root(); },
-      get documentElement() { return root(); },
-      get activeElement() { return root().contains(doc.activeElement) ? doc.activeElement : root(); },
-      get title() { return st.title; },
-      set title(v) { st.title = String(v); st.state.textContent = `live · title "${st.title}"`; },
-      get readyState() { return 'complete'; },
-      get defaultView() { return window; },
-    };
-  }
-  function stageTimers(st) {
-    const track = (id) => { st.timers.add(id); return id; };
-    const untrack = (id) => { st.timers.delete(id); };
-    return {
-      setTimeout(fn, ms) { const args = Array.prototype.slice.call(arguments, 2); const id = window.setTimeout(function () { untrack(id); fn.apply(null, args); }, ms); return track(id); },
-      setInterval(fn, ms) { const args = Array.prototype.slice.call(arguments, 2); return track(window.setInterval(function () { fn.apply(null, args); }, ms)); },
-      clearTimeout(id) { untrack(id); window.clearTimeout(id); },
-      clearInterval(id) { untrack(id); window.clearInterval(id); },
-    };
-  }
-  function stopTimers(st) {
-    const n = st.timers.size;
-    st.timers.forEach((id) => { window.clearInterval(id); window.clearTimeout(id); });
-    st.timers.clear();
-    return n;
-  }
-  function freshRoot(st) {
-    const next = doc.createElement('div');
-    next.className = 'stage-root';
-    next.setAttribute('data-stage-root', '');
-    next.setAttribute('tabindex', '0');
-    next.setAttribute('aria-label', st.root.getAttribute('aria-label') || 'Live stage');
-    next.appendChild(st.template.content.cloneNode(true));
-    st.root.replaceWith(next);
-    st.root = next;
-  }
-  function stageFor(name) {
-    if (stages.has(name)) return stages.get(name);
-    const box = $(`.stage[data-stage="${CSS.escape(name)}"]`);
-    if (!box) return null;
-    const st = { name, box, root: $('[data-stage-root]', box), template: $('[data-stage-template]', box), state: $('[data-stage-state]', box), title: '', run: null, timers: new Set() };
-    st.api = Object.assign({ document: stageDocument(st), console: stageConsole(st) }, stageTimers(st));
-    // A form that submits without preventDefault() would reload the lesson page. Catch it on the
-    // box (after the stage's own listeners have run) and say so — that is the lesson, not a crash.
-    on(box, 'submit', (ev) => {
-      if (ev.defaultPrevented) return;
-      ev.preventDefault();
-      if (st.run) appendOut(st.run, 'The form submitted without event.preventDefault(): in your own page the browser would have reloaded here and thrown away every variable. Stopped it on this page.', 'err');
-    });
-    stages.set(name, st);
-    return st;
-  }
-  window.__dtcStage = function (name) {
-    const st = stageFor(name);
-    if (!st) throw new Error(`no stage named "${name}" on this page`);
-    return st.api;
-  };
-  function runLive(btn) {
+  function runInWorker(btn) { launchExample(btn, 'worker'); }
+  function runLive(btn) { launchExample(btn, 'live'); }
+  async function launchExample(btn, mode) {
+    if (btn.classList.contains('is-running')) return;
+    const fig = btn.closest('.code'); const out = $('.code-out', fig); const body = $('.code-out-body', out);
     const name = btn.getAttribute('data-stage');
-    const st = stageFor(name);
-    if (!st) return;
-    const fig = btn.closest('.code');
-    const out = $('.code-out', fig);
-    const body = $('.code-out-body', out);
-    out.hidden = false; body.textContent = '';
-    btn.classList.add('is-running');
-    const leaked = stopTimers(st);
-    freshRoot(st);
-    st.title = '';
-    st.state.textContent = 'loading…';
-    st.run = { btn, body, ok: btn.getAttribute('data-ok') || '', sawOk: false };
-    const src = btn.getAttribute('data-live');
-    appendOut(st.run, `$ live ${src.slice(src.lastIndexOf('/') + 1)} → stage "${name}"`, 'dim');
-    if (leaked) appendOut(st.run, `stopped ${leaked} timer${leaked === 1 ? '' : 's'} the previous run left ticking (your own page would not do this for you)`, 'dim');
-    const sc = doc.createElement('script');
-    sc.type = 'module';
-    sc.src = `${src}?r=${++liveSeq}`;
-    sc.setAttribute('data-live-stage', name);
-    const finish = (ok, msg) => {
-      btn.classList.remove('is-running');
-      st.state.textContent = ok ? 'live · click, type, watch' : 'error';
-      st.box.classList.toggle('is-live', ok);
-      st.box.classList.toggle('is-failed', !ok);
-      appendOut(st.run, msg, ok ? 'ok' : 'err');
-      sc.remove();
-      if (ok) st.root.focus({ preventScroll: true });
+    const box = mode === 'live' ? $(`.stage[data-stage="${CSS.escape(name)}"]`) : null;
+    if (mode === 'live' && !box) return;
+    const src = btn.getAttribute(mode === 'live' ? 'data-live' : 'data-run');
+    const previous = activeExamples.get(btn); if (previous) previous();
+    const r = {btn, body, ok:btn.getAttribute('data-ok') || '', sawOk:false};
+    body.textContent = ''; out.hidden = false; btn.classList.add('is-running');
+    if (box) { box.classList.remove('is-live','is-failed'); $('[data-stage-state]',box).textContent = 'loading isolated example…'; }
+    let frame, port, timeout, expiry, disposed = false;
+    const cleanup = () => { disposed = true; clearTimeout(timeout); clearTimeout(expiry); window.removeEventListener('message',ready); if (port) port.close(); if (frame) frame.remove(); if (box) $('[data-stage-root]',box).hidden = false; btn.classList.remove('is-running'); if (activeExamples.get(btn) === cleanup) activeExamples.delete(btn); };
+    const fail = text => { appendOut(r,text,'err'); if (box) { box.classList.add('is-failed'); box.classList.remove('is-live'); $('[data-stage-state]',box).textContent = 'stopped · run again to reset'; } cleanup(); };
+    let payload;
+    const ready = ev => {
+      if (disposed || !frame || ev.source !== frame.contentWindow || ev.origin !== 'null' || !ev.data || ev.data.type !== 'runner-ready') return;
+      window.removeEventListener('message',ready);
+      const channel = new MessageChannel(); port = channel.port1;
+      let received = 0;
+      port.onmessage = event => {
+        const m = event.data;
+        if (disposed || !m || typeof m !== 'object') return;
+        if (++received > 2500) { fail('Stopped: this example exceeded its message limit.'); return; }
+        if (m.type === 'log' && typeof m.text === 'string') appendOut(r,m.text,m.level);
+        if (m.type === 'size' && box && Number.isFinite(m.height)) frame.style.height = Math.min(1400,Math.max(100,m.height)) + 'px';
+        if (m.type === 'error') fail(typeof m.text === 'string' ? m.text : 'The example stopped.');
+        if (m.type === 'done') {
+          clearTimeout(timeout); btn.classList.remove('is-running');
+          if (r.ok && !r.sawOk) { fail('The example did not print its expected result.'); return; }
+          appendOut(r,mode === 'live' ? '✓ isolated example is live · click, type, watch' : '✓ finished in the isolated runner','ok');
+          if (box) { box.classList.add('is-live'); $('[data-stage-state]',box).textContent = 'isolated · click, type, watch'; }
+          else cleanup();
+        }
+      };
+      frame.contentWindow.postMessage({type:'runner-start',...payload},'*',[channel.port2]);
     };
-    sc.addEventListener('load', () => {
-      if (st.run.ok && !st.run.sawOk) finish(false, `✓ loaded, but "${st.run.ok}" was not printed`);
-      else finish(true, '✓ the stage above is live: this panel keeps logging while you use it');
-    });
-    sc.addEventListener('error', () => finish(false, `Could not load ${src}`));
-    doc.head.appendChild(sc);
+    activeExamples.set(btn,cleanup);
+    timeout = setTimeout(() => fail('Stopped after 15 seconds. Run again to reset the example.'),15000);
+    try {
+      const code = await approvedSource(src,mode);
+      const engine = mode === 'worker' ? await fetch('/worker.js' + scriptVersion(),{credentials:'omit'}).then(r=>{if(!r.ok)throw new Error('Runner unavailable.');return r.text();}) : '';
+      if (disposed) return;
+      payload = {mode,code,engine,src,name,html:box ? $('[data-stage-template]',box).innerHTML : ''};
+      frame = doc.createElement('iframe'); frame.className = 'example-sandbox'; frame.title = mode === 'live' ? `Interactive example: ${name}` : 'Isolated code runner';
+      frame.setAttribute('sandbox','allow-scripts'); frame.setAttribute('referrerpolicy','no-referrer');
+      frame.setAttribute('allow',"camera 'none'; microphone 'none'; geolocation 'none'; clipboard-read 'none'; clipboard-write 'none'; payment 'none'; usb 'none'");
+      frame.src = '/sandbox/runner';
+      window.addEventListener('message',ready);
+      if (box) { const current = $('[data-stage-root]',box); current.hidden = true; current.after(frame); }
+      else { frame.hidden = true; fig.appendChild(frame); }
+      appendOut(r,`Running ${src.split('/').pop()} in an isolated example…`,'dim');
+      if (box) expiry = setTimeout(() => fail('Example paused after five minutes. Run again to start fresh.'),300000);
+    } catch (e) { if (!disposed) fail(e.message); }
   }
-  // Uncaught errors in a live file (on load, or later inside one of its handlers) go to its panel.
-  on(window, 'error', (ev) => {
-    const file = ev.filename || '';
-    if (!file.includes('/assets/live/')) return;
-    const name = file.slice(file.lastIndexOf('/') + 1).replace(/\.js(\?.*)?$/, '');
-    const st = stages.get(name);
-    if (!st || !st.run) return;
-    appendOut(st.run, `${ev.message}${ev.lineno ? ` (line ${Math.max(1, ev.lineno - 4)})` : ''}`, 'err');
-    st.state.textContent = 'error';
-    st.box.classList.add('is-failed');
-  });
+  window.addEventListener('pagehide',()=>{for(const stop of [...activeExamples.values()])stop();});
 
   /* ---------- try-it-first gate (remembered per page) ---------- */
   const gate = $('.gate[data-gate]');
@@ -517,4 +399,35 @@
     const t = doc.getElementById(decodeURIComponent(location.hash.slice(1)));
     if (t) setTimeout(() => window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - (parseInt(getComputedStyle(html).getPropertyValue('--nav-h')) || 64) - 24 }), 0);
   }
+
+  /* Video permission is per player and per page visit; it is never remembered. */
+  doc.addEventListener('click', event => {
+    const load = event.target.closest('[data-video-load]');
+    const unload = event.target.closest('[data-video-unload]');
+    if (load || unload) {
+      const card = (load || unload).closest('[data-video]');
+      const preview = $('.video-preview',card);
+      const disconnect = $('[data-video-unload]',card);
+      if (unload) { const frame = $('iframe',card); if(frame)frame.remove(); preview.hidden = false; disconnect.hidden = true; $('[data-video-load]',card).focus(); return; }
+      const id = card.getAttribute('data-video');
+      if (!/^[A-Za-z0-9_-]{11}$/.test(id) || $('iframe',card)) return;
+      const frame = doc.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}`;
+      frame.title = $('h2',card).textContent;
+      frame.setAttribute('allow','encrypted-media; picture-in-picture; fullscreen');
+      frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-presentation');
+      frame.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+      frame.setAttribute('allowfullscreen','');
+      preview.hidden = true; preview.after(frame); disconnect.hidden = false;
+      frame.focus();
+    }
+    const reset = event.target.closest('[data-clear-preferences]');
+    if (reset) {
+      try {
+        const keys = Object.keys(localStorage).filter(k=>k.startsWith('dtc:gate:'));
+        keys.forEach(k=>localStorage.removeItem(k));
+        $('[data-privacy-status]').textContent = 'Saved solution-reveal preferences cleared on this browser. YouTube data is managed separately in your browser settings.';
+      } catch { $('[data-privacy-status]').textContent = 'Browser storage is unavailable. No preferences were changed.'; }
+    }
+  });
 })();

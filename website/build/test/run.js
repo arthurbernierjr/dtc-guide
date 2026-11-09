@@ -12,11 +12,15 @@ const skip = new Set((process.env.DTC_SKIP || '').split(',').map((s) => s.trim()
 const JEST = path.join(S.WEBSITE, 'node_modules', 'jest', 'bin', 'jest.js');
 const GATES = [
   { name: 'build', cmd: process.execPath, args: [path.join(S.WEBSITE, 'build', 'index.js')], cwd: S.WEBSITE },
+  { name: 'deepmerge-security', cmd: process.execPath, args: [path.join(__dirname, 'deepmerge-security.js')] },
   { name: 'registry', cmd: process.execPath, args: [path.join(__dirname, 'registry.js')] },
   { name: 'links', cmd: process.execPath, args: [path.join(__dirname, 'links.js')] },
   { name: 'prep', cmd: process.execPath, args: [path.join(__dirname, 'prep.js')] },
   // Live stages need the Playwright Chromium (same one as `npm run screenshots`); the gate says so if it is missing.
   { name: 'live', cmd: process.execPath, args: [path.join(__dirname, 'live.js')] },
+  { name: 'save-points', cmd: process.execPath, args: [path.join(__dirname, 'save-points.js')] },
+  { name: 'security', cmd: process.execPath, args: [path.join(__dirname, 'security.js')] },
+  { name: 'atelier', cmd: process.execPath, args: [path.join(__dirname, 'atelier.js')] },
   { name: 'ui', cmd: process.execPath, args: [path.join(__dirname, 'ui.js')] },
   { name: 'codeblocks', cmd: process.execPath, args: [path.join(__dirname, 'codeblocks.js')] },
   // The website's own jest runs the vendored suites (config: algocasts.jest.config.js), so the

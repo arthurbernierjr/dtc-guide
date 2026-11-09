@@ -2,7 +2,7 @@
 editorial: true
 title: Your Status Screen
 subtitle: Filesystem Navigation, Pipes, and Permissions
-hook: "Yesterday you learned to talk. Today you learn to see: where you are in the tree, what is around you, how to chain commands into combos, and why a file sometimes refuses you."
+hook: "In the first session you learned to talk. Today you learn to see: where you are in the tree, what is around you, how to chain commands into combos, and why a file sometimes refuses you."
 read: 55
 artifact: "The filesystem-quest folder with a grep-searched bestiary and an executable quest-start.sh, plus the explorers-journal: notes, a commands list, a discoveries file built with pipes, and two scripts you made runnable with chmod +x"
 diagrams:
@@ -36,7 +36,7 @@ Today you learn to **see**.
 
 In the terminal the status screen is built from three commands you half-know already, `pwd`, `ls` and `cd`, plus the flags that make them tell the whole truth. After today you will never feel lost in a filesystem again. You will know where you are, what is around you, who owns it, how big it is, and how to get anywhere in one line.
 
-Then we go further than navigation. You will chain commands together with **pipes**, so the output of one becomes the input of the next: `history | grep mkdir` to find every folder you ever made, `ls -la | grep ".txt"` to see only the text files. You will learn **redirection** properly, the `>` and `>>` from yesterday plus what they are actually doing. And you will meet **permissions**, the system that decides who may read, change and run every file on the machine, and `chmod`, the command that changes it, because the first time you write a script and the shell says *Permission denied* you need to know that it is not a bug, it is a lock, and you have the key.
+Then we go further than navigation. You will chain commands together with **pipes**, so the output of one becomes the input of the next: `history | grep mkdir` to find every folder you ever made, `ls -la | grep ".txt"` to see only the text files. You will learn **redirection** properly, the `>` and `>>` from the first session plus what they are actually doing. And you will meet **permissions**, the system that decides who may read, change and run every file on the machine, and `chmod`, the command that changes it, because the first time you write a script and the shell says *Permission denied* you need to know that it is not a bug, it is a lock, and you have the key.
 
 These are the skills that separate someone who can use a terminal from someone who understands it. By the end you will navigate anywhere, search inside files, build command pipelines, and make scripts executable. Your status screen is about to get a lot more detailed.
 
@@ -58,7 +58,7 @@ Three tiny names do most of the work. `.` is the directory you are in. `..` is i
 
 **`cd` is how you move.** `cd ~` or just `cd` goes home. `cd Desktop` goes down. `cd ..` goes up one; `cd ../..` up two. `cd /` goes to the root. `cd -` goes back. And `cd` followed by any path, absolute or relative, takes you there if it exists and tells you clearly if it does not.
 
-**`ls` is how you look, and the flags are its superpowers.** Every command has options, also called flags, that change how it behaves; yesterday they were a footnote, today they are the lesson. `ls` on its own gives you names. `ls -l` gives the long format: permissions, owner, size, date. `ls -a` shows *all* files, including the hidden ones whose names start with a dot. `ls -la` does both and is the single most-typed command in this programme. `ls -lh` prints sizes a human can read (`4.0K` instead of `4096`). `ls -lt` sorts newest first, `ls -lS` biggest first, and `ls -R` walks into every subfolder, which you discovered on your own yesterday.
+**`ls` is how you look, and the flags are its superpowers.** Every command has options, also called flags, that change how it behaves; in the first session they were a footnote, today they are the lesson. `ls` on its own gives you names. `ls -l` gives the long format: permissions, owner, size, date. `ls -a` shows *all* files, including the hidden ones whose names start with a dot. `ls -la` does both and is the single most-typed command in this programme. `ls -lh` prints sizes a human can read (`4.0K` instead of `4096`). `ls -lt` sorts newest first, `ls -lS` biggest first, and `ls -R` walks into every subfolder, which you discovered in the first session.
 
 ![](diagram:session-1-2/fig2-reading-ls-la)
 
@@ -224,7 +224,7 @@ ls -l quest-start.sh
 
 Read the story in order. The script is written with `echo` lines in *single* quotes, which matters: single quotes stop the shell from running `$(whoami)` now, so the words land in the file untouched and run later, when the script does. `cat` shows the file is exactly what you meant. `./quest-start.sh` (the `./` means "the one in this folder") fails with `Permission denied`, and `ls -la` shows why: `-rw-r--r--`, no `x` anywhere. `chmod +x` and the string becomes `-rwxr-xr-x`, three `x`, one per group. The same command now runs and prints a log with your name, your location, the date and the enemy list. The last four lines show the numeric form doing the same thing: `644` takes the `x` away, `755` puts it back.
 
-The first line of the script, `#!/bin/bash`, is called the shebang. It tells the system which program should read the file. We go deep on scripts in Session 1.4; today the point is the lock and the key.
+The first line of the script, `#!/bin/bash`, is called the shebang. It tells the system which program should read the file. Session 1.4 introduces a setup script, and 1.5 takes it apart; today the point is the lock and the key.
 
 ## Where it breaks
 
@@ -357,10 +357,10 @@ Two pages in the library look further down roads you walked today. They are writ
 
 Finish the Explorer's Journal if you did not finish it here; budget ninety minutes to two hours. The folder must exist before Session 1.3.
 
-Then make the status screen a reflex. Every time you open a terminal this week, before you do anything else: `pwd`, `ls -la`. Where am I, what is here. Ten seconds. After a week you will do it without deciding to.
+Then make the status screen a reflex. Every time you open a terminal while you practise, before you do anything else: `pwd`, `ls -la`. Where am I, what is here. Ten seconds. After a week you will do it without deciding to.
 
 Next time: Save Points and Respawns. Git. Every file you have made so far exists in exactly one place, and one careless `rm` or one broken edit loses it. Git gives you save points: snapshots of a whole folder you can go back to, branches you can experiment on without fear, and a way to merge the experiment back when it works. You will never lose your work again. This changes everything.
 
 > **Say:** "The filesystem is one tree; absolute paths start at the root, relative paths start where you stand. .. is up, . is here, ~ is home, - is back. ls -la is the status screen. A pipe sends output into the next command; an arrow sends it into a file. Permission denied on your own script means chmod +x."
 
-You now have a full status screen. You know where you are, what is around you, who owns it, and how to get anywhere. Two days ago you had a blinking cursor. That is a massive level up.
+You now have a full status screen. You know where you are, what is around you, who owns it, and how to get anywhere. When you arrived, you had a blinking cursor. That is a massive level up.

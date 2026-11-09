@@ -23,7 +23,7 @@ say:
 
 ## The hook
 
-This is the session the unit was built for. In 8.1 you wrote questions that could not be answered with a kind lie and booked the people who would answer them. In 8.2 you wrote the backlog anyway, tagging every row as evidence or assumption so that today could happen. In 8.3 you sized it and shaped it into four sprints. Now the log in `docs/research.md` has P1, P2, and P3 in it, and some of what they said agrees with your idea, and some of it does not. The part that does not is the valuable part. A founder who finds out they were wrong in week 15 is cheap. One who finds out in week 21 has built the wrong thing.
+This is the session the unit was built for. In 8.1 you wrote questions that could not be answered with a kind lie and booked the people who would answer them. In 8.2 you wrote the backlog anyway, tagging every row as evidence or assumption so that today could happen. In 8.3 you sized it and shaped it into four sprints. Now the log in `docs/research.md` has P1, P2, and P3 in it, and some of what they said agrees with your idea, and some of it does not. The part that does not is the valuable part. A founder who finds out they were wrong during research is cheap. One who finds out during the final build has built the wrong thing.
 
 By the end of today, the three logs become one combined empathy map and a page of insights where every pattern carries a count, the backlog has a change log with a participant id next to every promotion, demotion, addition, and deletion, the four-sprint plan has been re-checked against the new backlog and still fits, and all of it is written into `docs/product-spec.md` as version 1.0 with a two-minute recorded walkthrough. That file is what 12.1 opens. It is also honest about its own limits: how many people, who was not represented, and what result from the first increment would change the plan.
 
@@ -296,7 +296,7 @@ current workaround, unmet need>
 - Walkthrough: <url or docs/walkthrough.mp4>
 ```
 
-The filled decision log for the ledger, which is the part people skip and the part a reader in week 20 will thank you for.
+The filled decision log for the ledger, which is the part people skip and the part a reader preparing the capstone will thank you for.
 
 ```markdown
 ## 8. Decision log
@@ -461,4 +461,4 @@ Three interviews that disagree with your idea are the plateau the grit story is 
 
 ## Before next session
 
-Next session, 9.1, starts a different kind of unit: TypeScript, with the guild hall's code as the thing you annotate, so put the capstone down for now. Two things carry forward. Any interview still outstanding goes into the log when it happens, and version 1.1 of the spec, with every booked interview in it and the backlog re-tagged, is pushed before 12.1; put a reminder somewhere you will see it in week 19. Nothing is running on your machine, and the board stays with Sprint 1 filled and In Progress empty until the morning of 12.1, when the spec is the first file you open.
+Next session, 9.1, starts a different kind of unit: TypeScript, with the guild hall's code as the thing you annotate, so put the capstone down for now. Two things carry forward. Any interview still outstanding goes into the log when it happens, and version 1.1 of the spec, with every booked interview in it and the backlog re-tagged, is pushed before 12.1; put a reminder at the end of Unit 10. Nothing is running on your machine, and the board stays with Sprint 1 filled and In Progress empty until you begin 12.1, when the spec is the first file you open.

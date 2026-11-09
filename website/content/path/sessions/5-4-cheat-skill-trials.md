@@ -158,7 +158,13 @@ Then the client, in its own repo and its own agent session, with the response sh
 
 **Review.** Outside the agent, in each repo, `git diff --stat` and then `git diff`. The API diff is two functions and one route line, and `transfer` does not appear in it. The client diff is one handler and the markup around it. Anything else is rejected with `git restore <file>` before testing starts. Read the function with the diagnosis named Lost understanding in mind: can you say why the filter has `$gte` and why `new: true` is there? Review minutes. Expect ten to fifteen for a diff you read properly; a review that takes two minutes was a skim.
 
-**Testing.** Start the server. Run the contract.
+**Testing.** Start the server and log in again for a fresh Bran token. Replace every `LAMP_OIL_ID` below with the real lamp-oil `_id` from `GET /api/items`. Read Bran's pack first. If he has lamp oil left, spend exactly that remaining quantity through `/api/pack/spend`, then confirm zero with `GET /api/pack`. If this fails, repair the helper before continuing. Credit two through the existing give route:
+
+```bash
+curl -s -X POST http://localhost:4100/api/pack/give -H "Authorization: Bearer $BRAN" -H 'Content-Type: application/json' -d '{"item":"LAMP_OIL_ID","amount":2}'
+```
+
+Confirm the holding now has `qty: 2`. This is the starting condition for the six lines below, including every repair rerun. No database reset is needed. Run the contract.
 
 ```bash
 curl -s -X POST http://localhost:4100/api/pack/spend -H "Authorization: Bearer $BRAN" -H 'Content-Type: application/json' -d '{"item":"LAMP_OIL_ID","amount":1}'
@@ -169,9 +175,11 @@ curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4100/api/pack/
 curl -s -o /dev/null -w '%{http_code}\n' -X POST http://localhost:4100/api/pack/spend -H 'Content-Type: application/json' -d '{"item":"LAMP_OIL_ID","amount":1}'
 ```
 
-Line one is the holding JSON with `"qty":1` if Bran had 2. Line two is `409`. Line three shows the lamp-oil holding still at `"qty":1`. Line four shows lamp oil with `name` and `kind` and no `qty`. Line five is `400`. Line six is `401`. For line 7 of the contract, fire two spends for the full quantity in one shell line with `&` between them and `wait`; one is 200 and one is 409, and the pack shows 0, never a negative. Then the screen: `npm run dev` in the client, log in as Bran, spend one, watch the number wait for the response, spend fifty, watch it stay. Then the regression set: one transfer from Bran to Sera through `POST /api/pack/transfer`, because `transfer` was not touched and calls the rebuilt `spend`, so a 200 with `yours` and `theirs` is the proof that the helper came back with the same signature; and the five message statuses from `HALL.md`, because the agent was told not to touch messages and the way to know it listened is to look. Testing minutes.
+Line one is the holding JSON with `"qty":1`, down from the confirmed starting quantity of 2. Line two is `409`. Line three shows the lamp-oil holding still at `"qty":1`. Line four shows lamp oil with `name` and `kind` and no `qty`. Line five is `400`. Line six is `401`. For line 7 of the contract, fire two spends for the full quantity in one shell line with `&` between them and `wait`; one is 200 and one is 409, and the pack shows 0, never a negative. The pack is now empty, so repeat the give request above to credit two and confirm `qty: 2` before testing the screen. Run `npm run dev` in the client, log in as Bran, spend one, watch the number wait for the response and become 1, then spend fifty and watch it stay at 1 on the 409.
 
-**Repair.** The usual miss is case 4: the draft accepts `amount: "1"` because a string that parses is not an integer and the check was `amount < 1`. One follow-up, one more diff, rerun lines one through six. Repair minutes. Then the table:
+Before the transfer test, use `/api/pack/give` with `amount: 1` to bring Bran back to 2. Record Sera's current quantity too. Then the regression set: transfer exactly one lamp oil from Bran to Sera through `POST /api/pack/transfer`, because `transfer` was not touched and calls the rebuilt `spend`, so a 200 with `yours` at 1 and `theirs` increased by one is the proof that the helper came back with the same signature; and the five message statuses from `HALL.md`, because the agent was told not to touch messages and the way to know it listened is to look. Testing minutes.
+
+**Repair.** The usual miss is case 4: the draft accepts `amount: "1"` because a string that parses is not an integer and the check was `amount < 1`. One follow-up, one more diff, restore the two-item starting condition, then rerun lines one through six. Repair minutes. Then the table:
 
 ```markdown
 Clock: prepare 9, implement 13, review 14, test 11, repair 6. Total 53.

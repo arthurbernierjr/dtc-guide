@@ -1,0 +1,49 @@
+/* 01 — TOKENS AND TYPE */
+@font-face {
+  font-family: Clash;
+  src: url('../shared/clash-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: DM;
+  src: url('../shared/dm-sans.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+:root {
+  --bg: #08080A;
+  --card: #16161A;
+  --text: #EAE6E1;
+  --heading: #F5F2EE;
+  --muted: #A6A0AB;
+  --accent: #C9B8E8;
+  --accent-light: #E3D9F5;
+  --accent-rgb: 201 184 232;
+  --border: rgb(255 255 255 / .12);
+  --display: Clash, Arial, sans-serif;
+  --body: DM, Arial, sans-serif;
+  --radius: 16px;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 18px/1.7 var(--body);
+}
+h1, h2, h3 {
+  color: var(--heading);
+  font-family: var(--display);
+  font-weight: 600;
+  line-height: 1.1;
+}
+h1 { font-size: clamp(40px, 7vw, 80px); }
+h2 { font-size: clamp(28px, 4vw, 48px); }
+h3 { font-size: 24px; }
+.accent { color: var(--accent); }
+.muted { color: var(--muted); }
+.specimen { max-width: 780px; margin: 64px auto; padding: 24px; }
+.sample-card { background: var(--card); padding: 24px; border-radius: var(--radius); }
+::selection { background: var(--accent); color: var(--bg); }
+

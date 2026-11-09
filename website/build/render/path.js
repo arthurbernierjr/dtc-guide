@@ -1,24 +1,34 @@
 // Path components (DESIGN-REFERENCE-RESPAWN.md §R4–§R9): the save-point card, the route strip,
 // session cards (written and empty), the path tree, the side-quest banner and the diagram figure.
 const site = require('../site.config');
+const fs = require('node:fs');
+const path = require('node:path');
+const { pathMapSignature } = require('../path-map-state');
 const { escapeHtml, icon, chip } = require('./components');
 const { stamp } = require('./brand');
+
+const { thankYouButton } = require('./thank-you');
 
 const sectionMeta = (title) => site.allSections.find((s) => s.title === title);
 const unitVars = (s) => `--unit:var(--${s.color});--unit-rgb:var(--${s.color}-rgb)`;
 
-/** §R4 — the hero's save-point card for the latest written session. */
+/** An explicit browser bookmark; the static fallback is always the first lesson. */
 function respawnCard(P) {
-  const s = P.latest;
+  const s = P.written[0];
   if (!s) return '';
-  return `<aside class="respawn-card" style="${unitVars(s)}" aria-label="Latest session on the path">
+  return `<aside class="respawn-card" data-save-card style="${unitVars(s)}" aria-label="Your lesson bookmark">
   <div class="dotgrid" aria-hidden="true"></div>
-  <div class="rc-top"><span class="rc-label">Save point</span><span class="chip unit">Unit ${s.unit} · Act ${s.act.id}</span></div>
-  <div class="rc-mid">${stamp(s, 'lg')}<div class="rc-when"><span>Week ${s.week} · ${escapeHtml(s.dayName)}</span><span class="faint">180-minute session · ${s.read || 45}-minute read</span></div></div>
+  <div class="rc-top"><span class="rc-label">Your adventure begins</span><span class="chip unit">Unit ${s.unit} · Act ${s.act.id}</span></div>
+  <div class="rc-mid">${stamp(s, 'lg')}<div class="rc-when">Session ${s.position} of ${P.sessions.length} · ${s.read || 45} min read</div></div>
   <h2 class="rc-title"><a href="${s.url}">${escapeHtml(s.title)}</a></h2>
-  <p class="rc-hook">${escapeHtml(s.hook || s.subtitle)}</p>
-  <div class="rc-foot"><a class="pill primary" href="${s.url}">Continue ${icon('arrow-right', 'pill-icon')}</a><span class="rc-count">${P.written.length} of ${P.sessions.length} written</span></div>
+  <p class="rc-hook">Start at lesson 1.1. When you pause, choose Save my place on a lesson to return here later.</p>
+  <div class="rc-foot"><a class="pill primary" data-resume href="${s.url}">Begin lesson →</a><button class="save-clear" type="button" data-clear-save hidden>Clear save point</button></div>
+  <p class="save-status" data-save-status role="status" aria-live="polite">No save point yet · this browser only</p><a class="save-help" href="/guide/save-points/">How saving works →</a>
 </aside>`;
+}
+
+function saveControls(id) {
+  return `<aside class="save-panel" aria-label="Save your place"><div><p class="save-eyebrow">YOUR SAVE CRYSTAL</p><p class="save-status" data-save-status role="status" aria-live="polite">Save a bookmark on this browser. No account needed.</p></div><div class="save-actions"><button type="button" class="save-button" data-save-lesson="${escapeHtml(id)}" hidden>Save my place</button><button type="button" class="save-clear" data-clear-save hidden>Clear save point</button><a class="save-help" href="/guide/save-points/">How saving works →</a>${thankYouButton()}</div><noscript>Saving needs JavaScript. You can still bookmark this page in your browser.</noscript></aside>`;
 }
 
 /** §R5 — the route strip: 18 week cells. */
@@ -40,7 +50,7 @@ function routeStrip(P) {
 
 /** §R7 — a session card on the path index; written or the designed empty state. */
 function sessionCard(s) {
-  const day = `<span class="sc-day">${escapeHtml(s.dayName)}</span>`;
+  const day = `<span class="sc-day">Session ${s.position}</span>`;
   if (s.written) {
     const chips = [chip(`${s.read || 45} min read`), chip(`${s.diagramCount} diagram${s.diagramCount === 1 ? '' : 's'}`), chip(`${s.sideQuestPages.length} side quest${s.sideQuestPages.length === 1 ? '' : 's'}`)].join('');
     return `<article class="session-card card is-written" style="${unitVars(s)}">
@@ -90,7 +100,7 @@ function pathTree(P, page) {
     const written = w.sessions.filter((s) => s.written).length;
     return `<li class="tree-group${open ? ' open' : ''}" data-group="week-${w.n}"><button type="button" aria-expanded="${open}">${icon('chevron')}<span>Week ${w.n} · Unit ${w.units.join('·')}</span><span class="count">${written}/${w.sessions.length}</span></button><ul>${rows}</ul></li>`;
   }).join('');
-  return `<p class="tree-title"><a href="/path/" style="color:inherit">The Path</a><span>${P.written.length}/${P.sessions.length} WRITTEN</span></p><ul class="tree path-tree" id="tree">${items}</ul>`;
+  return `<p class="tree-title"><a href="/path/" style="color:inherit">The Path</a><span>${P.written.length}/${P.sessions.length} WRITTEN</span></p><p class="save-help">Week groups suggest a pace, not deadlines.</p><ul class="tree path-tree" id="tree">${items}</ul>`;
 }
 
 /** §R9 — the side-quest banner on a library page. */
@@ -110,8 +120,19 @@ function diagramFigure(P, key, { eager = false, number = true } = {}) {
   const d = P.diagrams[key];
   if (!d || !d.alt) throw new Error(`diagram ${key} has no ledger entry / alt text in content/path/diagrams.json`);
   const base = `/assets/diagrams/${key}`;
+  let version = ''; let tallHeight = 1200;
+  let alt = d.alt; let caption = d.caption;
+  if (key === 'path/path-map') {
+    const metadata = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/diagrams/path/path-map.json'), 'utf8'));
+    const signature = pathMapSignature(P, P.written.map(s => s.id));
+    if (metadata.signature !== signature) throw new Error('Path map is stale. Run: cd diagrams && node scripts/render-curriculum.cjs path');
+    version = '?v=' + metadata.images.wide.slice(0, 12) + metadata.images.tall.slice(0, 12);
+    tallHeight = 1800;
+    alt = `Curriculum map: ${P.weeks.length} suggested weeks, ${P.sessions.length} sessions, three acts and twelve units. Numbers mark weeks; colored dots mark published sessions. This is not personal progress.`;
+    caption = `${P.sessions.length} self-paced sessions · ${P.weeks.length} suggested weeks at three sessions per week. Numbers mark suggested weeks; small dots mark published sessions. Colors identify the three acts, not your progress.`;
+  }
   const figNo = number && d.fig ? `<span class="fig-no">Fig ${d.fig} ·</span> ` : '';
-  return `<figure class="diagram"><picture><source media="(max-width: 600px)" srcset="${base}-tall.png" width="900" height="1200"><img src="${base}-wide.png" alt="${escapeHtml(d.alt)}" width="1600" height="900"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"></picture>${d.caption ? `<figcaption>${figNo}${escapeHtml(d.caption)}</figcaption>` : ''}</figure>`;
+  return `<figure class="diagram"><picture><source media="(max-width: 600px)" srcset="${base}-tall.png${version}" width="900" height="${tallHeight}"><img src="${base}-wide.png${version}" alt="${escapeHtml(alt)}" width="1600" height="900"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"></picture>${caption ? `<figcaption>${figNo}${escapeHtml(caption)}</figcaption>` : ''}</figure>`;
 }
 
 /** §R8 — the side-quests box inside a session. */
@@ -135,7 +156,7 @@ function stageBox(name, html) {
 /** The lesson terminal under a `bash term=<name>` fence (§R8 Terminal stages). The script lives in a
  *  <template> so term.js can replay it; the reader's own commands go through the prompt form. */
 function termBox(name, script) {
-  return `<div class="term" data-term="${escapeHtml(name)}" id="term-${escapeHtml(name)}"><div class="term-head"><span class="term-lbl">${icon('play')}Terminal</span><span class="term-host">adventurer@newworld · bash</span><span class="term-state" data-term-state>not run yet</span></div><div class="term-screen" data-term-screen role="log" aria-live="polite" aria-label="Terminal output: ${escapeHtml(name)}"></div><form class="term-line" data-term-form autocomplete="off"><span class="term-ps1" data-term-prompt>adventurer@newworld:~$</span><input class="term-input" data-term-input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type a command and press Enter" placeholder="type a command, press Enter"></form><template data-term-script>${escapeHtml(script.trim())}</template></div>`;
+  return `<div class="term" data-term="${escapeHtml(name)}" id="term-${escapeHtml(name)}"><div class="term-head"><span class="term-lbl">${icon('play')}Shell simulator</span><span class="term-host">adventurer@newworld · simulated bash</span><span class="term-state" data-term-state>not run yet</span></div><p class="term-note">Browser simulation with temporary files, not a real Bash process. Tool versions and app launches are examples. Rerunning or reloading resets this box.</p><div class="term-screen" data-term-screen role="log" aria-live="polite" aria-label="Terminal output: ${escapeHtml(name)}"></div><form class="term-line" data-term-form autocomplete="off"><span class="term-ps1" data-term-prompt>adventurer@newworld:~$</span><input class="term-input" data-term-input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type a command and press Enter" placeholder="type a command, press Enter"></form><template data-term-script>${escapeHtml(script.trim())}</template></div>`;
 }
 
-module.exports = { respawnCard, routeStrip, sessionCard, weekBlocks, pathTree, sideQuestBanner, diagramFigure, sideQuestsBox, stageBox, termBox, unitVars };
+module.exports = { respawnCard, saveControls, routeStrip, sessionCard, weekBlocks, pathTree, sideQuestBanner, diagramFigure, sideQuestsBox, stageBox, termBox, unitVars };

@@ -1,28 +1,28 @@
 {
   "/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/credits/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
-    "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
+    "note": "License attribution preserved; free access distinguished from optional services without making a blanket noncommercial compliance claim."
   },
   "/path/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/path/1-1-welcome-to-the-new-world/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.gnu.org/software/bash/manual/bash.html",
       "https://www.gnu.org/software/coreutils/manual/html_node/index.html",
@@ -38,7 +38,7 @@
   },
   "/path/1-2-your-status-screen/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.gnu.org/software/coreutils/manual/html_node/index.html",
       "https://www.gnu.org/software/bash/manual/html_node/Redirections.html",
@@ -52,7 +52,7 @@
   },
   "/path/1-3-save-points-and-respawns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://git-scm.com/doc",
       "https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F",
@@ -67,7 +67,7 @@
   },
   "/path/1-4-guild-sync/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://github.com",
       "https://docs.github.com",
@@ -82,7 +82,7 @@
   },
   "/path/1-5-the-scribes-hand/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.gnu.org/software/bash/manual/html_node/Shell-Parameters.html",
       "https://www.gnu.org/software/bash/manual/html_node/Conditional-Constructs.html",
@@ -96,7 +96,7 @@
   },
   "/path/2-1-the-skeleton-frame/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content",
       "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements",
@@ -111,7 +111,7 @@
   },
   "/path/2-2-armor-and-cosmetics/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/What_is_CSS",
       "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Specificity",
@@ -126,7 +126,7 @@
   },
   "/path/2-3-formation-magic/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://css-tricks.com/snippets/css/a-guide-to-flexbox/",
       "https://css-tricks.com/snippets/css/complete-guide-grid/",
@@ -141,7 +141,7 @@
   },
   "/path/2-4-enchantments/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_transitions/Using_CSS_transitions",
       "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_transforms/Using_CSS_transforms",
@@ -158,7 +158,7 @@
   },
   "/path/2-5-the-character-sheet-forge/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site",
       "https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages",
@@ -172,7 +172,7 @@
   },
   "/path/3-1-mana-basics/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
@@ -185,7 +185,7 @@
   },
   "/path/3-2-spell-crafting/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
@@ -198,7 +198,7 @@
   },
   "/path/3-3-the-proving-grounds/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
@@ -211,7 +211,7 @@
   },
   "/path/3-4-objects-and-orcs/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this",
@@ -223,7 +223,7 @@
   },
   "/path/3-5-casting-on-the-world/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction",
       "https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector",
@@ -237,7 +237,7 @@
   },
   "/path/3-6-the-arena/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval",
       "https://developer.mozilla.org/en-US/docs/Web/API/Window/clearInterval",
@@ -251,7 +251,7 @@
   },
   "/path/4-1-the-runtime-beyond-the-browser/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs",
       "https://expressjs.com/en/starter/installing.html",
@@ -262,7 +262,7 @@
   },
   "/path/4-2-the-waiting-room/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
@@ -276,7 +276,7 @@
   },
   "/path/4-3-the-listening-door/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://expressjs.com/en/starter/hello-world.html",
       "https://expressjs.com/en/guide/routing.html",
@@ -289,7 +289,7 @@
   },
   "/path/4-4-the-counters-three-laws/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://expressjs.com/en/guide/routing.html",
       "https://expressjs.com/en/5x/api.html#res.json",
@@ -300,7 +300,7 @@
   },
   "/path/4-5-the-vault/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.mongodb.com/docs/manual/introduction/",
       "https://www.mongodb.com/docs/manual/core/document/",
@@ -313,7 +313,7 @@
   },
   "/path/4-6-the-vault-keeper/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://mongoosejs.com/docs/index.html",
       "https://mongoosejs.com/docs/guide.html",
@@ -327,7 +327,7 @@
   },
   "/path/4-7-the-paper-ledger/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://expressjs.com/en/guide/routing.html",
       "https://expressjs.com/en/guide/using-middleware.html",
@@ -339,7 +339,7 @@
   },
   "/path/4-8-the-courier/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://expressjs.com/en/guide/routing.html",
       "https://expressjs.com/en/5x/api.html#res.json",
@@ -351,7 +351,7 @@
   },
   "/path/4-9-seals-and-signets/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://github.com/kelektiv/node.bcrypt.js#readme",
       "https://github.com/auth0/node-jsonwebtoken#readme",
@@ -364,7 +364,7 @@
   },
   "/path/4-10-the-illusionists-primer/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/learn",
       "https://react.dev/learn/describing-the-ui",
@@ -378,7 +378,7 @@
   },
   "/path/4-11-the-second-circle/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/learn/sharing-state-between-components",
       "https://react.dev/learn/reacting-to-input-with-state",
@@ -391,7 +391,7 @@
   },
   "/path/4-12-the-quest-slate/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/learn/synchronizing-with-effects",
       "https://react.dev/reference/react/useEffect",
@@ -403,7 +403,7 @@
   },
   "/path/4-13-the-second-contract/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://mongoosejs.com/docs/models.html",
       "https://expressjs.com/en/guide/routing.html",
@@ -414,7 +414,7 @@
   },
   "/path/4-14-blood-oaths/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://mongoosejs.com/docs/populate.html",
       "https://mongoosejs.com/docs/subdocs.html",
@@ -425,7 +425,7 @@
   },
   "/path/4-15-the-guild-hall/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://mongoosejs.com/docs/populate.html",
       "https://mongoosejs.com/docs/subdocs.html",
@@ -438,7 +438,7 @@
   },
   "/path/5-1-awakening-the-cheat-skill/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
       "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
@@ -451,7 +451,7 @@
   },
   "/path/5-2-advanced-incantations/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
       "https://platform.claude.com/docs/en/build-with-claude/context-windows",
@@ -464,7 +464,7 @@
   },
   "/path/5-3-summoned-familiars/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://code.claude.com/docs/en/setup",
       "https://code.claude.com/docs/en/quickstart",
@@ -478,7 +478,7 @@
   },
   "/path/5-4-cheat-skill-trials/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://code.claude.com/docs/en/common-workflows",
       "https://code.claude.com/docs/en/checkpointing",
@@ -492,7 +492,7 @@
   },
   "/path/6-1-claiming-territory/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.digitalocean.com/products/droplets/how-to/create/",
       "https://docs.digitalocean.com/products/droplets/how-to/connect-with-ssh/",
@@ -506,7 +506,7 @@
   },
   "/path/6-2-the-gatekeeper/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://nginx.org/en/docs/beginners_guide.html",
       "https://nginx.org/en/docs/http/ngx_http_core_module.html#location",
@@ -520,7 +520,7 @@
   },
   "/path/6-3-the-teleportation-network/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://letsencrypt.org/how-it-works/",
       "https://letsencrypt.org/docs/challenge-types/",
@@ -534,7 +534,7 @@
   },
   "/path/6-4-opening-the-world-gate/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.mongodb.com/docs/atlas/getting-started/",
       "https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/",
@@ -548,7 +548,7 @@
   },
   "/path/7-1-sparring-grounds/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://jestjs.io/docs/getting-started",
       "https://jestjs.io/docs/using-matchers",
@@ -562,7 +562,7 @@
   },
   "/path/7-2-dungeon-trials/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://github.com/forwardemail/supertest#readme",
       "https://jestjs.io/docs/configuration",
@@ -576,7 +576,7 @@
   },
   "/path/7-3-the-gauntlet/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://playwright.dev/docs/intro",
       "https://playwright.dev/docs/writing-tests",
@@ -590,7 +590,7 @@
   },
   "/path/7-4-clearing-the-training-dungeon/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://jestjs.io/docs/cli",
       "https://jestjs.io/docs/configuration#collectcoveragefrom-array",
@@ -604,7 +604,7 @@
   },
   "/path/8-1-listening-at-the-tavern/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.gov.uk/service-manual/user-research/using-in-depth-interviews",
       "https://www.gov.uk/service-manual/user-research/getting-users-consent-for-research",
@@ -617,7 +617,7 @@
   },
   "/path/8-2-the-quest-board/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.atlassian.com/agile/project-management/user-stories",
       "https://www.agilealliance.org/glossary/invest/",
@@ -631,7 +631,7 @@
   },
   "/path/8-3-guild-operations/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://scrumguides.org/scrum-guide.html",
       "https://agilemanifesto.org/",
@@ -645,7 +645,7 @@
   },
   "/path/8-4-field-work/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.gov.uk/service-manual/user-research/analyse-a-research-session",
       "https://www.gov.uk/service-manual/user-research/using-in-depth-interviews",
@@ -658,7 +658,7 @@
   },
   "/path/9-1-ancient-runes/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html",
       "https://www.typescriptlang.org/docs/handbook/2/narrowing.html",
@@ -672,7 +672,7 @@
   },
   "/path/9-2-trial-of-blades/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
@@ -685,7 +685,7 @@
   },
   "/path/9-3-trial-of-wits/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
@@ -698,7 +698,7 @@
   },
   "/path/9-4-trial-of-patience/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://nodejs.org/api/test.html",
       "https://nodejs.org/api/assert.html",
@@ -711,7 +711,7 @@
   },
   "/path/9-5-grand-architecture/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.railway.com/",
       "https://railway.com/pricing",
@@ -725,7 +725,7 @@
   },
   "/path/9-6-the-runesmiths-forge/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.typescriptlang.org/docs/handbook/migrating-from-javascript.html",
       "https://www.typescriptlang.org/tsconfig/module.html",
@@ -739,7 +739,7 @@
   },
   "/path/10-1-barrier-magic/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
@@ -753,7 +753,7 @@
   },
   "/path/10-2-sealed-gates/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.stripe.com/checkout/quickstart",
       "https://docs.stripe.com/webhooks",
@@ -767,7 +767,7 @@
   },
   "/path/10-3-binding-the-great-spirits/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://platform.claude.com/docs/en/about-claude/models/overview",
       "https://platform.claude.com/docs/en/about-claude/pricing",
@@ -781,7 +781,7 @@
   },
   "/path/10-4-warding-the-kingdom/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.railway.com/guides/cli",
       "https://docs.railway.com/guides/variables",
@@ -795,7 +795,7 @@
   },
   "/path/11-1-rallying-the-villagers/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.sec.gov/resources-small-businesses/exempt-offerings/regulation-crowdfunding",
       "https://www.sec.gov/resources-small-businesses/small-business-compliance-guides/regulation-crowdfunding-small-entity-compliance-guide-issuers",
@@ -808,7 +808,7 @@
   },
   "/path/11-2-the-noble-houses/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.ycombinator.com/safe",
       "https://www.ycombinator.com/documents",
@@ -820,7 +820,7 @@
   },
   "/path/11-3-the-royal-court/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.ycombinator.com/library/4b-how-to-pitch-your-company",
       "https://www.ycombinator.com/library/2u-how-to-build-your-seed-round-pitch-deck",
@@ -833,7 +833,7 @@
   },
   "/path/11-4-war-council/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.ycombinator.com/library/4b-how-to-pitch-your-company",
       "https://support.apple.com/guide/quicktime-player/record-your-screen-qtp97b08e666/mac",
@@ -846,7 +846,7 @@
   },
   "/path/12-1-sprint-1-foundation/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/learn/thinking-in-react",
       "https://mongoosejs.com/docs/guide.html",
@@ -859,7 +859,7 @@
   },
   "/path/12-2-sprint-2-build/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/learn/managing-state",
       "https://react.dev/learn/reacting-to-input-with-state",
@@ -872,7 +872,7 @@
   },
   "/path/12-3-sprint-3-harden/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://playwright.dev/docs/best-practices",
@@ -888,7 +888,7 @@
   },
   "/path/12-4-sprint-4-polish/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.w3.org/WAI/tutorials/forms/labels/",
       "https://www.w3.org/WAI/tutorials/page-structure/",
@@ -901,7 +901,7 @@
   },
   "/path/12-5-coronation-day/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.gov.uk/service-manual/agile-delivery/running-your-service-in-live",
       "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes",
@@ -914,24 +914,24 @@
   },
   "/algorithms/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/algorithms/analysis/big-o/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
     ],
     "exec": "ran",
-    "note": "Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. 4/4 JS block(s) executed clean under Node 24.13.0."
+    "note": "Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. 4/4 JS block(s) executed clean under Node 24.13.0."
   },
   "/algorithms/analysis/spatial-complexity/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -941,7 +941,7 @@
   },
   "/algorithms/analysis/trade-offs/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -951,7 +951,7 @@
   },
   "/algorithms/analysis/complexity-cheatsheet/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -961,7 +961,7 @@
   },
   "/algorithms/analysis/which-pattern-when/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -971,7 +971,7 @@
   },
   "/algorithms/sorting/bubble-sort/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -981,7 +981,7 @@
   },
   "/algorithms/sorting/insertion-sort/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -991,7 +991,7 @@
   },
   "/algorithms/sorting/merge-sort/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1001,7 +1001,7 @@
   },
   "/algorithms/sorting/quick-sort/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1011,7 +1011,7 @@
   },
   "/algorithms/sorting/radix-sort/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1021,7 +1021,7 @@
   },
   "/algorithms/sorting/heap-sort/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1031,7 +1031,7 @@
   },
   "/algorithms/sorting/sorting-in-practice/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1041,7 +1041,7 @@
   },
   "/algorithms/searching/binary-search/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1051,7 +1051,7 @@
   },
   "/algorithms/searching/binary-search-patterns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1061,17 +1061,17 @@
   },
   "/algorithms/recursion/recursion-explained/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
     ],
     "exec": "ran",
-    "note": "Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. 3/3 JS block(s) executed clean under Node 24.13.0."
+    "note": "Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. Docs are the section default (no per-page hint in the registry); a reviewer should confirm any tool-specific claim. 3/3 JS block(s) executed clean under Node 24.13.0."
   },
   "/algorithms/recursion/recursion-patterns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1081,7 +1081,7 @@
   },
   "/algorithms/recursion/backtracking/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1091,7 +1091,7 @@
   },
   "/algorithms/recursion/dynamic-programming/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1101,7 +1101,7 @@
   },
   "/algorithms/patterns/arrays/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1111,7 +1111,7 @@
   },
   "/algorithms/patterns/strings/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1121,7 +1121,7 @@
   },
   "/algorithms/patterns/two-pointers/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1131,7 +1131,7 @@
   },
   "/algorithms/patterns/sliding-window/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1141,7 +1141,7 @@
   },
   "/algorithms/patterns/intervals/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1151,7 +1151,7 @@
   },
   "/algorithms/patterns/matrices/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1161,7 +1161,7 @@
   },
   "/algorithms/patterns/bit-manipulation/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1171,7 +1171,7 @@
   },
   "/algorithms/graphs/pathfinding/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1181,7 +1181,7 @@
   },
   "/algorithms/naive-vs-optimal/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1191,14 +1191,14 @@
   },
   "/data-structures/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/data-structures/lists/arraylist/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1208,7 +1208,7 @@
   },
   "/data-structures/lists/linkedlist/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1218,7 +1218,7 @@
   },
   "/data-structures/lists/linked-list-patterns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1228,7 +1228,7 @@
   },
   "/data-structures/lists/stacks-queues/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1238,7 +1238,7 @@
   },
   "/data-structures/hashing/hash-maps/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1248,7 +1248,7 @@
   },
   "/data-structures/hashing/bloom-filters/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1258,7 +1258,7 @@
   },
   "/data-structures/trees/binary-search-tree/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1268,7 +1268,7 @@
   },
   "/data-structures/trees/avl-tree/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1278,7 +1278,7 @@
   },
   "/data-structures/trees/depth-first-tree-traversals/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1288,7 +1288,7 @@
   },
   "/data-structures/trees/breadth-first-tree-traversals/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1298,7 +1298,7 @@
   },
   "/data-structures/trees/trees-bst-patterns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1308,7 +1308,7 @@
   },
   "/data-structures/trees/heaps/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1318,7 +1318,7 @@
   },
   "/data-structures/trees/tries/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1328,7 +1328,7 @@
   },
   "/data-structures/trees/tries-patterns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1338,7 +1338,7 @@
   },
   "/data-structures/graphs/graphs/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1348,7 +1348,7 @@
   },
   "/data-structures/graphs/graph-patterns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1358,14 +1358,14 @@
   },
   "/practice/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/practice/algocasts/reversestring/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1375,7 +1375,7 @@
   },
   "/practice/algocasts/palindrome/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1385,7 +1385,7 @@
   },
   "/practice/algocasts/reverseint/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1395,7 +1395,7 @@
   },
   "/practice/algocasts/maxchar/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1405,7 +1405,7 @@
   },
   "/practice/algocasts/fizzbuzz/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1415,7 +1415,7 @@
   },
   "/practice/algocasts/chunk/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1425,7 +1425,7 @@
   },
   "/practice/algocasts/anagrams/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1435,7 +1435,7 @@
   },
   "/practice/algocasts/capitalize/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1445,7 +1445,7 @@
   },
   "/practice/algocasts/steps/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1455,7 +1455,7 @@
   },
   "/practice/algocasts/pyramid/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1465,7 +1465,7 @@
   },
   "/practice/algocasts/vowels/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1475,7 +1475,7 @@
   },
   "/practice/algocasts/matrix/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1485,7 +1485,7 @@
   },
   "/practice/algocasts/fib/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1495,7 +1495,7 @@
   },
   "/practice/algocasts/queue/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1505,7 +1505,7 @@
   },
   "/practice/algocasts/weave/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1515,7 +1515,7 @@
   },
   "/practice/algocasts/stack/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1525,7 +1525,7 @@
   },
   "/practice/algocasts/qfroms/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1535,7 +1535,7 @@
   },
   "/practice/algocasts/linkedlist/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1545,7 +1545,7 @@
   },
   "/practice/algocasts/midpoint/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1555,7 +1555,7 @@
   },
   "/practice/algocasts/circular/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1565,7 +1565,7 @@
   },
   "/practice/algocasts/fromlast/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1575,7 +1575,7 @@
   },
   "/practice/algocasts/tree/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1585,7 +1585,7 @@
   },
   "/practice/algocasts/levelwidth/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1595,7 +1595,7 @@
   },
   "/practice/algocasts/bst/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1605,7 +1605,7 @@
   },
   "/practice/algocasts/validate/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1615,7 +1615,7 @@
   },
   "/practice/algocasts/sorting/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1625,7 +1625,7 @@
   },
   "/practice/post-mortems/even-degrees-with-two-edges/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1635,7 +1635,7 @@
   },
   "/practice/projects/ica-project-skeletons/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1645,14 +1645,14 @@
   },
   "/languages/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/languages/javascript/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1662,7 +1662,7 @@
   },
   "/languages/javascript/arrays/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1672,7 +1672,7 @@
   },
   "/languages/javascript/sorting/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1682,7 +1682,7 @@
   },
   "/languages/javascript/strings/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1692,7 +1692,7 @@
   },
   "/languages/javascript/map-set/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1702,7 +1702,7 @@
   },
   "/languages/javascript/numbers-math/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1712,7 +1712,7 @@
   },
   "/languages/javascript/objects-destructuring/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1722,7 +1722,7 @@
   },
   "/languages/javascript/classes-this/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1732,7 +1732,7 @@
   },
   "/languages/javascript/closures-scope-hoisting/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1742,7 +1742,7 @@
   },
   "/languages/javascript/async-promises/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1752,7 +1752,7 @@
   },
   "/languages/javascript/regex/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1762,7 +1762,7 @@
   },
   "/languages/javascript/equality-coercion-gotchas/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1772,7 +1772,7 @@
   },
   "/languages/javascript/errors-generators-misc/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/"
@@ -1782,7 +1782,7 @@
   },
   "/languages/python/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.python.org/3/",
       "https://docs.djangoproject.com/en/stable/",
@@ -1793,7 +1793,7 @@
   },
   "/languages/python/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.python.org/3/tutorial/introduction.html",
       "https://docs.python.org/3/tutorial/controlflow.html",
@@ -1805,7 +1805,7 @@
     "exec": "ran",
     "changes": [
       "Getting Started points at python.org (current release 3.15) and the built-in REPL instead of a specific hosted editor.",
-      "The Node input example uses the promise-based `node:readline/promises` API that Node ≥17 ships, instead of the callback form.",
+      "The Node input example uses the promise-based `node:readline/promises` API that Node \u226517 ships, instead of the callback form.",
       "Python conditionals and while loops are written without the JavaScript-style parentheses, matching PEP 8 and the tutorial.",
       "Resources now link the official Python tutorial and PEP 8 rather than third-party sites."
     ],
@@ -1814,7 +1814,7 @@
   },
   "/languages/python/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.python.org/3/tutorial/classes.html",
       "https://docs.python.org/3/reference/datamodel.html#object.__init__",
@@ -1835,7 +1835,7 @@
   },
   "/languages/python/routing/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.djangoproject.com/en/6.1/intro/install/",
       "https://docs.djangoproject.com/en/6.1/intro/tutorial01/",
@@ -1849,7 +1849,7 @@
     "exec": "ran",
     "version": "6.1",
     "changes": [
-      "Prerequisite bumped from 'Python 3.3+' to Python 3.12+, which is what Django 6.x requires (Django 5.2 LTS still runs on 3.10–3.13 if you are stuck on an older interpreter).",
+      "Prerequisite bumped from 'Python 3.3+' to Python 3.12+, which is what Django 6.x requires (Django 5.2 LTS still runs on 3.10\u20133.13 if you are stuck on an older interpreter).",
       "Fixed the dev-server command: it is `python manage.py runserver`, not `python manage.py`.",
       "Since Django 3.2 an app can be listed in INSTALLED_APPS as plain `'firstapp'`; the longer `firstapp.apps.FirstappConfig` form still works and is shown as the alternative.",
       "Framework table corrected: Flask (not 'Flash'), ASP.NET Core, Dart's shelf/Serverpod (Aqueduct and Angel were abandoned), Ktor, Vapor (Kitura was discontinued).",
@@ -1861,7 +1861,7 @@
   },
   "/languages/python/models/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.djangoproject.com/en/6.1/ref/settings/#databases",
       "https://docs.djangoproject.com/en/6.1/ref/databases/",
@@ -1886,7 +1886,7 @@
   },
   "/languages/python/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.django-rest-framework.org/tutorial/quickstart/",
       "https://www.django-rest-framework.org/api-guide/serializers/#modelserializer",
@@ -1907,7 +1907,7 @@
       "Aligned with the shared Todos contract: `DefaultRouter(trailing_slash=False)` makes the paths `/todos` and `/todos/:id` (the old page had trailing slashes), `GET /health` answers `{\\\"ok\\\": true}`, the serializer rejects blank or whitespace-only `subject`/`details` with a 400, and a custom DRF exception handler shapes every error (400, 404, bad JSON) as `{\\\"error\\\": \\\"...\\\"}` instead of DRF's per-field dictionaries.",
       "`django-heroku` removed (unmaintained since 2018, incompatible with current Django). Production settings now read `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` and `DATABASE_URL` from environment variables, which is what every current host (Railway, Render, Fly.io, Heroku) provides.",
       "Heroku's free tier ended in November 2022; the deploy section is written for Railway, which reads the same `Procfile`.",
-      "Serializer switched from `HyperlinkedModelSerializer` to `ModelSerializer`, which is the right base class when `fields` lists `id` and no `url` — the hyperlinked variant only adds value when you expose `url` fields.",
+      "Serializer switched from `HyperlinkedModelSerializer` to `ModelSerializer`, which is the right base class when `fields` lists `id` and no `url` \u2014 the hyperlinked variant only adds value when you expose `url` fields.",
       "`runtime.txt` replaced by `.python-version` (what Railway's Railpack builder reads); static files served with WhiteNoise so the Django admin works in production.",
       "CSRF middleware stays on: DRF only enforces CSRF for logged-in browser sessions and this API has no authentication classes, so Postman and frontends work without disabling it.",
       "Postgres driver is `psycopg[binary]` (psycopg 3); install troubleshooting note updated accordingly."
@@ -1917,7 +1917,7 @@
   },
   "/languages/ruby/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.ruby-lang.org/en/master/",
       "https://guides.rubyonrails.org/"
@@ -1927,7 +1927,7 @@
   },
   "/languages/ruby/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.ruby-lang.org/en/downloads/",
       "https://docs.ruby-lang.org/en/4.0/syntax/assignment_rdoc.html",
@@ -1945,7 +1945,7 @@
       "The `gets.chomp` comment claimed chomp 'removes leading/trailing whitespace'; it removes the trailing newline (`strip` is the whitespace one). `puts` and `p` are explained as two different things instead of calling `p` an abbreviation.",
       "Constants are described as what they are in Ruby: a capitalised name that Ruby warns you about reassigning, not a frozen value. The Ruby comment that said 'the norm in python' is gone.",
       "Getting Started points at ruby-lang.org (current release 4.0; Rails 8.1 needs 3.2 or newer) and the built-in `irb` REPL instead of a specific hosted editor.",
-      "The Node input example uses the promise-based `node:readline/promises` API that Node ≥17 ships, instead of the callback form.",
+      "The Node input example uses the promise-based `node:readline/promises` API that Node \u226517 ships, instead of the callback form.",
       "Added the idiomatic `times`/`each` loops, the symbol-vs-string hash key gotcha, implicit return and keyword arguments; resources now link docs.ruby-lang.org instead of third-party sites."
     ],
     "override": "content/overrides/languages/ruby/intro.md",
@@ -1953,7 +1953,7 @@
   },
   "/languages/ruby/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.ruby-lang.org/en/4.0/syntax/modules_and_classes_rdoc.html",
       "https://docs.ruby-lang.org/en/4.0/syntax/methods_rdoc.html",
@@ -1976,7 +1976,7 @@
   },
   "/languages/ruby/routing/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://guides.rubyonrails.org/getting_started.html",
       "https://guides.rubyonrails.org/install_ruby_on_rails.html",
@@ -1995,7 +1995,7 @@
       "The `pg` gem ships precompiled builds since 1.6, so the 'install Xcode / libpq-dev first' step is now a fallback note rather than a prerequisite.",
       "database.yml matches what Rails 8.1 generates: `max_connections` (renamed from `pool` in 8.1), credentials only if your local Postgres needs them, and `DATABASE_URL` in production instead of a Heroku-specific edit.",
       "Fixed the inheritance chain: there is no `ActiveController`; API controllers inherit from `ActionController::API` (full apps from `ActionController::Base`).",
-      "Corrected 'every action must call render' — an action that renders nothing returns 204 in an API app; and `render text:` (removed in Rails 5.1) is `render plain:`.",
+      "Corrected 'every action must call render' \u2014 an action that renders nothing returns 204 in an API app; and `render text:` (removed in Rails 5.1) is `render plain:`.",
       "Commands use the `bin/rails` binstub inside the app; the request-body example reads the JSON with `params` directly and explains the wrapped `first` key; Postman steps are shown as `curl` too. Framework table corrected (Flask, ASP.NET Core, shelf/Serverpod, Ktor, Vapor)."
     ],
     "override": "content/overrides/languages/ruby/routing.md",
@@ -2003,7 +2003,7 @@
   },
   "/languages/ruby/models/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://guides.rubyonrails.org/active_record_migrations.html",
       "https://guides.rubyonrails.org/active_record_basics.html",
@@ -2019,7 +2019,7 @@
     "changes": [
       "Migrations are `ActiveRecord::Migration[8.1]`; the generators are given their column arguments (`CreateTurtles name:string`, `AddAgeToTurtles age:integer`) so Rails writes the migration body, and the duplicated `class AddAgeToTurtles` line is gone.",
       "Bug fixed: `before_action :get_turtle, only: [\\\"show\\\", \\\"update\\\", \\\"delete\\\"]` named an action that doesn't exist (`delete`), so `@turtle` was nil inside `destroy`. It is `only: %i[show update destroy]` with the helper named `set_turtle`, as the Rails generators do.",
-      "Bug fixed: the route list had `delete \\\"/turtles:id\\\"` (missing slash); and `render text:` was removed in Rails 5.1 — `destroy` now answers `head :no_content`.",
+      "Bug fixed: the route list had `delete \\\"/turtles:id\\\"` (missing slash); and `render text:` was removed in Rails 5.1 \u2014 `destroy` now answers `head :no_content`.",
       "`params.require(:turtle).permit(:name, :age)` is now `params.expect(turtle: [:name, :age])`, the Rails 8 form that also rejects a malformed `turtle` key with a 400.",
       "`create` and `update` check the save result and answer 201/422 with the validation errors instead of always 200; `turtle.delete` (skips callbacks) is `destroy`.",
       "Every command uses the `bin/rails` binstub; the console walk-through avoids the variable name `all`; resources link the current Active Record guides only."
@@ -2029,7 +2029,7 @@
   },
   "/languages/ruby/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://guides.rubyonrails.org/api_app.html",
       "https://guides.rubyonrails.org/command_line.html",
@@ -2057,7 +2057,7 @@
   },
   "/languages/go/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://go.dev/doc/",
       "https://github.com/go-chi/chi",
@@ -2068,7 +2068,7 @@
   },
   "/languages/go/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://go.dev/dl/",
       "https://go.dev/doc/install",
@@ -2087,16 +2087,16 @@
       "Getting Started points at go.dev (current release 1.27.3) with `go mod init` + `go run .`, and at the official Go Playground, instead of Repl.it.",
       "Variables use Go's MixedCaps naming (`myConstant`, not `MY_CONST`) and show the `:=` short declaration next to `var`; the note that an unused variable is a compile error is new.",
       "The input example reads a whole line with `bufio.Scanner`; the original's `fmt.Scanln` stops at the first space, so 'Arthur Bernier' came back as 'Arthur'. The Node side uses the promise-based `node:readline/promises` API.",
-      "The while loop is written as Go's `for counter < 10 { … }` instead of the odd `for ;counter < 10; {` form, and `for range 10` (Go 1.22+) is introduced.",
-      "Collections add the things a JS developer trips on: `len`/`append`, `for … range`, and the fact that a missing map key returns the zero value instead of `undefined`.",
-      "Code fences normalised (`golang` → `go`), Go code formatted the way `gofmt` would, and the resources now link go.dev rather than third-party tutorials."
+      "The while loop is written as Go's `for counter < 10 { \u2026 }` instead of the odd `for ;counter < 10; {` form, and `for range 10` (Go 1.22+) is introduced.",
+      "Collections add the things a JS developer trips on: `len`/`append`, `for \u2026 range`, and the fact that a missing map key returns the zero value instead of `undefined`.",
+      "Code fences normalised (`golang` \u2192 `go`), Go code formatted the way `gofmt` would, and the resources now link go.dev rather than third-party tutorials."
     ],
     "override": "content/overrides/languages/go/intro.md",
     "note": "Every JavaScript block ran under Node 24.13 (the input example was fed stdin). The Go blocks were checked line by line against the Go 1.27 language spec, A Tour of Go and the fmt/bufio package docs listed above; there is no Go toolchain on the build machine, so no Go was executed."
   },
   "/languages/go/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://go.dev/tour/moretypes/2",
       "https://go.dev/tour/methods/1",
@@ -2112,7 +2112,7 @@
     "changes": [
       "Bug fixed: the first Go example declared `AlexMerced := Person{}` and never used it, which is a compile error in Go ('declared and not used'); every Go block is now a complete program that compiles as written.",
       "Struct fields are exported (`Name`, `Age`) and the uppercase-means-exported rule is explained, because it is what makes JSON encoding work in the chi lessons that follow.",
-      "Added the constructor-function convention (`NewPerson`), pointer receivers for methods that change the struct, and a short section on embedding and interfaces — the two things Go actually uses instead of inheritance.",
+      "Added the constructor-function convention (`NewPerson`), pointer receivers for methods that change the struct, and a short section on embedding and interfaces \u2014 the two things Go actually uses instead of inheritance.",
       "Code fence `Go` normalised to `go`, Go code formatted the way `gofmt` would, and the resources link the Tour and Effective Go instead of third-party blog posts."
     ],
     "override": "content/overrides/languages/go/oop.md",
@@ -2120,7 +2120,7 @@
   },
   "/languages/go/routing/": {
     "date": "2026-11-05",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://go.dev/doc/install",
       "https://go.dev/doc/modules/managing-dependencies",
@@ -2141,7 +2141,7 @@
   },
   "/languages/go/models/": {
     "date": "2026-11-05",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://github.com/jackc/pgx",
       "https://pkg.go.dev/github.com/jackc/pgx/v5",
@@ -2162,7 +2162,7 @@
   },
   "/languages/go/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://go.dev/dl/",
       "https://go.dev/doc/modules/managing-dependencies",
@@ -2190,7 +2190,7 @@
   },
   "/languages/java/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.oracle.com/en/java/",
       "https://docs.spring.io/spring-boot/"
@@ -2200,7 +2200,7 @@
   },
   "/languages/java/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dev.java/learn/language-basics/",
       "https://docs.oracle.com/en/java/javase/25/language/local-variable-type-inference.html",
@@ -2217,7 +2217,7 @@
     "changes": [
       "Getting Started points at a current JDK (Java 25 LTS; 17 and 21 also work) with `java -version`, the `jshell` REPL and `java Main.java` single-file launch instead of a specific hosted editor.",
       "Bug fixed: the constant example set MY_CONSTANT to 1 while the JavaScript version used 5; the two now match. Local constants are shown with `final`, and `var` (Java 10+) is introduced for local variables.",
-      "The Node input example uses the promise-based `node:readline/promises` API that Node ≥17 ships instead of the callback form; the Java Scanner example uses the current `nextLine()`/`Integer.parseInt` pattern.",
+      "The Node input example uses the promise-based `node:readline/promises` API that Node \u226517 ships instead of the callback form; the Java Scanner example uses the current `nextLine()`/`Integer.parseInt` pattern.",
       "The conditionals block had broken indentation that hid the method body; re-indented, and the `==` vs `.equals()` trap for Strings is called out.",
       "Collections use the diamond operator (`new ArrayList<>()`), interface types (`List`, `Map`), camelCase names (`myList`, not `my_list`) and mention `List.of`/`Map.of`; the `Java` fence tags are lowercase `java`.",
       "Exercise function names follow Java's camelCase convention (`subNums`, `sayHello`); the dictionary exercise takes a `Map`. Resources now link dev.java and the JDK 25 docs rather than third-party sites and playlists."
@@ -2227,7 +2227,7 @@
   },
   "/languages/java/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dev.java/learn/classes-objects/",
       "https://docs.oracle.com/en/java/javase/25/language/records.html",
@@ -2251,7 +2251,7 @@
   },
   "/languages/java/routing/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.spring.io/spring-boot/system-requirements.html",
       "https://docs.spring.io/spring-boot/tutorial/first-application/index.html",
@@ -2268,7 +2268,7 @@
     "version": "4.1.2",
     "changes": [
       "Spring Boot 2.4.3 on Java 11 is now Spring Boot 4.1.2 (Spring Framework 7, Jakarta EE 11), which requires Java 17+; the page recommends Java 25 LTS and uses start.spring.io, which works with any editor, instead of a VS Code-only wizard.",
-      "The web starter is `spring-boot-starter-webmvc` in Boot 4 — `spring-boot-starter-web` is deprecated — and start.spring.io's 'Spring Web' now resolves to it.",
+      "The web starter is `spring-boot-starter-webmvc` in Boot 4 \u2014 `spring-boot-starter-web` is deprecated \u2014 and start.spring.io's 'Spring Web' now resolves to it.",
       "Running the app: `./mvnw spring-boot:run` (or `./gradlew bootRun`) with the generated wrappers replaces 'hit F5'; DevTools is added so saves restart the server instead of restarting by hand.",
       "Controller examples return `List`/`Map` interface types built with `List.of`/`Map.of`, show the imports explicitly, and the request-body route is a `@PostMapping` with a `Map<String, Object>` body (the original's comment and `HashMap<String, String>` type would reject numeric JSON values).",
       "Framework table corrected: Flask (not 'Flash'), Hono, Gin, chi, Axum, ASP.NET Core, Dart's shelf/Serverpod (Aqueduct and Angel were abandoned), Ktor, Vapor (Kitura was discontinued).",
@@ -2279,7 +2279,7 @@
   },
   "/languages/java/models/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.spring.io/spring-boot/reference/data/sql.html",
       "https://docs.spring.io/spring-boot/how-to/data-initialization.html",
@@ -2298,7 +2298,7 @@
       "Dependencies are added by editing `pom.xml` (`spring-boot-starter-data-jpa` plus the `org.postgresql:postgresql` driver at runtime scope) or re-generating at start.spring.io, instead of a VS Code-only 'Add Starters' command; a Gradle equivalent is shown.",
       "Removed `spring.jpa.properties.hibernate.dialect`: Hibernate 6+ detects the dialect from the JDBC connection, and the file is fenced as `properties`, not `yaml`. The `ddl-auto` values and the fact that the default is `none` for Postgres are spelled out, with a pointer to Flyway/Liquibase for real migrations.",
       "Entity fields are `private` (they were `public` and also had getters), the id is a `Long` generated with `GenerationType.IDENTITY` (a Postgres identity column), and the no-argument constructor JPA requires is explained.",
-      "Bug fixed: `update` silently returned the full list when the id did not exist. Show/update now return `ResponseEntity` with 404 for a missing id, create returns the saved turtle with its new id (201), and delete returns 204 — instead of every route returning `findAll()`.",
+      "Bug fixed: `update` silently returned the full list when the id did not exist. Show/update now return `ResponseEntity` with 404 for a missing id, create returns the saved turtle with its new id (201), and delete returns 204 \u2014 instead of every route returning `findAll()`.",
       "The repository field is `private final turtles` (was a public field named `Turtles`), the class carries a single `@RequestMapping(\\\"/turtles\\\")`, and a derived query (`findByName`) shows what Spring Data generates for you."
     ],
     "override": "content/overrides/languages/java/models.md",
@@ -2306,7 +2306,7 @@
   },
   "/languages/java/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.spring.io/spring-framework/reference/web/webmvc-cors.html",
       "https://docs.spring.io/spring-boot/reference/web/servlet.html",
@@ -2335,7 +2335,7 @@
   },
   "/languages/cs/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://learn.microsoft.com/dotnet/",
       "https://learn.microsoft.com/aspnet/core/",
@@ -2346,7 +2346,7 @@
   },
   "/languages/cs/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://learn.microsoft.com/dotnet/csharp/tour-of-csharp/overview",
       "https://learn.microsoft.com/dotnet/csharp/fundamentals/program-structure/top-level-statements",
@@ -2365,7 +2365,7 @@
       "Every C# block is written as top-level statements (C# 9+, the default in every .NET template since .NET 6), so the `class MainClass { public static void Main }` wrapper and the `using System;` line are gone.",
       "`ArrayList` and `Hashtable` (non-generic, pre-2005 collections) are replaced by `List<T>` and `Dictionary<TKey, TValue>`, created with C# 12 collection expressions and the index initializer.",
       "`Console.ReadLine()` is shown returning `string?`, which is what it does with nullable reference types on (the default in new projects).",
-      "The Node input example uses the promise-based `node:readline/promises` API that Node ≥17 ships, instead of the callback form.",
+      "The Node input example uses the promise-based `node:readline/promises` API that Node \u226517 ships, instead of the callback form.",
       "Bug fixes: the Conditionals block had no `using System;` yet called `Console`, and would not have compiled in a classic project; the 'divisble' typo is fixed; the list exercise block is fenced as C#, not Python.",
       "Resources now link the official C# tour and API docs rather than a third-party tutorial site and a YouTube playlist."
     ],
@@ -2374,7 +2374,7 @@
   },
   "/languages/cs/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://learn.microsoft.com/dotnet/csharp/fundamentals/object-oriented/",
       "https://learn.microsoft.com/dotnet/csharp/fundamentals/types/classes",
@@ -2389,7 +2389,7 @@
     "exec": "not run",
     "changes": [
       "The `class MainClass { public static void Main }` wrapper is gone: every example is top-level statements with the class declarations after them, which is how `dotnet new console` lays a file out today.",
-      "Fields `name`/`age` became auto-properties `Name`/`Age`, and methods are `PascalCase` (`Bark`, `Calculate`) per the .NET naming conventions — lowercase `bark()` reads as a JavaScript habit to a C# reviewer.",
+      "Fields `name`/`age` became auto-properties `Name`/`Age`, and methods are `PascalCase` (`Bark`, `Calculate`) per the .NET naming conventions \u2014 lowercase `bark()` reads as a JavaScript habit to a C# reviewer.",
       "The second C# block under 'The Constructor and Methods' was an unlabelled inheritance example; it now has its own 'Inheritance' section with a matching JavaScript block, as the lesson's 'What you will learn' promised.",
       "Bug fixed: `Calculator.calculate` was declared `void`, so unlike the JavaScript version it never returned the result. It returns the value now, and works in `double` so `5 / 2` is `2.5` rather than the truncated `2` integer division gives.",
       "The static-method example built an expression string and ran it through `eval()`. Both versions now dispatch on a table of operator functions (and the C# page shows the `switch` *expression* as the alternative), which does the same job without executing arbitrary strings.",
@@ -2400,7 +2400,7 @@
   },
   "/languages/cs/routing/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://learn.microsoft.com/aspnet/core/tutorials/first-web-api?view=aspnetcore-10.0",
       "https://learn.microsoft.com/aspnet/core/web-api/?view=aspnetcore-10.0",
@@ -2416,7 +2416,7 @@
     "exec": "not run",
     "version": "10.0",
     "changes": [
-      ".NET 5 (end of life May 2022) replaced by .NET 10 LTS. `dotnet new webapi` now generates a minimal API by default, so the scaffold command is `dotnet new webapi --use-controllers -o firstdotnet`; the generated project has no `Startup.cs` — services and the pipeline live in a top-level `Program.cs` built with `WebApplication.CreateBuilder`.",
+      ".NET 5 (end of life May 2022) replaced by .NET 10 LTS. `dotnet new webapi` now generates a minimal API by default, so the scaffold command is `dotnet new webapi --use-controllers -o firstdotnet`; the generated project has no `Startup.cs` \u2014 services and the pipeline live in a top-level `Program.cs` built with `WebApplication.CreateBuilder`.",
       "Swashbuckle/Swagger is gone from the template; the built-in `AddOpenApi()`/`MapOpenApi()` serve the document at `/openapi/v1.json`. The dev server listens on the port in `Properties/launchSettings.json` (printed on start), not a fixed 5000.",
       "Bug fixed: the first controller returned `new Hashtable(){\\\"Result\\\", \\\"You Made a Route\\\"}`, which does not compile (an initializer entry needs its own braces). The controllers return `Dictionary<string, string>`, the generic type that replaced `Hashtable`, and `System.Text.Json` serialises it.",
       "The attribute-routed controller derives from `ControllerBase` with `[ApiController]`, the shape the Web API tutorial uses; the request-body echo binds to `JsonElement` so any JSON object round-trips.",
@@ -2428,7 +2428,7 @@
   },
   "/languages/cs/models/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://learn.microsoft.com/ef/core/get-started/overview/first-app",
       "https://learn.microsoft.com/ef/core/managing-schemas/migrations/",
@@ -2444,7 +2444,7 @@
     "exec": "not run",
     "version": "10.0",
     "changes": [
-      "Bug fixed: the 2021 setup installed `EntityFramework 6.4.4`, which is the old .NET Framework ORM, not Entity Framework Core — the Npgsql provider pulls in EF Core itself. The packages are now `Npgsql.EntityFrameworkCore.PostgreSQL` (10.x, which brings EF Core 10) and `Microsoft.EntityFrameworkCore.Design`, unpinned.",
+      "Bug fixed: the 2021 setup installed `EntityFramework 6.4.4`, which is the old .NET Framework ORM, not Entity Framework Core \u2014 the Npgsql provider pulls in EF Core itself. The packages are now `Npgsql.EntityFrameworkCore.PostgreSQL` (10.x, which brings EF Core 10) and `Microsoft.EntityFrameworkCore.Design`, unpinned.",
       "`Startup.cs` is gone: the context is registered in `Program.cs` with `builder.Services.AddDbContext`, and the connection string is read with `builder.Configuration.GetConnectionString()` from the standard `ConnectionStrings` section instead of a custom `DBContextSettings` key.",
       "The connection string lives in `appsettings.Development.json` (with `dotnet user-secrets` shown for anything you do not want on disk) and `.gitignore` comes from `dotnet new gitignore`, rather than ignoring the whole `appsettings.json` the app needs to start.",
       "Model properties are `Id`/`Name`/`Age` (PascalCase, `string?` under nullable reference types) and the `DbSet` uses `Set<Turtle>()`, matching the EF Core conventions and the Web API tutorial.",
@@ -2456,7 +2456,7 @@
   },
   "/languages/cs/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://learn.microsoft.com/aspnet/core/tutorials/first-web-api?view=aspnetcore-10.0",
       "https://learn.microsoft.com/aspnet/core/web-api/?view=aspnetcore-10.0",
@@ -2474,11 +2474,11 @@
     "exec": "ran",
     "version": "10.0",
     "changes": [
-      "Aligned with the shared Todos contract: the `isComplete` field is gone so objects are exactly `id`, `subject` and `details`; blank or missing fields and malformed JSON answer 400 `{\\\"error\\\":…}` instead of the framework's ProblemDetails; 404s answer `{\\\"error\\\":\\\"not found\\\"}`; `/health` was added; CORS is open to any origin instead of a pinned origin list; and the `todos` table is created on boot with `CREATE TABLE IF NOT EXISTS` instead of `dotnet ef` migrations run by hand.",
+      "Aligned with the shared Todos contract: the `isComplete` field is gone so objects are exactly `id`, `subject` and `details`; blank or missing fields and malformed JSON answer 400 `{\\\"error\\\":\u2026}` instead of the framework's ProblemDetails; 404s answer `{\\\"error\\\":\\\"not found\\\"}`; `/health` was added; CORS is open to any origin instead of a pinned origin list; and the `todos` table is created on boot with `CREATE TABLE IF NOT EXISTS` instead of `dotnet ef` migrations run by hand.",
       "The 2021 page was a 77-word homework stub (Dogs, Cats, Birds with CRUD, test in Postman). It is now a full build-and-deploy lesson mirroring the other API pages; the original lab is kept under 'Hungry for More?'.",
       "Project is scaffolded with `dotnet new webapi --use-controllers` on .NET 10 LTS; the only package is `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.0.",
       "CORS is done with the built-in `AddCors`/`UseCors` default policy, placed before the endpoints as the docs require, rather than a third-party package.",
-      "Heroku's free tier ended in November 2022; deployment is written for Railway with a two-stage Dockerfile (`mcr.microsoft.com/dotnet/sdk:10.0` → `mcr.microsoft.com/dotnet/aspnet:10.0`) after the official .NET container guide.",
+      "Heroku's free tier ended in November 2022; deployment is written for Railway with a two-stage Dockerfile (`mcr.microsoft.com/dotnet/sdk:10.0` \u2192 `mcr.microsoft.com/dotnet/aspnet:10.0`) after the official .NET container guide.",
       "The connection string is never in the image or the repo: locally and in production it arrives as the `ConnectionStrings__TodoContext` environment variable, built on Railway from the Postgres reference variables."
     ],
     "override": "content/overrides/languages/cs/api.md",
@@ -2486,7 +2486,7 @@
   },
   "/languages/php/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.php.net/manual/en/",
       "https://laravel.com/docs"
@@ -2496,7 +2496,7 @@
   },
   "/languages/php/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.php.net/manual/en/language.types.php",
       "https://www.php.net/manual/en/language.constants.syntax.php",
@@ -2513,7 +2513,7 @@
       "Getting Started points at php.net (current release 8.5.12; Laravel 13 needs 8.3+) and PHP's built-in `php -a` shell instead of a hosted editor.",
       "Three bugs fixed in the original PHP: a missing semicolon after `$num = 5` (parse error), a missing semicolon after the input echo, and `my_array[0]` without the `$` (an undefined-constant Error in PHP 8).",
       "Constants use the `const` keyword in ALL_CAPS; closing `?>` tags are dropped from pure-PHP files, as PSR-12 and the manual recommend; `else if` is written `elseif`.",
-      "The Node input example uses the promise-based `node:readline/promises` API that Node ≥17 ships, instead of the callback form.",
+      "The Node input example uses the promise-based `node:readline/promises` API that Node \u226517 ships, instead of the callback form.",
       "Added the things current PHP code actually uses: `foreach`, `??`, typed parameters and return types, default and named arguments, arrow functions (`fn`), with a pointer to `match`.",
       "Resources now link the official PHP manual rather than third-party sites and video playlists."
     ],
@@ -2522,7 +2522,7 @@
   },
   "/languages/php/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.php.net/manual/en/language.oop5.basic.php",
       "https://www.php.net/manual/en/language.oop5.properties.php",
@@ -2535,7 +2535,7 @@
     ],
     "exec": "not run",
     "changes": [
-      "The static-method example built an expression string and ran it through `eval()` in both languages. The JavaScript version now dispatches on a table of operator functions and the PHP version on a `match` expression — same result, no arbitrary code execution.",
+      "The static-method example built an expression string and ran it through `eval()` in both languages. The JavaScript version now dispatches on a table of operator functions and the PHP version on a `match` expression \u2014 same result, no arbitrary code execution.",
       "The last PHP block was labelled 'In Python'; it is 'In PHP' now, and the code fences use the lowercase `php` tag.",
       "Properties are typed (`public string $name`) and the constructor-and-methods section adds PHP 8's constructor property promotion and `readonly`, which is how current PHP and Laravel code declares them.",
       "Output lines end with a newline so the examples print one line each; `yaps`/`Yaps` capitalisation made consistent with the JavaScript; `#` comments replaced with `//`.",
@@ -2547,7 +2547,7 @@
   },
   "/languages/php/routing/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://laravel.com/docs/13.x/installation",
       "https://laravel.com/docs/13.x/routing",
@@ -2573,7 +2573,7 @@
   },
   "/languages/php/models/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://laravel.com/docs/13.x/database",
       "https://laravel.com/docs/13.x/migrations",
@@ -2600,7 +2600,7 @@
   },
   "/languages/php/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://laravel.com/docs/13.x/migrations",
       "https://laravel.com/docs/13.x/eloquent",
@@ -2630,7 +2630,7 @@
   },
   "/languages/rust/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://doc.rust-lang.org/book/",
       "https://docs.rs/axum/latest/axum/",
@@ -2641,7 +2641,7 @@
   },
   "/languages/rust/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://doc.rust-lang.org/book/ch01-01-installation.html",
       "https://doc.rust-lang.org/book/ch03-01-variables-and-mutability.html",
@@ -2661,7 +2661,7 @@
       "Bug fixed: `stdin().read_line(...)` ignored the `Result` it returns (a compiler warning) and printed the trailing newline; it now uses `.expect()` and `.trim()` as the Book does.",
       "The comment 'by default values are constant' was wrong: Rust variables are immutable by default and `const` is a separate thing. The variables section says so and shows both.",
       "Dropped the needless `.to_string()` inside every `println!` and used inline format arguments (`{name}`), available since Rust 1.58.",
-      "The Node input example uses the promise-based `node:readline/promises` API that Node ≥17 ships, instead of the callback form.",
+      "The Node input example uses the promise-based `node:readline/promises` API that Node \u226517 ships, instead of the callback form.",
       "The exercise list was fenced as Python; it is a Rust `vec!` now. Resources link the Rust Book and std docs instead of third-party sites."
     ],
     "override": "content/overrides/languages/rust/intro.md",
@@ -2669,7 +2669,7 @@
   },
   "/languages/rust/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://doc.rust-lang.org/book/ch05-01-defining-structs.html",
       "https://doc.rust-lang.org/book/ch05-03-method-syntax.html",
@@ -2691,7 +2691,7 @@
   },
   "/languages/rust/routing/": {
     "date": "2026-11-05",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.rs/axum/0.8.9/axum/",
       "https://github.com/tokio-rs/axum",
@@ -2712,7 +2712,7 @@
   },
   "/languages/rust/models/": {
     "date": "2026-11-05",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://github.com/tokio-rs/axum/blob/main/examples/sqlx-postgres/src/main.rs",
       "https://docs.rs/sqlx/latest/sqlx/",
@@ -2731,7 +2731,7 @@
   },
   "/languages/rust/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.rs/axum/0.8.9/axum/struct.Router.html",
       "https://docs.rs/axum/0.8.9/axum/extract/struct.State.html",
@@ -2755,7 +2755,7 @@
   },
   "/languages/dart/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dart.dev/guides",
       "https://pub.dev/packages/shelf"
@@ -2765,7 +2765,7 @@
   },
   "/languages/dart/intro/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dart.dev/get-dart",
       "https://dart.dev/language/variables",
@@ -2780,10 +2780,10 @@
     "exec": "not run",
     "changes": [
       "Dart 3 enforces sound null safety: `String name = stdin.readLineSync();` no longer compiles because `readLineSync()` returns `String?`. The input example uses `?? 'stranger'` and the collections example explains why `myMap['cheese']` is a `String?`.",
-      "Variables section corrected: `String myVariable2` is explicitly (not 'implicitly') typed, and `final` — the Dart keyword closest to JavaScript's `const` — was missing; it is explained next to `var`, `const` and `dynamic`.",
+      "Variables section corrected: `String myVariable2` is explicitly (not 'implicitly') typed, and `final` \u2014 the Dart keyword closest to JavaScript's `const` \u2014 was missing; it is explained next to `var`, `const` and `dynamic`.",
       "The variable named `num` shadowed Dart's built-in `num` type; renamed `number`. Typo 'greater that 1' fixed. The Functions section was labelled 'In python'; it is 'In Dart'.",
-      "The Node input example uses the promise-based `node:readline/promises` API that Node ≥17 ships, instead of the callback form.",
-      "Added the `for` and `for-in` loops, `.length`/`add`/`remove` on lists, `??` defaults on maps, arrow functions and `required` named parameters — the Dart features you reach for first after this page.",
+      "The Node input example uses the promise-based `node:readline/promises` API that Node \u226517 ships, instead of the callback form.",
+      "Added the `for` and `for-in` loops, `.length`/`add`/`remove` on lists, `??` defaults on maps, arrow functions and `required` named parameters \u2014 the Dart features you reach for first after this page.",
       "Getting Started points at the official SDK installer and DartPad instead of a hosted REPL; exercise names use Dart's lowerCamelCase; the exercise list block is fenced as `dart`, not `py`; the third-party video playlist was replaced by the official language tour."
     ],
     "override": "content/overrides/languages/dart/intro.md",
@@ -2791,7 +2791,7 @@
   },
   "/languages/dart/oop/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dart.dev/language/classes",
       "https://dart.dev/language/constructors",
@@ -2803,7 +2803,7 @@
     ],
     "exec": "not run",
     "changes": [
-      "Null safety fix: `String name; int age;` followed by assignments in the constructor body does not compile in Dart 3 (non-nullable fields must be initialized before the body runs). Both Dog classes now use initializing formals — `Dog(this.name, this.age);` — which is also the idiomatic form.",
+      "Null safety fix: `String name; int age;` followed by assignments in the constructor body does not compile in Dart 3 (non-nullable fields must be initialized before the body runs). Both Dog classes now use initializing formals \u2014 `Dog(this.name, this.age);` \u2014 which is also the idiomatic form.",
       "Inheritance uses Dart 2.17+ super parameters: `SmallDog(super.name, super.age);` replaces `SmallDog(String name, int age) : super(name, age);` (the long form is still shown for comparison).",
       "Bug fixed in the Calculator: `lastResult` was `dynamic`, `calculate` returned `int`, and the `/` case produced a `double`, so `calculate(4, 2, '/')` would have thrown at runtime. Everything is typed `num` now, and the `switch` statement with `break`s is a Dart 3 `switch` expression.",
       "The JavaScript Calculator no longer runs student input through `eval()`; both versions dispatch on an operator table/switch, which does the same job without executing arbitrary strings.",
@@ -2815,7 +2815,7 @@
   },
   "/languages/dart/routing/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dart.dev/get-dart",
       "https://dart.dev/tools/dart-create",
@@ -2832,7 +2832,7 @@
     "changes": [
       "The project is scaffolded with the official `dart create -t server-shelf` template (bin/server.dart, pubspec.yaml, Dockerfile, test/) instead of a third-party `npx degit` template; the server listens on 8080 (or `$PORT`) rather than 7777, and controllers live in `lib/controllers/` as `snake_case.dart` files so `package:` imports and the file_names lint work.",
       "Framework choice stated plainly: Aqueduct and Angel are abandoned, so the track uses shelf + shelf_router (the minimalist option, now also what the Dart team's own template and samples use). The framework table is corrected (Flask not 'Flash', ASP.NET Core, Dart Frog/Serverpod for Dart, Vapor for Swift).",
-      "shelf_router 1.1.x: `mount('/first', …)` no longer needs the trailing slash, unmatched routes fall through to the parent router's 404, and `request.params` replaces the old `params()` helper — so the per-controller catch-all route and the home-made CORS header map are gone.",
+      "shelf_router 1.1.x: `mount('/first', \u2026)` no longer needs the trailing slash, unmatched routes fall through to the parent router's 404, and `request.params` replaces the old `params()` helper \u2014 so the per-controller catch-all route and the home-made CORS header map are gone.",
       "Request bodies are read with `request.readAsString()` instead of `req.read().transform(Utf8Decoder()).join()`, and the stray `await` on the synchronous `jsonDecode` is removed; a shared `jsonResponse()` helper sets `Content-Type: application/json` once instead of on every route.",
       "Route order is called out (`/first` must be registered before `/<second>`), path params can be constrained with a regex (`<id|[0-9]+>`), and `queryParameters['query']` is handled as the `String?` it is.",
       "Heroku CLI dropped from the prerequisites (deployment is a Dockerfile host in step 5); every code block is null-safe Dart 3."
@@ -2842,7 +2842,7 @@
   },
   "/languages/dart/models/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://pub.dev/packages/postgres",
       "https://pub.dev/documentation/postgres/latest/postgres/Pool-class.html",
@@ -2857,19 +2857,19 @@
     "exec": "not run",
     "version": "1.4.3",
     "changes": [
-      "postgres 2.x is gone from this page: `PostgreSQLConnection(host, port, db, …)`, `conn.open()`, `conn.query(sql, substitutionValues:)` and `useSSL:` were removed in postgres 3.0 (2023). The driver is now postgres 3.5 — `Pool.withEndpoints([Endpoint(…)])`, `execute(Sql.named('… @id'), parameters: {…})`, `row.toColumnMap()`, `SslMode`.",
+      "postgres 2.x is gone from this page: `PostgreSQLConnection(host, port, db, \u2026)`, `conn.open()`, `conn.query(sql, substitutionValues:)` and `useSSL:` were removed in postgres 3.0 (2023). The driver is now postgres 3.5 \u2014 `Pool.withEndpoints([Endpoint(\u2026)])`, `execute(Sql.named('\u2026 @id'), parameters: {\u2026})`, `row.toColumnMap()`, `SslMode`.",
       "Resource leak fixed: the 2021 `turtle()` helper opened a brand-new database connection on every request and never closed it. One app-wide `Pool` (max 5 connections) is created once and shared by every model.",
       "Null-safety fixes throughout: `insert({String name, int age})` is `({required String name, required int age})`, `getOne` returns `Map<String, dynamic>?` and the controller answers 404 instead of crashing on `list[0]` for a missing id.",
       "Rows are converted with `toColumnMap()` instead of hand-indexing `row[0]`, `row[1]`; the table gets a `PRIMARY KEY` and `NOT NULL` constraints; `RETURNING *` sends back the affected row instead of re-selecting the whole table; the `<id|[0-9]+>` route constraint keeps `int.parse` safe.",
       "Connection settings come from the standard libpq variables (`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`, `PGSSLMODE`) with local defaults; the driver's default is SSL *required*, which is why local development sets `SslMode.disable` explicitly.",
-      "The CREATE TABLE lives in a numbered `.sql` file run with `psql -f` — a minimal migration you can commit — and the model is tried from a `dart run` script before the controller is built."
+      "The CREATE TABLE lives in a numbered `.sql` file run with `psql -f` \u2014 a minimal migration you can commit \u2014 and the model is tried from a `dart run` script before the controller is built."
     ],
     "override": "content/overrides/languages/dart/models.md",
     "note": "Every API call was checked against the postgres 3.5.20 reference (Pool.withEndpoints, Endpoint, PoolSettings/ConnectionSettings.sslMode, Session.execute, Sql.named, Result/ResultRow.toColumnMap) and the shelf_router 1.1.5 Router docs; the SQL is standard Postgres. There is no Dart SDK or Postgres server on the build machine, so nothing on this page was executed."
   },
   "/languages/dart/api/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dart.dev/tools/dart-create",
       "https://dart.dev/tools/dart-compile",
@@ -2890,19 +2890,19 @@
     "version": "1.4.3",
     "changes": [
       "Aligned with the shared Todos contract: the routes are `/health` and `/todos` with no trailing slash (the slash-trimming middleware stays as a courtesy, the frontends no longer need it), every query selects exactly `id, subject, details`, a blank or missing field is a 400 with a one-key error body (`subject and details are required`), a missing id or unknown path is a 404 (`not found`) from the router's `notFoundHandler`, DELETE answers 204 with no body instead of echoing the row, the preflight answers 204 allowing only `Content-Type`, and the table is created on boot instead of by a migration file run with psql.",
-      "Heroku is gone: the Dart buildpack, `DART_SDK_URL`/`DART_BUILD_CMD` config vars and the free Heroku Postgres (all retired) are replaced by the Dockerfile the server-shelf template generates — `dart:stable` build stage, AOT compile, `FROM scratch` runtime image — deployed to Railway with its PostgreSQL template; any Dockerfile host (Render, Fly.io) works the same way.",
-      "postgres 2.x `PostgreSQLConnection(..., useSSL: true)` replaced by postgres 3.x: `Pool.withEndpoints([Endpoint(…)])` built from the host's `DATABASE_URL` with `SslMode.require` in production, and from the `PG*` variables with `SslMode.disable` for local development.",
+      "Heroku is gone: the Dart buildpack, `DART_SDK_URL`/`DART_BUILD_CMD` config vars and the free Heroku Postgres (all retired) are replaced by the Dockerfile the server-shelf template generates \u2014 `dart:stable` build stage, AOT compile, `FROM scratch` runtime image \u2014 deployed to Railway with its PostgreSQL template; any Dockerfile host (Render, Fly.io) works the same way.",
+      "postgres 2.x `PostgreSQLConnection(..., useSSL: true)` replaced by postgres 3.x: `Pool.withEndpoints([Endpoint(\u2026)])` built from the host's `DATABASE_URL` with `SslMode.require` in production, and from the `PG*` variables with `SslMode.disable` for local development.",
       "CORS is real middleware now (`createMiddleware` answering the OPTIONS preflight with 204 and adding the headers to every response) instead of a header map spread into each `Response.ok`; `shelf_cors_headers` is named as the packaged alternative. A trailing-slash middleware is kept so `/todos/` still reaches `/todos`, though nothing on this site sends the slash any more.",
       "Model and controller carry over this track's fixes: pooled connection instead of one per request, `toColumnMap()`, `RETURNING id, subject, details`, 404 for a missing id, `<id|[0-9]+>` route constraint, `readAsString()`; malformed JSON now returns 400 instead of a 500 stack trace.",
       "Table gets `PRIMARY KEY`/`NOT NULL` and is created by `CREATE TABLE IF NOT EXISTS` in `main()` on every boot, so a fresh Railway Postgres needs no console step at all.",
-      "Controller mounted at `/todos` with the whole `bin/server.dart` shown once, including the HTML landing page, `/health`, the JSON 404 handler and the middleware order (log → CORS → trailing slash → 400-on-bad-body → router)."
+      "Controller mounted at `/todos` with the whole `bin/server.dart` shown once, including the HTML landing page, `/health`, the JSON 404 handler and the middleware order (log \u2192 CORS \u2192 trailing slash \u2192 400-on-bad-body \u2192 router)."
     ],
     "override": "content/overrides/languages/dart/api.md",
     "note": "Deployed to Railway on 2026-11-07 from commit 6337263d0b28e3c593e1e9044103f922ffda9b8c of github.com/arthurbernierjr/dtc-dart-api, live at https://api-production-5f5ac.up.railway.app; `node check.mjs https://api-production-5f5ac.up.railway.app` printed 16/16 PASS (health, CORS preflights, list shape, three 400 cases, create 201, show, 404s, update, delete 204). Every whole-file block on this page is the file in that repo. No Dart toolchain ran on the build machine."
   },
   "/languages/frontend/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/",
       "https://reactrouter.com/",
@@ -2916,7 +2916,7 @@
   },
   "/languages/frontend/react/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/learn",
       "https://react.dev/reference/react/useEffect",
@@ -2944,7 +2944,7 @@
   },
   "/languages/frontend/vue/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://vuejs.org/guide/quick-start.html",
       "https://vuejs.org/api/sfc-script-setup.html",
@@ -2970,7 +2970,7 @@
   },
   "/languages/frontend/angular/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://angular.dev/tools/cli/setup-local",
       "https://angular.dev/essentials/components",
@@ -2999,7 +2999,7 @@
   },
   "/languages/frontend/svelte/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://svelte.dev/docs/kit/creating-a-project",
       "https://svelte.dev/docs/kit/routing",
@@ -3028,7 +3028,7 @@
   },
   "/languages/frontend/react-cheatsheet/": {
     "date": "2026-11-02",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://react.dev/learn/your-first-component",
       "https://react.dev/learn/writing-markup-with-jsx",
@@ -3065,18 +3065,18 @@
       "Third-party library lists refreshed (TanStack Query, React Hook Form, Zustand, Redux Toolkit, MUI, shadcn/ui; Next.js, Expo, Astro, TanStack Start) and `axios` replaced with `fetch`. Styled Components kept as an optional section."
     ],
     "override": "content/overrides/languages/frontend/react-cheatsheet.md",
-    "note": "All 48 jsx/js blocks on this page were transformed with esbuild (jsx loader) and parse; every named import (`useActionState`, `memo`, `createPortal`, `Outlet`, `NavLink`, `useSearchParams`, …) was checked against the exports of the installed react 19.3.1, react-dom 19.3.1, react-router 8.5.1 and styled-components 6.6.0."
+    "note": "All 48 jsx/js blocks on this page were transformed with esbuild (jsx loader) and parse; every named import (`useActionState`, `memo`, `createPortal`, `Outlet`, `NavLink`, `useSearchParams`, \u2026) was checked against the exports of the installed react 19.3.1, react-dom 19.3.1, react-router 8.5.1 and styled-components 6.6.0."
   },
   "/system-design/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/system-design/interview-framework/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3092,7 +3092,7 @@
   },
   "/system-design/back-of-envelope-numbers/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://dev.mysql.com/doc/",
@@ -3108,18 +3108,18 @@
   },
   "/system-design/solid-principles/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://expressjs.com/",
       "https://nodejs.org/docs/latest-v24.x/api/"
     ],
     "exec": "ran",
-    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 1/6 JS block(s) executed clean under Node 24.13.0; 2 skipped (fragment / JSX / browser-only); 3 sketch(es) reference names defined elsewhere on the page, parse-checked only (block 2 uses CardProcessor, block 5 uses PgOrderRepo, block 6 uses withCache)."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. 1/6 JS block(s) executed clean under Node 24.13.0; 2 skipped (fragment / JSX / browser-only); 3 sketch(es) reference names defined elsewhere on the page, parse-checked only (block 2 uses CardProcessor, block 5 uses PgOrderRepo, block 6 uses withCache)."
   },
   "/system-design/digital-mansion-primer/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://dev.mysql.com/doc/",
       "https://www.mongodb.com/docs/",
@@ -3135,7 +3135,7 @@
   },
   "/system-design/concepts/acid-vs-base/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://dev.mysql.com/doc/",
@@ -3149,7 +3149,7 @@
   },
   "/system-design/concepts/api-design-rest-graphql-grpc/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://grpc.io/docs/",
       "https://graphql.org/learn/",
@@ -3161,7 +3161,7 @@
   },
   "/system-design/concepts/api-gateway/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://nginx.org/en/docs/",
@@ -3177,7 +3177,7 @@
   },
   "/system-design/concepts/availability-and-nines/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.aws.amazon.com/s3/",
       "https://grpc.io/docs/",
@@ -3191,7 +3191,7 @@
   },
   "/system-design/concepts/blob-object-storage/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://docs.aws.amazon.com/s3/",
@@ -3202,7 +3202,7 @@
   },
   "/system-design/concepts/caching/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3216,7 +3216,7 @@
   },
   "/system-design/concepts/cap-theorem/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://cassandra.apache.org/doc/latest/",
@@ -3230,7 +3230,7 @@
   },
   "/system-design/concepts/cdn/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://docs.aws.amazon.com/s3/",
       "https://docs.aws.amazon.com/cloudfront/",
@@ -3244,7 +3244,7 @@
   },
   "/system-design/concepts/consistency-models/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.mongodb.com/docs/",
       "https://cassandra.apache.org/doc/latest/",
@@ -3255,7 +3255,7 @@
   },
   "/system-design/concepts/consistent-hashing/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://memcached.org/",
       "https://cassandra.apache.org/doc/latest/",
@@ -3268,7 +3268,7 @@
   },
   "/system-design/concepts/database-indexing/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://dev.mysql.com/doc/",
@@ -3280,7 +3280,7 @@
   },
   "/system-design/concepts/database-replication/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://dev.mysql.com/doc/",
@@ -3296,7 +3296,7 @@
   },
   "/system-design/concepts/database-sharding/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://dev.mysql.com/doc/",
@@ -3312,7 +3312,7 @@
   },
   "/system-design/concepts/distributed-transactions-saga/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://kafka.apache.org/documentation/",
       "https://datatracker.ietf.org/doc/html/rfc1035",
@@ -3323,7 +3323,7 @@
   },
   "/system-design/concepts/dns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://datatracker.ietf.org/doc/html/rfc8446",
       "https://datatracker.ietf.org/doc/html/rfc1035"
@@ -3333,7 +3333,7 @@
   },
   "/system-design/concepts/event-driven-architecture/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3347,7 +3347,7 @@
   },
   "/system-design/concepts/idempotency/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://kafka.apache.org/documentation/",
@@ -3358,14 +3358,14 @@
   },
   "/system-design/concepts/latency-vs-throughput/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. 1 text/pseudocode/shell block(s) only; nothing executable."
   },
   "/system-design/concepts/load-balancers/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://nginx.org/en/docs/",
@@ -3380,7 +3380,7 @@
   },
   "/system-design/concepts/message-queues/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://kafka.apache.org/documentation/",
@@ -3392,7 +3392,7 @@
   },
   "/system-design/concepts/microservices-vs-monolith/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://kafka.apache.org/documentation/",
@@ -3405,7 +3405,7 @@
   },
   "/system-design/concepts/observability/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://kafka.apache.org/documentation/",
       "https://www.mongodb.com/docs/",
@@ -3420,7 +3420,7 @@
   },
   "/system-design/concepts/proxies-forward-vs-reverse/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://nginx.org/en/docs/",
       "https://www.haproxy.org/#docs",
@@ -3431,7 +3431,7 @@
   },
   "/system-design/concepts/rate-limiting/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://nginx.org/en/docs/",
@@ -3442,7 +3442,7 @@
   },
   "/system-design/concepts/scaling-horizontal-vs-vertical/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3456,7 +3456,7 @@
   },
   "/system-design/concepts/security-basics-authn-authz/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://oauth.net/2/",
@@ -3468,7 +3468,7 @@
   },
   "/system-design/concepts/sql-vs-nosql/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://dev.mysql.com/doc/",
@@ -3484,7 +3484,7 @@
   },
   "/system-design/concepts/unique-id-generation/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://dev.mysql.com/doc/",
@@ -3497,7 +3497,7 @@
   },
   "/system-design/concepts/websockets-sse-long-polling/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://kafka.apache.org/documentation/",
@@ -3509,7 +3509,7 @@
   },
   "/system-design/walkthroughs/chat-system/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3525,7 +3525,7 @@
   },
   "/system-design/walkthroughs/key-value-store/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://cassandra.apache.org/doc/latest/",
       "https://docs.aws.amazon.com/dynamodb/",
@@ -3538,7 +3538,7 @@
   },
   "/system-design/walkthroughs/news-feed/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3551,7 +3551,7 @@
   },
   "/system-design/walkthroughs/notification-system/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3565,7 +3565,7 @@
   },
   "/system-design/walkthroughs/rate-limiter/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://redis.io/docs/latest/",
       "https://datatracker.ietf.org/doc/html/rfc7519",
@@ -3577,7 +3577,7 @@
   },
   "/system-design/walkthroughs/url-shortener/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://www.postgresql.org/docs/current/",
       "https://redis.io/docs/latest/",
@@ -3591,14 +3591,14 @@
   },
   "/patterns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/patterns/creational/abstract-factory/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3609,7 +3609,7 @@
   },
   "/patterns/creational/builder/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3620,7 +3620,7 @@
   },
   "/patterns/creational/factory-method/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3631,7 +3631,7 @@
   },
   "/patterns/creational/prototype/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3642,7 +3642,7 @@
   },
   "/patterns/creational/singleton/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3653,7 +3653,7 @@
   },
   "/patterns/structural/adapter/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3664,7 +3664,7 @@
   },
   "/patterns/structural/bridge/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3675,7 +3675,7 @@
   },
   "/patterns/structural/composite/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3686,7 +3686,7 @@
   },
   "/patterns/structural/decorator/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3697,7 +3697,7 @@
   },
   "/patterns/structural/facade/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3708,7 +3708,7 @@
   },
   "/patterns/structural/flyweight/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3719,7 +3719,7 @@
   },
   "/patterns/structural/proxy/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3730,7 +3730,7 @@
   },
   "/patterns/behavioral/chain-of-responsibility/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3741,7 +3741,7 @@
   },
   "/patterns/behavioral/command/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3752,7 +3752,7 @@
   },
   "/patterns/behavioral/interpreter/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3763,7 +3763,7 @@
   },
   "/patterns/behavioral/iterator/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3774,7 +3774,7 @@
   },
   "/patterns/behavioral/mediator/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3785,7 +3785,7 @@
   },
   "/patterns/behavioral/memento/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3796,7 +3796,7 @@
   },
   "/patterns/behavioral/observer/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3807,7 +3807,7 @@
   },
   "/patterns/behavioral/state/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3818,7 +3818,7 @@
   },
   "/patterns/behavioral/strategy/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3829,7 +3829,7 @@
   },
   "/patterns/behavioral/template-method/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3840,7 +3840,7 @@
   },
   "/patterns/behavioral/visitor/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
       "https://nodejs.org/docs/latest-v24.x/api/",
@@ -3851,14 +3851,14 @@
   },
   "/security/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/security/owasp/a01-broken-access-control/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3872,7 +3872,7 @@
   },
   "/security/owasp/a02-security-misconfiguration/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3886,7 +3886,7 @@
   },
   "/security/owasp/a03-software-supply-chain-failures/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3900,7 +3900,7 @@
   },
   "/security/owasp/a04-cryptographic-failures/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3914,7 +3914,7 @@
   },
   "/security/owasp/a05-injection/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3928,7 +3928,7 @@
   },
   "/security/owasp/a06-insecure-design/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3942,7 +3942,7 @@
   },
   "/security/owasp/a07-authentication-failures/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3956,7 +3956,7 @@
   },
   "/security/owasp/a08-software-data-integrity-failures/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3970,7 +3970,7 @@
   },
   "/security/owasp/a09-security-logging-alerting-failures/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3984,7 +3984,7 @@
   },
   "/security/owasp/a10-mishandling-exceptional-conditions/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/Top10/2025/",
       "https://owasp.org/",
@@ -3998,7 +3998,7 @@
   },
   "/security/web-vulns-quick-reference/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
@@ -4008,14 +4008,14 @@
   },
   "/mindset/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
   "/mindset/knowing-what-you-are-talking-about/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
       "https://owasp.org/",
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
@@ -4026,7 +4026,7 @@
   },
   "/mindset/grit/": {
     "date": "2026-11-07",
-    "who": "Codex · narrative source review",
+    "who": "Codex \u00b7 narrative source review",
     "docs": [
       "https://angeladuckworth.com/grit-book/"
     ],
@@ -4036,109 +4036,920 @@
   },
   "/atelier/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Portfolio workshop framing, ten ordered lessons, finished-page preview and offline download checked."
+  },
+  "/atelier/tokens-and-type/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/the-shell/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/the-fixed-nav/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/the-hero/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/cards-and-the-link-grid/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/pictures/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/motion/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/gate-cursor-sound/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/breakpoints/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/atelier/assembly/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 visual workshop rebuild",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+    ],
+    "exec": "ran",
+    "note": "Source CSS excerpts checked against frozen originals. Working checkpoints tested in Chromium at desktop and phone widths, with keyboard, reduced motion, and JavaScript disabled; lesson images and downloads checked."
+  },
+  "/explained/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [],
     "exec": "n/a",
     "note": "Navigation page: its counts, tiles and lists are computed from the registry at build time and asserted by the registry gate; no external claims to verify. No code on this page."
   },
-  "/atelier/tokens-and-type/": {
+  "/explained/html-css-js/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://datatracker.ietf.org/doc/html/rfc1035"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
   },
-  "/atelier/the-shell/": {
+  "/explained/the-box-model/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://datatracker.ietf.org/doc/html/rfc1035"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
   },
-  "/atelier/the-fixed-nav/": {
+  "/explained/tcp-ip-http-dns/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://datatracker.ietf.org/doc/html/rfc1035",
+      "https://react.dev/"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
   },
-  "/atelier/the-hero/": {
+  "/explained/rest-apis/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://datatracker.ietf.org/doc/html/rfc1035",
+      "https://react.dev/",
+      "https://nodejs.org/docs/latest-v24.x/api/",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
   },
-  "/atelier/cards-and-the-link-grid/": {
+  "/explained/react-components/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://datatracker.ietf.org/doc/html/rfc1035",
+      "https://react.dev/",
+      "https://nodejs.org/docs/latest-v24.x/api/"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
   },
-  "/atelier/pictures/": {
+  "/explained/nodejs/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://react.dev/",
+      "https://nodejs.org/docs/latest-v24.x/api/"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
   },
-  "/atelier/motion/": {
+  "/explained/kiss/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://nodejs.org/docs/latest-v24.x/api/"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
   },
-  "/atelier/gate-cursor-sound/": {
+  "/explained/occams-razor/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
-    "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-    ],
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
   },
-  "/atelier/breakpoints/": {
+  "/explained/yagni/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
-    "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-    ],
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
   },
-  "/atelier/assembly/": {
+  "/explained/worse-is-better/": {
     "date": "2026-11-07",
-    "who": "Claude (Cursor agent) · first-wave pass",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/proxies/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
     "docs": [
-      "https://developer.mozilla.org/en-US/docs/Web/CSS",
-      "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+      "https://nginx.org/en/docs/",
+      "https://docs.docker.com/",
+      "https://kubernetes.io/docs/"
     ],
     "exec": "n/a",
-    "note": "Docs from the registry acceptance block. No code on this page."
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/docker/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.docker.com/",
+      "https://kubernetes.io/docs/",
+      "https://developer.hashicorp.com/terraform/docs"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/kubernetes/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.docker.com/",
+      "https://kubernetes.io/docs/",
+      "https://developer.hashicorp.com/terraform/docs"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/terraform/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.docker.com/",
+      "https://kubernetes.io/docs/",
+      "https://developer.hashicorp.com/terraform/docs"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/caching/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://kubernetes.io/docs/",
+      "https://developer.hashicorp.com/terraform/docs"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/rate-limiting/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://developer.hashicorp.com/terraform/docs"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/latency-and-throughput/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/ransomware/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/venture-capital/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/ipfs/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/availability/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/disk-and-memory/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/content-delivery-networks/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/secure-hashing/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/blob-storage/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/big-o/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/eventual-consistency/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/programming-paradigms/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-software-development-life-cycle/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/writes-follow-reads/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/dynamic-programming/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/dijkstra/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/k-nearest-neighbor/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/divide-and-conquer/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/sliding-window/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/multiple-pointers/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/frequency-counter/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/2032-will-change-everything-heres-what-big-poppa/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/this-gold-rush-wont-wait-for-you-to-learn-everyt/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/forgotten-prospects-ai-knows-how-to-win-them-bac/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/bitcoins-biggest-halving-meets-ai-singularity-in/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/bitcoin-ai-your-money-whats-actually-happening-t/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/creator-economy-exposed-how-attention-turns-into/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-countdown-to-ai-dominance-has-already-starte/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/designer-babies-are-here-should-we-be-terrified/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/could-you-live-on-mars-the-truth-about-off-world/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/why-regulators-are-fighting-back-against-defi/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/build-real-tech-wealth-without-the-corporate-lad/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/success-isnt-luck-its-this-simple-formula/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/forget-everything-gurus-taught-you-learn-this-in/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/my-high-school-crush-started-everything-full-sto/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/a-car-crash-forced-me-to-choose-between-two-futu/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/bitcoin-crypto-buy-houses-land-pay-mortgages/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/who-needs-iron-man-power-in-unity-votes/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/future-casting-are-we-building-paradise-or-pando/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-counterintuitive-strategy-that-made-matty-j/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/exclusive-interview-the-missing-economic-strateg/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/ai-takeover-how-close-are-we-to-skynet/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/from-zero-experience-to-400k-jennifer-gaddis-qa/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-booking-system-top-creators-use-to-get-on-ma/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-psychological-battle-nobody-warns-new-trader/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/why-most-traders-fail-its-not-what-you-think-w-j/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/jarrett-albritton-big-tech-sales-energy-the-secr/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-contrarian-mindset-that-makes-millionaires-f/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/from-star-trek-to-today-what-they-got-scarily-ri/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-metaverse-is-reshaping-reality-heres-whats-c/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/information-selling-doesnt-work-anymore/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-follower-era-is-over-heres-whats-next/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-6-defi-drama-bankers-beware/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/how-close-are-we-to-escaping-earth/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/designer-babies-are-here-should-we-be-scared/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/robots-are-taking-over-what-you-need-to-know-now/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/influencer-economy-exposed-get-rich-or-get-forgo/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/abundance-is-your-birthright-heres-how-to-claim/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/stedman-waiters-building-a-business-around-fundi/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/billionaire-brooklynn-the-queen-of-pivot-from-ha/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.aws.amazon.com/s3/"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/billionaire-bae-the-woman-teaching-nightlife-gir/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.aws.amazon.com/s3/"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/s3-e5-from-setbacks-to-millions-how-smitty-the-g/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.aws.amazon.com/s3/"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/s3-e4-how-to-build-wealth-empower-communities-wi/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.aws.amazon.com/s3/"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/s3-e2-hacking-the-startup-paradox-with-jeff-nels/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.aws.amazon.com/s3/"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/esports-the-next-trillion-dollar-market/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.aws.amazon.com/s3/"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/season-2-episode-20-bootcamps-and-mentorship/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [
+      "https://docs.aws.amazon.com/s3/"
+    ],
+    "exec": "n/a",
+    "note": "Concept article: docs are the official sites of the technologies the text names (auto-selected); a reviewer confirms each claim against them. No code on this page."
+  },
+  "/explained/season-2-episode-19-what-are-the-top-emerging-jo/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-16-shop-scroll-the-boom-of-soci/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-15-preparing-children-for-the-f/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-14-building-magnetic-brands-in/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-13-navigating-the-tech-startup/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-12-unlock-your-financial-potent/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-11-is-ai-wearable-technology-th/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/season-2-episode-10-liberty-madisons-formula-for/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-8-tech-titans-ancient-empires-powerhouse/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-7-echoes-of-creativity-from-renaissance/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-6-from-platforms-to-profit-the-rise-of-t/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-5-ai-and-futurism-reshaping-proptech-rea/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-4-money-talks-gold-to-bitcoin-the-financ/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-3-from-blockbusters-to-stream-the-fall-a/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-2-ai-machine-learning-the-promise-of-sel/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/episode-1-the-webs-evolution-from-web-1-0-to-web/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/defi-ai-and-cryptos-takeover-whats-coming-in-203/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/the-secret-cheat-code-to-be-rich-in-tech-secrets/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/becoming-a-software-engineer-in-2026-ai-deepfake/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/big-poppa-code-the-integrity-response-w-ceo-khac/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/explained/what-theyre-saying-about-ai-in-proptech-w-libert/": {
+    "date": "2026-11-07",
+    "who": "Claude (Cursor agent) \u00b7 first-wave pass",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Concept article naming no specific technology: the registry gate checked title, H2 order and counts; a reviewer reads it for currency. No code on this page."
+  },
+  "/privacy/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 implementation review",
+    "docs": [
+      "https://support.google.com/youtube/answer/171780?hl=en",
+      "https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-the-use-of-storage-and-access-technologies/how-do-we-manage-consent-in-practice/"
+    ],
+    "exec": "n/a",
+    "note": "Disclosure follows the actual storage, logging and opt-in video implementation; hosting retention is not asserted. Includes the explicitly saved lesson bookmark and its separate clear control."
+  },
+  "/guide/save-points/": {
+    "date": "2026-11-07",
+    "who": "Codex \u00b7 feature and teaching review",
+    "docs": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event"
+    ],
+    "exec": "ran",
+    "note": "Feature behavior verified in browser tests: explicit save, resume, overwrite, clear, invalid data, storage failures and cross-tab updates. Lesson code illustrates the implementation."
+  },
+  "/support/": {
+    "date": "2026-11-08",
+    "who": "Codex \u00b7 implementation review",
+    "docs": [],
+    "exec": "n/a",
+    "note": "Arthur's offers: $197 per started 1,000 formatted authored source lines, no cap; $497 flat-price portfolio review covering code, projects and r\u00e9sum\u00e9. Portfolio requests use an issue in the portfolio GitHub repository, tagging @arthurbernierjr for an invoice reply and written feedback. Optional $20 Cash App links remain site-wide. No email requests or automated payments."
   }
 }

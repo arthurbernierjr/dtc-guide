@@ -28,6 +28,8 @@ const SPRITE = `<svg hidden xmlns="http://www.w3.org/2000/svg">
 <symbol id="i-sword" viewBox="0 0 24 24"><path d="m4 20 10-10"/><path d="m13 6 5 5 3-8z"/><path d="m3 17 4 4"/><path d="m6 14 4 4"/></symbol>
 </svg>`;
 
+const { thankYouButton } = require('./thank-you');
+
 const SECTION_ICON = Object.fromEntries(site.allSections.map((s) => [s.title, s.icon]));
 const { brandLockup } = require('./brand');
 
@@ -56,19 +58,19 @@ function footer(ctx) {
       ${brandLockup()}
       <nav class="footer-sections" aria-label="Sections">${sectionLinks}</nav>
       <details class="footer-disclosure"><summary>Sections ▾</summary><nav class="footer-sections" aria-label="Sections">${sectionLinks}</nav></details>
-      <div class="footer-links">
+      <div class="footer-links">${thankYouButton()}
         <a href="${site.links.podcast}" target="_blank" rel="noopener">Podcast ${icon('external')}</a>
-        <a href="${site.links.newsletter}" target="_blank" rel="noopener">Newsletter</a>
+        <a href="${site.links.newsletter}" target="_blank" rel="noopener">Newsletter</a><a href="/support/">Support &amp; work with me</a>
         <a href="${site.links.instagram}" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>Built by <b>Big Poppa Code</b> · ${escapeHtml(site.signature.replace(/^— /, ''))}</span>
-      <span>Content from Brian Holt (CC BY-NC 4.0), AlgoCasts (GPL-3.0) and Arthur Bernier Jr. · <a href="/credits/">Sources &amp; licenses</a></span>
-      <span>Non-commercial. No ads, no paywall.</span>
+      <span>Content from Brian Holt (CC BY-NC 4.0), AlgoCasts (GPL-3.0) and Arthur Bernier Jr. · <a href="/credits/">Sources &amp; licenses</a> · <a href="/privacy/">Privacy &amp; storage</a></span>
+      <span>Free curriculum. Optional support and personal services. YouTube players may show ads.</span>
     </div>
   </div>
-</footer>`;
+</footer>`.replace(/>\s+</g, '><');
 }
 
 function palette(ctx) {
@@ -153,6 +155,8 @@ ${navDrawer(ctx, page)}
 <div class="film-grain" aria-hidden="true"></div>
 <script src="/app.js?v=${ctx.buildId}" defer></script>
 <script src="/search.js?v=${ctx.buildId}" defer></script>
+<script src="/save-point.js?v=${ctx.buildId}" defer></script>
+<script src="/console-art.js?v=${ctx.buildId}" defer></script>
 ${extraScripts}
 </body>
 </html>`;

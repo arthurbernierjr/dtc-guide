@@ -20,11 +20,16 @@
     "test:budget": "node build/test/budget.js",
     "screenshots": "node scripts/screenshots.js",
     "verify:ledger": "node scripts/verify-ledger.js",
-    "test:ui": "node build/test/ui.js"
+    "test:ui": "node build/test/ui.js",
+    "test:atelier": "node build/test/atelier.js",
+    "test:security": "node build/test/security.js",
+    "postinstall": "node scripts/patch-deepmerge.js",
+    "test:save-points": "node build/test/save-points.js"
   },
   "license": "UNLICENSED",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "morgan": "^1.12.1"
   },
   "devDependencies": {
     "jest": "^30.5.2",

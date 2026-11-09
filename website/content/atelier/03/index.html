@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atelier · checkpoint 03</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip pill" href="#main">Skip to content</a>
+<header class="site-nav">
+  <div class="nav-inner container">
+    <a class="brand" href="#main">Nightfall Atelier</a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#work">Work</a><a href="#gallery">Gallery</a><a href="#motion">Motion</a>
+    </nav>
+    <button class="pill ghost menu-toggle" id="menu-button" type="button"
+      aria-controls="menu" aria-expanded="false" hidden>Menu</button>
+  </div>
+</header>
+<dialog class="menu-panel" id="menu" aria-labelledby="menu-title">
+  <h2 id="menu-title">Choose a room</h2>
+  <button class="pill" id="close-menu" type="button" autofocus>Close menu</button>
+  <nav aria-label="Mobile navigation">
+    <a href="#work">Work</a><a href="#gallery">Gallery</a><a href="#motion">Motion</a>
+  </nav>
+</dialog>
+<main id="main" tabindex="-1">
+  <section class="section container stack page-start">
+    <p class="eyebrow">The nightfall atelier</p>
+    <h1>Make something <span class="accent">worth entering.</span></h1>
+    <p class="muted">A small page built deliberately, one visible decision at a time.</p>
+    <a class="pill" href="#work">Explore the work</a>
+  </section>
+  <section class="section container stack" id="work" tabindex="-1">
+    <p class="eyebrow">01 / The work</p>
+    <h2>A place for your work</h2>
+    <p>Choose one project you can explain: who it helps, what you changed, and what you learned.</p>
+  </section>
+  <section class="section container stack" id="gallery" tabindex="-1">
+    <p class="eyebrow">02 / Observations</p>
+    <h2>Look before you decorate</h2>
+    <p>Notice where the headings begin. Their shared edge is doing quiet work.</p>
+  </section>
+  <section class="section container stack" id="motion" tabindex="-1">
+    <p class="eyebrow">03 / A practice</p>
+    <h2>Change one thing. Look again.</h2>
+    <p>A useful experiment has a before, an after, and a reason you can explain.</p>
+  </section>
+</main>
+<footer><div class="container">Atelier study · Arthur Bernier Jr</div></footer>
+</body>
+</html>

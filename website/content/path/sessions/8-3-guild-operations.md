@@ -26,7 +26,7 @@ say:
 
 Last session you pinned the quests to the board and ranked them. The board is honest, every card knows where it came from, and nothing is in the Sprint 1 column, because moving a card there is a promise and a promise needs a size. Today you put a number on every Must and Should story, and you do it without guessing hours, by comparing each story with something you have already built. The guild hall's login took you one session in 4.9 and again in 4.15. That is a five. A list page that fetches one resource is a two. Everything else is measured against those.
 
-Then the backlog becomes a plan with the shape Unit 12 actually has: four sprints, one per session from 12.1 to 12.4, each with the session's hours plus the hours you will really give it before the next one, each with a capacity in points and a visible line for slack. Sprint 1 gets a goal in one sentence and a Definition of Done you can check with your eyes. And because a retrospective is a skill you practise, not a form you fill, you run one tonight on the Unit 7 test suite you finished last week and pick one experiment to carry into Unit 12.
+Then the backlog becomes a plan with the shape Unit 12 actually has: four sprints, one per session from 12.1 to 12.4, each with the session's hours plus the hours you will really give it before the next one, each with a capacity in points and a visible line for slack. Sprint 1 gets a goal in one sentence and a Definition of Done you can check with your eyes. And because a retrospective is a skill you practise, not a form you fill, you run one in this session on the Unit 7 test suite you finished in 7.4 and pick one experiment to carry into Unit 12.
 
 > *A guild that spends six months planning the perfect raid arrives to find the dungeon patched. A guild that raids for a week, counts the loot, and adjusts clears it in two months.*
 
@@ -84,9 +84,9 @@ Planning poker is how a team estimates: everyone shows a card at once, and the d
 
 Velocity is the total of points finished in a sprint. After two sprints you know yours, and you use it to plan the third. It is a planning number, not a score, and the moment it becomes a target it stops measuring anything, because the only way to raise it is to inflate the estimates. Do not try to increase it. Try to predict it.
 
-### Four sprints, because Unit 12 has four sessions
+### Four sprints before the final demo
 
-Unit 12 is not a week-long sprint with a Monday planning meeting. It is four build sessions, 12.1 Foundation, 12.2 Build, 12.3 Harden, and 12.4 Polish, on consecutive path days, with a demo in 12.5. A sprint on this path is one of those sessions plus the hours you give it before the next session begins. That is the shape the plan takes today, and the plan the learner in you writes has to fit the sprints the builder in you will run.
+Unit 12 has four build sessions: 12.1 Foundation, 12.2 Build, 12.3 Harden, and 12.4 Polish, followed by a demo in 12.5. Work through them in order, on the days you choose. A sprint on this path is one of those sessions plus the hours you give it before the next session begins. That is the shape the plan takes today, and the plan the learner in you writes has to fit the sprints the builder in you will run.
 
 | Sprint | Session | What it is for | Hours (session + between) | Capacity, example |
 |---|---|---|---|---|
@@ -105,7 +105,7 @@ A sprint is not a calendar box with unrelated tickets in it. The goal is one sen
 
 The Definition of Done is the Increment's commitment, and it is a list of evidence, not a feeling. For the capstone, a card is Done when the acceptance examples pass by hand, the code is committed on a branch and merged to `main`, there is a Supertest or Playwright case for the path from Sprint 3 onward, the browser console is clean, and the card is in Done with a one-line note. Acceptance is not release: an increment can be Done and not yet deployed, and a deploy does not excuse a missing test.
 
-### The board shows flow, the retro changes next week
+### The board shows flow, the retro changes the next sprint
 
 Four columns: Backlog, Sprint 1, In Progress, Done. Only one or two cards live in In Progress at a time, because three half-finished stories are zero finished stories. A blocked card gets a reason and a next action written on it, not a red label. During a sprint, the daily three lines are about the board: which card moved, which one is stuck, what you do about it today.
 
@@ -248,16 +248,16 @@ Created field
 
 On the Board view, type each card's points into the field, and drag the four Sprint 1 cards from Backlog into Sprint 1. Everything else stays in Backlog. The In Progress column is still empty, and it stays empty until 12.1, because a card in progress is a promise to today.
 
-The retrospective. You have not run a capstone sprint yet, so the practice retro is on the Unit 7 test suite, which you finished in week 14. Here is the example filled; yours will have different rows.
+The retrospective. You have not run a capstone sprint yet, so the practice retro is on the Unit 7 test suite, which you finished in session 7.4. Here is the example filled; yours will have different rows.
 
 ```markdown
 ## Retro: Unit 7 test suite
-Date: week 14
+Session: 8.3 — retrospective on the Unit 7 suite
 
 ### Went well
 1. Jest ran on the first try; no config fight.
 2. Writing the Supertest cases found a real bug in the inbox route's 404.
-3. Finished two evenings before 8.1 started.
+3. Finished in 7.4, before beginning the research in 8.1.
 
 ### Did not go well
 1. Three hours on one Playwright test that flaked on the login redirect.

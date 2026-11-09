@@ -41,7 +41,7 @@ Collections do not make every document wear the same fields. You can insert `{ t
 
 An index is a second structure, maintained beside the collection, that maps a field's value to the documents that hold it. The collection already has an index on `_id`. A find by `_id` uses that index. A find by `title`, or by `hero`, reads documents until it has answered the query, unless you built an index on that field. Reading the documents one after another is a collection scan. At twenty documents you will not feel it. At two million documents it is a different program: every unindexed find walks the collection, and every extra field you filter in application code after the fact means you already paid to read more than you needed. The index costs something on the write, because an insert or an update has to update the index too. You pay that cost so the read does not scan. The side quest on indexes is that trade, read on purpose before the collection is large enough to make the lesson expensive.
 
-A unique index is the same structure plus a rule. `createIndex({ hero: 1 }, { unique: true })` tells the database that two documents may not store the same `hero` value. The second insert fails with a duplicate key error. The database allowed the duplicate yesterday because you never forbade it. Unique is not a comment in your README. It is a structure MongoDB enforces when the write arrives. If the index does not exist yet, the second write succeeds, and you now have two documents and a false belief.
+A unique index is the same structure plus a rule. `createIndex({ hero: 1 }, { unique: true })` tells the database that two documents may not store the same `hero` value. The second insert fails with a duplicate key error. The database allowed the earlier duplicate because you never forbade it. Unique is not a comment in your README. It is a structure MongoDB enforces when the write arrives. If the index does not exist yet, the second write succeeds, and you now have two documents and a false belief.
 
 The Express process's job narrows. It opens a connection when it starts, it sends queries, it turns the result into the HTTP response you already know how to write. It is not the vault. Two requests handled by the same process see the same documents because both queries go to the same database, not because they share a module-level array. Two Node processes, behind a later deploy, can do the same, which an array can never do. You are not deploying two processes today. You are drawing the boundary so you do not paint yourself into the array.
 
@@ -101,14 +101,14 @@ db.quests.find({ title: 'Ring the bell' })
 
 Quit the shell. If a `node` server is running, stop it too, with Ctrl-C. Start `mongosh` again, `use` the same database if you are not already in it via the connection string, and `db.quests.find()` again. The document is there. That is the durability evidence. Do the contrasting experiment with the array model from last session: create a quest, stop `node`, start `node`, `GET /quests`. The body is `[]`. The write never left memory. Both experiments belong in your notes. One of them is a database. The other is a variable that happened to live inside a server.
 
-Insert a second document with the same `hero` and no unique index. `find` shows two. Then build the index and try a third.
+Insert a second document with the same `hero` and no unique index. `find` shows two. Try building the index now: `db.quests.createIndex({ hero: 1 }, { unique: true })` fails because those two documents already violate the rule. Find them with `db.quests.find({ hero: 'Ada' })`, copy the `_id` of the extra record, and remove only that record with `db.quests.deleteOne({ _id: ObjectId('PASTE_EXTRA_ID') })`. Confirm one Ada remains. Now build the index and try a third insert:
 
 ```javascript
 db.quests.createIndex({ hero: 1 }, { unique: true })
 db.quests.insertOne({ title: 'Fetch the water', status: 'open', hero: 'Ada' })
 ```
 
-The third insert fails with a duplicate key error. The number you will see again is `11000`. The first two documents that already share `hero` will also stop the index from building. A unique index cannot be created on data that already violates it. Clean the duplicates, then create the index, then watch the next duplicate fail. "We will check in the route" is not this test. Two clients can pass a route-level check at the same time. The index is the check that still runs when the application forgets.
+The third insert fails with a duplicate key error. The number you will see again is `11000`. The earlier index build failed for the same reason: a unique index cannot be created on data that already violates it. Removing the duplicate let the index build; the index then refused the next duplicate. "We will check in the route" is not this test. Two clients can pass a route-level check at the same time. The index is the check that still runs when the application forgets.
 
 ### Finds, scans, and what an index is buying
 
@@ -157,7 +157,7 @@ async function main() {
   const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/guild';
   const client = new MongoClient(uri);
   await client.connect();
-  const quests = client.db('guild').collection('quests');
+  const quests = client.db('guild').collection('vault_driver_practice');
   const result = await quests.insertOne({
     title: 'Ring the bell',
     status: 'open',
@@ -175,9 +175,19 @@ main().catch((err) => {
 });
 ```
 
-Run it twice. You get two documents and two different `insertedId` values. Stop the process. The documents remain. Query them in `mongosh` with `db.quests.find()`. That is the evidence named in this session: a document inserted before the restart is still there after it, and `_id` does not collide with the next insert.
+Before the first run, open `mongosh "mongodb://127.0.0.1:27017/guild"` and run `db.vault_driver_practice.drop()`. This removes only the optional experiment's scratch collection and its indexes; `db.quests` and the work above stay intact. Do this once at the start of a repeat attempt too, not between the two runs.
 
-Then create the unique index in the shell, run the script again with the same `hero`, and watch the duplicate key error. The Node process did not decide that. The database did. If the script's `catch` only prints the message, read it. `11000` is the code you will handle on purpose when the model layer is Mongoose.
+Run it twice. You get two documents and two different `insertedId` values. Stop the process. The documents remain. Query them in `mongosh` with `db.vault_driver_practice.find()`. That is the evidence named in this session: a document inserted before the restart is still there after it, and `_id` does not collide with the next insert.
+
+Keep one of those two Ada documents before building the index. In the same shell:
+
+```javascript
+const keepAda = db.vault_driver_practice.findOne({ hero: 'Ada' });
+db.vault_driver_practice.deleteMany({ hero: 'Ada', _id: { $ne: keepAda._id } });
+db.vault_driver_practice.createIndex({ hero: 1 }, { unique: true });
+```
+
+The scratch collection now contains one Ada and its own unique index. Run the script again with the same `hero`, and watch the duplicate key error. The Node process did not decide that. The database did. If the script's `catch` only prints the message, read it. `11000` is the code you will handle on purpose when the model layer is Mongoose.
 
 For the scan, stay in the shell. `explain` a find on `title` before you index `title`, and again after `db.quests.createIndex({ title: 1 })`. Write down which plan scanned and which plan used the index. You do not need a million documents to see the plan change. You need the plan, so the later slowness has a name.
 

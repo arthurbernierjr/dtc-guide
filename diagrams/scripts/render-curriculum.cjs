@@ -1,6 +1,8 @@
 // Reuses the installed Remotion packages and browser. Never downloads a toolchain.
 const fs = require('fs');
 const path = require('path');
+const {createHash} = require('node:crypto');
+const {pathMapSignature} = require('../../website/build/path-map-state');
 const {bundle} = require('@remotion/bundler');
 const {openBrowser, selectComposition, renderStill} = require('@remotion/renderer');
 const root = path.resolve(__dirname, '..');
@@ -9,7 +11,8 @@ const browserExecutable = process.env.REMOTION_BROWSER || '/home/bigpoppacode/co
 (async () => {
   if (!fs.existsSync(browserExecutable)) throw new Error('Existing browser not found; set REMOTION_BROWSER manually.');
   const ledger = JSON.parse(fs.readFileSync(path.join(website, 'content/path/diagrams.json')));
-  const sessions = JSON.parse(fs.readFileSync(path.join(website, 'content/path/path.json'))).sessions;
+  const curriculum = JSON.parse(fs.readFileSync(path.join(website, 'content/path/path.json')));
+  const sessions = curriculum.sessions;
   const written = sessions.filter(s => fs.existsSync(path.join(website, 'content/path/sessions', s.slug+'.md'))).map(s => s.id);
   const only = process.argv[2];
   const jobs = Object.entries(ledger).filter(([key,value]) => value.composition === 'CurriculumDiagram' && (!only || key.startsWith(only))).flatMap(([key,value]) => ['wide','tall'].map(layout => ({key, id:value.composition, props:{...value.props,layout}})));
@@ -26,10 +29,15 @@ const browserExecutable = process.env.REMOTION_BROWSER || '/home/bigpoppacode/co
         const job=jobs[cursor++];
         const output=path.join(website,'build/assets/diagrams',job.key+'-'+job.props.layout+'.png');
         fs.mkdirSync(path.dirname(output),{recursive:true});
-        const dimensions=job.props.layout==='wide'?{width:1600,height:900}:{width:900,height:1200};
+        const dimensions=job.props.layout==='wide'?{width:1600,height:900}:{width:900,height:job.id === 'PathMap' ? 1800 : 1200};
         await renderStill({serveUrl,composition:{...configs[job.id],...dimensions,props:job.props},inputProps:job.props,output,imageFormat:'png',puppeteerInstance:browser,overwrite:true});
         done++; if(done%12===0||done===jobs.length) console.log(`Rendered ${done}/${jobs.length}`);
       }
     }));
+    if (jobs.some(j => j.id === 'PathMap')) {
+      const dir = path.join(website, 'build/assets/diagrams/path');
+      const images = Object.fromEntries(['wide','tall'].map(layout => [layout, createHash('sha256').update(fs.readFileSync(path.join(dir, `path-map-${layout}.png`))).digest('hex')]));
+      fs.writeFileSync(path.join(dir, 'path-map.json'), JSON.stringify({ signature: pathMapSignature(curriculum, written), weeks: curriculum.weeks, sessions: sessions.length, images }, null, 2)+'\n');
+    }
   } finally {await browser.close({silent:true});}
 })().catch(error=>{console.error(error);process.exitCode=1;});

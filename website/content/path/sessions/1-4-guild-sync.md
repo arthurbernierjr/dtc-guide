@@ -471,7 +471,7 @@ Three pages in the library look further down roads you walked today. They are wr
 
 ## Before next session
 
-Run the loop. Every time you sit down this week: `git pull`; every time you stand up: `git push`. Make the dotfiles changes on branches and merge them. By the time Unit 2 starts, a bare `git push` with nothing to send should feel slightly disappointing, and your GitHub profile page should show a row of green squares on its contribution graph. That graph is public, it is what the industry glances at first, and from today every commit you push paints it.
+Run the loop. Every time you sit down to work: `git pull`; every time you stand up: `git push`. Make the dotfiles changes on branches and merge them. By the time Unit 2 starts, a bare `git push` with nothing to send should feel slightly disappointing, and your GitHub profile page should show a row of green squares on its contribution graph. That graph is public, it is what the industry glances at first, and from today every commit you push paints it.
 
 Spend fifteen minutes on your profile. Add a photo and a one-line bio. Then look at three other people's dotfiles repositories from the awesome-dotfiles list and notice what their READMEs do that yours does not yet; notice, too, that their setup scripts have lines you cannot read yet, an `if` here, a `case` there, a loop, a function or two. Spend another fifteen on the [GitHub Docs page about pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests), which is the reference you will come back to when a PR does something you did not expect.
 

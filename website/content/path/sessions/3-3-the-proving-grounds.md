@@ -437,7 +437,7 @@ Three things, in this order.
 
 First, finish the Spell Book if it did not get done in the session. It is the artifact for this session, and Session 3.4 assumes `filter`, `map` and `reduce` are in your hands, not just in your notes. Nothing stays running between sessions; `node` exits when the file ends, and the push is the last thing that happens.
 
-Second, do the three proving problems once more, tomorrow, on paper, without opening this page. Ten minutes. If the trace comes out and the two functions come out, you have the move. If one of them does not, take the slower route again. The Monster Manual gives you nothing to copy, and that is the point of it.
+Second, do the three proving problems once more after a break, on paper, without opening this page. Ten minutes. If the trace comes out and the two functions come out, you have the move. If one of them does not, take the slower route again. The Monster Manual gives you nothing to copy, and that is the point of it.
 
 Third, read MDN's [Destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring) page down to the end of the object section. You have now written every pattern on it at least once, so it will read like a list of things you did.
 

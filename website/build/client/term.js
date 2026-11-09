@@ -11,6 +11,12 @@
   const $$ = (s, r) => Array.from((r || doc).querySelectorAll(s));
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Deliberately limited regex syntax: no groups, alternation, backreferences or
+  // multiple repetition operators. This keeps native regexp work bounded here.
+  function boundedPattern(pattern, flags) {
+    if (pattern.length > 160 || /[()|{]/.test(pattern) || /\\[1-9]/.test(pattern) || (pattern.replace(/\\./g, '').match(/[+*?]/g) || []).length > 1) throw new ShErr('pattern too complex for this simulation; use a simple pattern or run it locally');
+    return new RegExp(pattern, flags);
+  }
   /* ---------- filesystem ---------- */
   const USER = 'adventurer';
   const HOST = 'newworld';
@@ -64,10 +70,10 @@
     }
     reset() {
       this.root = seedFs();
-      this.env = { HOME, USER, LOGNAME: USER, SHELL: '/bin/bash', PWD: HOME, OLDPWD: HOME, PATH: '/usr/local/bin:/usr/bin:/bin', HOSTNAME: HOST, TERM: 'xterm-256color', LANG: 'en_US.UTF-8', EDITOR: 'code', PS1: '\\u@\\h:\\w\\$ ' };
+      this.env = Object.assign(Object.create(null), { HOME, USER, LOGNAME: USER, SHELL: '/bin/bash', PWD: HOME, OLDPWD: HOME, PATH: '/usr/local/bin:/usr/bin:/bin', HOSTNAME: HOST, TERM: 'xterm-256color', LANG: 'en_US.UTF-8', EDITOR: 'code', PS1: '\\u@\\h:\\w\\$ ' });
       this.cwd = HOME;
       this.history = [];
-      this.aliases = { ll: 'ls -alF', la: 'ls -A' };
+      this.aliases = Object.assign(Object.create(null), { ll: 'ls -alF', la: 'ls -A' });
       this.lastStatus = 0;
       this.depth = 0;
     }
@@ -110,6 +116,7 @@
       if (n && n.type === 'dir') throw new ShErr(`${p}: Is a directory`);
       if (!n) { n = mkNode('file', base); parent.children.set(base, n); this.touchDir(parent); }
       if (abs === '/dev/null') return n;   // the bit bucket: writes vanish
+      if (String(content).length + (append ? n.content.length : 0) > 65536) throw new ShErr('virtual file limit is 64 KB');
       n.content = append ? n.content + content : content;
       delete n.size;
       n.mtime = Date.now();
@@ -180,6 +187,7 @@
     expandDollar(t) {
       let out = '';
       for (let i = 0; i < t.length; i++) {
+        if (out.length > 65536) throw new ShErr('simulation expansion limit exceeded');
         const c = t[i];
         if (c === '$' && t[i + 1] === '(') {
           let depth = 1, j = i + 2;
@@ -187,7 +195,7 @@
           out += this.capture(t.slice(i + 2, j - 1)); i = j - 1; continue;
         }
         if (c === '`') { const j = t.indexOf('`', i + 1); if (j > 0) { out += this.capture(t.slice(i + 1, j)); i = j; continue; } }
-        if (c === '$' && t[i + 1] === '{') { const j = t.indexOf('}', i); const name = t.slice(i + 2, j); out += this.env[name] !== undefined ? this.env[name] : ''; i = j; continue; }
+        if (c === '$' && t[i + 1] === '{') { const j = t.indexOf('}', i); if (j < 0) throw new ShErr('bad substitution: missing closing brace'); const name = t.slice(i + 2, j); out += this.env[name] !== undefined ? this.env[name] : ''; i = j; continue; }
         if (c === '$' && /[A-Za-z_?]/.test(t[i + 1] || '')) {
           let j = i + 1; while (j < t.length && /[A-Za-z0-9_]/.test(t[j])) j++;
           if (t[i + 1] === '?') { out += String(this.lastStatus); i = i + 1; continue; }
@@ -206,7 +214,7 @@
         if (idx === 0 && abs) return;
         if (!part) return;
         const next = [];
-        const re = new RegExp('^' + part.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\?/g, '.') + '$');
+        const re = boundedPattern('^' + part.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*').replace(/\?/g, '.') + '$');
         for (const b of bases) {
           if (!/[*?]/.test(part)) { const p = b === '/' ? '/' + part : `${b}/${part}`; if (this.node(p)) next.push(p); continue; }
           for (const ch of this.ls(b)) if (re.test(ch.name) && (part.startsWith('.') || !ch.name.startsWith('.'))) next.push(b === '/' ? '/' + ch.name : `${b}/${ch.name}`);
@@ -226,6 +234,20 @@
 
     /* parsing a line into lists → pipelines → simple commands */
     runLine(line, io) {
+      const outer = !this.runDepth;
+      if (outer) { this.steps = 0; this.deadline = performance.now() + 100; }
+      this.runDepth = (this.runDepth || 0) + 1;
+      try {
+        if (line.length > 4096 || this.runDepth > 12) throw new ShErr('simulation input or nesting limit exceeded');
+        this.guard();
+        return this.runBoundedLine(line, io);
+      } catch (e) { (io ? io.err : t => this.screen.write(t, 'err'))(`bash: ${e.message}\n`); return 2; }
+      finally { this.runDepth--; }
+    }
+    guard() {
+      if (++this.steps > 500 || performance.now() > this.deadline) throw new ShErr('simulation work limit exceeded; simplify the command');
+    }
+    runBoundedLine(line, io) {
       io = io || { write: (t) => this.screen.write(t), err: (t) => this.screen.write(t, 'err'), tty: true };
       let toks;
       try { toks = this.lex(line); } catch (e) { io.err(`bash: ${e.message}\n`); this.lastStatus = 2; return 2; }
@@ -240,6 +262,7 @@
       lists.push({ toks: cur, joiner });
       let status = 0;
       for (const l of lists) {
+        this.guard();
         if (l.joiner === '&&' && status !== 0) continue;
         if (l.joiner === '||' && status === 0) continue;
         if (!l.toks.length) continue;
@@ -270,7 +293,7 @@
         let err = '';
         // A stage is "on a terminal" only if it is the last one, nothing redirects its output, and the line itself is on one.
         const tty = !!io.tty && last && !cmd.redirects.some((r) => r.op === '>' || r.op === '>>');
-        const sub = { write: (t) => { out += t; }, err: (t) => { err += t; }, tty };
+        const sub = { write: (t) => { if (out.length + t.length > 65536) throw new ShErr('simulation output limit exceeded'); out += t; }, err: (t) => { if (err.length + t.length > 65536) throw new ShErr('simulation output limit exceeded'); err += t; }, tty };
         for (const r of cmd.redirects) {
           if (r.op !== '<') continue;
           try { input = this.readFile(r.file, 'bash'); } catch (e) { io.err(`bash: ${e.message}\n`); status = 1; return; }
@@ -294,10 +317,19 @@
 
     /* command dispatch */
     exec(args, input, io) {
+      this.guard();
+      let count = 0, bytes = 0; const queue = [this.root]; const seen = new Set();
+      while (queue.length) {
+        const node = queue.pop();
+        if (seen.has(node)) throw new ShErr('cyclic virtual filesystem');
+        seen.add(node); count++; bytes += node.content ? node.content.length : 0;
+        if (count > 1500 || bytes > 1048576) throw new ShErr('virtual filesystem limit reached; rerun this box to reset it');
+        if (node.children) queue.push(...node.children.values());
+      }
       let [name, ...rest] = args;
       if (this.aliases[name] && !this._noAlias) { const al = this.lex(this.aliases[name]).filter((t) => t.word).flatMap((t) => this.expand(t.word)); name = al[0]; rest = al.slice(1).concat(rest); }
       if (/^[A-Za-z_][A-Za-z0-9_]*=/.test(name) && !rest.length) { const i = name.indexOf('='); this.env[name.slice(0, i)] = name.slice(i + 1); return 0; }
-      const fn = CMDS[name];
+      const fn = Object.hasOwn(CMDS, name) ? CMDS[name] : null;
       if (fn && rest.length === 1 && rest[0] === '--help' && HELP[name]) { io.write(`Usage: ${HELP[name]}\n`); return 0; }
       if (fn) {
         try { return fn.call(this, rest, input, io) || 0; }
@@ -317,7 +349,7 @@
       const lines = n.content.split('\n');
       let status = 0;
       const saved = this.env;
-      this.env = Object.assign({}, saved, { 0: n.name });
+      this.env = Object.assign(Object.create(null), saved, { 0: n.name });
       args.forEach((a, i) => { this.env[String(i + 1)] = a; });
       const savedCtx = this.scriptCtx;
       lines.forEach((line, i) => {
@@ -595,7 +627,7 @@
       if (!rest.length) { io.err('Usage: grep [OPTION]... PATTERNS [FILE]...\nTry \'grep --help\' for more information.\n'); return 2; }
       const [pat, ...files] = rest;
       let re;
-      try { re = new RegExp(opts.w ? `\\b(?:${opts.E ? pat : pat.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})\\b` : opts.E ? pat : breToJs(pat), opts.i ? 'i' : ''); } catch (e) { io.err(`grep: ${e.message}\n`); return 2; }
+      try { re = boundedPattern(opts.w ? `\\b${opts.E ? pat : pat.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b` : opts.E ? pat : breToJs(pat), opts.i ? 'i' : ''); } catch (e) { io.err(`grep: ${e.message}\n`); return 2; }
       let found = false;
       const scan = (text, label) => {
         const lines = text.split('\n'); if (lines[lines.length - 1] === '') lines.pop();
@@ -810,7 +842,7 @@
     open(args, input, io) { io.write(`(open ${args.join(' ')}: on your machine this hands the file to the default app)\n`); },
     'xdg-open'(args, input, io) { return CMDS.open.call(this, args, input, io); },
     git(args, input, io) { if (args[0] === '--version') { io.write('git version 2.47.1\n'); return 0; } io.write('git: this terminal is for the shell. Git gets its own terminal in session 1.3.\n'); return 1; },
-    node(args, input, io) { if (args[0] === '--version' || args[0] === '-v') { io.write('v24.13.0\n'); return 0; } io.write('node: this terminal is for the shell. Node runs for real in the Run buttons from Unit 3 on.\n'); return 1; },
+    node(args, input, io) { if (args[0] === '--version' || args[0] === '-v') { io.write('v24.13.0\n'); return 0; } io.write('node: this terminal is for the shell. The Run buttons execute JavaScript in an isolated browser runner, not a local Node installation.\n'); return 1; },
     npm(args, input, io) { if (args[0] === '--version' || args[0] === '-v') { io.write('11.6.2\n'); return 0; } io.write('npm: this terminal is for the shell. npm arrives in Unit 4.\n'); return 1; },
     sudo(args, input, io) { io.write('[sudo] password for adventurer: ********\n'); if (!args.length) return 0; return this.exec(args, input, Object.assign({}, io, { err: (t) => io.err(t) })); },
     apt(args, input, io) { io.write(`apt ${args.join(' ')}: packages are not installed from a lesson page. On your machine this would ${args[0] === 'update' ? 'refresh the package lists' : args[0] === 'upgrade' ? 'upgrade every installed package' : args[0] === 'install' ? `download and install ${args.slice(1).filter((a) => !a.startsWith('-')).join(', ') || 'the packages named'}` : 'run'}.\n`); },
@@ -820,7 +852,7 @@
     wget(args, input, io) { return CMDS.curl.call(this, args, input, io); },
     ssh(args, input, io) { io.write('ssh: this terminal has no network. On your machine ssh opens a shell on another computer; session 1.4 uses it to talk to GitHub.\n'); return 255; },
     sleep() { return 0; },
-    seq(args, input, io) { const n = args.map(Number); const [a, b] = n.length === 1 ? [1, n[0]] : n; const out = []; for (let i = a; i <= b; i++) out.push(i); io.write(out.join('\n') + '\n'); },
+    seq(args, input, io) { const n = args.map(Number); const [a, b] = n.length === 1 ? [1, n[0]] : n; if (!Number.isSafeInteger(a) || !Number.isSafeInteger(b) || b - a > 1000) throw new ShErr('seq is limited to 1000 steps in this simulation'); const out = []; for (let i = a; i <= b; i++) out.push(i); io.write(out.join('\n') + '\n'); },
     yes(args, input, io) { io.write(Array(20).fill(args[0] || 'y').join('\n') + '\n(on your machine this never stops: press Ctrl+C)\n'); },
     tr(args, input, io) { const [a, b] = args.filter((x) => !x.startsWith('-')); const del = args.includes('-d'); const expandSet = (s) => s.replace(/a-z/g, 'abcdefghijklmnopqrstuvwxyz').replace(/A-Z/g, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ').replace(/0-9/g, '0123456789'); const A = expandSet(a || ''), B = expandSet(b || ''); io.write(Array.from(input || '').map((c) => { const i = A.indexOf(c); if (i < 0) return c; if (del) return ''; return B[Math.min(i, B.length - 1)] || c; }).join('')); },
     cut(args, input, io) { const { opts, rest } = flags(args, { letters: '', withValue: { d: true, f: true, c: true }, name: 'cut' }); const text = rest.length ? this.readFile(rest[0], 'cut') : input || ''; const lines = text.split('\n'); if (lines[lines.length - 1] === '') lines.pop(); const out = lines.map((l) => { if (opts.f) { const parts = l.split(opts.d || '\t'); return opts.f.split(',').map((f) => parts[Number(f) - 1] || '').join(opts.d || '\t'); } if (opts.c) { const [a, b] = opts.c.split('-').map(Number); return l.slice(a - 1, b || a); } return l; }); io.write(out.join('\n') + (out.length ? '\n' : '')); },
@@ -864,16 +896,16 @@
     const screen = {
       write(text, cls) {
         if (!text) return;
-        const lines = text.split('\n');
+        const lines = String(text).slice(0,65536).split('\n').slice(0,500);
         if (lines[lines.length - 1] === '') lines.pop();
         for (const l of lines) { const div = doc.createElement('div'); div.className = 'term-out' + (cls ? ' term-' + cls : ''); div.textContent = l; screenEl.appendChild(div); }
-        screenEl.scrollTop = screenEl.scrollHeight;
+        while (screenEl.childElementCount > 500) screenEl.firstElementChild.remove(); screenEl.scrollTop = screenEl.scrollHeight;
       },
       cmd(prompt, command) {
         const div = doc.createElement('div'); div.className = 'term-cmd';
         const p = doc.createElement('span'); p.className = 'term-ps1'; p.textContent = prompt + ' ';
         const c = doc.createElement('span'); c.className = 'term-typed'; c.textContent = command;
-        div.appendChild(p); div.appendChild(c); screenEl.appendChild(div); screenEl.scrollTop = screenEl.scrollHeight;
+        div.appendChild(p); div.appendChild(c); screenEl.appendChild(div); while (screenEl.childElementCount > 500) screenEl.firstElementChild.remove(); screenEl.scrollTop = screenEl.scrollHeight;
         return c;
       },
       clear() { screenEl.textContent = ''; },
@@ -884,7 +916,7 @@
     const run = (command) => {
       const line = command.trim();
       screen.cmd(sh.prompt(), command);
-      if (line) { sh.history.push(line); sh.runLine(line); t.ran++; }
+      if (line) { sh.history.push(line); if (sh.history.length > 200) sh.history.shift(); sh.runLine(line); t.ran++; }
       promptEl.textContent = sh.prompt();
       t.histIdx = sh.history.length;
     };

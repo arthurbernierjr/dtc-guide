@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
+const morgan = require('morgan');
 
 const app = express();
 const PORT = process.env.PORT || 31803;
@@ -37,6 +38,7 @@ const PAGE_CSP = [
   "font-src 'self'",
   "connect-src 'self'",     // search index + runner sources
   "worker-src 'self'",      // /worker.js
+  "frame-src 'self' https://www.youtube-nocookie.com", // Technology Explained players only
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -45,10 +47,10 @@ const PAGE_CSP = [
 // A dedicated worker takes its policy from its own response, not from the page. The runner
 // compiles learner files with `new AsyncFunction`, which is the only reason 'unsafe-eval'
 // appears anywhere — and it is scoped to this one file.
-const WORKER_CSP = "default-src 'none'; script-src 'self' 'unsafe-eval'; connect-src 'self'";
+const WORKER_CSP = "default-src 'none'; script-src 'unsafe-eval'; connect-src 'none'";
 
 app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', req.path === '/worker.js' ? WORKER_CSP : PAGE_CSP);
+  res.setHeader('Content-Security-Policy', req.path === '/worker.js' ? WORKER_CSP : req.path.startsWith('/explained/') ? PAGE_CSP : PAGE_CSP.replace(' https://www.youtube-nocookie.com', ''));
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -60,19 +62,33 @@ app.use((req, res, next) => {
   next();
 });
 
+// A response-level sandbox also applies when this URL is opened directly. No
+// allow-same-origin: the frame and its blob worker have an opaque origin.
+app.get('/sandbox/runner', (req, res) => {
+  const runtime = fs.readFileSync(path.join(PUBLIC, 'sandbox-runtime.js'), 'utf8');
+  const css = fs.readFileSync(path.join(PUBLIC, 'sandbox.css'), 'utf8');
+  const hash = text => "'sha256-" + crypto.createHash('sha256').update(text).digest('base64') + "'";
+  res.setHeader('Content-Security-Policy', [
+    "default-src 'none'", `script-src ${hash(runtime)} blob: 'unsafe-eval'`,
+    `style-src ${hash(css)}`, "style-src-attr 'unsafe-inline'", "img-src data:",
+    "connect-src 'none'", "worker-src blob:", "frame-src 'none'",
+    "object-src 'none'", "base-uri 'none'", "form-action 'none'",
+    "frame-ancestors 'self'", "sandbox allow-scripts"
+  ].join('; '));
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('Referrer-Policy', 'no-referrer');
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), clipboard-read=(), clipboard-write=()');
+  res.setHeader('Cache-Control', 'no-store');
+  res.type('html').send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Isolated lesson example</title><style>${css}</style></head><body><script>${runtime}</script></body></html>`);
+});
+
 // ── Request log (production only) ─────────────────────────────────────────────
-// One line per response: method, path (query stripped — the search box puts the learner's
-// words in ?q=), status, duration, trimmed user agent. pm2 writes stdout to ~/.pm2/logs.
+// Morgan, with the query string left off. The search box puts the learner's words in ?q=,
+// and the stock formats log req.originalUrl. pm2 writes stdout to ~/.pm2/logs.
+morgan.token('pathonly', (req) => String(req.path || '/').slice(0, 300));
+morgan.token('ua', (req) => String(req.headers['user-agent'] || '-').replace(/[\r\n"]/g, '').slice(0, 120));
 if (process.env.NODE_ENV === 'production') {
-  app.use((req, res, next) => {
-    const t0 = process.hrtime.bigint();
-    res.on('finish', () => {
-      const ms = Number(process.hrtime.bigint() - t0) / 1e6;
-      const ua = String(req.headers['user-agent'] || '-').replace(/[\r\n"]/g, '').slice(0, 120);
-      console.log(`${new Date().toISOString()} ${req.method} ${req.path.slice(0, 300)} ${res.statusCode} ${ms.toFixed(1)}ms "${ua}"`);
-    });
-    next();
-  });
+  app.use(morgan(':date[iso] :method :pathonly :status :response-time ms ":ua"'));
 }
 
 app.use((req, res, next) => {
@@ -98,7 +114,7 @@ app.use(express.static(PUBLIC, {
     // /assets/src/ holds verbatim source copies for "view raw" links, the in-browser runner
     // and the copy-node command. They are text to read, never documents to render — served
     // as plain text (with nosniff above) so a .html or .svg copy cannot execute anything.
-    if (filePath.startsWith(RAW_SRC)) {
+    if (filePath.startsWith(RAW_SRC) || filePath === path.join(PUBLIC, 'worker.js')) {
       res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     }
   }

@@ -42,6 +42,7 @@
   /* longest common subsequence of two line arrays → list of [i, j] matches */
   function lcs(a, b) {
     const n = a.length, m = b.length;
+    if (n * m > 250000 || n + m > 4000) throw new ShErr('diff is too large for this simulation; use smaller files or run Git locally');
     const dp = Array.from({ length: n + 1 }, () => new Int32Array(m + 1));
     for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
     const out = [];

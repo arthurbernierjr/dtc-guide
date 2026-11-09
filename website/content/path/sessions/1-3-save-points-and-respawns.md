@@ -257,7 +257,7 @@ You decided to keep the completed first quest, add the dragon as a second, and s
 
 Merge conflicts look scary the first time. They are the computer saying "two people changed the same thing, which do you want?" You pick, you save, you move on. After today you have done it once; by the end of the programme you will have done it fifty times and stopped noticing.
 
-> **Tip:** Run `git status` before and after everything for the next two weeks. Before you add, before you commit, after you check out, after you merge. It is free, it is instant, and it tells you which room you are in. Most beginner Git trouble is nothing more than not knowing where you are standing.
+> **Tip:** Run `git status` before and after everything while you build the habit. Before you add, before you commit, after you check out, after you merge. It is free, it is instant, and it tells you which room you are in. Most beginner Git trouble is nothing more than not knowing where you are standing.
 
 ## Where it breaks
 
@@ -367,7 +367,7 @@ Three pages in the library look further down roads you walked today. They are wr
 
 ## Before next session
 
-Make the save a reflex. Every time you finish a piece of work this week, however small: `git status`, `git add .`, `git commit -m` with a message that says what you did. Then `git log --oneline` and look at the stack growing. By Session 1.4 you should have a dozen commits across your three repositories and the habit should feel slightly compulsive. That is correct.
+Make the save a reflex. Every time you finish a piece of work, however small: `git status`, `git add .`, `git commit -m` with a message that says what you did. Then `git log --oneline` and look at the stack growing. By Session 1.4 you should have a dozen commits across your three repositories and the habit should feel slightly compulsive. That is correct.
 
 Spend twenty minutes on [Learn Git Branching](https://learngitbranching.js.org), the first four levels of the introduction sequence. It draws the commit graph live as you type, and watching `main` and `HEAD` move will fix the picture from Fig 2 permanently. If you prefer a game, [Oh My Git!](https://ohmygit.org) covers the same ground as cards.
 

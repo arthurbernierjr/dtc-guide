@@ -153,7 +153,7 @@ The finished example is [dtc-landing](https://github.com/arthurbernierjr/dtc-lan
                 </li>
                 <li class="skill-card">
                     <h3 class="skill-card__title">Next</h3>
-                    <p class="skill-card__text">JavaScript starts next week. This card gets rewritten when it lands.</p>
+                    <p class="skill-card__text">JavaScript starts in Unit 3. This card gets rewritten when it lands.</p>
                 </li>
             </ul>
         </section>
@@ -686,4 +686,4 @@ Next session is [3.1, Mana Basics](/path/3-1-mana-basics/), and the path changes
 
 > **Say:** "The page answers three questions: who you are, what you can do, how to reach you. Pages serves one branch and one folder, and it looks for index.html at that root. A path that starts with a slash starts at the host, not at your project."
 
-The sheet is pinned to the board. Next week you learn to make it do something.
+The sheet is pinned to the board. In Unit 3 you learn to make it do something.

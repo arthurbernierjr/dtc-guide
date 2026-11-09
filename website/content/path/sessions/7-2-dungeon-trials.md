@@ -24,7 +24,7 @@ say:
 
 ## The hook
 
-In 4-15 you proved the inbox with three accounts and a list of statuses: 200 for Sera, 403 for Ivo, 403 for Bran, 404 for an id that matches nothing. You typed the curls, read the numbers, and wrote them into `HALL.md`. Then Unit 5 let a model rewrite parts of the hall and Unit 6 moved the process onto a server. You have not re-run those curls since. If the recipient check went missing during either unit, the hall is leaking mail right now and the note still says 403.
+In 4-15 you proved the inbox with three accounts and a list of statuses: 200 for Sera, 403 for Ivo, 403 for Bran, 404 for an id that matches nothing. You typed the curls, read the numbers, and wrote them into `HALL.md`. Unit 5 made you rerun those regression checks after the model changed the hall; Unit 6 moved the process onto a server. Those passes matter. They describe the revisions you checked, though, not every revision you will write. If a later change drops the recipient check, the old note will still say 403. Today the checks become a suite you can rerun with one command.
 
 Today the note becomes a file that checks itself. You split `server.js` in `~/projects/hall-api` into an `app.js` that builds the Express application and a `server.js` that connects and listens, so a test can import the app without binding port 4100. You point Jest at a database called `guildhall_test` that exists to be emptied. You install Supertest and send real HTTP requests, with real bearer tokens, through the real router. By the end, `npm test` in `hall-api` registers Bran, Sera, and Ivo, sends a letter, and asserts those four statuses in under two seconds, on a branch called `add-tests`.
 

@@ -34,7 +34,7 @@ function chipFor(p) {
     case 'T-LESSON': return chip('Lesson', 'green');
     case 'T-PREP': return chip(`${p.sectionCount ?? '?'} section${p.sectionCount === 1 ? '' : 's'}`);
     case 'T-EXERCISE': return chip(`${p.testCount ?? '?'} test${p.testCount === 1 ? '' : 's'}`);
-    case 'T-ARTICLE': return chip('Article');
+    case 'T-ARTICLE': return chip(p.section === 'Atelier' ? 'Workshop' : 'Article');
     case 'T-LANG': { const m = p.url.match(/\/(intro|oop|routing|models|api)\/$/); return m ? chip(`Step ${['intro', 'oop', 'routing', 'models', 'api'].indexOf(m[1]) + 1}`) : chip('Walkthrough', 'yellow'); }
     case 'T-LANG-INDEX': return p.url === '/languages/javascript/' ? chip('12 sheets', 'yellow') : p.url === '/languages/frontend/' ? chip('5 guides', 'yellow') : chip('5 steps', 'yellow');
     default: return '';
@@ -61,6 +61,9 @@ async function renderLandingPage(ctx, page) {
   let notice = '';
   let after = '';
   const rawLinks = [];
+  if (page.id === 'ATELIER-00') {
+    context = '<div class="prose atelier-preview"><p class="eyebrow">WHAT YOU WILL BUILD</p><figure class="img"><a href="/assets/atelier/10/index.html"><img src="/assets/content/atelier/10-result.jpg" alt="The finished portfolio: a dark split hero with green gradient typography, a cutout portrait, and a soft glow." loading="lazy"></a><figcaption>Start with a plain document. Build this composition, then the cards, gallery, and interactions below it. Open the preview to explore the complete page.</figcaption></figure></div>';
+  }
 
   if (page.id === 'ALG-00') {
     const readme = U.read(path.join(S.PREP, 'algorithms', 'README.md'));

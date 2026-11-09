@@ -4,10 +4,10 @@
 const fs = require('fs');
 const S = require('./sources.config');
 
-const SECTION_ORDER = ['Global', 'The Path', 'Algorithms', 'Data Structures', 'Practice', 'Languages', 'System Design', 'Design Patterns', 'Security', 'Mindset', 'Atelier'];
+const SECTION_ORDER = ['Global', 'The Path', 'Algorithms', 'Data Structures', 'Practice', 'Languages', 'System Design', 'Design Patterns', 'Security', 'Mindset', 'Atelier', 'Explained'];
 const SECTION_SLUG = {
   'Global': '', 'The Path': 'path', 'Algorithms': 'algorithms', 'Data Structures': 'data-structures', 'Practice': 'practice', 'Languages': 'languages',
-  'System Design': 'system-design', 'Design Patterns': 'patterns', 'Security': 'security', 'Mindset': 'mindset', 'Atelier': 'atelier',
+  'System Design': 'system-design', 'Design Patterns': 'patterns', 'Security': 'security', 'Mindset': 'mindset', 'Atelier': 'atelier', 'Explained': 'explained',
 };
 
 function parseRegistry(file = S.REGISTRY) {
@@ -120,7 +120,7 @@ function deriveFacts(page) {
     if ((m = f.match(/^Live stages: (\d+)$/))) out.liveCount = Number(m[1]);
     if ((m = f.match(/^Terminals: (\d+)$/))) out.termCount = Number(m[1]);
     if ((m = f.match(/^Words: ≥ ?(\d+)$/))) out.minWords = Number(m[1]);
-    if ((m = f.match(/^Session: ([\d.]+) · Week (\d+) · (\w+) · Unit (\d+)$/))) out.session = { id: m[1], week: Number(m[2]), day: m[3], unit: Number(m[4]) };
+    if ((m = f.match(/^Session: ([\d.]+) · Week (\d+) · Unit (\d+)$/))) out.session = { id: m[1], week: Number(m[2]), unit: Number(m[3]) };
     if (/SOURCE IS A 79-WORD STUB/.test(f)) out.editorialNewPage = true;
   }
   return out;

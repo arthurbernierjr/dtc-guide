@@ -42,6 +42,19 @@ async function freePort() {
         g.check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${width} ${url}: document overflows horizontally`);
         const broken = await page.evaluate(() => [...document.images].filter((i) => i.complete && !i.naturalWidth).map((i) => i.src));
         g.check(!broken.length, `${width} ${url}: broken images ${broken.join(', ')}`);
+        if (url === '/path/1-1-welcome-to-the-new-world/') {
+          g.check((await page.locator('.term-note').first().textContent()).includes('not a real Bash process'), 'terminal clearly identifies the simulation');
+        }
+        if (url === '/path/') {
+          const map = await page.locator('.path-map-band img').evaluate(async image => {
+            await image.decode(); const box = image.getBoundingClientRect();
+            return { displayedRatio: box.width / box.height, naturalRatio: image.naturalWidth / image.naturalHeight, source: image.currentSrc };
+          });
+          g.check(Math.abs(map.displayedRatio - map.naturalRatio) < .01, `${width}: path map is stretched`);
+          g.check(map.source.includes(width <= 600 ? 'path-map-tall.png?v=' : 'path-map-wide.png?v='), `${width}: wrong or unversioned path-map image`);
+          const caption = await page.locator('.path-map-band figcaption').textContent();
+          g.check(caption.includes(`${curriculum.sessions.length} self-paced sessions · ${curriculum.weeks.length} suggested weeks`) && !caption.includes('latest written'), 'path-map caption matches the curriculum and does not claim personal progress');
+        }
         if (url === '/mindset/knowing-what-you-are-talking-about/') {
           const decoded = await page.locator('.prose img').evaluateAll(async images => {
             return Promise.all(images.map(async image => {
@@ -108,10 +121,10 @@ async function freePort() {
         await page.locator(`.stage[data-stage="${name}"].is-live`).waitFor();
       }
       await page.waitForTimeout(450);
-      const spins = await page.locator('.stage[data-stage="spin"] #ring').evaluate((e) => e.getAnimations().length);
+      const spins = await page.frameLocator('.stage[data-stage="spin"] iframe.example-sandbox').locator('#ring').evaluate((e) => e.getAnimations().length);
       g.check(reducedMotion === 'reduce' ? spins === 0 : spins === 1, `${reducedMotion}: spinner respects motion preference`);
       if (reducedMotion === 'reduce') {
-        const lift = await page.locator('.stage[data-stage="lift"] #card').evaluate((e) => ({ property: getComputedStyle(e).transitionProperty, animations: e.getAnimations().length }));
+        const lift = await page.frameLocator('.stage[data-stage="lift"] iframe.example-sandbox').locator('#card').evaluate((e) => ({ property: getComputedStyle(e).transitionProperty, animations: e.getAnimations().length }));
         g.check(lift.property === 'none' && lift.animations === 0, 'reduced motion disables lift transitions');
       }
       await context.close();

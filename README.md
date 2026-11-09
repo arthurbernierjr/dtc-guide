@@ -2,7 +2,7 @@
 
 **I Respawned As A Super Coder In A World With AI**, by Arthur Bernier Jr (Big Poppa Code). A static programming guide served by Express, with a sequential curriculum, searchable reference library, runnable JavaScript, live browser demonstrations, and simulated terminals.
 
-The current build contains **289 pages**: the original 226-page library/global site, the path index, and **all 66 published sessions across 12 units and 22 weeks**. Every scheduled lesson is complete, including Session 2.5 and Units 4–12. The new lessons include 123 teaching figures in two responsive crops, 41 runnable browser checkpoints, guided practice, independent work, side quests, and manual verification instructions.
+The current build contains **289 pages**: the original 226-page library/global site, the path index, and **all 66 published sessions across 12 units**, grouped into 22 suggested weeks. Every lesson in the sequence is complete, including Session 2.5 and Units 4–12. The new lessons include 123 teaching figures in two responsive crops, 41 runnable browser checkpoints, guided practice, independent work, side quests, and manual verification instructions.
 
 ## Run locally
 
@@ -95,7 +95,7 @@ Stills generate wide and tall crops, plus an updated path map. New lessons need 
 ## Student-review follow-through — November 7, 2026
 
 - Five independent simulated-student reviews (445 entries, reading-only) were run against the finished build; every verified finding was acted on.
-- Four bridge sessions close the "follow the example to build it alone" gap: 1.5 The Scribe's Hand (shell constructs before the dotfiles script), 3.3 The Proving Grounds (unpacking, copying and counting, then three unscaffolded spellbook problems), 4.2 The Waiting Room (promises and the three outcomes of a fetch before any async route), 9.4 Trial of Patience (the six-problem set as guided practice, with 9.3 now showing a correct sliding-window table first). The path is 66 sessions over 22 weeks; later sessions were renumbered and their figures re-rendered.
+- Four bridge sessions close the "follow the example to build it alone" gap: 1.5 The Scribe's Hand (shell constructs before the dotfiles script), 3.3 The Proving Grounds (unpacking, copying and counting, then three unscaffolded spellbook problems), 4.2 The Waiting Room (promises and the three outcomes of a fetch before any async route), 9.4 Trial of Patience (the six-problem set as guided practice, with 9.3 now showing a correct sliding-window table first). The path is 66 self-paced sessions, with 22 weeks suggested at three sessions a week; later sessions were renumbered and their figures re-rendered.
 - Unit 11 offers two roads chosen in 11.1: the Noble Houses (investors) and the Village (bootstrap or community project), each with its own quests and evidence; Unit 12 accepts either.
 - Unit 12 carries Unit 10's exact contract (`api/`, `apiBase`, `capstoneToken`, an idempotent seed); Unit 11 arithmetic reconciles; 5.2 and 8.4 accept honest non-findings; 4.11 catches a rejected fetch; Unit 6 shows where you are at the start and close of every session plus a pause checklist; Unit 7 test totals carry a case ledger.
 - Eleven library pages the reviewers scored 2/5 open with a first-visit route, a stop line and the worked example they asked for (the system design primer is now one traced house). Prep-sourced pages and the primer can be overridden under `content/overrides/`, and Holt lessons accept a labelled editorial note.
@@ -104,7 +104,7 @@ Stills generate wide and tall crops, plus an updated path map. New lessons need 
 
 ## Production launch
 
-The configured canonical origin is `https://guide.bigpoppacode.io` in `website/build/site.config.js`. Confirm the destination before deploying; rebuild if the origin changes. No public deployment, DNS change, TLS setup or social-preview scrape was performed in this pass.
+The configured canonical origin is `https://codecomeup.thelinkfor.me` in `website/build/site.config.js`. When `codecomeup.com` DNS exists, change that origin and rebuild so the share tags follow. Nginx `server_name` does not rewrite them. The process file is `website/ecosystem.config.js` and the server block is `website/deploy/codecomeup.nginx.conf`.
 
 Run Express with `NODE_ENV=production` behind the deployment's TLS reverse proxy. HSTS belongs at that proxy. Page CSP, worker-scoped evaluation, source-file text responses, security headers, and real 404 handling are implemented in `server.js` and checked by the suite. Do not expose a development build or use a verification bypass for release.
 

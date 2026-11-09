@@ -84,6 +84,7 @@ Connect once, at startup, from the URI in the environment. Do not call `mongoose
 
 ```js
 const mongoose = require('mongoose');
+const Quest = require('./quest-model');
 
 async function main() {
   const uri = process.env.MONGODB_URI;
@@ -92,6 +93,7 @@ async function main() {
     process.exit(1);
   }
   await mongoose.connect(uri);
+  await Quest.init(); // Wait for the unique index before accepting requests.
   app.listen(port, () => {
     console.log('listening on ' + port);
   });
@@ -108,8 +110,10 @@ main().catch((err) => {
 `process.env.MONGODB_URI` has to come from somewhere, and the somewhere is a file named `.env` in `~/projects/guild-door`, one variable per line:
 
 ```bash
-MONGODB_URI=mongodb://127.0.0.1:27017/guild
+MONGODB_URI=mongodb://127.0.0.1:27017/guild_keeper
 ```
+
+`guild_keeper` is a new practice database for the application. The shell lesson's `guild.quests`, including its Ada record and non-sparse index, remains where you left it. We are carrying the schema idea forward, not importing those experimental records. Keep this new URI through sessions 4.7–4.9. In a shell that previously exported `MONGODB_URI`, run `unset MONGODB_URI` before starting Node so the old value cannot override `.env`. Open `mongosh "mongodb://127.0.0.1:27017/guild_keeper"` for this session's database checks.
 
 Node reads that file itself when you ask it to. No package is needed. Start the server with the flag from now on:
 
@@ -252,11 +256,13 @@ That line only makes sense when `postedBy` is a path of type ObjectId with `ref`
 
 ### Errors you should cause once, on purpose
 
-Create a quest with a title and a hero. Read it back by the `_id` string from the JSON. The status is `open`. Create another with the same hero. The status is 409 and the body is your duplicate message, and the collection still has one document for that hero. Request `GET /quests/not-an-id`. The status is 400 and the process stays up. Request `GET /quests/` plus 24 hex characters that you invented and never inserted. The status is 404. Patch `status` to `nope` and get a validation 400. Patch `status` to `done` and read the quest back. The title is still there. Then, in a scratch route you delete, call `findOneAndReplace` with a body of `{ status: 'done' }`. Read the document. The title is gone. That last result is why replace and update are different methods. Put the route back to `findByIdAndUpdate` before you commit.
+The demonstration below walks through create, duplicate, and bad-id requests; run that sequence once rather than creating Ada here first. These are the results to look for: create a quest with a title and a hero, then read it back by the `_id` string from the JSON. The status is `open`. Create another with the same hero. The status is 409 and the body is your duplicate message, and the collection still has one document for that hero. Request `GET /quests/not-an-id`. The status is 400 and the process stays up. Request `GET /quests/` plus 24 hex characters that you invented and never inserted. The status is 404. Patch `status` to `nope` and get a validation 400. Patch `status` to `done` and read the quest back. The title is still there. Then, in a scratch route you delete, call `findOneAndReplace` with a body of `{ status: 'done' }`. Read the document. The title is gone. That last result is why replace and update are different methods. Put the route back to `findByIdAndUpdate` before you commit.
 
 ## The demonstration
 
 `npm install mongoose` in `~/projects/guild-door` if you have not already. Wire `quest-model.js`, the connect-then-listen startup, the `.env` file, the router's create and find, and the error handler branches. Use the stack you already trust: logger, `express.json()`, the quests router, the 404 middleware, the error handler last. Stop the old server with Ctrl-C and start this one with `node --env-file=.env server.js`.
+
+First inspect `db.quests.find()` in the `guild_keeper` shell. On your first pass it is empty. If you are repeating the lesson, choose a hero name absent from that output and substitute it for Ada in both creates below. Keep existing records; a server restart is not a database reset. The missing-title replacement experiment above belongs on a separate disposable quest, which you delete by its `_id` afterward, not on Ada's demonstration record.
 
 Curl a create.
 
@@ -272,7 +278,7 @@ The response is 201. The JSON includes `_id`, `title`, `hero`, and `"status":"op
 curl -i http://localhost:3000/quests/PASTE_THE_ID
 ```
 
-200, and the same default status. Repeat the create with `"hero":"Ada"`. 409. Curl `/quests/nope`. 400. In `mongosh`, `db.quests.find()` shows one Ada, not two, and no document whose title is missing.
+200, and the same default status. Repeat the create with `"hero":"Ada"`. 409. Curl `/quests/nope`. 400. In `mongosh`, `db.quests.find()` shows one record for your chosen hero, not two, and no leftover disposable document whose title is missing.
 
 If the duplicate instead returns 500, the error handler did not branch on `11000`. If the bad id returns 500, it did not branch on `CastError`. If the second Ada returns 201, the unique index is not there. Check the schema for `unique: true`, restart so Mongoose can build indexes, and look at `db.quests.getIndexes()` in the shell. An index you meant to create and an index that exists are the same lesson as last session.
 

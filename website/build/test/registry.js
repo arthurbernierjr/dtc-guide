@@ -11,6 +11,8 @@ const L = require('./lib');
 const g = L.gate('registry');
 const reg = parseRegistry();
 const curriculum = require('../path').loadPath(reg);
+g.check(curriculum.sessionsPerWeek === 3 && curriculum.sessions.length === 66 && curriculum.weeks.length === 22, 'self-paced route must preserve 66 sessions grouped three per suggested week');
+g.check(curriculum.sessions.every((s, i) => s.position === i + 1 && !('day' in s) && !('dayName' in s)), 'sessions must have an ordered position without assigned weekdays');
 g.check(curriculum.written.length === curriculum.sessions.length, `all ${curriculum.sessions.length} curriculum sessions must be published`);
 const man = L.manifest();
 const pages = L.listPages();
@@ -159,7 +161,7 @@ for (const p of reg.pages) {
     const empties = (html.match(/class="session-card is-empty"/g) || []).length;
     g.check(empties === p.sessions - written, `${p.id} ${empties} empty cards, expected ${p.sessions - written}`);
     for (let w = 1; w <= p.weeks; w++) g.check(html.includes(`id="week-${w}"`), `${p.id} missing week block #week-${w}`);
-    g.check(/src="\/assets\/diagrams\/path\/path-map-wide\.png"/.test(html) && /srcset="\/assets\/diagrams\/path\/path-map-tall\.png"/.test(html), `${p.id} path map lacks the wide + tall crops`);
+    g.check(/src="\/assets\/diagrams\/path\/path-map-wide\.png\?v=[a-f0-9]+"/.test(html) && /srcset="\/assets\/diagrams\/path\/path-map-tall\.png\?v=[a-f0-9]+"/.test(html), `${p.id} path map lacks the wide + tall crops`);
   }
   if (p.template === 'T-SESSION') {
     if (p.h2s) g.check(JSON.stringify(h2s.slice(0, p.h2s.length).map(L.norm)) === JSON.stringify(p.h2s.map(L.norm)), `${p.id} H2s ${JSON.stringify(h2s)} ≠ registry ${JSON.stringify(p.h2s)}`);
@@ -205,7 +207,7 @@ for (const p of reg.pages) {
     if (termWant) g.check(chips.includes(`${termWant} terminal${termWant === 1 ? '' : 's'}`), `${p.id} missing "${termWant} terminals" chip`);
     g.check(html.includes('src="/term.js') === termWant > 0, `${p.id} term.js should be loaded exactly when the page has terminals`);
     g.check(html.includes('src="/git.js') === termWant > 0, `${p.id} git.js (the terminal's git) should be loaded exactly when the page has terminals`);
-    if (p.session) g.check(html.includes(`THE PATH · WEEK ${p.session.week} ·`) && html.includes(`UNIT ${p.session.unit} ·`), `${p.id} eyebrow lacks week/unit`);
+    if (p.session) g.check(html.includes(`THE PATH · SESSION ${curriculum.sessions.findIndex(s => s.id === p.session.id) + 1} OF ${curriculum.sessions.length} ·`) && html.includes(`UNIT ${p.session.unit} ·`), `${p.id} eyebrow lacks session position/unit`);
     g.check(/class="chapter-opener"/.test(html) && /class="mark mark-story"/.test(html), `${p.id} missing the chapter opener with the struck word`);
     g.check(/class="tree path-tree"/.test(html), `${p.id} sidebar is not the path tree`);
   }
@@ -296,8 +298,9 @@ const serverSrc = fs.readFileSync(path.join(S.WEBSITE, 'server.js'), 'utf8');
 const bootMatch = serverSrc.match(/const INLINE_BOOT = (["'])(.*?)\1;/);
 g.check(!!bootMatch, 'server.js no longer defines INLINE_BOOT — the CSP hash and the page bootstrap must stay in step');
 const INLINE_BOOT = bootMatch ? bootMatch[2] : '';
+const YT = /^https:\/\/www\.youtube-nocookie\.com\/embed\/[A-Za-z0-9_-]{11}$/;
 const ACTIVE = [
-  [/<(iframe|frame|object|embed|applet|base)\b/i, 'frame/embed/base element'],
+  [/<(frame|object|embed|applet|base)\b/i, 'frame/embed/base element'],
   [/<style[\s>]/i, '<style> element (blocked by style-src; use styles.css)'],
   [/<[a-zA-Z][^>]*\s(on[a-z]+)\s*=/i, 'inline event handler'],
   [/\b(href|src|action|formaction|xlink:href)\s*=\s*["']?\s*(javascript\s*:|vbscript\s*:|data\s*:\s*text\/html)/i, 'javascript:/vbscript:/data:text/html URL'],
@@ -319,9 +322,13 @@ function checkActive(file, label) {
       g.check(body === INLINE_BOOT, `${label} has an inline script that is not the hash-listed bootstrap: "${body.slice(0, 80)}"`);
     }
   }
+  for (const m of html.matchAll(/<iframe\b[^>]*>/gi)) {
+    const src = (m[0].match(/\bsrc="([^"]*)"/) || [])[1] || '';
+    if (!YT.test(src)) g.fail(`${label} iframe is not a youtube-nocookie embed: "${src}"`);
+  }
   for (const [re, what] of ACTIVE) {
-    const m = html.match(re);
-    if (m) { const i = html.indexOf(m[0]); g.fail(`${label} contains ${what}: "${html.slice(Math.max(0, i - 40), i + 80).replace(/\s+/g, ' ')}"`); }
+    const hit = html.match(re);
+    if (hit) { const i = html.indexOf(hit[0]); g.fail(`${label} contains ${what}: "${html.slice(Math.max(0, i - 40), i + 80).replace(/\s+/g, ' ')}"`); }
   }
 }
 for (const p of pages) checkActive(p.file, p.url);

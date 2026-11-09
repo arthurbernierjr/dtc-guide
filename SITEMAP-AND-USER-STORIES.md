@@ -1,10 +1,10 @@
 # I Respawned As A Super Coder In A World With AI — the path & library: Sitemap & User Stories
 
-**Total pages: 303.** Every reachable HTML page on the site is listed below with an ID, a URL, a source, the facts the build must reproduce, a user story and acceptance criteria. If a page is not in this document it must not exist; if it is listed, it must exist. `npm test` compares the generated `public/` tree against this document's URL list in both directions and fails on any difference.
+**Total pages: 410.** Every reachable HTML page on the site is listed below with an ID, a URL, a source, the facts the build must reproduce, a user story and acceptance criteria. If a page is not in this document it must not exist; if it is listed, it must exist. `npm test` compares the generated `public/` tree against this document's URL list in both directions and fails on any difference.
 
 ## Counts by section
 
-- Global: 4
+- Global: 7
 - The Path: 67
 - Algorithms: 28
 - Data Structures: 17
@@ -15,7 +15,8 @@
 - Security: 12
 - Mindset: 3
 - Atelier: 11
-- **Total: 303**
+- Explained: 104
+- **Total: 407**
 
 ## Counting rules
 
@@ -45,14 +46,14 @@
 ## Template acceptance criteria
 
 ### T-HOME
-- Hero (DESIGN-REFERENCE-RESPAWN §R4): the cover lockup as the H1 (`I RESPAWNED AS A` mono yellow · `SUPER CODER` Clash 700 green · `IN A WORLD WITH` mono yellow · the mark: *Magic* in Fraunces italic struck through in red with `AI` in Clash 700 yellow written over its corner), signature line, computed mono tagline `ONE PATH · 66 SESSIONS · {n} SIDE QUESTS`, two pills (**Start the path** → PATH-00, **Browse the library** → `#tracks`), five stats (pages · sessions · exercises · languages · patterns); on the right the save-point card for the latest written session (large stamp, week/day, title, hook, **Continue**, `{written} of 66 written`). No gate, no audio, no sticker, no disc.
+- Hero (DESIGN-REFERENCE-RESPAWN §R4): the cover lockup as the H1 (`I RESPAWNED AS A` mono yellow · `SUPER CODER` Clash 700 green · `IN A WORLD WITH` mono yellow · the mark: *Magic* in Fraunces italic struck through in red with `AI` in Clash 700 yellow written over its corner), signature line, computed mono tagline `ONE PATH · 66 SESSIONS · {n} SIDE QUESTS`, two pills (**Start the path** → PATH-00, **Browse the library** → `#tracks`), five stats (pages · sessions · exercises · languages · patterns); on the right a browser-local save-point card (large stamp, week/day, title, hook, **Resume lesson**, **Clear save point**, save date). With no bookmark it offers **Begin lesson** at 1.1. Only pressing **Save my place** on a lesson creates or replaces the bookmark; viewing a lesson does not save it. The card links to **How saving works** at `/guide/save-points/`. No gate, no audio, no sticker, no disc.
 - Sections in this order: 00 The path (route strip: 18 week cells with unit-coloured bars, three session dots each, one flag on the latest written week, act legend, **Latest: n.n Title →**) · 01 Side quests (8 track cards with live counts) · 02 Which pattern when (31 rows, filterable) · 03 Naive vs Optimal (one pair) · 04 Languages (13 tiles) · 05 Mindset quote break · Marquee · Footer.
 - Reveal/float motion only here; all of it off under `prefers-reduced-motion`.
 
 ### T-PATH
-- Landing header: eyebrow `00 / THE PATH`, H1 "The path", editorial intro, **Start with Session n.n** pill to the first written session, chip `22 weeks · 66 sessions · {written} written`.
+- Landing header: eyebrow `00 / THE PATH`, H1 "The path", editorial intro, **Start with Session n.n** pill to the first written session, chip `Self-paced · 66 sessions · {written} written`.
 - The path map figure (`/assets/diagrams/path/path-map-wide.png` 1600×900, `-tall.png` 900×1200 via `<picture>`), act legend; the "Not yet written" swatch appears only while unpublished sessions remain.
-- The twelve units as a list (number, title, topics, artifact), then act dividers and 22 week blocks `id="week-N"`, three session cards each: a **written** card (medium stamp, day, linked title, hook, chips `n min read · n diagrams · n side quests`) or the designed **empty** card (dashed `--faint` outline, `NOT YET WRITTEN · RESPAWNS HERE`, "Side quests that cover this ground today:" with up to three library chips, or "No side quests yet."). Every one of the 62 sessions renders a card; counts are never typed in.
+- The twelve units as a list (number, title, topics, artifact), then act dividers and 22 suggested week blocks `id="week-N"`, three session cards each: a **written** card (medium stamp, session position, linked title, hook, chips `n min read · n diagrams · n side quests`) or the designed **empty** card (dashed `--faint` outline, `NOT YET WRITTEN · RESPAWNS HERE`, "Side quests that cover this ground today:" with up to three library chips, or "No side quests yet."). Every one of the 66 sessions renders a card; counts are never typed in.
 - Pager = next → first written session.
 
 ### T-SESSION
@@ -205,72 +206,72 @@ flowchart TB
 | ID | URL | Title | Group | Template | Source | Key facts |
 |---|---|---|---|---|---|---|
 | PATH-00 | `/path/` | The path | — | T-PATH | `content/path/path.json + build/assets/diagrams/path/` | Weeks: 22 · Sessions: 66 · One card per session; empty cards for unwritten sessions · Path map wide + tall |
-| PATH-1-1 | `/path/1-1-welcome-to-the-new-world/` | Welcome to the New World | Week 1 | T-SESSION | `content/path/sessions/1-1-welcome-to-the-new-world.md (editorial)` | Session: 1.1 · Week 1 · Tuesday · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 2 · Terminals: 7 · Words: ≥ 2400 |
-| PATH-1-2 | `/path/1-2-your-status-screen/` | Your Status Screen | Week 1 | T-SESSION | `content/path/sessions/1-2-your-status-screen.md (editorial)` | Session: 1.2 · Week 1 · Wednesday · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 2 · Terminals: 6 · Words: ≥ 2400 |
-| PATH-1-3 | `/path/1-3-save-points-and-respawns/` | Save Points and Respawns | Week 1 | T-SESSION | `content/path/sessions/1-3-save-points-and-respawns.md (editorial)` | Session: 1.3 · Week 1 · Saturday · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 3 · Terminals: 9 · Words: ≥ 2400 |
-| PATH-1-4 | `/path/1-4-guild-sync/` | Guild Sync | Week 2 | T-SESSION | `content/path/sessions/1-4-guild-sync.md (editorial)` | Session: 1.4 · Week 2 · Tuesday · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 3 · Terminals: 7 · Words: ≥ 2400 |
-| PATH-1-5 | `/path/1-5-the-scribes-hand/` | The Scribe's Hand | Week 2 | T-SESSION | `content/path/sessions/1-5-the-scribes-hand.md (editorial)` | Session: 1.5 · Week 2 · Wednesday · Unit 1 · H2s (8) · Diagrams: 3 · Side quests: 2 · Terminals: 8 · Words: ≥ 2400 |
-| PATH-2-1 | `/path/2-1-the-skeleton-frame/` | The Skeleton Frame | Week 2 | T-SESSION | `content/path/sessions/2-1-the-skeleton-frame.md (editorial)` | Session: 2.1 · Week 2 · Saturday · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 3 · Live stages: 4 · Words: ≥ 2400 |
-| PATH-2-2 | `/path/2-2-armor-and-cosmetics/` | Armor and Cosmetics | Week 3 | T-SESSION | `content/path/sessions/2-2-armor-and-cosmetics.md (editorial)` | Session: 2.2 · Week 3 · Tuesday · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 5 · Live stages: 4 · Words: ≥ 2400 |
-| PATH-2-3 | `/path/2-3-formation-magic/` | Formation Magic | Week 3 | T-SESSION | `content/path/sessions/2-3-formation-magic.md (editorial)` | Session: 2.3 · Week 3 · Wednesday · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 6 · Live stages: 4 · Words: ≥ 2400 |
-| PATH-2-4 | `/path/2-4-enchantments/` | Enchantments | Week 3 | T-SESSION | `content/path/sessions/2-4-enchantments.md (editorial)` | Session: 2.4 · Week 3 · Saturday · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 6 · Live stages: 4 · Words: ≥ 2400 |
-| PATH-2-5 | `/path/2-5-the-character-sheet-forge/` | The Character Sheet Forge | Week 4 | T-SESSION | `content/path/sessions/2-5-the-character-sheet-forge.md (editorial)` | Session: 2.5 · Week 4 · Tuesday · Unit 2 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
-| PATH-3-1 | `/path/3-1-mana-basics/` | Mana Basics | Week 4 | T-SESSION | `content/path/sessions/3-1-mana-basics.md (editorial)` | Session: 3.1 · Week 4 · Wednesday · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Words: ≥ 2400 |
-| PATH-3-2 | `/path/3-2-spell-crafting/` | Spell Crafting | Week 4 | T-SESSION | `content/path/sessions/3-2-spell-crafting.md (editorial)` | Session: 3.2 · Week 4 · Saturday · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Words: ≥ 2400 |
-| PATH-3-3 | `/path/3-3-the-proving-grounds/` | The Proving Grounds | Week 5 | T-SESSION | `content/path/sessions/3-3-the-proving-grounds.md (editorial)` | Session: 3.3 · Week 5 · Tuesday · Unit 3 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-3-4 | `/path/3-4-objects-and-orcs/` | Objects and Orcs | Week 5 | T-SESSION | `content/path/sessions/3-4-objects-and-orcs.md (editorial)` | Session: 3.4 · Week 5 · Wednesday · Unit 3 · H2s (8) · Diagrams: 4 · Side quests: 5 · Words: ≥ 2400 |
-| PATH-3-5 | `/path/3-5-casting-on-the-world/` | Casting on the World | Week 5 | T-SESSION | `content/path/sessions/3-5-casting-on-the-world.md (editorial)` | Session: 3.5 · Week 5 · Saturday · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Live stages: 5 · Words: ≥ 2400 |
-| PATH-3-6 | `/path/3-6-the-arena/` | The Arena | Week 6 | T-SESSION | `content/path/sessions/3-6-the-arena.md (editorial)` | Session: 3.6 · Week 6 · Tuesday · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Live stages: 4 · Words: ≥ 2400 |
-| PATH-4-1 | `/path/4-1-the-runtime-beyond-the-browser/` | The Runtime Beyond the Browser | Week 6 | T-SESSION | `content/path/sessions/4-1-the-runtime-beyond-the-browser.md (editorial)` | Session: 4.1 · Week 6 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-2 | `/path/4-2-the-waiting-room/` | The Waiting Room | Week 6 | T-SESSION | `content/path/sessions/4-2-the-waiting-room.md (editorial)` | Session: 4.2 · Week 6 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-3 | `/path/4-3-the-listening-door/` | The Listening Door | Week 7 | T-SESSION | `content/path/sessions/4-3-the-listening-door.md (editorial)` | Session: 4.3 · Week 7 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-4 | `/path/4-4-the-counters-three-laws/` | The Counter's Three Laws | Week 7 | T-SESSION | `content/path/sessions/4-4-the-counters-three-laws.md (editorial)` | Session: 4.4 · Week 7 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-5 | `/path/4-5-the-vault/` | The Vault | Week 7 | T-SESSION | `content/path/sessions/4-5-the-vault.md (editorial)` | Session: 4.5 · Week 7 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-6 | `/path/4-6-the-vault-keeper/` | The Vault Keeper | Week 8 | T-SESSION | `content/path/sessions/4-6-the-vault-keeper.md (editorial)` | Session: 4.6 · Week 8 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-7 | `/path/4-7-the-paper-ledger/` | The Paper Ledger | Week 8 | T-SESSION | `content/path/sessions/4-7-the-paper-ledger.md (editorial)` | Session: 4.7 · Week 8 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-8 | `/path/4-8-the-courier/` | The Courier | Week 8 | T-SESSION | `content/path/sessions/4-8-the-courier.md (editorial)` | Session: 4.8 · Week 8 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
-| PATH-4-9 | `/path/4-9-seals-and-signets/` | Seals and Signets | Week 9 | T-SESSION | `content/path/sessions/4-9-seals-and-signets.md (editorial)` | Session: 4.9 · Week 9 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-4-10 | `/path/4-10-the-illusionists-primer/` | The Illusionist's Primer | Week 9 | T-SESSION | `content/path/sessions/4-10-the-illusionists-primer.md (editorial)` | Session: 4.10 · Week 9 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-4-11 | `/path/4-11-the-second-circle/` | The Second Circle | Week 9 | T-SESSION | `content/path/sessions/4-11-the-second-circle.md (editorial)` | Session: 4.11 · Week 9 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-12 | `/path/4-12-the-quest-slate/` | The Quest Slate | Week 10 | T-SESSION | `content/path/sessions/4-12-the-quest-slate.md (editorial)` | Session: 4.12 · Week 10 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-4-13 | `/path/4-13-the-second-contract/` | The Second Contract | Week 10 | T-SESSION | `content/path/sessions/4-13-the-second-contract.md (editorial)` | Session: 4.13 · Week 10 · Wednesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-14 | `/path/4-14-blood-oaths/` | Blood Oaths | Week 10 | T-SESSION | `content/path/sessions/4-14-blood-oaths.md (editorial)` | Session: 4.14 · Week 10 · Saturday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-4-15 | `/path/4-15-the-guild-hall/` | The Guild Hall | Week 11 | T-SESSION | `content/path/sessions/4-15-the-guild-hall.md (editorial)` | Session: 4.15 · Week 11 · Tuesday · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
-| PATH-5-1 | `/path/5-1-awakening-the-cheat-skill/` | Awakening the Cheat Skill | Week 11 | T-SESSION | `content/path/sessions/5-1-awakening-the-cheat-skill.md (editorial)` | Session: 5.1 · Week 11 · Wednesday · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-5-2 | `/path/5-2-advanced-incantations/` | Advanced Incantations | Week 11 | T-SESSION | `content/path/sessions/5-2-advanced-incantations.md (editorial)` | Session: 5.2 · Week 11 · Saturday · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-5-3 | `/path/5-3-summoned-familiars/` | Summoned Familiars | Week 12 | T-SESSION | `content/path/sessions/5-3-summoned-familiars.md (editorial)` | Session: 5.3 · Week 12 · Tuesday · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-5-4 | `/path/5-4-cheat-skill-trials/` | Cheat Skill Trials | Week 12 | T-SESSION | `content/path/sessions/5-4-cheat-skill-trials.md (editorial)` | Session: 5.4 · Week 12 · Wednesday · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-6-1 | `/path/6-1-claiming-territory/` | Claiming Territory | Week 12 | T-SESSION | `content/path/sessions/6-1-claiming-territory.md (editorial)` | Session: 6.1 · Week 12 · Saturday · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-6-2 | `/path/6-2-the-gatekeeper/` | The Gatekeeper | Week 13 | T-SESSION | `content/path/sessions/6-2-the-gatekeeper.md (editorial)` | Session: 6.2 · Week 13 · Tuesday · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-6-3 | `/path/6-3-the-teleportation-network/` | The Teleportation Network | Week 13 | T-SESSION | `content/path/sessions/6-3-the-teleportation-network.md (editorial)` | Session: 6.3 · Week 13 · Wednesday · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-6-4 | `/path/6-4-opening-the-world-gate/` | Opening the World Gate | Week 13 | T-SESSION | `content/path/sessions/6-4-opening-the-world-gate.md (editorial)` | Session: 6.4 · Week 13 · Saturday · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-7-1 | `/path/7-1-sparring-grounds/` | Sparring Grounds | Week 14 | T-SESSION | `content/path/sessions/7-1-sparring-grounds.md (editorial)` | Session: 7.1 · Week 14 · Tuesday · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-7-2 | `/path/7-2-dungeon-trials/` | Dungeon Trials | Week 14 | T-SESSION | `content/path/sessions/7-2-dungeon-trials.md (editorial)` | Session: 7.2 · Week 14 · Wednesday · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-7-3 | `/path/7-3-the-gauntlet/` | The Gauntlet | Week 14 | T-SESSION | `content/path/sessions/7-3-the-gauntlet.md (editorial)` | Session: 7.3 · Week 14 · Saturday · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-7-4 | `/path/7-4-clearing-the-training-dungeon/` | Clearing the Training Dungeon | Week 15 | T-SESSION | `content/path/sessions/7-4-clearing-the-training-dungeon.md (editorial)` | Session: 7.4 · Week 15 · Tuesday · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-8-1 | `/path/8-1-listening-at-the-tavern/` | Listening at the Tavern | Week 15 | T-SESSION | `content/path/sessions/8-1-listening-at-the-tavern.md (editorial)` | Session: 8.1 · Week 15 · Wednesday · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-8-2 | `/path/8-2-the-quest-board/` | The Quest Board | Week 15 | T-SESSION | `content/path/sessions/8-2-the-quest-board.md (editorial)` | Session: 8.2 · Week 15 · Saturday · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-8-3 | `/path/8-3-guild-operations/` | Guild Operations | Week 16 | T-SESSION | `content/path/sessions/8-3-guild-operations.md (editorial)` | Session: 8.3 · Week 16 · Tuesday · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-8-4 | `/path/8-4-field-work/` | Field Work | Week 16 | T-SESSION | `content/path/sessions/8-4-field-work.md (editorial)` | Session: 8.4 · Week 16 · Wednesday · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-9-1 | `/path/9-1-ancient-runes/` | Ancient Runes | Week 16 | T-SESSION | `content/path/sessions/9-1-ancient-runes.md (editorial)` | Session: 9.1 · Week 16 · Saturday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-9-2 | `/path/9-2-trial-of-blades/` | Trial of Blades | Week 17 | T-SESSION | `content/path/sessions/9-2-trial-of-blades.md (editorial)` | Session: 9.2 · Week 17 · Tuesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-9-3 | `/path/9-3-trial-of-wits/` | Trial of Wits | Week 17 | T-SESSION | `content/path/sessions/9-3-trial-of-wits.md (editorial)` | Session: 9.3 · Week 17 · Wednesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-9-4 | `/path/9-4-trial-of-patience/` | Trial of Patience | Week 17 | T-SESSION | `content/path/sessions/9-4-trial-of-patience.md (editorial)` | Session: 9.4 · Week 17 · Saturday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-9-5 | `/path/9-5-grand-architecture/` | Grand Architecture | Week 18 | T-SESSION | `content/path/sessions/9-5-grand-architecture.md (editorial)` | Session: 9.5 · Week 18 · Tuesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-9-6 | `/path/9-6-the-runesmiths-forge/` | The Runesmith's Forge | Week 18 | T-SESSION | `content/path/sessions/9-6-the-runesmiths-forge.md (editorial)` | Session: 9.6 · Week 18 · Wednesday · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-1 | `/path/10-1-barrier-magic/` | Barrier Magic | Week 18 | T-SESSION | `content/path/sessions/10-1-barrier-magic.md (editorial)` | Session: 10.1 · Week 18 · Saturday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-2 | `/path/10-2-sealed-gates/` | Sealed Gates | Week 19 | T-SESSION | `content/path/sessions/10-2-sealed-gates.md (editorial)` | Session: 10.2 · Week 19 · Tuesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-3 | `/path/10-3-binding-the-great-spirits/` | Binding the Great Spirits | Week 19 | T-SESSION | `content/path/sessions/10-3-binding-the-great-spirits.md (editorial)` | Session: 10.3 · Week 19 · Wednesday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-10-4 | `/path/10-4-warding-the-kingdom/` | Warding the Kingdom | Week 19 | T-SESSION | `content/path/sessions/10-4-warding-the-kingdom.md (editorial)` | Session: 10.4 · Week 19 · Saturday · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-11-1 | `/path/11-1-rallying-the-villagers/` | Rallying the Villagers | Week 20 | T-SESSION | `content/path/sessions/11-1-rallying-the-villagers.md (editorial)` | Session: 11.1 · Week 20 · Tuesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-11-2 | `/path/11-2-the-noble-houses/` | The Noble Houses | Week 20 | T-SESSION | `content/path/sessions/11-2-the-noble-houses.md (editorial)` | Session: 11.2 · Week 20 · Wednesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-11-3 | `/path/11-3-the-royal-court/` | The Royal Court | Week 20 | T-SESSION | `content/path/sessions/11-3-the-royal-court.md (editorial)` | Session: 11.3 · Week 20 · Saturday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-11-4 | `/path/11-4-war-council/` | War Council | Week 21 | T-SESSION | `content/path/sessions/11-4-war-council.md (editorial)` | Session: 11.4 · Week 21 · Tuesday · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-12-1 | `/path/12-1-sprint-1-foundation/` | Sprint 1 — Foundation | Week 21 | T-SESSION | `content/path/sessions/12-1-sprint-1-foundation.md (editorial)` | Session: 12.1 · Week 21 · Wednesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-12-2 | `/path/12-2-sprint-2-build/` | Sprint 2 — Build | Week 21 | T-SESSION | `content/path/sessions/12-2-sprint-2-build.md (editorial)` | Session: 12.2 · Week 21 · Saturday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-12-3 | `/path/12-3-sprint-3-harden/` | Sprint 3 — Harden | Week 22 | T-SESSION | `content/path/sessions/12-3-sprint-3-harden.md (editorial)` | Session: 12.3 · Week 22 · Tuesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
-| PATH-12-4 | `/path/12-4-sprint-4-polish/` | Sprint 4 — Polish | Week 22 | T-SESSION | `content/path/sessions/12-4-sprint-4-polish.md (editorial)` | Session: 12.4 · Week 22 · Wednesday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
-| PATH-12-5 | `/path/12-5-coronation-day/` | Coronation Day | Week 22 | T-SESSION | `content/path/sessions/12-5-coronation-day.md (editorial)` | Session: 12.5 · Week 22 · Saturday · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-1-1 | `/path/1-1-welcome-to-the-new-world/` | Welcome to the New World | Week 1 | T-SESSION | `content/path/sessions/1-1-welcome-to-the-new-world.md (editorial)` | Session: 1.1 · Week 1 · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 2 · Terminals: 7 · Words: ≥ 2400 |
+| PATH-1-2 | `/path/1-2-your-status-screen/` | Your Status Screen | Week 1 | T-SESSION | `content/path/sessions/1-2-your-status-screen.md (editorial)` | Session: 1.2 · Week 1 · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 2 · Terminals: 6 · Words: ≥ 2400 |
+| PATH-1-3 | `/path/1-3-save-points-and-respawns/` | Save Points and Respawns | Week 1 | T-SESSION | `content/path/sessions/1-3-save-points-and-respawns.md (editorial)` | Session: 1.3 · Week 1 · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 3 · Terminals: 9 · Words: ≥ 2400 |
+| PATH-1-4 | `/path/1-4-guild-sync/` | Guild Sync | Week 2 | T-SESSION | `content/path/sessions/1-4-guild-sync.md (editorial)` | Session: 1.4 · Week 2 · Unit 1 · H2s (8) · Diagrams: 5 · Side quests: 3 · Terminals: 7 · Words: ≥ 2400 |
+| PATH-1-5 | `/path/1-5-the-scribes-hand/` | The Scribe's Hand | Week 2 | T-SESSION | `content/path/sessions/1-5-the-scribes-hand.md (editorial)` | Session: 1.5 · Week 2 · Unit 1 · H2s (8) · Diagrams: 3 · Side quests: 2 · Terminals: 8 · Words: ≥ 2400 |
+| PATH-2-1 | `/path/2-1-the-skeleton-frame/` | The Skeleton Frame | Week 2 | T-SESSION | `content/path/sessions/2-1-the-skeleton-frame.md (editorial)` | Session: 2.1 · Week 2 · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 3 · Live stages: 4 · Words: ≥ 2400 |
+| PATH-2-2 | `/path/2-2-armor-and-cosmetics/` | Armor and Cosmetics | Week 3 | T-SESSION | `content/path/sessions/2-2-armor-and-cosmetics.md (editorial)` | Session: 2.2 · Week 3 · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 5 · Live stages: 4 · Words: ≥ 2400 |
+| PATH-2-3 | `/path/2-3-formation-magic/` | Formation Magic | Week 3 | T-SESSION | `content/path/sessions/2-3-formation-magic.md (editorial)` | Session: 2.3 · Week 3 · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 6 · Live stages: 4 · Words: ≥ 2400 |
+| PATH-2-4 | `/path/2-4-enchantments/` | Enchantments | Week 3 | T-SESSION | `content/path/sessions/2-4-enchantments.md (editorial)` | Session: 2.4 · Week 3 · Unit 2 · H2s (8) · Diagrams: 5 · Side quests: 6 · Live stages: 4 · Words: ≥ 2400 |
+| PATH-2-5 | `/path/2-5-the-character-sheet-forge/` | The Character Sheet Forge | Week 4 | T-SESSION | `content/path/sessions/2-5-the-character-sheet-forge.md (editorial)` | Session: 2.5 · Week 4 · Unit 2 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
+| PATH-3-1 | `/path/3-1-mana-basics/` | Mana Basics | Week 4 | T-SESSION | `content/path/sessions/3-1-mana-basics.md (editorial)` | Session: 3.1 · Week 4 · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Words: ≥ 2400 |
+| PATH-3-2 | `/path/3-2-spell-crafting/` | Spell Crafting | Week 4 | T-SESSION | `content/path/sessions/3-2-spell-crafting.md (editorial)` | Session: 3.2 · Week 4 · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Words: ≥ 2400 |
+| PATH-3-3 | `/path/3-3-the-proving-grounds/` | The Proving Grounds | Week 5 | T-SESSION | `content/path/sessions/3-3-the-proving-grounds.md (editorial)` | Session: 3.3 · Week 5 · Unit 3 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-3-4 | `/path/3-4-objects-and-orcs/` | Objects and Orcs | Week 5 | T-SESSION | `content/path/sessions/3-4-objects-and-orcs.md (editorial)` | Session: 3.4 · Week 5 · Unit 3 · H2s (8) · Diagrams: 4 · Side quests: 5 · Words: ≥ 2400 |
+| PATH-3-5 | `/path/3-5-casting-on-the-world/` | Casting on the World | Week 5 | T-SESSION | `content/path/sessions/3-5-casting-on-the-world.md (editorial)` | Session: 3.5 · Week 5 · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Live stages: 5 · Words: ≥ 2400 |
+| PATH-3-6 | `/path/3-6-the-arena/` | The Arena | Week 6 | T-SESSION | `content/path/sessions/3-6-the-arena.md (editorial)` | Session: 3.6 · Week 6 · Unit 3 · H2s (8) · Diagrams: 5 · Side quests: 4 · Live stages: 4 · Words: ≥ 2400 |
+| PATH-4-1 | `/path/4-1-the-runtime-beyond-the-browser/` | The Runtime Beyond the Browser | Week 6 | T-SESSION | `content/path/sessions/4-1-the-runtime-beyond-the-browser.md (editorial)` | Session: 4.1 · Week 6 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-2 | `/path/4-2-the-waiting-room/` | The Waiting Room | Week 6 | T-SESSION | `content/path/sessions/4-2-the-waiting-room.md (editorial)` | Session: 4.2 · Week 6 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-3 | `/path/4-3-the-listening-door/` | The Listening Door | Week 7 | T-SESSION | `content/path/sessions/4-3-the-listening-door.md (editorial)` | Session: 4.3 · Week 7 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-4 | `/path/4-4-the-counters-three-laws/` | The Counter's Three Laws | Week 7 | T-SESSION | `content/path/sessions/4-4-the-counters-three-laws.md (editorial)` | Session: 4.4 · Week 7 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-5 | `/path/4-5-the-vault/` | The Vault | Week 7 | T-SESSION | `content/path/sessions/4-5-the-vault.md (editorial)` | Session: 4.5 · Week 7 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-6 | `/path/4-6-the-vault-keeper/` | The Vault Keeper | Week 8 | T-SESSION | `content/path/sessions/4-6-the-vault-keeper.md (editorial)` | Session: 4.6 · Week 8 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-7 | `/path/4-7-the-paper-ledger/` | The Paper Ledger | Week 8 | T-SESSION | `content/path/sessions/4-7-the-paper-ledger.md (editorial)` | Session: 4.7 · Week 8 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-8 | `/path/4-8-the-courier/` | The Courier | Week 8 | T-SESSION | `content/path/sessions/4-8-the-courier.md (editorial)` | Session: 4.8 · Week 8 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
+| PATH-4-9 | `/path/4-9-seals-and-signets/` | Seals and Signets | Week 9 | T-SESSION | `content/path/sessions/4-9-seals-and-signets.md (editorial)` | Session: 4.9 · Week 9 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-4-10 | `/path/4-10-the-illusionists-primer/` | The Illusionist's Primer | Week 9 | T-SESSION | `content/path/sessions/4-10-the-illusionists-primer.md (editorial)` | Session: 4.10 · Week 9 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-4-11 | `/path/4-11-the-second-circle/` | The Second Circle | Week 9 | T-SESSION | `content/path/sessions/4-11-the-second-circle.md (editorial)` | Session: 4.11 · Week 9 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-12 | `/path/4-12-the-quest-slate/` | The Quest Slate | Week 10 | T-SESSION | `content/path/sessions/4-12-the-quest-slate.md (editorial)` | Session: 4.12 · Week 10 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-4-13 | `/path/4-13-the-second-contract/` | The Second Contract | Week 10 | T-SESSION | `content/path/sessions/4-13-the-second-contract.md (editorial)` | Session: 4.13 · Week 10 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-14 | `/path/4-14-blood-oaths/` | Blood Oaths | Week 10 | T-SESSION | `content/path/sessions/4-14-blood-oaths.md (editorial)` | Session: 4.14 · Week 10 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-4-15 | `/path/4-15-the-guild-hall/` | The Guild Hall | Week 11 | T-SESSION | `content/path/sessions/4-15-the-guild-hall.md (editorial)` | Session: 4.15 · Week 11 · Unit 4 · H2s (8) · Diagrams: 3 · Side quests: 4 · Words: ≥ 2400 |
+| PATH-5-1 | `/path/5-1-awakening-the-cheat-skill/` | Awakening the Cheat Skill | Week 11 | T-SESSION | `content/path/sessions/5-1-awakening-the-cheat-skill.md (editorial)` | Session: 5.1 · Week 11 · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-5-2 | `/path/5-2-advanced-incantations/` | Advanced Incantations | Week 11 | T-SESSION | `content/path/sessions/5-2-advanced-incantations.md (editorial)` | Session: 5.2 · Week 11 · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-5-3 | `/path/5-3-summoned-familiars/` | Summoned Familiars | Week 12 | T-SESSION | `content/path/sessions/5-3-summoned-familiars.md (editorial)` | Session: 5.3 · Week 12 · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-5-4 | `/path/5-4-cheat-skill-trials/` | Cheat Skill Trials | Week 12 | T-SESSION | `content/path/sessions/5-4-cheat-skill-trials.md (editorial)` | Session: 5.4 · Week 12 · Unit 5 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-6-1 | `/path/6-1-claiming-territory/` | Claiming Territory | Week 12 | T-SESSION | `content/path/sessions/6-1-claiming-territory.md (editorial)` | Session: 6.1 · Week 12 · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-6-2 | `/path/6-2-the-gatekeeper/` | The Gatekeeper | Week 13 | T-SESSION | `content/path/sessions/6-2-the-gatekeeper.md (editorial)` | Session: 6.2 · Week 13 · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-6-3 | `/path/6-3-the-teleportation-network/` | The Teleportation Network | Week 13 | T-SESSION | `content/path/sessions/6-3-the-teleportation-network.md (editorial)` | Session: 6.3 · Week 13 · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-6-4 | `/path/6-4-opening-the-world-gate/` | Opening the World Gate | Week 13 | T-SESSION | `content/path/sessions/6-4-opening-the-world-gate.md (editorial)` | Session: 6.4 · Week 13 · Unit 6 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-7-1 | `/path/7-1-sparring-grounds/` | Sparring Grounds | Week 14 | T-SESSION | `content/path/sessions/7-1-sparring-grounds.md (editorial)` | Session: 7.1 · Week 14 · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-7-2 | `/path/7-2-dungeon-trials/` | Dungeon Trials | Week 14 | T-SESSION | `content/path/sessions/7-2-dungeon-trials.md (editorial)` | Session: 7.2 · Week 14 · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-7-3 | `/path/7-3-the-gauntlet/` | The Gauntlet | Week 14 | T-SESSION | `content/path/sessions/7-3-the-gauntlet.md (editorial)` | Session: 7.3 · Week 14 · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-7-4 | `/path/7-4-clearing-the-training-dungeon/` | Clearing the Training Dungeon | Week 15 | T-SESSION | `content/path/sessions/7-4-clearing-the-training-dungeon.md (editorial)` | Session: 7.4 · Week 15 · Unit 7 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-8-1 | `/path/8-1-listening-at-the-tavern/` | Listening at the Tavern | Week 15 | T-SESSION | `content/path/sessions/8-1-listening-at-the-tavern.md (editorial)` | Session: 8.1 · Week 15 · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-8-2 | `/path/8-2-the-quest-board/` | The Quest Board | Week 15 | T-SESSION | `content/path/sessions/8-2-the-quest-board.md (editorial)` | Session: 8.2 · Week 15 · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-8-3 | `/path/8-3-guild-operations/` | Guild Operations | Week 16 | T-SESSION | `content/path/sessions/8-3-guild-operations.md (editorial)` | Session: 8.3 · Week 16 · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-8-4 | `/path/8-4-field-work/` | Field Work | Week 16 | T-SESSION | `content/path/sessions/8-4-field-work.md (editorial)` | Session: 8.4 · Week 16 · Unit 8 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-9-1 | `/path/9-1-ancient-runes/` | Ancient Runes | Week 16 | T-SESSION | `content/path/sessions/9-1-ancient-runes.md (editorial)` | Session: 9.1 · Week 16 · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-9-2 | `/path/9-2-trial-of-blades/` | Trial of Blades | Week 17 | T-SESSION | `content/path/sessions/9-2-trial-of-blades.md (editorial)` | Session: 9.2 · Week 17 · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-9-3 | `/path/9-3-trial-of-wits/` | Trial of Wits | Week 17 | T-SESSION | `content/path/sessions/9-3-trial-of-wits.md (editorial)` | Session: 9.3 · Week 17 · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-9-4 | `/path/9-4-trial-of-patience/` | Trial of Patience | Week 17 | T-SESSION | `content/path/sessions/9-4-trial-of-patience.md (editorial)` | Session: 9.4 · Week 17 · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-9-5 | `/path/9-5-grand-architecture/` | Grand Architecture | Week 18 | T-SESSION | `content/path/sessions/9-5-grand-architecture.md (editorial)` | Session: 9.5 · Week 18 · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-9-6 | `/path/9-6-the-runesmiths-forge/` | The Runesmith's Forge | Week 18 | T-SESSION | `content/path/sessions/9-6-the-runesmiths-forge.md (editorial)` | Session: 9.6 · Week 18 · Unit 9 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-1 | `/path/10-1-barrier-magic/` | Barrier Magic | Week 18 | T-SESSION | `content/path/sessions/10-1-barrier-magic.md (editorial)` | Session: 10.1 · Week 18 · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-2 | `/path/10-2-sealed-gates/` | Sealed Gates | Week 19 | T-SESSION | `content/path/sessions/10-2-sealed-gates.md (editorial)` | Session: 10.2 · Week 19 · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-3 | `/path/10-3-binding-the-great-spirits/` | Binding the Great Spirits | Week 19 | T-SESSION | `content/path/sessions/10-3-binding-the-great-spirits.md (editorial)` | Session: 10.3 · Week 19 · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-10-4 | `/path/10-4-warding-the-kingdom/` | Warding the Kingdom | Week 19 | T-SESSION | `content/path/sessions/10-4-warding-the-kingdom.md (editorial)` | Session: 10.4 · Week 19 · Unit 10 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-11-1 | `/path/11-1-rallying-the-villagers/` | Rallying the Villagers | Week 20 | T-SESSION | `content/path/sessions/11-1-rallying-the-villagers.md (editorial)` | Session: 11.1 · Week 20 · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-11-2 | `/path/11-2-the-noble-houses/` | The Noble Houses | Week 20 | T-SESSION | `content/path/sessions/11-2-the-noble-houses.md (editorial)` | Session: 11.2 · Week 20 · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-11-3 | `/path/11-3-the-royal-court/` | The Royal Court | Week 20 | T-SESSION | `content/path/sessions/11-3-the-royal-court.md (editorial)` | Session: 11.3 · Week 20 · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-11-4 | `/path/11-4-war-council/` | War Council | Week 21 | T-SESSION | `content/path/sessions/11-4-war-council.md (editorial)` | Session: 11.4 · Week 21 · Unit 11 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-12-1 | `/path/12-1-sprint-1-foundation/` | Sprint 1 — Foundation | Week 21 | T-SESSION | `content/path/sessions/12-1-sprint-1-foundation.md (editorial)` | Session: 12.1 · Week 21 · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-12-2 | `/path/12-2-sprint-2-build/` | Sprint 2 — Build | Week 21 | T-SESSION | `content/path/sessions/12-2-sprint-2-build.md (editorial)` | Session: 12.2 · Week 21 · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-12-3 | `/path/12-3-sprint-3-harden/` | Sprint 3 — Harden | Week 22 | T-SESSION | `content/path/sessions/12-3-sprint-3-harden.md (editorial)` | Session: 12.3 · Week 22 · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
+| PATH-12-4 | `/path/12-4-sprint-4-polish/` | Sprint 4 — Polish | Week 22 | T-SESSION | `content/path/sessions/12-4-sprint-4-polish.md (editorial)` | Session: 12.4 · Week 22 · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 2 · Words: ≥ 2400 |
+| PATH-12-5 | `/path/12-5-coronation-day/` | Coronation Day | Week 22 | T-SESSION | `content/path/sessions/12-5-coronation-day.md (editorial)` | Session: 12.5 · Week 22 · Unit 12 · H2s (8) · Diagrams: 3 · Side quests: 3 · Words: ≥ 2400 |
 
 ### Algorithms — 28 page(s)
 
@@ -538,16 +539,125 @@ flowchart TB
 | ID | URL | Title | Group | Template | Source | Key facts |
 |---|---|---|---|---|---|---|
 | ATELIER-00 | `/atelier/` | Atelier | — | T-LANDING | `content/sections/atelier.md (editorial intro)` | Pages in section: 11 · Groups: Foundation (2) · The page (4) · Motion and fit (3) · Assembly (1) |
-| ATELIER-01 | `/atelier/tokens-and-type/` | Tokens and type | Foundation | T-ARTICLE | `content/overrides/atelier/01-tokens-and-type.md` | H2s (6): The two palettes · Custom properties · Self-hosted type · One accent · Where a token breaks · Write the root |
-| ATELIER-02 | `/atelier/the-shell/` | The shell | Foundation | T-ARTICLE | `content/overrides/atelier/02-the-shell.md` | H2s (6): The reset · The container · Section rhythm · The skip link · Eyebrows and pills · Write the shell |
-| ATELIER-03 | `/atelier/the-fixed-nav/` | The fixed nav | The page | T-ARTICLE | `content/overrides/atelier/03-the-fixed-nav.md` | H2s (6): Fixed and scrolled · The growing underline · The hamburger · The full-screen menu · Where the nav breaks · Write the nav |
-| ATELIER-04 | `/atelier/the-hero/` | The hero | The page | T-ARTICLE | `content/overrides/atelier/04-the-hero.md` | H2s (6): The split · Clamp titles · Grain and orbs · Gradient text · Where the hero breaks · Write the hero |
-| ATELIER-05 | `/atelier/cards-and-the-link-grid/` | Cards and the link grid | The page | T-ARTICLE | `content/overrides/atelier/05-cards-and-the-link-grid.md` | H2s (5): The link grid · The hover lift · About stats · Where a card breaks · Write the grid |
-| ATELIER-06 | `/atelier/pictures/` | Pictures | The page | T-ARTICLE | `content/overrides/atelier/06-pictures.md` | H2s (6): The gallery · Object fit · The colorway grid · The image break · Where pictures break · Write the gallery |
-| ATELIER-07 | `/atelier/motion/` | Motion | Motion and fit | T-ARTICLE | `content/overrides/atelier/07-motion.md` | H2s (6): The loader · The marquee · Scroll reveal · Entry choreography · Reduced motion · Write one reveal |
-| ATELIER-08 | `/atelier/gate-cursor-sound/` | Gate, cursor, and sound | Motion and fit | T-ARTICLE | `content/overrides/atelier/08-gate-cursor-sound.md` | H2s (6): The welcome gate · The cursor · The mute button · Class versus stylesheet · Where it breaks · Write the gate shell |
-| ATELIER-09 | `/atelier/breakpoints/` | Breakpoints | Motion and fit | T-ARTICLE | `content/overrides/atelier/09-breakpoints.md` | H2s (6): Mobile first · The hero stacks · The menu swaps · The grids collapse · Where a query breaks · Write two queries |
-| ATELIER-10 | `/atelier/assembly/` | Assembly | Assembly | T-ARTICLE | `content/overrides/atelier/10-assembly.md` | H2s (6): The order · Tokens through shell · Nav and hero · One grid and one break · Marquee, footer, motion · The file you ship |
+| ATELIER-01 | `/atelier/tokens-and-type/` | Tokens and type | Foundation | T-ARTICLE | `content/overrides/atelier/01-tokens-and-type.md` | H2s (6): Look at the transformation · Read the palette in the real stylesheet · Create the HTML and connect the file · Give each declaration a visible job · Change the material and predict the result · Diagnose a missing color or font |
+| ATELIER-02 | `/atelier/the-shell/` | The shell | Foundation | T-ARTICLE | `content/overrides/atelier/02-the-shell.md` | H2s (6): See the shell before the decoration · Locate the source's shared measurements · Put the structure in the document · Build the reusable rules · Inspect the box and test the entrance · Repair the common spacing mistakes |
+| ATELIER-03 | `/atelier/the-fixed-nav/` | The fixed nav | The page | T-ARTICLE | `content/overrides/atelier/03-the-fixed-nav.md` | H2s (5): Compare the two states · Read the production nav and underline · Add the markup and the CSS · Connect the state changes · Walk through the effect yourself |
+| ATELIER-04 | `/atelier/the-hero/` | The hero | The page | T-ARTICLE | `content/overrides/atelier/04-the-hero.md` | H2s (5): Look at the originals, then the reconstruction · Read the split in the real stylesheet · Place content before painting the background · Follow the rules from layout to light · Remove an effect and explain the difference |
+| ATELIER-05 | `/atelier/cards-and-the-link-grid/` | Cards and the link grid | The page | T-ARTICLE | `content/overrides/atelier/05-cards-and-the-link-grid.md` | H2s (6): See the resting state and the response · Inspect the original link cards · Give each surface a destination · Make the grid and interaction · Try the interaction with different inputs · Diagnose a card before decorating it again |
+| ATELIER-06 | `/atelier/pictures/` | Pictures | The page | T-ARTICLE | `content/overrides/atelier/06-pictures.md` | H2s (5): Read the original gallery as a layout · Build the equal-frame study · Predict what cover will cut away · Put readable words over a photograph · Let one image escape the container |
+| ATELIER-07 | `/atelier/motion/` | Motion | Motion and fit | T-ARTICLE | `content/overrides/atelier/07-motion.md` | H2s (6): See two moments of the same animation · Trace the original moving strip · Make two equal groups and one viewport · Let the browser reveal cards when they arrive · Pause the strip and respect the reader · Break the loop deliberately, then repair it |
+| ATELIER-08 | `/atelier/gate-cursor-sound/` | Gate, cursor, and sound | Motion and fit | T-ARTICLE | `content/overrides/atelier/08-gate-cursor-sound.md` | H2s (5): Start with an optional entrance · Give the effects visible states · Connect the entrance to its buttons · Make a cursor accent follow the pointer · Make the sound control tell the truth |
+| ATELIER-09 | `/atelier/breakpoints/` | Breakpoints | Motion and fit | T-ARTICLE | `content/overrides/atelier/09-breakpoints.md` | H2s (6): Compare the same document at two widths · Read a breakpoint with a specific job · Refine the page where the space becomes tight · Predict which queries match · Follow the existing transitions in the layout · Test words and controls, not just silhouettes |
+| ATELIER-10 | `/atelier/assembly/` | Assembly | Assembly | T-ARTICLE | `content/overrides/atelier/10-assembly.md` | H2s (6): See the complete composition in a new palette · Read the final document from entrance to footer · Follow the stylesheet's dependencies · Change one family of values together · Make a small portfolio that says something real · Verify the page you actually built |
+
+### Explained — 104 page(s)
+
+| ID | URL | Title | Group | Template | Source | Key facts |
+|---|---|---|---|---|---|---|
+| EXPL-00 | `/explained/` | Explained | — | T-LANDING | `content/sections/explained.md (editorial intro)` | Pages in section: 104 · Groups: The web (6) · How software is shaped (6) · Systems (16) · The business (62) · Algorithms (8) · Interviews (5) |
+| EXPL-01 | `/explained/html-css-js/` | HTML, CSS, and JavaScript | The web | T-ARTICLE | `content/overrides/explained/01-html-css-js.md` | H2s (1): Build the notice before enchanting it |
+| EXPL-02 | `/explained/the-box-model/` | The CSS box model | The web | T-ARTICLE | `content/overrides/explained/02-the-box-model.md` | H2s (1): Account for the whole card |
+| EXPL-03 | `/explained/tcp-ip-http-dns/` | TCP, IP, HTTP, and DNS | The web | T-ARTICLE | `content/overrides/explained/03-tcp-ip-http-dns.md` | H2s (1): Follow one journey to the hall |
+| EXPL-04 | `/explained/rest-apis/` | REST APIs | The web | T-ARTICLE | `content/overrides/explained/04-rest-apis.md` | H2s (1): The second request is the revealing one |
+| EXPL-05 | `/explained/react-components/` | React components | The web | T-ARTICLE | `content/overrides/explained/05-react-components.md` | H2s (1): Reuse the rule, not just the rectangle |
+| EXPL-06 | `/explained/nodejs/` | Node.js | The web | T-ARTICLE | `content/overrides/explained/06-nodejs.md` | H2s (1): Waiting and working need different remedies |
+| EXPL-07 | `/explained/kiss/` | The KISS principle | How software is shaped | T-ARTICLE | `content/overrides/explained/07-kiss.md` | H2s (1): Simplicity must include the inconvenient case |
+| EXPL-08 | `/explained/occams-razor/` | Occam's razor | How software is shaped | T-ARTICLE | `content/overrides/explained/08-occams-razor.md` | H2s (1): Let the result change your mind |
+| EXPL-09 | `/explained/yagni/` | YAGNI | How software is shaped | T-ARTICLE | `content/overrides/explained/09-yagni.md` | H2s (1): Keep the future cheap to change |
+| EXPL-10 | `/explained/worse-is-better/` | Worse is better | How software is shaped | T-ARTICLE | `content/overrides/explained/10-worse-is-better.md` | H2s (1): Choose what is allowed to be smaller |
+| EXPL-11 | `/explained/proxies/` | Forward and reverse proxies | Systems | T-ARTICLE | `content/overrides/explained/11-proxies.md` | H2s (1): One public address, several private jobs |
+| EXPL-12 | `/explained/docker/` | Docker | Systems | T-ARTICLE | `content/overrides/explained/12-docker.md` | H2s (1): Decide what must survive replacement |
+| EXPL-13 | `/explained/kubernetes/` | Kubernetes | Systems | T-ARTICLE | `content/overrides/explained/13-kubernetes.md` | H2s (1): A replacement is useful only if it is ready |
+| EXPL-14 | `/explained/terraform/` | Terraform | Systems | T-ARTICLE | `content/overrides/explained/14-terraform.md` | H2s (1): Read the verbs in the plan |
+| EXPL-15 | `/explained/caching/` | Caching | Systems | T-ARTICLE | `content/overrides/explained/15-caching.md` | H2s (1): Different facts tolerate different ages |
+| EXPL-16 | `/explained/rate-limiting/` | Rate limiting | Systems | T-ARTICLE | `content/overrides/explained/16-rate-limiting.md` | H2s (1): Fairness depends on the identity you count |
+| EXPL-17 | `/explained/latency-and-throughput/` | Latency and throughput | Systems | T-ARTICLE | `content/overrides/explained/17-latency-and-throughput.md` | H2s (1): Watch the slowest experiences, too |
+| EXPL-18 | `/explained/ransomware/` | Ransomware | Systems | T-ARTICLE | `content/overrides/explained/18-ransomware.md` | H2s (1): Rehearse the return journey |
+| EXPL-19 | `/explained/venture-capital/` | Venture capital | The business | T-ARTICLE | `content/overrides/explained/19-venture-capital.md` | H2s (1): Translate the money into a changed company |
+| EXPL-20 | `/explained/ipfs/` | IPFS | Systems | T-ARTICLE | `content/overrides/explained/20-ipfs.md` | H2s (1): Identity, persistence, and privacy are separate promises |
+| EXPL-21 | `/explained/availability/` | Availability | Systems | T-ARTICLE | `content/overrides/explained/21-availability.md` | H2s (1): Extra copies need independent ways to fail |
+| EXPL-22 | `/explained/disk-and-memory/` | Disk and memory | Systems | T-ARTICLE | `content/overrides/explained/22-disk-and-memory.md` | H2s (1): Ask what survives the next interruption |
+| EXPL-23 | `/explained/content-delivery-networks/` | Content delivery networks | Systems | T-ARTICLE | `content/overrides/explained/23-content-delivery-networks.md` | H2s (1): Publish a new identity when the file changes |
+| EXPL-24 | `/explained/secure-hashing/` | Secure hashing | Systems | T-ARTICLE | `content/overrides/explained/24-secure-hashing.md` | H2s (1): Give each cryptographic job its own tool |
+| EXPL-25 | `/explained/blob-storage/` | Blob storage | Systems | T-ARTICLE | `content/overrides/explained/25-blob-storage.md` | H2s (1): Design the unfinished upload, too |
+| EXPL-26 | `/explained/big-o/` | Big O | Algorithms | T-ARTICLE | `content/overrides/explained/26-big-o.md` | H2s (1): Count the work you actually repeat |
+| EXPL-27 | `/explained/eventual-consistency/` | Eventual consistency | Systems | T-ARTICLE | `content/overrides/explained/27-eventual-consistency.md` | H2s (1): Design the moment between versions |
+| EXPL-28 | `/explained/programming-paradigms/` | Programming paradigms | How software is shaped | T-ARTICLE | `content/overrides/explained/28-programming-paradigms.md` | H2s (1): Follow the state through one action |
+| EXPL-29 | `/explained/the-software-development-life-cycle/` | The software development life cycle | How software is shaped | T-ARTICLE | `content/overrides/explained/29-the-software-development-life-cycle.md` | H2s (1): Let one small release answer a real question |
+| EXPL-30 | `/explained/writes-follow-reads/` | Writes follow reads | Systems | T-ARTICLE | `content/overrides/explained/30-writes-follow-reads.md` | H2s (1): Keep the direction of the promise straight |
+| EXPL-31 | `/explained/dynamic-programming/` | Dynamic programming | Algorithms | T-ARTICLE | `content/overrides/explained/31-dynamic-programming.md` | H2s (1): Define the table before filling it |
+| EXPL-32 | `/explained/dijkstra/` | Dijkstra's algorithm | Algorithms | T-ARTICLE | `content/overrides/explained/32-dijkstra.md` | H2s (1): The assumption that makes the shortcut safe |
+| EXPL-33 | `/explained/k-nearest-neighbor/` | K-nearest neighbor | Algorithms | T-ARTICLE | `content/overrides/explained/33-k-nearest-neighbor.md` | H2s (1): A boundary you can draw |
+| EXPL-34 | `/explained/divide-and-conquer/` | Divide and conquer | Algorithms | T-ARTICLE | `content/overrides/explained/34-divide-and-conquer.md` | H2s (1): The combine step earns the result |
+| EXPL-35 | `/explained/sliding-window/` | The sliding window | Algorithms | T-ARTICLE | `content/overrides/explained/35-sliding-window.md` | H2s (1): State the condition before trusting the pattern |
+| EXPL-36 | `/explained/multiple-pointers/` | Multiple pointers | Algorithms | T-ARTICLE | `content/overrides/explained/36-multiple-pointers.md` | H2s (1): The pointers do not always move toward each other |
+| EXPL-37 | `/explained/frequency-counter/` | The frequency counter | Algorithms | T-ARTICLE | `content/overrides/explained/37-frequency-counter.md` | H2s (1): Keep the question attached to the table |
+| EXPL-38 | `/explained/2032-will-change-everything-heres-what-big-poppa/` | 2032 Will Change Everything—Here's What Big Poppa Code Says You Need to Know | The business | T-ARTICLE | `content/overrides/explained/38-2032-will-change-everything-heres-what-big-poppa.md` | H2s (1): Prepare for several versions of the future |
+| EXPL-39 | `/explained/this-gold-rush-wont-wait-for-you-to-learn-everyt/` | This Gold Rush Won't Wait for You to Learn Everything | The business | T-ARTICLE | `content/overrides/explained/39-this-gold-rush-wont-wait-for-you-to-learn-everyt.md` | H2s (1): Start before mastery; finish something narrow |
+| EXPL-40 | `/explained/forgotten-prospects-ai-knows-how-to-win-them-bac/` | Forgotten Prospects? AI Knows How to Win Them Back | The business | T-ARTICLE | `content/overrides/explained/40-forgotten-prospects-ai-knows-how-to-win-them-bac.md` | H2s (1): Make the handoff part of the system |
+| EXPL-41 | `/explained/bitcoins-biggest-halving-meets-ai-singularity-in/` | Bitcoin's Biggest Halving Meets AI Singularity in 2032 | The business | T-ARTICLE | `content/overrides/explained/41-bitcoins-biggest-halving-meets-ai-singularity-in.md` | H2s (1): Follow the causal connection |
+| EXPL-42 | `/explained/bitcoin-ai-your-money-whats-actually-happening-t/` | Bitcoin, AI & Your Money: What's Actually Happening to Wealth | The business | T-ARTICLE | `content/overrides/explained/42-bitcoin-ai-your-money-whats-actually-happening-t.md` | H2s (1): Put an ordinary transaction in the picture |
+| EXPL-43 | `/explained/creator-economy-exposed-how-attention-turns-into/` | Creator Economy Exposed: How Attention Turns Into Billions | The business | T-ARTICLE | `content/overrides/explained/43-creator-economy-exposed-how-attention-turns-into.md` | H2s (1): Trace one dollar back to one promise |
+| EXPL-44 | `/explained/the-countdown-to-ai-dominance-has-already-starte/` | The Countdown to AI Dominance Has Already Started | The business | T-ARTICLE | `content/overrides/explained/44-the-countdown-to-ai-dominance-has-already-starte.md` | H2s (1): Draw the permission boundary |
+| EXPL-45 | `/explained/designer-babies-are-here-should-we-be-terrified/` | Designer Babies Are Here. Should We Be Terrified? | The business | T-ARTICLE | `content/overrides/explained/45-designer-babies-are-here-should-we-be-terrified.md` | H2s (1): Who gets to define an improvement? |
+| EXPL-46 | `/explained/could-you-live-on-mars-the-truth-about-off-world/` | Could You Live on Mars? The Truth About Off-World Colonization | The business | T-ARTICLE | `content/overrides/explained/46-could-you-live-on-mars-the-truth-about-off-world.md` | H2s (1): Design for the repair, not just the demonstration |
+| EXPL-47 | `/explained/why-regulators-are-fighting-back-against-defi/` | Why Regulators Are Fighting Back Against DeFi | The business | T-ARTICLE | `content/overrides/explained/47-why-regulators-are-fighting-back-against-defi.md` | H2s (1): Efficiency is one part of the argument |
+| EXPL-48 | `/explained/build-real-tech-wealth-without-the-corporate-lad/` | Build Real Tech Wealth Without the Corporate Ladder | The business | T-ARTICLE | `content/overrides/explained/48-build-real-tech-wealth-without-the-corporate-lad.md` | H2s (1): Choose a route you can investigate |
+| EXPL-49 | `/explained/success-isnt-luck-its-this-simple-formula/` | Success Isn't Luck, It's This Simple Formula | The business | T-ARTICLE | `content/overrides/explained/49-success-isnt-luck-its-this-simple-formula.md` | H2s (1): Give the system a feedback loop |
+| EXPL-50 | `/explained/forget-everything-gurus-taught-you-learn-this-in/` | Forget Everything Gurus Taught You, Learn This Instead | The business | T-ARTICLE | `content/overrides/explained/50-forget-everything-gurus-taught-you-learn-this-in.md` | H2s (1): Make the lesson answer to the artifact |
+| EXPL-51 | `/explained/my-high-school-crush-started-everything-full-sto/` | My High School Crush Started Everything: Full Story | The business | T-ARTICLE | `content/overrides/explained/51-my-high-school-crush-started-everything-full-sto.md` | H2s (1): Let the motivation grow up with you |
+| EXPL-52 | `/explained/a-car-crash-forced-me-to-choose-between-two-futu/` | A Car Crash Forced Me to Choose Between Two Futures | The business | T-ARTICLE | `content/overrides/explained/52-a-car-crash-forced-me-to-choose-between-two-futu.md` | H2s (1): Make the next week reflect the new priority |
+| EXPL-53 | `/explained/bitcoin-crypto-buy-houses-land-pay-mortgages/` | Bitcoin Crypto: Buy Houses, Land, Pay Mortgages! | The business | T-ARTICLE | `content/overrides/explained/53-bitcoin-crypto-buy-houses-land-pay-mortgages.md` | H2s (1): Separate the story's outcome from a repeatable mechanism |
+| EXPL-54 | `/explained/who-needs-iron-man-power-in-unity-votes/` | Who Needs Iron Man? Power in Unity & Votes! | The business | T-ARTICLE | `content/overrides/explained/54-who-needs-iron-man-power-in-unity-votes.md` | H2s (1): Follow a proposal past the vote |
+| EXPL-55 | `/explained/future-casting-are-we-building-paradise-or-pando/` | Future Casting: Are We Building Paradise or Pandora? | The business | T-ARTICLE | `content/overrides/explained/55-future-casting-are-we-building-paradise-or-pando.md` | H2s (1): Write a future with actors in it |
+| EXPL-56 | `/explained/the-counterintuitive-strategy-that-made-matty-j/` | The Counterintuitive Strategy That Made Matty J 7-Figures | The business | T-ARTICLE | `content/overrides/explained/56-the-counterintuitive-strategy-that-made-matty-j.md` | H2s (1): Let the work become part of the story |
+| EXPL-57 | `/explained/exclusive-interview-the-missing-economic-strateg/` | Exclusive Interview: The Missing Economic Strategy They Don't Want Discussed | The business | T-ARTICLE | `content/overrides/explained/57-exclusive-interview-the-missing-economic-strateg.md` | H2s (1): Give solidarity an operating plan |
+| EXPL-58 | `/explained/ai-takeover-how-close-are-we-to-skynet/` | AI Takeover: How Close Are We to Skynet? | The business | T-ARTICLE | `content/overrides/explained/58-ai-takeover-how-close-are-we-to-skynet.md` | H2s (1): What would the system actually be allowed to do? |
+| EXPL-59 | `/explained/from-zero-experience-to-400k-jennifer-gaddis-qa/` | From Zero Experience to $400K: Jennifer Gaddis' QA Story | The business | T-ARTICLE | `content/overrides/explained/59-from-zero-experience-to-400k-jennifer-gaddis-qa.md` | H2s (1): Write a bug report another person can use |
+| EXPL-60 | `/explained/the-booking-system-top-creators-use-to-get-on-ma/` | The Booking System Top Creators Use to Get on Major Podcasts | The business | T-ARTICLE | `content/overrides/explained/60-the-booking-system-top-creators-use-to-get-on-ma.md` | H2s (1): Pitch the conversation, then prepare to deliver it |
+| EXPL-61 | `/explained/the-psychological-battle-nobody-warns-new-trader/` | The Psychological Battle Nobody Warns New Traders About /w Terry Arter | The business | T-ARTICLE | `content/overrides/explained/61-the-psychological-battle-nobody-warns-new-trader.md` | H2s (1): Review the decision without putting your identity on trial |
+| EXPL-62 | `/explained/why-most-traders-fail-its-not-what-you-think-w-j/` | Why Most Traders Fail … It's Not What You Think /w Joe Cool Burr | The business | T-ARTICLE | `content/overrides/explained/62-why-most-traders-fail-its-not-what-you-think-w-j.md` | H2s (1): Make the process inspectable |
+| EXPL-63 | `/explained/jarrett-albritton-big-tech-sales-energy-the-secr/` | Jarrett Albritton: Big Tech Sales Energy The Secret Tech Job Nobody Talks About | The business | T-ARTICLE | `content/overrides/explained/63-jarrett-albritton-big-tech-sales-energy-the-secr.md` | H2s (1): Discovery comes before the demonstration |
+| EXPL-64 | `/explained/the-contrarian-mindset-that-makes-millionaires-f/` | The Contrarian Mindset That Makes Millionaires | Ft. Jared T. Ross | The business | T-ARTICLE | `content/overrides/explained/64-the-contrarian-mindset-that-makes-millionaires-f.md` | H2s (1): Put the disagreement into the offer |
+| EXPL-65 | `/explained/from-star-trek-to-today-what-they-got-scarily-ri/` | From Star Trek to Today: What They Got Scarily Right | The business | T-ARTICLE | `content/overrides/explained/65-from-star-trek-to-today-what-they-got-scarily-ri.md` | H2s (1): Borrow a world, then question its rules |
+| EXPL-66 | `/explained/the-metaverse-is-reshaping-reality-heres-whats-c/` | The Metaverse Is Reshaping Reality | Here's What's Coming | The business | T-ARTICLE | `content/overrides/explained/66-the-metaverse-is-reshaping-reality-heres-whats-c.md` | H2s (1): Design the arrival as carefully as the world |
+| EXPL-67 | `/explained/information-selling-doesnt-work-anymore/` | Information Selling Doesn't Work Anymore | The business | T-ARTICLE | `content/overrides/explained/67-information-selling-doesnt-work-anymore.md` | H2s (1): Sell a better learning experience |
+| EXPL-68 | `/explained/the-follower-era-is-over-heres-whats-next/` | The Follower Era is Over | Here's What's Next | The business | T-ARTICLE | `content/overrides/explained/68-the-follower-era-is-over-heres-whats-next.md` | H2s (1): Give people a way to contribute |
+| EXPL-69 | `/explained/season-2-episode-6-defi-drama-bankers-beware/` | Season 2 Episode 6 DeFi Drama: Bankers Beware? | The business | T-ARTICLE | `content/overrides/explained/69-season-2-episode-6-defi-drama-bankers-beware.md` | H2s (1): Ask where the return comes from |
+| EXPL-70 | `/explained/how-close-are-we-to-escaping-earth/` | How Close Are We to Escaping Earth? | The business | T-ARTICLE | `content/overrides/explained/70-how-close-are-we-to-escaping-earth.md` | H2s (1): Pack for the journey you actually mean |
+| EXPL-71 | `/explained/designer-babies-are-here-should-we-be-scared/` | Designer Babies Are Here—Should We Be Scared? | The business | T-ARTICLE | `content/overrides/explained/71-designer-babies-are-here-should-we-be-scared.md` | H2s (1): The software metaphor has limits |
+| EXPL-72 | `/explained/robots-are-taking-over-what-you-need-to-know-now/` | Robots Are Taking Over | What You Need to Know NOW | The business | T-ARTICLE | `content/overrides/explained/72-robots-are-taking-over-what-you-need-to-know-now.md` | H2s (1): Find the difficult step in the ordinary task |
+| EXPL-73 | `/explained/influencer-economy-exposed-get-rich-or-get-forgo/` | Influencer Economy Exposed: Get Rich or Get Forgotten | The business | T-ARTICLE | `content/overrides/explained/73-influencer-economy-exposed-get-rich-or-get-forgo.md` | H2s (1): Investigate one transition |
+| EXPL-74 | `/explained/abundance-is-your-birthright-heres-how-to-claim/` | Abundance is Your Birthright: Here's How to Claim It With Strategy | The business | T-ARTICLE | `content/overrides/explained/74-abundance-is-your-birthright-heres-how-to-claim.md` | H2s (1): Turn a lived lesson into a useful offer |
+| EXPL-75 | `/explained/stedman-waiters-building-a-business-around-fundi/` | Stedman Waiters: Building a Business Around Funding Other People's Businesses | The business | T-ARTICLE | `content/overrides/explained/75-stedman-waiters-building-a-business-around-fundi.md` | H2s (1): Explain the whole arrangement |
+| EXPL-76 | `/explained/billionaire-brooklynn-the-queen-of-pivot-from-ha/` | Billionaire Brooklynn: The Queen of Pivot From Hair Bundles to Digital Empire | The business | T-ARTICLE | `content/overrides/explained/76-billionaire-brooklynn-the-queen-of-pivot-from-ha.md` | H2s (1): Customization should add a reason to choose you |
+| EXPL-77 | `/explained/billionaire-bae-the-woman-teaching-nightlife-gir/` | Billionaire Bae: The Woman Teaching Nightlife Girls to Build Wealth | The business | T-ARTICLE | `content/overrides/explained/77-billionaire-bae-the-woman-teaching-nightlife-gir.md` | H2s (1): Look beyond the brightest night |
+| EXPL-78 | `/explained/s3-e5-from-setbacks-to-millions-how-smitty-the-g/` | S3 E5 From Setbacks to Millions: How Smitty The Goat Built an Empire with Business Credit | The business | T-ARTICLE | `content/overrides/explained/78-s3-e5-from-setbacks-to-millions-how-smitty-the-g.md` | H2s (1): Give the borrowed money a job |
+| EXPL-79 | `/explained/s3-e4-how-to-build-wealth-empower-communities-wi/` | S3 E4 How to Build Wealth & Empower Communities with FinTech and Credit with Haziq Ali | The business | T-ARTICLE | `content/overrides/explained/79-s3-e4-how-to-build-wealth-empower-communities-wi.md` | H2s (1): Design for the moment a customer is confused |
+| EXPL-80 | `/explained/s3-e2-hacking-the-startup-paradox-with-jeff-nels/` | S3 E2 Hacking the Startup Paradox with Jeff Nelson Co-Founder of Blavity & Afrotech | The business | T-ARTICLE | `content/overrides/explained/80-s3-e2-hacking-the-startup-paradox-with-jeff-nels.md` | H2s (1): Decide what an experiment is allowed to change |
+| EXPL-81 | `/explained/esports-the-next-trillion-dollar-market/` | Esports: The Next Trillion Dollar Market? | The business | T-ARTICLE | `content/overrides/explained/81-esports-the-next-trillion-dollar-market.md` | H2s (1): Follow one event through its ecosystem |
+| EXPL-82 | `/explained/season-2-episode-20-bootcamps-and-mentorship/` | Season 2 Episode 20: Bootcamps and Mentorship | The business | T-ARTICLE | `content/overrides/explained/82-season-2-episode-20-bootcamps-and-mentorship.md` | H2s (1): Look for the feedback loop |
+| EXPL-83 | `/explained/season-2-episode-19-what-are-the-top-emerging-jo/` | Season 2 Episode 19: What Are The Top Emerging Jobs in The New Economy | The business | T-ARTICLE | `content/overrides/explained/83-season-2-episode-19-what-are-the-top-emerging-jo.md` | H2s (1): Build a bridge from a skill you already have |
+| EXPL-84 | `/explained/season-2-episode-16-shop-scroll-the-boom-of-soci/` | Season 2 Episode 16 Shop & Scroll : The Boom of Social Commerce | The business | T-ARTICLE | `content/overrides/explained/84-season-2-episode-16-shop-scroll-the-boom-of-soci.md` | H2s (1): Follow the customer past the purchase button |
+| EXPL-85 | `/explained/season-2-episode-15-preparing-children-for-the-f/` | Season 2 Episode 15 Preparing Children for the Future: A Tech Literacy Guide | The business | T-ARTICLE | `content/overrides/explained/85-season-2-episode-15-preparing-children-for-the-f.md` | H2s (1): Move from remembering to making judgments |
+| EXPL-86 | `/explained/season-2-episode-14-building-magnetic-brands-in/` | Season 2 Episode 14: Building Magnetic Brands in the Digital Age with Tracey Walker | The business | T-ARTICLE | `content/overrides/explained/86-season-2-episode-14-building-magnetic-brands-in.md` | H2s (1): Make the promise recognizable across channels |
+| EXPL-87 | `/explained/season-2-episode-13-navigating-the-tech-startup/` | Season 2 Episode 13: Navigating The Tech Startup Ecosystem | The business | T-ARTICLE | `content/overrides/explained/87-season-2-episode-13-navigating-the-tech-startup.md` | H2s (1): Hire for the work in front of you |
+| EXPL-88 | `/explained/season-2-episode-12-unlock-your-financial-potent/` | Season 2 Episode 12 Unlock Your Financial Potential: Expert Strategies with Jasmine Baker | The business | T-ARTICLE | `content/overrides/explained/88-season-2-episode-12-unlock-your-financial-potent.md` | H2s (1): Understand the evidence before chasing the number |
+| EXPL-89 | `/explained/season-2-episode-11-is-ai-wearable-technology-th/` | Season 2 Episode 11: Is AI & Wearable Technology The Future of Fashion? | The business | T-ARTICLE | `content/overrides/explained/89-season-2-episode-11-is-ai-wearable-technology-th.md` | H2s (1): Design the day around the device |
+| EXPL-90 | `/explained/season-2-episode-10-liberty-madisons-formula-for/` | Season 2 Episode 10: Liberty Madison's Formula for Founder Success & Investor Appeal | The business | T-ARTICLE | `content/overrides/explained/90-season-2-episode-10-liberty-madisons-formula-for.md` | H2s (1): Make the growth story visible |
+| EXPL-91 | `/explained/episode-8-tech-titans-ancient-empires-powerhouse/` | Episode 8 : Tech Titans & Ancient Empires: Powerhouses Through Ages | The business | T-ARTICLE | `content/overrides/explained/91-episode-8-tech-titans-ancient-empires-powerhouse.md` | H2s (1): Draw the routes through the kingdom |
+| EXPL-92 | `/explained/episode-7-echoes-of-creativity-from-renaissance/` | Episode 7: Echoes of Creativity: From Renaissance Masters to Modern Digital Pioneers | The business | T-ARTICLE | `content/overrides/explained/92-episode-7-echoes-of-creativity-from-renaissance.md` | H2s (1): Separate the artwork, the record, and the rights |
+| EXPL-93 | `/explained/episode-6-from-platforms-to-profit-the-rise-of-t/` | Episode 6: From Platforms to Profit: The Rise of the Creator Economy | The business | T-ARTICLE | `content/overrides/explained/93-episode-6-from-platforms-to-profit-the-rise-of-t.md` | H2s (1): Match the revenue to the relationship |
+| EXPL-94 | `/explained/episode-5-ai-and-futurism-reshaping-proptech-rea/` | Episode 5: AI and Futurism: Reshaping PropTech & Real Estate | The business | T-ARTICLE | `content/overrides/explained/94-episode-5-ai-and-futurism-reshaping-proptech-rea.md` | H2s (1): Follow a repair from report to resolution |
+| EXPL-95 | `/explained/episode-4-money-talks-gold-to-bitcoin-the-financ/` | Episode 4: Money Talks: Gold to Bitcoin, the Financial Evolution (Deeper Than Code Podcast) | The business | T-ARTICLE | `content/overrides/explained/95-episode-4-money-talks-gold-to-bitcoin-the-financ.md` | H2s (1): Ask what makes the promise credible |
+| EXPL-96 | `/explained/episode-3-from-blockbusters-to-stream-the-fall-a/` | Episode 3: From Blockbusters to Stream: The Fall and Rise of Entertainment Titans | The business | T-ARTICLE | `content/overrides/explained/96-episode-3-from-blockbusters-to-stream-the-fall-a.md` | H2s (1): Define the job without naming your product |
+| EXPL-97 | `/explained/episode-2-ai-machine-learning-the-promise-of-sel/` | Episode 2: AI, Machine Learning & The Promise of Self Driving Cars (Deeper Than Code) | The business | T-ARTICLE | `content/overrides/explained/97-episode-2-ai-machine-learning-the-promise-of-sel.md` | H2s (1): Name the conditions and the human's role |
+| EXPL-98 | `/explained/episode-1-the-webs-evolution-from-web-1-0-to-web/` | Episode 1: The Web's Evolution: From Web 1.0 to Web 3.0 (Deeper Than Code Podcast) | The business | T-ARTICLE | `content/overrides/explained/98-episode-1-the-webs-evolution-from-web-1-0-to-web.md` | H2s (1): Follow a creator across the versions |
+| EXPL-99 | `/explained/defi-ai-and-cryptos-takeover-whats-coming-in-203/` | DEFI, AI, and Crypto's Takeover | What's Coming in 2032 | Interviews | T-ARTICLE | `content/overrides/explained/99-defi-ai-and-cryptos-takeover-whats-coming-in-203.md` | H2s (1): Trace a hypothetical automated purchase |
+| EXPL-100 | `/explained/the-secret-cheat-code-to-be-rich-in-tech-secrets/` | The Secret Cheat Code To Be Rich In Tech | Secrets of Tech Success Story | Interviews | T-ARTICLE | `content/overrides/explained/100-the-secret-cheat-code-to-be-rich-in-tech-secrets.md` | H2s (1): Make one project easy to understand |
+| EXPL-101 | `/explained/becoming-a-software-engineer-in-2026-ai-deepfake/` | Becoming a Software Engineer in 2026 | AI, Deepfake Detection & My Tech Journey | Interviews | T-ARTICLE | `content/overrides/explained/101-becoming-a-software-engineer-in-2026-ai-deepfake.md` | H2s (1): Think through both kinds of detection error |
+| EXPL-102 | `/explained/big-poppa-code-the-integrity-response-w-ceo-khac/` | Big Poppa Code | The Integrity Response w/ CEO Khacki #142 | Interviews | T-ARTICLE | `content/overrides/explained/102-big-poppa-code-the-integrity-response-w-ceo-khac.md` | H2s (1): Look at the decision before the explanation |
+| EXPL-103 | `/explained/what-theyre-saying-about-ai-in-proptech-w-libert/` | What They're Saying About AI in PropTech /w Liberty Madison | Interviews | T-ARTICLE | `content/overrides/explained/103-what-theyre-saying-about-ai-in-proptech-w-libert.md` | H2s (1): Give the user a way to inspect the answer |
 
 ## User stories and acceptance criteria, per page
 
@@ -562,10 +672,10 @@ Each page = its template criteria + the global criteria + the specific items bel
   - Cover lockup text exactly: I RESPAWNED AS A / SUPER CODER / IN A WORLD WITH / ~~Magic~~ AI (the strike is a drawn red stroke, AI is written over the corner; accessible name "I respawned as a super coder in a world with magic, crossed out, corrected to AI")
   - Signature: — the respawn guide, by Big Poppa Code
   - Tagline: ONE PATH · 62 SESSIONS · {n} SIDE QUESTS (n = pages in this document minus the four Global pages and the Path pages)
-  - Stats: 299 pages · 66 sessions · 26 exercises · 9 languages · 23 patterns (computed at build; build fails if the registry count differs)
-  - Save-point card: the latest written session (stamp, `WEEK n · DAY`, title, hook, **Continue**, `{written} of 62 written`)
+  - Stats: 407 pages · 66 sessions · 26 exercises · 9 languages · 23 patterns (computed at build; build fails if the registry count differs)
+  - Save-point card: the explicitly bookmarked lesson in this browser (stamp, `WEEK n · DAY`, title, hook, **Resume lesson**, **Clear save point**, saved date). Defaults to **Begin lesson** at 1.1. Stores only version, lesson ID and timestamp in `dtc:save-point:v1`; does not track completion or require an account. Links to the localStorage side quest at `/guide/save-points/`.
   - Route strip: 22 week cells, one flag, act legend, **Latest: n.n Title →**
-  - Side quests grid: 9 cards (Algorithms 28 · Data Structures 17 · Practice 29 · Languages 68 · System Design 40 · Design Patterns 24 · Security 12 · Mindset 3 · Atelier 11)
+  - Side quests grid: 10 cards (Algorithms 28 · Data Structures 17 · Practice 29 · Languages 68 · System Design 40 · Design Patterns 24 · Security 12 · Mindset 3 · Atelier 11 · Explained 104)
   - Which-pattern-when strip: all 31 rows of the table in algorithms/README.md
   - Naive vs Optimal teaser: the `same` / `goodSame` pair
   - Language tiles: 9 languages + 4 frontend frameworks
@@ -600,8 +710,40 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Acceptance:**
   - [ ] G1–G14 and T-CREDITS
   - [ ] Lists every source in this document's Source column at least once
-  - [ ] Contains the literal text "This site is non-commercial: nothing is sold, no ads, no paywall."
+  - [ ] Explains free access, optional creator support and separate personal services without claiming that free access alone establishes license compliance.
   - [ ] Links to LICENSE files served locally under /licenses/ (cc-by-nc-4.0.txt, apache-2.0.txt, gpl-3.0.txt, mit.txt)
+
+#### G-05 · `/privacy/` — Privacy & browser storage
+- **Template:** T-PRIVACY · **Section:** Global · **Group:** — · **Source:** `build/pages/privacy.js` · **License:** Yours
+- **Story:** As a reader, I want to understand saved preferences and optional video connections and clear my choices.
+- **Facts the build must reproduce:**
+  - Local preview images; explicit per-player permission before YouTube loads
+  - Storage disclosure and a control that clears only this site's saved solution preferences
+- **Acceptance:**
+  - [ ] Privacy link in every page footer
+  - [ ] No third-party video connection before activation
+
+#### G-06 · `/guide/save-points/` — The Save Crystal: Remembering a Lesson with localStorage
+- **Template:** T-ARTICLE · **Section:** Global · **Group:** Site field guide · **Source:** `content/overrides/guide/save-points.md` · **License:** Yours
+- **Story:** As a learner, I want to understand the bookmark I chose to save without confusing it with an account or completion tracking.
+- **Facts the build must reproduce:**
+  - Explicit save, resume and clear experiment
+  - JSON, localStorage, validation, storage failures, cross-tab updates and browser-only limits
+- **Acceptance:**
+  - [ ] Reachable from the homepage save card, lesson controls and privacy notice
+  - [ ] Saving requires a button press; the bookmark stores only version, lesson ID and timestamp
+
+#### G-07 · `/support/` — Support & work with me
+- **Template:** T-ARTICLE · **Section:** Global · **Group:** — · **Source:** `build/pages/support.js` · **License:** Yours
+- **Story:** As a learner, I want optional ways to thank the creator or request personal help while the curriculum stays free.
+- **Facts the build must reproduce:**
+  - Optional $20 thank-you via Cash App at https://cash.app/$bigpoppacode
+  - Project review: $197 per started 1,000 lines of formatted authored source code, rounded up with no cap; exclude bundles, generated code, dependencies, build output, lockfiles, blank and comment-only lines; add @arthurbernierjr as a GitHub collaborator and tag him in an issue; he replies there with an invoice link
+  - $497 flat-price portfolio review covering code, projects and résumé; request via an issue in the portfolio GitHub repository tagging @arthurbernierjr; invoice link and written feedback through that issue
+- **Acceptance:**
+  - [ ] Homepage and footer link to this page; every page has a discreet $20 Cash App thank-you link, also beside lesson save controls
+  - [ ] Code and portfolio review instructions use GitHub issues, with no email request links; no invitations, issues or payments are created automatically
+  - [ ] No payment required to read course material
 
 #### G-04 · `/404.html (served for any unknown path)` — Page not found
 - **Template:** T-404 · **Section:** Global · **Group:** — · **Source:** `content/404.md (editorial)` · **License:** Yours
@@ -635,7 +777,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 1 · **Source:** `content/path/sessions/1-1-welcome-to-the-new-world.md (editorial)` · **License:** Yours
 - **Story:** As a complete beginner on day one who has never opened a terminal, I want one 50-minute session that explains what the window is, gives me the shape of a command and my first six, sets up Git, Node and VS Code on my machine, and lets me make my mistakes in a terminal on the page before I make them for real, so I can build the Adventurer's Camp and the Base Camp without fear.
 - **Facts the build must reproduce:**
-  - Session: 1.1 · Week 1 · Tuesday · Unit 1
+  - Session: 1.1 · Week 1 · Unit 1
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-terminal-shell-conversation · fig2-command-anatomy · fig3-camp-tree · fig4-overwrite-vs-append · fig5-keyboard-map (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -655,7 +797,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 1 · **Source:** `content/path/sessions/1-2-your-status-screen.md (editorial)` · **License:** Yours
 - **Story:** As a beginner on day two who can make files but still gets lost between folders, I want one 55-minute session that shows me the filesystem as a tree, drills `cd` and the `ls` flags, teaches pipes, `grep` and redirection as one idea, and takes the fear out of Permission denied with `chmod +x`, so I can build the filesystem-quest and the Explorer's Journal and arrive at Git with a folder worth saving.
 - **Facts the build must reproduce:**
-  - Session: 1.2 · Week 1 · Wednesday · Unit 1
+  - Session: 1.2 · Week 1 · Unit 1
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-filesystem-tree · fig2-reading-ls-la · fig3-pipes-and-redirects · fig4-dungeon-moves · fig5-permissions (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -675,7 +817,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 1 · **Source:** `content/path/sessions/1-3-save-points-and-respawns.md (editorial)` · **License:** Yours
 - **Story:** As a beginner at the end of week one who can navigate and make files but has no way back from a bad edit, I want one 60-minute session that gives me Git as a save system: the three states and the two doors, a first repository saved four times, `.gitignore`, a branch and a fast-forward merge, a conflict I cause and resolve myself, and the identity and `master` traps named before I hit them, so I arrive at GitHub with three repositories and a history I can read aloud.
 - **Facts the build must reproduce:**
-  - Session: 1.3 · Week 1 · Saturday · Unit 1
+  - Session: 1.3 · Week 1 · Unit 1
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-three-states · fig2-commit-chain · fig3-branch-timelines · fig4-two-merges · fig5-conflict-markers (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -695,7 +837,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 2 · **Source:** `content/path/sessions/1-4-guild-sync.md (editorial)` · **License:** Yours
 - **Story:** As a beginner at the start of week two whose three repositories live on one laptop, I want one 65-minute session that takes the save system online: Git versus GitHub and what a remote is, an SSH key pair I understand and can test, `quest-log` pushed and tracking `origin/main`, clone and pull, a push refused because the remote is ahead and the pull that fixes it, a pull request I open and merge on my own repository and the fork dance for one I do not own, `stash` and `amend` for messy moments, a Markdown crash course, and a dotfiles repository built, documented and shipped, so I leave Unit 1 with a public artefact and the daily pull-edit-commit-push loop.
 - **Facts the build must reproduce:**
-  - Session: 1.4 · Week 2 · Tuesday · Unit 1
+  - Session: 1.4 · Week 2 · Unit 1
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-local-and-remote · fig2-ssh-handshake · fig3-push-pull-cycle · fig4-pull-request-flow · fig5-dotfiles-anatomy (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -715,7 +857,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 2 · **Source:** `content/path/sessions/1-5-the-scribes-hand.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 1, I want to learn The Shell as a Language, and the Setup Script You Can Read, so I can produce the full setup.sh in github.com/YOU/dotfiles, assembled from six miniatures you ran first, executable, committed, pushed, and proven on a fresh clone; plus a git_branch function in both rc files that puts the current branch in your prompt.
 - **Facts the build must reproduce:**
-  - Session: 1.5 · Week 2 · Wednesday · Unit 1
+  - Session: 1.5 · Week 2 · Unit 1
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -736,7 +878,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 2 · **Source:** `content/path/sessions/2-1-the-skeleton-frame.md (editorial)` · **License:** Yours
 - **Story:** As a beginner at the start of Unit 2 whose work so far is a black screen, I want one 60-minute session that shows me a page is a file sent in answer to a request, teaches the document every page starts with, and has me write semantic HTML I can see rendered: an adventure log, a reference page of the elements, a form whose labels focus their fields, and a guild board I push, so that next session's CSS has an honest skeleton to attach to.
 - **Facts the build must reproduce:**
-  - Session: 2.1 · Week 2 · Saturday · Unit 2
+  - Session: 2.1 · Week 2 · Unit 2
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-request-cycle · fig2-document-anatomy · fig3-semantic-skeleton · fig4-element-shapes · fig5-form-wiring (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -756,7 +898,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 3 · **Source:** `content/path/sessions/2-2-armor-and-cosmetics.md (editorial)` · **License:** Yours
 - **Story:** As a beginner whose semantic pages still wear the browser's defaults, I want one 60-minute session that gives me a stylesheet, the cascade I can referee, and the box model I can measure, so my about page and a potion shop look intended, with colors and type decided once in custom properties and no inline styles in the files I ship.
 - **Facts the build must reproduce:**
-  - Session: 2.2 · Week 3 · Tuesday · Unit 2
+  - Session: 2.2 · Week 3 · Unit 2
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-rule-homes · fig2-specificity-ladder · fig3-box-model · fig4-selector-map · fig5-custom-properties (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -776,7 +918,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 3 · **Source:** `content/path/sessions/2-3-formation-magic.md (editorial)` · **License:** Yours
 - **Story:** As a beginner whose styled pages are still one long column, I want one 65-minute session that gives me flex for a row, grid for a page, and mobile-first queries that add layouts as the window grows, so a navigation bar, a wrapping card grid, and a holy grail all hold together from a phone to a desktop.
 - **Facts the build must reproduce:**
-  - Session: 2.3 · Week 3 · Wednesday · Unit 2
+  - Session: 2.3 · Week 3 · Unit 2
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-flex-axes · fig2-grid-areas · fig3-auto-fit · fig4-mobile-first · fig5-grid-and-flex (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -796,7 +938,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 3 · **Source:** `content/path/sessions/2-4-enchantments.md (editorial)` · **License:** Yours
 - **Story:** As a beginner with a responsive page, I want to add purposeful motion, fit images to their frames, and name components consistently, so my workshop responds to interaction and respects reduced motion.
 - **Facts the build must reproduce:**
-  - Session: 2.4 · Week 3 · Saturday · Unit 2
+  - Session: 2.4 · Week 3 · Unit 2
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-transition · fig2-transform · fig3-keyframes · fig4-bem · fig5-image-frame (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -817,7 +959,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 4 · **Source:** `content/path/sessions/2-5-the-character-sheet-forge.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 2, I want to complete Build and Deploy Your Landing Page, so I can produce a responsive personal landing page, deployment url, and accessibility review.
 - **Facts the build must reproduce:**
-  - Session: 2.5 · Week 4 · Tuesday · Unit 2
+  - Session: 2.5 · Week 4 · Unit 2
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -836,7 +978,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 4 · **Source:** `content/path/sessions/3-1-mana-basics.md (editorial)` · **License:** Yours
 - **Story:** As a beginner in week 4 who has only ever built static pages, I want one 45-minute session that gives me variables, the seven types, operators and branching with a reason for every rule, so I can write the NPC Dialogue System and read the JavaScript reference sheets without guessing.
 - **Facts the build must reproduce:**
-  - Session: 3.1 · Week 4 · Wednesday · Unit 3
+  - Session: 3.1 · Week 4 · Unit 3
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-three-containers · fig2-seven-primitives · fig3-two-passes · fig4-branching-road · fig5-two-equals-signs (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -854,7 +996,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 4 · **Source:** `content/path/sessions/3-2-spell-crafting.md (editorial)` · **License:** Yours
 - **Story:** As a learner in week 4 who keeps copying the same block of logic into every place it is needed, I want one 45-minute session that gives me functions, scope, closures and the array methods with a picture for each, so I can build the Spell Book and read the arrays and closures reference sheets without fear.
 - **Facts the build must reproduce:**
-  - Session: 3.2 · Week 4 · Saturday · Unit 3
+  - Session: 3.2 · Week 4 · Unit 3
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-three-spellings · fig2-scope-rings · fig3-backpack · fig4-combo-chain · fig5-missing-return (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -872,7 +1014,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 5 · **Source:** `content/path/sessions/3-3-the-proving-grounds.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 3, I want to learn Destructuring, copying, counting, and three problems without a net, so I can produce spellbook.js finished with all six queries and pushed to js-fundamentals, plus PROVING.md with your three worked answers.
 - **Facts the build must reproduce:**
-  - Session: 3.3 · Week 5 · Tuesday · Unit 3
+  - Session: 3.3 · Week 5 · Unit 3
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -891,7 +1033,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 5 · **Source:** `content/path/sessions/3-4-objects-and-orcs.md (editorial)` · **License:** Yours
 - **Story:** As a learner in week 4 who can write functions and arrays but keeps copying the same code into every object, I want one 45-minute session that makes classes, prototypes and `this` feel inevitable, so I can build the Monster Manual and read the JavaScript side quests without fear.
 - **Facts the build must reproduce:**
-  - Session: 3.4 · Week 5 · Wednesday · Unit 3
+  - Session: 3.4 · Week 5 · Unit 3
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 4
   - Diagram files, in order: fig1-hand-copied · fig2-blueprint · fig3-prototype-chain · fig4-this-loses-character (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -910,7 +1052,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 5 · **Source:** `content/path/sessions/3-5-casting-on-the-world.md (editorial)` · **License:** Yours
 - **Story:** As a learner in week 5 whose JavaScript has only ever printed to a console, I want one 50-minute session where the page itself changes under my hands, with every demo running live on the page, so I can build the Quest Log and arrive at the Arena with a plan.
 - **Facts the build must reproduce:**
-  - Session: 3.5 · Week 5 · Saturday · Unit 3
+  - Session: 3.5 · Week 5 · Unit 3
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-file-and-tree · fig2-three-selectors · fig3-four-dials · fig4-event-delegation · fig5-null-and-reload (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -930,7 +1072,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 6 · **Source:** `content/path/sessions/3-6-the-arena.md (editorial)` · **License:** Yours
 - **Story:** As a learner on project day who has every piece of Unit 3 but has never assembled them, I want one session that names the architecture every browser game shares, shows me a complete reference game I can run and read, lets the two project-day bugs happen in front of me, and walks me through the sprints and the deploy, so I ship a game with a URL before Unit 4.
 - **Facts the build must reproduce:**
-  - Session: 3.6 · Week 6 · Tuesday · Unit 3
+  - Session: 3.6 · Week 6 · Unit 3
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 5
   - Diagram files, in order: fig1-game-loop · fig2-single-source-of-truth · fig3-skeleton-and-order · fig4-timer-leak · fig5-four-arenas (each wide 1600×900 + tall 900×1200, alt text from `content/path/diagrams.json`)
@@ -951,7 +1093,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 6 · **Source:** `content/path/sessions/4-1-the-runtime-beyond-the-browser.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn What Node.js is, and what Express is, so I can produce a one-file Express app that answers GET / with text, and a note of what Node is doing underneath.
 - **Facts the build must reproduce:**
-  - Session: 4.1 · Week 6 · Wednesday · Unit 4
+  - Session: 4.1 · Week 6 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -970,7 +1112,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 6 · **Source:** `content/path/sessions/4-2-the-waiting-room.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Promises, await, and the three ways a request ends, so I can produce a client.js in guild-door that calls the server with fetch and prints one answer, one refusal, and one silence, with the three transcripts kept in NOTES.md.
 - **Facts the build must reproduce:**
-  - Session: 4.2 · Week 6 · Saturday · Unit 4
+  - Session: 4.2 · Week 6 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -989,7 +1131,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 7 · **Source:** `content/path/sessions/4-3-the-listening-door.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Create a server with Express, so I can produce an Express server with a router, JSON parsing, a logging middleware, and a four-argument error handler.
 - **Facts the build must reproduce:**
-  - Session: 4.3 · Week 7 · Tuesday · Unit 4
+  - Session: 4.3 · Week 7 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1008,7 +1150,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 7 · **Source:** `content/path/sessions/4-4-the-counters-three-laws.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn REST, MVC, and JSON, so I can produce a resource map for quests: method, path, status, and which of model, view, or controller owns it.
 - **Facts the build must reproduce:**
-  - Session: 4.4 · Week 7 · Wednesday · Unit 4
+  - Session: 4.4 · Week 7 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1027,7 +1169,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 7 · **Source:** `content/path/sessions/4-5-the-vault.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn MongoDB and databases in general, so I can produce a written model of a quest collection: documents, a unique field, and the difference between a find and a scan.
 - **Facts the build must reproduce:**
-  - Session: 4.5 · Week 7 · Saturday · Unit 4
+  - Session: 4.5 · Week 7 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1046,7 +1188,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 8 · **Source:** `content/path/sessions/4-6-the-vault-keeper.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Mongoose and ODMs, so I can produce a Mongoose model for quests with required fields, an enum, a unique index, and create, find, update, and delete.
 - **Facts the build must reproduce:**
-  - Session: 4.6 · Week 8 · Tuesday · Unit 4
+  - Session: 4.6 · Week 8 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1065,7 +1207,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 8 · **Source:** `content/path/sessions/4-7-the-paper-ledger.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Server-rendered HTML with Express, Mongoose, and INDUCES, so I can produce a server-rendered quest board: index, new, delete, update, create, edit, show, backed by a Mongoose model.
 - **Facts the build must reproduce:**
-  - Session: 4.7 · Week 8 · Wednesday · Unit 4
+  - Session: 4.7 · Week 8 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1084,7 +1226,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 8 · **Source:** `content/path/sessions/4-8-the-courier.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn A RESTful API that returns JSON, so I can produce a JSON API for quests: GET, POST, PUT, DELETE, validation errors as 400, missing records as 404.
 - **Facts the build must reproduce:**
-  - Session: 4.8 · Week 8 · Saturday · Unit 4
+  - Session: 4.8 · Week 8 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1103,7 +1245,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 9 · **Source:** `content/path/sessions/4-9-seals-and-signets.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn bcrypt, JWT, and authentication with curl, so I can produce register, login, and a protected route, exercised with a Bearer token.
 - **Facts the build must reproduce:**
-  - Session: 4.9 · Week 9 · Tuesday · Unit 4
+  - Session: 4.9 · Week 9 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1122,7 +1264,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 9 · **Source:** `content/path/sessions/4-10-the-illusionists-primer.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn React, the basics, so I can produce a small React app: components, props, useState, a list with keys, and a controlled input.
 - **Facts the build must reproduce:**
-  - Session: 4.10 · Week 9 · Wednesday · Unit 4
+  - Session: 4.10 · Week 9 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1141,7 +1283,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 9 · **Source:** `content/path/sessions/4-11-the-second-circle.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Effects, forms, and shared state, so I can produce a quest list with the state lifted, a controlled form, and one effect that loads a fixture.
 - **Facts the build must reproduce:**
-  - Session: 4.11 · Week 9 · Saturday · Unit 4
+  - Session: 4.11 · Week 9 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1160,7 +1302,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 10 · **Source:** `content/path/sessions/4-12-the-quest-slate.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn A React todo on your API, with JWT auth, so I can produce a todo app: register, login, and CRUD against your API, with the token on each request.
 - **Facts the build must reproduce:**
-  - Session: 4.12 · Week 10 · Tuesday · Unit 4
+  - Session: 4.12 · Week 10 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1179,7 +1321,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 10 · **Source:** `content/path/sessions/4-13-the-second-contract.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Another CRUD app with the same JWT auth, so I can produce a second authenticated CRUD app, a spellbook, built from the same contract without copying the todo files.
 - **Facts the build must reproduce:**
-  - Session: 4.13 · Week 10 · Wednesday · Unit 4
+  - Session: 4.13 · Week 10 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1198,7 +1340,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 10 · **Source:** `content/path/sessions/4-14-blood-oaths.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Many-to-many relationships in a MERN app, so I can produce parties and adventurers as a many-to-many, with a join collection and populate.
 - **Facts the build must reproduce:**
-  - Session: 4.14 · Week 10 · Saturday · Unit 4
+  - Session: 4.14 · Week 10 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1217,7 +1359,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 11 · **Source:** `content/path/sessions/4-15-the-guild-hall.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 4, I want to learn Messages, inventory, and a small social world, so I can produce a guild hall: JWT accounts, an inbox of messages, and an inventory of catalog items with quantities.
 - **Facts the build must reproduce:**
-  - Session: 4.15 · Week 11 · Tuesday · Unit 4
+  - Session: 4.15 · Week 11 · Unit 4
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1236,7 +1378,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 11 · **Source:** `content/path/sessions/5-1-awakening-the-cheat-skill.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 5, I want to complete The RTTPOC Prompt Framework, so I can produce an rttpoc prompt packet with a baseline, revised output, and evaluation rubric.
 - **Facts the build must reproduce:**
-  - Session: 5.1 · Week 11 · Wednesday · Unit 5
+  - Session: 5.1 · Week 11 · Unit 5
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1255,7 +1397,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 11 · **Source:** `content/path/sessions/5-2-advanced-incantations.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 5, I want to complete Prompt Patterns, Context Windows, and Iteration, so I can produce a versioned prompt workflow with examples, context selection, and regression cases.
 - **Facts the build must reproduce:**
-  - Session: 5.2 · Week 11 · Saturday · Unit 5
+  - Session: 5.2 · Week 11 · Unit 5
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1274,7 +1416,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 12 · **Source:** `content/path/sessions/5-3-summoned-familiars.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 5, I want to complete Claude Code, Cursor, and Agentic Workflows, so I can produce an agent task brief, reviewed patch, and reproducible verification log.
 - **Facts the build must reproduce:**
-  - Session: 5.3 · Week 12 · Tuesday · Unit 5
+  - Session: 5.3 · Week 12 · Unit 5
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1293,7 +1435,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 12 · **Source:** `content/path/sessions/5-4-cheat-skill-trials.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 5, I want to complete Rebuild a Feature at 10x Speed, so I can produce a before-and-after feature rebuild with timing, tests, and a retrospective.
 - **Facts the build must reproduce:**
-  - Session: 5.4 · Week 12 · Wednesday · Unit 5
+  - Session: 5.4 · Week 12 · Unit 5
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1312,7 +1454,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 12 · **Source:** `content/path/sessions/6-1-claiming-territory.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 6, I want to complete Cloud Machines, SSH, and Server Setup, so I can produce a manually provisioned server access plan with a verified recovery path.
 - **Facts the build must reproduce:**
-  - Session: 6.1 · Week 12 · Saturday · Unit 6
+  - Session: 6.1 · Week 12 · Unit 6
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1331,7 +1473,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 13 · **Source:** `content/path/sessions/6-2-the-gatekeeper.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 6, I want to complete Nginx, Reverse Proxies, and Process Management, so I can produce an nginx reverse proxy and process-management runbook.
 - **Facts the build must reproduce:**
-  - Session: 6.2 · Week 13 · Tuesday · Unit 6
+  - Session: 6.2 · Week 13 · Unit 6
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1350,7 +1492,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 13 · **Source:** `content/path/sessions/6-3-the-teleportation-network.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 6, I want to complete DNS, Domains, and SSL Certificates, so I can produce a dns and https configuration with renewal and troubleshooting evidence.
 - **Facts the build must reproduce:**
-  - Session: 6.3 · Week 13 · Wednesday · Unit 6
+  - Session: 6.3 · Week 13 · Unit 6
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1369,7 +1511,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 13 · **Source:** `content/path/sessions/6-4-opening-the-world-gate.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 6, I want to complete Deploy Your Full Stack App to the Internet, so I can produce a reproducible full-stack deployment with smoke tests and rollback instructions.
 - **Facts the build must reproduce:**
-  - Session: 6.4 · Week 13 · Saturday · Unit 6
+  - Session: 6.4 · Week 13 · Unit 6
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1388,7 +1530,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 14 · **Source:** `content/path/sessions/7-1-sparring-grounds.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 7, I want to complete Jest, Unit Testing, and the TDD Mindset, so I can produce a focused unit-test suite with boundary cases and a demonstrated failing test.
 - **Facts the build must reproduce:**
-  - Session: 7.1 · Week 14 · Tuesday · Unit 7
+  - Session: 7.1 · Week 14 · Unit 7
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1407,7 +1549,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 14 · **Source:** `content/path/sessions/7-2-dungeon-trials.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 7, I want to complete Supertest, API Testing, and Integration Tests, so I can produce api integration tests with isolated data and authorization failures.
 - **Facts the build must reproduce:**
-  - Session: 7.2 · Week 14 · Wednesday · Unit 7
+  - Session: 7.2 · Week 14 · Unit 7
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1426,7 +1568,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 14 · **Source:** `content/path/sessions/7-3-the-gauntlet.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 7, I want to complete Playwright, E2E Testing, and CI Basics, so I can produce a browser test for a core journey and a ci workflow that retains failure evidence.
 - **Facts the build must reproduce:**
-  - Session: 7.3 · Week 14 · Saturday · Unit 7
+  - Session: 7.3 · Week 14 · Unit 7
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1445,7 +1587,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 15 · **Source:** `content/path/sessions/7-4-clearing-the-training-dungeon.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 7, I want to complete Build a Real Test Suite, so I can produce a risk-based test suite and release-quality evidence report.
 - **Facts the build must reproduce:**
-  - Session: 7.4 · Week 15 · Tuesday · Unit 7
+  - Session: 7.4 · Week 15 · Unit 7
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1464,7 +1606,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 15 · **Source:** `content/path/sessions/8-1-listening-at-the-tavern.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 8, I want to complete User Research, Interviews, and Empathy Maps, so I can produce an interview guide, anonymized notes, and an evidence-based empathy map.
 - **Facts the build must reproduce:**
-  - Session: 8.1 · Week 15 · Wednesday · Unit 8
+  - Session: 8.1 · Week 15 · Unit 8
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1483,7 +1625,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 15 · **Source:** `content/path/sessions/8-2-the-quest-board.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 8, I want to complete User Stories, Backlogs, and Prioritization, so I can produce a prioritized backlog with user stories and testable acceptance criteria.
 - **Facts the build must reproduce:**
-  - Session: 8.2 · Week 15 · Saturday · Unit 8
+  - Session: 8.2 · Week 15 · Unit 8
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1502,7 +1644,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 16 · **Source:** `content/path/sessions/8-3-guild-operations.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 8, I want to complete Agile, SCRUM, Sprints, and Retros, so I can produce a sprint goal, working board, review agenda, and retrospective action.
 - **Facts the build must reproduce:**
-  - Session: 8.3 · Week 16 · Tuesday · Unit 8
+  - Session: 8.3 · Week 16 · Unit 8
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1521,7 +1663,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 16 · **Source:** `content/path/sessions/8-4-field-work.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 8, I want to complete Real User Interviews and Sprint Planning, so I can produce a research-to-backlog handoff and a realistic first sprint plan.
 - **Facts the build must reproduce:**
-  - Session: 8.4 · Week 16 · Wednesday · Unit 8
+  - Session: 8.4 · Week 16 · Unit 8
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1540,7 +1682,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 16 · **Source:** `content/path/sessions/9-1-ancient-runes.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to complete TypeScript Fundamentals and Type Safety, so I can produce a strict typescript module with validated external input and explicit domain types.
 - **Facts the build must reproduce:**
-  - Session: 9.1 · Week 16 · Saturday · Unit 9
+  - Session: 9.1 · Week 16 · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1559,7 +1701,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 17 · **Source:** `content/path/sessions/9-2-trial-of-blades.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to complete Arrays, Objects, Big O, and Core Data Structures, so I can produce typed data structures with operation tests and time/space analysis.
 - **Facts the build must reproduce:**
-  - Session: 9.2 · Week 17 · Tuesday · Unit 9
+  - Session: 9.2 · Week 17 · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1578,7 +1720,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 17 · **Source:** `content/path/sessions/9-3-trial-of-wits.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to complete Algorithm Patterns and Whiteboard Practice, so I can produce algorithm solutions with invariants, edge cases, and comparative complexity.
 - **Facts the build must reproduce:**
-  - Session: 9.3 · Week 17 · Wednesday · Unit 9
+  - Session: 9.3 · Week 17 · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1597,7 +1739,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 17 · **Source:** `content/path/sessions/9-4-trial-of-patience.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to learn Attacking a Problem You Have Not Seen, so I can produce six solved problems in typescript-practice, each with a brute-force oracle, a prediction written before the run, an invariant written before the loop, a seeded agreement test, and a boundary report.
 - **Facts the build must reproduce:**
-  - Session: 9.4 · Week 17 · Saturday · Unit 9
+  - Session: 9.4 · Week 17 · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1616,7 +1758,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 18 · **Source:** `content/path/sessions/9-5-grand-architecture.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to complete System Design Fundamentals, so I can produce a system design document with estimates, failure paths, and explicit tradeoffs.
 - **Facts the build must reproduce:**
-  - Session: 9.5 · Week 18 · Tuesday · Unit 9
+  - Session: 9.5 · Week 18 · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1635,7 +1777,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 18 · **Source:** `content/path/sessions/9-6-the-runesmiths-forge.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 9, I want to complete TypeScript Conversion and Design Doc, so I can produce a reviewed typescript migration and a capstone architecture decision record.
 - **Facts the build must reproduce:**
-  - Session: 9.6 · Week 18 · Wednesday · Unit 9
+  - Session: 9.6 · Week 18 · Unit 9
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1654,7 +1796,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 18 · **Source:** `content/path/sessions/10-1-barrier-magic.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete OWASP, Input Validation, and Secrets Management, so I can produce a threat model, validated server boundaries, and a secrets-handling checklist.
 - **Facts the build must reproduce:**
-  - Session: 10.1 · Week 18 · Saturday · Unit 10
+  - Session: 10.1 · Week 18 · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1673,7 +1815,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 19 · **Source:** `content/path/sessions/10-2-sealed-gates.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete Stripe, Paid APIs, Webhooks, and Rate Limits, so I can produce a sandbox checkout and verified, durable payment-event processing design.
 - **Facts the build must reproduce:**
-  - Session: 10.2 · Week 19 · Tuesday · Unit 10
+  - Session: 10.2 · Week 19 · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1692,7 +1834,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 19 · **Source:** `content/path/sessions/10-3-binding-the-great-spirits.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete LLM APIs, Safe Integration, and Cost Control, so I can produce a server-side ai feature with bounded input, output, cost, and evaluation cases.
 - **Facts the build must reproduce:**
-  - Session: 10.3 · Week 19 · Wednesday · Unit 10
+  - Session: 10.3 · Week 19 · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1711,7 +1853,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 19 · **Source:** `content/path/sessions/10-4-warding-the-kingdom.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 10, I want to complete Add Payments and AI to Your Capstone, so I can produce a capstone security and integration release packet with explicit go/no-go criteria.
 - **Facts the build must reproduce:**
-  - Session: 10.4 · Week 19 · Saturday · Unit 10
+  - Session: 10.4 · Week 19 · Unit 10
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1730,7 +1872,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 20 · **Source:** `content/path/sessions/11-1-rallying-the-villagers.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Crowdfunding, Community Rounds, and Pre-Sales, so I can produce a funding-options brief and a hypothetical pre-sale fulfillment model.
 - **Facts the build must reproduce:**
-  - Session: 11.1 · Week 20 · Tuesday · Unit 11
+  - Session: 11.1 · Week 20 · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1749,7 +1891,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 20 · **Source:** `content/path/sessions/11-2-the-noble-houses.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Angel Investors, SAFEs, and Term Sheets, so I can produce a fictional cap table, safe scenario analysis, and term-sheet questions.
 - **Facts the build must reproduce:**
-  - Session: 11.2 · Week 20 · Wednesday · Unit 11
+  - Session: 11.2 · Week 20 · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1768,7 +1910,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 20 · **Source:** `content/path/sessions/11-3-the-royal-court.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Venture Capital, Pitch Decks, and the Raise, so I can produce a venture-fit assessment, evidence-backed pitch narrative, and fundraising process map.
 - **Facts the build must reproduce:**
-  - Session: 11.3 · Week 20 · Saturday · Unit 11
+  - Session: 11.3 · Week 20 · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1787,7 +1929,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 21 · **Source:** `content/path/sessions/11-4-war-council.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 11, I want to complete Pitch Deck and Financial Narrative Workshop, so I can produce a complete fictional pitch deck narrative and auditable financial model.
 - **Facts the build must reproduce:**
-  - Session: 11.4 · Week 21 · Tuesday · Unit 11
+  - Session: 11.4 · Week 21 · Unit 11
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1806,7 +1948,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 21 · **Source:** `content/path/sessions/12-1-sprint-1-foundation.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Core Features and Architecture, so I can produce a capstone foundation with one complete vertical slice and an architecture record.
 - **Facts the build must reproduce:**
-  - Session: 12.1 · Week 21 · Wednesday · Unit 12
+  - Session: 12.1 · Week 21 · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1825,7 +1967,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 21 · **Source:** `content/path/sessions/12-2-sprint-2-build.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Feature Completion and Integration, so I can produce a feature-complete core journey with integration and recovery evidence.
 - **Facts the build must reproduce:**
-  - Session: 12.2 · Week 21 · Saturday · Unit 12
+  - Session: 12.2 · Week 21 · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1844,7 +1986,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 22 · **Source:** `content/path/sessions/12-3-sprint-3-harden.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Testing, Security, and Deployment, so I can produce a tested release candidate with a security review and deployment recovery drill.
 - **Facts the build must reproduce:**
-  - Session: 12.3 · Week 22 · Tuesday · Unit 12
+  - Session: 12.3 · Week 22 · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1863,7 +2005,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 22 · **Source:** `content/path/sessions/12-4-sprint-4-polish.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Final Touches and Presentation Prep, so I can produce a polished release, timed demo script, and tested presentation fallback.
 - **Facts the build must reproduce:**
-  - Session: 12.4 · Week 22 · Wednesday · Unit 12
+  - Session: 12.4 · Week 22 · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -1882,7 +2024,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-SESSION · **Section:** The Path · **Group:** Week 22 · **Source:** `content/path/sessions/12-5-coronation-day.md (editorial)` · **License:** Yours
 - **Story:** As a learner in Unit 12, I want to complete Demo Day, Launch, and Your Next Quest, so I can produce a final capstone handoff, demo retrospective, and measurable next-step plan.
 - **Facts the build must reproduce:**
-  - Session: 12.5 · Week 22 · Saturday · Unit 12
+  - Session: 12.5 · Week 22 · Unit 12
   - H2s (8): The hook · The idea · The demonstration · Where it breaks · Your turn · The quest · Side quests · Before next session
   - Diagrams: 3
   - Diagram files, in order: fig1-model · fig2-diagnosis · fig3-evidence (each wide 1600×900 + tall 900×1200)
@@ -4928,7 +5070,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 
 #### ATELIER-00 · `/atelier/` — Atelier
 - **Template:** T-LANDING · **Section:** Atelier · **Group:** — · **Source:** `content/sections/atelier.md (editorial intro)` · **License:** Yours
-- **Story:** As a learner who can write a rule but not a page, I want the Atelier index so the ten lessons that build a gift site are in order.
+- **Story:** As a learner who can write a rule but not a page, I want the Atelier index so the ten lessons that build a polished portfolio page are in order.
 - **Facts the build must reproduce:**
   - Pages in section: 11
   - Groups: Foundation (2) · The page (4) · Motion and fit (3) · Assembly (1)
@@ -4943,16 +5085,16 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** Foundation · **Source:** `content/overrides/atelier/01-tokens-and-type.md` · **License:** Yours
 - **Story:** As a learner painting a page, I want the color and type decided once, so every later section reads from the same tokens.
 - **Facts the build must reproduce:**
-  - H2s (6): The two palettes · Custom properties · Self-hosted type · One accent · Where a token breaks · Write the root
+  - H2s (6): Look at the transformation · Read the palette in the real stylesheet · Create the HTML and connect the file · Give each declaration a visible job · Change the material and predict the result · Diagnose a missing color or font
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
 
 #### ATELIER-02 · `/atelier/the-shell/` — The shell
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** Foundation · **Source:** `content/overrides/atelier/02-the-shell.md` · **License:** Yours
-- **Story:** As a learner with tokens, I want the reset, the container, and the pill, so a heading and a button already look like the gift sites.
+- **Story:** As a learner with tokens, I want the reset, the container, and the pill, so headings and controls share consistent spacing and alignment.
 - **Facts the build must reproduce:**
-  - H2s (6): The reset · The container · Section rhythm · The skip link · Eyebrows and pills · Write the shell
+  - H2s (6): See the shell before the decoration · Locate the source's shared measurements · Put the structure in the document · Build the reusable rules · Inspect the box and test the entrance · Repair the common spacing mistakes
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
@@ -4961,7 +5103,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** The page · **Source:** `content/overrides/atelier/03-the-fixed-nav.md` · **License:** Yours
 - **Story:** As a learner, I want the fixed nav and the menu that replaces it, so the links stay reachable while the page scrolls.
 - **Facts the build must reproduce:**
-  - H2s (6): Fixed and scrolled · The growing underline · The hamburger · The full-screen menu · Where the nav breaks · Write the nav
+  - H2s (5): Compare the two states · Read the production nav and underline · Add the markup and the CSS · Connect the state changes · Walk through the effect yourself
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
@@ -4970,7 +5112,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** The page · **Source:** `content/overrides/atelier/04-the-hero.md` · **License:** Yours
 - **Story:** As a learner, I want the split hero, so the name, the accent line, and the portrait occupy the first screen.
 - **Facts the build must reproduce:**
-  - H2s (6): The split · Clamp titles · Grain and orbs · Gradient text · Where the hero breaks · Write the hero
+  - H2s (5): Look at the originals, then the reconstruction · Read the split in the real stylesheet · Place content before painting the background · Follow the rules from layout to light · Remove an effect and explain the difference
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
@@ -4979,7 +5121,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** The page · **Source:** `content/overrides/atelier/05-cards-and-the-link-grid.md` · **License:** Yours
 - **Story:** As a learner, I want one card I can repeat, so a grid of links lifts on hover without moving its neighbors.
 - **Facts the build must reproduce:**
-  - H2s (5): The link grid · The hover lift · About stats · Where a card breaks · Write the grid
+  - H2s (6): See the resting state and the response · Inspect the original link cards · Give each surface a destination · Make the grid and interaction · Try the interaction with different inputs · Diagnose a card before decorating it again
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
@@ -4988,7 +5130,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** The page · **Source:** `content/overrides/atelier/06-pictures.md` · **License:** Yours
 - **Story:** As a learner, I want photographs to crop on purpose, so a gallery and a full-bleed break hold the same grid.
 - **Facts the build must reproduce:**
-  - H2s (6): The gallery · Object fit · The colorway grid · The image break · Where pictures break · Write the gallery
+  - H2s (5): Read the original gallery as a layout · Build the equal-frame study · Predict what cover will cut away · Put readable words over a photograph · Let one image escape the container
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
@@ -4997,7 +5139,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** Motion and fit · **Source:** `content/overrides/atelier/07-motion.md` · **License:** Yours
 - **Story:** As a learner, I want motion in classes, so a reveal and a marquee can be turned off for reduced motion.
 - **Facts the build must reproduce:**
-  - H2s (6): The loader · The marquee · Scroll reveal · Entry choreography · Reduced motion · Write one reveal
+  - H2s (6): See two moments of the same animation · Trace the original moving strip · Make two equal groups and one viewport · Let the browser reveal cards when they arrive · Pause the strip and respect the reader · Break the loop deliberately, then repair it
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
@@ -5006,7 +5148,7 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** Motion and fit · **Source:** `content/overrides/atelier/08-gate-cursor-sound.md` · **License:** Yours
 - **Story:** As a learner, I want the gate, the cursor, and the mute button separated into CSS and a class toggle, so a phone does not inherit a custom cursor.
 - **Facts the build must reproduce:**
-  - H2s (6): The welcome gate · The cursor · The mute button · Class versus stylesheet · Where it breaks · Write the gate shell
+  - H2s (5): Start with an optional entrance · Give the effects visible states · Connect the entrance to its buttons · Make a cursor accent follow the pointer · Make the sound control tell the truth
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
@@ -5015,16 +5157,1062 @@ Each page = its template criteria + the global criteria + the specific items bel
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** Motion and fit · **Source:** `content/overrides/atelier/09-breakpoints.md` · **License:** Yours
 - **Story:** As a learner, I want two widths where the layout simplifies, so the hero stacks and the menu swaps without a sideways scroll.
 - **Facts the build must reproduce:**
-  - H2s (6): Mobile first · The hero stacks · The menu swaps · The grids collapse · Where a query breaks · Write two queries
+  - H2s (6): Compare the same document at two widths · Read a breakpoint with a specific job · Refine the page where the space becomes tight · Predict which queries match · Follow the existing transitions in the layout · Test words and controls, not just silhouettes
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
 
 #### ATELIER-10 · `/atelier/assembly/` — Assembly
 - **Template:** T-ARTICLE · **Section:** Atelier · **Group:** Assembly · **Source:** `content/overrides/atelier/10-assembly.md` · **License:** Yours
-- **Story:** As a learner who has the pieces, I want one page built in stylesheet order, so I can see the gift-site craft in a single file.
+- **Story:** As a learner who has the pieces, I want one page built in stylesheet order, so I can trace the complete portfolio through its HTML, CSS, and JavaScript.
 - **Facts the build must reproduce:**
-  - H2s (6): The order · Tokens through shell · Nav and hero · One grid and one break · Marquee, footer, motion · The file you ship
+  - H2s (6): See the complete composition in a new palette · Read the final document from entrance to footer · Follow the stylesheet's dependencies · Change one family of values together · Make a small portfolio that says something real · Verify the page you actually built
 - **Acceptance:**
   - [ ] G1–G14 and T-ARTICLE
   - [ ] Verification docs: MDN CSS
+
+### Explained
+
+#### EXPL-00 · `/explained/` — Explained
+- **Template:** T-LANDING · **Section:** Explained · **Group:** — · **Source:** `content/sections/explained.md (editorial intro)` · **License:** Yours
+- **Story:** As a learner who would rather watch the episode and then read, I want the Explained index so the series is in order.
+- **Facts the build must reproduce:**
+  - Pages in section: 104
+  - Groups: The web (6) · How software is shaped (6) · Systems (16) · The business (62) · Algorithms (8) · Interviews (5)
+- **Acceptance:**
+  - [ ] G1–G14 and T-LANDING
+  - [ ] Cards list the 103 episodes in the order of this document
+  - [ ] Intro paragraph ≤ 120 words, marked editorial
+  - [ ] "Start here" pill links to the first episode
+
+#### EXPL-01 · `/explained/html-css-js/` — HTML, CSS, and JavaScript
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The web · **Source:** `content/overrides/explained/01-html-css-js.md` · **License:** Yours
+- **Story:** As a learner, I want HTML, CSS, and JavaScript with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Build the notice before enchanting it
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of cjSufxqiAxQ and does not autoplay
+
+#### EXPL-02 · `/explained/the-box-model/` — The CSS box model
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The web · **Source:** `content/overrides/explained/02-the-box-model.md` · **License:** Yours
+- **Story:** As a learner, I want The CSS box model with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Account for the whole card
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of Mx-XMgLEFfQ and does not autoplay
+
+#### EXPL-03 · `/explained/tcp-ip-http-dns/` — TCP, IP, HTTP, and DNS
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The web · **Source:** `content/overrides/explained/03-tcp-ip-http-dns.md` · **License:** Yours
+- **Story:** As a learner, I want TCP, IP, HTTP, and DNS with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow one journey to the hall
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of -C6PKeEHA70 and does not autoplay
+
+#### EXPL-04 · `/explained/rest-apis/` — REST APIs
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The web · **Source:** `content/overrides/explained/04-rest-apis.md` · **License:** Yours
+- **Story:** As a learner, I want REST APIs with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): The second request is the revealing one
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of hDecH3aK43g and does not autoplay
+
+#### EXPL-05 · `/explained/react-components/` — React components
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The web · **Source:** `content/overrides/explained/05-react-components.md` · **License:** Yours
+- **Story:** As a learner, I want React components with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Reuse the rule, not just the rectangle
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of wzt0gwuSpQo and does not autoplay
+
+#### EXPL-06 · `/explained/nodejs/` — Node.js
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The web · **Source:** `content/overrides/explained/06-nodejs.md` · **License:** Yours
+- **Story:** As a learner, I want Node.js with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Waiting and working need different remedies
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of EGpZEmrA86s and does not autoplay
+
+#### EXPL-07 · `/explained/kiss/` — The KISS principle
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** How software is shaped · **Source:** `content/overrides/explained/07-kiss.md` · **License:** Yours
+- **Story:** As a learner, I want The KISS principle with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Simplicity must include the inconvenient case
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of _mSi8e8y8w0 and does not autoplay
+
+#### EXPL-08 · `/explained/occams-razor/` — Occam's razor
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** How software is shaped · **Source:** `content/overrides/explained/08-occams-razor.md` · **License:** Yours
+- **Story:** As a learner, I want Occam's razor with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Let the result change your mind
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of OY1B-2f1uSE and does not autoplay
+
+#### EXPL-09 · `/explained/yagni/` — YAGNI
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** How software is shaped · **Source:** `content/overrides/explained/09-yagni.md` · **License:** Yours
+- **Story:** As a learner, I want YAGNI with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Keep the future cheap to change
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of aqKjjgUDIUo and does not autoplay
+
+#### EXPL-10 · `/explained/worse-is-better/` — Worse is better
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** How software is shaped · **Source:** `content/overrides/explained/10-worse-is-better.md` · **License:** Yours
+- **Story:** As a learner, I want Worse is better with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Choose what is allowed to be smaller
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of q1RWhj_0MP8 and does not autoplay
+
+#### EXPL-11 · `/explained/proxies/` — Forward and reverse proxies
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/11-proxies.md` · **License:** Yours
+- **Story:** As a learner, I want Forward and reverse proxies with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): One public address, several private jobs
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of EWMX_1qZxaI and does not autoplay
+
+#### EXPL-12 · `/explained/docker/` — Docker
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/12-docker.md` · **License:** Yours
+- **Story:** As a learner, I want Docker with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Decide what must survive replacement
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of -eBsUajsHSs and does not autoplay
+
+#### EXPL-13 · `/explained/kubernetes/` — Kubernetes
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/13-kubernetes.md` · **License:** Yours
+- **Story:** As a learner, I want Kubernetes with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): A replacement is useful only if it is ready
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of QNFQIc7pS5U and does not autoplay
+
+#### EXPL-14 · `/explained/terraform/` — Terraform
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/14-terraform.md` · **License:** Yours
+- **Story:** As a learner, I want Terraform with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Read the verbs in the plan
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 7yOT6j-izBY and does not autoplay
+
+#### EXPL-15 · `/explained/caching/` — Caching
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/15-caching.md` · **License:** Yours
+- **Story:** As a learner, I want Caching with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Different facts tolerate different ages
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of xkRg_Tyil0w and does not autoplay
+
+#### EXPL-16 · `/explained/rate-limiting/` — Rate limiting
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/16-rate-limiting.md` · **License:** Yours
+- **Story:** As a learner, I want Rate limiting with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Fairness depends on the identity you count
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of wZewmtb5JEw and does not autoplay
+
+#### EXPL-17 · `/explained/latency-and-throughput/` — Latency and throughput
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/17-latency-and-throughput.md` · **License:** Yours
+- **Story:** As a learner, I want Latency and throughput with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Watch the slowest experiences, too
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of Oe5j0TAtnK0 and does not autoplay
+
+#### EXPL-18 · `/explained/ransomware/` — Ransomware
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/18-ransomware.md` · **License:** Yours
+- **Story:** As a learner, I want Ransomware with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Rehearse the return journey
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of ZO7Yk6GZ7-U and does not autoplay
+
+#### EXPL-19 · `/explained/venture-capital/` — Venture capital
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/19-venture-capital.md` · **License:** Yours
+- **Story:** As a learner, I want Venture capital with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Translate the money into a changed company
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of e4P6XSlHLqA and does not autoplay
+
+#### EXPL-20 · `/explained/ipfs/` — IPFS
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/20-ipfs.md` · **License:** Yours
+- **Story:** As a learner, I want IPFS with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Identity, persistence, and privacy are separate promises
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of AFoNvKlq7Zw and does not autoplay
+
+#### EXPL-21 · `/explained/availability/` — Availability
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/21-availability.md` · **License:** Yours
+- **Story:** As a learner, I want Availability with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Extra copies need independent ways to fail
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of NcdrWrHooh8 and does not autoplay
+
+#### EXPL-22 · `/explained/disk-and-memory/` — Disk and memory
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/22-disk-and-memory.md` · **License:** Yours
+- **Story:** As a learner, I want Disk and memory with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Ask what survives the next interruption
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of Uys9PYFDMcE and does not autoplay
+
+#### EXPL-23 · `/explained/content-delivery-networks/` — Content delivery networks
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/23-content-delivery-networks.md` · **License:** Yours
+- **Story:** As a learner, I want Content delivery networks with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Publish a new identity when the file changes
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of pS1vetPV1UM and does not autoplay
+
+#### EXPL-24 · `/explained/secure-hashing/` — Secure hashing
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/24-secure-hashing.md` · **License:** Yours
+- **Story:** As a learner, I want Secure hashing with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Give each cryptographic job its own tool
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of MTjt7c8zXw0 and does not autoplay
+
+#### EXPL-25 · `/explained/blob-storage/` — Blob storage
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/25-blob-storage.md` · **License:** Yours
+- **Story:** As a learner, I want Blob storage with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Design the unfinished upload, too
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of AwOoY47ua6E and does not autoplay
+
+#### EXPL-26 · `/explained/big-o/` — Big O
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/26-big-o.md` · **License:** Yours
+- **Story:** As a learner, I want Big O with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Count the work you actually repeat
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of HILULGoJISk and does not autoplay
+
+#### EXPL-27 · `/explained/eventual-consistency/` — Eventual consistency
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/27-eventual-consistency.md` · **License:** Yours
+- **Story:** As a learner, I want Eventual consistency with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Design the moment between versions
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of uyky3oRon3Y and does not autoplay
+
+#### EXPL-28 · `/explained/programming-paradigms/` — Programming paradigms
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** How software is shaped · **Source:** `content/overrides/explained/28-programming-paradigms.md` · **License:** Yours
+- **Story:** As a learner, I want Programming paradigms with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow the state through one action
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of xWr4IZmkiQE and does not autoplay
+
+#### EXPL-29 · `/explained/the-software-development-life-cycle/` — The software development life cycle
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** How software is shaped · **Source:** `content/overrides/explained/29-the-software-development-life-cycle.md` · **License:** Yours
+- **Story:** As a learner, I want The software development life cycle with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Let one small release answer a real question
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of k-tD69MdusI and does not autoplay
+
+#### EXPL-30 · `/explained/writes-follow-reads/` — Writes follow reads
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Systems · **Source:** `content/overrides/explained/30-writes-follow-reads.md` · **License:** Yours
+- **Story:** As a learner, I want Writes follow reads with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Keep the direction of the promise straight
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of zTsQhodZnKY and does not autoplay
+
+#### EXPL-31 · `/explained/dynamic-programming/` — Dynamic programming
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/31-dynamic-programming.md` · **License:** Yours
+- **Story:** As a learner, I want Dynamic programming with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Define the table before filling it
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of jhxx5qVHQjw and does not autoplay
+
+#### EXPL-32 · `/explained/dijkstra/` — Dijkstra's algorithm
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/32-dijkstra.md` · **License:** Yours
+- **Story:** As a learner, I want Dijkstra's algorithm with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): The assumption that makes the shortcut safe
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of b1gLmFgQW1c and does not autoplay
+
+#### EXPL-33 · `/explained/k-nearest-neighbor/` — K-nearest neighbor
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/33-k-nearest-neighbor.md` · **License:** Yours
+- **Story:** As a learner, I want K-nearest neighbor with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): A boundary you can draw
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of PW9j832dZiI and does not autoplay
+
+#### EXPL-34 · `/explained/divide-and-conquer/` — Divide and conquer
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/34-divide-and-conquer.md` · **License:** Yours
+- **Story:** As a learner, I want Divide and conquer with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): The combine step earns the result
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of rGzmoZ1dREQ and does not autoplay
+
+#### EXPL-35 · `/explained/sliding-window/` — The sliding window
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/35-sliding-window.md` · **License:** Yours
+- **Story:** As a learner, I want The sliding window with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): State the condition before trusting the pattern
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of fiCGZHIs30Y and does not autoplay
+
+#### EXPL-36 · `/explained/multiple-pointers/` — Multiple pointers
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/36-multiple-pointers.md` · **License:** Yours
+- **Story:** As a learner, I want Multiple pointers with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): The pointers do not always move toward each other
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of XsDuqhS2apE and does not autoplay
+
+#### EXPL-37 · `/explained/frequency-counter/` — The frequency counter
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Algorithms · **Source:** `content/overrides/explained/37-frequency-counter.md` · **License:** Yours
+- **Story:** As a learner, I want The frequency counter with the episode on the page and a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Keep the question attached to the table
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of i3qv0fc5nb4 and does not autoplay
+
+
+
+#### EXPL-38 · `/explained/2032-will-change-everything-heres-what-big-poppa/` — 2032 Will Change Everything—Here's What Big Poppa Code Says You Need to Know
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/38-2032-will-change-everything-heres-what-big-poppa.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Prepare for several versions of the future
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of h1DpfPO2r-0 and does not autoplay
+
+#### EXPL-39 · `/explained/this-gold-rush-wont-wait-for-you-to-learn-everyt/` — This Gold Rush Won't Wait for You to Learn Everything
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/39-this-gold-rush-wont-wait-for-you-to-learn-everyt.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Start before mastery; finish something narrow
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of TTbKwGMt_z4 and does not autoplay
+
+#### EXPL-40 · `/explained/forgotten-prospects-ai-knows-how-to-win-them-bac/` — Forgotten Prospects? AI Knows How to Win Them Back
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/40-forgotten-prospects-ai-knows-how-to-win-them-bac.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Make the handoff part of the system
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of WTusTNp2ms0 and does not autoplay
+
+#### EXPL-41 · `/explained/bitcoins-biggest-halving-meets-ai-singularity-in/` — Bitcoin's Biggest Halving Meets AI Singularity in 2032
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/41-bitcoins-biggest-halving-meets-ai-singularity-in.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow the causal connection
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of hyEd8Lqy_E8 and does not autoplay
+
+#### EXPL-42 · `/explained/bitcoin-ai-your-money-whats-actually-happening-t/` — Bitcoin, AI & Your Money: What's Actually Happening to Wealth
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/42-bitcoin-ai-your-money-whats-actually-happening-t.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Put an ordinary transaction in the picture
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of bpkvxpaVOOw and does not autoplay
+
+#### EXPL-43 · `/explained/creator-economy-exposed-how-attention-turns-into/` — Creator Economy Exposed: How Attention Turns Into Billions
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/43-creator-economy-exposed-how-attention-turns-into.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Trace one dollar back to one promise
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of bvJWgrH91u4 and does not autoplay
+
+#### EXPL-44 · `/explained/the-countdown-to-ai-dominance-has-already-starte/` — The Countdown to AI Dominance Has Already Started
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/44-the-countdown-to-ai-dominance-has-already-starte.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Draw the permission boundary
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of bPlZXOlHDxI and does not autoplay
+
+#### EXPL-45 · `/explained/designer-babies-are-here-should-we-be-terrified/` — Designer Babies Are Here. Should We Be Terrified?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/45-designer-babies-are-here-should-we-be-terrified.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Who gets to define an improvement?
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of GZnD43ADJdo and does not autoplay
+
+#### EXPL-46 · `/explained/could-you-live-on-mars-the-truth-about-off-world/` — Could You Live on Mars? The Truth About Off-World Colonization
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/46-could-you-live-on-mars-the-truth-about-off-world.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Design for the repair, not just the demonstration
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of pszVrJ0hs6U and does not autoplay
+
+#### EXPL-47 · `/explained/why-regulators-are-fighting-back-against-defi/` — Why Regulators Are Fighting Back Against DeFi
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/47-why-regulators-are-fighting-back-against-defi.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Efficiency is one part of the argument
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of ZMbFXqyIVVo and does not autoplay
+
+#### EXPL-48 · `/explained/build-real-tech-wealth-without-the-corporate-lad/` — Build Real Tech Wealth Without the Corporate Ladder
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/48-build-real-tech-wealth-without-the-corporate-lad.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Choose a route you can investigate
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of OuhaQHcB0Io and does not autoplay
+
+#### EXPL-49 · `/explained/success-isnt-luck-its-this-simple-formula/` — Success Isn't Luck, It's This Simple Formula
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/49-success-isnt-luck-its-this-simple-formula.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Give the system a feedback loop
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of LOF8HEJOlKs and does not autoplay
+
+#### EXPL-50 · `/explained/forget-everything-gurus-taught-you-learn-this-in/` — Forget Everything Gurus Taught You, Learn This Instead
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/50-forget-everything-gurus-taught-you-learn-this-in.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Make the lesson answer to the artifact
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of TBnGbWYgWjk and does not autoplay
+
+#### EXPL-51 · `/explained/my-high-school-crush-started-everything-full-sto/` — My High School Crush Started Everything: Full Story
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/51-my-high-school-crush-started-everything-full-sto.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Let the motivation grow up with you
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of PDymou5ZRd8 and does not autoplay
+
+#### EXPL-52 · `/explained/a-car-crash-forced-me-to-choose-between-two-futu/` — A Car Crash Forced Me to Choose Between Two Futures
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/52-a-car-crash-forced-me-to-choose-between-two-futu.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Make the next week reflect the new priority
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of f3HBx3XYMvA and does not autoplay
+
+#### EXPL-53 · `/explained/bitcoin-crypto-buy-houses-land-pay-mortgages/` — Bitcoin Crypto: Buy Houses, Land, Pay Mortgages!
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/53-bitcoin-crypto-buy-houses-land-pay-mortgages.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Separate the story's outcome from a repeatable mechanism
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of OiCl4I8zr3Q and does not autoplay
+
+#### EXPL-54 · `/explained/who-needs-iron-man-power-in-unity-votes/` — Who Needs Iron Man? Power in Unity & Votes!
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/54-who-needs-iron-man-power-in-unity-votes.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow a proposal past the vote
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 4k4DpPkbADQ and does not autoplay
+
+#### EXPL-55 · `/explained/future-casting-are-we-building-paradise-or-pando/` — Future Casting: Are We Building Paradise or Pandora?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/55-future-casting-are-we-building-paradise-or-pando.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Write a future with actors in it
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of IPUSPYAWW0w and does not autoplay
+
+#### EXPL-56 · `/explained/the-counterintuitive-strategy-that-made-matty-j/` — The Counterintuitive Strategy That Made Matty J 7-Figures
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/56-the-counterintuitive-strategy-that-made-matty-j.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Let the work become part of the story
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of atYe0l9pG6o and does not autoplay
+
+#### EXPL-57 · `/explained/exclusive-interview-the-missing-economic-strateg/` — Exclusive Interview: The Missing Economic Strategy They Don't Want Discussed
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/57-exclusive-interview-the-missing-economic-strateg.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Give solidarity an operating plan
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of kVV0g1FIBSg and does not autoplay
+
+#### EXPL-58 · `/explained/ai-takeover-how-close-are-we-to-skynet/` — AI Takeover: How Close Are We to Skynet?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/58-ai-takeover-how-close-are-we-to-skynet.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): What would the system actually be allowed to do?
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of M67dZLJdGAc and does not autoplay
+
+#### EXPL-59 · `/explained/from-zero-experience-to-400k-jennifer-gaddis-qa/` — From Zero Experience to $400K: Jennifer Gaddis' QA Story
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/59-from-zero-experience-to-400k-jennifer-gaddis-qa.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Write a bug report another person can use
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 2wmzcWVPkhM and does not autoplay
+
+#### EXPL-60 · `/explained/the-booking-system-top-creators-use-to-get-on-ma/` — The Booking System Top Creators Use to Get on Major Podcasts
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/60-the-booking-system-top-creators-use-to-get-on-ma.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Pitch the conversation, then prepare to deliver it
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of VyYhezP97nI and does not autoplay
+
+#### EXPL-61 · `/explained/the-psychological-battle-nobody-warns-new-trader/` — The Psychological Battle Nobody Warns New Traders About /w Terry Arter
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/61-the-psychological-battle-nobody-warns-new-trader.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Review the decision without putting your identity on trial
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of G5uYmosILhM and does not autoplay
+
+#### EXPL-62 · `/explained/why-most-traders-fail-its-not-what-you-think-w-j/` — Why Most Traders Fail … It's Not What You Think /w Joe Cool Burr
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/62-why-most-traders-fail-its-not-what-you-think-w-j.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Make the process inspectable
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of BRrYlTCPqp0 and does not autoplay
+
+#### EXPL-63 · `/explained/jarrett-albritton-big-tech-sales-energy-the-secr/` — Jarrett Albritton: Big Tech Sales Energy The Secret Tech Job Nobody Talks About
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/63-jarrett-albritton-big-tech-sales-energy-the-secr.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Discovery comes before the demonstration
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of NzUBuA57ufo and does not autoplay
+
+#### EXPL-64 · `/explained/the-contrarian-mindset-that-makes-millionaires-f/` — The Contrarian Mindset That Makes Millionaires | Ft. Jared T. Ross
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/64-the-contrarian-mindset-that-makes-millionaires-f.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Put the disagreement into the offer
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of nTn0S9Kr4AA and does not autoplay
+
+#### EXPL-65 · `/explained/from-star-trek-to-today-what-they-got-scarily-ri/` — From Star Trek to Today: What They Got Scarily Right
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/65-from-star-trek-to-today-what-they-got-scarily-ri.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Borrow a world, then question its rules
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of KYaRHfDOEKo and does not autoplay
+
+#### EXPL-66 · `/explained/the-metaverse-is-reshaping-reality-heres-whats-c/` — The Metaverse Is Reshaping Reality | Here's What's Coming
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/66-the-metaverse-is-reshaping-reality-heres-whats-c.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Design the arrival as carefully as the world
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of O5RsFaEug30 and does not autoplay
+
+#### EXPL-67 · `/explained/information-selling-doesnt-work-anymore/` — Information Selling Doesn't Work Anymore
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/67-information-selling-doesnt-work-anymore.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Sell a better learning experience
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of bksyAuf8a9I and does not autoplay
+
+#### EXPL-68 · `/explained/the-follower-era-is-over-heres-whats-next/` — The Follower Era is Over | Here's What's Next
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/68-the-follower-era-is-over-heres-whats-next.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Give people a way to contribute
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 4EYHtHG2oqo and does not autoplay
+
+#### EXPL-69 · `/explained/season-2-episode-6-defi-drama-bankers-beware/` — Season 2 Episode 6 DeFi Drama: Bankers Beware?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/69-season-2-episode-6-defi-drama-bankers-beware.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Ask where the return comes from
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of kUDhtcfmfPA and does not autoplay
+
+#### EXPL-70 · `/explained/how-close-are-we-to-escaping-earth/` — How Close Are We to Escaping Earth?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/70-how-close-are-we-to-escaping-earth.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Pack for the journey you actually mean
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of oiifFNGN35U and does not autoplay
+
+#### EXPL-71 · `/explained/designer-babies-are-here-should-we-be-scared/` — Designer Babies Are Here—Should We Be Scared?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/71-designer-babies-are-here-should-we-be-scared.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): The software metaphor has limits
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of cr5P7Nt2KfY and does not autoplay
+
+#### EXPL-72 · `/explained/robots-are-taking-over-what-you-need-to-know-now/` — Robots Are Taking Over | What You Need to Know NOW
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/72-robots-are-taking-over-what-you-need-to-know-now.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Find the difficult step in the ordinary task
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of eqvgdKjQMW0 and does not autoplay
+
+#### EXPL-73 · `/explained/influencer-economy-exposed-get-rich-or-get-forgo/` — Influencer Economy Exposed: Get Rich or Get Forgotten
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/73-influencer-economy-exposed-get-rich-or-get-forgo.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Investigate one transition
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of vjS86wD6ExQ and does not autoplay
+
+#### EXPL-74 · `/explained/abundance-is-your-birthright-heres-how-to-claim/` — Abundance is Your Birthright: Here's How to Claim It With Strategy
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/74-abundance-is-your-birthright-heres-how-to-claim.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Turn a lived lesson into a useful offer
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of abyQJdxRjx8 and does not autoplay
+
+#### EXPL-75 · `/explained/stedman-waiters-building-a-business-around-fundi/` — Stedman Waiters: Building a Business Around Funding Other People's Businesses
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/75-stedman-waiters-building-a-business-around-fundi.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Explain the whole arrangement
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of KOuqdMbWpSY and does not autoplay
+
+#### EXPL-76 · `/explained/billionaire-brooklynn-the-queen-of-pivot-from-ha/` — Billionaire Brooklynn: The Queen of Pivot From Hair Bundles to Digital Empire
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/76-billionaire-brooklynn-the-queen-of-pivot-from-ha.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Customization should add a reason to choose you
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of f7GchjmTlp0 and does not autoplay
+
+#### EXPL-77 · `/explained/billionaire-bae-the-woman-teaching-nightlife-gir/` — Billionaire Bae: The Woman Teaching Nightlife Girls to Build Wealth
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/77-billionaire-bae-the-woman-teaching-nightlife-gir.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Look beyond the brightest night
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of uYGeEeiOHS0 and does not autoplay
+
+#### EXPL-78 · `/explained/s3-e5-from-setbacks-to-millions-how-smitty-the-g/` — S3 E5 From Setbacks to Millions: How Smitty The Goat Built an Empire with Business Credit
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/78-s3-e5-from-setbacks-to-millions-how-smitty-the-g.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Give the borrowed money a job
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of PvOOeDnU_QY and does not autoplay
+
+#### EXPL-79 · `/explained/s3-e4-how-to-build-wealth-empower-communities-wi/` — S3 E4 How to Build Wealth & Empower Communities with FinTech and Credit with Haziq Ali
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/79-s3-e4-how-to-build-wealth-empower-communities-wi.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Design for the moment a customer is confused
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of b9H9FBPuWGI and does not autoplay
+
+#### EXPL-80 · `/explained/s3-e2-hacking-the-startup-paradox-with-jeff-nels/` — S3 E2 Hacking the Startup Paradox with Jeff Nelson Co-Founder of Blavity & Afrotech
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/80-s3-e2-hacking-the-startup-paradox-with-jeff-nels.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Decide what an experiment is allowed to change
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of ps6F2u1cdoY and does not autoplay
+
+#### EXPL-81 · `/explained/esports-the-next-trillion-dollar-market/` — Esports: The Next Trillion Dollar Market?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/81-esports-the-next-trillion-dollar-market.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow one event through its ecosystem
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of vDzFmJSQ07M and does not autoplay
+
+#### EXPL-82 · `/explained/season-2-episode-20-bootcamps-and-mentorship/` — Season 2 Episode 20: Bootcamps and Mentorship
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/82-season-2-episode-20-bootcamps-and-mentorship.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Look for the feedback loop
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of Ws_rwcPe5Uo and does not autoplay
+
+#### EXPL-83 · `/explained/season-2-episode-19-what-are-the-top-emerging-jo/` — Season 2 Episode 19: What Are The Top Emerging Jobs in The New Economy
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/83-season-2-episode-19-what-are-the-top-emerging-jo.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Build a bridge from a skill you already have
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of n-UekVoT2E4 and does not autoplay
+
+#### EXPL-84 · `/explained/season-2-episode-16-shop-scroll-the-boom-of-soci/` — Season 2 Episode 16 Shop & Scroll : The Boom of Social Commerce
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/84-season-2-episode-16-shop-scroll-the-boom-of-soci.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow the customer past the purchase button
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of oVxcfRb92gs and does not autoplay
+
+#### EXPL-85 · `/explained/season-2-episode-15-preparing-children-for-the-f/` — Season 2 Episode 15 Preparing Children for the Future: A Tech Literacy Guide
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/85-season-2-episode-15-preparing-children-for-the-f.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Move from remembering to making judgments
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of oLbz1sBUfaE and does not autoplay
+
+#### EXPL-86 · `/explained/season-2-episode-14-building-magnetic-brands-in/` — Season 2 Episode 14: Building Magnetic Brands in the Digital Age with Tracey Walker
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/86-season-2-episode-14-building-magnetic-brands-in.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Make the promise recognizable across channels
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of jIu3FNwCVwc and does not autoplay
+
+#### EXPL-87 · `/explained/season-2-episode-13-navigating-the-tech-startup/` — Season 2 Episode 13: Navigating The Tech Startup Ecosystem
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/87-season-2-episode-13-navigating-the-tech-startup.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Hire for the work in front of you
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of FK4Gn96eMq8 and does not autoplay
+
+#### EXPL-88 · `/explained/season-2-episode-12-unlock-your-financial-potent/` — Season 2 Episode 12 Unlock Your Financial Potential: Expert Strategies with Jasmine Baker
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/88-season-2-episode-12-unlock-your-financial-potent.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Understand the evidence before chasing the number
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of jxcYpN82Yng and does not autoplay
+
+#### EXPL-89 · `/explained/season-2-episode-11-is-ai-wearable-technology-th/` — Season 2 Episode 11: Is AI & Wearable Technology The Future of Fashion?
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/89-season-2-episode-11-is-ai-wearable-technology-th.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Design the day around the device
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 6VMEjDF6Oco and does not autoplay
+
+#### EXPL-90 · `/explained/season-2-episode-10-liberty-madisons-formula-for/` — Season 2 Episode 10: Liberty Madison's Formula for Founder Success & Investor Appeal
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/90-season-2-episode-10-liberty-madisons-formula-for.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Make the growth story visible
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of fWI-aYSGXTM and does not autoplay
+
+#### EXPL-91 · `/explained/episode-8-tech-titans-ancient-empires-powerhouse/` — Episode 8 : Tech Titans & Ancient Empires: Powerhouses Through Ages
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/91-episode-8-tech-titans-ancient-empires-powerhouse.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Draw the routes through the kingdom
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of vufp_c2cbYI and does not autoplay
+
+#### EXPL-92 · `/explained/episode-7-echoes-of-creativity-from-renaissance/` — Episode 7: Echoes of Creativity: From Renaissance Masters to Modern Digital Pioneers
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/92-episode-7-echoes-of-creativity-from-renaissance.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Separate the artwork, the record, and the rights
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of hx-WRiQ-vHc and does not autoplay
+
+#### EXPL-93 · `/explained/episode-6-from-platforms-to-profit-the-rise-of-t/` — Episode 6: From Platforms to Profit: The Rise of the Creator Economy
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/93-episode-6-from-platforms-to-profit-the-rise-of-t.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Match the revenue to the relationship
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of WSi8BAgQD5w and does not autoplay
+
+#### EXPL-94 · `/explained/episode-5-ai-and-futurism-reshaping-proptech-rea/` — Episode 5: AI and Futurism: Reshaping PropTech & Real Estate
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/94-episode-5-ai-and-futurism-reshaping-proptech-rea.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow a repair from report to resolution
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 0f-Iw-FF1-E and does not autoplay
+
+#### EXPL-95 · `/explained/episode-4-money-talks-gold-to-bitcoin-the-financ/` — Episode 4: Money Talks: Gold to Bitcoin, the Financial Evolution (Deeper Than Code Podcast)
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/95-episode-4-money-talks-gold-to-bitcoin-the-financ.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Ask what makes the promise credible
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of YahOErFtq-0 and does not autoplay
+
+#### EXPL-96 · `/explained/episode-3-from-blockbusters-to-stream-the-fall-a/` — Episode 3: From Blockbusters to Stream: The Fall and Rise of Entertainment Titans
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/96-episode-3-from-blockbusters-to-stream-the-fall-a.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Define the job without naming your product
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 196kuMA1TWA and does not autoplay
+
+#### EXPL-97 · `/explained/episode-2-ai-machine-learning-the-promise-of-sel/` — Episode 2: AI, Machine Learning & The Promise of Self Driving Cars (Deeper Than Code)
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/97-episode-2-ai-machine-learning-the-promise-of-sel.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Name the conditions and the human's role
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of lJcY7KMo_tw and does not autoplay
+
+#### EXPL-98 · `/explained/episode-1-the-webs-evolution-from-web-1-0-to-web/` — Episode 1: The Web's Evolution: From Web 1.0 to Web 3.0 (Deeper Than Code Podcast)
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** The business · **Source:** `content/overrides/explained/98-episode-1-the-webs-evolution-from-web-1-0-to-web.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Follow a creator across the versions
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 7k2CyUGmgdQ and does not autoplay
+
+#### EXPL-99 · `/explained/defi-ai-and-cryptos-takeover-whats-coming-in-203/` — DEFI, AI, and Crypto's Takeover | What's Coming in 2032
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Interviews · **Source:** `content/overrides/explained/99-defi-ai-and-cryptos-takeover-whats-coming-in-203.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Trace a hypothetical automated purchase
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of jS5alwGqCsg and does not autoplay
+
+#### EXPL-100 · `/explained/the-secret-cheat-code-to-be-rich-in-tech-secrets/` — The Secret Cheat Code To Be Rich In Tech | Secrets of Tech Success Story
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Interviews · **Source:** `content/overrides/explained/100-the-secret-cheat-code-to-be-rich-in-tech-secrets.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Make one project easy to understand
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of kTL6gU5AYh8 and does not autoplay
+
+#### EXPL-101 · `/explained/becoming-a-software-engineer-in-2026-ai-deepfake/` — Becoming a Software Engineer in 2026 | AI, Deepfake Detection & My Tech Journey
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Interviews · **Source:** `content/overrides/explained/101-becoming-a-software-engineer-in-2026-ai-deepfake.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Think through both kinds of detection error
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of idvsSK23fmQ and does not autoplay
+
+#### EXPL-102 · `/explained/big-poppa-code-the-integrity-response-w-ceo-khac/` — Big Poppa Code | The Integrity Response w/ CEO Khacki #142
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Interviews · **Source:** `content/overrides/explained/102-big-poppa-code-the-integrity-response-w-ceo-khac.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Look at the decision before the explanation
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of 6FkdQNifqIg and does not autoplay
+
+#### EXPL-103 · `/explained/what-theyre-saying-about-ai-in-proptech-w-libert/` — What They're Saying About AI in PropTech /w Liberty Madison
+- **Template:** T-ARTICLE · **Section:** Explained · **Group:** Interviews · **Source:** `content/overrides/explained/103-what-theyre-saying-about-ai-in-proptech-w-libert.md` · **License:** Yours
+- **Story:** As a learner, I want this episode on the page with a writeup under it, so I can connect the episode to a concrete example, decision, or question in my own work.
+- **Facts the build must reproduce:**
+  - H2s (1): Give the user a way to inspect the answer
+  - Code blocks: 0
+- **Acceptance:**
+  - [ ] G1–G14 and T-ARTICLE
+  - [ ] The player is a youtube-nocookie embed of bVt_fO-x8XQ and does not autoplay

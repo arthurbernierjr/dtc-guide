@@ -7,7 +7,7 @@
   const doc = document;
   const $ = (sel, root) => (root || doc).querySelector(sel);
   const $$ = (sel, root) => Array.from((root || doc).querySelectorAll(sel));
-  const SECTION_ORDER = ['Algorithms', 'Data Structures', 'Practice', 'Languages', 'System Design', 'Design Patterns', 'Security', 'Mindset', 'Global'];
+  const SECTION_ORDER = ['The Path', 'Algorithms', 'Data Structures', 'Practice', 'Languages', 'System Design', 'Design Patterns', 'Security', 'Mindset', 'Atelier', 'Explained', 'Global'];
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const version = (() => { const s = $('script[src^="/search.js"]'); const m = s && s.getAttribute('src').match(/\?v=[^&]+/); return m ? m[0] : ''; })();
 

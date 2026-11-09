@@ -475,7 +475,7 @@ Two builds. The first is a prediction exercise; the second is the Character Crea
 
 ## The quest
 
-> *The Guild Master slams a thick, empty ledger onto the counter. "Our quest tracking system is down," she growls. "Adventurers are losing track of their assignments. I need a new system by tomorrow. It needs to track quest names, priority levels, completion status, and it needs to look good. Oh, and make it so I can clear out all the finished quests with one button. I am not scrolling through pages of completed jobs."*
+> *The Guild Master slams a thick, empty ledger onto the counter. "Our quest tracking system is down," she growls. "Adventurers are losing track of their assignments. I need a new system before the next party sets out. It needs to track quest names, priority levels, completion status, and it needs to look good. Oh, and make it so I can clear out all the finished quests with one button. I am not scrolling through pages of completed jobs."*
 
 **The To-Do Quest Log.** Create `quest-log.html` and `quest-log.js` and build the Guild's new system.
 

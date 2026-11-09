@@ -162,7 +162,9 @@ async function readMessage(req, res) {
 
 Run the checklist. `countDocuments` is on the Model API page. `save` is a document method. The write is under the 403. Mount it: `app.get('/api/inbox/unread', requireUser, unreadCount)` next to `GET /api/inbox`, behind the same `requireUser`, because registration order is the program and a route without the middleware is a count anyone can read. Add `readAt: { type: Date, default: null }` to the schema. Restart the server with Ctrl-C and the same command.
 
-Now the curl evidence, with the three tokens from 4-15 in shell variables, `BRAN`, `SERA`, `IVO`. Bran sends a new letter, then:
+Now the curl evidence, with fresh login tokens for the three accounts from 4-15 in shell variables, `BRAN`, `SERA`, `IVO`. Before sending anything, call `GET /api/inbox/unread` with Sera's token and write its count as N. `{ readAt: null }` matches both null and missing fields: letters created before this field existed also count as unread. The application did not record those earlier reads, so it cannot reconstruct them now.
+
+Bran sends one new letter to Sera. Use that new letter's id for every `MESSAGE_ID` below. While measuring, send no other letters and keep Sera's message screen closed so it cannot mark the new letter read ahead of the curl test. Then:
 
 ```bash
 curl -s -H "Authorization: Bearer $SERA" http://localhost:4100/api/inbox/unread
@@ -174,9 +176,9 @@ curl -s -o /dev/null -w '%{http_code}\n' -H "Authorization: Bearer $SERA" http:/
 curl -s -H "Authorization: Bearer $SERA" http://localhost:4100/api/inbox/unread
 ```
 
-Seven lines back: `{"count":1}`, `403`, `{"count":1}`, `200`, `{"count":0}`, `200`, `{"count":0}`. The third line is the one that matters. Ivo's 403 did not touch the count. The seventh is the idempotence. Paste all seven into the log.
+Seven lines back: a count of N + 1, `403`, the same N + 1 count, `200`, a count of N, `200`, and the same N count. With an empty starting inbox, those counts are 1, 1, 0, 0; an older inbox can have higher totals. The third line is the one that matters. Ivo's 403 did not touch the count. The seventh is the idempotence. Paste all seven into the log.
 
-**Prompt 3, the screen.** Paste the response shape, `{ "count": n }`, and the route path into Purpose, together with the component in `hall-client` that renders the inbox list, as the style example. Ask for a badge in the inbox header that fetches the count after login and after a successful read, and for nothing else. The shape of a good answer is a small component that owns `count` in state, fetches in an effect keyed on the token and a `refreshKey`, and bumps the key from the read handler, which is the lift you did in 4-11. Start the client in the third terminal, `cd ~/projects/hall-client && npm run dev`, log in as Sera, and watch the badge say 1, then 0 after you open the letter.
+**Prompt 3, the screen.** Paste the response shape, `{ "count": n }`, and the route path into Purpose, together with the component in `hall-client` that renders the inbox list, as the style example. Ask for a badge in the inbox header that fetches the count after login and after a successful read, and for nothing else. The shape of a good answer is a small component that owns `count` in state, fetches in an effect keyed on the token and a `refreshKey`, and bumps the key from the read handler, which is the lift you did in 4-11. Start the client in the third terminal, `cd ~/projects/hall-client && npm run dev`, log in as Sera, and note the current badge count. Have Bran send another new letter; refresh the inbox to fetch the count, then open that letter as Sera. The count rises by one and falls by one. The curl test already read its own letter; reopening that old letter must not subtract again.
 
 **Prompt 4, the edge cases.** "Using the three outputs above, list the inputs that could still produce a wrong count, and the smallest change for each." A deleted message, a message sent to yourself (already 400 in `sendMessage`), a `readAt` set by a route other than the recipient's read. Decide which ones you take. Record the ones you do not, with the reason.
 
@@ -258,10 +260,10 @@ The chain from the demonstration, on your hall, with versions. The API is runnin
 1. Make the `guild hall` Project in Claude.ai with the system prompt from The idea. Start the `## 5-2 unread count` entry in `docs/prompt-log.md` with the five-line regression set from `HALL.md` and the feature rubric.
 2. Run Prompt 1 as written. Paste the plan under `### v1 plan`. Mark each rubric line it covers. If it proposes a boolean instead of a date, record that as the first version and ask for the reason a timestamp is cheaper to keep; the answer about "when" versus "whether" is the one to write down.
 3. Run Prompt 2 with two handlers copied from your own `server.js` and the 409 no. Paste the output under `### v1 route`. Run the six-point checklist and write the result of each point. Paste the route and the schema line into `server.js`, mount it above `GET /api/inbox`, restart.
-4. Run the seven curl lines. The expected output, in order, is `{"count":1}`, `403`, `{"count":1}`, `200`, `{"count":0}`, `200`, `{"count":0}`. If the third line is `{"count":0}`, the write in `readMessage` is above the 403 return; move it and restart.
+4. Record the starting count N, send a new letter, and run the seven curl lines with its id. Expect N + 1, 403, N + 1, 200, N, 200, N (counts arrive as JSON). If Ivo's forbidden read reduces the count, the write in `readMessage` is above the 403 return; move it and restart, then repeat with a new letter and a fresh baseline.
 5. Rerun the five regression cases from `HALL.md` and fill the table. All five hold; if the sender's read is no longer 403, the recipient check was edited, and the version is not adopted until it is back.
 6. Change one line of Prompt 2, removing the 409 example, and run it again as `### v2 route`. Score both. Record which cases changed. Keep whichever version you adopted and say why in one sentence.
-7. Run Prompt 3 against your inbox component, paste the badge into `hall-client`, start it with `npm run dev`, log in as Sera, and watch the number go from 1 to 0 when you open the letter. Screenshot it as `docs/unread-badge.png`.
+7. Run Prompt 3 against your inbox component, paste the badge into `hall-client`, start it with `npm run dev`, log in as Sera, and use a new letter for this screen test: watch the count rise by one after refreshing the inbox, then fall by one when you open that letter. Screenshot it as `docs/unread-badge.png`.
 8. Commit both projects.
 
 ```bash

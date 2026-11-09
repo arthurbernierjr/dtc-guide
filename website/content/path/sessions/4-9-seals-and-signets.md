@@ -233,7 +233,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 Paste the output into `.env` as the second line, so the file reads:
 
 ```bash
-MONGODB_URI=mongodb://127.0.0.1:27017/guild
+MONGODB_URI=mongodb://127.0.0.1:27017/guild_keeper
 JWT_SECRET=paste-the-64-hex-characters-here
 ```
 

@@ -61,7 +61,7 @@ async function runStage(page, live, errors) {
   let st = await state();
   if (!st.live || st.failed) return { ok: false, why: `stage ${st.failed ? 'reported an uncaught error' : 'did not light up'}. Panel: ${first.replace(/\n/g, ' | ').slice(0, 300)}` };
   // Interaction smoke: every non-submit button inside the stage, once (the list shrinks when a click removes a card).
-  const buttons = box.locator('[data-stage-root] button:not([type="submit"]):not([disabled])');
+  const buttons = box.frameLocator('iframe.example-sandbox').locator('[data-stage-root] button:not([type="submit"]):not([disabled])');
   const n = Math.min(await buttons.count(), 8);
   const before = errors.length;
   for (let i = 0; i < n; i++) {

@@ -307,7 +307,7 @@ The README says the hall is fully tested, and the report never started a browser
 In `~/projects/hall-api`, on `add-tests`, with `mongod` running and nothing else.
 
 1. Fill `TESTPLAN.md` from the template with at least eight rows. Every blocker row names a test file and an `it` string that exists. Rows without a test get a test today or a sentence under Not covered.
-2. Write `tests/models.test.js`. `npm test` ends with four more passing tests than it did yesterday; the last line names the new file.
+2. Write `tests/models.test.js`. `npm test` ends with four more passing tests than it did at the end of 7.3; the last line names the new file.
 3. Run `npm test -- --coverage`. Open every line number in the last column and give each one a rank in the plan. Write at least one new test for a defect-ranked branch. Screenshot the table as `coverage.png`; the folder stays ignored.
 4. Replace the inbox filter with `{}`, run, confirm one test goes red with `Expected length: 0, Received length: 1`, restore it, and add the line to Rehearsed regressions.
 5. Commit. Clone into `~/projects/hall-api-clean`, `npm ci`, `npm test`, `npx playwright test`. Both end in their passing lines. Delete the folder.

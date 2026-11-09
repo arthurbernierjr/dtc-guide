@@ -12,7 +12,7 @@ module.exports = {
   // Shown on every page that is original material (the Creator card) and on /credits/.
   // Facts come from bigpoppacode.io/about; keep the two in step.
   authorBio: 'Arthur Bernier Jr — Big Poppa Code — is a software engineer, educator and entrepreneur: a former CTO at VC-backed startups and engineering lead at a billion-dollar company, mentor to 800+ engineers, now Senior Director of AI, Computer Programming and Cloud Computing at Per Scholas, and the host of the Deeper Than Code podcast.',
-  origin: 'https://guide.bigpoppacode.io',
+  origin: 'https://codecomeup.thelinkfor.me',
   themeColor: '#08080A',
   verifiedMonth: 'Nov 2026',
   links: {
@@ -24,7 +24,7 @@ module.exports = {
   marquee: ['RESPAWNED', 'SUPER CODER', 'IN A WORLD WITH AI', 'THE PATH', 'SIDE QUESTS', 'BIG POPPA CODE'],
   // The path is the spine of the site; it sits before the library tracks in the nav and footer.
   path: { id: 'path', num: '00', title: 'The Path', nav: 'Path', url: '/path/', icon: 'flag',
-    blurb: 'Twenty-two weeks, sixty-six sessions. Each session points at its side quests.' },
+    blurb: 'Each session points at its side quests.' },
   sections: [
     { id: 'algorithms', num: '01', title: 'Algorithms', url: '/algorithms/', icon: 'hash',
       blurb: 'Big O, sorting, searching, recursion, and the interview patterns.' },
@@ -43,7 +43,9 @@ module.exports = {
     { id: 'mindset', num: '08', title: 'Mindset', url: '/mindset/', icon: 'brain',
       blurb: 'Grit, and the four moves that make a skill yours.' },
     { id: 'atelier', num: '09', title: 'Atelier', nav: 'Atelier', short: 'CSS', url: '/atelier/', icon: 'layers',
-      blurb: 'Ten lessons on how a gift site is styled.' },
+      blurb: 'Build a polished portfolio with CSS, visual walkthroughs, and working examples.' },
+    { id: 'explained', num: '10', title: 'Explained', nav: 'Explained', short: 'Video', url: '/explained/', icon: 'play',
+      blurb: 'The series, with a writeup under each video.' },
   ],
 };
 module.exports.allSections = [module.exports.path, ...module.exports.sections];

@@ -486,7 +486,7 @@ export default function App() {
 }
 ```
 
-`cd client && npm run dev` in a second terminal prints `http://localhost:5173`, the origin the API's `.env` allows. Register Bran on the page, log in, and the page says `Signed in as Bran`. Open the network panel: the request to `/api/me` carries `Authorization: Bearer` and the URL carries nothing.
+`cd client && npm run dev` in a second terminal prints `http://localhost:5173`, the origin the API's `.env` allows. Log in with the Bran account you already created by curl (`bran@example.com`, password `correct horse`); the page says `Signed in as Bran`. Restarting the API did not erase the account, so registering that email again should return 409. To exercise the page's Register button, click Sign out and use a different email that is not yet in your database, then log in with that new account. Open the network panel: the request to `/api/me` carries `Authorization: Bearer` and the URL carries nothing.
 
 Here is a small model you can run here. It models the trusted-shape step, the operator check, and the limiter's window. It proves those three rules can be stated and tested. It does not prove your API sends the headers or that your `.env` is ignored by git; those are the curls and the `git check-ignore` on your machine.
 

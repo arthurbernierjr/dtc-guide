@@ -28,6 +28,7 @@ const RENDERERS = {
   'T-LANG-INDEX': renderLangIndexPage,
   'T-ARTICLE': renderArticlePage,
   'T-CREDITS': renderCreditsPage,
+  'T-PRIVACY': require('./pages/privacy'),
   'T-SEARCH': renderSearchPage,
   'T-404': render404Page,
   'T-PATH': renderPathIndexPage,
@@ -75,6 +76,8 @@ function copyClient(buildId) {
     }
   };
   copyTree(diagrams, path.join(S.PUBLIC, 'assets', 'diagrams'));
+  copyTree(path.join(S.CONTENT, 'video-posters'), path.join(S.PUBLIC, 'assets', 'video-posters'));
+  copyTree(path.join(S.CONTENT, 'atelier'), path.join(S.PUBLIC, 'assets', 'atelier'));
 }
 
 // The language guides, mindset articles and system design primer are Arthur Bernier Jr's own
@@ -160,6 +163,8 @@ async function main() {
   }
 
   // The 404 page is also written as /404/index.html? No: Express serves 404.html for unknown paths only.
+  U.write(path.join(S.PUBLIC, 'save-lessons.json'), JSON.stringify(ctx.path.written.map(s => ({id:s.id,url:s.url,title:s.title,unit:s.unit,act:s.act.id,color:s.color,week:s.week,position:s.position,read:s.read || 45,hook:s.hook || s.subtitle || ''}))));
+  U.write(path.join(S.PUBLIC, 'runner-sources.json'), JSON.stringify(Object.fromEntries([...runnables.filter(r => r.mode !== 'node').map(r => ['/assets/src/' + r.rel, 'worker']), ...lives.map(r => [r.src, 'live'])])));
   U.write(path.join(S.PUBLIC, 'search-index.json'), JSON.stringify(searchIndex));
   U.write(path.join(S.PUBLIC, 'sitemap.xml'), sitemapXml(reg));
   U.write(path.join(S.PUBLIC, 'redirects.json'), JSON.stringify(groupRedirects(reg), null, 2));

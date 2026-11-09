@@ -8,7 +8,6 @@ const { parseFrontmatter } = require('./parsers/markdown');
 
 const PATH_DIR = path.join(S.CONTENT, 'path');
 const SESSIONS_DIR = path.join(PATH_DIR, 'sessions');
-const DAY_NAME = { Tue: 'Tuesday', Wed: 'Wednesday', Sat: 'Saturday' };
 
 function loadPath(reg) {
   const data = JSON.parse(fs.readFileSync(path.join(PATH_DIR, 'path.json'), 'utf8'));
@@ -16,7 +15,7 @@ function loadPath(reg) {
   const actOf = (unit) => data.acts.find((a) => a.units.includes(unit));
   const unitOf = (n) => data.units.find((u) => u.n === n);
 
-  const sessions = data.sessions.map((s) => {
+  const sessions = data.sessions.map((s, index) => {
     const url = `/path/${s.slug}/`;
     const file = path.join(SESSIONS_DIR, `${s.slug}.md`);
     const hasFile = fs.existsSync(file);
@@ -39,7 +38,7 @@ function loadPath(reg) {
       read: hasFile ? Number(meta.read) : undefined,
       hook: meta.hook || s.hook,
       diagramCount: hasFile ? meta.diagrams.length : 0,
-      dayName: DAY_NAME[s.day] || s.day,
+      position: index + 1,
       unitInfo: unitOf(s.unit),
       act,
       color: act.color,
@@ -52,17 +51,17 @@ function loadPath(reg) {
   });
   const ids = new Set(sessions.map((s) => s.id));
   if (ids.size !== sessions.length) throw new Error('path.json has duplicate session ids');
-  const weeksNeeded = Math.ceil(sessions.length / data.schedule.length);
-  if (data.weeks !== weeksNeeded) throw new Error(`path.json weeks is ${data.weeks}, ${sessions.length} sessions on a ${data.schedule.length}-day week need ${weeksNeeded}`);
+  if (!Number.isInteger(data.sessionsPerWeek) || data.sessionsPerWeek < 1) throw new Error('path.json needs a positive sessionsPerWeek');
+  const weeksNeeded = Math.ceil(sessions.length / data.sessionsPerWeek);
+  if (data.weeks !== weeksNeeded) throw new Error(`path.json weeks is ${data.weeks}, ${sessions.length} sessions on a ${data.sessionsPerWeek}-session suggested week need ${weeksNeeded}`);
   sessions.forEach((s, i) => {
-    const week = Math.floor(i / data.schedule.length) + 1;
-    const day = data.schedule[i % data.schedule.length];
-    if (s.week !== week || s.day !== day) throw new Error(`session ${s.id} is week ${s.week} ${s.day}; index ${i} is week ${week} ${day}`);
+    const week = Math.floor(i / data.sessionsPerWeek) + 1;
+    if (s.week !== week) throw new Error(`session ${s.id} is suggested week ${s.week}; index ${i} belongs to suggested week ${week}`);
   });
 
   const weeks = Array.from({ length: data.weeks }, (_, i) => i + 1).map((n) => {
     const list = sessions.filter((s) => s.week === n);
-    const expected = n < data.weeks ? data.schedule.length : sessions.length - (data.weeks - 1) * data.schedule.length;
+    const expected = n < data.weeks ? data.sessionsPerWeek : sessions.length - (data.weeks - 1) * data.sessionsPerWeek;
     if (list.length !== expected) throw new Error(`path.json: week ${n} has ${list.length} sessions, expected ${expected}`);
     const units = [...new Set(list.map((s) => s.unit))];
     return { n, sessions: list, units, unitInfos: units.map(unitOf), act: actOf(list[0].unit), acts: [...new Set(list.map((s) => s.act.id))] };
@@ -88,4 +87,4 @@ function loadPath(reg) {
   return { ...data, sessions, weeks, written, latest, backlinks, byId, bySlug, diagrams, prevWritten, nextWritten, neighbours, actOf, unitOf, SESSIONS_DIR };
 }
 
-module.exports = { loadPath, PATH_DIR, SESSIONS_DIR, DAY_NAME };
+module.exports = { loadPath, PATH_DIR, SESSIONS_DIR };

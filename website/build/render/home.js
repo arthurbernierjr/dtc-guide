@@ -56,7 +56,7 @@ function pathBand(ctx) {
   const P = ctx.path;
   return `<section class="section band" id="path">
   <div class="container">
-    <div class="section-head"><p class="eyebrow">00 / THE PATH</p><h2>${P.weeks.length} weeks. ${P.sessions.length} sessions. In order.</h2><p class="lede">${escapeHtml(site.path.blurb)}</p></div>
+    <div class="section-head"><p class="eyebrow">00 / THE PATH</p><h2>${P.sessions.length} sessions. Your pace.</h2><p class="lede">${escapeHtml(site.path.blurb)} Three sessions a week suggests ${P.weeks.length} weeks. Choose your own days.</p></div>
     ${routeStrip(P)}
   </div>
 </section>`;
@@ -65,7 +65,7 @@ function pathBand(ctx) {
 function tracks(ctx) {
   const cards = site.sections.map((s) => {
     const n = (ctx.reg.bySection[s.title] || []).length;
-    const children = (ctx.reg.bySection[s.title] || []).filter((p) => p.template !== 'T-LANDING').slice(0, 2);
+    const children = (ctx.reg.bySection[s.title] || []).filter((p) => p.template !== 'T-LANDING').slice(0, 1);
     const links = children.map((p) => `<a href="${p.url}">${escapeHtml(p.title)}</a>`).join('<span>·</span>');
     return `<article class="card track-card reveal" data-section="${s.id}">
   <span class="track-top">${icon(SECTION_ICON[s.title] || 'book')}<span class="chip">${n} pages</span></span>
@@ -76,7 +76,7 @@ function tracks(ctx) {
   }).join('');
   return `<section class="section" id="tracks">
   <div class="container">
-    <div class="section-head"><p class="eyebrow">01 / SIDE QUESTS</p><h2>Nine tracks. ${ctx.total - 1 - (ctx.reg.bySection['The Path'] || []).length} side quests.</h2><p class="lede">The library the path points into.</p></div>
+    <div class="section-head"><p class="eyebrow">01 / SIDE QUESTS</p><h2>Ten tracks. ${ctx.total - 1 - (ctx.reg.bySection['The Path'] || []).length} side quests.</h2><p class="lede">The library the path points into.</p></div>
     <div class="tracks">${cards}</div>
   </div>
 </section>`;
@@ -151,6 +151,7 @@ function renderHome(ctx, model) {
     naiveTeaser(model.pair),
     languages(),
     quote(model.quote),
+    '<section class="support-invite container"><p><strong>Learn for free. Work with me when you’re ready.</strong><br>Optional $20 thank-you · Source reviews: $197 per started 1,000 lines · Portfolio reviews: $497</p><a class="pill ghost" href="/support/">Support &amp; work with me →</a></section>', 
     marquee(),
   ].join('\n');
   return shell(ctx, { page: model.page, docTitle: `${site.name} — the path & library`, description: model.description }, `<main id="main" class="home">${body}</main>`, { bodyClass: 'home-page' });

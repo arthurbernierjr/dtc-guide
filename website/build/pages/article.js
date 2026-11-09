@@ -250,21 +250,29 @@ async function renderDigitalMansion(ctx, page) {
 }
 
 /** Arthur's own mindset articles (original lecture material, optionally refreshed via content/overrides/). */
-async function renderOwnArticle(ctx, page, { sourceAbs, overrideRel, outSub, preprocess, afterHtml, original }) {
+async function renderOwnArticle(ctx, page, { sourceAbs, overrideRel, outSub, preprocess, afterHtml, original, leadHtml }) {
   const loaded = loadWithOverride(sourceAbs, overrideRel);
   let md = loaded.md;
   if (preprocess) md = preprocess(md);
   const fm = loaded.frontmatter || {};
   const isGrit = page.id === 'MIND-02';
+  const isAtelier = page.id.startsWith('ATELIER-');
   const connected = isGrit && ctx.path ? ctx.path.backlinks[page.id] || [] : [];
   const r = await renderMarkdown(md, {
     stripFrontmatter: false,
     dropH1: true,
     storyQuotes: isGrit,
+    codeExtra: isAtelier ? (_index, _code, _lang, meta) => ({ title: meta, readonly: true }) : undefined,
     resolveImage: imageResolver(path.dirname(loaded.overridePath || sourceAbs), outSub),
     resolveLink(href) {
       if (/^\/teams\/week-26\/day-3\/?$/.test(href)) return '/mindset/knowing-what-you-are-talking-about/';
       if (/^\/polyglot\//.test(href)) { const m = href.match(/^\/polyglot\/([a-z]+)\/?([a-z-]+)?\/?$/); if (m) return m[2] ? `/languages/${m[1]}/${m[2]}/` : `/languages/${m[1]}/`; }
+      if (isAtelier && href.startsWith('/assets/atelier/')) {
+        const root = path.resolve(S.CONTENT, 'atelier');
+        const target = path.resolve(root, href.slice('/assets/atelier/'.length));
+        if (target.startsWith(root + path.sep) && fs.existsSync(target) && fs.statSync(target).isFile()) return href;
+        throw new Error(`${page.id}: missing or invalid Atelier asset ${href}`);
+      }
       if (/^\//.test(href)) {
         // Overrides link to pages on this site; anything else absolute is an old course-site path with no page here.
         const pathOnly = href.replace(/[#?].*$/, '');
@@ -285,21 +293,22 @@ async function renderOwnArticle(ctx, page, { sourceAbs, overrideRel, outSub, pre
   return {
     html: renderDoc(ctx, {
       page,
-      eyebrow: isGrit ? 'A MINDSET SIDE QUEST' : `ARTICLE · ${page.group}`,
-      bodyClass: isGrit ? 'grit-story' : '',
-      tree: page.id === 'MIND-01' ? guideTree(r.headings) : undefined,
+      eyebrow: isGrit ? 'A MINDSET SIDE QUEST' : isAtelier ? `CSS WORKSHOP · ${page.group}` : `ARTICLE · ${page.group}`,
+      bodyClass: isGrit ? 'grit-story' : isAtelier ? 'atelier-lesson' : '',
+      tree: page.id === 'MIND-01' ? guideTree(r.headings) : page.id === 'G-06' ? `<p class="tree-title"><a href="/path/">The path</a><span>SAVE POINTS</span></p><ul class="tree" id="tree"><li class="tree-group open"><button type="button" aria-expanded="true">${icon('chevron')}<span>The save crystal</span></button><ul>${r.headings.filter(h => h.level === 2).map(h => `<li><a href="#${escapeHtml(h.id)}">${escapeHtml(h.text)}</a></li>`).join('')}</ul></li></ul>` : undefined,
       banner: isGrit ? `<aside class="sq-banner" aria-label="Part of the path"><details class="grit-path-links"><summary>Connected lessons · ${connected.length}</summary><ul>${connected.map((s) => `<li><a href="${escapeHtml(s.url)}#side-quests">${escapeHtml(s.id)} · ${escapeHtml(s.title)}</a></li>`).join('')}</ul></details><a class="pill ghost" href="/path/">Back to the path ${icon('arrow-left')}</a></aside>` : undefined,
       lede: escapeHtml(fm.lede || U.truncate(r.firstParagraph, 220)),
-      chips: [chip(isGrit ? 'Isekai story' : 'Article'), chip('© Arthur Bernier Jr', 'green'), original ? chip('original', 'green') : loaded.override ? chip('refreshed · verified', 'green') : chip('2021 original', 'yellow')],
+      chips: [chip(isGrit ? 'Isekai story' : isAtelier ? 'CSS workshop' : 'Article'), chip('© Arthur Bernier Jr', 'green'), original ? chip('original', 'green') : loaded.override ? chip('refreshed · verified', 'green') : chip('2021 original', 'yellow')],
       meta: isGrit ? [`${r.words.toLocaleString('en-US')} words`, `${Math.ceil(r.words / 220)} min read`] : [`${r.words} words`, `${r.headings.filter((h) => h.level === 2).length} sections`],
-      beforeBody: isGrit ? `<aside class="grit-quest" aria-label="Quest briefing"><p class="eyebrow">QUEST ACCEPTED · THE LONG RETURN</p><p class="grit-quest-line">Your level has stopped moving.<br>The story hasn't.</p><dl><div><dt>Class</dt><dd>Runewright</dd></div><div><dt>Trial</dt><dd>The plateau</dd></div><div><dt>Bring</dt><dd>A willingness to begin again</dd></div></dl></aside>` : '',
+      beforeBody: leadHtml || (isGrit ? `<aside class="grit-quest" aria-label="Quest briefing"><p class="eyebrow">QUEST ACCEPTED · THE LONG RETURN</p><p class="grit-quest-line">Your level has stopped moving.<br>The story hasn't.</p><dl><div><dt>Class</dt><dd>Runewright</dd></div><div><dt>Trial</dt><dd>The plateau</dd></div><div><dt>Bring</dt><dd>A willingness to begin again</dd></div></dl></aside>` : ''),
       body: html,
       headings: r.headings,
       source: creatorCard({ verified }),
       description: fm.lede || r.firstParagraph,
     }),
     search: { headings: r.headings.map((h) => h.text), text: fm.lede || r.firstParagraph },
-    facts: { words: r.words, h2s: r.headings.filter((h) => h.level === 2).map((h) => h.text), h3s: r.headings.filter((h) => h.level === 3).map((h) => h.text), override: loaded.override },
+    facts: { words: r.words, h2s: r.headings.filter((h) => h.level === 2).map((h) => h.text), h3s: r.headings.filter((h) => h.level === 3).map((h) => h.text), override: loaded.override, ...(isAtelier ? { codeBlocks: r.codeBlocks.length, images: r.images } : {}) },
+    ...((isAtelier || page.id === 'G-06') ? { codeBlocks: r.codeBlocks } : {}),
   };
 }
 
@@ -310,6 +319,8 @@ function changesNote(fm, override) {
 }
 
 async function renderArticlePage(ctx, page) {
+  if (page.id === 'G-07') return require('./support')(ctx, page);
+  if (page.id === 'G-06') return renderOwnArticle(ctx, page, {sourceAbs:path.join(S.OVERRIDES, 'guide/save-points.md'), overrideRel:'guide/save-points.md', outSub:'guide', original:true});
   if (page.id === 'ALG-05') return renderWhichPatternWhen(ctx, page);
   if (page.id === 'ALG-27') return renderNaiveVsOptimal(ctx, page);
   if (page.id === 'SYS-04') return renderDigitalMansion(ctx, page);
@@ -326,6 +337,27 @@ async function renderArticlePage(ctx, page) {
     original: true,
     afterHtml: () => '',
   });
+  if (page.id.startsWith('EXPL-') && page.id !== 'EXPL-00') {
+    const file = page.source.replace(/^content\/overrides\//, '');
+    const { data } = parseFrontmatter(fs.readFileSync(path.join(S.OVERRIDES, file), 'utf8'));
+    const videoId = String(data.youtube || '');
+    if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) throw new Error(`${page.id} needs an 11-character youtube id`);
+    const leadHtml = `<section class="video-card" data-video="${videoId}" aria-label="Video: ${escapeHtml(page.title)}">
+      <div class="video-preview"><img src="/assets/video-posters/${videoId}.jpg" width="640" height="360" alt="" loading="lazy" decoding="async"><div class="video-shade"></div>
+      <div class="video-eyebrow">BIG POPPA CODE <span>TECHNOLOGY EXPLAINED</span></div>
+      <div class="video-preview-content"><span class="video-play-mark" aria-hidden="true">▶</span><h2>${escapeHtml(page.title)}</h2><button type="button" class="video-load" data-video-load>Load YouTube player <span aria-hidden="true">↗</span></button></div></div>
+      <div class="video-privacy"><p>YouTube stays disconnected until you choose to load this player. Loading connects to Google/YouTube, which receives your IP address and may use cookies or browser storage.</p><div><a href="/privacy/">Privacy &amp; storage</a><a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a><button type="button" data-video-unload hidden>Disconnect player</button></div></div>
+      <noscript><p>JavaScript is off. Use the Watch on YouTube link to view this episode.</p></noscript>
+    </section>`;
+    return renderOwnArticle(ctx, page, {
+      sourceAbs: path.join(S.OVERRIDES, file),
+      overrideRel: file,
+      outSub: 'explained',
+      original: true,
+      afterHtml: () => '',
+      leadHtml,
+    });
+  }
   if (page.id.startsWith('ATELIER-') && page.id !== 'ATELIER-00') {
     const file = page.source.replace(/^content\/overrides\//, '');
     return renderOwnArticle(ctx, page, {

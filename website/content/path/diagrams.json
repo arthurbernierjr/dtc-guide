@@ -1,9 +1,9 @@
 {
-  "_comment": "The diagram ledger, machine-readable twin of DESIGN-REFERENCE-RESPAWN.md §R10. Key = <set>/<file>; the build expects <file>-wide.png (1600×900) and <file>-tall.png (900×1200) under build/assets/diagrams/<set>/. A referenced figure with no alt text fails the build.",
+  "_comment": "The diagram ledger, machine-readable twin of DESIGN-REFERENCE-RESPAWN.md §R10. Key = <set>/<file>; the build expects <file>-wide.png (1600×900) and <file>-tall.png (900×1200) under build/assets/diagrams/<set>/. The path map uses a taller 900×1800 phone layout. A referenced figure with no alt text fails the build.",
   "path/path-map": {
     "composition": "PathMap",
-    "alt": "The complete curriculum: twenty-two weeks, sixty-six published sessions, three acts and twelve units. The completion flag marks Session 12.5.",
-    "caption": "The route: 22 weeks, three acts, the flag marks the latest written session."
+    "alt": "Curriculum overview: week numbers and published session dots grouped by act. This map does not show personal progress.",
+    "caption": "Week numbers and session dots show the curriculum, not personal progress. Counts are derived from the schedule at build time."
   },
   "session-3-1/fig1-three-containers": {
     "composition": "ManaContainers",
@@ -4364,7 +4364,7 @@
   "session-4-13/fig3-evidence": {
     "composition": "CurriculumDiagram",
     "fig": 3,
-    "alt": "Session 4.13: What done looks like. Different shape: A spell without a school is rejected. A todo route does not exist in this process. Closed notes: You can draw the request on paper before you open yesterday's repo. Both apps: Each app only lists its own user's records.",
+    "alt": "Session 4.13: What done looks like. Different shape: A spell without a school is rejected. A todo route does not exist in this process. Closed notes: You can draw the request on paper before you open the slate repository. Both apps: Each app only lists its own user's records.",
     "caption": "What done looks like: Different shape · Closed notes · Both apps",
     "props": {
       "session": "4.13",
@@ -4377,7 +4377,7 @@
         ],
         [
           "Closed notes",
-          "You can draw the request on paper before you open yesterday's repo."
+          "You can draw the request on paper before you open the slate repository."
         ],
         [
           "Both apps",

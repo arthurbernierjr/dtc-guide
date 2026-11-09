@@ -429,7 +429,7 @@ The example above was the tutor ledger. Now do it for the idea you chose this af
 
    You should see `main -> main` in the push output, and `docs/research.md` on GitHub with ids and no names.
 
-If nobody has answered by the time you push, that is normal on a Wednesday night. Send the messages anyway; the booking is the quest's evidence, and it has until 8.4.
+If nobody has answered by the time you push, that is normal just after your first outreach. Send the messages anyway; the booking is the quest's evidence, and it has until 8.4.
 
 ## The quest
 

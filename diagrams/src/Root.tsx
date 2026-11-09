@@ -4,7 +4,7 @@ import { Composition, Folder } from "remotion";
 import { CoverCorrection, COVER_SIZE, CoverFormat } from "./brand/CoverCorrection";
 import { Favicon, FaviconSize } from "./brand/Favicon";
 import { RespawnMark } from "./brand/RespawnMark";
-import { PathMap } from "./path/PathMap";
+import { PathMap, pathMapSize } from "./path/PathMap";
 import { OoHandCopied } from "./session-3-4/OoHandCopied";
 import { OoBlueprint } from "./session-3-4/OoBlueprint";
 import { OoPrototypeChain } from "./session-3-4/OoPrototypeChain";
@@ -102,7 +102,7 @@ export const RemotionRoot: React.FC = () => (
       <Composition id="RespawnMark" component={RespawnMark} {...still} width={600} height={240} />
     </Folder>
     <Folder name="path">
-      <Composition id="PathMap" component={PathMap} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout, written: ["3.4"] }} calculateMetadata={byLayout} />
+      <Composition id="PathMap" component={PathMap} {...still} width={1600} height={900} defaultProps={{ layout: "wide" as Layout, written: [] }} calculateMetadata={({ props }) => pathMapSize(props.layout)} />
     </Folder>
     <Folder name="session-3-1">
       <Composition id="ManaContainers" component={ManaContainers} {...still} width={1600} height={900} defaultProps={wideProps} calculateMetadata={byLayout} />

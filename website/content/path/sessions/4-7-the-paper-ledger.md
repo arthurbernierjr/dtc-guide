@@ -322,13 +322,13 @@ The controller does not concatenate a query into HTML. The show function does. T
 
 ## The demonstration
 
-Stand up the seven routes against the model from the keeper session. Stop the old server with Ctrl-C, check that `server.js` mounts `quests` at `/api/quests` and `pages` at `/quests`, and start it again with `node --env-file=.env server.js`. One quest, clicked in order.
+Stand up the seven routes against the model from the keeper session. Stop the old server with Ctrl-C, check that `server.js` mounts `quests` at `/api/quests` and `pages` at `/quests`, and start it again with `node --env-file=.env server.js`. One new quest, clicked in order. Keep the `guild_keeper` URI from 4.6. In `mongosh "mongodb://127.0.0.1:27017/guild_keeper"`, note `db.quests.countDocuments()` as N before you begin. Ada's earlier quest should still be there. Use Beryl for this new form submission; if Beryl already has a quest from a repeat attempt, choose another unused hero name.
 
-1. `GET /quests` shows an empty board and a link labeled New.
+1. `GET /quests` shows the existing quests and a link labeled New. An empty board is only correct if your collection is actually empty.
 2. `GET /quests/new` shows the form. The terminal logged `GET`, and `db.quests.countDocuments()` did not change.
-3. Submit a title of `Bell & "banner"` and a hero of `Ada`. The browser lands on the show page. The heading shows the ampersand and the quote as text. The terminal shows `POST /quests` and then `GET /quests/` plus the id.
-4. Refresh. One document in the shell, not two.
-5. Edit, change the status to `done`, submit. The show page shows `done`. The terminal shows `PUT /quests/` plus the id, then the `GET` for the show page. The browser sent `POST`; the logger sits after the override, so it prints the method the router saw. Refresh. Still one document, still `done`.
+3. Submit a title of `Bell & "banner"` and a hero of `Beryl` (or your unused name). The browser lands on the show page. The heading shows the ampersand and the quote as text. The terminal shows `POST /quests` and then `GET /quests/` plus the id.
+4. Refresh. The count is N + 1, not N + 2: one new document, not a second submission.
+5. Edit, change the status to `done`, submit. The show page shows `done`. The terminal shows `PUT /quests/` plus the id, then the `GET` for the show page. The browser sent `POST`; the logger sits after the override, so it prints the method the router saw. Refresh. Still N + 1 documents; the new quest is still `done`.
 6. Open `/styles.css` in the same origin and confirm the file is the one in `public`.
 7. Delete. The browser lands on the index. The quest is gone from the list and from the shell.
 

@@ -2,7 +2,7 @@
 editorial: true
 title: Coronation Day
 subtitle: The final take, the written Q&A, the self-scored rubric, and the handoff to yourself
-hook: "Twenty weeks after the blinking cursor, you record the demo that counts on the live URL, answer the five questions a reviewer would ask, score your own capstone against a hundred points, and hand the product to the person who will run it next: you."
+hook: "At the end of the path, you record the demo that counts on the live URL, answer the five questions a reviewer would ask, score your own capstone against a hundred points, and hand the product to the person who will run it next: you."
 read: 55
 artifact: "A final capstone handoff, demo retrospective, and measurable next-step plan"
 diagrams:
@@ -23,9 +23,9 @@ say:
 
 ## The hook
 
-Week 21, Wednesday. Twenty weeks ago the terminal was a dark window with a blinking rectangle in it. Today `rc-2` is live, tested against its own sha, attacked by a second account, backed up and restored, rolled back and forward, polished, and rehearsed once on camera. There is no audience in a room. There is a recording you make today that counts, a page of questions you answer in writing, a rubric you score honestly against yourself, and a handoff packet that lets the next person operate the app. The next person is you, next month, with the details already fading.
+When you arrived, the terminal was a dark window with a blinking rectangle in it. The crown has no date stamped inside it. You reach this session when the work is ready. Today `rc-2` is live, tested against its own sha, attacked by a second account, backed up and restored, rolled back and forward, polished, and rehearsed once on camera. There is no audience in a room. There is a recording you make today that counts, a page of questions you answer in writing, a rubric you score honestly against yourself, and a handoff packet that lets the next person operate the app. The next person is you, next month, with the details already fading.
 
-That is the shape of the day. Seed the fixture account on the live database, record the final take from the script you wrote on Tuesday, and watch it once. Write five questions a reviewer would ask and answer them from the implementation, with file names. Score the hundred points and write the number down with the evidence for each line. Put the release sha, the URL, the environment variable names, the run and test commands, the backup and restore commands, the known issues, and who watches it into `docs/demo-day.md`. Then send the recording and the deck or stakeholder brief to one person outside the build, write down their three comments, and rank them. The last thing you write is a README and a post that claim exactly what the repository can prove.
+That is the shape of the day. Seed the fixture account on the live database, record the final take from the script you wrote in 12.4, and watch it once. Write five questions a reviewer would ask and answer them from the implementation, with file names. Score the hundred points and write the number down with the evidence for each line. Put the release sha, the URL, the environment variable names, the run and test commands, the backup and restore commands, the known issues, and who watches it into `docs/demo-day.md`. Then send the recording and the deck or stakeholder brief to one person outside the build, write down their three comments, and rank them. The last thing you write is a README and a post that claim exactly what the repository can prove.
 
 > *The crown is not the moment the sword touches the shoulder. It is the morning after, when the kingdom still has to be run.*
 
@@ -37,7 +37,7 @@ The written Q&A is the two-minute question slot from a demo day, done on paper. 
 
 A handoff is a document another developer can operate from with no conversation. Launch is the beginning of operating a thing, not the end of building it; the running-your-service page in the docs list is a government manual for exactly this and says it plainly. The packet names the release, the URL, every environment variable by name and purpose with no values, the commands to run and test, the backup and restore commands from 12-3 with the three recovery numbers, the known issues with severity, and a line that says who notices when it breaks. If the product stays live, that line names a person. If it is a demonstration, it says what gets turned off and when, so the provider bills stop.
 
-Self-scoring is honest only if every line has evidence. The rubric below is a hundred points in three bands. For each line you write the number and the file or screenshot that supports it. A line with a number and no evidence is scored zero on the second pass, by you, because that is what a reviewer would do. The total is not the point; the lines you could not support are, because they are next week's list.
+Self-scoring is honest only if every line has evidence. The rubric below is a hundred points in three bands. For each line you write the number and the file or screenshot that supports it. A line with a number and no evidence is scored zero on the second pass, by you, because that is what a reviewer would do. The total is not the point; the lines you could not support are, because they are your next improvements.
 
 The portfolio story is proportional. It describes your role, the problem, the constraints, the decisions, and the results, and it credits what you did not make: the stack, the AI assistance you used in Unit 5's way and reviewed, the pattern sheets. It links the deploy, the test command, and the tag. A precise account of a small real thing survives a reviewer with the repository open. An overclaim does not, and they will have the repository open.
 
@@ -47,7 +47,7 @@ Napkin version: seed, record, watch; five questions answered with file names; a 
 
 ### The final take
 
-Nothing about the take is new. The script is Tuesday's, with the three notes applied. The account is `demo@example.com`, seeded against the live database five minutes before recording so the three records are the three you expect. The window is private. The tag is `rc-2`, and the first line of the script says so. If the provider is down when you get to feature two, the adapter's `unavailable` path is itself a feature, and you show it: the error sentence, the retry, and the sentence "the assistant is unavailable right now; here is a recording of the same step from this morning," followed by the clip. Say the word recording before you play it.
+Nothing about the take is new. The script is the one from 12.4, with the three notes applied. The account is `demo@example.com`, seeded against the live database five minutes before recording so the three records are the three you expect. The window is private. The tag is `rc-2`, and the first line of the script says so. If the provider is down when you get to feature two, the adapter's `unavailable` path is itself a feature, and you show it: the error sentence, the retry, and the sentence "the assistant is unavailable right now; here is a recording of the same step from the rehearsal," followed by the clip. Say the word recording before you play it.
 
 Watch the take once, all the way through, and write three sentences under the script: one thing that landed, one thing you would change, and the timestamp where the energy dropped. Then stop. A second take is allowed if the first one broke; a fourth take is a sign you are polishing the recording instead of the product.
 
@@ -143,7 +143,7 @@ Send the recording link and the deck or stakeholder brief to one person who was 
 
 ### One experiment, not a roadmap
 
-`docs/next-quest.md` holds one experiment, in four lines: the hypothesis, the method, the number you will watch, the decision rule. "If I add the export feature, at least two of the five interviewees will use it within a week; I will build it behind the adapter pattern in two evenings, watch the count of exports in the server log, and keep it if the count is two or more by the following Wednesday." A plan with a number in it can fail, which is what makes it a plan. "Keep improving the app" cannot fail and is therefore not one.
+`docs/next-quest.md` holds one experiment, in four lines: the hypothesis, the method, the number you will watch, the decision rule. "If I add the export feature, at least two of the five interviewees will use it within a week; I will build it behind the adapter pattern in two evenings, watch the count of exports in the server log, and keep it if the count is two or more within seven days of release." A plan with a number in it can fail, which is what makes it a plan. "Keep improving the app" cannot fail and is therefore not one.
 
 ## The demonstration
 
@@ -169,7 +169,7 @@ Then the reviewer. P2 from 8-1 got the recording and the deck, or the stakeholde
 Then the README's top section, rewritten so that every claim has a link: the live URL, the tag, the test command, the backup drill, the three things that are not finished. And the post, which is the README's first paragraph with the URL and nothing the README cannot support:
 
 ```text
-Twenty weeks ago I opened a terminal for the first time. Today <Product> is live at https://YOUR-APP.up.railway.app: sign in, create an entry, and it is still there after you reload. It has a test checkout, an assistant draft behind an adapter that survives the provider going down, twelve tests that run on every push, and a backup I have actually restored. Three things are not finished, and the README says which. Source and the full evidence trail: https://github.com/YOU/<capstone-name>
+At the start of this course I opened a terminal for the first time. Today <Product> is live at https://YOUR-APP.up.railway.app: sign in, create an entry, and it is still there after you reload. It has a test checkout, an assistant draft behind an adapter that survives the provider going down, twelve tests that run on every push, and a backup I have actually restored. Three things are not finished, and the README says which. Source and the full evidence trail: https://github.com/YOU/<capstone-name>
 ```
 
 Then the tag's release on GitHub, so the sha, the recording link, and the known issues sit together where a stranger looks first:
@@ -230,7 +230,7 @@ check(ranked[0].bin === 'defect' && ranked[2].bin === 'suggestion', 'defects and
 function canFail(experiment) {
   return typeof experiment.threshold === 'number' && typeof experiment.by === 'string' && experiment.metric.length > 0;
 }
-check(canFail({ metric: 'exports in a week', threshold: 2, by: 'next Wednesday' }), 'an experiment with a number can fail');
+check(canFail({ metric: 'exports in a week', threshold: 2, by: 'seven days after release' }), 'an experiment with a number can fail');
 check(!canFail({ metric: 'keep improving', threshold: null, by: '' }), 'a plan without a number is not an experiment');
 
 console.log('ok: checkpoint-12-5');
@@ -281,7 +281,7 @@ Evidence to keep:
 - The README's top section with a link for every claim and the three unfinished items.
 - The GitHub release for `rc-2` carrying the release-candidate notes, and the repository pinned on your profile.
 - The post, as text in `docs/demo-day.md` under `## Post`, and the link to wherever you put it.
-- `docs/retrospective.md`: a short page in your own words on where you were twenty weeks ago, the hardest thing on the path, the thing you are proudest of, and what you will build next. This one is for you, and it goes in the repository only if you want it there.
+- `docs/retrospective.md`: a short page in your own words on where you were when you began, the hardest thing on the path, the thing you are proudest of, and what you will build next. This one is for you, and it goes in the repository only if you want it there.
 
 ## Side quests
 

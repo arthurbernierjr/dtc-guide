@@ -7,4 +7,6 @@ Everything on this site comes from one of the sources below. The two imported so
 
 ## Non-commercial statement
 
-This site is non-commercial: nothing is sold, no ads, no paywall. It exists so students of the It's Deeper Than Code community can study from one place. Brian Holt's lessons are reproduced under the CC BY-NC 4.0 license that forbids commercial use, and the AlgoCasts exercises under GPL-3.0; both conditions are met by serving the content free, crediting the authors, linking the original repositories and shipping the full license texts under `/licenses/`.
+The curriculum is free to read, with no paywall. Optional creator support and personal code or portfolio reviews are described on the [support page](/support/). Those services do not sell access to the curriculum. Optional YouTube players may show advertising.
+
+Third-party material retains its original license: Brian Holt's lesson content is CC BY-NC 4.0, its code is Apache-2.0, and the AlgoCasts material is GPL-3.0. Attribution, source links and license texts are preserved. Free access alone does not determine whether a particular use satisfies a noncommercial license; the original license terms continue to apply.

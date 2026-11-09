@@ -23,7 +23,7 @@ say:
 
 ## The hook
 
-The primer kept the quest list inside one function, and that was enough while one function was the whole screen. The moment a second region needs the same quests, a count in a header, a list in the middle, a form off to the side, the list cannot stay private. Whichever child owns it, the other child is guessing. Today the array moves up to the closest parent that contains every component that reads it or changes it. Children receive the items and the callbacks. They do not keep a second copy.
+The primer put the quest array in `App`, where the composer and the rows could share it. Now the screen grows: a tally in the header, a list in the middle, a form off to the side. The array stays in their closest shared parent. Today you give those regions their own components and trace how one change reaches all of them. If a child keeps a private copy, the others have to guess. Children receive the items and the callbacks. They do not keep a second copy.
 
 An effect is the other new tool, and it is the one you will be tempted to use for everything. An effect synchronizes with an external system. A fixture file on the dev server is an external system. A timer is an external system. A subscription is an external system. A total you could compute from the array you already have is not an external system. Deriving a value during render is not an effect. The dependency list is the list of values the effect reads. A new object every render is a new dependency, and a new dependency means the effect runs again.
 

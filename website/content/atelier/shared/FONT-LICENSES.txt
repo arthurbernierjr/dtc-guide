@@ -1,0 +1,3 @@
+Clash Display — Indian Type Foundry / Fontshare. Distributed under the ITF Free Font License. License: https://www.fontshare.com/licenses/itf-ffl
+DM Sans — Colophon Foundry and contributors. Distributed under the SIL Open Font License 1.1. License and copyright: https://github.com/google/fonts/blob/main/ofl/dmsans/OFL.txt
+These font files are the local copies used in the author’s existing ELEVEN28 by Shayla website. Retain their attribution and applicable license terms when reusing them.

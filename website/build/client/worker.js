@@ -220,7 +220,7 @@ if (self.addEventListener) {
 }
 
 self.onmessage = async (ev) => {
-  const { id, src } = ev.data;
+  const { id, src, code: sourceCode } = ev.data;
   currentId = id; asyncFailed = false;
   const t0 = performance.now();
   const post = (type, text, level) => self.postMessage({ id, type, text, level, ms: Math.round(performance.now() - t0) });
@@ -291,21 +291,13 @@ self.onmessage = async (ev) => {
   const cache = new Map();
   const req = (name) => {
     if (cache.has(name)) return cache.get(name);
-    const make = SHIMS[name];
+    const make = Object.hasOwn(SHIMS, name) ? SHIMS[name] : null;
     if (!make) throw new Error(`Cannot find module '${name}' in the browser runner. Copy the node command instead.`);
     const mod = make(); cache.set(name, mod); return mod;
   };
   try {
-    // Only the site's own published sources may run here. The page is the sole sender today,
-    // but the check costs nothing and keeps a future bug in app.js from turning the runner
-    // into a loader for arbitrary URLs.
-    const target = new URL(String(src), self.location.href);
-    if (target.origin !== self.location.origin || !target.pathname.startsWith('/assets/src/') || !/\.(m?js|cjs)$/.test(target.pathname)) {
-      throw new Error(`Refused to run ${src}: the runner only executes files under /assets/src/.`);
-    }
-    const res = await fetch(target.pathname, { cache: 'no-cache' });
-    if (!res.ok) throw new Error(`Could not load ${src} (${res.status})`);
-    let code = await res.text();
+    if (typeof sourceCode !== 'string' || sourceCode.length > 500000) throw new Error('Invalid example source.');
+    let code = sourceCode;
     // Lines the author kept commented out for the browser are left as-is; shebang is dropped.
     code = code.replace(/^#!.*\n/, '');
     const module = { exports: {} };

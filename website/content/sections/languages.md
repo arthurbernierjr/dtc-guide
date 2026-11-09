@@ -15,7 +15,7 @@ Django, re-verified against docs.python.org and docs.djangoproject.com.
 Rails, re-verified against docs.ruby-lang.org and guides.rubyonrails.org.
 
 ## Go
-Buffalo, re-verified against go.dev and gobuffalo.io.
+chi, re-verified against go.dev and github.com/go-chi/chi.
 
 ## Java
 Spring Boot, re-verified against docs.oracle.com and docs.spring.io.
@@ -27,7 +27,7 @@ ASP.NET Core and Entity Framework Core, re-verified against learn.microsoft.com.
 Laravel, re-verified against php.net and laravel.com/docs.
 
 ## Rust
-Rocket, re-verified against doc.rust-lang.org and rocket.rs.
+Axum, re-verified against doc.rust-lang.org and docs.rs/axum.
 
 ## Dart
 shelf, re-verified against dart.dev and pub.dev.

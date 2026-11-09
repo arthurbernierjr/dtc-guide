@@ -9,7 +9,7 @@ const { shell, docTitle } = require('../render/layout');
 const { renderDoc, creatorCard, glanceCard } = require('../render/doc');
 const { escapeHtml, icon, chip, callout } = require('../render/components');
 const { mark, stamp } = require('../render/brand');
-const { weekBlocks, pathTree, diagramFigure, sideQuestsBox, stageBox, termBox, unitVars } = require('../render/path');
+const { weekBlocks, pathTree, diagramFigure, sideQuestsBox, saveControls, stageBox, termBox, unitVars } = require('../render/path');
 
 const H2_ORDER = ['The hook', 'The idea', 'The demonstration', 'Where it breaks', 'Your turn', 'The quest', 'Side quests', 'Before next session'];
 
@@ -24,10 +24,10 @@ async function renderPathIndexPage(ctx, page) {
     <div class="container">
       <p class="eyebrow">00 / THE PATH</p>
       <h1>${escapeHtml(page.title)}</h1>
-      <div class="intro" data-editorial="true"><p>${escapeHtml(site.path.blurb)} Three acts, twelve units, meeting Tuesday, Wednesday, and Saturday. Every session is written as a studio script: a hook, one idea, a demonstration you can run, the place it breaks, your turn, a quest, and the side quests in the library that go deeper.</p></div>
+      <div class="intro" data-editorial="true"><p>${escapeHtml(site.path.blurb)} Three acts, twelve units, ${P.sessions.length} self-paced sessions. Choose any three days a week for a suggested ${P.weeks.length}-week journey, or one session a day for ${P.sessions.length} consecutive days. If you want to include every side quest, you could plan a roughly 100-day expedition and adjust as you go: side quests vary in size, and some projects or interviews need extra time. Week numbers group the route; they are not deadlines. Every session is written as a studio script: a hook, one idea, a demonstration you can run, the place it breaks, your turn, a quest, and the side quests in the library that go deeper.</p></div>
       <div class="landing-ctas">
         ${first ? `<a class="pill primary" href="${first.url}">Start with Session ${escapeHtml(first.id)} ${icon('arrow-right', 'pill-icon')}</a>` : ''}
-        <span class="chip" style="height:52px;padding:0 18px;border-radius:999px">${P.weeks.length} weeks · ${P.sessions.length} sessions · ${P.written.length} written</span>
+        <span class="chip" style="height:52px;padding:0 18px;border-radius:999px">Self-paced · ${P.sessions.length} sessions · ${P.written.length} written</span>
       </div>
     </div>
   </header>
@@ -42,7 +42,7 @@ async function renderPathIndexPage(ctx, page) {
     <div style="height:96px"></div>
   </div>
 </main>`;
-  const html = shell(ctx, { page, docTitle: docTitle(page.title), description: `${P.weeks.length} weeks, ${P.sessions.length} sessions, in order: ${site.path.blurb}` }, body, { bodyClass: 'landing-page path-page sec-path' });
+  const html = shell(ctx, { page, docTitle: docTitle(page.title), description: `${P.sessions.length} self-paced sessions; ${P.weeks.length} weeks at three sessions per week: ${site.path.blurb}` }, body, { bodyClass: 'landing-page path-page sec-path' });
   return {
     html,
     search: { headings: P.weeks.map((w) => `Week ${w.n}`), text: `${site.path.blurb} ${P.sessions.map((s) => `${s.id} ${s.title}`).join(' · ')}` },
@@ -170,7 +170,7 @@ async function renderSessionPage(ctx, page) {
 
   const { before, after } = P.neighbours(s);
   const glance = glanceCard([
-    { key: 'WEEK', value: `Week ${s.week} · ${s.dayName}` },
+    { key: 'PACE', value: `Session ${s.position} of ${P.sessions.length} · suggested week ${s.week}. Continue when you are ready.` },
     { key: 'UNIT', value: `Unit ${s.unit} · ${s.unitInfo.title}` },
     { key: 'ACT', value: `Act ${s.act.id} · ${s.act.name}` },
     { key: 'BEFORE', value: before ? `${before.id} ${before.title}` : 'Nothing. This is the first session.' },
@@ -191,7 +191,7 @@ async function renderSessionPage(ctx, page) {
   if (terms.length) chips.push(chip(`${terms.length} terminal${terms.length === 1 ? '' : 's'}`, 'yellow'));
   const html = renderDoc(ctx, {
     page,
-    eyebrow: `THE PATH · WEEK ${s.week} · ${s.dayName.toUpperCase()} · UNIT ${s.unit} · ACT ${s.act.id}`,
+    eyebrow: `THE PATH · SESSION ${s.position} OF ${P.sessions.length} · UNIT ${s.unit} · ACT ${s.act.id}`,
     lede: escapeHtml(fm.subtitle),
     chips,
     meta: [`${r.words.toLocaleString()} words`, `${r.codeBlocks.length} code blocks`],
@@ -203,6 +203,7 @@ async function renderSessionPage(ctx, page) {
     opener,
     pager,
     bodyClass: 'session-page',
+    beforeBody: saveControls(s.id),
     source: creatorCard({ verified: ctx.verification[page.url] || null }),
     railActions: `<a href="/path/#week-${s.week}">${icon('flag')}Week ${s.week} on the path</a><a href="#side-quests">${icon('sword')}Side quests</a><a href="#source">${icon('info')}Creator &amp; license</a>`,
     description: fm.hook,

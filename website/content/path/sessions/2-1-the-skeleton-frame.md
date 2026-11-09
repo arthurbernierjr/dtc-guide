@@ -86,7 +86,7 @@ Line by line, because you are going to type this by hand today and the editor's 
 
 `<body>` is for the reader. If it can be seen, it goes here. This is the entire rule, and it is the one people break by confusing two words. **`head` is metadata. `header` is a visible region at the top of the page.** They are different elements, in different places, for different audiences. You will write both today, and you will keep them straight because Fig 2 drew them in different colours.
 
-The editor will offer to type all of this for you: in VS Code, `!` and then Tab. Use that from tomorrow. Today, type it, so that when the shortcut inserts something you did not expect, you can see which line is wrong.
+The editor will offer to type all of this for you: in VS Code, `!` and then Tab. Use that after this exercise. Today, type it, so that when the shortcut inserts something you did not expect, you can see which line is wrong.
 
 ### Naming the regions
 
@@ -174,7 +174,7 @@ One tool, and this is the session that puts it to work: the VS Code **Live Serve
 
         <section id="contact">
             <h2>Contact the Adventurer</h2>
-            <p>The form arrives later in this session. This section is the place it will land.</p>
+            <p>The contact form you build later in this session will go here.</p>
         </section>
     </main>
 
@@ -219,7 +219,7 @@ The image is the one line people ship wrong. `src` is the address of the file, r
     </section>
     <section id="contact">
         <h2>Contact the Adventurer</h2>
-        <p>The form arrives later in this session. This section is the place it will land.</p>
+        <p>The contact form you build later in this session will go here.</p>
     </section>
 </main>
 <footer>
@@ -359,7 +359,7 @@ A few decisions hiding in the markup. The blockquote contains a paragraph, becau
 
 ![](diagram:session-2-1/fig5-form-wiring)
 
-Save this as `form-demo.html`. The stage under it is the same form, and its script checks the wiring instead of submitting anything.
+Save this as `form-demo.html` beside `index.html` and try the standalone page first. Then copy its complete `<form>...</form>` element into the contact section of `index.html`, replacing the placeholder paragraph. Copy only the form, not a second `html`, `head`, or `body`. Reload `index.html` and check that the labels focus their inputs and Submit checks the required fields there too. The stage under it is the same form, and its script checks the wiring instead of submitting anything.
 
 ```html
 <!DOCTYPE html>
@@ -577,7 +577,7 @@ git push -u origin main
 
 Before Session 2.2, have all of this pushed to `html-css-foundations`:
 
-- `index.html`, the adventure log, with the three sections and a portrait whose `alt` describes it.
+- `index.html`, the adventure log, with the three sections, a portrait whose `alt` describes it, and the completed form inside its contact section.
 - `elements.html`, your reference, committed so you can diff it later when you add to it.
 - `blog-post.html` and `registration.html`, meeting the checkpoints, including a query string you have actually seen in the address bar.
 - `guild.html`, meeting all ten requirements, validated, with the table and the form working.
@@ -597,7 +597,7 @@ Spend ten minutes on a site you respect. Right-click, View Page Source, and find
 
 Check that Live Server still opens a page when you right-click it; if it does not, `code --install-extension ritwickdey.LiveServer` puts it back. And type the boilerplate from memory, once, into an empty file, before you open the next session. If you stall, it is Fig 2, and it is short.
 
-Next time: Armor and Cosmetics. Selectors, the cascade, specificity, the box model, colour and type. The guild board is going to look like you meant it. Keep the HTML as it is; next session restyles it without changing the structure. The structure is done.
+Next time: Armor and Cosmetics. Selectors, the cascade, specificity, the box model, colour and type. Bring `about-me.html`: you will give that page its first stylesheet, test the rules in a playground, and dress a new potion shop. The guild board stays here as your HTML practice; the same styling tools will be yours to bring back to it.
 
 > **Say:** "A page is a response: the browser asks, a server sends a file, the browser builds a tree and paints it. HTML is markup, not a programming language: it names structure, it does not decide anything. Head is for the browser and header is for the reader; a page has exactly one main. Use the element that names the content; div and span are what you use when nothing semantic fits. A label's for and an input's id are the same string, or the form fails the people who need it most."
 

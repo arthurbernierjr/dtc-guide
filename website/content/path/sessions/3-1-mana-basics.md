@@ -397,7 +397,7 @@ Second, read the "What is JavaScript?" and "Variables" sections of MDN's [JavaSc
 
 Third, open the DevTools console and try five type-coercion experiments of your own. Write the prediction down *before* you press Enter. `"3" * "4"`, `[] + []`, `[] + {}`, `"b" + "a" + +"a" + "a"`, and whatever else occurs to you. When a prediction is wrong, find out why; that is the whole exercise.
 
-Session 3.2 is called Spell Crafting. You will take the branches and calculations you wrote today and wrap them in functions, so that you write them once and cast them anywhere, and you will meet the array methods that turn a list of orcs into a list of the ones over level ten in a single line. The `const`s you chose today are about to become the arguments of tomorrow.
+Session 3.2 is called Spell Crafting. You will take the branches and calculations you wrote today and wrap them in functions, so that you write them once and cast them anywhere, and you will meet the array methods that turn a list of orcs into a list of the ones over level ten in a single line. The `const`s you chose today are about to become the arguments of the next session.
 
 > **Say:** "A variable is a named container: const by default, let when it must change, never var. Seven primitives, and everything else is an object. Declarations are registered first, then the lines run. At every gate the question is whether the value counts as true, and six values do not. Three equals signs, always, and convert on purpose."
 

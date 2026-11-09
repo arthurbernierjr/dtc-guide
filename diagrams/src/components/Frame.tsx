@@ -10,13 +10,15 @@ import { F, T, Layout, SIZE } from "../tokens";
 export const Frame: React.FC<{
   layout: Layout;
   caption: string;
+  height?: number;
   title?: string;
   children: React.ReactNode;
-}> = ({ layout, caption, title, children }) => {
+}> = ({ layout, caption, title, children, height: customHeight }) => {
   useEffect(() => {
     loadFonts();
   }, []);
-  const { width, height } = SIZE[layout];
+  const { width } = SIZE[layout];
+  const height = customHeight || SIZE[layout].height;
   const pad = layout === "wide" ? 56 : 44;
   return (
     <AbsoluteFill style={{ background: T.code, color: T.text, fontFamily: F.body, width, height }}>

@@ -47,9 +47,9 @@ function crumbs(ctx, page) {
   const sec = sectionMeta(page.section);
   const parts = [`<a href="/">Home</a>`];
   if (sec) parts.push(`<a href="${sec.url}">${escapeHtml(page.section)}</a>`);
-  if (page.group && page.group !== '—') parts.push(`<a href="${sec.url}#${slugify(page.group)}">${escapeHtml(page.group)}</a>`);
+  if (sec && page.group && page.group !== '—') parts.push(`<a href="${sec.url}#${slugify(page.group)}">${escapeHtml(page.group)}</a>`);
   parts.push(`<span class="cur">${escapeHtml(page.title)}</span>`);
-  const back = page.group && page.group !== '—' ? { href: `${sec.url}#${slugify(page.group)}`, label: page.group } : { href: sec ? sec.url : '/', label: page.section };
+  const back = sec && page.group && page.group !== '—' ? { href: `${sec.url}#${slugify(page.group)}`, label: page.group } : { href: sec ? sec.url : '/', label: page.section };
   return `<nav class="crumbs" aria-label="Breadcrumb"><span class="crumb-full">${parts.join('<span class="sep">/</span>')}</span><a class="crumb-back" href="${back.href}">${icon('arrow-left')}${escapeHtml(back.label)}</a></nav>`;
 }
 

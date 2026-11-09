@@ -262,7 +262,7 @@ The demo creates a record with whatever name comes to mind, the adapter is in `p
 
 ### Backup presented as live
 
-The live call fails during the take, you switch to yesterday's recording of it working, and you narrate it as if it were happening now. The cause is embarrassment, and the fix is one sentence spoken before the switch: "this is a recording of the same step from earlier today." A reviewer can respect a fallback and will not forgive a claim the video cannot support. The label is the professional part. The recovery is the thing being demonstrated.
+The live call fails during the take, you switch to an earlier recording of it working, and you narrate it as if it were happening now. The cause is embarrassment, and the fix is one sentence spoken before the switch: "this is an earlier recording of the same step." A reviewer can respect a fallback and will not forgive a claim the video cannot support. The label is the professional part. The recovery is the thing being demonstrated.
 
 ## Your turn
 
@@ -301,6 +301,6 @@ The grit sheet is for the hour when you have watched yourself say "um" nine time
 
 ## Before next session
 
-Coronation Day is Wednesday, and it is yours alone: the final take of the demo on the live `rc-2`, the written Q&A, the self-scored rubric, the handoff packet in `docs/demo-day.md`, and a README and a post that say exactly what you built and no more. Before then, read the three notes at the bottom of your script once a day and do one more timed read-through; do not re-record yet. Open your 8-1 `docs/research.md` and pick the one person among P0 through P3 who said the thing your product does; their words open the final take.
+Coronation Day is the final session, whenever you are ready for it: the final take of the demo on the live `rc-2`, the written Q&A, the self-scored rubric, the handoff packet in `docs/demo-day.md`, and a README and a post that say exactly what you built and no more. Before then, review the three notes at the bottom of your script and do one more timed read-through; do not re-record yet. Open your 8-1 `docs/research.md` and pick the one person among P0 through P3 who said the thing your product does; their words open the final take.
 
 Nothing runs on your machine between now and then. The live URL runs `rc-2`. Do not deploy anything else before the take; the recording and the tag must agree.
